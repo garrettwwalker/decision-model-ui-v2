@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Wargame · Daybreak</title>
+  <meta name="description" content="Daybreak scenario sandbox: change the world, change your response, and watch losses cascade through the network.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/app.css">
+  <link rel="stylesheet" href="assets/css/war.css">
+</head>
+<body class="app t-bluehour grain">
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="bar">
+    <a class="wordmark" href="index.html" aria-label="Daybreak home">
+      <svg viewBox="0 0 26 26" aria-hidden="true"><path d="M4 18a9 9 0 0 1 18 0z" fill="#f2683c"/><rect x="1" y="19.6" width="24" height="2.4" rx="1.2" fill="currentColor"/></svg>
+      daybreak
+    </a>
+    <nav class="tabs" aria-label="Product">
+      <a href="briefing.html">brief <span class="tab__for">exec</span></a>
+      <a href="wargame.html" aria-current="page">wargame <span class="tab__for">strategy</span></a>
+      <a href="workbench.html">workbench <span class="tab__for">data</span></a>
+    </nav>
+    <div class="bar__meta">
+      <span class="live">model run 06:00 GST</span>
+      <span class="client"><span class="client__logo" aria-hidden="true">H</span><span class="client__name">Halvorsen Group</span></span>
+    </div>
+  </header>
+
+  <main id="main" class="page">
+    <section class="page-head">
+      <div>
+        <p class="eyebrow page-head__kicker">scenario sandbox · seeded from this morning's brief</p>
+        <h1 class="display">pull a lever<br>on the future.</h1>
+      </div>
+      <div class="bubble">
+        <span class="bubble__avatar" aria-hidden="true"></span>
+        <span class="bubble__text">Set the world on the left, then your response under it. Every number on the right is recomputed across the network as you move.</span>
+      </div>
+    </section>
+
+    <div class="war">
+      <!-- Controls -->
+      <form class="panel controls" id="controls" aria-label="Scenario controls" onsubmit="return false">
+        <fieldset class="group">
+          <legend class="group__title"><span class="eyebrow">the world</span>what happens</legend>
+
+          <div class="field">
+            <span class="field__top" id="st-label">Strait of Hormuz</span>
+            <div class="seg" role="radiogroup" aria-labelledby="st-label">
+              <label><input type="radio" name="status" value="open"><span>open</span></label>
+              <label><input type="radio" name="status" value="harass"><span>harass&shy;ment</span></label>
+              <label><input type="radio" name="status" value="partial"><span>partial</span></label>
+              <label><input type="radio" name="status" value="closed" checked><span>closed</span></label>
+            </div>
+            <p class="field__hint" data-out="pworld"></p>
+          </div>
+
+          <label class="field">
+            <span class="field__top">How long <span class="field__val" data-out="dur"></span></span>
+            <input type="range" name="dur" min="0" max="90" step="1" value="21">
+          </label>
+
+          <label class="switch">
+            <span class="switch__text">Red Sea also closed<small>Suez lost: Cape routing for Asia–Europe</small></span>
+            <input type="checkbox" name="redsea"><span class="switch__ui" aria-hidden="true"></span>
+          </label>
+
+          <label class="field">
+            <span class="field__top">War-risk premium today <span class="field__val" data-out="prem"></span></span>
+            <input type="range" name="prem" min="0.05" max="1" step="0.05" value="0.45">
+          </label>
+
+          <label class="field">
+            <span class="field__top">Bunker price today <span class="field__val" data-out="bunker"></span></span>
+            <input type="range" name="bunker" min="500" max="1100" step="10" value="690">
+          </label>
+        </fieldset>
+
+        <fieldset class="group">
+          <legend class="group__title"><span class="eyebrow">your response</span>what you do</legend>
+          <label class="switch">
+            <span class="switch__text">Bridge-buy resin ex-Singapore<small>$0.84M · lands Gebze day 14, Pune day 9</small></span>
+            <input type="checkbox" name="bridge"><span class="switch__ui" aria-hidden="true"></span>
+          </label>
+          <label class="switch">
+            <span class="switch__text">Divert to Khor Fakkan + road<small>$0.90M · 85% of Dubai DC inbound</small></span>
+            <input type="checkbox" name="divert"><span class="switch__ui" aria-hidden="true"></span>
+          </label>
+          <label class="switch">
+            <span class="switch__text">Bind war-risk cover, hedge bunker<small>$1.36M · locks today's rates</small></span>
+            <input type="checkbox" name="cover"><span class="switch__ui" aria-hidden="true"></span>
+          </label>
+          <label class="field">
+            <span class="field__top">Extra safety stock <span class="field__val" data-out="buffer"></span></span>
+            <input type="range" name="buffer" min="0" max="21" step="1" value="0">
+            <span class="field__hint">$0.11M per day of cover, all plants and DCs</span>
+          </label>
+        </fieldset>
+
+        <div class="controls__actions">
+          <button class="btn btn--light btn--sm" type="button" id="apply-brief">apply the brief's 3 actions</button>
+          <button class="btn btn--ghost btn--sm" type="button" id="reset">reset</button>
+        </div>
+      </form>
+
+      <!-- Results -->
+      <div class="results">
+        <section class="kpis" aria-label="Results" aria-live="polite">
+          <div class="panel kpi kpi--loss">
+            <p class="eyebrow">loss if this happens</p>
+            <p class="kpi__big money money--loss" data-out="loss">—</p>
+            <p class="kpi__sub" data-out="lossdelta"></p>
+          </div>
+          <div class="panel kpi">
+            <p class="eyebrow">bad case · P95</p>
+            <p class="kpi__big money" data-out="p95">—</p>
+            <p class="kpi__sub">1 in 20 futures is worse than this</p>
+          </div>
+          <div class="panel kpi">
+            <p class="eyebrow">cost of your response</p>
+            <p class="kpi__big money" data-out="cost">—</p>
+            <p class="kpi__sub" data-out="moves"></p>
+          </div>
+          <div class="panel kpi kpi--safe">
+            <p class="eyebrow">net saved</p>
+            <p class="kpi__big money money--safe" data-out="net">—</p>
+            <p class="kpi__sub" data-out="roi"></p>
+          </div>
+        </section>
+
+        <section class="panel cascade" aria-labelledby="cas-title">
+          <div class="panel__row">
+            <h2 class="panel__title" id="cas-title"><span class="eyebrow">cascade</span>where the loss lands</h2>
+            <p class="panel__aside mono" data-out="eff"></p>
+          </div>
+          <svg class="cascade__svg" id="cascade" viewBox="0 0 900 330" role="img" aria-label="Cascade from the Strait of Hormuz through ports to plants, distribution centres and revenue, with losses at each node"></svg>
+        </section>
+
+        <div class="duo">
+          <section class="panel" aria-labelledby="cap-title">
+            <div class="panel__row">
+              <h2 class="panel__title" id="cap-title"><span class="eyebrow">capacity · next 12 weeks</span>how long it hurts</h2>
+            </div>
+            <svg class="cap" id="cap" viewBox="0 0 520 230" role="img" aria-label="Daily capacity for the Gebze and Pune plants and the Dubai and Dammam distribution centres over the next 84 days"></svg>
+            <ul class="legend" id="cap-legend"></ul>
+          </section>
+
+          <section class="panel" aria-labelledby="mc-title">
+            <div class="panel__row">
+              <h2 class="panel__title" id="mc-title"><span class="eyebrow">10,000 futures</span>the spread of outcomes</h2>
+              <button class="btn btn--light btn--sm" type="button" id="rerun">re-run</button>
+            </div>
+            <svg class="hist" id="hist" viewBox="0 0 520 230" role="img" aria-label="Histogram of simulated losses across ten thousand futures"></svg>
+            <p class="hist__note mono" data-out="mcnote"></p>
+          </section>
+        </div>
+
+        <section class="panel branches" aria-labelledby="br-title">
+          <div class="panel__row">
+            <h2 class="panel__title" id="br-title"><span class="eyebrow">branches</span>compare counterfactuals</h2>
+            <button class="btn btn--primary btn--sm" type="button" id="save">save this branch</button>
+          </div>
+          <div class="table-wrap">
+            <table class="table" id="branches">
+              <thead><tr><th scope="col">branch</th><th scope="col">world</th><th scope="col">response</th><th scope="col" class="r">loss</th><th scope="col" class="r">P95</th><th scope="col" class="r">cost</th><th scope="col"><span class="sr-only">actions</span></th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="app-foot">
+    <span>Daybreak mockup · Halvorsen Group is a fictional client and every figure is illustrative.</span>
+    <a href="index.html">back to daybreak.com</a>
+  </footer>
+
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/model.js"></script>
+  <script src="assets/js/war.js"></script>
+</body>
+</html>

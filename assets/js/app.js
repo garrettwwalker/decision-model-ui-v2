@@ -5,6 +5,7 @@
   D.money = function (m, digits) {
     // m in $ millions
     var abs = Math.abs(m);
+    if (abs < 0.0005) return "$0";
     if (abs >= 1000) return "$" + (m / 1000).toFixed(2) + "B";
     if (abs >= 1) return "$" + m.toFixed(digits == null ? 1 : digits) + "M";
     return "$" + Math.round(m * 1000) + "k";
