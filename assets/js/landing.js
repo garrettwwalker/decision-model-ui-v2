@@ -27,7 +27,7 @@
   var day = document.querySelector(".day");
   var BLOCKS = "p, h2, h3, li, dt, dd, label";
   var UNITS = ".chip";                       // inline widgets revealed whole, like a word
-  var TILES = ".note, .tag, .swan, .chain li, .pv, .bubble, .calib, .ens i, .contact__form, .btn, .tags .tag__eyelet";
+  var TILES = ".note, .tag, .swan, .chain li, .bubble, .contact__form"; // revealed whole, text included
   var reads = [], tiles = [];
 
   function splitWords(root, units) {
@@ -55,14 +55,15 @@
 
   if (day && !reduceMotion) {
     day.querySelectorAll(BLOCKS).forEach(function (el) {
-      if (el.closest(".clouds") || el.parentElement.closest(BLOCKS)) return; // outermost text blocks only
+      if (el.closest(".clouds") || el.parentElement.closest(BLOCKS) || el.closest(TILES)) return; // free-standing text only
       var units = [];
       splitWords(el, units);
       if (units.length) reads.push({ el: el, units: units, n: -1 });
     });
     day.querySelectorAll(TILES).forEach(function (el) {
+      if (el.parentElement.closest(TILES)) return; // outermost tiles only
       el.classList.add("tile");
-      tiles.push({ el: el, r: -1 });
+      tiles.push({ el: el, on: null });
     });
   }
 
@@ -82,14 +83,12 @@
       r.n = n;
     });
     tiles.forEach(function (o) {
-      var b = o.el.getBoundingClientRect();
-      // fades in as it enters, ahead of its words: from the bottom edge to 75% of the viewport
-      var t = clamp((vh - b.top) / (vh * 0.25), 0, 1);
-      if (atEnd && b.top < vh) t = 1;
-      t = Math.round(t * 50) / 50;
-      if (t === o.r) return;
-      o.el.style.setProperty("--r", t);
-      o.r = t;
+      // a tile appears in one go once its top crosses 85% of the viewport
+      var top = o.el.getBoundingClientRect().top;
+      var on = top < vh * 0.85 || (atEnd && top < vh);
+      if (on === o.on) return;
+      o.el.classList.toggle("on", on);
+      o.on = on;
     });
   }
 

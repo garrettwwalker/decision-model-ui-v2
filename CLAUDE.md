@@ -27,7 +27,8 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   tabular figures. JetBrains Mono appears only in the workbench's code, diff and log panels. Labels are sentence
   case, with no all-caps eyebrows, middle-dot meta strings or decorative arrows.
 - Landing page: `landing.js` splits every text block below the hero into words that darken as they cross the
-  reading line (`.w` / `.w.on`), and fades in tiles (`.tile`, `--r`). Unread color comes from `--unread` per context.
+  reading line (`.w` / `.w.on`). Tiles (cards, tags, chain rows, bubbles, the form) are never split: each
+  fades in whole (`.tile.on`) once its top crosses 85% of the viewport. Unread text color comes from `--unread`.
 - Dawn palette tokens: `--dawn`, `--dawn-deep`, `--ember`. Money at risk uses `--loss`
   (crimson) and protected money uses `--safe` (teal).
 

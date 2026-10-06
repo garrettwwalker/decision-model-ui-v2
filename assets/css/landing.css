@@ -263,15 +263,14 @@
 }
 /* ---------- Read-as-you-scroll (classes added by landing.js) ---------- */
 .day { --unread: var(--dawn-deep); }
-.note, .tag, .chain li, .contact__form, .bubble__text, .pv-brief { --unread: rgba(10, 23, 34, 0.2); }
-.tag--done, .chain li.chain__end, .pv-war, .pv-mid { --unread: rgba(255, 255, 255, 0.26); }
 .swans { --unread: rgba(233, 240, 244, 0.2); }
 .w { transition: color 0.3s ease, opacity 0.3s ease; }
 .w:not(.on) { color: var(--unread) !important; }
 .chip.w:not(.on) { opacity: 0.35; }
 .watermark .w.on { color: #a84a23; }            /* tone-on-tone that deepens once read: 3.5:1 */
 .swans .watermark .w.on { color: rgba(233, 240, 244, 0.78); }
-.tile { opacity: calc(0.25 + 0.75 * var(--r, 1)); transition: opacity 0.2s linear; }
+.tile { opacity: 0.2; transition: opacity 0.5s ease; }
+.tile.on { opacity: 1; }
 
 /* ---------- Modes ---------- */
 .modes { padding: 2rem var(--gutter) clamp(6rem, 14vh, 9rem); }
