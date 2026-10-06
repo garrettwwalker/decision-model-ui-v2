@@ -39,13 +39,9 @@ These are the fingerprints of a vibe-coded site. Do not use them.
 - **No purple-to-blue or purple-to-pink gradients** anywhere — backgrounds, buttons, or text.
 - **No gradient-filled headline words** (e.g. one word in the headline tinted with a
   color gradient while the rest is dark). This is everywhere in generated sites.
-- **No meaningless stat blocks** — the "25% · 95% · 2025" row of giant numbers with vague
-  labels. Only show a number if it is real and sourced.
-- **No emoji inside headings or section titles** (🚀 ✨ 🔒 etc.). Use real iconography instead,
-  and use it sparingly.
+- **No emoji inside headings or section titles** (🚀 ✨ 🔒 etc.). Use real iconography instead.
 - **No "Why Choose [Brand]?" sections.** Same for "Transform your X into Y," "Start it. Build
   it. Launch it." and other interchangeable SaaS slogans.
-- **No glassmorphism by default** — frosted translucent cards with heavy blur and soft glow.
 - **No pill-badge clutter** ("99.9% Uptime", "GDPR Compliant", "24/7 Support 🔒") stacked under
   the hero.
 - **No default centered-everything layout** with a single column of centered text from top to
@@ -110,18 +106,10 @@ Type carries the personality. Never leave it as a default.
 - Match complexity to the vision: minimal directions need precise spacing and detail;
   maximal directions need committed execution.
 
-### 6. Motion (optional, never decorative)
-
-- Use motion only where it serves the subject: a considered page-load reveal, a scroll-
-  triggered moment, a subtle hover micro-interaction.
-- One orchestrated moment beats scattered effects. Excess animation reads as AI-generated.
-- Always respect `prefers-reduced-motion`.
-
-### 7. Responsive: desktop AND mobile, every time
+### 6. Responsive: desktop AND mobile, every time
 
 Non-negotiable. The site must look intentional at every width.
 
-- **Build mobile-first**, then scale up. Test at minimum **375px, 768px, 1024px, 1440px**.
 - Type, spacing, and layout all adapt — don't just let a desktop layout shrink.
 - Tap targets ≥ 44×44px; no horizontal scroll; no overlapping or clipped elements on small
   screens.
@@ -129,15 +117,14 @@ Non-negotiable. The site must look intentional at every width.
   `srcset` where relevant).
 - Navigation collapses sensibly on mobile (and the mobile menu actually works).
 
-### 8. Quality floor (build this in silently)
+### 7. Quality floor (build this in silently)
 
 - Visible keyboard focus states on all interactive elements.
 - Semantic HTML, alt text on meaningful images, labelled form controls.
-- `prefers-reduced-motion` respected.
 - Watch CSS specificity — don't let `.section` and element selectors cancel each other's
   padding/margins. Verify spacing actually applies.
 
-### 9. Always check your work when done
+### 8. Always check your work when done
 
 After building, **do a real review pass before calling it finished.** Do not just stop when
 the code runs.
@@ -154,21 +141,17 @@ the code runs.
 
 #### Vibe-code checklist (every item must be NO)
 - [ ] Is purple/violet the dominant color?
-- [ ] Are there any purple/blue/pink gradients?
-- [ ] Are any headline words gradient-filled?
-- [ ] Is there a row of giant meaningless stats?
 - [ ] Are there emoji in headings?
 - [ ] Is there a "Why Choose us?" or generic SaaS-slogan section?
 - [ ] Is everything centered in one column?
 - [ ] Is the type just default Inter/system with no display face?
-- [ ] Do cards have frosted-glass + soft-glow styling?
 - [ ] Does it break or look unstyled on mobile?
 
-### 10. Process summary
+### 9. Process summary
 
 Brainstorm → pin the brief / match the reference → draft a small token system (color, type,
 layout, one signature element) → critique the plan against this file (would I produce this for
-*any* site? then change it) → build → check your work (§9) → critique again.
+*any* site? then change it) → build → check your work (§8) → critique again.
 
 Distinctiveness comes from the subject. Restraint makes it look designed. Beautiful type and a
 clean responsive build are the floor, not the goal.
