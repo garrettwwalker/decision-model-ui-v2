@@ -9,7 +9,7 @@
   function mix(a, b, t) {
     return "rgb(" + a.map(function (c, i) { return Math.round(c + (b[i] - c) * t); }).join(",") + ")";
   }
-  var QUIET = mix(PANEL, CREAM, 0.18);
+  var EDGE = mix(PANEL, EMBER, 0.6);
 
   function svgEl(name, attrs, text) {
     var e = document.createElementNS(NS, name);
@@ -97,7 +97,7 @@
       gE.appendChild(svgEl("path", {
         class: "cedge",
         d: "M" + x1 + " " + y1 + " C" + mx + " " + y1 + " " + mx + " " + y2 + " " + x2 + " " + y2,
-        stroke: v > 0.05 ? mix(PANEL, EMBER, 0.35 + 0.6 * Math.min(1, v / (max * 0.5))) : QUIET,
+        stroke: EDGE, // one color for every line; width alone carries the size of the flow
         "stroke-width": v > 0.05 ? (1.5 + 16 * Math.sqrt(v / max)).toFixed(1) : 1.5
       }));
     });
