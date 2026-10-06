@@ -4,7 +4,28 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project status
 
-Decision Model UI v2 is the user interface for the Decision Model project. The repository is newly initialized and contains no application code yet — no framework, build tooling, or test setup has been chosen. Update this file with build/lint/test commands and architecture notes once the stack is in place.
+Decision Model UI v2 is a clickable mockup for **Daybreak**, a geopolitical decision model.
+The demo client is Halvorsen Group, a fictional Fortune 500 appliance maker, facing a
+Strait of Hormuz closure. It is plain static HTML/CSS/JS: no framework, no build step and
+no tests. To preview, open `index.html` in a browser; there's no server.
+
+## Architecture
+
+- Pages: `index.html` (landing), `briefing.html` (executive brief), `wargame.html`
+  (scenario sandbox) and `workbench.html` (world-model editor for data/IT).
+- Each product page sets its time of day on `<body>`: `t-sunrise` (brief),
+  `t-bluehour` (wargame), `t-night` (workbench). The landing page runs night → dawn on scroll.
+- `assets/css/base.css` holds shared tokens and components, `app.css` the product-page
+  chrome, and `landing.css`, `brief.css`, `war.css` and `bench.css` are per page.
+- `assets/js/model.js` is the single source of truth for every loss figure. The
+  wargame and workbench run it live. The brief's numbers are static but were computed from
+  it, so if you change `BASE`, recompute and update `briefing.html`. Money is in $M.
+- `assets/js/sky.js` renders the procedural SVG cloud banks (`[data-clouds]`); cloud
+  colors come from `--c-*` vars on `.clouds--storm/dawn/cream`.
+- `assets/js/app.js` holds the shared helpers (`DB.money`, `DB.toast`, `DB.rng`, range fills).
+- Type: Plus Jakarta Sans (display + body) and JetBrains Mono (data/captions), via Google Fonts.
+- Dawn palette tokens: `--dawn`, `--dawn-deep`, `--ember`. Money at risk uses `--loss`
+  (crimson) and protected money uses `--safe` (teal).
 
 ## Repository
 
@@ -22,6 +43,11 @@ Decision Model UI v2 is the user interface for the Decision Model project. The r
 The user's chosen visual model is `references/convodesign101-full-page.png` (a full-page
 capture of convodesign101.xyz, a Framer site). Per §2 of the standards below, match its
 direction. Open the image before any UI work; it is 1895×19466, so view it in vertical slices.
+
+**User override (2026-10-06):** emulate the reference loosely. Swap its sky-blue ground for
+**dawn** (the product is Daybreak): dawn gradients, dark storm clouds that part to reveal a
+rising sun. Keep the reference's moves (tone-on-tone type, clouds, bubbles, collectibles)
+but in the dawn palette.
 
 - **Palette** (sampled from the capture and its CSS):
   - Sky `#33CBEA`: the page ground for nearly the whole scroll

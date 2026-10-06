@@ -65,20 +65,22 @@
   var themed = document.querySelectorAll("[data-nav]");
   function navFrame() {
     var y = nav.offsetHeight / 2;
-    var theme = "dark";
+    var theme = hero.getBoundingClientRect().bottom > y ? "dark" : "light";
     themed.forEach(function (s) {
       var b = s.getBoundingClientRect();
       if (b.top <= y && b.bottom > y) theme = s.getAttribute("data-nav");
     });
     nav.setAttribute("data-theme", theme);
+    nav.classList.toggle("is-scrolled", hero.getBoundingClientRect().bottom < window.innerHeight * 0.5);
   }
 
   var ticking = false;
   function onScroll() {
+    navFrame(); // cheap, and must never lag behind the page
     if (ticking) return;
     ticking = true;
     requestAnimationFrame(function () {
-      heroFrame(); readFrame(); navFrame();
+      heroFrame(); readFrame();
       ticking = false;
     });
   }
@@ -106,7 +108,7 @@
     }
   });
 
-  /* ---------- Middleware preview heatmap ---------- */
+  /* ---------- Workbench preview heatmap ---------- */
   var heat = document.querySelector("[data-heat]");
   if (heat) {
     var vals = [.12,.08,.31,.05,.62,.18,.09,.22, .41,.12,.08,.71,.15,.05,.33,.10,
@@ -119,8 +121,8 @@
     });
   }
   function heatColor(v) {
-    // night → sky-deep → amber → ember
-    var stops = [[12, 36, 51], [25, 181, 214], [255, 181, 71], [242, 104, 60]];
+    // night → dusk rose → amber → ember: the same ramp as the sky
+    var stops = [[12, 36, 51], [154, 88, 104], [255, 181, 71], [242, 104, 60]];
     var x = clamp(v, 0, 1) * (stops.length - 1);
     var i = Math.min(stops.length - 2, Math.floor(x)), t = x - i;
     var c = stops[i].map(function (a, k) { return Math.round(lerp(a, stops[i + 1][k], t)); });

@@ -55,7 +55,7 @@
   .stake--loss { grid-column: 1 / -1; grid-row: 1; }
 }
 @media (max-width: 640px) {
-  .stakes { grid-template-columns: 1fr; }
+  .stakes { grid-template-columns: minmax(0, 1fr); }
 }
 
 /* ---------- Decisions ---------- */
@@ -91,17 +91,21 @@
   .decision__act { grid-auto-flow: column; justify-content: start; min-width: 0; }
 }
 @media (max-width: 520px) {
-  .decision { grid-template-columns: 1fr; }
+  .decision { grid-template-columns: minmax(0, 1fr); }
   .decision__nums, .decision__act { grid-column: 1; }
   .decision__act { grid-auto-flow: row; }
 }
 
 /* ---------- Exposure: map + table ---------- */
 .exposure { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 1.25rem; align-items: start; }
-@media (max-width: 1080px) { .exposure { grid-template-columns: 1fr; } }
+@media (max-width: 1080px) { .exposure { grid-template-columns: minmax(0, 1fr); } }
 
 .map { margin: 0; padding: 0.75rem; overflow: hidden; }
 .map__svg { width: 100%; height: auto; border-radius: 14px; }
+@media (max-width: 600px) {
+  .map { overflow-x: auto; }
+  .map__svg { min-width: 540px; }
+}
 .map__land { fill: #f3dcc4; }
 .map__water { fill: #fff7ee; stroke: #e8c6a6; stroke-width: 1; }
 .map__region { font: 600 9px var(--font); letter-spacing: 0.25em; fill: #c9a283; }
@@ -163,11 +167,11 @@
 .route-card dt { color: var(--fg-2); }
 .route-card dd { margin: 0; font-weight: 700; text-align: right; }
 @media (max-width: 1080px) { .routes { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 560px) { .routes { grid-template-columns: 1fr; } }
+@media (max-width: 560px) { .routes { grid-template-columns: minmax(0, 1fr); } }
 
 /* ---------- Why: waterfall + signposts ---------- */
 .why__grid { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 1.25rem; }
-@media (max-width: 980px) { .why__grid { grid-template-columns: 1fr; } }
+@media (max-width: 980px) { .why__grid { grid-template-columns: minmax(0, 1fr); } }
 .fall { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.45rem; --scale: 0.35; }
 .fall li { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) 2.6rem; align-items: center; gap: 0.8rem; font-size: 0.84rem; }
 .fall i { position: relative; height: 18px; }
@@ -205,6 +209,6 @@
 .hz__nums { margin-top: auto !important; padding-top: 0.75rem; border-top: 1px dashed var(--line-strong); display: flex; justify-content: space-between; gap: 1rem; font-size: 0.82rem !important; }
 .hz__nums .num { font-family: var(--mono); font-size: 0.74rem; color: var(--ink-2); }
 @media (max-width: 980px) {
-  .horizon__grid { grid-template-columns: 1fr; max-width: 34rem; margin-top: 1rem; }
+  .horizon__grid { grid-template-columns: minmax(0, 1fr); max-width: 34rem; margin-top: 1rem; }
   .hz:nth-child(n) { margin-top: 0; transform: none; }
 }
