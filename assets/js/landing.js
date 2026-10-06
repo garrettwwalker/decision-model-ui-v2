@@ -8,7 +8,7 @@
   var hero = document.querySelector(".hero");
   var stage = document.querySelector(".hero__stage");
   var RIM_NIGHT = [27, 40, 54];
-  var RIM_DAWN = [255, 150, 92];
+  var RIM_DAWN = [222, 122, 86];
 
   function heroFrame() {
     var r = hero.getBoundingClientRect();

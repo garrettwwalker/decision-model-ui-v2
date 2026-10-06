@@ -11,11 +11,17 @@
   --paper: #ffffff;
   --cream: #fbf6ef;
   --mist: #eef3f5;
-  --sky: #33cbea;
-  --sky-deep: #19b5d6;
+  --dawn: #ffc092;       /* page ground: the reference's sky, at sunrise */
+  --dawn-deep: #f39c68;  /* tone-on-tone: unread copy, watermark titles */
+  --dawn-pale: #ffe6cc;
+  --dawn-rose: #e9876a;
   --ember: #f2683c;      /* the one accent: sunrise */
   --ember-deep: #c94a22;
   --amber: #ffb547;
+  --loss: #a3201a;       /* money at risk */
+  --loss-tint: #fbe3dc;
+  --safe: #0f6b5f;       /* money protected */
+  --safe-tint: #dcefe9;
   --line: rgba(10, 23, 34, 0.12);
   --line-strong: rgba(10, 23, 34, 0.22);
 
