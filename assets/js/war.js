@@ -3,7 +3,13 @@
   var form = document.getElementById("controls");
   var $ = function (k) { return document.querySelector('[data-out="' + k + '"]'); };
   var NS = "http://www.w3.org/2000/svg";
-  var LOSS = "#ff7a66", SAFE = "#7fe0c6", QUIET = "rgba(246,239,230,0.18)";
+  var LOSS = "#ff7a66", SAFE = "#7fe0c6";
+  // Solid, pre-blended colors: translucent fills let lines show through boxes and double up where they cross
+  var PANEL = [15, 33, 49], EMBER = [255, 122, 102], WINE = [120, 30, 30], CREAM = [246, 239, 230];
+  function mix(a, b, t) {
+    return "rgb(" + a.map(function (c, i) { return Math.round(c + (b[i] - c) * t); }).join(",") + ")";
+  }
+  var QUIET = mix(PANEL, CREAM, 0.18);
 
   function svgEl(name, attrs, text) {
     var e = document.createElementNS(NS, name);
@@ -91,8 +97,7 @@
       gE.appendChild(svgEl("path", {
         class: "cedge",
         d: "M" + x1 + " " + y1 + " C" + mx + " " + y1 + " " + mx + " " + y2 + " " + x2 + " " + y2,
-        stroke: v > 0.05 ? LOSS : QUIET,
-        "stroke-opacity": v > 0.05 ? 0.35 + 0.6 * Math.min(1, v / (max * 0.5)) : 1,
+        stroke: v > 0.05 ? mix(PANEL, EMBER, 0.35 + 0.6 * Math.min(1, v / (max * 0.5))) : QUIET,
         "stroke-width": v > 0.05 ? (1.5 + 16 * Math.sqrt(v / max)).toFixed(1) : 1.5
       }));
     });
@@ -101,8 +106,8 @@
       var g = svgEl("g", { class: "cnode", transform: "translate(" + COLS[d.c] + " " + d.y + ")" });
       g.appendChild(svgEl("rect", {
         width: W, height: d.h || H,
-        fill: hot ? "rgba(120,30,30," + (0.25 + 0.45 * Math.min(1, d.v / (max * 0.5))).toFixed(2) + ")" : "rgba(255,255,255,0.04)",
-        stroke: hot ? "rgba(255,122,102,0.7)" : "rgba(255,255,255,0.14)"
+        fill: hot ? mix(PANEL, WINE, 0.25 + 0.45 * Math.min(1, d.v / (max * 0.5))) : mix(PANEL, CREAM, 0.04),
+        stroke: hot ? mix(PANEL, EMBER, 0.7) : mix(PANEL, CREAM, 0.14)
       }));
       g.appendChild(svgEl("text", { x: 12, y: 21, class: "cnode__name" }, d.name));
       g.appendChild(svgEl("text", { x: 12, y: 38, class: "cnode__sub" }, sentence(d.sub)));

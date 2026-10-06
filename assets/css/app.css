@@ -34,7 +34,7 @@ body.app { min-height: 100vh; }
 .t-bluehour {
   --fg: #f6efe6;
   --fg-2: rgba(246, 239, 230, 0.72);
-  --panel: rgba(13, 28, 42, 0.72);
+  --panel: #0f2131; /* solid: diagrams draw pre-blended colors on it */
   --panel-solid: #0f2131;
   --panel-line: rgba(255, 255, 255, 0.1);
   --tone: rgba(255, 170, 120, 0.22);
@@ -165,7 +165,7 @@ body.app { min-height: 100vh; }
   padding: clamp(1rem, 2vw, 1.5rem);
 }
 .t-sunrise .panel { box-shadow: 0 22px 44px -32px rgba(120, 50, 20, 0.45); }
-.t-bluehour .panel { -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+
 .panel__title { margin: 0 0 0.9rem; font-size: 0.95rem; font-weight: 800; letter-spacing: -0.015em; }
 .panel__title .eyebrow { display: block; margin-bottom: 0.3rem; color: var(--fg-2); font-weight: 500; }
 .panel__title { font-size: 1.05rem; }
