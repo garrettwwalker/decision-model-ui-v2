@@ -36,9 +36,6 @@ These are the fingerprints of a vibe-coded site. Do not use them.
 
 - **No purple/violet/indigo as the primary brand color.** This is the single biggest tell.
   Avoid `#7c3aed`, `#8b5cf6`, `#a855f7`, `#6366f1` and their neighbors as the dominant hue.
-- **No purple-to-blue or purple-to-pink gradients** anywhere — backgrounds, buttons, or text.
-- **No gradient-filled headline words** (e.g. one word in the headline tinted with a
-  color gradient while the rest is dark). This is everywhere in generated sites.
 - **No emoji inside headings or section titles** (🚀 ✨ 🔒 etc.). Use real iconography instead.
 - **No "Why Choose [Brand]?" sections.** Same for "Transform your X into Y," "Start it. Build
   it. Launch it." and other interchangeable SaaS slogans.
