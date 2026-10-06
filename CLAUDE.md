@@ -17,6 +17,37 @@ Decision Model UI v2 is the user interface for the Decision Model project. The r
 - Push to GitHub (`git push`) after committing so the remote stays current; this is pre-authorized for this repo.
 - Write clean commit messages: a concise imperative summary line (≤ 72 chars, e.g. "Add decision tree editor"), optionally followed by a blank line and a short body explaining why.
 
+## Design reference
+
+The user's chosen visual model is `references/convodesign101-full-page.png` (a full-page
+capture of convodesign101.xyz, a Framer site). Per §2 of the standards below, match its
+direction. Open the image before any UI work; it is 1895×19466, so view it in vertical slices.
+
+- **Palette** (sampled from the capture and its CSS):
+  - Sky `#33CBEA`: the page ground for nearly the whole scroll
+  - Deep sky `#19B5D6`: tone-on-tone text (unread copy, giant watermark section titles)
+  - Ink `#000000` / `#131415`: headlines and "read" body copy
+  - Cloud white `#FFFFFF`: clouds, speech bubbles, cards, the full-bleed white band
+  - Night `#082A38`: the footer; body background is
+    `linear-gradient(180deg, #33CBEA 89%, #082A38 94%)` so the page ends in night
+  - Night cyan `#0AAED6`-ish: footer headline; soft pink (stamps, stars) as the rare accent
+- **Type:** one heavy, tight-tracked geometric grotesk throughout (lowercase display
+  headlines like "conversation design", "fixed context"); bold ~28px body set in a narrow
+  centered-left column; tiny 11–12px captions. The exact face isn't in the capture.
+  Pick a close match (e.g. Satoshi / General Sans Bold) and confirm with the user.
+- **Signature moves:**
+  - Scroll-driven reading: body copy starts in deep-sky tone-on-tone and turns ink as it's
+    read.
+  - Soft 3D clouds frame section edges; the sky gives way to a night scene (moon, stars)
+    at the footer.
+  - Chat-bubble annotations: a small avatar + white speech bubble used as narrator asides.
+  - Real UI widgets inline in prose (a "Buttons ↗" chip, a "Sliders" toggle).
+  - Collectible objects as content: postage stamps for a timeline, translucent folders for
+    resource groups, pinned white note cards for trends.
+  - Subtle grain/dot texture over flat color; dashed hairline dividers.
+- **Composition:** mostly a narrow column, but offset: left-hung headlines, side notes,
+  staggered cards. Keep that asymmetry so it doesn't fall into the centered-everything ban.
+
 ## Website Design Standards
 
 This section governs how you build websites in this project. The goal is a site that looks
