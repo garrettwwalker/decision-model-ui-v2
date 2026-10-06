@@ -483,7 +483,7 @@
 .rigor { padding: clamp(5rem, 12vh, 8rem) var(--gutter); --tone: var(--dawn-deep); }
 .rigor > .h2 { margin-left: clamp(0rem, 6vw, 6rem); }
 .rigor__lede { max-width: 34rem; margin: 1.5rem 0 3.5rem clamp(0rem, 30vw, 30rem); font-size: 1.1rem; }
-.rigor__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; max-width: 76rem; }
+.rigor__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; max-width: 76rem; align-items: start; }
 .rigor__grid .note { display: flex; flex-direction: column; gap: 0.75rem; }
 .rigor__grid .note:nth-child(1) { margin-top: 2.5rem; }
 .rigor__grid .note:nth-child(3) { margin-top: 1rem; }
