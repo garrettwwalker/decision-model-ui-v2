@@ -23,7 +23,11 @@ no tests. To preview, open `index.html` in a browser; there's no server.
 - `assets/js/sky.js` renders the procedural SVG cloud banks (`[data-clouds]`); cloud
   colors come from `--c-*` vars on `.clouds--storm/dawn/cream`.
 - `assets/js/app.js` holds the shared helpers (`DB.money`, `DB.toast`, `DB.rng`, range fills).
-- Type: Plus Jakarta Sans (display + body) and JetBrains Mono (data/captions), via Google Fonts.
+- Type: Switzer (Fontshare), self-hosted in `assets/fonts/`, for everything, on a major-third scale; data uses
+  tabular figures. JetBrains Mono appears only in the workbench's code, diff and log panels. Labels are sentence
+  case, with no all-caps eyebrows, middle-dot meta strings or decorative arrows.
+- Landing page: `landing.js` splits every text block below the hero into words that darken as they cross the
+  reading line (`.w` / `.w.on`), and fades in tiles (`.tile`, `--r`). Unread color comes from `--unread` per context.
 - Dawn palette tokens: `--dawn`, `--dawn-deep`, `--ember`. Money at risk uses `--loss`
   (crimson) and protected money uses `--safe` (teal).
 

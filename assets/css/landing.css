@@ -20,7 +20,8 @@
   padding: calc(env(safe-area-inset-top, 0px) + 0.9rem) var(--gutter) 0.9rem;
   transition: color 0.3s ease;
 }
-.nav[data-theme="dark"] { color: #f6efe6; }
+.nav[data-theme="dark"] { color: #f6efe6; --focus: #ffb547; }
+.nav[data-theme="dark"] .btn--primary { background: #f6efe6; color: var(--ink); }
 .nav[data-theme="light"] { color: var(--ink); }
 .nav::before { /* frosted backing once we leave the hero */
   content: ""; position: absolute; inset: 0; z-index: -1;
@@ -221,8 +222,7 @@
   bottom: calc(26% + 1.2rem);
   margin: 0;
   font-size: var(--fs-micro);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-weight: 600;
   opacity: calc(0.8 - var(--p));
 }
 
@@ -261,10 +261,17 @@
   max-width: 38rem;
   margin: 0 0 0 clamp(0rem, 14vw, 14rem);
 }
-.read .w { color: var(--dawn-deep); transition: color 0.25s ease; }
-.read .w.on { color: var(--ink); }
-.read .chip { transition: opacity 0.25s ease; opacity: 0.35; }
-.read .chip.on { opacity: 1; }
+/* ---------- Read-as-you-scroll (classes added by landing.js) ---------- */
+.day { --unread: var(--dawn-deep); }
+.note, .tag, .chain li, .contact__form, .bubble__text, .pv-brief { --unread: rgba(10, 23, 34, 0.2); }
+.tag--done, .chain li.chain__end, .pv-war, .pv-mid { --unread: rgba(255, 255, 255, 0.26); }
+.swans { --unread: rgba(233, 240, 244, 0.2); }
+.w { transition: color 0.3s ease, opacity 0.3s ease; }
+.w:not(.on) { color: var(--unread) !important; }
+.chip.w:not(.on) { opacity: 0.35; }
+.watermark .w.on { color: #a84a23; }            /* tone-on-tone that deepens once read: 3.5:1 */
+.swans .watermark .w.on { color: rgba(233, 240, 244, 0.78); }
+.tile { opacity: calc(0.25 + 0.75 * var(--r, 1)); transition: opacity 0.2s linear; }
 
 /* ---------- Modes ---------- */
 .modes { padding: 2rem var(--gutter) clamp(6rem, 14vh, 9rem); }
@@ -314,14 +321,14 @@
 }
 .pv-btn {
   padding: 0.15rem 0.55rem; border-radius: 999px;
-  background: var(--ember); color: #fff; font-size: 0.68rem; font-weight: 700;
+  background: var(--ink); color: #fff; font-size: 0.68rem; font-weight: 700;
 }
 .pv-btn--ghost { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--ink); }
 .pv-war { background: #13223a; color: #f6efe6; border-color: transparent; }
 .pv-slider { display: grid; gap: 0.3rem; margin-bottom: 0.6rem; font-weight: 600; }
 .pv-slider i {
   height: 4px; border-radius: 4px;
-  background: linear-gradient(90deg, var(--ember) calc(var(--v) * 100%), rgba(255, 255, 255, 0.2) 0);
+  background: linear-gradient(90deg, var(--amber) calc(var(--v) * 100%), rgba(255, 255, 255, 0.2) 0);
   position: relative;
 }
 .pv-slider i::after {
@@ -377,13 +384,14 @@
   background: var(--ember);
   box-shadow: 0 0 0 3px #e9ddc6;
 }
-.tag__time { font-size: var(--fs-micro); letter-spacing: 0.06em; text-transform: uppercase; color: var(--ember-deep); }
+.tag__time { font-size: var(--fs-small); font-weight: 600; font-variant-numeric: tabular-nums; color: var(--ember-deep); }
 .tag--done { background: var(--ink); color: #fff; }
 .tag--done > span:last-child { color: rgba(255, 255, 255, 0.72); }
 .tag--done .tag__time { color: var(--amber); }
 
 /* ---------- Gray swans: a storm band in the morning ---------- */
 .swans {
+  --focus: #ffb547;
   position: relative;
   background: linear-gradient(180deg, #1b2532 0%, #233040 60%, #1b2532 100%);
   color: #e9f0f4;
@@ -421,7 +429,7 @@
 }
 .swan__stats { margin: auto 0 0; padding-top: 0.75rem; border-top: 1px dashed rgba(255, 255, 255, 0.2); display: grid; gap: 0.5rem; }
 .swan__stats div { display: flex; justify-content: space-between; gap: 1rem; font-size: 0.8rem; }
-.swan__stats dt { color: rgba(233, 240, 244, 0.65); font-family: var(--mono); font-size: 0.72rem; }
+.swan__stats dt { color: rgba(233, 240, 244, 0.7); font-size: 0.8rem; }
 .swan__stats dd { margin: 0; font-weight: 700; text-align: right; }
 @media (max-width: 960px) {
   .swans__grid { grid-template-columns: minmax(0, 1fr); max-width: 34rem; }
@@ -492,7 +500,7 @@
 }
 .ens i::after {
   content: ""; position: absolute; top: 50%; left: calc(var(--v) / 0.6 * 100%);
-  width: 10px; height: 10px; border-radius: 50%; background: var(--ember);
+  width: 10px; height: 10px; border-radius: 50%; background: var(--ink);
   transform: translate(-50%, -50%);
 }
 .ens b { text-align: right; font-size: 0.78rem; }
@@ -520,7 +528,7 @@
   border: 1.5px solid var(--line-strong); border-radius: 10px; background: #fff;
   font-weight: 500;
 }
-.contact__form input:focus-visible { border-color: var(--ember); outline-offset: 1px; }
+.contact__form input:focus-visible { border-color: var(--ink); outline-offset: 1px; }
 .contact__form input[aria-invalid="true"] { border-color: var(--ember-deep); }
 .contact__msg { margin: 0; font-size: 0.85rem; min-height: 1.2em; }
 .clouds--floor { left: 0; right: 0; bottom: -2px; height: 190px; }

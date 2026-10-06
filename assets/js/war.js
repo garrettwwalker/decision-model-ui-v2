@@ -42,13 +42,14 @@
     if (inp.divert) m.push("divert");
     if (inp.cover) m.push("cover + hedge");
     if (inp.buffer) m.push("+" + inp.buffer + "d stock");
-    return m.length ? m.join(" · ") : "no response";
+    return sentence(m.length ? m.join(", ") : "no response");
   }
+  function sentence(t) { return t.charAt(0).toUpperCase() + t.slice(1); }
   function worldText(inp) {
     var st = M.STATUS[inp.status];
     var t = st.label + (inp.status === "open" ? "" : ", " + inp.dur + "d");
     if (inp.redsea) t += " + Red Sea";
-    return t;
+    return sentence(t);
   }
 
   /* ---------- Cascade ---------- */
@@ -58,17 +59,17 @@
     var n = r.nodes, p = r.parts;
     var nodes = {
       hormuz: { c: 0, y: 122, h: 86, name: "Strait of Hormuz", sub: worldText(inp), v: r.loss },
-      resin: { c: 1, y: 18, name: "Resin supply", sub: "Jubail · Mesaieed", v: p.plants },
+      resin: { c: 1, y: 18, name: "Resin supply", sub: "Jubail and Mesaieed", v: p.plants },
       japort: { c: 1, y: 98, name: "Jebel Ali port", sub: "inbound boxes", v: n.dubai.loss },
       dmport: { c: 1, y: 178, name: "Dammam port", sub: "inbound boxes", v: n.dammam.loss },
-      calls: { c: 1, y: 258, name: "Gulf calls", sub: "insurance · fuel · cargo", v: p.war + p.trapped },
+      calls: { c: 1, y: 258, name: "Gulf calls", sub: "Insurance, fuel, cargo", v: p.war + p.trapped },
       gebze: { c: 2, y: 8, name: "Gebze plant", sub: n.gebze.stop ? Math.round(n.gebze.stop) + "d line stop" : "running", v: n.gebze.loss },
       pune: { c: 2, y: 72, name: "Pune plant", sub: n.pune.stop ? Math.round(n.pune.stop) + "d line stop" : "running", v: n.pune.loss },
       dubai: { c: 2, y: 136, name: "Dubai DC", sub: n.dubai.stop ? Math.round(n.dubai.stop) + "d stocked out" : "in stock", v: n.dubai.loss },
       dammam: { c: 2, y: 200, name: "Dammam DC", sub: n.dammam.stop ? Math.round(n.dammam.stop) + "d stocked out" : "in stock", v: n.dammam.loss },
-      freight: { c: 2, y: 264, name: "Freight & cover", sub: "premium · bunker · demurrage", v: p.war + p.trapped },
-      eu: { c: 3, y: 18, name: "EU revenue", sub: "washers · dishwashers", v: n.gebze.loss },
-      india: { c: 3, y: 98, name: "India revenue", sub: "fridges · AC", v: n.pune.loss },
+      freight: { c: 2, y: 264, name: "Freight & cover", sub: "Premium, bunker, demurrage", v: p.war + p.trapped },
+      eu: { c: 3, y: 18, name: "EU revenue", sub: "Washers, dishwashers", v: n.gebze.loss },
+      india: { c: 3, y: 98, name: "India revenue", sub: "Fridges, AC", v: n.pune.loss },
       mena: { c: 3, y: 178, name: "MENA revenue", sub: "all categories", v: n.dubai.loss + n.dammam.loss },
       opex: { c: 3, y: 258, name: "Operating cost", sub: "P&L, not revenue", v: p.war + p.trapped }
     };
@@ -79,7 +80,7 @@
     ];
     var max = Math.max(1, r.loss);
     cas.textContent = "";
-    ["chokepoint", "first contact", "operations", "where it lands"].forEach(function (t, i) {
+    ["Chokepoint", "First contact", "Operations", "Where it lands"].forEach(function (t, i) {
       cas.appendChild(svgEl("text", { x: COLS[i], y: -6 + 0, class: "ccol", dy: 0 }, t));
     });
     var gE = svgEl("g", {}), gN = svgEl("g", {});
@@ -104,7 +105,7 @@
         stroke: hot ? "rgba(255,122,102,0.7)" : "rgba(255,255,255,0.14)"
       }));
       g.appendChild(svgEl("text", { x: 12, y: 21, class: "cnode__name" }, d.name));
-      g.appendChild(svgEl("text", { x: 12, y: 38, class: "cnode__sub" }, d.sub));
+      g.appendChild(svgEl("text", { x: 12, y: 38, class: "cnode__sub" }, sentence(d.sub)));
       if (d.h) g.appendChild(svgEl("text", { x: 12, y: 70, class: "cnode__val cnode__val--big", fill: hot ? LOSS : SAFE }, hot ? DB.money(d.v) : "$0"));
       else g.appendChild(svgEl("text", { x: W - 10, y: 21, class: "cnode__val", "text-anchor": "end", fill: hot ? LOSS : SAFE }, hot ? DB.money(d.v) : "—"));
       gN.appendChild(g);
@@ -211,14 +212,14 @@
     var r = M.run(inp), b = M.run(noResponse(inp));
     $("loss").textContent = DB.money(r.loss);
     var hasMoves = inp.divert || inp.bridge || inp.cover || inp.buffer;
-    $("lossdelta").textContent = hasMoves ? "down from " + DB.money(b.loss) + " with no response" : "with no response";
+    $("lossdelta").textContent = hasMoves ? "Down from " + DB.money(b.loss) + " with no response" : "With no response";
     $("cost").textContent = DB.money(r.cost, 2);
     $("moves").textContent = movesText(inp);
     var net = b.loss - r.loss - r.cost;
     $("net").textContent = (net < 0 ? "−" : "") + DB.money(Math.abs(net));
     $("net").classList.toggle("money--loss", net < 0);
     $("net").classList.toggle("money--safe", net >= 0);
-    $("roi").textContent = r.cost > 0 ? "every $1 spent saves $" + ((b.loss - r.loss) / r.cost).toFixed(1) : "nothing spent yet";
+    $("roi").textContent = r.cost > 0 ? "Every $1 spent saves $" + ((b.loss - r.loss) / r.cost).toFixed(1) : "Nothing spent yet";
     $("eff").textContent = st.p ? "× " + Math.round(st.p * 100) + "% chance = " + DB.money(r.loss * st.p) + " expected" : "";
 
     casRender(r, inp);
@@ -278,4 +279,12 @@
   var i = read(); i.bridge = i.divert = i.cover = true;
   write(i); update(true); save("Brief's 3 actions");
   write(M.DEFAULTS); update(true);
+
+  // Arriving from the brief's "Test in the wargame": switch that action on
+  var NAMES = { bridge: "the resin bridge-buy", divert: "the Khor Fakkan diversion", cover: "war-risk cover and the bunker hedge" };
+  var tryMove = new URLSearchParams(window.location.search).get("try");
+  if (NAMES[tryMove]) {
+    var t = read(); t[tryMove] = true; write(t); update(true);
+    DB.toast("Testing " + NAMES[tryMove] + " from this morning's brief.");
+  }
 })();

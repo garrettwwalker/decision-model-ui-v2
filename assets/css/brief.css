@@ -2,29 +2,29 @@
 
 .brief__accent { color: var(--ember-deep); }
 
-/* ---------- Stakes ---------- */
+/* ---------- Stakes: one sheet, three columns; the loss is the loud one ---------- */
 .stakes {
   display: grid;
-  grid-template-columns: 1fr 1.25fr 1fr;
-  gap: 1.25rem;
-  align-items: stretch;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr) minmax(0, 1fr);
+  padding: 0;
+  background: #fffaf4;
 }
-.stake { display: flex; flex-direction: column; gap: 0.7rem; }
+.stake { display: flex; flex-direction: column; gap: 0.7rem; padding: clamp(1.25rem, 2.4vw, 2rem); min-width: 0; }
+.stake + .stake { border-left: 1.5px dashed var(--line-strong); }
 .stake > .eyebrow { margin: 0; color: var(--fg-2); }
 .stake__big {
   margin: 0;
-  font-size: clamp(3.2rem, 6vw, 5.2rem);
+  font-size: clamp(2.441rem, 4.4vw, 3.815rem);
   font-weight: 800;
   line-height: 0.9;
-  letter-spacing: -0.06em;
+  letter-spacing: -0.05em;
 }
+.stake--loss .stake__big { font-size: clamp(3.052rem, 6.4vw, 5.96rem); }
 .stake__big span { font-size: 0.5em; letter-spacing: -0.02em; margin-left: 0.04em; }
 .stake__what { margin: 0; font-size: 0.92rem; color: var(--fg-2); max-width: 24rem; }
 .stake__what b { color: var(--fg); }
-.stake__foot { margin: auto 0 0; font-size: 0.7rem; color: var(--fg-2); }
-.stake__foot b { color: var(--loss); font-weight: 500; }
-
-.stake--loss { background: #fff; border-color: rgba(163, 32, 26, 0.25); box-shadow: 0 0 0 4px rgba(163, 32, 26, 0.06), 0 22px 44px -30px rgba(163, 32, 26, 0.5); }
+.stake__foot { margin: auto 0 0; font-size: var(--fs-small); color: var(--fg-2); }
+.stake__foot b { color: var(--loss); font-weight: 600; }
 .stake--safe .btn { align-self: flex-start; margin-top: auto; }
 
 .spark { width: 100%; height: 64px; margin-top: auto; overflow: visible; }
@@ -51,11 +51,14 @@
 .net__val { font-size: 1.6rem; color: var(--safe); }
 
 @media (max-width: 1080px) {
-  .stakes { grid-template-columns: 1fr 1fr; }
-  .stake--loss { grid-column: 1 / -1; grid-row: 1; }
+  .stakes { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .stake--loss { grid-column: 1 / -1; grid-row: 1; border-bottom: 1.5px dashed var(--line-strong); }
+  .stake--p, .stake--loss { border-left: 0 !important; }
 }
 @media (max-width: 640px) {
   .stakes { grid-template-columns: minmax(0, 1fr); }
+  .stake { border-left: 0 !important; border-top: 1.5px dashed var(--line-strong); }
+  .stake--loss { border-top: 0; border-bottom: 0; }
 }
 
 /* ---------- Decisions ---------- */
@@ -74,10 +77,12 @@
 }
 .decision__title { margin: 0 0 0.35rem; font-size: 1.12rem; line-height: 1.25; letter-spacing: -0.02em; }
 .decision__why { margin: 0 0 0.6rem; font-size: 0.88rem; color: var(--fg-2); max-width: 44rem; }
-.decision__meta { margin: 0; display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.decision__meta { margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 0.9rem; }
+.decision__owner { font-size: 0.8rem; font-weight: 500; color: var(--fg-2); }
 .decision__nums { display: flex; gap: 1.5rem; margin: 0; }
 .decision__nums div { display: grid; gap: 0.15rem; }
-.decision__nums dt { font-family: var(--mono); font-size: 0.64rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--fg-2); }
+.decision__nums dt { font-size: 0.8rem; font-weight: 500; color: var(--fg-2); }
+.decision__nums dt::first-letter { text-transform: uppercase; }
 .decision__nums dd { margin: 0; font-size: 1.35rem; }
 .decision__act { display: grid; gap: 0.4rem; justify-items: stretch; min-width: 9.5rem; }
 
@@ -111,7 +116,7 @@
 .map__region { font: 600 9px var(--font); letter-spacing: 0.25em; fill: #c9a283; }
 .map__risk-ring { fill: none; stroke: var(--loss); stroke-width: 1.5; stroke-dasharray: 3 3; }
 .map__risk-label { font: 700 10px var(--font); fill: var(--loss); }
-.map__risk-label--p { font: 500 9px var(--mono); }
+.map__risk-label--p { font: 500 9.5px var(--font); font-variant-numeric: tabular-nums; }
 .lane { fill: none; stroke-width: 2; }
 .lane--blocked { stroke: var(--loss); stroke-dasharray: 2 5; stroke-linecap: round; opacity: 0.6; }
 .route__sea, .route__road { fill: none; stroke-linecap: round; transition: stroke-width 0.15s ease, opacity 0.15s ease; }
@@ -159,7 +164,8 @@
 .route-card[data-route-card]:hover, .route-card[data-route-card]:focus-visible { transform: translateY(-2px); border-color: var(--safe); }
 .route-card.is-best { background: #fff; border: 1.5px solid var(--safe); }
 .route-card--no { opacity: 0.7; }
-.route-card__tag { margin: 0 0 0.35rem; font-family: var(--mono); font-size: 0.64rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--fg-2); }
+.route-card__tag { margin: 0 0 0.35rem; font-size: 0.8rem; font-weight: 600; color: var(--fg-2); }
+.route-card__tag::first-letter { text-transform: uppercase; }
 .is-best .route-card__tag { color: var(--safe); }
 .route-card h4 { margin: 0 0 0.75rem; font-size: 0.98rem; letter-spacing: -0.015em; }
 .route-card dl { margin: 0; display: grid; gap: 0.35rem; font-size: 0.8rem; }
@@ -170,7 +176,7 @@
 @media (max-width: 560px) { .routes { grid-template-columns: minmax(0, 1fr); } }
 
 /* ---------- Why: waterfall + signposts ---------- */
-.why__grid { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 1.25rem; }
+.why__grid { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 2rem 3.5rem; padding-top: 1.5rem; border-top: 1.5px dashed var(--line-strong); }
 @media (max-width: 980px) { .why__grid { grid-template-columns: minmax(0, 1fr); } }
 .fall { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.45rem; --scale: 0.35; }
 .fall li { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) 2.6rem; align-items: center; gap: 0.8rem; font-size: 0.84rem; }
@@ -207,7 +213,7 @@
 .hz--opp .hz__tag { color: var(--safe) !important; }
 .hz--opp::before { background: radial-gradient(circle at 35% 35%, #fff 0 20%, #2a9c8a 45%, var(--safe) 100%); }
 .hz__nums { margin-top: auto !important; padding-top: 0.75rem; border-top: 1px dashed var(--line-strong); display: flex; justify-content: space-between; gap: 1rem; font-size: 0.82rem !important; }
-.hz__nums .num { font-family: var(--mono); font-size: 0.74rem; color: var(--ink-2); }
+.hz__nums .num { font-size: 0.8rem; color: var(--ink-2); }
 @media (max-width: 980px) {
   .horizon__grid { grid-template-columns: minmax(0, 1fr); max-width: 34rem; margin-top: 1rem; }
   .hz:nth-child(n) { margin-top: 0; transform: none; }

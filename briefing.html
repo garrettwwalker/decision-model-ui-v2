@@ -5,9 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Morning brief · Daybreak</title>
   <meta name="description" content="Daybreak executive brief: the one geopolitical decision this week, what it costs, and the three interventions that protect the most value.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+  <link rel="preload" href="assets/fonts/switzer-800.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/switzer-400.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="assets/css/base.css">
   <link rel="stylesheet" href="assets/css/app.css">
   <link rel="stylesheet" href="assets/css/brief.css">
@@ -34,7 +33,7 @@
   <main id="main" class="page">
     <section class="page-head">
       <div>
-        <p class="eyebrow page-head__kicker">Tuesday 6 October 2026 · brief for the COO</p>
+        <p class="eyebrow page-head__kicker">Tuesday 6 October 2026, prepared for the COO</p>
         <h1 class="display">one decision<br>this week: <span class="brief__accent">hormuz.</span></h1>
       </div>
       <div class="bubble">
@@ -44,8 +43,8 @@
     </section>
 
     <!-- The stakes: probability, loss if we wait, loss if we act -->
-    <section class="stakes" aria-label="What is at stake">
-      <article class="panel stake stake--p">
+    <section class="panel stakes" aria-label="What is at stake">
+      <article class="stake stake--p">
         <p class="eyebrow">probability</p>
         <p class="stake__big num">27<span>%</span></p>
         <p class="stake__what">that the Strait of Hormuz is closed or impassable to commercial traffic for <b>7+ days</b> in the next 30 days</p>
@@ -54,10 +53,10 @@
           <path class="spark__line" d="M0 53 L40 52.5 L80 53 L110 52 L130 50.5 L150 48 L170 46.5 L185 42 L200 38 L212 33 L222 27 L232 21 L240 17"/>
           <circle cx="240" cy="17" r="3.5" class="spark__dot"/>
         </svg>
-        <p class="stake__foot mono">6% in July · 9% on 1 Sep · 18% last Tue · <b>27% today</b></p>
+        <p class="stake__foot mono">6% in July, 9% on 1 Sep, 18% last Tuesday, <b>27% today</b></p>
       </article>
 
-      <article class="panel stake stake--loss">
+      <article class="stake stake--loss">
         <p class="eyebrow">if we do nothing</p>
         <p class="stake__big money money--loss">$38.0M</p>
         <p class="stake__what">expected loss, probability-weighted. If it does close, the bad case (P95) is <b class="money--loss">$343M</b>.</p>
@@ -72,7 +71,7 @@
         </ul>
       </article>
 
-      <article class="panel stake stake--safe">
+      <article class="stake stake--safe">
         <p class="eyebrow">if we act by Thursday</p>
         <p class="stake__big money money--safe">$13.0M</p>
         <p class="stake__what">expected loss after the three actions below, which cost <b>$3.1M</b> together.</p>
@@ -80,7 +79,7 @@
           <span class="net__label">net value protected</span>
           <span class="net__val money">$21.9M</span>
         </div>
-        <a class="btn btn--ink btn--sm" href="#decisions">see the three actions <span aria-hidden="true">↓</span></a>
+        <a class="btn btn--ink btn--sm" href="#decisions">See the three actions</a>
       </article>
     </section>
 
@@ -96,15 +95,15 @@
           <div class="decision__body">
             <h3 class="decision__title">Bridge-buy 7,000 t of resin from Singapore for the Gebze and Pune plants</h3>
             <p class="decision__why">Both plants run on polymer shipped from Jubail and Mesaieed, inside the strait, and have only 8–11 days of cover. A closure stops both lines in week two.</p>
-            <p class="decision__meta"><span class="pill pill--quiet">owner · VP Procurement</span><span class="pill pill--warn">decide by Fri 9 Oct</span></p>
+            <p class="decision__meta"><span class="decision__owner">Owner: VP Procurement</span><span class="pill pill--warn">decide by Fri 9 Oct</span></p>
           </div>
           <dl class="decision__nums">
             <div><dt>costs</dt><dd class="money">$0.84M</dd></div>
             <div><dt>protects</dt><dd class="money money--safe">$11.7M</dd></div>
           </dl>
           <div class="decision__act">
-            <button class="btn btn--primary btn--sm" type="button" data-approve>approve</button>
-            <button class="btn btn--ghost btn--sm" type="button" data-defer>send to wargame</button>
+            <button class="btn btn--primary btn--sm" type="button" data-approve>Approve</button>
+            <button class="btn btn--ghost btn--sm" type="button" data-defer data-move="bridge">Test in the wargame</button>
           </div>
         </li>
         <li class="panel decision" data-decision>
@@ -112,15 +111,15 @@
           <div class="decision__body">
             <h3 class="decision__title">Divert four Jebel Ali sailings to Khor Fakkan and truck the boxes to the Dubai DC</h3>
             <p class="decision__why">Khor Fakkan sits outside the strait on the UAE's east coast, 140 km by road from the DC. It adds a day and a half, and 600 TEU/week of berth space is open now.</p>
-            <p class="decision__meta"><span class="pill pill--quiet">owner · VP Logistics</span><span class="pill pill--loss">booking cutoff Thu 8 Oct 14:00</span></p>
+            <p class="decision__meta"><span class="decision__owner">Owner: VP Logistics</span><span class="pill pill--loss">booking cutoff Thu 8 Oct 14:00</span></p>
           </div>
           <dl class="decision__nums">
             <div><dt>costs</dt><dd class="money">$0.90M</dd></div>
             <div><dt>protects</dt><dd class="money money--safe">$7.6M</dd></div>
           </dl>
           <div class="decision__act">
-            <button class="btn btn--primary btn--sm" type="button" data-approve>approve</button>
-            <button class="btn btn--ghost btn--sm" type="button" data-defer>send to wargame</button>
+            <button class="btn btn--primary btn--sm" type="button" data-approve>Approve</button>
+            <button class="btn btn--ghost btn--sm" type="button" data-defer data-move="divert">Test in the wargame</button>
           </div>
         </li>
         <li class="panel decision" data-decision>
@@ -128,15 +127,15 @@
           <div class="decision__body">
             <h3 class="decision__title">Bind war-risk cover on Gulf calls and hedge Q4 bunker at today's price</h3>
             <p class="decision__why">Underwriters have tripled Gulf war-risk rates since August, and quotes reprice daily. Locking in now caps the premium and fuel exposure if the strait closes.</p>
-            <p class="decision__meta"><span class="pill pill--quiet">owner · Treasury</span><span class="pill pill--warn">quote expires Wed 7 Oct</span></p>
+            <p class="decision__meta"><span class="decision__owner">Owner: Treasury</span><span class="pill pill--warn">quote expires Wed 7 Oct</span></p>
           </div>
           <dl class="decision__nums">
             <div><dt>costs</dt><dd class="money">$1.36M</dd></div>
             <div><dt>protects</dt><dd class="money money--safe">$5.7M</dd></div>
           </dl>
           <div class="decision__act">
-            <button class="btn btn--primary btn--sm" type="button" data-approve>approve</button>
-            <button class="btn btn--ghost btn--sm" type="button" data-defer>send to wargame</button>
+            <button class="btn btn--primary btn--sm" type="button" data-approve>Approve</button>
+            <button class="btn btn--ghost btn--sm" type="button" data-defer data-move="cover">Test in the wargame</button>
           </div>
         </li>
       </ol>
@@ -169,7 +168,7 @@
             <circle cx="436" cy="190" r="30" fill="url(#hatch)" class="map__risk"/>
             <circle cx="436" cy="190" r="30" class="map__risk-ring"/>
             <text x="470" y="178" class="map__risk-label">Strait of Hormuz</text>
-            <text x="470" y="190" class="map__risk-label map__risk-label--p">p 0.27 · 30d</text>
+            <text x="470" y="190" class="map__risk-label map__risk-label--p">27% within 30 days</text>
 
             <!-- mitigation routes -->
             <g class="route" data-route="kf">
@@ -192,7 +191,7 @@
             <g class="port port--in"><circle cx="122" cy="164" r="4"/><text x="110" y="160" text-anchor="end">Jubail</text></g>
             <g class="port port--in"><circle cx="143" cy="191" r="4"/><text x="132" y="196" text-anchor="end">Dammam</text></g>
             <g class="port port--in"><circle cx="211" cy="259" r="4"/><text x="199" y="276" text-anchor="end">Mesaieed</text></g>
-            <g class="port port--in"><circle cx="369" cy="258" r="4"/><text x="362" y="276" text-anchor="end">Jebel Ali · DC</text></g>
+            <g class="port port--in"><circle cx="369" cy="258" r="4"/><text x="362" y="276" text-anchor="end">Jebel Ali DC</text></g>
             <g class="port port--out"><circle cx="431" cy="243" r="4"/><text x="406" y="231" text-anchor="end">Khor Fakkan</text></g>
             <g class="port port--out"><circle cx="448" cy="289" r="4"/><text x="456" y="302">Sohar</text></g>
 
@@ -213,7 +212,7 @@
 
         <div class="panel caught">
           <div class="caught__head">
-            <h3 class="panel__title"><span class="eyebrow">largest expected losses</span>purchase orders</h3>
+            <h3 class="panel__title">Largest expected losses</h3>
             <div class="seg seg--light" role="radiogroup" aria-label="Group exposure by">
               <label><input type="radio" name="by" value="po" checked><span>POs</span></label>
               <label><input type="radio" name="by" value="sku"><span>SKUs</span></label>
@@ -223,13 +222,13 @@
             <table class="table">
               <thead><tr><th scope="col">PO / cargo</th><th scope="col">vessel</th><th scope="col">cover</th><th scope="col" class="r">expected loss</th></tr></thead>
               <tbody>
-                <tr><td><span class="mono">7731-044</span><span class="table__sub">PP resin · 4,200 t · Jubail → Gebze</span></td><td>Asterion Dawn<span class="table__sub">loading, inside</span></td><td><span class="pill pill--loss">11 d</span></td><td class="r"><div class="lossbar"><b class="money money--loss">$4.8M</b><i style="--v:1"></i></div></td></tr>
-                <tr><td><span class="mono">7731-051</span><span class="table__sub">HDPE resin · 2,800 t · Mesaieed → Pune</span></td><td>Kestrel Bay<span class="table__sub">at anchor, inside</span></td><td><span class="pill pill--loss">8 d</span></td><td class="r"><div class="lossbar"><b class="money money--loss">$3.9M</b><i style="--v:.81"></i></div></td></tr>
-                <tr><td><span class="mono">6602-117</span><span class="table__sub">Compressor kits · 18,000 · Jebel Ali → Gebze</span></td><td>Jebel Ali yard<span class="table__sub">transshipment</span></td><td><span class="pill pill--loss">5 d</span></td><td class="r"><div class="lossbar"><b class="money money--loss">$2.2M</b><i style="--v:.46"></i></div></td></tr>
-                <tr><td><span class="mono">4471-240</span><span class="table__sub">HV-FR90 fridges · 2,150 · Busan → Dammam</span></td><td>Sable Orchid<span class="table__sub">inbound, inside</span></td><td><span class="pill pill--warn">6 d</span></td><td class="r"><div class="lossbar"><b class="money money--loss">$1.6M</b><i style="--v:.33"></i></div></td></tr>
-                <tr><td><span class="mono">5518-090</span><span class="table__sub">Aluminium coil · 1,100 t · Jebel Ali → Pune</span></td><td>Jebel Ali yard<span class="table__sub">awaiting feeder</span></td><td><span class="pill pill--warn">12 d</span></td><td class="r"><div class="lossbar"><b class="money money--loss">$1.4M</b><i style="--v:.29"></i></div></td></tr>
-                <tr><td><span class="mono">4471-208</span><span class="table__sub">HV-OLED55 TVs · 1,920 · Ningbo → Jebel Ali</span></td><td>Corvane Tessaly<span class="table__sub">Gulf of Oman · can divert</span></td><td><span class="pill pill--warn">9 d</span></td><td class="r"><div class="lossbar"><b class="money money--loss">$1.1M</b><i style="--v:.23"></i></div></td></tr>
-                <tr><td><span class="mono">4471-233</span><span class="table__sub">HV-WM8 washers · 3,400 · Kaohsiung → Jebel Ali</span></td><td>Lumen Strait<span class="table__sub">Gulf of Oman · can divert</span></td><td><span class="pill pill--quiet">14 d</span></td><td class="r"><div class="lossbar"><b class="money money--loss">$0.9M</b><i style="--v:.19"></i></div></td></tr>
+                <tr><td><span class="mono">7731-044</span><span class="table__sub">PP resin, 4,200 t, Jubail → Gebze</span></td><td>Asterion Dawn<span class="table__sub">loading, inside</span></td><td><span class="pill pill--loss">11 d</span></td><td class="r"><div class="lossbar"><b class="money money--loss">$4.8M</b><i style="--v:1"></i></div></td></tr>
+                <tr><td><span class="mono">7731-051</span><span class="table__sub">HDPE resin, 2,800 t, Mesaieed → Pune</span></td><td>Kestrel Bay<span class="table__sub">at anchor, inside</span></td><td><span class="pill pill--loss">8 d</span></td><td class="r"><div class="lossbar"><b class="money money--loss">$3.9M</b><i style="--v:.81"></i></div></td></tr>
+                <tr><td><span class="mono">6602-117</span><span class="table__sub">Compressor kits, 18,000, Jebel Ali → Gebze</span></td><td>Jebel Ali yard<span class="table__sub">transshipment</span></td><td><span class="pill pill--loss">5 d</span></td><td class="r"><div class="lossbar"><b class="money money--loss">$2.2M</b><i style="--v:.46"></i></div></td></tr>
+                <tr><td><span class="mono">4471-240</span><span class="table__sub">HV-FR90 fridges, 2,150, Busan → Dammam</span></td><td>Sable Orchid<span class="table__sub">inbound, inside</span></td><td><span class="pill pill--warn">6 d</span></td><td class="r"><div class="lossbar"><b class="money money--loss">$1.6M</b><i style="--v:.33"></i></div></td></tr>
+                <tr><td><span class="mono">5518-090</span><span class="table__sub">Aluminium coil, 1,100 t, Jebel Ali → Pune</span></td><td>Jebel Ali yard<span class="table__sub">awaiting feeder</span></td><td><span class="pill pill--warn">12 d</span></td><td class="r"><div class="lossbar"><b class="money money--loss">$1.4M</b><i style="--v:.29"></i></div></td></tr>
+                <tr><td><span class="mono">4471-208</span><span class="table__sub">HV-OLED55 TVs, 1,920, Ningbo → Jebel Ali</span></td><td>Corvane Tessaly<span class="table__sub">Gulf of Oman, can divert</span></td><td><span class="pill pill--warn">9 d</span></td><td class="r"><div class="lossbar"><b class="money money--loss">$1.1M</b><i style="--v:.23"></i></div></td></tr>
+                <tr><td><span class="mono">4471-233</span><span class="table__sub">HV-WM8 washers, 3,400, Kaohsiung → Jebel Ali</span></td><td>Lumen Strait<span class="table__sub">Gulf of Oman, can divert</span></td><td><span class="pill pill--quiet">14 d</span></td><td class="r"><div class="lossbar"><b class="money money--loss">$0.9M</b><i style="--v:.19"></i></div></td></tr>
               </tbody>
             </table>
           </div>
@@ -237,15 +236,15 @@
             <table class="table">
               <thead><tr><th scope="col">SKU</th><th scope="col">market</th><th scope="col">stock-out p</th><th scope="col" class="r">revenue at risk</th></tr></thead>
               <tbody>
-                <tr><td><span class="mono">HV-WM8</span><span class="table__sub">Front-load washer · built in Gebze</span></td><td>EU, MENA</td><td><span class="pill pill--loss">0.58</span></td><td class="r"><div class="lossbar"><b class="money money--loss">$7.3M</b><i style="--v:1"></i></div></td></tr>
-                <tr><td><span class="mono">HV-FR90</span><span class="table__sub">French-door fridge · built in Pune</span></td><td>India, MENA</td><td><span class="pill pill--loss">0.52</span></td><td class="r"><div class="lossbar"><b class="money money--loss">$6.1M</b><i style="--v:.84"></i></div></td></tr>
-                <tr><td><span class="mono">HV-OLED55</span><span class="table__sub">55″ OLED TV · Ningbo</span></td><td>MENA</td><td><span class="pill pill--loss">0.41</span></td><td class="r"><div class="lossbar"><b class="money money--loss">$3.8M</b><i style="--v:.52"></i></div></td></tr>
-                <tr><td><span class="mono">HV-DW45</span><span class="table__sub">Dishwasher · built in Gebze</span></td><td>EU</td><td><span class="pill pill--warn">0.33</span></td><td class="r"><div class="lossbar"><b class="money money--loss">$2.9M</b><i style="--v:.4"></i></div></td></tr>
-                <tr><td><span class="mono">HV-AC24</span><span class="table__sub">Split AC · built in Pune</span></td><td>India, MENA</td><td><span class="pill pill--warn">0.29</span></td><td class="r"><div class="lossbar"><b class="money money--loss">$2.4M</b><i style="--v:.33"></i></div></td></tr>
+                <tr><td><span class="mono">HV-WM8</span><span class="table__sub">Front-load washer, built in Gebze</span></td><td>EU, MENA</td><td><span class="pill pill--loss">0.58</span></td><td class="r"><div class="lossbar"><b class="money money--loss">$7.3M</b><i style="--v:1"></i></div></td></tr>
+                <tr><td><span class="mono">HV-FR90</span><span class="table__sub">French-door fridge, built in Pune</span></td><td>India, MENA</td><td><span class="pill pill--loss">0.52</span></td><td class="r"><div class="lossbar"><b class="money money--loss">$6.1M</b><i style="--v:.84"></i></div></td></tr>
+                <tr><td><span class="mono">HV-OLED55</span><span class="table__sub">55″ OLED TV, Ningbo</span></td><td>MENA</td><td><span class="pill pill--loss">0.41</span></td><td class="r"><div class="lossbar"><b class="money money--loss">$3.8M</b><i style="--v:.52"></i></div></td></tr>
+                <tr><td><span class="mono">HV-DW45</span><span class="table__sub">Dishwasher, built in Gebze</span></td><td>EU</td><td><span class="pill pill--warn">0.33</span></td><td class="r"><div class="lossbar"><b class="money money--loss">$2.9M</b><i style="--v:.4"></i></div></td></tr>
+                <tr><td><span class="mono">HV-AC24</span><span class="table__sub">Split AC, built in Pune</span></td><td>India, MENA</td><td><span class="pill pill--warn">0.29</span></td><td class="r"><div class="lossbar"><b class="money money--loss">$2.4M</b><i style="--v:.33"></i></div></td></tr>
               </tbody>
             </table>
           </div>
-          <p class="caught__more mono">+ 305 more POs · <a href="workbench.html">open in workbench ↗</a></p>
+          <p class="caught__more">305 more POs are exposed. <a href="workbench.html">See them all in the workbench</a></p>
         </div>
       </div>
 
@@ -302,8 +301,8 @@
         <p class="section__note">What moved the forecast from 9% in five weeks. Each driver links to its evidence and to the models that weigh it.</p>
       </div>
       <div class="why__grid">
-        <div class="panel">
-          <h3 class="panel__title"><span class="eyebrow">drivers · change since 1 Sep</span>what moved it</h3>
+        <div class="why__col">
+          <h3 class="panel__title">What moved it since 1 September</h3>
           <ol class="fall" aria-label="Driver contributions">
             <li style="--a:.09;--d:0"><span>Baseline, 1 Sep</span><i></i><b class="num">9%</b></li>
             <li style="--a:.09;--d:.07"><span>Naval boardings in the Gulf of Oman: 3 in 10 days</span><i></i><b class="num">+7</b></li>
@@ -315,8 +314,8 @@
             <li class="fall__total" style="--a:0;--d:.27"><span>Today</span><i></i><b class="num">27%</b></li>
           </ol>
         </div>
-        <div class="panel">
-          <h3 class="panel__title"><span class="eyebrow">signposts</span>what would change our mind</h3>
+        <div class="why__col">
+          <h3 class="panel__title">What would change our mind</h3>
           <ul class="signs">
             <li class="signs__up"><b>↑ to ~45%</b> if a naval exercise is announced in the strait shipping lanes, or a second Western-flagged tanker is seized.</li>
             <li class="signs__up"><b>↑ to ~35%</b> if war-risk underwriters suspend cover for Gulf calls outright.</li>
@@ -333,29 +332,29 @@
       <h2 class="h2 watermark" id="hz-title">also on the horizon</h2>
       <div class="horizon__grid">
         <article class="note hz">
-          <p class="eyebrow hz__tag">gray swan · not on your watchlist</p>
+          <p class="eyebrow hz__tag">gray swan, not on your watchlist</p>
           <h3>GNSS spoofing cluster off Port Said</h3>
           <p>41 vessels logged position jumps near the canal approaches in 72 hours. Similar clusters preceded multi-day queues twice since 2021.</p>
-          <p class="hz__nums"><span class="num">p 0.11 · 14d</span><span class="money money--loss">$2.6M at risk</span></p>
+          <p class="hz__nums"><span class="num">11% within 14 days</span><span class="money money--loss">$2.6M at risk</span></p>
         </article>
         <article class="note hz">
-          <p class="eyebrow hz__tag">gray swan · not on your watchlist</p>
+          <p class="eyebrow hz__tag">gray swan, not on your watchlist</p>
           <h3>Registry purge could strand two Gulf feeders</h3>
           <p>An open registry signals mass deregistration of sanctions-adjacent tonnage. Two feeders on your ME4 shuttle share a technical manager with listed vessels.</p>
-          <p class="hz__nums"><span class="num">p 0.19 · 60d</span><span class="money money--loss">$1.9M at risk</span></p>
+          <p class="hz__nums"><span class="num">19% within 60 days</span><span class="money money--loss">$1.9M at risk</span></p>
         </article>
         <article class="note hz hz--opp">
           <p class="eyebrow hz__tag">opportunity</p>
           <h3>Competitors are single-threaded through Jebel Ali</h3>
           <p>Two regional rivals route over 60% of MENA stock through the strait and hold no east-coast contracts. If it closes, expect shelf gaps in weeks 3–6. Pre-positioning 30,000 units at Sohar now could take that demand.</p>
-          <p class="hz__nums"><span class="num">p 0.27 · 30d</span><span class="money money--safe">+$6.4M margin</span></p>
+          <p class="hz__nums"><span class="num">27% within 30 days</span><span class="money money--safe">+$6.4M margin</span></p>
         </article>
       </div>
     </section>
   </main>
 
   <footer class="app-foot">
-    <span>Daybreak mockup · Halvorsen Group is a fictional client and every figure is illustrative.</span>
+    <span>A Daybreak mockup. Halvorsen Group is fictional and every figure is illustrative.</span>
     <a href="index.html">back to daybreak.com</a>
   </footer>
 

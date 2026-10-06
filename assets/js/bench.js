@@ -141,20 +141,20 @@
   /* ---------- Inspector ---------- */
   var ins = document.getElementById("inspector");
   var INFO = {
-    hormuz: { type: "chokepoint · driver", desc: "Seven models forecast closure for ≥7 days in the next 30. Weight them to see how much the pooled number, and every loss downstream, depends on each one." },
-    gebze: { type: "plant", desc: "Appliance assembly. Runs on PP resin from Jubail via Suez. Washers and dishwashers for the EU." },
-    pune: { type: "plant", desc: "Refrigerators and AC. Runs on HDPE from Mesaieed via Nhava Sheva." },
-    dubai: { type: "distribution centre", desc: "MENA hub at Jebel Ali, inside the strait. Can be fed by road from Khor Fakkan." },
-    dammam: { type: "distribution centre", desc: "Saudi DC, inside the strait. No east-coast alternative is modelled yet." },
-    khor: { type: "port · alternate", desc: "UAE east coast, outside the strait. 140 km by road to the Dubai DC." },
-    jubail: { type: "port · origin", desc: "PP resin origin for Gebze. Inside the strait." },
-    mesaieed: { type: "port · origin", desc: "HDPE resin origin for Pune. Inside the strait." },
-    sing: { type: "port · hub", desc: "Transshipment hub and alternate resin source for the bridge-buy." },
-    bab: { type: "chokepoint", desc: "Red Sea entrance. Its own scenario: p(closure, 30d) = 0.34. Not in this run." },
-    suez: { type: "chokepoint", desc: "Gebze's resin and EU lanes depend on it. Modelled through the Red Sea scenario." },
-    ningbo: { type: "port · origin", desc: "Finished-goods origin for MENA (TVs, small appliances)." },
-    kaoh: { type: "port · origin", desc: "Finished-goods origin for MENA (washers)." },
-    busan: { type: "port · origin", desc: "Finished-goods origin for Saudi (fridges)." }
+    hormuz: { type: "Chokepoint, the driver", desc: "Seven models forecast closure for ≥7 days in the next 30. Weight them to see how much the pooled number, and every loss downstream, depends on each one." },
+    gebze: { type: "Plant", desc: "Appliance assembly. Runs on PP resin from Jubail via Suez. Washers and dishwashers for the EU." },
+    pune: { type: "Plant", desc: "Refrigerators and AC. Runs on HDPE from Mesaieed via Nhava Sheva." },
+    dubai: { type: "Distribution centre", desc: "MENA hub at Jebel Ali, inside the strait. Can be fed by road from Khor Fakkan." },
+    dammam: { type: "Distribution centre", desc: "Saudi DC, inside the strait. No east-coast alternative is modelled yet." },
+    khor: { type: "Port, alternate", desc: "UAE east coast, outside the strait. 140 km by road to the Dubai DC." },
+    jubail: { type: "Port, origin", desc: "PP resin origin for Gebze. Inside the strait." },
+    mesaieed: { type: "Port, origin", desc: "HDPE resin origin for Pune. Inside the strait." },
+    sing: { type: "Port, hub", desc: "Transshipment hub and alternate resin source for the bridge-buy." },
+    bab: { type: "Chokepoint", desc: "Red Sea entrance. Its own scenario: p(closure, 30d) = 0.34. Not in this run." },
+    suez: { type: "Chokepoint", desc: "Gebze's resin and EU lanes depend on it. Modelled through the Red Sea scenario." },
+    ningbo: { type: "Port, origin", desc: "Finished-goods origin for MENA (TVs, small appliances)." },
+    kaoh: { type: "Port, origin", desc: "Finished-goods origin for MENA (washers)." },
+    busan: { type: "Port, origin", desc: "Finished-goods origin for Saudi (fridges)." }
   };
   var NODE_PROPS = {
     gebze: ["plants.0.cover", "plants.0.rate", "plants.0.bridge"],
@@ -204,7 +204,7 @@
         var input = li.querySelector("input"), wl = li.querySelector(".ens2__w");
         input.addEventListener("input", function () {
           weights[i] = +input.value;
-          wl.textContent = "weight " + weights[i].toFixed(1) + (weights[i] === 0 ? " · excluded" : "");
+          wl.textContent = "weight " + weights[i].toFixed(1) + (weights[i] === 0 ? ", excluded" : "");
           recompute();
         });
         ul.appendChild(li);
@@ -327,7 +327,7 @@
   function delta(el, now, base, fmtFn, unitDown) {
     var d = now - base;
     el.classList.remove("up", "down");
-    if (Math.abs(d) < 1e-6) { el.textContent = "baseline"; return; }
+    if (Math.abs(d) < 1e-6) { el.textContent = "Baseline"; return; }
     el.classList.add(d > 0 ? "up" : "down");
     el.textContent = (d > 0 ? "▲ " : "▼ ") + fmtFn(Math.abs(d)) + " vs baseline";
   }
@@ -345,7 +345,7 @@
     var pool = document.querySelector('[data-out="pool"]');
     if (pool) pool.textContent = "pooled " + ev.p.toFixed(3);
     var c = $("changes");
-    c.textContent = ch.length ? ch.length + " unsaved change" + (ch.length > 1 ? "s" : "") : "no changes";
+    c.textContent = ch.length ? ch.length + " unsaved change" + (ch.length > 1 ? "s" : "") : "No changes";
     c.classList.toggle("is-dirty", ch.length > 0);
     drawGraph(ev);
     var facts = ins.querySelector("[data-facts]");
@@ -359,7 +359,7 @@
     renderCode(ch, ev);
     clearTimeout(logTimer);
     logTimer = setTimeout(function () {
-      log("re-ran 10,000 futures · <b>" + DB.money(ev.el) + "</b> expected" + (ch.length ? " · " + ch.length + " override" + (ch.length > 1 ? "s" : "") : ""));
+      log("Re-ran 10,000 futures: <b>" + DB.money(ev.el) + "</b> expected" + (ch.length ? ", " + ch.length + " override" + (ch.length > 1 ? "s" : "") : ""));
     }, 500);
   }
 
@@ -368,12 +368,12 @@
     weights = ENSEMBLE.map(function () { return 1; });
     renderInspector();
     recompute();
-    log("reset to production parameters");
+    log("Reset to production parameters");
   });
   document.getElementById("commit").addEventListener("click", function () {
     var n = changes().length;
     if (!n) { DB.toast("Nothing to commit yet. Change a parameter first."); return; }
-    log("<b>committed</b> scenario halvorsen/v14.2+" + n);
+    log("<b>Committed</b> scenario halvorsen/v14.2+" + n);
     DB.toast("Committed as a scenario with " + n + " override" + (n > 1 ? "s" : "") + ". It's now selectable in the wargame.");
   });
   document.getElementById("copy").addEventListener("click", function () {
@@ -381,7 +381,7 @@
     if (navigator.clipboard) navigator.clipboard.writeText(text).then(function () { DB.toast("Copied."); }, function () { DB.toast("Couldn't reach the clipboard."); });
   });
 
-  log("loaded <b>halvorsen/v14.2</b> · 14 nodes · 38 lanes");
+  log("Loaded <b>halvorsen/v14.2</b>: 14 nodes, 38 lanes");
   log("AIS: 22 Halvorsen vessels tracked, 3 inside the strait");
   log("Gebze MES: 2 fields unmapped (line_rate_v2, shift_code)");
   renderInspector();

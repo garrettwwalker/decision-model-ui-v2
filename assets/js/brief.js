@@ -5,7 +5,7 @@
     var defer = card.querySelector("[data-defer]");
     approve.addEventListener("click", function () {
       var on = card.classList.toggle("is-approved");
-      approve.textContent = on ? "approved ✓" : "approve";
+      approve.textContent = on ? "Approved" : "Approve";
       approve.setAttribute("aria-pressed", String(on));
       if (on) {
         var title = card.querySelector(".decision__title").textContent;
@@ -13,7 +13,7 @@
       }
     });
     defer.addEventListener("click", function () {
-      window.location.href = "wargame.html";
+      window.location.href = "wargame.html?try=" + defer.getAttribute("data-move");
     });
   });
 
@@ -23,8 +23,6 @@
       document.querySelectorAll("[data-view]").forEach(function (v) {
         v.hidden = v.getAttribute("data-view") !== r.value;
       });
-      var title = document.querySelector(".caught .panel__title");
-      title.lastChild.textContent = r.value === "po" ? "purchase orders" : "SKUs";
     });
   });
 

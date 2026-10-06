@@ -5,9 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Wargame · Daybreak</title>
   <meta name="description" content="Daybreak scenario sandbox: change the world, change your response, and watch losses cascade through the network.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+  <link rel="preload" href="assets/fonts/switzer-800.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/switzer-400.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="assets/css/base.css">
   <link rel="stylesheet" href="assets/css/app.css">
   <link rel="stylesheet" href="assets/css/war.css">
@@ -34,7 +33,7 @@
   <main id="main" class="page">
     <section class="page-head">
       <div>
-        <p class="eyebrow page-head__kicker">scenario sandbox · seeded from this morning's brief</p>
+        <p class="eyebrow page-head__kicker">Scenario sandbox, seeded from this morning's brief</p>
         <h1 class="display">pull a lever<br>on the future.</h1>
       </div>
       <div class="bubble">
@@ -47,7 +46,7 @@
       <!-- Controls -->
       <form class="panel controls" id="controls" aria-label="Scenario controls" onsubmit="return false">
         <fieldset class="group">
-          <legend class="group__title"><span class="eyebrow">the world</span>what happens</legend>
+          <legend class="group__title">What happens</legend>
 
           <div class="field">
             <span class="field__top" id="st-label">Strait of Hormuz</span>
@@ -82,17 +81,17 @@
         </fieldset>
 
         <fieldset class="group">
-          <legend class="group__title"><span class="eyebrow">your response</span>what you do</legend>
+          <legend class="group__title">What you do</legend>
           <label class="switch">
-            <span class="switch__text">Bridge-buy resin ex-Singapore<small>$0.84M · lands Gebze day 14, Pune day 9</small></span>
+            <span class="switch__text">Bridge-buy resin ex-Singapore<small>$0.84M. Lands in Gebze on day 14, Pune on day 9</small></span>
             <input type="checkbox" name="bridge"><span class="switch__ui" aria-hidden="true"></span>
           </label>
           <label class="switch">
-            <span class="switch__text">Divert to Khor Fakkan + road<small>$0.90M · 85% of Dubai DC inbound</small></span>
+            <span class="switch__text">Divert to Khor Fakkan + road<small>$0.90M. Absorbs 85% of the Dubai DC's inbound</small></span>
             <input type="checkbox" name="divert"><span class="switch__ui" aria-hidden="true"></span>
           </label>
           <label class="switch">
-            <span class="switch__text">Bind war-risk cover, hedge bunker<small>$1.36M · locks today's rates</small></span>
+            <span class="switch__text">Bind war-risk cover, hedge bunker<small>$1.36M. Locks in today's rates</small></span>
             <input type="checkbox" name="cover"><span class="switch__ui" aria-hidden="true"></span>
           </label>
           <label class="field">
@@ -103,30 +102,30 @@
         </fieldset>
 
         <div class="controls__actions">
-          <button class="btn btn--light btn--sm" type="button" id="apply-brief">apply the brief's 3 actions</button>
-          <button class="btn btn--ghost btn--sm" type="button" id="reset">reset</button>
+          <button class="btn btn--light btn--sm" type="button" id="apply-brief">Apply the brief's 3 actions</button>
+          <button class="btn btn--ghost btn--sm" type="button" id="reset">Reset</button>
         </div>
       </form>
 
       <!-- Results -->
       <div class="results">
-        <section class="kpis" aria-label="Results" aria-live="polite">
-          <div class="panel kpi kpi--loss">
+        <section class="panel kpis" aria-label="Results" aria-live="polite">
+          <div class="kpi kpi--loss">
             <p class="eyebrow">loss if this happens</p>
             <p class="kpi__big money money--loss" data-out="loss">—</p>
             <p class="kpi__sub" data-out="lossdelta"></p>
           </div>
-          <div class="panel kpi">
-            <p class="eyebrow">bad case · P95</p>
+          <div class="kpi">
+            <p class="eyebrow">Bad case (P95)</p>
             <p class="kpi__big money" data-out="p95">—</p>
             <p class="kpi__sub">1 in 20 futures is worse than this</p>
           </div>
-          <div class="panel kpi">
+          <div class="kpi">
             <p class="eyebrow">cost of your response</p>
             <p class="kpi__big money" data-out="cost">—</p>
             <p class="kpi__sub" data-out="moves"></p>
           </div>
-          <div class="panel kpi kpi--safe">
+          <div class="kpi kpi--safe">
             <p class="eyebrow">net saved</p>
             <p class="kpi__big money money--safe" data-out="net">—</p>
             <p class="kpi__sub" data-out="roi"></p>
@@ -135,7 +134,7 @@
 
         <section class="panel cascade" aria-labelledby="cas-title">
           <div class="panel__row">
-            <h2 class="panel__title" id="cas-title"><span class="eyebrow">cascade</span>where the loss lands</h2>
+            <h2 class="panel__title" id="cas-title">Where the loss lands</h2>
             <p class="panel__aside mono" data-out="eff"></p>
           </div>
           <div class="cascade__wrap"><svg class="cascade__svg" id="cascade" viewBox="0 0 900 330" role="img" aria-label="Cascade from the Strait of Hormuz through ports to plants, distribution centres and revenue, with losses at each node"></svg></div>
@@ -144,7 +143,7 @@
         <div class="duo">
           <section class="panel" aria-labelledby="cap-title">
             <div class="panel__row">
-              <h2 class="panel__title" id="cap-title"><span class="eyebrow">capacity · next 12 weeks</span>how long it hurts</h2>
+              <h2 class="panel__title" id="cap-title">Capacity over the next 12 weeks</h2>
             </div>
             <svg class="cap" id="cap" viewBox="0 0 520 230" role="img" aria-label="Daily capacity for the Gebze and Pune plants and the Dubai and Dammam distribution centres over the next 84 days"></svg>
             <ul class="legend" id="cap-legend"></ul>
@@ -152,8 +151,8 @@
 
           <section class="panel" aria-labelledby="mc-title">
             <div class="panel__row">
-              <h2 class="panel__title" id="mc-title"><span class="eyebrow">10,000 futures</span>the spread of outcomes</h2>
-              <button class="btn btn--light btn--sm" type="button" id="rerun">re-run</button>
+              <h2 class="panel__title" id="mc-title">Spread of outcomes across 10,000 futures</h2>
+              <button class="btn btn--light btn--sm" type="button" id="rerun">Re-run</button>
             </div>
             <svg class="hist" id="hist" viewBox="0 0 520 230" role="img" aria-label="Histogram of simulated losses across ten thousand futures"></svg>
             <p class="hist__note mono" data-out="mcnote"></p>
@@ -162,8 +161,8 @@
 
         <section class="panel branches" aria-labelledby="br-title">
           <div class="panel__row">
-            <h2 class="panel__title" id="br-title"><span class="eyebrow">branches</span>compare counterfactuals</h2>
-            <button class="btn btn--primary btn--sm" type="button" id="save">save this branch</button>
+            <h2 class="panel__title" id="br-title">Saved branches</h2>
+            <button class="btn btn--primary btn--sm" type="button" id="save">Save this branch</button>
           </div>
           <div class="table-wrap">
             <table class="table" id="branches">
@@ -177,7 +176,7 @@
   </main>
 
   <footer class="app-foot">
-    <span>Daybreak mockup · Halvorsen Group is a fictional client and every figure is illustrative.</span>
+    <span>A Daybreak mockup. Halvorsen Group is fictional and every figure is illustrative.</span>
     <a href="index.html">back to daybreak.com</a>
   </footer>
 

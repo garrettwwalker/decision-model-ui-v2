@@ -21,42 +21,75 @@
     stage.style.setProperty("--rim", "rgb(" + rim.join(",") + ")");
   }
 
-  /* ---------- Read-as-you-scroll prose ---------- */
-  var reads = [];
-  document.querySelectorAll(".read").forEach(function (el) {
-    var units = [];
-    Array.prototype.slice.call(el.childNodes).forEach(function (node) {
+  /* ---------- Read-as-you-scroll: text darkens word by word, widgets fill in ----------
+     The reference's signature move, applied to everything below the hero. */
+  var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var day = document.querySelector(".day");
+  var BLOCKS = "p, h2, h3, li, dt, dd, label";
+  var UNITS = ".chip";                       // inline widgets revealed whole, like a word
+  var TILES = ".note, .tag, .swan, .chain li, .pv, .bubble, .calib, .ens i, .contact__form, .btn, .tags .tag__eyelet";
+  var reads = [], tiles = [];
+
+  function splitWords(root, units) {
+    Array.prototype.slice.call(root.childNodes).forEach(function (node) {
       if (node.nodeType === 3) {
-        var parts = node.textContent.split(/(\s+)/);
+        if (!node.textContent.trim()) return;
         var frag = document.createDocumentFragment();
-        parts.forEach(function (part) {
+        node.textContent.split(/(\s+)/).forEach(function (part) {
           if (!part) return;
-          if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(" ")); return; }
-          var s = document.createElement("span");
-          s.className = "w";
-          s.textContent = part;
-          frag.appendChild(s);
-          units.push(s);
+          if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return; }
+          var w = document.createElement("span");
+          w.className = "w";
+          w.textContent = part;
+          frag.appendChild(w);
+          units.push(w);
         });
-        el.replaceChild(frag, node);
+        node.parentNode.replaceChild(frag, node);
       } else if (node.nodeType === 1) {
-        units.push(node);
+        if (node.matches(UNITS)) { node.classList.add("w"); units.push(node); return; }
+        if (node.matches("svg, input, textarea, select, .btn") || node.matches(BLOCKS)) return;
+        splitWords(node, units);
       }
     });
-    reads.push({ el: el, units: units });
-  });
+  }
+
+  if (day && !reduceMotion) {
+    day.querySelectorAll(BLOCKS).forEach(function (el) {
+      if (el.closest(".clouds") || el.parentElement.closest(BLOCKS)) return; // outermost text blocks only
+      var units = [];
+      splitWords(el, units);
+      if (units.length) reads.push({ el: el, units: units, n: -1 });
+    });
+    day.querySelectorAll(TILES).forEach(function (el) {
+      el.classList.add("tile");
+      tiles.push({ el: el, r: -1 });
+    });
+  }
 
   function readFrame() {
     var vh = window.innerHeight;
+    var atEnd = window.scrollY + vh >= document.documentElement.scrollHeight - 4;
     reads.forEach(function (r) {
       var b = r.el.getBoundingClientRect();
-      // Starts revealing when the paragraph's top reaches 80% of the viewport,
-      // fully read when its bottom reaches 55%
-      var start = vh * 0.8, end = vh * 0.55;
-      var total = (b.bottom - b.top) + (start - end);
-      var t = clamp((start - b.top) / total, 0, 1);
+      if (b.bottom < -vh || b.top > vh * 2) return; // far off screen: leave as is
+      // starts when the block's top reaches 85% of the viewport, done when its bottom reaches 55%
+      var start = vh * 0.85, end = vh * 0.55;
+      var t = clamp((start - b.top) / ((b.bottom - b.top) + (start - end)), 0, 1);
+      if (atEnd && b.top < vh) t = 1; // the page can't scroll further: finish what's visible
       var n = Math.round(t * r.units.length);
+      if (n === r.n) return;
       r.units.forEach(function (u, i) { u.classList.toggle("on", i < n); });
+      r.n = n;
+    });
+    tiles.forEach(function (o) {
+      var b = o.el.getBoundingClientRect();
+      // fades in as it enters, ahead of its words: from the bottom edge to 75% of the viewport
+      var t = clamp((vh - b.top) / (vh * 0.25), 0, 1);
+      if (atEnd && b.top < vh) t = 1;
+      t = Math.round(t * 50) / 50;
+      if (t === o.r) return;
+      o.el.style.setProperty("--r", t);
+      o.r = t;
     });
   }
 
@@ -76,11 +109,11 @@
 
   var ticking = false;
   function onScroll() {
-    navFrame(); // cheap, and must never lag behind the page
+    navFrame(); readFrame(); // cheap, and must never lag behind the page
     if (ticking) return;
     ticking = true;
     requestAnimationFrame(function () {
-      heroFrame(); readFrame();
+      heroFrame();
       ticking = false;
     });
   }

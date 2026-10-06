@@ -5,9 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Workbench · Daybreak</title>
   <meta name="description" content="Daybreak workbench: model your network, tweak any parameter or ensemble weight, and watch the forecast and losses respond.">
+  <link rel="preload" href="assets/fonts/switzer-800.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/switzer-400.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap">
   <link rel="stylesheet" href="assets/css/base.css">
   <link rel="stylesheet" href="assets/css/app.css">
   <link rel="stylesheet" href="assets/css/bench.css">
@@ -34,12 +36,12 @@
   <main id="main" class="page page--bench">
     <section class="bench-head">
       <div>
-        <p class="eyebrow bench-head__kicker">world model <b>halvorsen/v14.2</b> · forked from production 05:58 GST · <span data-out="changes">no changes</span></p>
+        <p class="eyebrow bench-head__kicker">World model <b>halvorsen/v14.2</b>, forked from production at 05:58 GST. <span data-out="changes">No changes</span></p>
         <h1 class="bench-head__title">workbench</h1>
       </div>
       <div class="bench-head__actions">
-        <button class="btn btn--ghost btn--sm" type="button" id="reset">reset to baseline</button>
-        <button class="btn btn--primary btn--sm" type="button" id="commit">commit as scenario</button>
+        <button class="btn btn--ghost btn--sm" type="button" id="reset">Reset to baseline</button>
+        <button class="btn btn--primary btn--sm" type="button" id="commit">Commit as scenario</button>
       </div>
     </section>
 
@@ -64,11 +66,11 @@
 
         <h2 class="pane__title pane__title--gap">data sources</h2>
         <ul class="sources">
-          <li><i class="ok"></i><span>SAP S/4HANA<small>POs, BOMs · 4 min ago</small></span></li>
-          <li><i class="ok"></i><span>Kinaxis RapidResponse<small>supply plan · 12 min ago</small></span></li>
-          <li><i class="ok"></i><span>AIS stream<small>vessel positions · live</small></span></li>
-          <li><i class="ok"></i><span>War-risk broker feed<small>Gulf quotes · 3 h ago</small></span></li>
-          <li><i class="warn"></i><span>Gebze MES<small>schema drift: 2 fields unmapped</small></span></li>
+          <li><i class="ok"></i><span>SAP S/4HANA<small>POs and BOMs, 4 min ago</small></span></li>
+          <li><i class="ok"></i><span>Kinaxis RapidResponse<small>Supply plan, 12 min ago</small></span></li>
+          <li><i class="ok"></i><span>AIS stream<small>Vessel positions, live</small></span></li>
+          <li><i class="ok"></i><span>War-risk broker feed<small>Gulf quotes, 3 h ago</small></span></li>
+          <li><i class="warn"></i><span>Gebze MES<small>Schema drift: 2 fields unmapped</small></span></li>
         </ul>
       </aside>
 
@@ -76,27 +78,27 @@
       <section class="center" aria-label="Network and model response">
         <div class="panel graph">
           <div class="graph__head">
-            <h2 class="pane__title">network · exposure to <span class="graph__driver">hormuz closure ≥7d</span></h2>
-            <p class="graph__legend mono"><i class="gl gl--hot"></i>loss if it closes <i class="gl gl--lane"></i>lane through the strait <i class="gl gl--alt"></i>alternate</p>
+            <h2 class="pane__title">Network exposure to <span class="graph__driver">a 7-day Hormuz closure</span></h2>
+            <p class="graph__legend"><i class="gl gl--hot"></i>Loss if it closes <i class="gl gl--lane"></i>Lane through the strait <i class="gl gl--alt"></i>Alternate route</p>
           </div>
           <div class="graph__wrap"><svg class="graph__svg" id="graph" viewBox="0 0 760 420" role="img" aria-label="Network graph of Halvorsen's ports, plants and chokepoints. Select a node to inspect it."></svg></div>
         </div>
 
-        <div class="response" aria-live="polite">
-          <div class="panel resp">
-            <p class="eyebrow">p(closure ≥7d, 30d)</p>
+        <div class="panel response" aria-live="polite">
+          <div class="resp">
+            <p class="eyebrow">Chance of closure in 30 days</p>
             <p class="resp__big num" data-out="p">27%</p>
-            <p class="resp__delta mono" data-out="pd">baseline</p>
+            <p class="resp__delta mono" data-out="pd">Baseline</p>
           </div>
-          <div class="panel resp">
+          <div class="resp">
             <p class="eyebrow">loss if it closes</p>
             <p class="resp__big money money--loss" data-out="cl">—</p>
-            <p class="resp__delta mono" data-out="cld">baseline</p>
+            <p class="resp__delta mono" data-out="cld">Baseline</p>
           </div>
-          <div class="panel resp resp--main">
+          <div class="resp resp--main">
             <p class="eyebrow">expected loss</p>
             <p class="resp__big money money--loss" data-out="el">—</p>
-            <p class="resp__delta mono" data-out="eld">baseline</p>
+            <p class="resp__delta mono" data-out="eld">Baseline</p>
           </div>
         </div>
         <div class="lower">
@@ -107,7 +109,7 @@
           <section class="panel code" aria-labelledby="code-title">
             <div class="code__head">
               <h2 class="pane__title" id="code-title">same thing, in the SDK</h2>
-              <button class="btn btn--ghost btn--sm" type="button" id="copy">copy</button>
+              <button class="btn btn--ghost btn--sm" type="button" id="copy">Copy</button>
             </div>
             <pre><code id="code"></code></pre>
           </section>
@@ -130,7 +132,7 @@
   </main>
 
   <footer class="app-foot">
-    <span>Daybreak mockup · Halvorsen Group is a fictional client and every figure is illustrative.</span>
+    <span>A Daybreak mockup. Halvorsen Group is fictional and every figure is illustrative.</span>
     <a href="index.html">back to daybreak.com</a>
   </footer>
 
