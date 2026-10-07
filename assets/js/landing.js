@@ -113,7 +113,7 @@
       items.forEach(function (it, k) {
         it.classList.toggle("is-on", k === i);
         it.setAttribute("aria-hidden", String(k !== i));
-        it.querySelectorAll("a").forEach(function (a) { a.tabIndex = k === i ? 0 : -1; });
+        it.tabIndex = k === i ? 0 : -1;
       });
       buttons.forEach(function (b, k) { b.setAttribute("aria-pressed", String(k === i)); });
       clearTimeout(timer);
