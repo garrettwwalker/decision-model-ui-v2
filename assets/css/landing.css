@@ -162,19 +162,26 @@
   opacity: var(--p);
   background: linear-gradient(180deg, rgba(240, 140, 90, 0.55) 0%, rgba(120, 70, 80, 0.25) 35%, rgba(12, 34, 50, 0) 75%);
 }
-.hero__sea::after { /* sun glint path */
+.hero__sea::after { /* faint light under the glitter path, no wider than the sun */
   content: "";
   position: absolute;
   top: 0; bottom: 0;
   left: 62%;
-  width: min(80vw, 960px);
+  width: min(30vw, 300px);
   transform: translateX(-50%);
-  opacity: calc(var(--p) * 0.95);
-  /* bright core about as wide as the sun, then a broad warm sheen; both fade toward the viewer */
-  background:
-    radial-gradient(20% 85% at 50% 0%, rgba(255, 242, 212, 0.95), rgba(255, 226, 170, 0.32) 55%, rgba(255, 220, 160, 0) 100%),
-    radial-gradient(50% 75% at 50% 0%, rgba(255, 190, 130, 0.42), rgba(255, 190, 130, 0) 100%);
+  opacity: calc(var(--p) * 0.8);
+  background: radial-gradient(38% 90% at 50% 0%, rgba(255, 226, 176, 0.5), rgba(255, 210, 150, 0) 100%);
 }
+.hero__glint { /* broken ripple streaks, drawn by landing.js */
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 62%;
+  width: min(30vw, 300px);
+  transform: translateX(-50%);
+  z-index: 1;
+  opacity: var(--p);
+}
+.hero__glint svg { width: 100%; height: 100%; display: block; filter: blur(0.6px); }
 
 .clouds--top { inset: -12% -10% 40% -10%; transform: translateY(calc(var(--p) * -92%)); }
 .clouds--left { inset: -5% 38% 14% -18%; transform: translateX(calc(var(--p) * -80%)); }
