@@ -285,6 +285,9 @@
   write(i); update(true); save("Brief's 3 actions");
   write(M.DEFAULTS); update(true);
 
+  // For the "ask the model" chat: read and drive the sandbox
+  window.DBWar = { read: read, write: write, update: update, worldText: worldText, movesText: movesText, noResponse: noResponse };
+
   // Arriving from the brief's "Test in the wargame": switch that action on
   var NAMES = { bridge: "the resin bridge-buy", divert: "the Khor Fakkan diversion", cover: "war-risk cover and the bunker hedge" };
   var tryMove = new URLSearchParams(window.location.search).get("try");

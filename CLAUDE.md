@@ -24,6 +24,8 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   clouds with puffs peaking mid-cloud, one light gradient per cloud, crown highlights and an underside glow.
   Colors come from `--c-hi/mid/lo/rim` on `.clouds--storm/dawn/cream`; `--c-base` is the fading strip that
   joins the next section; `data-flip` hangs a bank upside down.
+- `assets/js/chat.js` is the wargame's "ask the model" chat: scripted intents (capacity, what-if,
+  best moves, probability, decline) answered live from `model.js` via `window.DBWar` (exposed by `war.js`).
 - `assets/js/app.js` holds the shared helpers (`DB.money`, `DB.toast`, `DB.rng`, range fills).
 - Type: Switzer (Fontshare), self-hosted in `assets/fonts/`, for everything, on a major-third scale; data uses
   tabular figures. JetBrains Mono appears only in the workbench's code, diff and log panels. Labels are sentence
