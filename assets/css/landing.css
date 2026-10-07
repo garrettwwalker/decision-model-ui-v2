@@ -219,13 +219,11 @@ html { scroll-behavior: smooth; } /* nav CTA glides to the contact form; base.cs
 }
 .thesis .read { max-width: 38rem; margin: 0 0 0 clamp(0rem, 14vw, 14rem); }
 .thesis .thesis__setup { line-height: 1.4; max-width: 58rem; }
-.thesis__break { display: block; height: 0.9em; }
 /* the one moving part of the sentence: the event Daybreak forecasts */
-.rotor { /* the event sits on a small white card, like the note cards further down */
+.rotor { /* the oval chip from the earlier inline widgets, now holding the event */
   position: relative; display: inline-block; vertical-align: -0.32em; /* overflow:hidden puts the baseline at the bottom edge */
   box-sizing: content-box; /* JS sets width to the phrase; padding and border sit outside it */
-  padding: 0.08em 0.6em; border-radius: 0.4em;
-  background: var(--paper); box-shadow: var(--shadow-card); /* the white note cards below */
+  padding: 0.08em 0.6em; border: 1.5px solid currentColor; border-radius: 999px;
   font-size: 0.8em; line-height: 1.45;
   white-space: nowrap; color: var(--ink);
   transition: width 0.5s cubic-bezier(.3,.7,.3,1);
