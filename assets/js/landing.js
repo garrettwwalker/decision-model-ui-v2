@@ -92,12 +92,11 @@
     });
   }
 
-  /* ---------- Thesis rotor: one exposure at a time, with a timer underline ---------- */
+  /* ---------- Thesis rotor: one exposure at a time ---------- */
   (function () {
     var rotor = document.querySelector(".rotor");
     if (!rotor) return;
     var items = rotor.querySelectorAll(".rotor__item");
-    var rule = rotor.querySelector(".rotor__rule");
     var dots = rotor.querySelector(".rotor__dots");
     var still = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     var T = 6500, cur = 0, timer = null, paused = false;
@@ -109,7 +108,6 @@
       dots.appendChild(b);
       return b;
     });
-    rotor.style.setProperty("--rotor-t", T + "ms");
     function show(i) {
       cur = i;
       items.forEach(function (it, k) {
@@ -119,14 +117,11 @@
       });
       buttons.forEach(function (b, k) { b.setAttribute("aria-pressed", String(k === i)); });
       clearTimeout(timer);
-      rule.classList.remove("is-running");
       if (still || paused) return;
-      void rule.offsetWidth; // restart the fill
-      rule.classList.add("is-running");
       timer = setTimeout(function () { show((cur + 1) % items.length); }, T);
     }
     // pause while hovered or focused, so a reader isn't rushed
-    function pause() { paused = true; clearTimeout(timer); rule.classList.remove("is-running"); }
+    function pause() { paused = true; clearTimeout(timer); }
     function resume() { paused = false; show(cur); }
     rotor.addEventListener("mouseenter", pause);
     rotor.addEventListener("mouseleave", resume);
