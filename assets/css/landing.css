@@ -293,11 +293,6 @@ html { scroll-behavior: smooth; } /* nav CTA glides to the contact form; base.cs
 .split__fused .split__label { width: 100%; color: var(--amber); }
 .split__num { font-size: 3rem; font-weight: 800; letter-spacing: -0.06em; line-height: 1; }
 .split__fused span:last-child { color: rgba(255, 255, 255, 0.72); font-size: 0.9rem; }
-/* dashed hairlines: question splits into parts, parts merge into the fused number */
-.split__q::after, .split__parts::after {
-  content: ""; position: absolute; left: 50%; bottom: -1.6rem; height: 1.6rem;
-  border-left: 1.5px dashed var(--ink-3);
-}
 .split__parts { position: relative; }
 @media (max-width: 960px) {
   .engine__grid { grid-template-columns: minmax(0, 1fr); max-width: 40rem; }
@@ -519,14 +514,6 @@ html { scroll-behavior: smooth; } /* nav CTA glides to the contact form; base.cs
   box-shadow: 0 10px 24px -18px rgba(7, 22, 33, 0.5);
 }
 .chain li + li { margin-top: 1.1rem; }
-.chain li + li::before {
-  content: "";
-  position: absolute;
-  left: 1.4rem;
-  top: calc(-1.1rem - 1px);
-  height: 1.1rem;
-  border-left: 1.5px dashed var(--ink-3);
-}
 .chain .eyebrow { grid-row: 1 / span 2; align-self: center; color: var(--ink-3); }
 .chain strong { font-size: 1rem; letter-spacing: -0.01em; }
 .chain__meta { font-size: 0.8rem; color: var(--ink-2); }
