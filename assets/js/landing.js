@@ -27,7 +27,7 @@
   var day = document.querySelector(".day");
   var BLOCKS = "p, h2, h3, li, dt, dd, label";
   var UNITS = ".chip";                       // inline widgets revealed whole, like a word
-  var TILES = ".note, .tag, .swan, .chain li, .bubble, .contact__form"; // revealed whole, text included
+  var TILES = ".note, .tag, .swan, .chain li, .contact__form"; // revealed whole, text included
   var reads = [], tiles = [];
 
   function splitWords(root, units) {

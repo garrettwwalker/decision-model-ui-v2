@@ -192,16 +192,6 @@
 .hero__eyebrow { margin: 0 0 1.4rem; opacity: 0.75; }
 .hero__title > span { display: block; }
 .hero__line2 { position: relative; }
-.hero__bubble {
-  position: absolute;
-  left: calc(100% + 1rem);
-  top: 0.4em;
-  width: 19rem;
-  font-size: 1rem;
-  letter-spacing: 0;
-  line-height: 1.4;
-  transform: rotate(-2deg);
-}
 .hero__title .hero__line2 { display: inline-block; }
 .hero__after {
   margin-top: 0.35em;
@@ -221,17 +211,7 @@
 }
 
 @media (max-width: 900px) {
-  .hero__bubble {
-    position: relative;
-    left: 0;
-    top: 0;
-    margin-top: 1.2rem;
-    display: flex;
-    width: auto;
-    max-width: 21rem;
-    transform: rotate(-1.5deg);
-  }
-  .hero__copy { padding-top: calc(env(safe-area-inset-top, 0px) + 16vh); }
+    .hero__copy { padding-top: calc(env(safe-area-inset-top, 0px) + 16vh); }
 }
 
 /* ---------- Day: the sun is up; one long dawn ground (the reference's sky, at sunrise) ---------- */
@@ -276,7 +256,6 @@
   margin-left: clamp(0rem, 6vw, 6rem);
   --tone: var(--dawn-deep);
 }
-.modes__bubble { margin-bottom: 1rem; }
 .modes__grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -506,7 +485,7 @@
 .contact { position: relative; padding: clamp(6rem, 14vh, 9rem) var(--gutter) 14rem; }
 .contact__inner { display: flex; flex-wrap: wrap; gap: 3rem 4rem; align-items: flex-end; position: relative; z-index: 1; }
 .contact__title { font-size: clamp(3rem, 10vw, 8.5rem); }
-.contact__side { display: grid; gap: 1.5rem; max-width: 24rem; }
+.contact__side { display: grid; gap: 1.5rem; width: min(100%, 24rem); }
 .contact__form {
   display: grid; gap: 0.85rem;
   background: #fff; border-radius: var(--radius-lg); padding: 1.35rem;
