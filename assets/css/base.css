@@ -132,15 +132,15 @@ a { color: inherit; }
 .display {
   font-size: var(--fs-display);
   font-weight: 800;
-  line-height: 0.98; /* room for descenders (y, g) above the next line's ascenders */
-  letter-spacing: -0.035em; /* tighter makes Switzer 800 collide (r into i, t into .) */
+  line-height: 0.86;
+  letter-spacing: -0.055em;
   margin: 0;
 }
 .h2 {
   font-size: var(--fs-h2);
   font-weight: 800;
-  line-height: 0.98;
-  letter-spacing: -0.032em;
+  line-height: 0.9;
+  letter-spacing: -0.05em;
   margin: 0;
 }
 .h3 {
