@@ -1,6 +1,7 @@
 /* Landing page: night → dawn → day as you scroll */
 
 .landing { background: var(--night); }
+html { scroll-behavior: smooth; } /* nav CTA glides to the contact form; base.css turns this off for reduced motion */
 
 .skip {
   position: absolute; left: 1rem; top: -4rem; z-index: 200;
