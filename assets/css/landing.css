@@ -210,7 +210,12 @@ html { scroll-behavior: smooth; } /* nav CTA glides to the contact form; base.cs
     #e9876a 0%, #f7a575 5%, #ffbd8c 12%, #ffc596 40%, #ffbf90 66%,
     #ffcb9b 84%, #ffe0bc 95%, #fff1de 100%);
 }
-.clouds--edge { left: 0; right: 0; top: -130px; height: 220px; z-index: 2; --c-base: #e9876a; /* .day starts here */ }
+.clouds--edge {
+  left: 0; right: 0; top: -130px; height: 300px; z-index: 2; --c-base: #e9876a; /* .day starts 130px down */
+  /* the ground below isn't one color (a warm glow lightens the right), so dissolve into it rather than match it */
+  -webkit-mask-image: linear-gradient(180deg, #000 58%, rgba(0, 0, 0, 0) 100%);
+  mask-image: linear-gradient(180deg, #000 58%, rgba(0, 0, 0, 0) 100%);
+}
 
 /* ---------- Thesis ---------- */
 .thesis {
