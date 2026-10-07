@@ -219,6 +219,7 @@ html { scroll-behavior: smooth; } /* nav CTA glides to the contact form; base.cs
 }
 .thesis .read { max-width: 38rem; margin: 0 0 0 clamp(0rem, 14vw, 14rem); }
 .thesis .thesis__setup { line-height: 1.4; max-width: 58rem; }
+.thesis__break { display: block; height: 0.9em; }
 /* the one moving part of the sentence: the event Daybreak forecasts */
 .rotor { /* the oval chip from the earlier inline widgets, now holding the event */
   position: relative; display: inline-block; vertical-align: -0.32em; /* overflow:hidden puts the baseline at the bottom edge */
