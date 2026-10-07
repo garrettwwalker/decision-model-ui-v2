@@ -1,9 +1,11 @@
-/* Procedural cloud banks. Each [data-clouds] element gets an inline SVG of
-   overlapping puffs, roughened by a turbulence displacement filter so the edges
-   read as vapour rather than circles. Colors come from CSS custom properties
-   on the bank (see .clouds--* in CSS):
-     --c-lo   shadowed body      --c-mid  main body
-     --c-hi   sunlit tops        --c-rim  underside glow (dawn light is low) */
+/* Procedural cumulus banks. Each [data-clouds] element gets an inline SVG of
+   clouds built like real cumulus: a flat base, puffs that peak in the middle and
+   taper at the ends, a smaller crown on top, one continuous light gradient per
+   cloud (lit crown, shadowed base), soft highlights on each puff and a glow along
+   the underside. Colors come from CSS custom properties on the bank:
+     --c-hi  sunlit crowns     --c-mid  body       --c-lo  shadowed base
+     --c-rim underside glow    --c-base solid fill that joins the next section
+   [data-flip] hangs the bank upside down (clouds below a band). */
 (function () {
   var NS = "http://www.w3.org/2000/svg";
   var uid = 0;
@@ -17,22 +19,61 @@
     };
   }
 
-  // n: puff count; x/y: placement range in % of the bank; s: diameter range in % of bank width;
-  // fill: [cx, cy, w, h] in % for a solid core so dense banks have no gaps
+  // Rows run back to front. y: baseline as % of bank height; w: cloud width as % of bank
+  // width; h: cloud height as a share of its width; gap: space between neighbours as a share
+  // of cloud width (negative overlaps). base: % of bank height below which --c-base fills solid.
   var SHAPES = {
-    top:   { n: 34, x: [-5, 105], y: [-10, 62],  s: [12, 26], fill: [50, 15, 120, 60] },
-    left:  { n: 24, x: [0, 95],   y: [15, 100],  s: [16, 34], fill: [40, 70, 100, 70] },
-    right: { n: 24, x: [5, 100],  y: [15, 100],  s: [16, 34], fill: [60, 70, 100, 70] },
-    edge:  { n: 44, x: [-3, 103], y: [30, 82],   s: [5, 11],  fill: [50, 62, 112, 40] },
-    band:  { n: 44, x: [-3, 103], y: [35, 70],   s: [3, 8],   fill: [50, 52, 110, 30] },
-    floor: { n: 36, x: [-3, 103], y: [35, 80],   s: [6, 14],  fill: [50, 92, 112, 36] },
-    wisp:  { n: 9,  x: [10, 90],  y: [40, 60],   s: [14, 30] }
+    top: { rows: [
+      { y: 16, w: [30, 44], h: [0.42, 0.54], gap: -0.3 },
+      { y: 40, w: [26, 38], h: [0.42, 0.54], gap: -0.3 },
+      { y: 64, w: [24, 34], h: [0.42, 0.52], gap: -0.28 },
+      { y: 90, w: [18, 28], h: [0.40, 0.50], gap: -0.25 }
+    ] },
+    left: { rows: [
+      { y: 32, w: [58, 78], h: [0.42, 0.5], gap: -0.45 },
+      { y: 58, w: [54, 72], h: [0.42, 0.5], gap: -0.45 },
+      { y: 84, w: [50, 68], h: [0.40, 0.48], gap: -0.4 },
+      { y: 108, w: [60, 82], h: [0.36, 0.44], gap: -0.45 }
+    ] },
+    edge: { base: 72, rows: [
+      { y: 56, w: [11, 17], h: [0.40, 0.52], gap: -0.22 },
+      { y: 76, w: [13, 20], h: [0.38, 0.48], gap: -0.25 }
+    ] },
+    band: { base: 58, rows: [
+      { y: 52, w: [8, 13], h: [0.42, 0.55], gap: -0.2 },
+      { y: 64, w: [10, 15], h: [0.38, 0.50], gap: -0.22 }
+    ] },
+    floor: { base: 86, rows: [
+      { y: 66, w: [12, 18], h: [0.42, 0.54], gap: -0.22 },
+      { y: 90, w: [14, 22], h: [0.40, 0.50], gap: -0.25 }
+    ] }
   };
+  SHAPES.right = SHAPES.left;
 
   function el(name, attrs) {
     var e = document.createElementNS(NS, name);
     for (var k in attrs) e.setAttribute(k, attrs[k]);
     return e;
+  }
+  function between(rand, r) { return r[0] + rand() * (r[1] - r[0]); }
+  function f1(n) { return n.toFixed(1); }
+
+  // Puffs for one cloud centred on cx, sitting on baseline by, w wide and h tall
+  function puffs(rand, cx, by, w, h) {
+    var out = [];
+    var n = 4 + Math.floor(rand() * 3); // 4-6 along the base, biggest in the middle
+    for (var i = 0; i < n; i++) {
+      var u = (i + 0.5) / n;
+      // tallest puff reaches ~h: a puff sitting on the baseline is 2r tall
+      var r = h * (0.22 + 0.26 * Math.sin(Math.PI * u)) * (0.9 + rand() * 0.2);
+      out.push({ x: cx - w / 2 + w * u + (rand() - 0.5) * w * 0.04, y: by - r * 0.95, r: r });
+    }
+    var m = 1 + Math.floor(rand() * 2); // 1-2 crown puffs near the middle
+    for (var j = 0; j < m; j++) {
+      var rr = h * (0.26 + rand() * 0.08);
+      out.push({ x: cx + (j - (m - 1) / 2) * w * 0.22 + (rand() - 0.5) * w * 0.08, y: by - h + rr, r: rr, crown: true });
+    }
+    return out;
   }
 
   function build(host, seed) {
@@ -40,56 +81,75 @@
     if (!shape) return;
     var rand = rng(seed);
     var W = Math.max(1, host.clientWidth), H = Math.max(1, host.clientHeight);
-    // Tall, narrow banks (phones) need proportionally bigger puffs
-    var tall = H > W ? Math.min(1.8, H / W) : 1;
-
-    var puffs = [];
-    for (var i = 0; i < shape.n; i++) {
-      var d = (shape.s[0] + rand() * (shape.s[1] - shape.s[0])) * tall * W / 100;
-      puffs.push({
-        x: (shape.x[0] + rand() * (shape.x[1] - shape.x[0])) * W / 100,
-        y: (shape.y[0] + rand() * (shape.y[1] - shape.y[0])) * H / 100,
-        r: d / 2,
-        sq: 0.78 + rand() * 0.2 // clouds are wider than tall
-      });
-    }
-    var avg = puffs.reduce(function (a, p) { return a + p.r; }, 0) / puffs.length;
-
+    var scale = W < 700 ? Math.min(2.2, 700 / W) : 1; // phones: keep clouds from shrinking to pebbles
     var id = "cl" + (++uid);
+
     var svg = el("svg", { width: W, height: H, viewBox: "0 0 " + W + " " + H, "aria-hidden": "true", focusable: "false" });
     var defs = el("defs", {});
-    var f = el("filter", { id: id, x: "-25%", y: "-25%", width: "150%", height: "150%", "color-interpolation-filters": "sRGB" });
-    f.appendChild(el("feTurbulence", { type: "fractalNoise", baseFrequency: (0.9 / avg).toFixed(4), numOctaves: 4, seed: seed % 97, result: "n" }));
-    f.appendChild(el("feDisplacementMap", { in: "SourceGraphic", in2: "n", scale: Math.round(avg * 0.24), xChannelSelector: "R", yChannelSelector: "G", result: "d" }));
-    f.appendChild(el("feGaussianBlur", { in: "d", stdDeviation: Math.max(2, avg * 0.06).toFixed(1) }));
-    defs.appendChild(f);
-    var fs = el("filter", { id: id + "s", x: "-25%", y: "-25%", width: "150%", height: "150%" });
-    fs.appendChild(el("feGaussianBlur", { stdDeviation: (avg * 0.22).toFixed(1) }));
-    defs.appendChild(fs);
+    var grad = el("linearGradient", { id: id + "g", x1: 0, y1: 0, x2: 0, y2: 1 });
+    [[0, "--c-hi"], [0.42, "--c-mid"], [1, "--c-lo"]].forEach(function (s) {
+      grad.appendChild(el("stop", { offset: s[0], style: "stop-color:var(" + s[1] + ")" }));
+    });
+    defs.appendChild(grad);
     svg.appendChild(defs);
 
-    function layer(fill, dy, k, filter, opacity, subset) {
-      var g = el("g", { filter: "url(#" + filter + ")", style: "fill:var(" + fill + ")" });
-      if (opacity) g.setAttribute("opacity", opacity);
-      if (shape.fill && !subset) {
-        var c = shape.fill;
-        g.appendChild(el("ellipse", {
-          cx: c[0] * W / 100, cy: c[1] * H / 100 + dy * avg,
-          rx: c[2] * W / 200 * k, ry: c[3] * H / 200 * k
-        }));
+    var blurs = {};
+    function blur(sd) {
+      var k = Math.max(1, Math.round(sd));
+      if (!blurs[k]) {
+        var f = el("filter", { id: id + "b" + k, x: "-30%", y: "-30%", width: "160%", height: "160%" });
+        f.appendChild(el("feGaussianBlur", { stdDeviation: k }));
+        defs.appendChild(f);
+        blurs[k] = "url(#" + id + "b" + k + ")";
       }
-      puffs.forEach(function (p, i) {
-        if (subset && !subset(p, i)) return;
-        g.appendChild(el("ellipse", { cx: p.x.toFixed(1), cy: (p.y + dy * p.r).toFixed(1), rx: (p.r * k).toFixed(1), ry: (p.r * k * p.sq).toFixed(1) }));
-      });
-      svg.appendChild(g);
+      return blurs[k];
     }
 
-    // Underside glow peeks out below, then body, then sunlit crowns on the upper puffs
-    layer("--c-rim", 0.12, 0.94, id, null);
-    layer("--c-lo", 0, 1, id, null);
-    layer("--c-mid", -0.14, 0.86, id, null);
-    layer("--c-hi", -0.34, 0.55, id + "s", 0.55, function (p, i) { return i % 2 === 0; });
+    var root = el("g", {});
+    if (host.hasAttribute("data-flip")) root.setAttribute("transform", "translate(0 " + H + ") scale(1 -1)");
+    svg.appendChild(root);
+
+    if (shape.base != null) {
+      // solid base that fades out, so it melts into whatever the next section paints
+      var bg = el("linearGradient", { id: id + "base", x1: 0, y1: 0, x2: 0, y2: 1 });
+      bg.appendChild(el("stop", { offset: 0, style: "stop-color:var(--c-base, var(--c-lo))" }));
+      bg.appendChild(el("stop", { offset: 0.35, style: "stop-color:var(--c-base, var(--c-lo))" }));
+      bg.appendChild(el("stop", { offset: 1, style: "stop-color:var(--c-base, var(--c-lo));stop-opacity:0" }));
+      defs.appendChild(bg);
+      root.appendChild(el("rect", { x: -W * 0.1, y: H * shape.base / 100, width: W * 1.2, height: H * (1 - shape.base / 100) + 2, fill: "url(#" + id + "base)" }));
+    }
+
+    shape.rows.forEach(function (row) {
+      var by0 = H * row.y / 100;
+      var x = -W * 0.08 - rand() * W * 0.06;
+      while (x < W * 1.08) {
+        var w = W * between(rand, row.w) / 100 * scale;
+        var h = w * between(rand, row.h);
+        var cx = x + w / 2;
+        var by = by0 + (rand() - 0.5) * h * 0.12;
+        var ps = puffs(rand, cx, by, w, h);
+
+        var cid = id + "c" + (++uid);
+        var clip = el("clipPath", { id: cid });
+        ps.forEach(function (p) { clip.appendChild(el("circle", { cx: f1(p.x), cy: f1(p.y), r: f1(p.r) })); });
+        clip.appendChild(el("rect", { x: f1(cx - w / 2 + h * 0.12), y: f1(by - h * 0.36), width: f1(w - h * 0.24), height: f1(h * 0.36), rx: f1(h * 0.18) }));
+        defs.appendChild(clip);
+
+        var soft = el("g", { filter: blur(Math.max(1, h * 0.012)) }); // soften the clipped edge
+        var body = el("g", { "clip-path": "url(#" + cid + ")" });
+        body.appendChild(el("rect", { x: f1(cx - w / 2 - h * 0.2), y: f1(by - h * 1.2), width: f1(w + h * 0.4), height: f1(h * 1.25), fill: "url(#" + id + "g)" }));
+        var hl = el("g", { filter: blur(h * 0.09), style: "fill:var(--c-hi)", opacity: 0.6 });
+        ps.forEach(function (p) {
+          hl.appendChild(el("circle", { cx: f1(p.x - p.r * 0.18), cy: f1(p.y - p.r * 0.32), r: f1(p.r * (p.crown ? 0.55 : 0.5)) }));
+        });
+        body.appendChild(hl);
+        body.appendChild(el("ellipse", { cx: f1(cx), cy: f1(by), rx: f1(w * 0.5), ry: f1(h * 0.14), style: "fill:var(--c-rim)", filter: blur(h * 0.06), opacity: 0.85 }));
+        soft.appendChild(body);
+        root.appendChild(soft);
+
+        x += w * (1 + between(rand, [row.gap, row.gap * 0.5]));
+      }
+    });
 
     host.textContent = "";
     host.appendChild(svg);

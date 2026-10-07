@@ -20,8 +20,10 @@ no tests. To preview, open `index.html` in a browser; there's no server.
 - `assets/js/model.js` is the single source of truth for every loss figure. The
   wargame and workbench run it live. The brief's numbers are static but were computed from
   it, so if you change `BASE`, recompute and update `briefing.html`. Money is in $M.
-- `assets/js/sky.js` renders the procedural SVG cloud banks (`[data-clouds]`); cloud
-  colors come from `--c-*` vars on `.clouds--storm/dawn/cream`.
+- `assets/js/sky.js` renders procedural cumulus banks (`[data-clouds]`, shapes in `SHAPES`): flat-based
+  clouds with puffs peaking mid-cloud, one light gradient per cloud, crown highlights and an underside glow.
+  Colors come from `--c-hi/mid/lo/rim` on `.clouds--storm/dawn/cream`; `--c-base` is the fading strip that
+  joins the next section; `data-flip` hangs a bank upside down.
 - `assets/js/app.js` holds the shared helpers (`DB.money`, `DB.toast`, `DB.rng`, range fills).
 - Type: Switzer (Fontshare), self-hosted in `assets/fonts/`, for everything, on a major-third scale; data uses
   tabular figures. JetBrains Mono appears only in the workbench's code, diff and log panels. Labels are sentence

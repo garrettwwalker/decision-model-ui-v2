@@ -251,7 +251,7 @@
     #e9876a 0%, #f7a575 5%, #ffbd8c 12%, #ffc596 40%, #ffbf90 66%,
     #ffcb9b 84%, #ffe0bc 95%, #fff1de 100%);
 }
-.clouds--edge { left: 0; right: 0; top: -130px; height: 220px; z-index: 2; }
+.clouds--edge { left: 0; right: 0; top: -130px; height: 220px; z-index: 2; --c-base: #e9876a; /* .day starts here */ }
 
 /* ---------- Thesis ---------- */
 .thesis {
@@ -397,7 +397,7 @@
   padding: clamp(7rem, 16vh, 10rem) var(--gutter);
   margin-block: 3rem;
 }
-.clouds--band { left: 0; right: 0; height: 120px; }
+.clouds--band { left: 0; right: 0; height: 120px; --c-base: #1b2532; /* the band itself */ }
 .clouds--band-top { top: -60px; }
 .clouds--band-bottom { bottom: -60px; }
 .swans__inner { position: relative; z-index: 1; max-width: 76rem; margin-inline: auto; }
@@ -527,7 +527,7 @@
 .contact__form input:focus-visible { border-color: var(--ink); outline-offset: 1px; }
 .contact__form input[aria-invalid="true"] { border-color: var(--ember-deep); }
 .contact__msg { margin: 0; font-size: 0.85rem; min-height: 1.2em; }
-.clouds--floor { left: 0; right: 0; bottom: -2px; height: 190px; }
+.clouds--floor { left: 0; right: 0; bottom: -2px; height: 190px; --c-base: #fff1de; /* the footer */ }
 
 /* ---------- Footer ---------- */
 .footer {
