@@ -170,7 +170,7 @@ html { scroll-behavior: smooth; } /* nav CTA glides to the contact form; base.cs
 .hero__copy {
   position: absolute;
   inset: 0;
-  padding: calc(env(safe-area-inset-top, 0px) + 17vh) var(--gutter) 0;
+  padding: calc(env(safe-area-inset-top, 0px) + 22vh) var(--gutter) 0;
   color: #f6efe6;
   z-index: 5;
 }
@@ -201,7 +201,7 @@ html { scroll-behavior: smooth; } /* nav CTA glides to the contact form; base.cs
     .hero__copy { padding-top: calc(env(safe-area-inset-top, 0px) + 16vh); }
 }
 @media (min-width: 901px) and (max-height: 820px) { /* short laptop screens: keep the second line clear of the horizon */
-  .hero__copy { padding-top: calc(env(safe-area-inset-top, 0px) + 9vh); }
+  .hero__copy { padding-top: calc(env(safe-area-inset-top, 0px) + 15vh); }
 }
 
 /* ---------- Day: the sun is up; one long dawn ground (the reference's sky, at sunrise) ---------- */
