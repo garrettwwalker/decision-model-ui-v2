@@ -170,7 +170,7 @@ html { scroll-behavior: smooth; } /* nav CTA glides to the contact form; base.cs
 .hero__copy {
   position: absolute;
   inset: 0;
-  padding: calc(env(safe-area-inset-top, 0px) + 13vh) var(--gutter) 0; /* keeps "at first light." above the horizon */
+  padding: calc(env(safe-area-inset-top, 0px) + 17vh) var(--gutter) 0;
   color: #f6efe6;
   z-index: 5;
 }
@@ -178,8 +178,10 @@ html { scroll-behavior: smooth; } /* nav CTA glides to the contact form; base.cs
 .hero__title > span { display: block; }
 .hero__line2 { position: relative; }
 .hero__title .hero__line2 { display: inline-block; }
-.hero__after {
-  margin-top: 0.35em;
+.hero__after { /* sits on the horizon: its baseline is the waterline, descenders dip into the sea */
+  position: absolute; left: var(--gutter); right: var(--gutter);
+  bottom: calc(22% - 0.068em); /* 0.068em = gap between the line box bottom and the baseline */
+  margin: 0;
   opacity: var(--after);
   transform: translateY(calc((1 - var(--after)) * 30px));
   color: #fff6e3;
