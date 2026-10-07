@@ -11,7 +11,7 @@
 .bench-head__kicker b { color: var(--ember-deep); font-weight: 700; }
 .bench-head__kicker [data-out="changes"].is-dirty { color: var(--ember-deep); font-weight: 700; }
 .bench-head__title {
-  margin: 0; font-size: clamp(2.4rem, 5vw, 4rem); font-weight: 800; letter-spacing: -0.05em; line-height: 0.9;
+  margin: 0; font-size: clamp(2.4rem, 5vw, 4rem); font-weight: 800; letter-spacing: -0.035em; line-height: 0.98;
 }
 .bench-head__actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
 

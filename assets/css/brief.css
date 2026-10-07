@@ -16,8 +16,8 @@
   margin: 0;
   font-size: clamp(2.441rem, 4.4vw, 3.815rem);
   font-weight: 800;
-  line-height: 0.9;
-  letter-spacing: -0.05em;
+  line-height: 0.95;
+  letter-spacing: -0.035em;
 }
 .stake--loss .stake__big { font-size: clamp(3.052rem, 6.4vw, 5.96rem); }
 .stake__big span { font-size: 0.5em; letter-spacing: -0.02em; margin-left: 0.04em; }

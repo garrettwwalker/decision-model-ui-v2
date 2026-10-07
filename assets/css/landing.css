@@ -262,13 +262,13 @@ html { scroll-behavior: smooth; } /* nav CTA glides to the contact form; base.cs
 .split__parts { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.9rem; }
 .part { background: rgba(255, 255, 255, 0.82); display: grid; gap: 0.2rem; align-content: start; }
 .part strong { font-size: 0.95rem; line-height: 1.3; letter-spacing: -0.01em; }
-.part__p { font-size: 1.95rem; font-weight: 800; letter-spacing: -0.05em; line-height: 1; margin-top: 0.4rem; font-variant-numeric: tabular-nums; }
+.part__p { font-size: 1.95rem; font-weight: 800; letter-spacing: -0.035em; line-height: 1; margin-top: 0.4rem; font-variant-numeric: tabular-nums; }
 .part--out { background: transparent; border: 1.5px dashed var(--line-strong); }
 .part--out strong { color: var(--ink-2); }
 .part__note { font-size: var(--fs-small); color: var(--ink-2); margin-top: 0.4rem; }
 .split__fused { background: var(--ink); color: #fff; display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.25rem 1rem; }
 .split__fused .split__label { width: 100%; color: var(--amber); }
-.split__num { font-size: 3rem; font-weight: 800; letter-spacing: -0.06em; line-height: 1; }
+.split__num { font-size: 3rem; font-weight: 800; letter-spacing: -0.04em; line-height: 1; }
 .split__fused span:last-child { color: rgba(255, 255, 255, 0.72); font-size: 0.9rem; }
 /* dashed hairlines: question splits into parts, parts merge into the fused number */
 .split__q::after, .split__parts::after {
