@@ -1,4 +1,4 @@
-/* Wargame: blue hour. Controls on the left, the network's response on the right. */
+/* Wargame: controls on paper at the left, the network's response on the right; live charts are instruments. */
 
 .war {
   display: grid;
@@ -22,20 +22,22 @@
 .group { border: 0; margin: 0; padding: 0; display: grid; gap: 1rem; min-width: 0; }
 .group + .group { padding-top: 1.25rem; border-top: 1px dashed var(--panel-line); }
 .group__title { padding: 0; margin-bottom: 0.25rem; font-size: 1.05rem; font-weight: 800; letter-spacing: -0.02em; }
-.group__title .eyebrow { display: block; color: var(--amber); margin-bottom: 0.25rem; }
 .controls__actions { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-.controls .field__hint[data-out="pworld"] { color: var(--amber); }
+.controls .field__hint[data-out="pworld"] { color: var(--ember-deep); font-weight: 600; }
 
 /* ---------- Results ---------- */
 .results { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.25rem; min-width: 0; }
-.kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; padding: 0; overflow: hidden; background: var(--panel-line); }
+.kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); padding: 0; overflow: hidden; }
+.kpi + .kpi { border-left: 1.5px dashed var(--line-strong); }
+@media (max-width: 1280px) { .kpi:nth-child(3) { border-left: 0; } .kpi:nth-child(n+3) { border-top: 1.5px dashed var(--line-strong); } }
+@media (max-width: 460px) { .kpi + .kpi { border-left: 0; border-top: 1.5px dashed var(--line-strong); } }
 @media (max-width: 1280px) { .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 460px) { .kpis { grid-template-columns: minmax(0, 1fr); } }
 .kpi { display: grid; gap: 0.35rem; align-content: start; padding: clamp(1rem, 2vw, 1.4rem); background: var(--panel-solid); }
 .kpi .eyebrow { margin: 0; color: var(--fg-2); }
 .kpi__big { margin: 0; font-size: clamp(1.9rem, 3vw, 2.6rem); line-height: 1; }
 .kpi__sub { margin: 0; font-size: 0.76rem; color: var(--fg-2); }
-.kpi--loss { background: linear-gradient(180deg, #3a1d24, var(--panel-solid)); }
+.kpi--loss { background: linear-gradient(180deg, var(--loss-tint), #fff); }
 
 
 .panel__row { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; flex-wrap: wrap; }
@@ -67,13 +69,12 @@
 .hist__note { margin: 0.6rem 0 0; font-size: 0.72rem; color: var(--fg-2); }
 
 /* branches */
-.branches .table td { border-top-color: rgba(255, 255, 255, 0.08); }
 .branches .table td:first-child { font-weight: 800; }
 .branches .empty td { color: var(--fg-2); font-size: 0.82rem; }
 .branch__x {
   min-width: 36px; min-height: 36px; border-radius: 50%; border: 0; cursor: pointer;
-  background: rgba(255, 255, 255, 0.06); color: var(--fg-2);
+  background: rgba(10, 23, 34, 0.06); color: var(--fg-2);
 }
-.branch__x:hover { background: rgba(255, 255, 255, 0.14); color: var(--fg); }
+.branch__x:hover { background: rgba(10, 23, 34, 0.12); color: var(--fg); }
 .branch__swatch { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 0.45rem; vertical-align: 0; }
 

@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="assets/css/app.css">
   <link rel="stylesheet" href="assets/css/bench.css">
 </head>
-<body class="app t-night">
+<body class="app t-sunrise grain">
   <a class="skip" href="#main">Skip to content</a>
 
   <header class="bar">
@@ -23,15 +23,12 @@
       daybreak
     </a>
     <nav class="tabs" aria-label="Product">
-      <a href="briefing.html">brief <span class="tab__for">exec</span></a>
-      <a href="wargame.html">wargame <span class="tab__for">strategy</span></a>
-      <a href="workbench.html" aria-current="page">workbench <span class="tab__for">data</span></a>
-      <a href="ask.html">ask <span class="tab__for">anyone</span></a>
+      <a href="briefing.html">brief</a>
+      <a href="wargame.html">wargame</a>
+      <a href="workbench.html" aria-current="page">workbench</a>
+      <a href="ask.html">ask</a>
     </nav>
-    <div class="bar__meta">
-      <span class="live">model run 06:00 GST</span>
-      <span class="client"><span class="client__logo" aria-hidden="true">H</span><span class="client__name">Halvorsen Group</span></span>
-    </div>
+    <p class="bar__meta"><b>Halvorsen Group</b><span>model run 06:00 GST</span></p>
   </header>
 
   <main id="main" class="page page--bench">
@@ -77,7 +74,7 @@
 
       <!-- Graph + response -->
       <section class="center" aria-label="Network and model response">
-        <div class="panel graph">
+        <div class="panel instrument graph">
           <div class="graph__head">
             <h2 class="pane__title">Network exposure to <span class="graph__driver">a 7-day Hormuz closure</span></h2>
             <p class="graph__legend"><i class="gl gl--hot"></i>Loss if it closes <i class="gl gl--lane"></i>Lane through the strait <i class="gl gl--alt"></i>Alternate route</p>
@@ -107,14 +104,14 @@
             <h2 class="pane__title" id="diff-title">diff vs. baseline</h2>
             <ul class="diff" id="diff"></ul>
           </section>
-          <section class="panel code" aria-labelledby="code-title">
+          <section class="panel instrument code" aria-labelledby="code-title">
             <div class="code__head">
               <h2 class="pane__title" id="code-title">same thing, in the SDK</h2>
               <button class="btn btn--ghost btn--sm" type="button" id="copy">Copy</button>
             </div>
             <pre><code id="code"></code></pre>
           </section>
-          <section class="panel" aria-labelledby="log-title">
+          <section class="panel instrument" aria-labelledby="log-title">
             <h2 class="pane__title" id="log-title">run log</h2>
             <ol class="log" id="log"></ol>
           </section>

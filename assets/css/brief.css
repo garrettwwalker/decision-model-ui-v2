@@ -62,13 +62,16 @@
 }
 
 /* ---------- Decisions ---------- */
-.decisions { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.9rem; }
+/* one pinned sheet, rows split by dashed hairlines (the landing's brief preview, full size) */
+.decisions { list-style: none; margin: 0; padding: 0.25rem clamp(1rem, 2.4vw, 1.75rem); display: grid; }
+.decision + .decision { border-top: 1.5px dashed var(--line-strong); }
 .decision {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto auto;
   gap: 1rem 1.75rem;
   align-items: center;
-  transition: background-color 0.2s ease, border-color 0.2s ease;
+  padding: 1.35rem 0;
+  transition: background-color 0.2s ease;
 }
 .decision__n {
   width: 2.4rem; height: 2.4rem; border-radius: 50%;
@@ -86,7 +89,7 @@
 .decision__nums dd { margin: 0; font-size: 1.35rem; }
 .decision__act { display: grid; gap: 0.4rem; justify-items: stretch; min-width: 9.5rem; }
 
-.decision.is-approved { background: var(--safe-tint); border-color: rgba(15, 107, 95, 0.3); }
+.decision.is-approved { background: linear-gradient(90deg, var(--safe-tint), rgba(220, 239, 233, 0) 80%); margin: 0 calc(-1 * clamp(1rem, 2.4vw, 1.75rem)); padding-left: clamp(1rem, 2.4vw, 1.75rem); padding-right: clamp(1rem, 2.4vw, 1.75rem); }
 .decision.is-approved .decision__n { background: var(--safe); }
 .decision.is-approved [data-approve] { background: var(--safe); }
 
@@ -150,23 +153,35 @@
 .seg--light input:checked + span { background: var(--ink); color: #fff; }
 .caught__more { margin: 0.85rem 0 0; font-size: 0.72rem; color: var(--fg-2); }
 
-.routes__title { margin: 2rem 0 0.9rem; font-size: 1rem; letter-spacing: -0.015em; }
+.routes__title { margin: 2.5rem 0 1rem; font-size: 1.25rem; font-weight: 800; letter-spacing: -0.03em; }
 .routes { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.9rem; }
+/* routes are physical options for cargo, so they hang as cargo tags, as on the landing timeline */
 .route-card {
-  border-radius: var(--radius);
-  padding: 1rem 1.1rem;
-  background: rgba(255, 250, 244, 0.65);
-  border: 1.5px dashed rgba(10, 23, 34, 0.18);
+  position: relative;
+  padding: 1rem 1.1rem 1.1rem 2.4rem;
+  background: #fff8ea;
+  clip-path: polygon(1.3rem 0, 100% 0, 100% 100%, 1.3rem 100%, 0 calc(100% - 1.3rem), 0 1.3rem);
+  box-shadow: inset 0 0 0 1px rgba(10, 23, 34, 0.08);
   cursor: default;
-  transition: border-color 0.15s ease, background-color 0.15s ease, transform 0.15s ease;
+  transition: transform 0.15s ease, background-color 0.15s ease;
 }
+.route-card::before { /* eyelet */
+  content: ""; position: absolute; left: 0.8rem; top: 50%;
+  width: 11px; height: 11px; border-radius: 50%; transform: translateY(-50%);
+  background: var(--ember); box-shadow: 0 0 0 3px #e9ddc6;
+}
+.route-card:nth-child(odd) { transform: rotate(-0.8deg); }
+.route-card:nth-child(even) { transform: rotate(0.7deg) translateY(6px); }
 .route-card[data-route-card] { cursor: pointer; }
-.route-card[data-route-card]:hover, .route-card[data-route-card]:focus-visible { transform: translateY(-2px); border-color: var(--safe); }
-.route-card.is-best { background: #fff; border: 1.5px solid var(--safe); }
-.route-card--no { opacity: 0.7; }
+.route-card[data-route-card]:hover, .route-card[data-route-card]:focus-visible { transform: rotate(0) translateY(-3px); }
+.route-card.is-best { background: var(--ink); color: #fff; }
+.route-card.is-best::before { background: #7fe0c6; box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2); }
+.route-card.is-best dt { color: rgba(255, 255, 255, 0.7); }
+.route-card.is-best .money--safe { color: #7fe0c6; }
+.route-card--no { opacity: 0.6; }
 .route-card__tag { margin: 0 0 0.35rem; font-size: 0.8rem; font-weight: 600; color: var(--fg-2); }
 .route-card__tag::first-letter { text-transform: uppercase; }
-.is-best .route-card__tag { color: var(--safe); }
+.is-best .route-card__tag { color: var(--amber); }
 .route-card h4 { margin: 0 0 0.75rem; font-size: 0.98rem; letter-spacing: -0.015em; }
 .route-card dl { margin: 0; display: grid; gap: 0.35rem; font-size: 0.8rem; }
 .route-card dl div { display: flex; justify-content: space-between; gap: 0.75rem; }

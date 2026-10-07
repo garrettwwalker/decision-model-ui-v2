@@ -13,8 +13,10 @@ no tests. To preview, open `index.html` in a browser; there's no server.
 
 - Pages: `index.html` (landing), `briefing.html` (executive brief), `wargame.html`
   (scenario sandbox), `workbench.html` (world-model editor for data/IT) and `ask.html` (chat).
-- Each product page sets its time of day on `<body>`: `t-sunrise` (brief),
-  `t-bluehour` (wargame), `t-night` (workbench). The landing page runs night → dawn on scroll.
+- Product pages share the landing's vocabulary: dawn ground (`t-sunrise`), white paper (`.panel`,
+  pinned `.note`), dark `.instrument` tiles only for live charts and code, lowercase burnt-dawn section
+  titles, dashed dividers, cargo tags for routes. The ask page keeps its own pre-dawn sky (`t-predawn`).
+  The landing page runs night → dawn on scroll.
 - `assets/css/base.css` holds shared tokens and components, `app.css` the product-page
   chrome, and `landing.css`, `brief.css`, `war.css` and `bench.css` are per page.
 - `assets/js/model.js` is the single source of truth for every loss figure. The
