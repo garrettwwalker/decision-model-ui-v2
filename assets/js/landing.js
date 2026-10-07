@@ -97,24 +97,23 @@
     var rotor = document.querySelector(".rotor");
     if (!rotor) return;
     var items = rotor.querySelectorAll(".rotor__item");
-    var T = 3200, cur = 0, timer = null, paused = false;
+    var T = 3200, cur = 0, timer = null;
+    function fit() { rotor.style.width = items[cur].offsetWidth + "px"; }
     function show(i) {
-      rotor.style.width = rotor.offsetWidth + "px"; // hold the old width, then ease to the new one
+      rotor.style.width = items[cur].offsetWidth + "px"; // hold the old width, then ease to the new one
       items[cur].classList.remove("is-on");
       items[i].classList.add("is-on");
       cur = i;
-      rotor.style.width = items[i].offsetWidth + "px";
+      fit();
     }
-    function tick() {
+    function schedule() {
       clearTimeout(timer);
-      if (paused) return;
-      timer = setTimeout(function () { show((cur + 1) % items.length); tick(); }, T);
+      timer = setTimeout(function () { show((cur + 1) % items.length); schedule(); }, T);
     }
-    rotor.style.width = items[0].offsetWidth + "px";
-    rotor.parentNode.addEventListener("mouseenter", function () { paused = true; clearTimeout(timer); });
-    rotor.parentNode.addEventListener("mouseleave", function () { paused = false; tick(); });
-    window.addEventListener("resize", function () { rotor.style.width = items[cur].offsetWidth + "px"; });
-    tick();
+    window.addEventListener("resize", fit);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit); // re-measure once Switzer loads
+    fit();
+    schedule();
   })();
 
   /* ---------- Nav theme follows the section under it ---------- */
