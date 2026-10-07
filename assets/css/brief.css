@@ -218,7 +218,7 @@
 
 /* ---------- Horizon ---------- */
 .horizon .h2 { font-size: clamp(2.8rem, 8vw, 6.5rem); margin-left: clamp(0rem, 4vw, 4rem); }
-.horizon__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; margin-top: -1.2rem; position: relative; }
+.horizon__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; margin-top: 1.75rem; position: relative; }
 .hz { display: flex; flex-direction: column; gap: 0.6rem; }
 .hz:nth-child(1) { transform: rotate(-1deg); }
 .hz:nth-child(2) { margin-top: 2.5rem; transform: rotate(0.8deg); }
