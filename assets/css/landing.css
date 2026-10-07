@@ -249,7 +249,7 @@ html { scroll-behavior: smooth; } /* nav CTA glides to the contact form; base.cs
 .w { transition: color 0.3s ease, opacity 0.3s ease; }
 .w:not(.on) { color: var(--unread) !important; }
 .chip.w:not(.on) { opacity: 0.35; }
-.watermark .w.on { color: #a84a23; }            /* tone-on-tone that deepens once read: 3.5:1 */
+.watermark .w.on { color: var(--ink); }         /* faint dawn tone until read, then ink like every other heading */
 .swans .watermark .w.on { color: rgba(233, 240, 244, 0.78); }
 .tile { opacity: 0.2; transition: opacity 0.5s ease; }
 .tile.on { opacity: 1; }
