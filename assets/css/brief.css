@@ -115,7 +115,8 @@
   .map__svg { min-width: 540px; }
 }
 .map__sea { fill: #fff7ee; }
-.map__coast { fill: #f3dcc4; stroke: #e8c6a6; stroke-width: 1; stroke-linejoin: round; }
+/* stroke under the fill: where islands touch the mainland, their inner outlines are covered */
+.map__coast { fill: #f3dcc4; stroke: #e8c6a6; stroke-width: 2; stroke-linejoin: round; paint-order: stroke; }
 .map__region { font: 600 9px var(--font); letter-spacing: 0.25em; fill: #c9a283; }
 .map__risk-ring { fill: none; stroke: var(--loss); stroke-width: 1.5; stroke-dasharray: 3 3; }
 .map__risk-label { font: 700 10px var(--font); fill: var(--loss); }
@@ -133,7 +134,7 @@
 .port circle { stroke: #fff; stroke-width: 1.5; }
 .port--in circle { fill: var(--loss); }
 .port--out circle { fill: var(--safe); }
-.port text { font: 600 9.5px var(--font); fill: var(--ink-2); }
+.port text { font: 600 9.5px var(--font); fill: var(--ink-2); paint-order: stroke; stroke: #fff7ee; stroke-width: 3px; stroke-linejoin: round; }
 .vessel circle { stroke: #fff; stroke-width: 2; }
 .vessel--in circle { fill: var(--loss); }
 .vessel--out circle { fill: var(--ink); }
