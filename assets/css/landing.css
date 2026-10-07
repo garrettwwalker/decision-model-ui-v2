@@ -180,7 +180,7 @@ html { scroll-behavior: smooth; } /* nav CTA glides to the contact form; base.cs
 .hero__title .hero__line2 { display: inline-block; }
 .hero__after { /* sits on the horizon: its baseline is the waterline, descenders dip into the sea */
   position: absolute; left: var(--gutter); right: var(--gutter);
-  bottom: calc(22% - 0.068em); /* 0.068em = gap between the line box bottom and the baseline */
+  bottom: calc(22% - 0.068em + 0.05em); /* baseline (0.068em above the box bottom) sits a hair above the waterline */
   margin: 0;
   opacity: var(--after);
   transform: translateY(calc((1 - var(--after)) * 30px));
