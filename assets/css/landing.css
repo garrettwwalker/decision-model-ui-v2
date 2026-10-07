@@ -180,11 +180,11 @@ html { scroll-behavior: smooth; } /* nav CTA glides to the contact form; base.cs
 }
 
 .clouds--top { inset: -12% -10% 40% -10%; transform: translateY(calc(var(--p) * -92%)); }
-.clouds--left { inset: -5% 38% 14% -18%; transform: translateX(calc(var(--p) * -80%)); }
-.clouds--right { inset: 0 -18% 12% 36%; transform: translateX(calc(var(--p) * 80%)); }
+.clouds--left { inset: -5% 38% 14% -18%; transform: translateX(calc(var(--p) * -95%)); }
+.clouds--right { inset: 0 -18% 12% 36%; transform: translateX(calc(var(--p) * 95%)); }
 @media (max-width: 700px) { /* narrow screens: the side banks need to travel further to clear the sun */
-  .clouds--left { transform: translateX(calc(var(--p) * -115%)); }
-  .clouds--right { transform: translateX(calc(var(--p) * 115%)); }
+  .clouds--left { transform: translateX(calc(var(--p) * -150%)); }
+  .clouds--right { transform: translateX(calc(var(--p) * 150%)); }
   .clouds--top { transform: translateY(calc(var(--p) * -110%)); }
 }
 

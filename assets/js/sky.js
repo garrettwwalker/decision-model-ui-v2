@@ -23,16 +23,15 @@
   // width; h: cloud height as a share of its width; gap: space between neighbours as a share
   // of cloud width (negative overlaps). base: % of bank height below which --c-base fills solid.
   var SHAPES = {
-    top: { rows: [
-      { y: 16, w: [30, 44], h: [0.42, 0.54], gap: -0.3 },
-      { y: 40, w: [26, 38], h: [0.42, 0.54], gap: -0.3 },
-      { y: 64, w: [24, 34], h: [0.42, 0.52], gap: -0.28 }
+    // Hero banks: two rows of big clouds over a soft core (cx, cy, rx, ry in %) that keeps
+    // the sky covered before the user scrolls.
+    top: { core: [50, 34, 64, 50], rows: [
+      { y: 52, w: [42, 58], h: [0.5, 0.62], gap: -0.28 },
+      { y: 94, w: [34, 48], h: [0.48, 0.6], gap: -0.22 }
     ] },
-    left: { rows: [
-      { y: 32, w: [58, 78], h: [0.42, 0.5], gap: -0.45 },
-      { y: 58, w: [54, 72], h: [0.42, 0.5], gap: -0.45 },
-      { y: 84, w: [50, 68], h: [0.40, 0.48], gap: -0.4 },
-      { y: 108, w: [60, 82], h: [0.36, 0.44], gap: -0.45 }
+    left: { core: [50, 58, 48, 48], rows: [
+      { y: 62, w: [62, 82], h: [0.48, 0.58], gap: -0.4 },
+      { y: 104, w: [58, 78], h: [0.44, 0.54], gap: -0.4 }
     ] },
     edge: { base: 60, rows: [
       { y: 56, w: [11, 17], h: [0.40, 0.52], gap: -0.22 },
@@ -83,6 +82,8 @@
     // Phones: divider clouds would shrink to pebbles, so scale them up. Hero banks are sized
     // to their own box and must not spill past it, or they can't clear the sun on scroll.
     var scale = shape.base != null && W < 900 ? Math.min(3, 1000 / W) : 1;
+    // Tall hero banks (phones): bigger clouds so two rows still cover the sky
+    if (shape.core && H > W) scale = Math.min(1.6, (H / W) * 0.7);
     var id = "cl" + (++uid);
 
     var svg = el("svg", { width: W, height: H, viewBox: "0 0 " + W + " " + H, "aria-hidden": "true", focusable: "false" });
@@ -112,6 +113,16 @@
     if (host.hasAttribute("data-flip")) root.setAttribute("transform", "translate(0 " + H + ") scale(1 -1)");
     svg.appendChild(root);
 
+    if (shape.core) {
+      var cf = el("filter", { id: id + "core", x: "-30%", y: "-30%", width: "160%", height: "160%" });
+      cf.appendChild(el("feGaussianBlur", { stdDeviation: Math.round(Math.min(W, H) * 0.06) }));
+      defs.appendChild(cf);
+      root.appendChild(el("ellipse", {
+        cx: f1(W * shape.core[0] / 100), cy: f1(H * shape.core[1] / 100),
+        rx: f1(W * shape.core[2] / 100), ry: f1(H * shape.core[3] / 100),
+        fill: "url(#" + id + "g)", filter: "url(#" + id + "core)"
+      }));
+    }
     if (shape.base != null) {
       // solid base that fades out, so it melts into whatever the next section paints
       var bg = el("linearGradient", { id: id + "base", x1: 0, y1: 0, x2: 0, y2: 1 });
