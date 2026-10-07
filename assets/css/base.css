@@ -184,56 +184,6 @@ a { color: inherit; }
 }
 .wordmark svg { width: 26px; height: 26px; flex: none; }
 
-/* ---------- Narrator bubble (avatar + speech bubble) ---------- */
-.bubble {
-  display: inline-flex;
-  align-items: flex-start;
-  gap: 0.6rem;
-  max-width: 21rem;
-}
-.bubble__avatar {
-  flex: none;
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  background: linear-gradient(180deg, #0c2433 0%, #3a3350 45%, #f2683c 80%, #ffc77d 100%);
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.55), 0 8px 18px -8px rgba(7, 22, 33, 0.6);
-  position: relative;
-  overflow: hidden;
-}
-.bubble__avatar::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  bottom: -9px;
-  width: 24px;
-  height: 24px;
-  transform: translateX(-50%);
-  border-radius: 50%;
-  background: radial-gradient(circle, #fff6da 0 35%, #ffc46b 60%, rgba(255, 196, 107, 0) 72%);
-}
-.bubble__text {
-  position: relative;
-  background: var(--paper);
-  color: var(--ink);
-  border-radius: 10px;
-  padding: 0.55rem 0.8rem;
-  font-size: var(--fs-small);
-  line-height: 1.4;
-  font-weight: 500;
-  box-shadow: 0 10px 24px -14px rgba(7, 22, 33, 0.5);
-}
-.bubble__text::before {
-  content: "";
-  position: absolute;
-  left: -6px;
-  top: 14px;
-  border: 6px solid transparent;
-  border-left: 0;
-  border-right-color: var(--paper);
-}
-.bubble__text b { font-weight: 800; }
-
 /* ---------- Inline widgets in prose (reference: "Buttons ↗", "Sliders") ---------- */
 .chip {
   display: inline-flex;
