@@ -114,8 +114,8 @@
   .map { overflow-x: auto; }
   .map__svg { min-width: 540px; }
 }
-.map__land { fill: #f3dcc4; }
-.map__water { fill: #fff7ee; stroke: #e8c6a6; stroke-width: 1; }
+.map__sea { fill: #fff7ee; }
+.map__coast { fill: #f3dcc4; stroke: #e8c6a6; stroke-width: 1; stroke-linejoin: round; }
 .map__region { font: 600 9px var(--font); letter-spacing: 0.25em; fill: #c9a283; }
 .map__risk-ring { fill: none; stroke: var(--loss); stroke-width: 1.5; stroke-dasharray: 3 3; }
 .map__risk-label { font: 700 10px var(--font); fill: var(--loss); }
