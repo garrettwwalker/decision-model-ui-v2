@@ -115,8 +115,7 @@
   .map__svg { min-width: 540px; }
 }
 .map__sea { fill: #fff7ee; }
-/* stroke under the fill: where islands touch the mainland, their inner outlines are covered */
-.map__coast { fill: #f3dcc4; stroke: #e8c6a6; stroke-width: 2; stroke-linejoin: round; paint-order: stroke; }
+.map__coast { fill: #f3dcc4; stroke: #e8c6a6; stroke-width: 0.6; stroke-linejoin: round; }
 .map__region { font: 600 9px var(--font); letter-spacing: 0.25em; fill: #c9a283; }
 .map__risk-ring { fill: none; stroke: var(--loss); stroke-width: 1.5; stroke-dasharray: 3 3; }
 .map__risk-label { font: 700 10px var(--font); fill: var(--loss); }

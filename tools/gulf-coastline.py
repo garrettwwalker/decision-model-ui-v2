@@ -26,11 +26,14 @@ for g in t["objects"]["land"]["geometries"]:
             pts = ring(r)
             if not any(LON0 <= x <= LON1 and LAT0 <= y <= LAT1 for x, y in pts): continue
             # clamp far-away points into a padded box so huge continents stay small paths
-            pp = [P(min(max(x, LON0 - 2), LON1 + 2), min(max(y, LAT0 - 2), LAT1 + 2)) for x, y in pts]
+            # project, then clamp to just outside the map's viewBox (70 105 540 255): off-map detail collapses
+            BX0, BY0, BX1, BY1 = 60, 95, 620, 370
+            pp = [(min(max(px, BX0), BX1), min(max(py, BY0), BY1)) for px, py in (P(x, y) for x, y in pts)]
+            if all(px in (BX0, BX1) or py in (BY0, BY1) for px, py in pp): continue
             # drop points closer than 0.6px to the previous one
             keep = [pp[0]]
             for q in pp[1:]:
-                if abs(q[0] - keep[-1][0]) + abs(q[1] - keep[-1][1]) > 1.1: keep.append(q)
+                if abs(q[0] - keep[-1][0]) + abs(q[1] - keep[-1][1]) > 0.35: keep.append(q)
             if len(keep) < 3: continue
             d.append("M" + " L".join("%.1f %.1f" % q for q in keep) + "Z")
 print(" ".join(d))
