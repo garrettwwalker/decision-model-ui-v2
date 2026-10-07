@@ -197,11 +197,10 @@ html { scroll-behavior: smooth; } /* nav CTA glides to the contact form; base.cs
   opacity: calc(0.8 - var(--p));
 }
 .hero__cue { display: flex; align-items: center; gap: 0.5rem; }
-.hero__arrow { width: 0.7rem; height: 0.95rem; animation: cue-arrow 2.2s ease-in-out infinite; }
-@keyframes cue-arrow { /* drifts down while fading out, then resets */
-  0% { opacity: 0; transform: translateY(-3px); }
-  35%, 55% { opacity: 1; }
-  100% { opacity: 0; transform: translateY(5px); }
+.hero__arrow { width: 0.7rem; height: 0.95rem; animation: cue-arrow 1.6s ease-in-out infinite; }
+@keyframes cue-arrow { /* a gentle bob, always visible */
+  0%, 100% { transform: translateY(-2px); }
+  50% { transform: translateY(3px); }
 }
 @media (prefers-reduced-motion: reduce) { .hero__arrow { animation: none; } }
 
