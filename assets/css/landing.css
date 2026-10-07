@@ -171,8 +171,11 @@
   transform: translateX(-50%);
   opacity: calc(var(--p) * 0.95);
   background:
-    radial-gradient(18% 85% at 50% 0%, rgba(255, 242, 212, 0.95), rgba(255, 226, 170, 0.32) 55%, rgba(255, 220, 160, 0) 100%),
-    radial-gradient(42% 75% at 50% 0%, rgba(255, 190, 130, 0.38), rgba(255, 190, 130, 0) 100%);
+    radial-gradient(18% 170% at 50% 0%, rgba(255, 242, 212, 0.95), rgba(255, 226, 170, 0.4) 45%, rgba(255, 220, 160, 0) 100%),
+    radial-gradient(42% 140% at 50% 0%, rgba(255, 190, 130, 0.34), rgba(255, 190, 130, 0) 100%);
+  /* a long column down the water, fading out before the bottom edge */
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 35%, rgba(0, 0, 0, 0) 95%);
+  mask-image: linear-gradient(180deg, #000 0%, #000 35%, rgba(0, 0, 0, 0) 95%);
 }
 
 .clouds--top { inset: -12% -10% 40% -10%; transform: translateY(calc(var(--p) * -92%)); }
