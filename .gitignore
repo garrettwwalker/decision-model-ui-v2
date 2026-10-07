@@ -16,3 +16,5 @@ build/
 .DS_Store
 .vscode/
 .idea/
+# Private source documents: keep out of the public repo
+references/*.docx
