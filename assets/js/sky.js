@@ -31,6 +31,7 @@
     ] },
     left: { core: [50, 58, 48, 48], rows: [
       { y: 62, w: [62, 82], h: [0.48, 0.58], gap: -0.4 },
+      { y: 74, w: [34, 46], h: [0.55, 0.65], gap: -0.35 },  // tucks under the top row so no slit of sky opens between rows
       { y: 104, w: [58, 78], h: [0.44, 0.54], gap: -0.4 }
     ] },
     edge: { base: 44, rows: [
