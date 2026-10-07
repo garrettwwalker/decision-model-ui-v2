@@ -44,6 +44,11 @@
     floor: { base: 72, rows: [
       { y: 66, w: [12, 18], h: [0.42, 0.54], gap: -0.22 },
       { y: 90, w: [14, 22], h: [0.40, 0.50], gap: -0.25 }
+    ] },
+    // A few loose clouds: the product pages' nod back to the landing sky
+    wisp: { rows: [
+      { y: 62, w: [16, 24], h: [0.42, 0.54], gap: 0.35 },
+      { y: 92, w: [20, 30], h: [0.4, 0.5], gap: 0.2 }
     ] }
   };
   SHAPES.right = SHAPES.left;

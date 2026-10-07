@@ -29,6 +29,7 @@
   </header>
 
   <main id="main" class="ask">
+    <div class="clouds clouds--storm clouds--wisp clouds--ask" data-clouds="wisp" aria-hidden="true"></div>
     <div class="ask__thread">
       <!-- Empty state: shown until the first question -->
       <section class="ask__intro" id="intro" aria-labelledby="intro-title">
@@ -67,6 +68,8 @@
   </main>
 
   <script src="assets/js/app.js"></script>
+  <script src="assets/js/sky.js"></script>
+  <script>Sky.all();</script>
   <script src="assets/js/model.js"></script>
   <script src="assets/js/chat.js"></script>
 </body>
