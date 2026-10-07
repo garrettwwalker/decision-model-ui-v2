@@ -12,7 +12,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
 ## Architecture
 
 - Pages: `index.html` (landing), `briefing.html` (executive brief), `wargame.html`
-  (scenario sandbox) and `workbench.html` (world-model editor for data/IT).
+  (scenario sandbox), `workbench.html` (world-model editor for data/IT) and `ask.html` (chat).
 - Each product page sets its time of day on `<body>`: `t-sunrise` (brief),
   `t-bluehour` (wargame), `t-night` (workbench). The landing page runs night → dawn on scroll.
 - `assets/css/base.css` holds shared tokens and components, `app.css` the product-page
@@ -24,8 +24,10 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   clouds with puffs peaking mid-cloud, one light gradient per cloud, crown highlights and an underside glow.
   Colors come from `--c-hi/mid/lo/rim` on `.clouds--storm/dawn/cream`; `--c-base` is the fading strip that
   joins the next section; `data-flip` hangs a bank upside down.
-- `assets/js/chat.js` is the wargame's "ask the model" chat: scripted intents (capacity, what-if,
-  best moves, probability, decline) answered live from `model.js` via `window.DBWar` (exposed by `war.js`).
+- `ask.html` (fourth tab, "pre-dawn" theme in `assets/css/ask.css`) is the "ask the model" chat. `assets/js/chat.js`
+  answers scripted intents (capacity, what-if, best move, forecast, signposts, decline) live from `model.js`.
+  The assumed scenario is shared with the wargame via `sessionStorage["daybreak.scenario"]`; the wargame saves
+  it on every update and loads it on `wargame.html?from=ask`.
 - `assets/js/app.js` holds the shared helpers (`DB.money`, `DB.toast`, `DB.rng`, range fills).
 - Type: Switzer (Fontshare), self-hosted in `assets/fonts/`, for everything, on a major-third scale; data uses
   tabular figures. JetBrains Mono appears only in the workbench's code, diff and log panels. Labels are sentence

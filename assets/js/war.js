@@ -1,5 +1,10 @@
 (function () {
   var M = DBModel;
+  // A scenario handed over by the ask page; read it before startup overwrites the store
+  var fromAsk = null;
+  if (new URLSearchParams(window.location.search).get("from") === "ask") {
+    try { fromAsk = JSON.parse(sessionStorage.getItem("daybreak.scenario") || "null"); } catch (e) {}
+  }
   var form = document.getElementById("controls");
   var $ = function (k) { return document.querySelector('[data-out="' + k + '"]'); };
   var NS = "http://www.w3.org/2000/svg";
@@ -204,8 +209,10 @@
 
   /* ---------- Main update ---------- */
   var last = null, simTimer;
+  var STORE = "daybreak.scenario"; // shared with the ask page
   function update(full) {
     var inp = read();
+    try { sessionStorage.setItem(STORE, JSON.stringify(inp)); } catch (e) {}
     var st = M.STATUS[inp.status];
     $("dur").textContent = inp.dur + " days";
     $("prem").textContent = inp.prem.toFixed(2) + "% of value";
@@ -285,8 +292,11 @@
   write(i); update(true); save("Brief's 3 actions");
   write(M.DEFAULTS); update(true);
 
-  // For the "ask the model" chat: read and drive the sandbox
-  window.DBWar = { read: read, write: write, update: update, worldText: worldText, movesText: movesText, noResponse: noResponse };
+  // Arriving from the ask page with "Open in the wargame": load that scenario
+  if (fromAsk && M.STATUS[fromAsk.status]) {
+    write(fromAsk); update(true);
+    DB.toast("Loaded the scenario from your question.");
+  }
 
   // Arriving from the brief's "Test in the wargame": switch that action on
   var NAMES = { bridge: "the resin bridge-buy", divert: "the Khor Fakkan diversion", cover: "war-risk cover and the bunker hedge" };

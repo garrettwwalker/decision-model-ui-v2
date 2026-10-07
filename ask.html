@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Ask · Daybreak</title>
+  <meta name="description" content="Ask Daybreak about a geopolitical risk or about how long your network can hold. Answers come from the same model as the brief and the wargame.">
+  <link rel="preload" href="assets/fonts/switzer-800.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/switzer-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/app.css">
+  <link rel="stylesheet" href="assets/css/ask.css">
+</head>
+<body class="app t-predawn">
+  <a class="skip" href="#composer-input">Skip to the question box</a>
+
+  <header class="bar">
+    <a class="wordmark" href="index.html" aria-label="Daybreak home">
+      <svg viewBox="0 0 26 26" aria-hidden="true"><circle cx="13" cy="13" r="10" fill="#f2683c"/></svg>
+      daybreak
+    </a>
+    <nav class="tabs" aria-label="Product">
+      <a href="briefing.html">brief <span class="tab__for">exec</span></a>
+      <a href="wargame.html">wargame <span class="tab__for">strategy</span></a>
+      <a href="workbench.html">workbench <span class="tab__for">data</span></a>
+      <a href="ask.html" aria-current="page">ask <span class="tab__for">anyone</span></a>
+    </nav>
+    <div class="bar__meta">
+      <span class="live">model run 06:00 GST</span>
+      <span class="client"><span class="client__logo" aria-hidden="true">H</span><span class="client__name">Halvorsen Group</span></span>
+    </div>
+  </header>
+
+  <main id="main" class="ask">
+    <div class="ask__thread">
+      <!-- Empty state: shown until the first question -->
+      <section class="ask__intro" id="intro" aria-labelledby="intro-title">
+        <h1 class="display ask__title" id="intro-title">what do you<br>want to know?</h1>
+        <p class="ask__lede">Ask about a risk, or about how long your network can hold. Every answer is worked out from the same model as this morning's brief, and Daybreak tells you when something can't be forecast.</p>
+        <div class="starters" id="starters"></div>
+        <p class="ask__fine">This is a mockup: answers are scripted from the scenario model, not a live assistant.</p>
+      </section>
+
+      <ol class="msgs" id="chat-log" role="log" aria-live="polite" aria-label="Conversation with Daybreak"></ol>
+
+      <form class="composer" id="chat-form" autocomplete="off">
+        <label class="sr-only" for="composer-input">Ask Daybreak a question</label>
+        <input class="composer__input" id="composer-input" type="text" maxlength="200" placeholder="How long can Pune keep running?">
+        <button class="composer__send" type="submit" aria-label="Ask">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </form>
+    </div>
+
+    <aside class="ctx" aria-labelledby="ctx-title">
+      <h2 class="ctx__title" id="ctx-title">Assuming</h2>
+      <dl class="ctx__list">
+        <div><dt>Strait of Hormuz</dt><dd data-ctx="world">Closed for 21 days</dd></div>
+        <div><dt>Red Sea</dt><dd data-ctx="redsea">Open</dd></div>
+        <div><dt>Your response</dt><dd data-ctx="moves">None yet</dd></div>
+        <div><dt>Chance of this world</dt><dd data-ctx="p">27% in 30 days</dd></div>
+      </dl>
+      <p class="ctx__note" data-ctx="source">This morning's scenario.</p>
+      <div class="ctx__actions">
+        <a class="btn btn--light btn--sm" href="wargame.html?from=ask" data-open-war>Open in the wargame</a>
+        <button class="btn btn--ghost btn--sm" type="button" id="ctx-reset">Reset</button>
+      </div>
+    </aside>
+
+  </main>
+
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/model.js"></script>
+  <script src="assets/js/chat.js"></script>
+</body>
+</html>

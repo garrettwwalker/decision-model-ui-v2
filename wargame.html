@@ -23,6 +23,7 @@
       <a href="briefing.html">brief <span class="tab__for">exec</span></a>
       <a href="wargame.html" aria-current="page">wargame <span class="tab__for">strategy</span></a>
       <a href="workbench.html">workbench <span class="tab__for">data</span></a>
+      <a href="ask.html">ask <span class="tab__for">anyone</span></a>
     </nav>
     <div class="bar__meta">
       <span class="live">model run 06:00 GST</span>
@@ -170,23 +171,6 @@
       </div>
     </div>
 
-    <!-- Ask the model -->
-    <section class="section ask" id="ask" aria-labelledby="ask-title">
-      <div class="section__head">
-        <h2 class="section__title" id="ask-title">ask the model</h2>
-        <p class="section__note">Ask about a risk or about how long your network can hold. Answers come from the same model as the sandbox, using the world and response you've set above.</p>
-      </div>
-      <div class="panel chat">
-        <ol class="chat__log" id="chat-log" role="log" aria-live="polite" aria-label="Conversation with the model"></ol>
-        <div class="chat__suggest" id="chat-suggest" aria-label="Suggested questions"></div>
-        <form class="chat__form" id="chat-form" autocomplete="off">
-          <label class="sr-only" for="chat-input">Ask the model a question</label>
-          <input class="chat__input" id="chat-input" type="text" placeholder="e.g. How long can Pune keep running if the strait closes?" maxlength="200">
-          <button class="btn btn--primary" type="submit">Ask</button>
-        </form>
-        <p class="chat__fine">Mockup: answers are scripted from the scenario model, not a live assistant.</p>
-      </div>
-    </section>
   </main>
 
   <footer class="app-foot">
@@ -197,6 +181,5 @@
   <script src="assets/js/app.js"></script>
   <script src="assets/js/model.js"></script>
   <script src="assets/js/war.js"></script>
-  <script src="assets/js/chat.js"></script>
 </body>
 </html>
