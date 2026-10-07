@@ -44,7 +44,7 @@
         <div class="clouds clouds--storm clouds--right" data-clouds="right" aria-hidden="true"></div>
 
         <div class="hero__copy">
-          <p class="eyebrow hero__eyebrow">Geopolitical decision intelligence for maritime supply chains</p>
+          <p class="eyebrow hero__eyebrow">Geopolitical decision intelligence, starting with maritime supply chains</p>
           <h1 class="display hero__title">
             <span>risk moves</span>
             <span class="hero__line2">overnight.
@@ -74,7 +74,63 @@
         </p>
       </section>
 
-      <!-- 3. Trimodal platform -->
+      <!-- 3. How it thinks: decomposition, three engines, fusion -->
+      <section class="engine" id="engine" data-nav="light" aria-labelledby="engine-title">
+        <h2 class="h2 watermark engine__title" id="engine-title">one question,<br>three engines.</h2>
+        <div class="engine__grid">
+          <ol class="engine__steps">
+            <li>
+              <h3>It takes the question apart.</h3>
+              <p>Real questions are tangled. Daybreak breaks each one into the parts that can actually be forecast, and tells you plainly which parts can't. No other forecaster in the field decomposes questions this way.</p>
+            </li>
+            <li>
+              <h3>It gives each part the right engine.</h3>
+              <p>A leader's choice, a port's traffic and a sanctions process move in different ways, so Daybreak runs three engines: one for judgment, one for telemetry, one for procedure. Each knows how far ahead it can see. Everyone else runs one kind of model on every question.</p>
+            </li>
+            <li>
+              <h3>It fuses the answers into one number.</h3>
+              <p>Averaging good forecasts makes a worse one. Daybreak's fusion layer combines all three engines into a single calibrated probability, with error bars. No one in the field has built that.</p>
+            </li>
+          </ol>
+
+          <figure class="split" aria-labelledby="split-cap">
+            <div class="split__q">
+              <span class="split__label">The question</span>
+              <strong>Will the Strait of Hormuz close to commercial traffic for 7+ days in the next 30?</strong>
+            </div>
+            <ul class="split__parts">
+              <li class="part">
+                <span class="split__label">Judgment engine</span>
+                <strong>Will the naval standoff escalate to a blockade?</strong>
+                <span class="part__p">31%</span>
+              </li>
+              <li class="part">
+                <span class="split__label">Telemetry engine</span>
+                <strong>Will daily transits fall below 40% of normal?</strong>
+                <span class="part__p">27%</span>
+              </li>
+              <li class="part">
+                <span class="split__label">Procedure engine</span>
+                <strong>Will underwriters list the whole strait as a war zone?</strong>
+                <span class="part__p">23%</span>
+              </li>
+              <li class="part part--out">
+                <span class="split__label">Declined</span>
+                <strong>A sudden strike or coup in Tehran</strong>
+                <span class="part__note">No skill at this horizon, so no guess.</span>
+              </li>
+            </ul>
+            <div class="split__fused">
+              <span class="split__label">Fused and calibrated</span>
+              <strong class="split__num">27%</strong>
+              <span>±5 points, 30-day horizon</span>
+            </div>
+            <figcaption id="split-cap" class="sr-only">This morning's Hormuz question, split into three sub-questions answered by the judgment, telemetry and procedure engines at 31, 27 and 23 percent, one sub-question declined for lack of skill, and the answers fused into a single 27 percent forecast.</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <!-- 4. Trimodal platform -->
       <section class="modes" id="platform" data-nav="light" aria-labelledby="modes-title">
         <div class="modes__head">
           <h2 class="h2 watermark" id="modes-title">one model,<br>three altitudes.</h2>
@@ -84,7 +140,7 @@
           <article class="note mode">
             <p class="eyebrow mode__for">for the C-suite</p>
             <h3 class="h3">executive brief</h3>
-            <p class="mode__desc">Three decisions, not three hundred alerts. What each risk costs the organization, why the forecast moved, and the intervention that protects the most value, with an owner and a deadline.</p>
+            <p class="mode__desc">Three decisions, not three hundred alerts. What each risk costs the organization, why the forecast moved, and the intervention that protects the most value. Every probability comes with error bars.</p>
             <div class="pv pv-brief" aria-hidden="true">
               <div class="pv-brief__row"><span class="pv-n">1</span><span>Bridge-buy 7,000 t resin ex-Singapore</span><span class="pv-btn">approve</span></div>
               <div class="pv-brief__row"><span class="pv-n">2</span><span>Divert 4 sailings to Khor Fakkan</span><span class="pv-btn">approve</span></div>
@@ -96,7 +152,7 @@
           <article class="note mode">
             <p class="eyebrow mode__for">for strategy &amp; network planning</p>
             <h3 class="h3">wargaming sandbox</h3>
-            <p class="mode__desc">Pull a lever on the future and watch the network flex. Run counterfactuals, see a closure cascade from port to plant to revenue, and stress-test a plan across ten thousand futures.</p>
+            <p class="mode__desc">Pull a lever on the future and watch the network flex. Run counterfactuals, see a closure cascade from port to plant to revenue, and test every option against ten thousand simulated futures before you commit.</p>
             <div class="pv pv-war" aria-hidden="true">
               <div class="pv-slider"><span>Hormuz closed for 21 days</span><i style="--v:.23"></i></div>
               <div class="pv-slider"><span>7 extra days of safety stock</span><i style="--v:.33"></i></div>
@@ -112,7 +168,7 @@
           <article class="note mode">
             <p class="eyebrow mode__for">for data science &amp; IT</p>
             <h3 class="h3">modeling workbench</h3>
-            <p class="mode__desc">A world model of your network, wired to your ERP, AIS and broker feeds. Change any capacity, cover or ensemble weight and watch the forecast and the losses respond, then ship it through the SDK.</p>
+            <p class="mode__desc">Daybreak as middleware: a world model of your network wired to your ERP, AIS and broker feeds. Change any capacity, cover or fusion weight and watch the forecast respond, then run it headless through the API.</p>
             <div class="pv pv-mid" aria-hidden="true"><div class="pv-heat" data-heat="8x5"></div></div>
             <a class="btn btn--ink btn--sm" href="workbench.html">Open the workbench</a>
           </article>
@@ -134,7 +190,7 @@
             <span class="tag__eyelet" aria-hidden="true"></span>
             <span class="tag__time">03:15, the forecast</span>
             <strong>p(Hormuz closed ≥7d, 30d) 0.18 → 0.27</strong>
-            <span>Seven ensemble members update. Six move the same direction.</span>
+            <span>The judgment, telemetry and procedure engines all move the same way, and the fused number follows.</span>
           </li>
           <li class="tag">
             <span class="tag__eyelet" aria-hidden="true"></span>
@@ -219,7 +275,7 @@
       <!-- 7. Rigor -->
       <section class="rigor" id="rigor" data-nav="light" aria-labelledby="rigor-title">
         <h2 class="h2 watermark" id="rigor-title">show your<br>work.</h2>
-        <p class="rigor__lede">Executives don't act on a black box. Every number in Daybreak opens up into the forecast behind it, the models that made it, and the record of how well those models have done.</p>
+        <p class="rigor__lede">Executives don't act on a black box. Every number in Daybreak opens up into the sub-questions behind it, the engine that answered each one, and the record of how well those engines have done.</p>
         <div class="rigor__grid">
           <article class="note">
             <h3 class="h3 rigor__h">when we say 30%, it happens about 30% of the time.</h3>
@@ -240,17 +296,23 @@
           </article>
 
           <article class="note">
-            <h3 class="h3 rigor__h">seven models argue, so you don't have to.</h3>
-            <ul class="ens">
-              <li><span>Structural conflict model</span><i style="--v:.31"></i><b class="num">.31</b></li>
-              <li><span>Event-history base rates</span><i style="--v:.19"></i><b class="num">.19</b></li>
-              <li><span>AIS behaviour anomaly</span><i style="--v:.34"></i><b class="num">.34</b></li>
-              <li><span>Insurance-market signal</span><i style="--v:.30"></i><b class="num">.30</b></li>
-              <li><span>Expert panel (n=14)</span><i style="--v:.24"></i><b class="num">.24</b></li>
-              <li><span>LLM evidence synthesis</span><i style="--v:.29"></i><b class="num">.29</b></li>
-              <li><span>Prediction-market prior</span><i style="--v:.22"></i><b class="num">.22</b></li>
-            </ul>
-            <p class="rigor__foot mono">Pooled forecast for a 7-day Hormuz closure: 0.27, spread ±0.05</p>
+            <h3 class="h3 rigor__h">we publish where our skill runs out.</h3>
+            <svg class="horizon" viewBox="0 0 220 196" role="img" aria-label="Forecasting skill by horizon for each engine. Telemetry skill is highest over days and reaches zero within about three weeks. Judgment holds for months. Procedure holds out to a year. Past zero, Daybreak declines to forecast.">
+              <line x1="26" y1="160" x2="206" y2="160" stroke="rgba(10,23,34,.35)" stroke-dasharray="3 3"/>
+              <line x1="26" y1="20" x2="26" y2="160" stroke="rgba(10,23,34,.25)"/>
+              <path d="M26 34 C50 40 64 62 78 96 S100 150 112 160" fill="none" stroke="#f2683c" stroke-width="2.5"/>
+              <path d="M26 82 C70 84 110 96 140 124 S168 156 178 160" fill="none" stroke="#0a1722" stroke-width="2.5"/>
+              <path d="M26 112 C80 110 140 112 170 120 S200 130 206 134" fill="none" stroke="#a84a23" stroke-width="2.5" stroke-dasharray="6 4"/>
+              <text x="40" y="30" class="horizon__lab" fill="#c94a22">telemetry</text>
+              <text x="96" y="86" class="horizon__lab" fill="#0a1722">judgment</text>
+              <text x="150" y="106" class="horizon__lab" fill="#a84a23">procedure</text>
+              <text x="206" y="174" class="horizon__ax" text-anchor="end">past zero, we decline</text>
+              <g class="horizon__ax" text-anchor="middle">
+                <text x="26" y="188">1 day</text><text x="78" y="188">1 week</text><text x="126" y="188">1 month</text><text x="200" y="188">1 year</text>
+              </g>
+              <text x="10" y="90" class="horizon__ax" text-anchor="middle" transform="rotate(-90 10 90)">skill over base rate</text>
+            </svg>
+            <p class="rigor__foot mono">Scored per engine and per horizon, declined questions included</p>
           </article>
 
           <article class="note">
@@ -260,7 +322,7 @@
               <li><span class="mono">02:51</span> AIS: 9 transponders dark, 26.9°N 56.4°E</li>
               <li><span class="mono">03:02</span> Joint War Committee listed-area circular</li>
               <li><span class="mono">03:09</span> War-risk premium quotes +0.15% hull value</li>
-              <li><span class="mono">03:15</span> Ensemble re-run, model card v14.2</li>
+              <li><span class="mono">03:15</span> Engines re-run and fused, model card v14.2</li>
             </ul>
             <p class="rigor__foot mono">2,914 sources reviewed overnight</p>
           </article>

@@ -27,7 +27,7 @@
   var day = document.querySelector(".day");
   var BLOCKS = "p, h2, h3, li, dt, dd, label";
   var UNITS = ".chip";                       // inline widgets revealed whole, like a word
-  var TILES = ".note, .tag, .swan, .chain li, .contact__form"; // revealed whole, text included
+  var TILES = ".note, .tag, .swan, .chain li, .contact__form, .split__q, .part, .split__fused"; // revealed whole, text included
   var reads = [], tiles = [];
 
   function splitWords(root, units) {
@@ -55,7 +55,7 @@
 
   if (day && !reduceMotion) {
     day.querySelectorAll(BLOCKS).forEach(function (el) {
-      if (el.closest(".clouds") || el.parentElement.closest(BLOCKS) || el.closest(TILES)) return; // free-standing text only
+      if (el.closest(".clouds") || el.querySelector(BLOCKS) || el.closest(TILES)) return; // innermost free-standing text only
       var units = [];
       splitWords(el, units);
       if (units.length) reads.push({ el: el, units: units, n: -1 });
