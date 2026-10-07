@@ -4,15 +4,14 @@
   var $ = function (k) { return document.querySelector('[data-out="' + k + '"]'); };
 
   /* ---------- State ---------- */
+  // The router splits the Hormuz question into class-pure sub-questions, one per engine;
+  // the fusion layer combines them. (Mockup: fusion is a weighted pool here.)
   var ENSEMBLE = [
-    { id: "structural", name: "Structural conflict model", p: 0.31 },
-    { id: "base_rates", name: "Event-history base rates", p: 0.19 },
-    { id: "ais_anomaly", name: "AIS behaviour anomaly", p: 0.34 },
-    { id: "insurance", name: "Insurance-market signal", p: 0.30 },
-    { id: "experts", name: "Expert panel (n=14)", p: 0.24 },
-    { id: "llm_synthesis", name: "LLM evidence synthesis", p: 0.29 },
-    { id: "markets", name: "Prediction-market prior", p: 0.22 }
+    { id: "judgment", name: "Judgment engine", q: "Will the naval standoff escalate to a blockade?", p: 0.33 },
+    { id: "telemetry", name: "Telemetry engine", q: "Will daily transits fall below 40% of normal?", p: 0.26 },
+    { id: "procedure", name: "Procedure engine", q: "Will underwriters list the whole strait as a war zone?", p: 0.22 }
   ];
+  var DECLINED = "A sudden strike or coup in Tehran: no skill at a 30-day horizon, so it isn't forecast.";
   var params = M.clone(M.BASE);
   var weights = ENSEMBLE.map(function () { return 1; });
   var NO_RESPONSE = M.clone(M.DEFAULTS);
@@ -57,7 +56,7 @@
       if (Math.abs(a - b) > 1e-9) out.push({ path: path, from: a, to: b, sdk: PROPS[path].sdk });
     });
     ENSEMBLE.forEach(function (m, i) {
-      if (Math.abs(weights[i] - 1) > 1e-9) out.push({ path: "w." + m.id, from: 1, to: weights[i], sdk: 'ensemble.weights["' + m.id + '"]', w: i });
+      if (Math.abs(weights[i] - 1) > 1e-9) out.push({ path: "w." + m.id, from: 1, to: weights[i], sdk: 'fusion.weights["' + m.id + '"]', w: i });
     });
     return out;
   }
@@ -141,7 +140,7 @@
   /* ---------- Inspector ---------- */
   var ins = document.getElementById("inspector");
   var INFO = {
-    hormuz: { type: "Chokepoint, the driver", desc: "Seven models forecast closure for ≥7 days in the next 30. Weight them to see how much the pooled number, and every loss downstream, depends on each one." },
+    hormuz: { type: "Chokepoint, the driver", desc: "The router split this question into three sub-questions, one for each engine, and declined a fourth. Reweight the fusion layer to see how much the forecast, and every loss downstream, leans on each engine." },
     gebze: { type: "Plant", desc: "Appliance assembly. Runs on PP resin from Jubail via Suez. Washers and dishwashers for the EU." },
     pune: { type: "Plant", desc: "Refrigerators and AC. Runs on HDPE from Mesaieed via Nhava Sheva." },
     dubai: { type: "Distribution centre", desc: "MENA hub at Jebel Ali, inside the strait. Can be fed by road from Khor Fakkan." },
@@ -175,7 +174,7 @@
   };
 
   function fmt(v, path) {
-    var st = PROPS[path] ? PROPS[path].step : 0.1; // ensemble weights step by 0.1
+    var st = PROPS[path] ? PROPS[path].step : 0.1; // fusion weights step by 0.1
     var dp = st < 1 ? (String(st).split(".")[1] || "").length : 0;
     return (+v).toFixed(dp);
   }
@@ -191,7 +190,7 @@
     if (selected === "hormuz") {
       var h = document.createElement("p");
       h.className = "prop__top";
-      h.innerHTML = '<span>Ensemble weights</span><span class="prop__base" data-out="pool"></span>';
+      h.innerHTML = '<span>Fusion weights</span><span class="prop__base" data-out="pool"></span>';
       ins.appendChild(h);
       var ul = document.createElement("ul");
       ul.className = "ens2";
@@ -199,6 +198,7 @@
         var li = document.createElement("li");
         var id = "w-" + m.id;
         li.innerHTML = '<label class="ens2__name" for="' + id + '">' + m.name + '</label><span class="ens2__p">' + m.p.toFixed(2) + '</span>' +
+          '<span class="ens2__q">' + m.q + '</span>' +
           '<input id="' + id + '" type="range" min="0" max="3" step="0.1" value="' + weights[i] + '">' +
           '<span class="ens2__w">weight ' + weights[i].toFixed(1) + "</span>";
         var input = li.querySelector("input"), wl = li.querySelector(".ens2__w");
@@ -210,6 +210,10 @@
         ul.appendChild(li);
       });
       ins.appendChild(ul);
+      var dec = document.createElement("p");
+      dec.className = "ens2__declined";
+      dec.innerHTML = "<b>Declined.</b> " + DECLINED;
+      ins.appendChild(dec);
       DB.fillRanges(ins);
       return;
     }
@@ -276,7 +280,7 @@
   function renderDiff(ch) {
     diffEl.textContent = "";
     if (!ch.length) {
-      diffEl.innerHTML = '<li class="empty">Nothing changed. Edit a node in the inspector, or reweight the ensemble on Hormuz.</li>';
+      diffEl.innerHTML = '<li class="empty">Nothing changed. Edit a node in the inspector, or reweight the fusion layer on Hormuz.</li>';
       return;
     }
     ch.forEach(function (c) {
@@ -306,7 +310,8 @@
     if (!ch.length) L.push('<span class="c"># no overrides: production parameters</span>');
     L.push("");
     L.push('r = w.run(<span class="s">"hormuz_closure_7d"</span>, horizon=<span class="s">"30d"</span>, n=<span class="n">10_000</span>)');
-    L.push('r.p_event        <span class="c"># ' + ev.p.toFixed(3) + "</span>");
+    L.push('r.subquestions   <span class="c"># 3 answered (judgment, telemetry, procedure), 1 declined</span>');
+    L.push('r.p_event        <span class="c"># ' + ev.p.toFixed(3) + " fused</span>");
     L.push('r.loss_if_event  <span class="c"># ' + DB.money(ev.cl) + "</span>");
     L.push('r.expected_loss  <span class="c"># ' + DB.money(ev.el) + "  (baseline " + DB.money(BASE_EVAL.el) + ")</span>");
     L.push('r.exposure(by=<span class="s">"po"</span>).head(<span class="n">20</span>)');
@@ -343,7 +348,7 @@
     delta($("cld"), ev.cl, BASE_EVAL.cl, DB.money);
     delta($("eld"), ev.el, BASE_EVAL.el, DB.money);
     var pool = document.querySelector('[data-out="pool"]');
-    if (pool) pool.textContent = "pooled " + ev.p.toFixed(3);
+    if (pool) pool.textContent = "fused " + ev.p.toFixed(3);
     var c = $("changes");
     c.textContent = ch.length ? ch.length + " unsaved change" + (ch.length > 1 ? "s" : "") : "No changes";
     c.classList.toggle("is-dirty", ch.length > 0);

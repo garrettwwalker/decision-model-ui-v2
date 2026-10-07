@@ -129,6 +129,9 @@
 .ens2 .ens2__name { font-weight: 700; }
 .ens2 .ens2__p { font-variant-numeric: tabular-nums; font-weight: 600; font-size: 0.8rem; color: #ff9a8a; }
 .ens2 input { grid-column: 1 / -1; height: 22px; }
+.ens2 .ens2__q { grid-column: 1 / -1; font-size: 0.75rem; color: var(--fg-2); line-height: 1.35; }
+.ens2__declined { margin: 0.25rem 0 0; padding: 0.6rem 0.75rem; border: 1px dashed var(--panel-line); border-radius: 10px; font-size: 0.75rem; color: var(--fg-2); }
+.ens2__declined b { color: var(--fg); }
 .ens2 .ens2__w { font-variant-numeric: tabular-nums; font-size: 0.75rem; color: var(--fg-2); }
 
 /* ---------- Lower row ---------- */

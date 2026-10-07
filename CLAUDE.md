@@ -34,6 +34,21 @@ no tests. To preview, open `index.html` in a browser; there's no server.
 - Dawn palette tokens: `--dawn`, `--dawn-deep`, `--ember`. Money at risk uses `--loss`
   (crimson) and protected money uses `--safe` (teal).
 
+## Product messaging
+
+Source docs: `references/Decision Model Pitch.docx` (overview) and
+`references/Sector-Agnostic Decision Notes.docx` (technical breakdown). The site names three
+contributions as things no one else in the field does, in plain language:
+1. **Query decomposition:** hard questions are split into forecastable sub-questions; parts with
+   no skill at the horizon are declined, not guessed.
+2. **Three-class structure:** judgment, telemetry and procedure engines, each with its own horizon of skill.
+3. **Forecast fusion:** engine outputs are fused into one calibrated probability with error bars (not averaged).
+
+Keep private: specific models and vendors, fusion and calibration methods, the event-sequence
+model, leakage controls, competitor names and patent issues. The Hormuz example's engine figures
+(33 / 26 / 22%, fused 27%, one sub-question declined) appear on the landing page, the brief and
+the workbench (`ENSEMBLE` in `bench.js`); keep them in sync.
+
 ## Repository
 
 - Remote: https://github.com/garrettwwalker/decision-model-ui-v2 (public), default branch `main`.
