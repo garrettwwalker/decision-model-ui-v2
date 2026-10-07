@@ -249,18 +249,21 @@ input[type="range"]:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 4px 
 }
 .app-foot a { color: inherit; }
 
-/* ---------- Clouds: a quiet homage to the landing sky ---------- */
-.page-head, .bench-head { position: relative; }
-.page-head > :not(.clouds), .bench-head > :not(.clouds) { position: relative; z-index: 1; }
-.clouds--wisp {
-  top: 0.5rem; right: -4%; width: min(58%, 46rem); height: 13rem;
-  opacity: 0.7;
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 35%);
-  mask-image: linear-gradient(90deg, transparent, #000 35%);
+/* ---------- Drifting clouds: a quiet homage to the landing sky ---------- */
+.drift { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.t-sunrise .drift .clouds { --c-hi: #ffffff; --c-mid: #fffaf3; --c-lo: #ffe9d6; --c-rim: #fff4e8; }
+.drift .clouds {
+  left: 0; width: var(--w); height: calc(var(--w) * 0.5);
+  opacity: var(--o, 0.35);
+  animation: drift var(--t) linear infinite;
+  animation-delay: var(--d);
 }
-.page { position: relative; }
-.clouds--foot { left: 0; right: 0; bottom: -1px; height: 9rem; opacity: 0.6; --c-base: transparent; }
-.page { padding-bottom: 9rem; }
-@media (max-width: 760px) {
-  .clouds--wisp { width: 90%; height: 9rem; opacity: 0.35; }
+@keyframes drift {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(calc(100vw + 10%)); }
 }
+@media (prefers-reduced-motion: reduce) {
+  .drift .clouds { animation: none; transform: translateX(var(--rest)); }
+}
+.bar, .page, .app-foot, .ask { position: relative; z-index: 1; }
+.bar { position: sticky; z-index: 40; }

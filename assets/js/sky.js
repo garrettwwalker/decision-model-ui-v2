@@ -44,14 +44,10 @@
     floor: { base: 72, rows: [
       { y: 66, w: [12, 18], h: [0.42, 0.54], gap: -0.22 },
       { y: 90, w: [14, 22], h: [0.40, 0.50], gap: -0.25 }
-    ] },
-    // A few loose clouds: the product pages' nod back to the landing sky
-    wisp: { rows: [
-      { y: 62, w: [16, 24], h: [0.42, 0.54], gap: 0.35 },
-      { y: 92, w: [20, 30], h: [0.4, 0.5], gap: 0.2 }
     ] }
   };
   SHAPES.right = SHAPES.left;
+  SHAPES.single = { rows: [{ y: 92, w: [76, 76], h: [0.5, 0.56], gap: 9 }] };
 
   function el(name, attrs) {
     var e = document.createElementNS(NS, name);
@@ -140,7 +136,7 @@
 
     shape.rows.forEach(function (row) {
       var by0 = H * row.y / 100;
-      var x = -W * 0.08 - rand() * W * 0.06;
+      var x = shape === SHAPES.single ? W * 0.12 : -W * 0.08 - rand() * W * 0.06;
       while (x < W * 1.08) {
         var w = W * between(rand, row.w) / 100 * scale;
         var h = w * between(rand, row.h);
@@ -188,5 +184,24 @@
     all();
   });
 
-  window.Sky = { build: build, all: all };
+  // A few lone translucent clouds crossing the background now and then (product pages)
+  function drift(root) {
+    var layer = document.createElement("div");
+    layer.className = "drift";
+    layer.setAttribute("aria-hidden", "true");
+    var palette = document.body.classList.contains("t-predawn") ? "clouds--storm" : "clouds--cream";
+    // width, top, seconds to cross, delay, opacity, resting position for reduced motion
+    [["30vw", "14%", 150, -40, 0.6, "62vw"], ["20vw", "48%", 110, -95, 0.45, "8vw"], ["38vw", "72%", 190, -150, 0.45, "40vw"]]
+      .forEach(function (c, i) {
+        var d = document.createElement("div");
+        d.className = "clouds " + palette;
+        d.setAttribute("data-clouds", "single");
+        d.style.cssText = "--w:" + c[0] + ";top:" + c[1] + ";--t:" + c[2] + "s;--d:" + c[3] + "s;--o:" + c[4] + ";--rest:" + c[5];
+        layer.appendChild(d);
+      });
+    (root || document.body).insertBefore(layer, (root || document.body).firstChild);
+    layer.querySelectorAll("[data-clouds]").forEach(function (e, i) { build(e, 301 + i * 37); });
+  }
+
+  window.Sky = { build: build, all: all, drift: drift };
 })();

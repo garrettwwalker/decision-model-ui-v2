@@ -146,6 +146,4 @@
   .ctx__list dd { font-size: 0.9rem; }
 }
 
-.ask { position: relative; }
-.clouds--ask { top: auto; bottom: 0; right: auto; left: 0; width: 100%; height: 14rem; opacity: 0.35; }
-.ask > :not(.clouds) { position: relative; z-index: 1; }
+.t-predawn .drift .clouds { --c-hi: #4a5a70; --c-mid: #34445a; --c-lo: #223044; --c-rim: #7a5058; }

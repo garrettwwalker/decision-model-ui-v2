@@ -30,7 +30,6 @@
 
   <main id="main" class="page">
     <section class="page-head">
-      <div class="clouds clouds--cream clouds--wisp" data-clouds="wisp" aria-hidden="true"></div>
       <div>
         <p class="eyebrow page-head__kicker">Scenario sandbox, seeded from this morning's brief</p>
         <h1 class="display">pull a lever<br>on the future.</h1>
@@ -168,8 +167,6 @@
         </section>
       </div>
     </div>
-
-    <div class="clouds clouds--cream clouds--foot" data-clouds="floor" aria-hidden="true"></div>
   </main>
 
   <footer class="app-foot">
@@ -179,7 +176,7 @@
 
   <script src="assets/js/app.js"></script>
   <script src="assets/js/sky.js"></script>
-  <script>Sky.all();</script>
+  <script>Sky.drift(document.body);</script>
   <script src="assets/js/model.js"></script>
   <script src="assets/js/war.js"></script>
 </body>
