@@ -214,11 +214,37 @@ html { scroll-behavior: smooth; } /* nav CTA glides to the contact form; base.cs
 
 /* ---------- Thesis ---------- */
 .thesis {
-  padding: clamp(8rem, 20vh, 12rem) var(--gutter) clamp(8rem, 22vh, 14rem);
+  padding: clamp(8rem, 20vh, 12rem) var(--gutter) clamp(6rem, 16vh, 10rem);
+  display: grid; gap: clamp(3.5rem, 9vh, 6rem);
 }
-.thesis .read {
-  max-width: 38rem;
-  margin: 0 0 0 clamp(0rem, 14vw, 14rem);
+.thesis .read { max-width: 38rem; margin: 0 0 0 clamp(0rem, 14vw, 14rem); }
+/* the gap in the field: a quieter aside, hung to the right */
+.thesis__gap {
+  margin: 0 0 0 clamp(0rem, 40vw, 40rem); max-width: 26rem;
+  padding-left: 1.25rem; border-left: 1.5px dashed var(--line-strong);
+  font-size: 1.1rem; line-height: 1.55; color: var(--ink-2);
+}
+/* what Daybreak tells you: one sentence that cycles through real exposures */
+.rotor { max-width: 44rem; margin-left: clamp(0rem, 14vw, 14rem); }
+.rotor__lead, .rotor__item, .rotor__close { font-size: var(--fs-prose); font-weight: 700; line-height: 1.32; letter-spacing: -0.015em; margin: 0; }
+.rotor__stage { display: grid; margin-top: 0.35rem; }
+.rotor__item { grid-area: 1 / 1; opacity: 0; transform: translateY(0.4rem); transition: opacity 0.6s ease, transform 0.6s ease; }
+.rotor__item.is-on { opacity: 1; transform: none; }
+.rotor__p { color: var(--ember-deep); }
+.rotor__rule { height: 3px; margin-top: 1.1rem; border-radius: 3px; background: rgba(10, 23, 34, 0.14); overflow: hidden; }
+.rotor__rule i { display: block; height: 100%; width: 0; background: var(--ink); }
+.rotor__rule.is-running i { animation: rotor-fill var(--rotor-t, 6s) linear forwards; }
+@keyframes rotor-fill { to { width: 100%; } }
+.rotor__dots { display: flex; gap: 0.25rem; margin-top: 0.6rem; }
+.rotor__dots button {
+  width: 32px; height: 32px; padding: 0; border: 0; background: none; cursor: pointer;
+  display: grid; place-items: center;
+}
+.rotor__dots button::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: rgba(10, 23, 34, 0.25); transition: background-color 0.2s ease, transform 0.2s ease; }
+.rotor__dots button[aria-pressed="true"]::before { background: var(--ink); transform: scale(1.25); }
+.rotor__close { margin-top: 1.5rem; color: var(--ink-2); font-size: clamp(1.1rem, 1.9vw, 1.45rem); }
+@media (max-width: 760px) {
+  .thesis__gap { margin-left: 0; }
 }
 /* ---------- Read-as-you-scroll (classes added by landing.js) ---------- */
 .day { --unread: var(--dawn-deep); }

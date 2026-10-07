@@ -55,7 +55,7 @@
 
   if (day && !reduceMotion) {
     day.querySelectorAll(BLOCKS).forEach(function (el) {
-      if (el.closest(".clouds") || el.querySelector(BLOCKS) || el.closest(TILES)) return; // innermost free-standing text only
+      if (el.closest(".clouds") || el.querySelector(BLOCKS) || el.closest(TILES) || el.closest(".rotor")) return; // innermost free-standing text; the rotor animates itself
       var units = [];
       splitWords(el, units);
       if (units.length) reads.push({ el: el, units: units, n: -1 });
@@ -91,6 +91,49 @@
       o.on = on;
     });
   }
+
+  /* ---------- Thesis rotor: one exposure at a time, with a timer underline ---------- */
+  (function () {
+    var rotor = document.querySelector(".rotor");
+    if (!rotor) return;
+    var items = rotor.querySelectorAll(".rotor__item");
+    var rule = rotor.querySelector(".rotor__rule");
+    var dots = rotor.querySelector(".rotor__dots");
+    var still = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var T = 6500, cur = 0, timer = null, paused = false;
+    var buttons = Array.prototype.map.call(items, function (it, i) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.setAttribute("aria-label", "Example " + (i + 1) + " of " + items.length);
+      b.addEventListener("click", function () { show(i); });
+      dots.appendChild(b);
+      return b;
+    });
+    rotor.style.setProperty("--rotor-t", T + "ms");
+    function show(i) {
+      cur = i;
+      items.forEach(function (it, k) {
+        it.classList.toggle("is-on", k === i);
+        it.setAttribute("aria-hidden", String(k !== i));
+        it.querySelectorAll("a").forEach(function (a) { a.tabIndex = k === i ? 0 : -1; });
+      });
+      buttons.forEach(function (b, k) { b.setAttribute("aria-pressed", String(k === i)); });
+      clearTimeout(timer);
+      rule.classList.remove("is-running");
+      if (still || paused) return;
+      void rule.offsetWidth; // restart the fill
+      rule.classList.add("is-running");
+      timer = setTimeout(function () { show((cur + 1) % items.length); }, T);
+    }
+    // pause while hovered or focused, so a reader isn't rushed
+    function pause() { paused = true; clearTimeout(timer); rule.classList.remove("is-running"); }
+    function resume() { paused = false; show(cur); }
+    rotor.addEventListener("mouseenter", pause);
+    rotor.addEventListener("mouseleave", resume);
+    rotor.addEventListener("focusin", pause);
+    rotor.addEventListener("focusout", resume);
+    show(0);
+  })();
 
   /* ---------- Nav theme follows the section under it ---------- */
   var nav = document.querySelector(".nav");
