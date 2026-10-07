@@ -218,53 +218,16 @@ html { scroll-behavior: smooth; } /* nav CTA glides to the contact form; base.cs
   display: grid; gap: clamp(3.5rem, 9vh, 6rem);
 }
 .thesis .read { max-width: 38rem; margin: 0 0 0 clamp(0rem, 14vw, 14rem); }
-/* what Daybreak tells you: words on the left, one cargo tag at a time on the right */
-.thesis .thesis__setup { line-height: 1.4; max-width: 54rem; }
+.thesis .thesis__setup { line-height: 1.4; max-width: 58rem; }
+/* the one moving part of the sentence: the event Daybreak forecasts */
 .rotor {
-  display: grid; grid-template-columns: minmax(0, 22rem) minmax(0, 26rem);
-  gap: 2rem clamp(2rem, 5vw, 4.5rem); align-items: center;
-  margin-left: clamp(0rem, 14vw, 14rem);
+  position: relative; display: inline-block; vertical-align: bottom;
+  white-space: nowrap; color: var(--ember-deep);
+  transition: width 0.5s cubic-bezier(.3,.7,.3,1);
 }
-.rotor__lead, .rotor__close { margin: 0; font-weight: 700; letter-spacing: -0.015em; }
-.rotor__lead { font-size: var(--fs-prose); line-height: 1.3; }
-.rotor__close { margin-top: 0.75rem; font-size: 1.05rem; line-height: 1.45; color: var(--ink-2); max-width: 19rem; }
-.rotor__stage { display: grid; }
-.rotor__item { grid-area: 1 / 1; opacity: 0; transform: translateY(0.75rem) rotate(-1.2deg); transition: opacity 0.6s ease, transform 0.6s ease; pointer-events: none; }
-.rotor__item.is-on { opacity: 1; transform: rotate(-1.2deg); pointer-events: auto; }
-
-.rtag {
-  position: relative; display: grid; gap: 0.15rem;
-  padding: 1.35rem 1.5rem 1.4rem 3rem;
-  background: #fff8ea; color: var(--ink); text-decoration: none;
-  clip-path: polygon(1.6rem 0, 100% 0, 100% 100%, 1.6rem 100%, 0 calc(100% - 1.6rem), 0 1.6rem);
-  box-shadow: inset 0 0 0 1px rgba(10, 23, 34, 0.08);
-}
-.rtag::before { /* eyelet */
-  content: ""; position: absolute; left: 1rem; top: 50%;
-  width: 13px; height: 13px; border-radius: 50%; transform: translateY(-50%);
-  background: var(--ember); box-shadow: 0 0 0 3px #e9ddc6;
-}
-.rtag__asset { font-size: 1.3rem; font-weight: 800; letter-spacing: -0.02em; }
-.rtag__where { font-size: 0.92rem; color: var(--ink-2); }
-.rtag__p { margin-top: 0.6rem; font-size: clamp(3.2rem, 6vw, 4.6rem); font-weight: 800; line-height: 0.9; letter-spacing: -0.05em; color: var(--ember-deep); font-variant-numeric: tabular-nums; }
-.rtag__what { font-size: 0.95rem; font-weight: 600; }
-.rtag:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
-
-@media (max-width: 760px) {
-  .rotor { grid-template-columns: minmax(0, 1fr); margin-left: 0; gap: 1.25rem; }
-  .rotor__words { display: contents; } /* lead, tag, close: the sentence reads in order */
-  .rotor__lead { order: 1; }
-  .rotor__stage { order: 2; }
-  .rotor__close { order: 3; margin-top: 0; }
-  .rotor__dots { order: 4; margin-top: 0; }
-}
-.rotor__dots { display: flex; gap: 0.25rem; margin: 1rem 0 0 -0.6rem; }
-.rotor__dots button {
-  width: 32px; height: 32px; padding: 0; border: 0; background: none; cursor: pointer;
-  display: grid; place-items: center;
-}
-.rotor__dots button::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: rgba(10, 23, 34, 0.25); transition: background-color 0.2s ease, transform 0.2s ease; }
-.rotor__dots button[aria-pressed="true"]::before { background: var(--ink); transform: scale(1.25); }
+.rotor__item { position: absolute; left: 0; top: 0; opacity: 0; transform: translateY(0.35em); transition: opacity 0.45s ease, transform 0.45s ease; }
+.rotor__item.is-on { position: relative; opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .rotor, .rotor__item { transition: none; } }
 /* ---------- Read-as-you-scroll (classes added by landing.js) ---------- */
 .day { --unread: var(--dawn-deep); }
 .swans { --unread: rgba(233, 240, 244, 0.2); }

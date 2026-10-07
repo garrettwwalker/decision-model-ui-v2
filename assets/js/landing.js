@@ -26,7 +26,7 @@
   var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var day = document.querySelector(".day");
   var BLOCKS = "p, h2, h3, li, dt, dd, label";
-  var UNITS = ".chip";                       // inline widgets revealed whole, like a word
+  var UNITS = ".chip, .rotor";                       // inline widgets revealed whole, like a word
   var TILES = ".note, .tag, .swan, .chain li, .contact__form, .split__q, .part, .split__fused"; // revealed whole, text included
   var reads = [], tiles = [];
 
@@ -55,7 +55,7 @@
 
   if (day && !reduceMotion) {
     day.querySelectorAll(BLOCKS).forEach(function (el) {
-      if (el.closest(".clouds") || el.querySelector(BLOCKS) || el.closest(TILES) || el.closest(".rotor")) return; // innermost free-standing text; the rotor animates itself
+      if (el.closest(".clouds") || el.querySelector(BLOCKS) || el.closest(TILES)) return; // innermost free-standing text; the rotor animates itself
       var units = [];
       splitWords(el, units);
       if (units.length) reads.push({ el: el, units: units, n: -1 });
@@ -92,42 +92,29 @@
     });
   }
 
-  /* ---------- Thesis rotor: one exposure at a time ---------- */
+  /* ---------- Thesis rotor: the forecast event changes in place; its slot eases to fit ---------- */
   (function () {
     var rotor = document.querySelector(".rotor");
     if (!rotor) return;
     var items = rotor.querySelectorAll(".rotor__item");
-    var dots = rotor.querySelector(".rotor__dots");
-    var still = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    var T = 6500, cur = 0, timer = null, paused = false;
-    var buttons = Array.prototype.map.call(items, function (it, i) {
-      var b = document.createElement("button");
-      b.type = "button";
-      b.setAttribute("aria-label", "Example " + (i + 1) + " of " + items.length);
-      b.addEventListener("click", function () { show(i); });
-      dots.appendChild(b);
-      return b;
-    });
+    var T = 3200, cur = 0, timer = null, paused = false;
     function show(i) {
+      rotor.style.width = rotor.offsetWidth + "px"; // hold the old width, then ease to the new one
+      items[cur].classList.remove("is-on");
+      items[i].classList.add("is-on");
       cur = i;
-      items.forEach(function (it, k) {
-        it.classList.toggle("is-on", k === i);
-        it.setAttribute("aria-hidden", String(k !== i));
-        it.tabIndex = k === i ? 0 : -1;
-      });
-      buttons.forEach(function (b, k) { b.setAttribute("aria-pressed", String(k === i)); });
-      clearTimeout(timer);
-      if (still || paused) return;
-      timer = setTimeout(function () { show((cur + 1) % items.length); }, T);
+      rotor.style.width = items[i].offsetWidth + "px";
     }
-    // pause while hovered or focused, so a reader isn't rushed
-    function pause() { paused = true; clearTimeout(timer); }
-    function resume() { paused = false; show(cur); }
-    rotor.addEventListener("mouseenter", pause);
-    rotor.addEventListener("mouseleave", resume);
-    rotor.addEventListener("focusin", pause);
-    rotor.addEventListener("focusout", resume);
-    show(0);
+    function tick() {
+      clearTimeout(timer);
+      if (paused) return;
+      timer = setTimeout(function () { show((cur + 1) % items.length); tick(); }, T);
+    }
+    rotor.style.width = items[0].offsetWidth + "px";
+    rotor.parentNode.addEventListener("mouseenter", function () { paused = true; clearTimeout(timer); });
+    rotor.parentNode.addEventListener("mouseleave", function () { paused = false; tick(); });
+    window.addEventListener("resize", function () { rotor.style.width = items[cur].offsetWidth + "px"; });
+    tick();
   })();
 
   /* ---------- Nav theme follows the section under it ---------- */
