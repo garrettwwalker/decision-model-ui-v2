@@ -30,8 +30,10 @@
       { y: 94, w: [34, 48], h: [0.48, 0.6], gap: -0.22 }
     ] },
     left: { core: [50, 58, 48, 48], rows: [
-      { y: 62, w: [62, 82], h: [0.48, 0.58], gap: -0.4 },
-      { y: 104, w: [58, 78], h: [0.44, 0.54], gap: -0.4 }
+      // rounder, shorter clouds stacked close, so no long cloud juts out and no wide slit opens between rows
+      { y: 58, w: [40, 50], h: [0.64, 0.74], gap: -0.38 },
+      { y: 84, w: [42, 52], h: [0.62, 0.72], gap: -0.38 },
+      { y: 108, w: [46, 58], h: [0.56, 0.66], gap: -0.38 }
     ] },
     edge: { base: 44, rows: [
       { y: 41, w: [11, 17], h: [0.40, 0.52], gap: -0.22 },
