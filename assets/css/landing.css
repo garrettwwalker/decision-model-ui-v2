@@ -184,9 +184,9 @@
   fill: #050e16;
 }
 
-.clouds--top { inset: -12% -10% 40% -10%; transform: translateY(calc(var(--p) * -48%)); }
-.clouds--left { inset: -5% 38% 14% -18%; transform: translateX(calc(var(--p) * -62%)); }
-.clouds--right { inset: 0 -18% 12% 36%; transform: translateX(calc(var(--p) * 62%)); }
+.clouds--top { inset: -12% -10% 40% -10%; transform: translateY(calc(var(--p) * -92%)); }
+.clouds--left { inset: -5% 38% 14% -18%; transform: translateX(calc(var(--p) * -80%)); }
+.clouds--right { inset: 0 -18% 12% 36%; transform: translateX(calc(var(--p) * 80%)); }
 
 .hero__copy {
   position: absolute;

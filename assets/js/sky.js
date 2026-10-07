@@ -26,8 +26,7 @@
     top: { rows: [
       { y: 16, w: [30, 44], h: [0.42, 0.54], gap: -0.3 },
       { y: 40, w: [26, 38], h: [0.42, 0.54], gap: -0.3 },
-      { y: 64, w: [24, 34], h: [0.42, 0.52], gap: -0.28 },
-      { y: 90, w: [18, 28], h: [0.40, 0.50], gap: -0.25 }
+      { y: 64, w: [24, 34], h: [0.42, 0.52], gap: -0.28 }
     ] },
     left: { rows: [
       { y: 32, w: [58, 78], h: [0.42, 0.5], gap: -0.45 },
@@ -35,15 +34,15 @@
       { y: 84, w: [50, 68], h: [0.40, 0.48], gap: -0.4 },
       { y: 108, w: [60, 82], h: [0.36, 0.44], gap: -0.45 }
     ] },
-    edge: { base: 72, rows: [
+    edge: { base: 60, rows: [
       { y: 56, w: [11, 17], h: [0.40, 0.52], gap: -0.22 },
       { y: 76, w: [13, 20], h: [0.38, 0.48], gap: -0.25 }
     ] },
-    band: { base: 58, rows: [
+    band: { base: 50, rows: [
       { y: 52, w: [8, 13], h: [0.42, 0.55], gap: -0.2 },
       { y: 64, w: [10, 15], h: [0.38, 0.50], gap: -0.22 }
     ] },
-    floor: { base: 86, rows: [
+    floor: { base: 72, rows: [
       { y: 66, w: [12, 18], h: [0.42, 0.54], gap: -0.22 },
       { y: 90, w: [14, 22], h: [0.40, 0.50], gap: -0.25 }
     ] }
@@ -87,7 +86,9 @@
     var svg = el("svg", { width: W, height: H, viewBox: "0 0 " + W + " " + H, "aria-hidden": "true", focusable: "false" });
     var defs = el("defs", {});
     var grad = el("linearGradient", { id: id + "g", x1: 0, y1: 0, x2: 0, y2: 1 });
-    [[0, "--c-hi"], [0.42, "--c-mid"], [1, "--c-lo"]].forEach(function (s) {
+    var joins = shape.base != null; // this bank melts into the section below it
+    (joins ? [[0, "--c-hi"], [0.4, "--c-mid"], [0.78, "--c-base"], [1, "--c-base"]]
+           : [[0, "--c-hi"], [0.42, "--c-mid"], [1, "--c-lo"]]).forEach(function (s) {
       grad.appendChild(el("stop", { offset: s[0], style: "stop-color:var(" + s[1] + ")" }));
     });
     defs.appendChild(grad);
@@ -113,7 +114,7 @@
       // solid base that fades out, so it melts into whatever the next section paints
       var bg = el("linearGradient", { id: id + "base", x1: 0, y1: 0, x2: 0, y2: 1 });
       bg.appendChild(el("stop", { offset: 0, style: "stop-color:var(--c-base, var(--c-lo))" }));
-      bg.appendChild(el("stop", { offset: 0.35, style: "stop-color:var(--c-base, var(--c-lo))" }));
+      bg.appendChild(el("stop", { offset: 0.5, style: "stop-color:var(--c-base, var(--c-lo))" }));
       bg.appendChild(el("stop", { offset: 1, style: "stop-color:var(--c-base, var(--c-lo));stop-opacity:0" }));
       defs.appendChild(bg);
       root.appendChild(el("rect", { x: -W * 0.1, y: H * shape.base / 100, width: W * 1.2, height: H * (1 - shape.base / 100) + 2, fill: "url(#" + id + "base)" }));
@@ -143,7 +144,9 @@
           hl.appendChild(el("circle", { cx: f1(p.x - p.r * 0.18), cy: f1(p.y - p.r * 0.32), r: f1(p.r * (p.crown ? 0.55 : 0.5)) }));
         });
         body.appendChild(hl);
-        body.appendChild(el("ellipse", { cx: f1(cx), cy: f1(by), rx: f1(w * 0.5), ry: f1(h * 0.14), style: "fill:var(--c-rim)", filter: blur(h * 0.06), opacity: 0.85 }));
+        if (!joins) { // underside glow only on free-floating banks; on joining banks it drew a hard line
+          body.appendChild(el("ellipse", { cx: f1(cx), cy: f1(by), rx: f1(w * 0.5), ry: f1(h * 0.14), style: "fill:var(--c-rim)", filter: blur(h * 0.06), opacity: 0.85 }));
+        }
         soft.appendChild(body);
         root.appendChild(soft);
 
