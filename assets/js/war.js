@@ -253,7 +253,7 @@
   /* ---------- Branches ---------- */
   var branches = [];
   var tbody = document.querySelector("#branches tbody");
-  var COLORS = ["#f2683c", "#0a1722", "#0f6b5f", "#c94a22", "#6b7a85"];
+  var COLORS = ["#f2683c", "#ffb547", "#7fe0c6", "#a9c6e8", "#f6efe6"];
   function renderBranches() {
     tbody.textContent = "";
     if (!branches.length) {

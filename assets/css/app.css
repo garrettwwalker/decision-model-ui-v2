@@ -26,6 +26,34 @@ body.app { min-height: 100vh; }
     radial-gradient(70% 380px at 78% 0%, rgba(255, 236, 200, 0.95), rgba(255, 236, 200, 0) 100%),
     linear-gradient(180deg, #f39a72 0px, #ffbb8b 320px, var(--dawn) 700px, #ffd2a8 1800px, #ffe6c9 3200px, #fff1df 100%);
 }
+/* Blue hour (wargame): the whole page is an instrument, the sun not yet up */
+.t-bluehour {
+  --ctl: #ffb547;
+  --ctl-soft: rgba(255, 181, 71, 0.3);
+  --focus: #ffb547;
+  --fg: #f6efe6;
+  --fg-2: rgba(246, 239, 230, 0.72);
+  --panel: #0f2131; /* solid: diagrams draw pre-blended colors on it */
+  --panel-solid: #0f2131;
+  --panel-line: rgba(255, 255, 255, 0.1);
+  --line-strong: rgba(255, 255, 255, 0.16);
+  --tone: rgba(255, 170, 120, 0.55);
+  color: var(--fg);
+  background:
+    radial-gradient(90% 520px at 50% 100%, rgba(233, 135, 106, 0.35), rgba(233, 135, 106, 0) 100%),
+    linear-gradient(180deg, #071621 0px, #0d2233 420px, #1c2c3f 1100px, #3a3446 1700px, #6a4650 2300px, #b9675b 100%);
+  background-attachment: fixed;
+}
+.t-bluehour .bar { background: rgba(7, 22, 33, 0.72); box-shadow: none; }
+.t-bluehour .panel { box-shadow: none; border: 1px solid var(--panel-line); }
+.t-bluehour .btn--primary { background: #f6efe6; color: var(--ink); }
+.t-bluehour .btn--primary:hover { background: #fff; }
+.t-bluehour .btn--ghost { color: var(--fg); }
+.t-bluehour .money--loss { color: #ff7a66; }
+.t-bluehour .money--safe { color: #5fd3b5; }
+.t-bluehour .toast { background: #f6efe6; color: var(--ink); }
+.t-bluehour .drift .clouds, .t-predawn .drift .clouds { --c-hi: #4a5a70; --c-mid: #34445a; --c-lo: #223044; --c-rim: #7a5058; }
+
 /* Instruments: the only dark surfaces, for live charts and code (the landing's preview tiles) */
 .instrument {
   --ctl: #ffb547;

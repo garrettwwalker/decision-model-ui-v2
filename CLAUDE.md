@@ -13,7 +13,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
 
 - Pages: `index.html` (landing), `briefing.html` (executive brief), `wargame.html`
   (scenario sandbox), `workbench.html` (world-model editor for data/IT) and `ask.html` (chat).
-- Product pages share the landing's vocabulary: dawn ground (`t-sunrise`), white paper (`.panel`,
+- Product pages share the landing's vocabulary: dawn ground (`t-sunrise`; the wargame keeps its dark `t-bluehour` ground), white paper (`.panel`,
   pinned `.note`), dark `.instrument` tiles only for live charts and code, lowercase burnt-dawn section
   titles, dashed dividers, cargo tags for routes. The ask page keeps its own pre-dawn sky (`t-predawn`).
   The landing page runs night → dawn on scroll.
@@ -26,8 +26,8 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   clouds with puffs peaking mid-cloud, one light gradient per cloud, crown highlights and an underside glow.
   Colors come from `--c-hi/mid/lo/rim` on `.clouds--storm/dawn/cream`; `--c-base` is the fading strip that
   joins the next section; `data-flip` hangs a bank upside down.
-  Product pages call `Sky.drift()`: three lone translucent clouds cross the fixed background on long
-  staggered loops (CSS `drift` keyframes; still under reduced motion).
+  Product pages call `Sky.drift()`: 2-4 lone translucent clouds with random size, height, speed and
+  start point cross a fixed background layer (CSS `drift` keyframes; still under reduced motion).
 - `ask.html` (fourth tab, "pre-dawn" theme in `assets/css/ask.css`) is the "ask the model" chat. `assets/js/chat.js`
   answers scripted intents (capacity, what-if, best move, forecast, signposts, decline) live from `model.js`.
   The assumed scenario is shared with the wargame via `sessionStorage["daybreak.scenario"]`; the wargame saves

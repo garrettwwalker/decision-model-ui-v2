@@ -78,3 +78,9 @@
 .branch__x:hover { background: rgba(10, 23, 34, 0.12); color: var(--fg); }
 .branch__swatch { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 0.45rem; vertical-align: 0; }
 
+
+/* blue-hour overrides for pieces styled for paper */
+.t-bluehour .kpi--loss { background: linear-gradient(180deg, #3a1d24, var(--panel-solid)); }
+.t-bluehour .controls .field__hint[data-out="pworld"] { color: var(--amber); }
+.t-bluehour .branch__x { background: rgba(255, 255, 255, 0.06); }
+.t-bluehour .branch__x:hover { background: rgba(255, 255, 255, 0.14); }

@@ -184,23 +184,31 @@
     all();
   });
 
-  // A few lone translucent clouds crossing the background now and then (product pages)
+  // A few lone translucent clouds crossing the background now and then (product pages).
+  // Size, height, speed, timing and shape are random on every page load.
   function drift(root) {
+    var host = root || document.body;
     var layer = document.createElement("div");
     layer.className = "drift";
     layer.setAttribute("aria-hidden", "true");
-    var palette = document.body.classList.contains("t-predawn") ? "clouds--storm" : "clouds--cream";
-    // width, top, seconds to cross, delay, opacity, resting position for reduced motion
-    [["30vw", "14%", 150, -40, 0.6, "62vw"], ["20vw", "48%", 110, -95, 0.45, "8vw"], ["38vw", "72%", 190, -150, 0.45, "40vw"]]
-      .forEach(function (c, i) {
-        var d = document.createElement("div");
-        d.className = "clouds " + palette;
-        d.setAttribute("data-clouds", "single");
-        d.style.cssText = "--w:" + c[0] + ";top:" + c[1] + ";--t:" + c[2] + "s;--d:" + c[3] + "s;--o:" + c[4] + ";--rest:" + c[5];
-        layer.appendChild(d);
-      });
-    (root || document.body).insertBefore(layer, (root || document.body).firstChild);
-    layer.querySelectorAll("[data-clouds]").forEach(function (e, i) { build(e, 301 + i * 37); });
+    var dark = /t-predawn|t-bluehour/.test(document.body.className);
+    var n = 2 + Math.floor(Math.random() * 3); // 2-4 clouds
+    var lanes = [];
+    for (var i = 0; i < n; i++) {
+      var top;
+      do { top = 6 + Math.random() * 74; } while (lanes.some(function (t) { return Math.abs(t - top) < 14; }) && lanes.length < 5);
+      lanes.push(top);
+      var t = 90 + Math.random() * 120;               // seconds to cross
+      var d = -Math.random() * t;                      // already partway across, anywhere
+      var c = document.createElement("div");
+      c.className = "clouds " + (dark ? "clouds--storm" : "clouds--cream");
+      c.setAttribute("data-clouds", "single");
+      c.style.cssText = "--w:" + (16 + Math.random() * 24).toFixed(1) + "vw;top:" + top.toFixed(1) + "%;--t:" + t.toFixed(0) +
+        "s;--d:" + d.toFixed(0) + "s;--o:" + (0.35 + Math.random() * 0.25).toFixed(2) + ";--rest:" + (Math.random() * 80).toFixed(0) + "vw";
+      layer.appendChild(c);
+    }
+    host.insertBefore(layer, host.firstChild);
+    layer.querySelectorAll("[data-clouds]").forEach(function (e) { build(e, 1 + Math.floor(Math.random() * 1e6)); });
   }
 
   window.Sky = { build: build, all: all, drift: drift };
