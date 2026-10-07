@@ -39,8 +39,8 @@
       { y: 76, w: [13, 20], h: [0.38, 0.48], gap: -0.25 }
     ] },
     band: { base: 50, rows: [
-      { y: 52, w: [8, 13], h: [0.42, 0.55], gap: -0.2 },
-      { y: 64, w: [10, 15], h: [0.38, 0.50], gap: -0.22 }
+      { y: 52, w: [10, 15], h: [0.42, 0.55], gap: -0.2 },
+      { y: 64, w: [12, 17], h: [0.38, 0.50], gap: -0.22 }
     ] },
     floor: { base: 72, rows: [
       { y: 66, w: [12, 18], h: [0.42, 0.54], gap: -0.22 },
@@ -80,7 +80,9 @@
     if (!shape) return;
     var rand = rng(seed);
     var W = Math.max(1, host.clientWidth), H = Math.max(1, host.clientHeight);
-    var scale = W < 700 ? Math.min(2.2, 700 / W) : 1; // phones: keep clouds from shrinking to pebbles
+    // Phones: divider clouds would shrink to pebbles, so scale them up. Hero banks are sized
+    // to their own box and must not spill past it, or they can't clear the sun on scroll.
+    var scale = shape.base != null && W < 900 ? Math.min(3, 1000 / W) : 1;
     var id = "cl" + (++uid);
 
     var svg = el("svg", { width: W, height: H, viewBox: "0 0 " + W + " " + H, "aria-hidden": "true", focusable: "false" });

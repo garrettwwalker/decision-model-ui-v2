@@ -182,6 +182,11 @@ html { scroll-behavior: smooth; } /* nav CTA glides to the contact form; base.cs
 .clouds--top { inset: -12% -10% 40% -10%; transform: translateY(calc(var(--p) * -92%)); }
 .clouds--left { inset: -5% 38% 14% -18%; transform: translateX(calc(var(--p) * -80%)); }
 .clouds--right { inset: 0 -18% 12% 36%; transform: translateX(calc(var(--p) * 80%)); }
+@media (max-width: 700px) { /* narrow screens: the side banks need to travel further to clear the sun */
+  .clouds--left { transform: translateX(calc(var(--p) * -115%)); }
+  .clouds--right { transform: translateX(calc(var(--p) * 115%)); }
+  .clouds--top { transform: translateY(calc(var(--p) * -110%)); }
+}
 
 .hero__copy {
   position: absolute;
@@ -424,6 +429,11 @@ html { scroll-behavior: smooth; } /* nav CTA glides to the contact form; base.cs
 .clouds--band { left: 0; right: 0; height: 120px; --c-base: #1b2532; /* the band itself */ }
 .clouds--band-top { top: -60px; }
 .clouds--band-bottom { bottom: -60px; }
+@media (max-width: 700px) { /* taller band so the scaled-up clouds have room */
+  .clouds--band { height: 170px; }
+  .clouds--band-top { top: -95px; }
+  .clouds--band-bottom { bottom: -95px; }
+}
 .swans__inner { position: relative; z-index: 1; max-width: 76rem; margin-inline: auto; }
 .swans__head {
   display: flex; flex-wrap: wrap; align-items: flex-end; gap: 1.5rem 3rem;
