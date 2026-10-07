@@ -224,7 +224,18 @@ html { scroll-behavior: smooth; } /* nav CTA glides to the contact form; base.cs
 .rotor__stage { display: grid; margin-top: 0.35rem; }
 .rotor__item { grid-area: 1 / 1; opacity: 0; transform: translateY(0.4rem); transition: opacity 0.6s ease, transform 0.6s ease; }
 .rotor__item.is-on { opacity: 1; transform: none; }
-.rotor__p { color: var(--ember-deep); }
+/* the probability gets a highlighter swept across it as each example arrives */
+.rotor__p {
+  color: var(--ember-deep);
+  padding: 0 0.12em; margin: 0 -0.12em; border-radius: 0.15em;
+  -webkit-box-decoration-break: clone; box-decoration-break: clone;
+  background-image: linear-gradient(100deg, rgba(255, 249, 238, 0.95), rgba(255, 238, 214, 0.9));
+  background-repeat: no-repeat;
+  background-position: 0 70%;
+  background-size: 0% 80%;
+}
+.rotor__item.is-on .rotor__p { background-size: 100% 80%; transition: background-size 0.7s cubic-bezier(.3,.7,.3,1) 0.45s; }
+@media (prefers-reduced-motion: reduce) { .rotor__item.is-on .rotor__p { transition: none; } }
 .rotor__dots { display: flex; gap: 0.25rem; margin-top: 0.9rem; }
 .rotor__dots button {
   width: 32px; height: 32px; padding: 0; border: 0; background: none; cursor: pointer;
