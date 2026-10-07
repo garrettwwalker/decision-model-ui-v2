@@ -4,40 +4,6 @@
 
   Sky.all();
 
-  /* ---------- Sun glitter on the water: short ripple streaks, densest under the sun,
-     scattering a little wider and dimmer toward the viewer ---------- */
-  (function () {
-    var host = document.querySelector(".hero__glint");
-    if (!host) return;
-    var NS = "http://www.w3.org/2000/svg";
-    var seed = 42;
-    function rand() { seed = (seed * 16807) % 2147483647; return seed / 2147483647; }
-    var svg = document.createElementNS(NS, "svg");
-    svg.setAttribute("viewBox", "0 0 300 100");
-    svg.setAttribute("preserveAspectRatio", "none");
-    var y = 0.6;
-    while (y < 92) {
-      var t = y / 92;                                  // 0 at the horizon, 1 near the viewer
-      var dashes = 2 + Math.floor(rand() * 3);
-      for (var i = 0; i < dashes; i++) {
-        var spread = 62 + 38 * t;                      // half-width of the path, in a 300-wide box
-        var w = (20 + rand() * 60) * (1 - 0.3 * t);
-        var cx = 150 + (rand() * 2 - 1) * spread * (0.4 + 0.6 * rand());
-        var r = document.createElementNS(NS, "rect");
-        r.setAttribute("x", (cx - w / 2).toFixed(1));
-        r.setAttribute("y", y.toFixed(2));
-        r.setAttribute("width", w.toFixed(1));
-        r.setAttribute("height", (0.5 + 0.9 * t).toFixed(2));
-        r.setAttribute("rx", "0.6");
-        r.setAttribute("fill", t < 0.25 ? "#fff3dc" : "#ffd9a8");
-        r.setAttribute("opacity", ((1 - 0.85 * t) * (0.55 + 0.45 * rand())).toFixed(2));
-        svg.appendChild(r);
-      }
-      y += 1.1 + 3.4 * t * t + rand() * 0.8;           // ripples spread apart toward the viewer
-    }
-    host.appendChild(svg);
-  })();
-
   /* ---------- Hero: clouds part, sun rises ---------- */
   var hero = document.querySelector(".hero");
   var stage = document.querySelector(".hero__stage");
