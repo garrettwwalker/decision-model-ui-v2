@@ -109,7 +109,7 @@ html { scroll-behavior: smooth; } /* nav CTA glides to the contact form; base.cs
 }
 .hero__glow {
   position: absolute;
-  left: 62%;
+  left: 67%;
   bottom: -40%;
   width: 140vmax;
   height: 90vmax;
@@ -120,7 +120,7 @@ html { scroll-behavior: smooth; } /* nav CTA glides to the contact form; base.cs
 }
 .hero__sun {
   position: absolute;
-  left: 62%;
+  left: 67%;
   top: 100%;
   width: min(30vw, 300px);
   aspect-ratio: 1;
@@ -146,7 +146,7 @@ html { scroll-behavior: smooth; } /* nav CTA glides to the contact form; base.cs
   content: "";
   position: absolute;
   top: 0; bottom: 0;
-  left: 62%;
+  left: 67%;
   width: min(56vw, 680px);
   transform: translateX(-50%);
   opacity: calc(var(--p) * 0.95);
@@ -159,8 +159,8 @@ html { scroll-behavior: smooth; } /* nav CTA glides to the contact form; base.cs
 }
 
 .clouds--top { inset: -12% -10% 40% -10%; transform: translateY(calc(var(--p) * -92%)); }
-.clouds--left { inset: -5% 38% 14% -18%; transform: translateX(calc(var(--p) * -95%)); }
-.clouds--right { inset: 0 -18% 12% 36%; transform: translateX(calc(var(--p) * 95%)); }
+.clouds--left { inset: -5% 38% -8% -18%; transform: translateX(calc(var(--p) * -95%)); }
+.clouds--right { inset: 0 -18% -8% 36%; transform: translateX(calc(var(--p) * 95%)); }
 @media (max-width: 700px) { /* narrow screens: the side banks need to travel further to clear the sun */
   .clouds--left { transform: translateX(calc(var(--p) * -150%)); }
   .clouds--right { transform: translateX(calc(var(--p) * 150%)); }
