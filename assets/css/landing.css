@@ -236,8 +236,13 @@ html { scroll-behavior: smooth; } /* nav CTA glides to the contact form; base.cs
 }
 /* beat one: the setup, quiet and left-hung */
 .thesis .thesis__setup { margin: 0 0 0 clamp(0rem, 6vw, 6rem); max-width: 44rem; line-height: 1.4; }
-/* beat two: the answer, on the same left edge as the setup and the section titles below; a dashed rule marks the turn */
-.thesis__answer { margin-left: clamp(0rem, 6vw, 6rem); max-width: 60rem; padding-top: clamp(2rem, 5vh, 3rem); border-top: 1.5px dashed var(--line-strong); }
+/* beat two: the answer hangs from the right margin, set flush right; the setup hangs from the left */
+.thesis__answer {
+  justify-self: end; text-align: right;
+  margin-right: clamp(0rem, 6vw, 6rem); max-width: 60rem;
+  display: flex; flex-direction: column; align-items: flex-end;
+}
+.thesis__answer .thesis__close { margin-left: auto; }
 .thesis__lead, .thesis__close { margin: 0; font-size: clamp(1.1rem, 1.8vw, 1.45rem); font-weight: 700; letter-spacing: -0.01em; line-height: 1.4; }
 .thesis__close { max-width: 26rem; margin-top: 1.4rem; color: var(--ink-2); }
 .thesis__event {
@@ -245,7 +250,7 @@ html { scroll-behavior: smooth; } /* nav CTA glides to the contact form; base.cs
   letter-spacing: -0.04em; line-height: 1; white-space: nowrap;
 }
 @media (max-width: 760px) {
-  .thesis__answer { margin-left: 0; }
+  .thesis__answer { margin-right: 0; }
   .thesis .thesis__setup { margin-left: 0; }
   .thesis__event { font-size: clamp(1.4rem, 7vw, 2.4rem); }
 }
