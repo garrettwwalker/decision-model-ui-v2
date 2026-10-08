@@ -58,18 +58,32 @@
     <div class="day">
       <div class="clouds clouds--dawn clouds--edge" data-clouds="edge" aria-hidden="true"></div>
 
-      <!-- 2. Thesis: a quiet setup at the left, then the answer offset right with the event set large -->
+      <!-- 2. Thesis: two lines of setup beside a live forecast card -->
       <section class="thesis" data-nav="light" aria-label="Why Daybreak">
         <p class="prose read thesis__setup">
-          While the world sleeps, conditions change.<br>
+          While the world sleeps, conditions change.
           You need decision intelligence that can keep up.
         </p>
 
-        <div class="thesis__answer">
-          <p class="thesis__lead read">Daybreak predicts the likelihood of</p>
-          <p class="thesis__event"><span class="rotor" aria-live="off"><span class="rotor__item is-on">a Hormuz closure</span><span class="rotor__item">new Section 232 tariffs</span><span class="rotor__item">a Red Sea shutdown</span><span class="rotor__item">a ceasefire in Ukraine</span><span class="rotor__item">sanctions on your feeders</span></span></p>
-          <p class="thesis__close read">And it tells you the best way forward, while there's still time to act.</p>
-        </div>
+        <figure class="watch note" aria-label="Examples of what Daybreak flags overnight">
+          <figcaption class="watch__head">
+            <span class="watch__title">Flagged overnight</span>
+            <span class="watch__count" data-watch-count>1 of 5</span>
+          </figcaption>
+          <div class="watch__body" aria-live="off">
+            <p class="watch__event" data-watch="event">Hormuz closes for 7+ days</p>
+            <div class="watch__p">
+              <span class="watch__bar"><i data-watch="bar"></i></span>
+              <span class="watch__pct"><b data-watch="p">27%</b> <span data-watch="when">within 30 days</span></span>
+            </div>
+            <dl class="watch__facts">
+              <div><dt>Touches</dt><dd data-watch="touches">9 vessels and 312 purchase orders</dd></div>
+              <div><dt>Best move</dt><dd data-watch="move">Bridge-buy resin from Singapore</dd></div>
+              <div class="watch__value"><dt data-watch="vlabel">Protects</dt><dd data-watch="value">$11.7M</dd></div>
+            </dl>
+          </div>
+          <a class="watch__link" href="briefing.html">See this morning's brief</a>
+        </figure>
       </section>
 
       <!-- 3. How it thinks: decomposition, three engines, fusion -->

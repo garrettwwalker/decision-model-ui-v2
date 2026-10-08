@@ -26,7 +26,7 @@
   var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var day = document.querySelector(".day");
   var BLOCKS = "p, h2, h3, li, dt, dd, label";
-  var UNITS = ".chip, .rotor";                       // inline widgets revealed whole, like a word
+  var UNITS = ".chip";                       // inline widgets revealed whole, like a word
   var TILES = ".note, .tag, .swan, .chain li, .contact__form, .split__q, .part, .split__fused"; // revealed whole, text included
   var reads = [], tiles = [];
 
@@ -55,7 +55,7 @@
 
   if (day && !reduceMotion) {
     day.querySelectorAll(BLOCKS).forEach(function (el) {
-      if (el.closest(".clouds") || el.querySelector(BLOCKS) || el.closest(TILES)) return; // innermost free-standing text; the rotor animates itself
+      if (el.closest(".clouds") || el.querySelector(BLOCKS) || el.closest(TILES)) return; // innermost free-standing text only
       var units = [];
       splitWords(el, units);
       if (units.length) reads.push({ el: el, units: units, n: -1 });
@@ -92,28 +92,41 @@
     });
   }
 
-  /* ---------- Thesis rotor: the forecast event changes in place; its slot eases to fit ---------- */
+  /* ---------- Overnight watch card: cycles through flagged events ---------- */
   (function () {
-    var rotor = document.querySelector(".rotor");
-    if (!rotor) return;
-    var items = rotor.querySelectorAll(".rotor__item");
-    var T = 3200, cur = 0, timer = null;
-    function fit() { rotor.style.width = items[cur].offsetWidth + "px"; }
-    function show(i) {
-      rotor.style.width = items[cur].offsetWidth + "px"; // hold the old width, then ease to the new one
-      items[cur].classList.remove("is-on");
-      items[i].classList.add("is-on");
-      cur = i;
-      fit();
+    var card = document.querySelector(".watch");
+    if (!card) return;
+    var EVENTS = [
+      { event: "Hormuz closes for 7+ days", p: 27, when: "within 30 days", touches: "9 vessels and 312 purchase orders", move: "Bridge-buy resin from Singapore", vlabel: "Protects", value: "$11.7M" },
+      { event: "The Red Sea shuts to traffic", p: 34, when: "within 30 days", touches: "Resin for the Gebze plant, via Suez", move: "Pre-book Cape routing for 3 sailings", vlabel: "Protects", value: "$4.1M" },
+      { event: "New Section 232 tariffs", p: 62, when: "by the second quarter", touches: "14 SKUs from 3 suppliers", move: "Front-load first-quarter imports", vlabel: "Protects", value: "$2.8M" },
+      { event: "A ceasefire in Ukraine", p: 18, when: "within 60 days", touches: "Black Sea grain and steel lanes", move: "Keep spot contracts open", vlabel: "Upside", value: "+$1.2M", up: true },
+      { event: "Sanctions hit two of your feeders", p: 19, when: "within 60 days", touches: "The ME4 Gulf shuttle, 88 POs", move: "Line up replacement charters", vlabel: "Protects", value: "$1.9M" }
+    ];
+    var body = card.querySelector(".watch__body");
+    var count = card.querySelector("[data-watch-count]");
+    var bar = card.querySelector('[data-watch="bar"]');
+    var cur = 0;
+    function fill(e) {
+      ["event", "when", "touches", "move", "vlabel", "value"].forEach(function (k) {
+        card.querySelector('[data-watch="' + k + '"]').textContent = e[k];
+      });
+      card.querySelector('[data-watch="p"]').textContent = e.p + "%";
+      count.textContent = (cur + 1) + " of " + EVENTS.length;
+      card.classList.toggle("is-up", !!e.up);
+      bar.style.width = "0";
+      requestAnimationFrame(function () { requestAnimationFrame(function () { bar.style.width = e.p + "%"; }); });
     }
-    function schedule() {
-      clearTimeout(timer);
-      timer = setTimeout(function () { show((cur + 1) % items.length); schedule(); }, T);
+    function next() {
+      body.classList.add("is-out");
+      setTimeout(function () {
+        cur = (cur + 1) % EVENTS.length;
+        fill(EVENTS[cur]);
+        body.classList.remove("is-out");
+      }, 350);
     }
-    window.addEventListener("resize", fit);
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit); // re-measure once Switzer loads
-    fit();
-    schedule();
+    fill(EVENTS[0]);
+    setInterval(next, 4500);
   })();
 
   /* ---------- Nav theme follows the section under it ---------- */

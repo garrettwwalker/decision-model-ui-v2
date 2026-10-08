@@ -234,39 +234,39 @@ html { scroll-behavior: smooth; } /* nav CTA glides to the contact form; base.cs
   padding: clamp(8rem, 20vh, 12rem) var(--gutter) clamp(6rem, 16vh, 10rem);
   display: grid; gap: clamp(2.5rem, 6vh, 4rem);
 }
-/* beat one: the setup, quiet and left-hung */
-.thesis .thesis__setup { margin: 0 0 0 clamp(0rem, 6vw, 6rem); max-width: 44rem; line-height: 1.4; }
-/* beat two: the answer hangs from the right margin, set flush right; the setup hangs from the left */
-.thesis__answer {
-  justify-self: end; text-align: right;
-  margin-right: clamp(0rem, 6vw, 6rem); max-width: 60rem;
-  display: flex; flex-direction: column; align-items: flex-end;
+/* setup on the left, the forecast card on the right */
+.thesis {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 27rem);
+  align-items: center; column-gap: clamp(2rem, 6vw, 6rem);
+  max-width: 82rem;
 }
-.thesis__answer .thesis__close { margin-left: auto; }
-.thesis__lead, .thesis__close { margin: 0; font-size: clamp(1.1rem, 1.8vw, 1.45rem); font-weight: 700; letter-spacing: -0.01em; line-height: 1.4; }
-.thesis__close { max-width: 26rem; margin-top: 1.4rem; color: var(--ink-2); }
-.thesis__event {
-  margin: 0.6rem 0 0; font-size: clamp(2.2rem, 5vw, 4.4rem); font-weight: 800; /* sized so the longest event fits */
-  letter-spacing: -0.04em; line-height: 1; white-space: nowrap;
-}
-@media (max-width: 760px) {
-  .thesis__answer { margin-right: 0; }
+.thesis .thesis__setup { margin: 0 0 0 clamp(0rem, 6vw, 6rem); max-width: 32rem; line-height: 1.35; }
+.watch { margin: 0; padding: 1.4rem 1.5rem 1.3rem; transform: rotate(0.8deg); }
+.watch__head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1.5px dashed var(--line-strong); }
+.watch__title { font-size: var(--fs-small); font-weight: 700; color: var(--ember-deep); }
+.watch__count { font-size: var(--fs-micro); font-weight: 600; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.watch__body { transition: opacity 0.35s ease; }
+.watch__body.is-out { opacity: 0; }
+.watch__event { margin: 0; font-size: 1.6rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1.15; min-height: 2.3em; }
+.watch__p { display: grid; gap: 0.45rem; margin: 0.9rem 0 1.1rem; }
+.watch__bar { height: 8px; border-radius: 8px; background: rgba(10, 23, 34, 0.08); overflow: hidden; }
+.watch__bar i { display: block; height: 100%; width: 0; border-radius: 8px; background: var(--loss); transition: width 0.9s cubic-bezier(.3,.7,.3,1); }
+.watch.is-up .watch__bar i { background: var(--safe); }
+.watch__pct { font-size: 0.9rem; color: var(--ink-2); }
+.watch__pct b { font-size: 1.15rem; color: var(--loss); font-variant-numeric: tabular-nums; }
+.watch.is-up .watch__pct b { color: var(--safe); }
+.watch__facts { margin: 0; display: grid; gap: 0.55rem; font-size: 0.9rem; }
+.watch__facts div { display: grid; grid-template-columns: 5.5rem 1fr; gap: 0.75rem; }
+.watch__facts dt { color: var(--ink-3); font-weight: 600; }
+.watch__facts dd { margin: 0; font-weight: 600; }
+.watch__value dd { font-size: 1.15rem; font-weight: 800; color: var(--safe); font-variant-numeric: tabular-nums; }
+.watch__link { display: inline-block; margin-top: 1.1rem; font-size: var(--fs-small); font-weight: 700; color: var(--ink); }
+@media (prefers-reduced-motion: reduce) { .watch__body, .watch__bar i { transition: none; } }
+@media (max-width: 860px) {
+  .thesis { grid-template-columns: minmax(0, 1fr); row-gap: 2.5rem; }
   .thesis .thesis__setup { margin-left: 0; }
-  .thesis__event { font-size: clamp(1.4rem, 7vw, 2.4rem); }
+  .watch { transform: none; }
 }
-/* the one moving part of the sentence: the event Daybreak forecasts */
-.rotor { /* the oval chip from the earlier inline widgets, now holding the event */
-  position: relative; display: inline-block; vertical-align: top;
-  box-sizing: content-box; /* JS sets width to the phrase; padding and border sit outside it */
-  padding: 0.06em 0.42em; border: 2px solid currentColor; border-radius: 999px;
-  line-height: 1.2;
-  white-space: nowrap; color: var(--ink);
-  transition: width 0.5s cubic-bezier(.3,.7,.3,1);
-  overflow: hidden;
-}
-.rotor__item { position: absolute; left: 0.42em; top: 0.06em; opacity: 0; transform: translateY(0.35em); transition: opacity 0.45s ease, transform 0.45s ease; }
-.rotor__item.is-on { position: relative; left: 0; top: 0; opacity: 1; transform: none; }
-@media (prefers-reduced-motion: reduce) { .rotor, .rotor__item { transition: none; } }
 /* ---------- Read-as-you-scroll (classes added by landing.js) ---------- */
 .day { --unread: var(--dawn-deep); }
 .swans { --unread: rgba(233, 240, 244, 0.2); }
