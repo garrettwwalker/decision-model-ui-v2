@@ -33,7 +33,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   The assumed scenario is shared with the wargame via `sessionStorage["daybreak.scenario"]`; the wargame saves
   it on every update and loads it on `wargame.html?from=ask`.
 - Landing "down to who does what." is a node-link diagram (`.graph`, `.gn` nodes in a CSS grid); `landing.js`
-  draws curved SVG edges between node centers and loops an impact pulse driver -> owners while in view
+  draws curved SVG edges between node centers and runs a continuous stream of dots down every edge
   (timer-driven, not rAF, so it also runs in headless checks).
 - `assets/js/app.js` holds the shared helpers (`DB.money`, `DB.toast`, `DB.rng`, range fills).
 - Type: Switzer (Fontshare), self-hosted in `assets/fonts/`, for everything, on a major-third scale; data uses

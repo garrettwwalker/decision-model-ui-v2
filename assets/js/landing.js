@@ -129,7 +129,7 @@
     setInterval(next, 4500);
   })();
 
-  /* ---------- Node-link model: an impact pulse travels driver -> owners, on a loop ---------- */
+  /* ---------- Node-link model: a steady stream of dots flows down every edge ---------- */
   (function () {
     var fig = document.querySelector(".graph");
     if (!fig) return;
@@ -137,15 +137,14 @@
     var NS = "http://www.w3.org/2000/svg";
     var EDGES = [["driver", "asset"], ["asset", "road"], ["asset", "crew"], ["road", "exposure"], ["crew", "exposure"],
                  ["exposure", "security"], ["exposure", "procurement"], ["exposure", "board"]];
-    // the pulse runs in waves; edges in the same wave travel together
-    var WAVES = [[0], [1, 2], [3, 4], [5, 6, 7]];
+    var PER_EDGE = 3, PERIOD = 2400; // dots per edge, ms for one dot to cross an edge
     var node = function (k) { return fig.querySelector('[data-node="' + k + '"]'); };
-    var paths = [];
+    var flows = [];
     function draw() {
       var box = fig.getBoundingClientRect();
       svg.setAttribute("viewBox", "0 0 " + box.width + " " + box.height);
       svg.textContent = "";
-      paths = EDGES.map(function (e) {
+      flows = EDGES.map(function (e, i) {
         var a = node(e[0]).getBoundingClientRect(), b = node(e[1]).getBoundingClientRect();
         var x1 = a.left + a.width / 2 - box.left, y1 = a.bottom - box.top;
         var x2 = b.left + b.width / 2 - box.left, y2 = b.top - box.top;
@@ -153,50 +152,37 @@
         var p = document.createElementNS(NS, "path");
         p.setAttribute("d", "M" + x1 + " " + y1 + " C" + x1 + " " + my + " " + x2 + " " + my + " " + x2 + " " + y2);
         svg.appendChild(p);
-        return p;
+        var dots = [];
+        for (var n = 0; n < PER_EDGE; n++) {
+          var c = document.createElementNS(NS, "circle");
+          c.setAttribute("r", 3.5);
+          svg.appendChild(c);
+          // stagger dots along the edge, and offset each edge a little so the flow doesn't march in lockstep
+          dots.push({ el: c, phase: n / PER_EDGE + i * 0.13 });
+        }
+        return { path: p, len: p.getTotalLength(), dots: dots };
       });
     }
     var still = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    var running = false;
-    function lit(k, on) { node(k).classList.toggle("is-lit", on); }
-    function reset() {
-      Object.keys({ driver: 1, asset: 1, road: 1, crew: 1, exposure: 1, security: 1, procurement: 1, board: 1 }).forEach(function (k) { lit(k, false); });
-      paths.forEach(function (p) { p.classList.remove("is-lit"); });
-    }
-    function travel(idx, done) { // move a dot along each edge in the wave, then light the targets
-      var dots = idx.map(function () { var c = document.createElementNS(NS, "circle"); c.setAttribute("r", 4.5); svg.appendChild(c); return c; });
-      var t0 = Date.now(), D = 650;
-      function step() {
-        var k = Math.min(1, (Date.now() - t0) / D);
-        idx.forEach(function (i, n) {
-          var p = paths[i], L = p.getTotalLength(), pt = p.getPointAtLength(L * k);
-          dots[n].setAttribute("cx", pt.x); dots[n].setAttribute("cy", pt.y);
+    function tick() {
+      var t = Date.now() / PERIOD;
+      flows.forEach(function (f) {
+        f.dots.forEach(function (d) {
+          var k = (t + d.phase) % 1;
+          var pt = f.path.getPointAtLength(f.len * k);
+          d.el.setAttribute("cx", pt.x);
+          d.el.setAttribute("cy", pt.y);
+          // fade in as a dot leaves a node, fade out as it arrives
+          d.el.setAttribute("opacity", Math.min(1, k * 6, (1 - k) * 6).toFixed(2));
         });
-        if (k < 1) return setTimeout(step, 16);
-        dots.forEach(function (d) { d.remove(); });
-        idx.forEach(function (i) { paths[i].classList.add("is-lit"); lit(EDGES[i][1], true); });
-        done();
-      }
-      step();
+      });
+      setTimeout(tick, 33);
     }
-    function play() {
-      running = true;
-      reset();
-      lit("driver", true);
-      var w = 0;
-      (function nextWave() {
-        if (w >= WAVES.length) { setTimeout(function () { running = false; check(); }, 3800); return; }
-        setTimeout(function () { travel(WAVES[w++], nextWave); }, 250);
-      })();
-    }
-    function inView() { var r = fig.getBoundingClientRect(); return r.top < window.innerHeight * 0.8 && r.bottom > window.innerHeight * 0.2; }
-    function check() { if (!running && inView()) play(); }
     draw();
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(draw);
-    window.addEventListener("resize", function () { draw(); });
-    if (still) { EDGES.forEach(function (e, i) { paths[i].classList.add("is-lit"); lit(e[0], true); lit(e[1], true); }); return; }
-    window.addEventListener("scroll", check, { passive: true });
-    check();
+    window.addEventListener("resize", draw);
+    if (still) { flows.forEach(function (f) { f.dots.forEach(function (d) { d.el.remove(); }); }); return; }
+    tick();
   })();
 
   /* ---------- Nav theme follows the section under it ---------- */
