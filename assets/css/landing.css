@@ -241,7 +241,6 @@ html { scroll-behavior: smooth; } /* nav CTA glides to the contact form; base.cs
   max-width: 82rem;
 }
 .thesis .thesis__setup { margin: 0 0 0 clamp(0rem, 6vw, 6rem); max-width: 32rem; line-height: 1.35; }
-.thesis__quiet { display: block; margin-bottom: 0.35em; font-weight: 500; color: var(--ink-2); } /* the setup recedes; the claim carries */
 .watch { margin: 0; padding: 1.4rem 1.5rem 1.3rem; transform: rotate(0.8deg); }
 .watch__head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1.5px dashed var(--line-strong); }
 .watch__title { font-size: var(--fs-small); font-weight: 700; color: var(--ember-deep); }
