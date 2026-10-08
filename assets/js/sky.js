@@ -38,6 +38,12 @@
     edge: { base: 44, rows: [
       { y: 41, w: [11, 17], h: [0.40, 0.52], gap: -0.22 },
       { y: 56, w: [13, 20], h: [0.38, 0.48], gap: -0.25 }
+    ],
+    // phones: clouds are scaled up, so overlap them more and add a middle row so no sea shows between puffs
+    narrowRows: [
+      { y: 38, w: [11, 15], h: [0.46, 0.56], gap: -0.4 },
+      { y: 47, w: [12, 16], h: [0.44, 0.54], gap: -0.4 },
+      { y: 58, w: [13, 18], h: [0.40, 0.50], gap: -0.4 }
     ] },
     band: { base: 50, rows: [
       { y: 52, w: [10, 15], h: [0.42, 0.55], gap: -0.2 },
@@ -136,7 +142,8 @@
       root.appendChild(el("rect", { x: -W * 0.1, y: H * shape.base / 100, width: W * 1.2, height: H * (1 - shape.base / 100) + 2, fill: "url(#" + id + "base)" }));
     }
 
-    shape.rows.forEach(function (row) {
+    var rows = shape.narrowRows && W < 700 ? shape.narrowRows : shape.rows;
+    rows.forEach(function (row) {
       var by0 = H * row.y / 100;
       var x = shape === SHAPES.single ? W * 0.12 : -W * 0.08 - rand() * W * 0.06;
       while (x < W * 1.08) {
