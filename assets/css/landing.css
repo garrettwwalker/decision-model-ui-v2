@@ -207,6 +207,17 @@ html { scroll-behavior: smooth; } /* nav CTA glides to the contact form; base.cs
 @media (max-width: 900px) {
     .hero__copy { padding-top: calc(env(safe-area-inset-top, 0px) + 16vh); }
 }
+@media (max-width: 600px) { /* phones: bigger type, and the two headlines stacked just above the horizon */
+  .hero__copy { --after-fs: 13.5vw; }
+  .hero__after { font-size: var(--after-fs); }
+  .hero__title {
+    position: absolute; left: var(--gutter); right: var(--gutter);
+    font-size: 16vw;
+    /* sit a fixed gap above the second headline: horizon + its two lines + gap */
+    bottom: calc(22% + var(--after-fs) * 1.72 + 2.2rem);
+  }
+  .hero__cue { bottom: calc(22% + var(--after-fs) * 1.72 + 0.4rem); }
+}
 @media (min-width: 901px) and (max-height: 820px) { /* short laptop screens: keep the second line clear of the horizon */
   .hero__copy { padding-top: calc(env(safe-area-inset-top, 0px) + 15vh); }
 }
