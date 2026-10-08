@@ -536,7 +536,7 @@ html { scroll-behavior: smooth; } /* nav CTA glides to the contact form; base.cs
     "o1 o1 o2 o2 o3 o3";
 }
 .graph__edges { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
-.graph__edges path { fill: none; stroke: rgba(10, 23, 34, 0.42); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.graph__edges path { fill: none; stroke: #8a7364; /* opaque, so overlapping lines don't stack darker */ stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
 .graph__edges .graph__head { transition: opacity 0.2s ease; }
 .gn {
   position: relative; z-index: 1; min-width: 0;

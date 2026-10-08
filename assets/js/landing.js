@@ -144,6 +144,7 @@
       var box = fig.getBoundingClientRect();
       svg.setAttribute("viewBox", "0 0 " + box.width + " " + box.height);
       svg.textContent = "";
+      var heads = {};
       edges = EDGES.map(function (e) {
         var a = node(e[0]).getBoundingClientRect(), b = node(e[1]).getBoundingClientRect();
         var x1 = a.left + a.width / 2 - box.left, y1 = a.bottom - box.top;
@@ -167,6 +168,8 @@
         var head = document.createElementNS(NS, "path");
         head.setAttribute("class", "graph__head");
         head.setAttribute("d", "M" + (bx - dy * 4) + " " + (by + dx * 4) + " L" + tip.x + " " + tip.y + " L" + (bx + dy * 4) + " " + (by - dx * 4));
+        var key = Math.round(tip.x) + "," + Math.round(tip.y);
+        if (heads[key]) head.setAttribute("visibility", "hidden"); else heads[key] = 1; // merging lines share one arrow
         svg.appendChild(head);
         p.style.strokeDasharray = len;
         p.style.strokeDashoffset = done ? 0 : len;
