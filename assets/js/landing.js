@@ -152,11 +152,16 @@
         var p = document.createElementNS(NS, "path");
         p.setAttribute("d", "M" + x1 + " " + y1 + " C" + x1 + " " + my + " " + x2 + " " + my + " " + x2 + " " + y2);
         svg.appendChild(p);
-        var head = document.createElementNS(NS, "path"); // the curves end vertical, so the arrow points straight down
-        head.setAttribute("class", "graph__head");
-        head.setAttribute("d", "M" + (x2 - 4) + " " + (y2 - 6) + " L" + x2 + " " + (y2 + 1) + " L" + (x2 + 4) + " " + (y2 - 6));
-        svg.appendChild(head);
         var len = p.getTotalLength();
+        // point the arrowhead along the line's direction over its last few pixels, not straight down
+        var tip = p.getPointAtLength(len), back = p.getPointAtLength(Math.max(0, len - 7));
+        var dx = tip.x - back.x, dy = tip.y - back.y, m = Math.hypot(dx, dy) || 1;
+        dx /= m; dy /= m;
+        var bx = tip.x - dx * 7, by = tip.y - dy * 7; // base of the arrowhead, 7px back along the line
+        var head = document.createElementNS(NS, "path");
+        head.setAttribute("class", "graph__head");
+        head.setAttribute("d", "M" + (bx - dy * 4) + " " + (by + dx * 4) + " L" + tip.x + " " + tip.y + " L" + (bx + dy * 4) + " " + (by - dx * 4));
+        svg.appendChild(head);
         p.style.strokeDasharray = len;
         p.style.strokeDashoffset = done ? 0 : len;
         head.style.opacity = done ? 1 : 0;
