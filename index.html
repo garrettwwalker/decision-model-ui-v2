@@ -266,21 +266,30 @@
         <div class="clouds clouds--storm clouds--band clouds--band-bottom" data-clouds="band" data-flip aria-hidden="true"></div>
       </section>
 
-      <!-- 6. Asset-level traceability -->
+      <!-- 6. Asset and organizational modeling, through to workflow -->
       <section class="assets" id="assets" data-nav="light" aria-labelledby="assets-title">
         <div class="assets__copy">
-          <h2 class="h2" id="assets-title">down to the<br>purchase order.</h2>
-          <p class="assets__lede">A forecast is only useful if you can find what it touches. Daybreak joins every geopolitical driver to the exact lanes, vessels, containers, POs and SKUs it puts at risk, so the answer to “what does this mean for us?” is a list, not a meeting.</p>
+          <h2 class="h2" id="assets-title">down to who<br>does what.</h2>
+          <p class="assets__lede">Daybreak models your organization: its assets, what each one depends on, and who owns each decision. When a forecast moves, it traces the impact through that model and sends the right action to the right owner, with a deadline.</p>
+          <p class="assets__lede">Shipping lanes, plants, mines, fields, data centers: the structure is the same, so a new sector is a new model, not a new product.</p>
         </div>
 
-        <ol class="chain" aria-label="Example exposure chain">
-          <li><span class="eyebrow">driver</span><strong>Hormuz closed ≥7 days</strong><span class="chain__meta num">27% chance in the next 30 days</span></li>
-          <li><span class="eyebrow">lane</span><strong>Far East → Gulf</strong><span class="chain__meta">Ningbo → Jebel Ali</span></li>
-          <li><span class="eyebrow">vessel</span><strong>MV Corvane Tessaly</strong><span class="chain__meta">Voyage 041W, in the Gulf of Oman, due 9 Oct</span></li>
-          <li><span class="eyebrow">container</span><strong class="mono">CRVU 482113-6</strong><span class="chain__meta">40′ high-cube, loaded in Ningbo</span></li>
-          <li><span class="eyebrow">purchase order</span><strong class="mono">PO 4471-208</strong><span class="chain__meta">Halvorsen MENA, $1.8M</span></li>
-          <li class="chain__end"><span class="eyebrow">SKU</span><strong class="mono">HV-OLED55 × 1,920</strong><span class="chain__meta">9 days of cover, 41% chance of a stock-out</span></li>
-        </ol>
+        <div class="flow" aria-label="Example: civil strife and an energy company's assets">
+          <ol class="chain">
+            <li><span class="eyebrow">Driver</span><strong>Insurgent escalation, Cabo Delgado</strong><span class="chain__meta">22% chance of attacks within 25 km of the site in 90 days</span></li>
+            <li><span class="eyebrow">Asset</span><strong>Afungi LNG construction site</strong><span class="chain__meta">Meridian Energy, 34% stake, $8.2B committed</span></li>
+            <li><span class="eyebrow">Depends on</span><strong>One supply road and 2,300 contractors</strong><span class="chain__meta">Evacuation by air takes 72 hours</span></li>
+            <li><span class="eyebrow">Exposure</span><strong>Force majeure on a $1.4B work package</strong><span class="chain__meta">$186M expected loss, $1.4B if it happens</span></li>
+          </ol>
+          <div class="routed">
+            <p class="routed__head">Routed to the people who act</p>
+            <ul class="routed__list">
+              <li><span class="routed__who">Head of security</span><span class="routed__what">Raise site posture and stage evacuation flights</span><span class="routed__when">by Friday</span></li>
+              <li><span class="routed__who">Procurement</span><span class="routed__what">Defer $240M of uncommitted contracts</span><span class="routed__when">before Q4 close</span></li>
+              <li><span class="routed__who">The board</span><span class="routed__what">Decide whether to stage the next capex tranche</span><span class="routed__when">14 November</span></li>
+            </ul>
+          </div>
+        </div>
       </section>
 
       <!-- 7. Rigor -->
@@ -370,7 +379,7 @@
       <a href="workbench.html">modeling workbench</a>
       <a href="ask.html">ask the model</a>
     </nav>
-    <p class="footer__legal">© 2026 Daybreak. A mockup: Halvorsen Group is a fictional client.</p>
+    <p class="footer__legal">© 2026 Daybreak. A mockup: Halvorsen Group and Meridian Energy are fictional clients.</p>
   </footer>
 
   <script src="assets/js/sky.js"></script>

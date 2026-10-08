@@ -521,7 +521,7 @@ html { scroll-behavior: smooth; } /* nav CTA glides to the contact form; base.cs
   align-items: start;
   max-width: 82rem;
 }
-.assets__copy { display: grid; gap: 1.5rem; }
+.assets__copy { display: grid; gap: 1.25rem; align-content: start; }
 .assets__lede { margin: 0; max-width: 32rem; font-size: 1.1rem; color: var(--ink-2); }
 .chain { list-style: none; margin: 0; padding: 0; position: relative; }
 .chain li {
@@ -540,9 +540,18 @@ html { scroll-behavior: smooth; } /* nav CTA glides to the contact form; base.cs
 .chain .eyebrow { grid-row: 1 / span 2; align-self: center; color: var(--ink-3); }
 .chain strong { font-size: 1rem; letter-spacing: -0.01em; }
 .chain__meta { font-size: 0.8rem; color: var(--ink-2); }
-.chain__end { background: var(--ink) !important; color: #fff; }
-.chain__end .eyebrow { color: var(--amber); }
-.chain__end .chain__meta { color: rgba(255, 255, 255, 0.75); }
+/* the model ends in a dark slip: the actions it routes to owners */
+.routed { margin-top: 1.1rem; padding: 1rem 1.2rem 0.6rem 1.4rem; border-radius: 12px; background: var(--ink); color: #fff; box-shadow: 0 10px 24px -14px rgba(7, 22, 33, 0.6); }
+.routed__head { margin: 0 0 0.4rem; font-size: var(--fs-small); font-weight: 700; color: var(--amber); }
+.routed__list { list-style: none; margin: 0; padding: 0; }
+.routed__list li { display: grid; grid-template-columns: 7.5rem 1fr auto; column-gap: 1rem; align-items: baseline; padding: 0.6rem 0; }
+.routed__list li + li { border-top: 1px dashed rgba(255, 255, 255, 0.18); }
+.routed__who { font-size: 0.8rem; font-weight: 600; color: rgba(255, 255, 255, 0.7); }
+.routed__what { font-size: 0.92rem; font-weight: 700; }
+.routed__when { font-size: 0.78rem; color: var(--amber); white-space: nowrap; }
+@media (max-width: 560px) {
+  .routed__list li { grid-template-columns: minmax(0, 1fr); row-gap: 0.15rem; }
+}
 @media (max-width: 900px) {
   .assets { grid-template-columns: minmax(0, 1fr); }
   .chain li { margin-left: 0; grid-template-columns: 6.5rem 1fr; }
