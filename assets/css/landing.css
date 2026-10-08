@@ -260,7 +260,6 @@ html { scroll-behavior: smooth; } /* nav CTA glides to the contact form; base.cs
 .watch__facts dt { color: var(--ink-3); font-weight: 600; }
 .watch__facts dd { margin: 0; font-weight: 600; }
 .watch__value dd { font-size: 1.15rem; font-weight: 800; color: var(--safe); font-variant-numeric: tabular-nums; }
-.watch__link { display: inline-block; margin-top: 1.1rem; font-size: var(--fs-small); font-weight: 700; color: var(--ink); }
 @media (prefers-reduced-motion: reduce) { .watch__body, .watch__bar i { transition: none; } }
 @media (max-width: 860px) {
   .thesis { grid-template-columns: minmax(0, 1fr); row-gap: 2.5rem; }
