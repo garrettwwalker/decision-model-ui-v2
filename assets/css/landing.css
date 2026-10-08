@@ -523,9 +523,6 @@ html { scroll-behavior: smooth; } /* nav CTA glides to the contact form; base.cs
 }
 .assets__copy { display: grid; gap: 1.25rem; align-content: start; }
 .assets__lede { margin: 0; max-width: 32rem; font-size: 1.1rem; color: var(--ink-2); }
-.assets__list { list-style: none; margin: 0; padding: 0; max-width: 32rem; display: grid; gap: 0.7rem; font-size: 1.05rem; color: var(--ink-2); }
-.assets__list li { position: relative; padding-left: 1.4rem; }
-.assets__list li::before { content: ""; position: absolute; left: 0; top: 0.62em; width: 0.55rem; height: 0.55rem; border-radius: 50%; background: var(--ember); }
 /* node-link model: the impact travels from the driver down to the owners who act */
 .graph {
   position: relative; margin: 0;
