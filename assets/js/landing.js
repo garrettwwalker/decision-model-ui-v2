@@ -137,7 +137,7 @@
     var NS = "http://www.w3.org/2000/svg";
     var EDGES = [["driver", "asset"], ["asset", "road"], ["asset", "crew"], ["road", "exposure"], ["crew", "exposure"],
                  ["exposure", "security"], ["exposure", "procurement"], ["exposure", "board"]];
-    var PER_EDGE = 3, PERIOD = 2400; // dots per edge, ms for one dot to cross an edge
+    var SPACING = 30, SPEED = 22; // px between dots, px per second: same density and pace on every edge
     var node = function (k) { return fig.querySelector('[data-node="' + k + '"]'); };
     var flows = [];
     function draw() {
@@ -152,23 +152,25 @@
         var p = document.createElementNS(NS, "path");
         p.setAttribute("d", "M" + x1 + " " + y1 + " C" + x1 + " " + my + " " + x2 + " " + my + " " + x2 + " " + y2);
         svg.appendChild(p);
+        var len = p.getTotalLength();
+        var count = Math.max(2, Math.round(len / SPACING));
         var dots = [];
-        for (var n = 0; n < PER_EDGE; n++) {
+        for (var n = 0; n < count; n++) {
           var c = document.createElementNS(NS, "circle");
           c.setAttribute("r", 3.5);
           svg.appendChild(c);
           // stagger dots along the edge, and offset each edge a little so the flow doesn't march in lockstep
-          dots.push({ el: c, phase: n / PER_EDGE + i * 0.13 });
+          dots.push({ el: c, phase: n / count + i * 0.13 });
         }
-        return { path: p, len: p.getTotalLength(), dots: dots };
+        return { path: p, len: len, dots: dots };
       });
     }
     var still = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     function tick() {
-      var t = Date.now() / PERIOD;
+      var s = Date.now() / 1000 * SPEED; // distance travelled, in px
       flows.forEach(function (f) {
         f.dots.forEach(function (d) {
-          var k = (t + d.phase) % 1;
+          var k = (s / f.len + d.phase) % 1;
           var pt = f.path.getPointAtLength(f.len * k);
           d.el.setAttribute("cx", pt.x);
           d.el.setAttribute("cy", pt.y);
