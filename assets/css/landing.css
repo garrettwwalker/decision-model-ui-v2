@@ -495,7 +495,7 @@ html { scroll-behavior: smooth; } /* nav CTA glides to the contact form; base.cs
   border-radius: var(--radius);
   padding: 1.35rem;
   background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1.5px dashed rgba(255, 255, 255, 0.28); /* dashed: the edges of what you were watching for */
   -webkit-backdrop-filter: blur(6px);
   backdrop-filter: blur(6px);
   display: flex; flex-direction: column; gap: 0.6rem;
