@@ -32,6 +32,9 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   answers scripted intents (capacity, what-if, best move, forecast, signposts, decline) live from `model.js`.
   The assumed scenario is shared with the wargame via `sessionStorage["daybreak.scenario"]`; the wargame saves
   it on every update and loads it on `wargame.html?from=ask`.
+- Landing "down to who does what." is a node-link diagram (`.graph`, `.gn` nodes in a CSS grid); `landing.js`
+  draws curved SVG edges between node centers and loops an impact pulse driver -> owners while in view
+  (timer-driven, not rAF, so it also runs in headless checks).
 - `assets/js/app.js` holds the shared helpers (`DB.money`, `DB.toast`, `DB.rng`, range fills).
 - Type: Switzer (Fontshare), self-hosted in `assets/fonts/`, for everything, on a major-third scale; data uses
   tabular figures. JetBrains Mono appears only in the workbench's code, diff and log panels. Labels are sentence

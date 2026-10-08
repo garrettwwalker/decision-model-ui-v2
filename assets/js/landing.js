@@ -27,7 +27,7 @@
   var day = document.querySelector(".day");
   var BLOCKS = "p, h2, h3, li, dt, dd, label";
   var UNITS = ".chip";                       // inline widgets revealed whole, like a word
-  var TILES = ".note, .tag, .swan, .chain li, .routed, .contact__form, .split__q, .part, .split__fused"; // revealed whole, text included
+  var TILES = ".note, .tag, .swan, .contact__form, .split__q, .part, .split__fused"; // revealed whole, text included
   var reads = [], tiles = [];
 
   function splitWords(root, units) {
@@ -127,6 +127,76 @@
     }
     fill(EVENTS[0]);
     setInterval(next, 4500);
+  })();
+
+  /* ---------- Node-link model: an impact pulse travels driver -> owners, on a loop ---------- */
+  (function () {
+    var fig = document.querySelector(".graph");
+    if (!fig) return;
+    var svg = fig.querySelector(".graph__edges");
+    var NS = "http://www.w3.org/2000/svg";
+    var EDGES = [["driver", "asset"], ["asset", "road"], ["asset", "crew"], ["road", "exposure"], ["crew", "exposure"],
+                 ["exposure", "security"], ["exposure", "procurement"], ["exposure", "board"]];
+    // the pulse runs in waves; edges in the same wave travel together
+    var WAVES = [[0], [1, 2], [3, 4], [5, 6, 7]];
+    var node = function (k) { return fig.querySelector('[data-node="' + k + '"]'); };
+    var paths = [];
+    function draw() {
+      var box = fig.getBoundingClientRect();
+      svg.setAttribute("viewBox", "0 0 " + box.width + " " + box.height);
+      svg.textContent = "";
+      paths = EDGES.map(function (e) {
+        var a = node(e[0]).getBoundingClientRect(), b = node(e[1]).getBoundingClientRect();
+        var x1 = a.left + a.width / 2 - box.left, y1 = a.bottom - box.top;
+        var x2 = b.left + b.width / 2 - box.left, y2 = b.top - box.top;
+        var my = (y1 + y2) / 2;
+        var p = document.createElementNS(NS, "path");
+        p.setAttribute("d", "M" + x1 + " " + y1 + " C" + x1 + " " + my + " " + x2 + " " + my + " " + x2 + " " + y2);
+        svg.appendChild(p);
+        return p;
+      });
+    }
+    var still = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var running = false;
+    function lit(k, on) { node(k).classList.toggle("is-lit", on); }
+    function reset() {
+      Object.keys({ driver: 1, asset: 1, road: 1, crew: 1, exposure: 1, security: 1, procurement: 1, board: 1 }).forEach(function (k) { lit(k, false); });
+      paths.forEach(function (p) { p.classList.remove("is-lit"); });
+    }
+    function travel(idx, done) { // move a dot along each edge in the wave, then light the targets
+      var dots = idx.map(function () { var c = document.createElementNS(NS, "circle"); c.setAttribute("r", 4.5); svg.appendChild(c); return c; });
+      var t0 = Date.now(), D = 650;
+      function step() {
+        var k = Math.min(1, (Date.now() - t0) / D);
+        idx.forEach(function (i, n) {
+          var p = paths[i], L = p.getTotalLength(), pt = p.getPointAtLength(L * k);
+          dots[n].setAttribute("cx", pt.x); dots[n].setAttribute("cy", pt.y);
+        });
+        if (k < 1) return setTimeout(step, 16);
+        dots.forEach(function (d) { d.remove(); });
+        idx.forEach(function (i) { paths[i].classList.add("is-lit"); lit(EDGES[i][1], true); });
+        done();
+      }
+      step();
+    }
+    function play() {
+      running = true;
+      reset();
+      lit("driver", true);
+      var w = 0;
+      (function nextWave() {
+        if (w >= WAVES.length) { setTimeout(function () { running = false; check(); }, 3800); return; }
+        setTimeout(function () { travel(WAVES[w++], nextWave); }, 250);
+      })();
+    }
+    function inView() { var r = fig.getBoundingClientRect(); return r.top < window.innerHeight * 0.8 && r.bottom > window.innerHeight * 0.2; }
+    function check() { if (!running && inView()) play(); }
+    draw();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(draw);
+    window.addEventListener("resize", function () { draw(); });
+    if (still) { EDGES.forEach(function (e, i) { paths[i].classList.add("is-lit"); lit(e[0], true); lit(e[1], true); }); return; }
+    window.addEventListener("scroll", check, { passive: true });
+    check();
   })();
 
   /* ---------- Nav theme follows the section under it ---------- */

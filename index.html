@@ -274,22 +274,17 @@
           <p class="assets__lede">Shipping lanes, plants, mines, fields, data centers: the structure is the same, so a new sector is a new model, not a new product.</p>
         </div>
 
-        <div class="flow" aria-label="Example: civil strife and an energy company's assets">
-          <ol class="chain">
-            <li><span class="eyebrow">Driver</span><strong>Insurgent escalation, Cabo Delgado</strong><span class="chain__meta">22% chance of attacks within 25 km of the site in 90 days</span></li>
-            <li><span class="eyebrow">Asset</span><strong>Afungi LNG construction site</strong><span class="chain__meta">Meridian Energy, 34% stake, $8.2B committed</span></li>
-            <li><span class="eyebrow">Depends on</span><strong>One supply road and 2,300 contractors</strong><span class="chain__meta">Evacuation by air takes 72 hours</span></li>
-            <li><span class="eyebrow">Exposure</span><strong>Force majeure on a $1.4B work package</strong><span class="chain__meta">$186M expected loss, $1.4B if it happens</span></li>
-          </ol>
-          <div class="routed">
-            <p class="routed__head">Routed to the people who act</p>
-            <ul class="routed__list">
-              <li><span class="routed__who">Head of security</span><span class="routed__what">Raise site posture and stage evacuation flights</span><span class="routed__when">by Friday</span></li>
-              <li><span class="routed__who">Procurement</span><span class="routed__what">Defer $240M of uncommitted contracts</span><span class="routed__when">before Q4 close</span></li>
-              <li><span class="routed__who">The board</span><span class="routed__what">Decide whether to stage the next capex tranche</span><span class="routed__when">14 November</span></li>
-            </ul>
-          </div>
-        </div>
+        <figure class="graph" aria-label="Example: insurgent escalation in Cabo Delgado traced through an energy company's LNG site, its dependencies and its exposure, then routed as actions to security, procurement and the board.">
+          <svg class="graph__edges" aria-hidden="true"></svg>
+          <div class="gn gn--driver" data-node="driver" style="grid-area: driver"><span class="gn__kind">Driver</span><b>Insurgent escalation, Cabo Delgado</b><span class="gn__meta">22% within 90 days</span></div>
+          <div class="gn" data-node="asset" style="grid-area: asset"><span class="gn__kind">Asset</span><b>Afungi LNG site</b><span class="gn__meta">Meridian Energy, $8.2B committed</span></div>
+          <div class="gn" data-node="road" style="grid-area: road"><span class="gn__kind">Depends on</span><b>One supply road</b><span class="gn__meta">Palma to Afungi</span></div>
+          <div class="gn" data-node="crew" style="grid-area: crew"><span class="gn__kind">Depends on</span><b>2,300 contractors</b><span class="gn__meta">72 hours to evacuate</span></div>
+          <div class="gn gn--exposure" data-node="exposure" style="grid-area: exposure"><span class="gn__kind">Exposure</span><b>Force majeure on a $1.4B package</b><span class="gn__meta">$186M expected loss</span></div>
+          <div class="gn gn--owner" data-node="security" style="grid-area: o1"><span class="gn__kind">Head of security</span><b>Raise posture, stage flights</b><span class="gn__when">by Friday</span></div>
+          <div class="gn gn--owner" data-node="procurement" style="grid-area: o2"><span class="gn__kind">Procurement</span><b>Defer $240M of contracts</b><span class="gn__when">before Q4 close</span></div>
+          <div class="gn gn--owner" data-node="board" style="grid-area: o3"><span class="gn__kind">The board</span><b>Decide on the next capex tranche</b><span class="gn__when">14 November</span></div>
+        </figure>
       </section>
 
       <!-- 7. Rigor -->

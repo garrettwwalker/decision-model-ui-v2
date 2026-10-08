@@ -523,38 +523,47 @@ html { scroll-behavior: smooth; } /* nav CTA glides to the contact form; base.cs
 }
 .assets__copy { display: grid; gap: 1.25rem; align-content: start; }
 .assets__lede { margin: 0; max-width: 32rem; font-size: 1.1rem; color: var(--ink-2); }
-.chain { list-style: none; margin: 0; padding: 0; position: relative; }
-.chain li {
-  position: relative;
-  display: grid;
-  grid-template-columns: 7.5rem 1fr;
-  grid-template-rows: auto auto;
-  column-gap: 1rem;
-  padding: 0.85rem 1rem 0.85rem 1.4rem;
-  margin-left: calc(var(--i, 0) * 0.9rem);
-  background: rgba(255, 255, 255, 0.82);
-  border-radius: 12px;
-  box-shadow: 0 10px 24px -18px rgba(7, 22, 33, 0.5);
+/* node-link model: the impact travels from the driver down to the owners who act */
+.graph {
+  position: relative; margin: 0;
+  display: grid; gap: 2.4rem 0.9rem;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-areas:
+    ". driver driver driver driver ."
+    ". . asset asset . ."
+    ". road road crew crew ."
+    ". exposure exposure exposure exposure ."
+    "o1 o1 o2 o2 o3 o3";
 }
-.chain li + li { margin-top: 1.1rem; }
-.chain .eyebrow { grid-row: 1 / span 2; align-self: center; color: var(--ink-3); }
-.chain strong { font-size: 1rem; letter-spacing: -0.01em; }
-.chain__meta { font-size: 0.8rem; color: var(--ink-2); }
-/* the model ends in a dark slip: the actions it routes to owners */
-.routed { margin-top: 1.1rem; padding: 1rem 1.2rem 0.6rem 1.4rem; border-radius: 12px; background: var(--ink); color: #fff; box-shadow: 0 10px 24px -14px rgba(7, 22, 33, 0.6); }
-.routed__head { margin: 0 0 0.4rem; font-size: var(--fs-small); font-weight: 700; color: var(--amber); }
-.routed__list { list-style: none; margin: 0; padding: 0; }
-.routed__list li { display: grid; grid-template-columns: 7.5rem 1fr auto; column-gap: 1rem; align-items: baseline; padding: 0.6rem 0; }
-.routed__list li + li { border-top: 1px dashed rgba(255, 255, 255, 0.18); }
-.routed__who { font-size: 0.8rem; font-weight: 600; color: rgba(255, 255, 255, 0.7); }
-.routed__what { font-size: 0.92rem; font-weight: 700; }
-.routed__when { font-size: 0.78rem; color: var(--amber); white-space: nowrap; }
+.graph__edges { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.graph__edges path { fill: none; stroke: rgba(10, 23, 34, 0.28); stroke-width: 1.5; stroke-dasharray: 4 5; transition: stroke 0.4s ease; }
+.graph__edges path.is-lit { stroke: var(--ember); stroke-dasharray: none; stroke-width: 2; }
+.graph__edges circle { fill: var(--ember); }
+.gn {
+  position: relative; z-index: 1; min-width: 0;
+  display: grid; gap: 0.1rem; justify-self: center; width: 100%;
+  padding: 0.7rem 0.85rem; border-radius: 12px;
+  background: #fffaf3; box-shadow: 0 10px 24px -18px rgba(7, 22, 33, 0.5);
+  text-align: center; font-size: 0.8rem; line-height: 1.3;
+  transition: box-shadow 0.4s ease, transform 0.4s ease;
+}
+.gn__kind { font-size: 0.72rem; font-weight: 600; color: var(--ink-3); }
+.gn b { font-size: 0.92rem; letter-spacing: -0.01em; }
+.gn__meta { color: var(--ink-2); }
+.gn.is-lit { box-shadow: 0 0 0 2px var(--ember), 0 14px 30px -16px rgba(242, 104, 60, 0.7); }
+.gn--driver.is-lit, .gn--exposure.is-lit { box-shadow: 0 0 0 2px var(--loss), 0 14px 30px -16px rgba(163, 32, 26, 0.6); }
+.gn--driver .gn__meta, .gn--exposure .gn__meta { color: var(--loss); font-weight: 700; }
+.gn--owner { background: var(--ink); color: #fff; }
+.gn--owner .gn__kind { color: rgba(255, 255, 255, 0.65); }
+.gn__when { color: var(--amber); font-weight: 600; }
+.gn--owner.is-lit { box-shadow: 0 0 0 2px var(--amber), 0 14px 30px -14px rgba(255, 181, 71, 0.6); transform: translateY(-2px); }
 @media (max-width: 560px) {
-  .routed__list li { grid-template-columns: minmax(0, 1fr); row-gap: 0.15rem; }
+  .graph { gap: 1.8rem 0.5rem; }
+  .gn { padding: 0.55rem 0.5rem; font-size: 0.72rem; }
+  .gn b { font-size: 0.8rem; }
 }
 @media (max-width: 900px) {
   .assets { grid-template-columns: minmax(0, 1fr); }
-  .chain li { margin-left: 0; grid-template-columns: 6.5rem 1fr; }
 }
 
 /* ---------- Rigor ---------- */
