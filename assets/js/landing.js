@@ -148,9 +148,15 @@
         var a = node(e[0]).getBoundingClientRect(), b = node(e[1]).getBoundingClientRect();
         var x1 = a.left + a.width / 2 - box.left, y1 = a.bottom - box.top;
         var x2 = b.left + b.width / 2 - box.left, y2 = b.top - box.top - 3;
-        var my = (y1 + y2) / 2;
+        // rounded elbow: down, across, then straight down into the box, so every arrow lands vertically
+        var my = (y1 + y2) / 2, dx = x2 - x1, sx = dx > 0 ? 1 : -1;
+        var r = Math.min(10, Math.abs(dx) / 2, (y2 - y1) / 4);
+        var d = Math.abs(dx) < 1
+          ? "M" + x1 + " " + y1 + " V" + y2
+          : "M" + x1 + " " + y1 + " V" + (my - r) + " Q" + x1 + " " + my + " " + (x1 + sx * r) + " " + my +
+            " H" + (x2 - sx * r) + " Q" + x2 + " " + my + " " + x2 + " " + (my + r) + " V" + y2;
         var p = document.createElementNS(NS, "path");
-        p.setAttribute("d", "M" + x1 + " " + y1 + " C" + x1 + " " + my + " " + x2 + " " + my + " " + x2 + " " + y2);
+        p.setAttribute("d", d);
         svg.appendChild(p);
         var len = p.getTotalLength();
         // point the arrowhead along the line's direction over its last few pixels, not straight down
