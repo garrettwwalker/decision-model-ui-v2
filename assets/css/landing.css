@@ -234,20 +234,32 @@ html { scroll-behavior: smooth; } /* nav CTA glides to the contact form; base.cs
   padding: clamp(8rem, 20vh, 12rem) var(--gutter) clamp(6rem, 16vh, 10rem);
   display: grid; gap: clamp(3.5rem, 9vh, 6rem);
 }
-.thesis .read { max-width: 38rem; margin: 0 0 0 clamp(0rem, 14vw, 14rem); }
-.thesis .thesis__setup { line-height: 1.4; max-width: 58rem; }
-.thesis__break { display: block; height: 0.9em; }
+/* beat one: the setup, quiet and left-hung */
+.thesis .thesis__setup { margin: 0 0 0 clamp(0rem, 6vw, 6rem); max-width: 44rem; line-height: 1.4; }
+/* beat two: the answer, offset right; the rotating event is the headline */
+.thesis__answer { margin-left: clamp(0rem, 30vw, 30rem); max-width: 52rem; }
+.thesis__lead, .thesis__close { margin: 0; font-size: clamp(1.1rem, 1.8vw, 1.45rem); font-weight: 700; letter-spacing: -0.01em; line-height: 1.4; }
+.thesis__close { max-width: 26rem; margin-top: 1.4rem; color: var(--ink-2); }
+.thesis__event {
+  margin: 0.6rem 0 0; font-size: clamp(2.2rem, 5vw, 4.4rem); font-weight: 800; /* sized so the longest event fits */
+  letter-spacing: -0.04em; line-height: 1; white-space: nowrap;
+}
+@media (max-width: 760px) {
+  .thesis__answer { margin-left: 0; }
+  .thesis .thesis__setup { margin-left: 0; }
+  .thesis__event { font-size: clamp(1.4rem, 7vw, 2.4rem); }
+}
 /* the one moving part of the sentence: the event Daybreak forecasts */
 .rotor { /* the oval chip from the earlier inline widgets, now holding the event */
-  position: relative; display: inline-block; vertical-align: -0.32em; /* overflow:hidden puts the baseline at the bottom edge */
+  position: relative; display: inline-block; vertical-align: top;
   box-sizing: content-box; /* JS sets width to the phrase; padding and border sit outside it */
-  padding: 0.08em 0.6em; border: 1.5px solid currentColor; border-radius: 999px;
-  font-size: 0.8em; line-height: 1.45;
+  padding: 0.06em 0.42em; border: 2px solid currentColor; border-radius: 999px;
+  line-height: 1.2;
   white-space: nowrap; color: var(--ink);
   transition: width 0.5s cubic-bezier(.3,.7,.3,1);
   overflow: hidden;
 }
-.rotor__item { position: absolute; left: 0.6em; top: 0.08em; opacity: 0; transform: translateY(0.35em); transition: opacity 0.45s ease, transform 0.45s ease; }
+.rotor__item { position: absolute; left: 0.42em; top: 0.06em; opacity: 0; transform: translateY(0.35em); transition: opacity 0.45s ease, transform 0.45s ease; }
 .rotor__item.is-on { position: relative; left: 0; top: 0; opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) { .rotor, .rotor__item { transition: none; } }
 /* ---------- Read-as-you-scroll (classes added by landing.js) ---------- */
