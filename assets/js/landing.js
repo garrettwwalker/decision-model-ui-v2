@@ -129,7 +129,7 @@
     setInterval(next, 4500);
   })();
 
-  /* ---------- Node-link model: a steady stream of dots flows down every edge ---------- */
+  /* ---------- Node-link model: connectors draw themselves once, row by row, when the section arrives ---------- */
   (function () {
     var fig = document.querySelector(".graph");
     if (!fig) return;
@@ -137,54 +137,63 @@
     var NS = "http://www.w3.org/2000/svg";
     var EDGES = [["driver", "asset"], ["asset", "road"], ["asset", "crew"], ["road", "exposure"], ["crew", "exposure"],
                  ["exposure", "security"], ["exposure", "procurement"], ["exposure", "board"]];
-    var SPACING = 30, SPEED = 22; // px between dots, px per second: same density and pace on every edge
+    var WAVES = [[0], [1, 2], [3, 4], [5, 6, 7]]; // edges in a wave draw together
     var node = function (k) { return fig.querySelector('[data-node="' + k + '"]'); };
-    var flows = [];
+    var edges = [], done = false, started = false;
     function draw() {
       var box = fig.getBoundingClientRect();
       svg.setAttribute("viewBox", "0 0 " + box.width + " " + box.height);
       svg.textContent = "";
-      flows = EDGES.map(function (e, i) {
+      edges = EDGES.map(function (e) {
         var a = node(e[0]).getBoundingClientRect(), b = node(e[1]).getBoundingClientRect();
         var x1 = a.left + a.width / 2 - box.left, y1 = a.bottom - box.top;
-        var x2 = b.left + b.width / 2 - box.left, y2 = b.top - box.top;
+        var x2 = b.left + b.width / 2 - box.left, y2 = b.top - box.top - 3;
         var my = (y1 + y2) / 2;
         var p = document.createElementNS(NS, "path");
         p.setAttribute("d", "M" + x1 + " " + y1 + " C" + x1 + " " + my + " " + x2 + " " + my + " " + x2 + " " + y2);
         svg.appendChild(p);
+        var head = document.createElementNS(NS, "path"); // the curves end vertical, so the arrow points straight down
+        head.setAttribute("class", "graph__head");
+        head.setAttribute("d", "M" + (x2 - 4) + " " + (y2 - 6) + " L" + x2 + " " + (y2 + 1) + " L" + (x2 + 4) + " " + (y2 - 6));
+        svg.appendChild(head);
         var len = p.getTotalLength();
-        var count = Math.max(2, Math.round(len / SPACING));
-        var dots = [];
-        for (var n = 0; n < count; n++) {
-          var c = document.createElementNS(NS, "circle");
-          c.setAttribute("r", 3.5);
-          svg.appendChild(c);
-          // stagger dots along the edge, and offset each edge a little so the flow doesn't march in lockstep
-          dots.push({ el: c, phase: n / count + i * 0.13 });
-        }
-        return { path: p, len: len, dots: dots };
+        p.style.strokeDasharray = len;
+        p.style.strokeDashoffset = done ? 0 : len;
+        head.style.opacity = done ? 1 : 0;
+        return { p: p, head: head, len: len };
       });
+    }
+    function drawWave(idx, then) {
+      var t0 = Date.now(), D = 520;
+      (function step() {
+        var k = Math.min(1, (Date.now() - t0) / D);
+        var ease = 1 - Math.pow(1 - k, 3);
+        idx.forEach(function (i) { edges[i].p.style.strokeDashoffset = edges[i].len * (1 - ease); });
+        if (k < 1) return setTimeout(step, 16);
+        idx.forEach(function (i) { edges[i].head.style.opacity = 1; });
+        then();
+      })();
+    }
+    function play() {
+      started = true;
+      var w = 0;
+      (function next() {
+        if (w >= WAVES.length) { done = true; return; }
+        drawWave(WAVES[w++], function () { setTimeout(next, 90); });
+      })();
+    }
+    function check() {
+      if (started) return;
+      var r = fig.getBoundingClientRect();
+      if (r.top < window.innerHeight * 0.7 && r.bottom > 0) play();
     }
     var still = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    function tick() {
-      var s = Date.now() / 1000 * SPEED; // distance travelled, in px
-      flows.forEach(function (f) {
-        f.dots.forEach(function (d) {
-          var k = (s / f.len + d.phase) % 1;
-          var pt = f.path.getPointAtLength(f.len * k);
-          d.el.setAttribute("cx", pt.x);
-          d.el.setAttribute("cy", pt.y);
-          // fade in as a dot leaves a node, fade out as it arrives
-          d.el.setAttribute("opacity", Math.min(1, k * 6, (1 - k) * 6).toFixed(2));
-        });
-      });
-      setTimeout(tick, 33);
-    }
+    if (still) done = started = true;
     draw();
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(draw);
-    window.addEventListener("resize", draw);
-    if (still) { flows.forEach(function (f) { f.dots.forEach(function (d) { d.el.remove(); }); }); return; }
-    tick();
+    window.addEventListener("resize", function () { if (started) done = true; draw(); });
+    window.addEventListener("scroll", check, { passive: true });
+    check();
   })();
 
   /* ---------- Nav theme follows the section under it ---------- */
