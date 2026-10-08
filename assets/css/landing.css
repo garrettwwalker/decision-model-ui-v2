@@ -527,6 +527,7 @@ html { scroll-behavior: smooth; } /* nav CTA glides to the contact form; base.cs
   max-width: 82rem;
 }
 .assets__copy { display: grid; gap: 1.25rem; align-content: start; }
+.assets__copy h2 { margin-bottom: 0.75rem; } /* a little more air between the title and the paragraphs */
 .assets__lede { margin: 0; max-width: 32rem; font-size: 1.1rem; color: var(--ink-2); }
 /* node-link model: the impact travels from the driver down to the owners who act */
 .graph {
