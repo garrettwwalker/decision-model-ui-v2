@@ -232,12 +232,12 @@ html { scroll-behavior: smooth; } /* nav CTA glides to the contact form; base.cs
 /* ---------- Thesis ---------- */
 .thesis {
   padding: clamp(8rem, 20vh, 12rem) var(--gutter) clamp(6rem, 16vh, 10rem);
-  display: grid; gap: clamp(3.5rem, 9vh, 6rem);
+  display: grid; gap: clamp(2.5rem, 6vh, 4rem);
 }
 /* beat one: the setup, quiet and left-hung */
 .thesis .thesis__setup { margin: 0 0 0 clamp(0rem, 6vw, 6rem); max-width: 44rem; line-height: 1.4; }
-/* beat two: the answer, offset right; the rotating event is the headline */
-.thesis__answer { margin-left: clamp(0rem, 30vw, 30rem); max-width: 52rem; }
+/* beat two: the answer, on the same left edge as the setup and the section titles below; a dashed rule marks the turn */
+.thesis__answer { margin-left: clamp(0rem, 6vw, 6rem); max-width: 60rem; padding-top: clamp(2rem, 5vh, 3rem); border-top: 1.5px dashed var(--line-strong); }
 .thesis__lead, .thesis__close { margin: 0; font-size: clamp(1.1rem, 1.8vw, 1.45rem); font-weight: 700; letter-spacing: -0.01em; line-height: 1.4; }
 .thesis__close { max-width: 26rem; margin-top: 1.4rem; color: var(--ink-2); }
 .thesis__event {
