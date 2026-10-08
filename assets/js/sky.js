@@ -39,12 +39,11 @@
       { y: 41, w: [11, 17], h: [0.40, 0.52], gap: -0.22 },
       { y: 56, w: [13, 20], h: [0.38, 0.48], gap: -0.25 }
     ],
-    // phones: clouds are scaled up, so overlap them more and add a middle row so no sea shows between puffs
+    // phones: clouds are scaled up, so the two rows overlap more and sit closer, leaving no sea between them
     narrowRows: [
-      { y: 38, w: [11, 15], h: [0.46, 0.56], gap: -0.4 },
-      { y: 47, w: [12, 16], h: [0.44, 0.54], gap: -0.4 },
-      { y: 58, w: [13, 18], h: [0.40, 0.50], gap: -0.4 }
-    ] },
+      { y: 41, w: [12, 16], h: [0.46, 0.56], gap: -0.38 },
+      { y: 52, w: [13, 17], h: [0.42, 0.52], gap: -0.38 }
+    ], narrowBase: 40 },
     band: { base: 50, rows: [
       { y: 52, w: [10, 15], h: [0.42, 0.55], gap: -0.2 },
       { y: 64, w: [12, 17], h: [0.38, 0.50], gap: -0.22 }
@@ -94,6 +93,8 @@
     // Tall hero banks (phones): bigger clouds so two rows still cover the sky
     if (shape.core && H > W) scale = Math.min(1.6, (H / W) * 0.7);
     var id = "cl" + (++uid);
+    var narrow = !!(shape.narrowRows && W < 700);
+    var baseAt = narrow && shape.narrowBase != null ? shape.narrowBase : shape.base;
 
     var svg = el("svg", { width: W, height: H, viewBox: "0 0 " + W + " " + H, "aria-hidden": "true", focusable: "false" });
     var defs = el("defs", {});
@@ -139,10 +140,10 @@
       bg.appendChild(el("stop", { offset: 0.5, style: "stop-color:var(--c-base, var(--c-lo))" }));
       bg.appendChild(el("stop", { offset: 1, style: "stop-color:var(--c-base, var(--c-lo));stop-opacity:0" }));
       defs.appendChild(bg);
-      root.appendChild(el("rect", { x: -W * 0.1, y: H * shape.base / 100, width: W * 1.2, height: H * (1 - shape.base / 100) + 2, fill: "url(#" + id + "base)" }));
+      root.appendChild(el("rect", { x: -W * 0.1, y: H * baseAt / 100, width: W * 1.2, height: H * (1 - baseAt / 100) + 2, fill: "url(#" + id + "base)" }));
     }
 
-    var rows = shape.narrowRows && W < 700 ? shape.narrowRows : shape.rows;
+    var rows = narrow ? shape.narrowRows : shape.rows;
     rows.forEach(function (row) {
       var by0 = H * row.y / 100;
       var x = shape === SHAPES.single ? W * 0.12 : -W * 0.08 - rand() * W * 0.06;
