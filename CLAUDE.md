@@ -57,8 +57,9 @@ contributions as things no one else in the field does, in plain language:
 
 Keep private: specific models and vendors, fusion and calibration methods, the event-sequence
 model, leakage controls, competitor names and patent issues. The Hormuz example's engine figures
-(33 / 26 / 22%, fused 27%, one sub-question declined) appear on the landing page, the brief and
-the workbench (`ENSEMBLE` in `bench.js`); keep them in sync.
+(33 / 26 / 22%, fused 27%, one sub-question declined) appear on the brief and the workbench
+(`ENSEMBLE` in `bench.js`); keep them in sync. The landing page deliberately spans industries: an automaker's
+strike question (engines), a tech company's Brazil launch (timeline), and mixed-sector gray swans.
 
 ## Repository
 
