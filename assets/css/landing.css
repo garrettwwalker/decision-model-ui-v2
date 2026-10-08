@@ -345,8 +345,8 @@ html { scroll-behavior: smooth; } /* nav CTA glides to the contact form; base.cs
 .mode { display: flex; flex-direction: column; gap: 0.85rem; }
 /* pinned notes hang slightly askew, like the brief's horizon cards */
 .mode:nth-child(1), .rigor__grid .note:nth-child(1) { transform: rotate(-1deg); }
-.mode:nth-child(2), .rigor__grid .note:nth-child(2) { transform: rotate(0.8deg); margin-top: 2.5rem; } /* staggered, as on the brief */
-.mode:nth-child(3), .rigor__grid .note:nth-child(3) { transform: rotate(-0.6deg); margin-top: 1rem; }
+.mode:nth-child(2), .rigor__grid .note:nth-child(2) { transform: rotate(0.8deg); margin-top: 1.25rem; } /* a gentle stagger, as on the brief */
+.mode:nth-child(3), .rigor__grid .note:nth-child(3) { transform: rotate(-0.6deg); margin-top: 0.5rem; }
 @media (max-width: 960px) {
   .mode:nth-child(n), .rigor__grid .note:nth-child(n) { margin-top: 0; }
 }

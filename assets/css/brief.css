@@ -236,8 +236,8 @@
 .horizon__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; margin-top: 1.75rem; position: relative; }
 .hz { display: flex; flex-direction: column; gap: 0.6rem; }
 .hz:nth-child(1) { transform: rotate(-1deg); }
-.hz:nth-child(2) { margin-top: 2.5rem; transform: rotate(0.8deg); }
-.hz:nth-child(3) { margin-top: 1rem; }
+.hz:nth-child(2) { margin-top: 1.25rem; transform: rotate(0.8deg); }
+.hz:nth-child(3) { margin-top: 0.5rem; transform: rotate(-0.6deg); }
 .hz h3 { margin: 0; font-size: 1.1rem; line-height: 1.25; letter-spacing: -0.02em; }
 .hz p { margin: 0; font-size: 0.86rem; color: var(--ink-2); }
 .hz__tag { color: var(--ember-deep) !important; }
