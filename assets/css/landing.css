@@ -584,6 +584,7 @@ html { scroll-behavior: smooth; } /* nav CTA glides to the contact form; base.cs
 .rigor__foot { margin: auto 0 0; padding-top: 0.75rem; border-top: 1px dashed var(--line-strong); font-size: 0.72rem; color: var(--ink-2); }
 .rigor__note { margin: 2.5rem 0 0; font-size: var(--fs-micro); color: rgba(10, 23, 34, 0.6); }
 .calib { width: 100%; max-width: 260px; margin: 0.25rem auto; }
+/* chart lines draw themselves left to right when the card arrives (landing.js sets a clip on each .draw) */
 .horizon { width: 100%; max-width: 280px; margin: 0.25rem auto; overflow: visible; }
 .horizon__lab { font: 700 9px var(--font); }
 .horizon__ax { font: 500 8px var(--font); fill: #3b4b57; }

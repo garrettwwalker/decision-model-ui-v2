@@ -210,6 +210,41 @@
     check();
   })();
 
+  /* ---------- Rigor charts: lines draw themselves once, left to right, when scrolled into view ---------- */
+  (function () {
+    var still = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var charts = Array.prototype.slice.call(document.querySelectorAll(".calib, .horizon"));
+    if (still || !charts.length) return;
+    // a clip reveal works for solid, dashed and dotted lines alike
+    function clip(el, k) { el.style.clipPath = "inset(-10% " + ((1 - k) * 110 - 10).toFixed(2) + "% -10% -10%)"; }
+    charts.forEach(function (c) { c.querySelectorAll(".draw").forEach(function (el) { clip(el, 0); }); });
+    function draw(c) {
+      var parts = Array.prototype.slice.call(c.querySelectorAll(".draw"));
+      var t0 = Date.now(), D = 1300;
+      (function step() {
+        var done = true;
+        parts.forEach(function (el) {
+          var delay = parseFloat(el.style.getPropertyValue("--d")) * 1000 || 0;
+          var k = Math.max(0, Math.min(1, (Date.now() - t0 - delay) / D));
+          clip(el, 1 - Math.pow(1 - k, 3));
+          if (k < 1) done = false;
+        });
+        if (!done) setTimeout(step, 16);
+        else parts.forEach(function (el) { el.style.clipPath = ""; });
+      })();
+    }
+    function check() {
+      charts = charts.filter(function (c) {
+        var r = c.getBoundingClientRect();
+        if (r.top < window.innerHeight * 0.85 && r.bottom > 0) { draw(c); return false; }
+        return true;
+      });
+      if (!charts.length) window.removeEventListener("scroll", check);
+    }
+    window.addEventListener("scroll", check, { passive: true });
+    check();
+  })();
+
   /* ---------- Nav theme follows the section under it ---------- */
   var nav = document.querySelector(".nav");
   var themed = document.querySelectorAll("[data-nav]");
