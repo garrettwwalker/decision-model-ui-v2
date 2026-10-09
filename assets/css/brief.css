@@ -168,14 +168,18 @@
 .route-card::before { /* eyelet */
   content: ""; position: absolute; left: 0.8rem; top: 50%;
   width: 11px; height: 11px; border-radius: 50%; transform: translateY(-50%);
-  background: var(--ember); box-shadow: 0 0 0 3px #e9ddc6;
+  background: transparent; box-shadow: 0 0 0 3px #e9ddc6; /* ring; the hole is punched through the card */
+}
+.route-card {
+  -webkit-mask-image: radial-gradient(circle at calc(0.8rem + 5.5px) 50%, transparent 5px, #000 5.5px);
+  mask-image: radial-gradient(circle at calc(0.8rem + 5.5px) 50%, transparent 5px, #000 5.5px);
 }
 .route-card:nth-child(odd) { transform: rotate(-0.8deg); }
 .route-card:nth-child(even) { transform: rotate(0.7deg) translateY(6px); }
 .route-card[data-route-card] { cursor: pointer; }
 .route-card[data-route-card]:hover, .route-card[data-route-card]:focus-visible { transform: rotate(0) translateY(-3px); }
 .route-card.is-best { background: var(--ink); color: #fff; }
-.route-card.is-best::before { background: #7fe0c6; box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2); }
+.route-card.is-best::before { background: transparent; box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.25); }
 .route-card.is-best dt { color: rgba(255, 255, 255, 0.7); }
 .route-card.is-best .money--safe { color: #7fe0c6; }
 .route-card--no { opacity: 0.6; }
