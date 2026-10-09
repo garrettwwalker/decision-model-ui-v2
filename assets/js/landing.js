@@ -217,9 +217,13 @@
     if (still || !charts.length) return;
     // a clip reveal works for solid, dashed and dotted lines alike
     function clip(el, k) { el.style.clipPath = "inset(-10% " + ((1 - k) * 110 - 10).toFixed(2) + "% -10% -10%)"; }
-    charts.forEach(function (c) { c.querySelectorAll(".draw").forEach(function (el) { clip(el, 0); }); });
+    charts.forEach(function (c) {
+      c.querySelectorAll(".draw").forEach(function (el) { clip(el, 0); });
+      c.querySelectorAll(".draw-label").forEach(function (el) { el.style.opacity = 0; });
+    });
     function draw(c) {
       var parts = Array.prototype.slice.call(c.querySelectorAll(".draw"));
+      var labels = Array.prototype.slice.call(c.querySelectorAll(".draw-label"));
       var t0 = Date.now(), D = 1300;
       (function step() {
         var done = true;
@@ -227,6 +231,12 @@
           var delay = parseFloat(el.style.getPropertyValue("--d")) * 1000 || 0;
           var k = Math.max(0, Math.min(1, (Date.now() - t0 - delay) / D));
           clip(el, 1 - Math.pow(1 - k, 3));
+          if (k < 1) done = false;
+        });
+        labels.forEach(function (el) { // each label fades in while its line draws past it
+          var delay = parseFloat(el.style.getPropertyValue("--d")) * 1000 || 0;
+          var k = Math.max(0, Math.min(1, (Date.now() - t0 - delay - D * 0.25) / (D * 0.5)));
+          el.style.opacity = k.toFixed(2);
           if (k < 1) done = false;
         });
         if (!done) setTimeout(step, 16);
