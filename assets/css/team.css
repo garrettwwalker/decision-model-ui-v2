@@ -57,7 +57,7 @@
 @media (max-width: 1080px) { .tgrid { grid-template-columns: minmax(0, 1fr); } }
 .decisions { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.75rem; }
 .dec { padding: 1rem 1.15rem; border-radius: var(--radius); background: #fff; box-shadow: var(--shadow-card); display: grid; gap: 0.6rem; }
-.dec.is-made { background: rgba(255, 255, 255, 0.6); box-shadow: none; border: 1.5px dashed var(--line-strong); }
+.dec.is-made { background: rgba(255, 255, 255, 0.5); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); box-shadow: none; }
 .dec__top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 0.3rem 1rem; }
 .dec__q { margin: 0; font-size: 1.05rem; letter-spacing: -0.02em; }
 .dec__ctx, .dec__why { margin: 0; font-size: 0.84rem; color: var(--fg-2); }
@@ -151,7 +151,7 @@
 .mate:hover { border-color: var(--line-strong); }
 .mate.is-sel { border-color: var(--ink); }
 .mate.is-over:not(.is-sel) { border-color: var(--loss); }
-.mate.is-away { background: rgba(255, 255, 255, 0.55); box-shadow: none; border: 1.5px dashed var(--line-strong); }
+.mate.is-away { background: rgba(255, 255, 255, 0.5); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); box-shadow: none; border-color: transparent; }
 .mate__top { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0.6rem; align-items: center; }
 .mate__name { display: grid; }
 .mate__name b { font-size: 0.9rem; }
@@ -211,7 +211,7 @@
 .play__kind { margin: 0; font-size: 0.76rem; font-weight: 700; color: var(--ember-deep); }
 .play__title { margin: -0.4rem 0 0; font-size: 1.4rem; letter-spacing: -0.035em; }
 .play__impact { margin: 0; font-size: 0.9rem; }
-.signal { padding: 0.8rem 0.9rem; border-radius: 12px; background: #fff8f1; border: 1px dashed var(--line-strong); display: grid; gap: 0.55rem; }
+.signal { padding: 0.8rem 0.9rem; border-radius: 12px; background: #fff3e8; display: grid; gap: 0.55rem; }
 .signal__lab { margin: 0; font-size: 0.82rem; font-weight: 700; }
 .signal__meter { position: relative; height: 10px; border-radius: 10px; background: rgba(10, 23, 34, 0.07); margin: 0.4rem 0 0.1rem; }
 .signal__zone { position: absolute; top: 0; bottom: 0; border-radius: 10px; background: rgba(194, 51, 45, 0.18); }
