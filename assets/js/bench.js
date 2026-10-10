@@ -493,7 +493,6 @@
   document.querySelectorAll("[data-mode-btn]").forEach(function (b) {
     b.addEventListener("click", function () { if (b.getAttribute("data-mode-btn") === "model") showModel(); else showStep(stage); });
   });
-  document.getElementById("back-scenario").addEventListener("click", function () { showStep(stage); });
   function goTo(where) {
     if (where.indexOf("model") === 0) showModel(where.split(":")[1]); else showStep(where);
     var anchor = document.querySelector(mode === "model" ? ".modelbar" : ".thread");
