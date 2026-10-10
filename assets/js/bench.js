@@ -1050,7 +1050,41 @@
 
   /* ================= 4. Decide ================= */
   var opBody = document.querySelector("#options tbody");
-  document.getElementById("op-sort").addEventListener("change", function (e) { sortBy = e.target.value; renderDecide(); });
+  // a pill that opens a small menu, like the owner picker on the workflows page
+  function pickMenu(box, label, options, get, set) {
+    var btn = el("button", { type: "button", class: "pick__btn", "aria-haspopup": "listbox", "aria-expanded": "false" }), menu = null;
+    box.appendChild(btn);
+    function paint() {
+      var cur = options.filter(function (o) { return o[0] === get(); })[0];
+      btn.innerHTML = ""; btn.appendChild(el("span", { class: "pick__lab" }, label)); btn.appendChild(el("b", null, cur[1])); btn.appendChild(el("span", { class: "pick__caret", "aria-hidden": "true" }));
+      btn.setAttribute("aria-label", label + ": " + cur[1]);
+    }
+    function close() { if (menu) { menu.remove(); menu = null; } btn.setAttribute("aria-expanded", "false"); document.removeEventListener("click", outside); }
+    function outside(e) { if (!box.contains(e.target)) close(); }
+    function open() {
+      menu = el("ul", { class: "pick__menu", role: "listbox", "aria-label": label });
+      options.forEach(function (o) {
+        var on = o[0] === get(), li = el("li", { role: "option", tabindex: "-1", "aria-selected": String(on), class: "pick__opt" + (on ? " is-on" : "") }, o[1]);
+        function choose() { close(); btn.focus(); if (!on) { set(o[0]); paint(); } }
+        li.addEventListener("click", function (e) { e.stopPropagation(); choose(); });
+        li.addEventListener("keydown", function (e) {
+          if (e.key === "Enter" || e.key === " ") { e.preventDefault(); choose(); }
+          else if (e.key === "ArrowDown" && li.nextSibling) { e.preventDefault(); li.nextSibling.focus(); }
+          else if (e.key === "ArrowUp" && li.previousSibling) { e.preventDefault(); li.previousSibling.focus(); }
+          else if (e.key === "Escape") { close(); btn.focus(); }
+        });
+        menu.appendChild(li);
+      });
+      box.appendChild(menu); btn.setAttribute("aria-expanded", "true");
+      (menu.querySelector(".is-on") || menu.firstChild).focus();
+      setTimeout(function () { document.addEventListener("click", outside); }, 0);
+    }
+    btn.addEventListener("click", function () { if (menu) close(); else open(); });
+    btn.addEventListener("keydown", function (e) { if (e.key === "ArrowDown" && !menu) { e.preventDefault(); open(); } });
+    paint();
+  }
+  pickMenu(document.getElementById("op-sort"), "Sort by", [["net", "Net value"], ["value", "Value"], ["cost", "Cost"], ["lead", "Lead time"]],
+    function () { return sortBy; }, function (v) { sortBy = v; renderDecide(); });
   function renderDecide() {
     var S = stats({}), ar = atRisk(S);
     $("carry-decide").textContent = "At stake from stage 3: " + money(S.money) + " of expected loss, " + plural(ar.length, "commitment") + " at risk" +
