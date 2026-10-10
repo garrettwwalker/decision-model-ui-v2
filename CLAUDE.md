@@ -11,7 +11,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
 
 ## Architecture
 
-- Pages: `index.html` (landing), `briefing.html` (executive brief), `team.html` (team workflows for middle
+- Pages: `index.html` (landing), `briefing.html` (executive brief), `team.html` ("workflows" in the nav; team workflows for middle
   managers), `workbench.html` (world-model editor for data/IT) and `ask.html` (chat). `wargame.html` is only a
   redirect to `team.html`; the wargame it used to hold was replaced.
 - Product pages share the landing's vocabulary: dawn ground (`t-sunrise`), white paper (`.panel`,
