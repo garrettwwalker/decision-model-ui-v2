@@ -694,7 +694,7 @@ select.num-input, input.num-input { font-family: var(--font); background: #fff; 
 .tmid { stroke: var(--ember-deep); }
 
 /* team cards are frosted until selected */
-.org__team { background: rgba(255, 255, 255, 0.5); box-shadow: none; border-color: rgba(255, 255, 255, 0.6); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); transition: background-color 0.2s ease, box-shadow 0.2s ease; }
-.org__team:hover { background: rgba(255, 255, 255, 0.72); border-color: rgba(255, 255, 255, 0.9); }
+.org__team { background: rgba(255, 255, 255, 0.5); box-shadow: none; border-color: transparent; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); transition: background-color 0.2s ease, box-shadow 0.2s ease; }
+.org__team:hover { background: rgba(255, 255, 255, 0.72); border-color: transparent; }
 .org__team.is-sel { background: #fff; border-color: transparent; box-shadow: var(--shadow-card); }
 .org__team .av { background: rgba(10, 23, 34, 0.07); }
