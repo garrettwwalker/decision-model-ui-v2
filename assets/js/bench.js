@@ -678,23 +678,6 @@
     });
     DB.fillRanges(evBox);
   }
-  function renderFutures() {
-    var act = active(), dist = [0, 0, 0, 0];
-    for (var m = 0; m < (1 << act.length); m++) {
-      var w = 1, n = 0;
-      act.forEach(function (e, i) { if (m & (1 << i)) { w *= pOf(e); n++; } else w *= 1 - pOf(e); });
-      dist[Math.min(3, n)] += w;
-    }
-    var box = document.getElementById("futures"); box.textContent = "";
-    ["None happen", "One", "Two", "Three or more"].forEach(function (lab, i) {
-      if (dist[i] < 0.005) return;
-      var s = el("span", { class: "futures__seg futures__seg--" + i }); s.style.flexGrow = dist[i];
-      s.appendChild(el("b", null, pct(dist[i]))); s.appendChild(el("small", null, lab));
-      s.title = lab + ": " + pct(dist[i]);
-      box.appendChild(s);
-    });
-    $("futures-note").textContent = act.length ? "With " + plural(act.length, "contingency", "contingencies") + " included, there's a " + pct(1 - dist[0]) + " chance that at least one happens in the next 30 days. Stage 3 weights each combination by its probability." : "Include a contingency to see how they could combine.";
-  }
   function markPreset(id) {
     preset = id;
     document.querySelectorAll("[data-preset]").forEach(function (b) { b.classList.toggle("is-on", b.getAttribute("data-preset") === id); });
@@ -1787,7 +1770,6 @@
     clearTimeout(heavy);
     var go = function () {
       if (mode === "model") { renderModel(); return; }
-      if (stage === "events") renderFutures();
       if (stage === "impact") renderImpact();
       if (stage === "decide") renderDecide();
       if (stage === "deliver") renderDeliver();

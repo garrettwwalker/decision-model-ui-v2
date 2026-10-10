@@ -431,15 +431,6 @@ select.num-input, input.num-input { font-family: var(--font); background: #fff; 
 .event__hits { display: flex; flex-wrap: wrap; align-items: center; gap: 0.3rem; }
 .event__hitlab { font-size: 0.75rem; font-weight: 700; color: var(--fg-2); margin-right: 0.2rem; }
 .event__reach { margin: 0; font-size: 0.78rem; color: var(--fg-2); }
-.futures__bar { display: flex; gap: 3px; height: 3.4rem; border-radius: 10px; overflow: hidden; }
-.futures__seg { display: grid; align-content: center; padding: 0 0.7rem; min-width: 3.2rem; overflow: hidden; white-space: nowrap; }
-.futures__seg b { font-size: 1rem; font-variant-numeric: tabular-nums; }
-.futures__seg small { font-size: 0.7rem; }
-.futures__seg--0 { background: var(--safe-tint); color: var(--safe); }
-.futures__seg--1 { background: #ffe1cf; color: #8a3a12; }
-.futures__seg--2 { background: #ffb98a; color: #5e2306; }
-.futures__seg--3 { background: var(--loss); color: #fff; }
-.futures__note { margin: 0.7rem 0 0; font-size: 0.82rem; color: var(--fg-2); }
 
 /* ================= 3. Impact ================= */
 .dims { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0.6rem; }
