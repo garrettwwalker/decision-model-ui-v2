@@ -578,8 +578,7 @@
         var m = el("i", { class: "fscale__eng", title: k + " engine: " + Math.round(e.fused[k] * 100) + "%" }, k.charAt(0)); track.appendChild(m); return [k, m];
       });
       var fd = el("i", { class: "fscale__fused" }); track.appendChild(fd);
-      var shift = el("i", { class: "fscale__shift" }); track.appendChild(shift);
-      var you = el("i", { class: "fscale__you" }); you.appendChild(el("span", null, "You")); track.appendChild(you);
+      var you = el("i", { class: "fscale__you" }); track.appendChild(you);
       sc.appendChild(track);
       var leg = el("p", { class: "fcrow__eng" }); sc.appendChild(leg);
       row.appendChild(sc);
@@ -615,10 +614,9 @@
         var prev = -1, lvl = 0;
         engs.forEach(function (x) { var v = e.fused[x[0]]; lvl = prev >= 0 && (v - prev) * 100 / dom < 0.035 ? lvl + 1 : 0; prev = v; x[1].style.left = X(v); x[1].style.bottom = (1.45 + lvl * 1.25) + "rem"; });
         fd.style.left = X(e.base.p);
-        you.hidden = shift.hidden = !moved && Math.abs(p - e.p) < 1e-9; you.style.left = X(p);
-        // a dashed ink line from Daybreak's dot to yours shows how far you've moved it
-        var lo = Math.min(p, e.base.p), hi = Math.max(p, e.base.p);
-        shift.style.left = X(lo); shift.style.width = "calc(" + X(hi) + " - " + X(lo) + ")";
+        // overridden: the solid dot moves to your value and Daybreak's stays behind as a faint outline
+        var over = moved || Math.abs(p - e.p) > 1e-9;
+        you.hidden = !over; you.style.left = X(p); fd.classList.toggle("is-ghost", over);
         track.setAttribute("aria-label", "Engines: " + Object.keys(e.fused).map(function (k) { return k + " " + Math.round(e.fused[k] * 100) + "%"; }).join(", ") + ". Fused " + Math.round(e.base.p * 100) + "% plus or minus " + e.band + " points." + (moved ? " Your view: " + Math.round(p * 100) + "%." : ""));
         leg.textContent = "Fused " + Math.round(e.base.p * 100) + "%, ±" + e.band + " points" + (moved ? ". You've set " + Math.round(e.p * 100) + "%" : "") + (Math.abs(p - e.p) > 1e-9 ? ", " + Math.round(p * 100) + "% with your signals" : "") + ".";
         sp.textContent = ""; sp.appendChild(spark(e)); sp.title = "Last 90 days: " + Math.round(e.hist[0] * 100) + "% to " + Math.round(e.base.p * 100) + "%";
