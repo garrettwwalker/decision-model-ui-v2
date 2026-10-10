@@ -140,7 +140,7 @@
           </div>
           <p class="table-note">Value is how much expected loss the action removes, given the rest of the plan, if it lands in time and in full. Net is value minus cost. Who does each action, and how, is decided in Deliver.</p>
         </div>
-        <div class="panel instrument frontier">
+        <div class="panel frontier">
           <div class="frontier__head">
             <h3 class="frontier__title">The best plan at every budget <span class="frontier__hint">Click a dot to adopt that plan</span></h3>
             <p class="frontier__note" data-out="frontier-note"></p>
@@ -157,7 +157,7 @@
         </div>
         <div class="board" id="board" role="tablist" aria-label="Teams"></div>
         <div class="panel teamws" id="teamws" role="tabpanel" aria-live="polite"></div>
-        <div class="panel instrument gantt">
+        <div class="panel gantt">
           <h3 class="panel__title">Timeline, from today</h3>
           <svg class="gantt__svg" id="gantt" viewBox="0 0 720 260" role="img" aria-label="Timeline of each action in the plan from its start to when it's in place, against its deadline"></svg>
         </div>
@@ -176,12 +176,12 @@
           </table></div>
         </div>
         <div class="co-grid">
-          <div class="panel instrument">
+          <div class="panel chartp">
             <h3 class="panel__title">Spread of outcomes</h3>
             <svg class="hist" id="hist" viewBox="0 0 520 220" role="img" aria-label="Histogram of simulated losses with and without your plan"></svg>
             <p class="hist__note" data-out="hist-note"></p>
           </div>
-          <div class="panel instrument">
+          <div class="panel chartp">
             <h3 class="panel__title">What moves expected loss most</h3>
             <svg class="tornado" id="tornado" viewBox="0 0 520 240" role="img" aria-label="Sensitivity of expected loss to each included contingency's probability and severity"></svg>
             <p class="hist__note">Expected loss with your plan, if each input were a little lower (left) or higher (right).</p>

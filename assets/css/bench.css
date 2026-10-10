@@ -1,5 +1,5 @@
-/* Workbench: one decision followed through six stages, plus the model it runs on. Paper for controls and tables;
-   the network graph, frontier, outcome spread, timeline and SDK code are instruments. */
+/* Workbench: one decision followed through six stages, plus the model it runs on. Paper for controls, tables
+   and charts; only the model view's network graph and the SDK code are dark instruments. */
 
 .page--bench { max-width: 104rem; }
 
@@ -666,3 +666,27 @@ select.num-input, input.num-input { font-family: var(--font); background: #fff; 
 @media (prefers-reduced-motion: reduce) { .askdrawer, .askdrawer.is-closing { animation: none; } }
 .ddrow__fix { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem; }
 .ddrow__fixlab { font-size: 0.74rem; font-weight: 700; color: var(--fg-2); margin-right: 0.2rem; }
+
+/* ================= Charts on paper: the plans chart, the timeline and the two consequence charts ================= */
+.frontier .grid, .gantt .grid, .hist .grid { stroke: rgba(10, 23, 34, 0.1); }
+.frontier .axis, .gantt .axis, .chartp .axis { fill: var(--ink-2); }
+.frontier .axis--mine, .chartp .axis--mine { fill: var(--ember-deep); font-weight: 700; }
+.frontier .axis--best { fill: var(--safe); }
+.frontier__hint { color: var(--fg-2); }
+.frontier .fp { fill: rgba(15, 107, 95, 0.4); }
+.frontier .fp--faint { fill: rgba(15, 107, 95, 0.16); }
+.frontier .fp--no { fill: none; stroke: rgba(10, 23, 34, 0.28); }
+.frontier .fline { stroke: var(--safe); }
+.frontier .fp--front { fill: var(--safe); stroke: #fff; stroke-width: 1.5; }
+.frontier .fp--best { fill: var(--safe); stroke: var(--ink); stroke-width: 2; }
+.frontier .fp--mine { fill: none; stroke: var(--ember); stroke-width: 2.5; }
+.frontier .fp:hover { fill: var(--ember); }
+.gantt__name { fill: var(--ink); }
+.gantt__who { fill: var(--fg-2); }
+.gbar { fill: var(--safe); }
+.gbar--late { fill: var(--loss); }
+.gdead { stroke: #d98a1c; }
+.tornado__lab { fill: var(--ink); }
+.tbar--lo { fill: var(--safe); }
+.tbar--hi { fill: var(--loss); }
+.tmid { stroke: var(--ember-deep); }

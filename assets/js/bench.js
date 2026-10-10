@@ -1349,7 +1349,7 @@
     var c0 = count(s0), c1 = count(s1), top = Math.max(1, Math.max.apply(null, c0.concat(c1)));
     hist.textContent = "";
     hist.appendChild(sv("line", { x1: x0, x2: x1, y1: y1, y2: y1, class: "grid" }));
-    c0.forEach(function (c, i) { var h = (y1 - y0) * c / top; hist.appendChild(sv("rect", { x: x0 + i * bw + 1, y: y1 - h, width: bw - 2, height: h, fill: "none", stroke: "rgba(246,239,230,0.4)", "stroke-dasharray": "2 2" })); });
+    c0.forEach(function (c, i) { var h = (y1 - y0) * c / top; hist.appendChild(sv("rect", { x: x0 + i * bw + 1, y: y1 - h, width: bw - 2, height: h, fill: "none", stroke: "rgba(10,23,34,0.38)", "stroke-dasharray": "2 2" })); });
     c1.forEach(function (c, i) { var h = (y1 - y0) * c / top; hist.appendChild(sv("rect", { x: x0 + i * bw + 1, y: y1 - h, width: bw - 2, height: h, rx: 2, fill: "#f2683c", "fill-opacity": 0.85 })); });
     for (var t = 0; t <= 4; t++) hist.appendChild(sv("text", { x: x0 + (x1 - x0) * t / 4, y: y1 + 18, class: "axis", "text-anchor": "middle" }, money(hi * t / 4, 0)));
   }
