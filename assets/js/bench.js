@@ -508,7 +508,7 @@
     btn.innerHTML = '<svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.25" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10 9v5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="10" cy="6.2" r="1.1" fill="currentColor"/></svg>';
     note.id = id; note.setAttribute("role", "tooltip"); note.classList.add("info__pop");
     wrap.appendChild(btn); wrap.appendChild(note);
-    title.appendChild(wrap);
+    h.appendChild(wrap); // sits at the right end of the title row
     btn.addEventListener("click", function (e) { e.stopPropagation(); var on = !wrap.classList.contains("is-open"); closeInfos(); wrap.classList.toggle("is-open", on); btn.setAttribute("aria-expanded", String(on)); });
   });
   function closeInfos() { document.querySelectorAll(".info.is-open").forEach(function (w) { w.classList.remove("is-open"); w.querySelector(".info__btn").setAttribute("aria-expanded", "false"); }); }
