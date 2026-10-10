@@ -253,7 +253,7 @@
         <ol class="log" id="log" aria-label="Change log"></ol>
       </div>
       <div class="dataview" data-mview="data" hidden>
-        <div class="data-grid">
+        <div class="data-col">
           <div class="panel">
             <h3 class="panel__title">Load a dataset</h3>
             <div class="drop">
@@ -271,19 +271,6 @@
             </div>
           </div>
           <div class="panel">
-            <h3 class="panel__title">Build a custom signal</h3>
-            <form class="signal-form" id="signal-form">
-              <label class="field"><span class="field__top">Name</span><input class="num-input" name="name" required placeholder="Jebel Ali dwell time"></label>
-              <label class="field"><span class="field__top">Watches</span><input class="num-input" name="rule" required placeholder="Average container dwell above 60 hours"></label>
-              <label class="field"><span class="field__top">Moves</span><select class="num-input" name="event"></select></label>
-              <label class="field"><span class="field__top">When it fires <span class="field__val" data-out="sig-pts">+6 pts</span></span><input type="range" name="pts" min="-15" max="15" step="1" value="6"></label>
-              <button class="btn btn--primary btn--sm" type="submit">Add signal</button>
-            </form>
-            <ul class="signals" id="signals"></ul>
-          </div>
-        </div>
-        <div class="data-grid">
-          <div class="panel">
             <h3 class="panel__title">Connected sources</h3>
             <ul class="sources" id="sources">
               <li><i class="ok"></i><span>SAP S/4HANA<small>POs and BOMs, 4 min ago</small></span></li>
@@ -293,6 +280,19 @@
               <li><i class="ok"></i><span>Workday<small>Teams and availability, 1 h ago</small></span></li>
               <li><i class="warn"></i><span>Gebze MES<small>Schema drift: 2 fields unmapped</small></span></li>
             </ul>
+          </div>
+        </div>
+        <div class="data-col">
+          <div class="panel">
+            <h3 class="panel__title">Build a custom signal</h3>
+            <form class="signal-form" id="signal-form">
+              <label class="field"><span class="field__top">Name</span><input class="num-input" name="name" required placeholder="Jebel Ali dwell time"></label>
+              <label class="field"><span class="field__top">Watches</span><input class="num-input" name="rule" required placeholder="Average container dwell above 60 hours"></label>
+              <label class="field"><span class="field__top">Moves</span><select class="num-input" name="event"></select></label>
+              <label class="field"><span class="field__top">When it fires <span class="field__val" data-out="sig-pts">+6 pts</span></span><input type="range" name="pts" min="-15" max="15" step="1" value="6"></label>
+              <button class="btn btn--primary btn--sm" type="submit">Add signal</button>
+            </form>
+            <ul class="signals" id="signals"></ul>
           </div>
           <div class="panel instrument code">
             <div class="code__head">

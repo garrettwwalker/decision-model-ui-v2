@@ -560,7 +560,9 @@ select.num-input, input.num-input { font-family: var(--font); background: #fff; 
 .modelbar p { margin: 0; font-size: 0.88rem; text-wrap: balance; }
 .modelbar b { color: var(--ember-deep); }
 .mode[data-mode="model"] .viewbar { margin-bottom: 1rem; }
-.dataview { display: grid; gap: 1rem; }
+.dataview { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1rem; align-items: start; }
+.data-col { display: grid; gap: 1rem; min-width: 0; }
+@media (max-width: 1000px) { .dataview { grid-template-columns: minmax(0, 1fr); } }
 .dataview[hidden], .world[hidden] { display: none; }
 .org__team .tcard__avs { margin-top: 0.15rem; }
 
