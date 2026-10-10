@@ -43,12 +43,7 @@
           <button class="modes__btn" role="tab" type="button" data-mode-btn="scenario" aria-selected="true">This scenario</button>
           <button class="modes__btn" role="tab" type="button" data-mode-btn="model" aria-selected="false">Your model and data <span class="modes__n" data-out="model-n" hidden></span></button>
         </div>
-        <details class="history">
-          <summary class="btn btn--ghost btn--sm">Change log</summary>
-          <ol class="log" id="log" aria-label="Change log"></ol>
-        </details>
         <button class="btn btn--ghost btn--sm" type="button" id="reset">Reset to baseline</button>
-        <button class="btn btn--primary btn--sm" type="button" id="commit">Commit as scenario</button>
       </div>
     </section>
 
@@ -216,6 +211,7 @@
           <label><input type="radio" name="wview" value="assets"><span>Assets</span></label>
           <label><input type="radio" name="wview" value="org"><span>Teams</span></label>
           <label><input type="radio" name="wview" value="data"><span>Data</span></label>
+          <label><input type="radio" name="wview" value="log"><span>Change log</span></label>
         </div>
         <p class="viewbar__count" data-out="asset-count"></p>
       </div>
@@ -252,6 +248,11 @@
           <p class="inspector__desc" data-out="desc"></p>
           <div class="inspector__body" id="inspector"></div>
         </aside>
+      </div>
+      <div class="panel logview" data-mview="log" hidden>
+        <h3 class="panel__title">Change log</h3>
+        <p class="logview__note">Every change in this session, newest first: to the scenario, the plan and how it's delivered, and to your model and data.</p>
+        <ol class="log" id="log" aria-label="Change log"></ol>
       </div>
       <div class="dataview" data-mview="data" hidden>
         <div class="data-grid">

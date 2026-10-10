@@ -48,7 +48,8 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   to free hours; overload stretches lead time, lateness and a scaled-back way cut its protection `f`, and
   `delivered()` blends that shortfall into every figure. A followed event (`focus`) carries through the stages.
   "Your model and data" is a separate mode: network, asset register (edit `PROPS`), teams (edit people's free hours)
-  and data (CSV, signals, sources, SDK). Hormuz/Red Sea losses come from `model.js`; other events are layered on in
+  data (CSV, signals, sources, SDK) and the change log. "Reset to baseline" shows only in the scenario mode; committing
+  happens from the foot of Consequences. Hormuz/Red Sea losses come from `model.js`; other events are layered on in
   `lossOf()`. "Ask Daybreak" (`#askdrawer`, moved to `<body>` at init to clear `.page`'s stacking context) is a
   scripted assistant: `answer()` matches intents by regex, computes replies from the live engine and offers actions.
 - Motion between views: `assets/js/nav.js` (in every page's `<head>`) records which way the clicked page lies in the

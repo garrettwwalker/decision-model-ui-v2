@@ -467,6 +467,7 @@
   function setMode(m) {
     var from = document.querySelector('[data-mode="' + mode + '"]'), to = document.querySelector('[data-mode="' + m + '"]');
     mode = m;
+    document.getElementById("reset").hidden = m !== "scenario";
     slideTo(from, to, m === "model" ? 1 : -1);
     document.querySelectorAll("[data-mode-btn]").forEach(function (b) { b.setAttribute("aria-selected", String(b.getAttribute("data-mode-btn") === m)); });
   }
@@ -503,7 +504,7 @@
     var id = p.getAttribute("data-panel"), i = STAGES.indexOf(id), foot = el("div", { class: "step__foot" });
     if (i > 0) { var b = el("button", { class: "btn btn--ghost btn--sm", type: "button" }, "Back"); b.addEventListener("click", function () { goTo(STAGES[i - 1]); }); foot.appendChild(b); }
     if (NEXT[id]) { var n = el("button", { class: "btn btn--primary btn--sm", type: "button" }, NEXT[id]); n.addEventListener("click", function () { goTo(STAGES[i + 1]); }); foot.appendChild(n); }
-    else { var c = el("button", { class: "btn btn--primary btn--sm", type: "button" }, "Commit as scenario"); c.addEventListener("click", function () { document.getElementById("commit").click(); }); foot.appendChild(c); }
+    else { var c = el("button", { class: "btn btn--primary btn--sm", type: "button" }, "Commit as scenario"); c.addEventListener("click", function () { commitScenario(); }); foot.appendChild(c); }
     p.appendChild(foot);
   });
   function follow(id) {
@@ -1524,19 +1525,17 @@
     see.addEventListener("click", function () { isel = a.id; goTo("impact"); });
     ins.appendChild(see);
   }
-  // the four model views slide in their tab order; Data swaps out the whole network-and-inspector block
-  var VIEWS = ["network", "assets", "org", "data"], shownView = "network";
+  // the model views slide in their tab order; Data and Change log swap out the whole network-and-inspector block
+  var VIEWS = ["network", "assets", "org", "data", "log"], shownView = "network";
+  function boxOf(v) { return document.querySelector('[data-mview="' + (v === "data" || v === "log" ? v : "world") + '"]'); }
   function showView(v) {
     if (v === shownView) return;
-    var dir = VIEWS.indexOf(v) - VIEWS.indexOf(shownView);
-    var world = document.querySelector('[data-mview="world"]'), data = document.querySelector('[data-mview="data"]');
-    if (v !== "data") {
-      var to = document.querySelector('[data-view="' + v + '"]');
-      if (shownView === "data") document.querySelectorAll("[data-view]").forEach(function (x) { x.hidden = x !== to; });
-      else slideTo(document.querySelector('[data-view="' + shownView + '"]'), to, dir);
+    var dir = VIEWS.indexOf(v) - VIEWS.indexOf(shownView), from = boxOf(shownView), to = boxOf(v);
+    if (from === to) slideTo(document.querySelector('[data-view="' + shownView + '"]'), document.querySelector('[data-view="' + v + '"]'), dir);
+    else {
+      if (to.getAttribute("data-mview") === "world") document.querySelectorAll("[data-view]").forEach(function (x) { x.hidden = x.getAttribute("data-view") !== v; });
+      slideTo(from, to, dir);
     }
-    if (v === "data") slideTo(world, data, dir);
-    else if (shownView === "data") slideTo(data, world, dir);
     shownView = v;
   }
   function renderModel() {
@@ -1547,6 +1546,7 @@
     var me = modelEdits();
     $("model-edits").textContent = me ? plural(me, "edit") + " so far." : "";
     if (isData) { renderSignals(); renderCode(); return; }
+    if (view === "log") return;
     if (sel.kind === "team" && view !== "org") sel = { kind: "asset", id: "c-hormuz" };
     if (view === "network") drawGraph(document.getElementById("graph"), nodeLossOf(S), traceNodes(), sel.kind === "asset" ? (assetById(sel.id) || {}).node : sel.kind === "node" ? sel.id : null, hitNodes(null), function (id) {
       var m = mainAssetAt(id); sel = m ? { kind: "asset", id: m.id } : { kind: "node", id: id }; renderModel();
@@ -1767,12 +1767,12 @@
     else { clearTimeout(logTimer); logTimer = setTimeout(function () { log("Re-ran the scenario: " + money(Edel(plan)) + " expected"); }, 700); }
   }
   document.getElementById("reset").addEventListener("click", function () { resetState(); focus = null; rebuild(); markPreset("morning"); changed("Reset to production"); });
-  document.getElementById("commit").addEventListener("click", function () {
+  function commitScenario() {
     var c = countChanges();
     if (!c) { DB.toast("Nothing to commit yet. Change a contingency, the model or the plan first."); return; }
     log("Committed scenario halvorsen/v14.2+" + c);
     DB.toast(planList(plan).length ? "Committed as a scenario. Each person on the plan has their action, with a deadline." : "Committed as a scenario.");
-  });
+  }
 
   /* ================= Ask Daybreak: questions about the live scenario ================= */
   var askOpen = document.getElementById("ask-open"), drawer = document.getElementById("askdrawer");

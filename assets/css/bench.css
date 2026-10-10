@@ -26,13 +26,6 @@
 .modes__n { min-width: 1.3rem; height: 1.3rem; padding: 0 0.3rem; border-radius: 999px; background: var(--ember); color: #fff; font-size: 0.7rem; display: inline-grid; place-items: center; }
 .modes__n[hidden] { display: none; }
 .mode[hidden] { display: none; }
-.history { position: relative; }
-.history summary { list-style: none; }
-.history summary::-webkit-details-marker { display: none; }
-.history[open] .log {
-  position: absolute; right: 0; top: calc(100% + 0.4rem); z-index: 50; width: min(22rem, 86vw); max-height: 18rem;
-  padding: 0.9rem 1rem; border-radius: var(--radius); background: #fff; box-shadow: 0 24px 50px -24px rgba(7, 22, 33, 0.6);
-}
 
 /* ---------- The thread: six stages, each showing its live result ---------- */
 .thread {
@@ -614,3 +607,12 @@ select.num-input, input.num-input { font-family: var(--font); background: #fff; 
 .k--lane { width: 16px; height: 0; border-top: 2px solid rgba(10, 23, 34, 0.35); }
 .k--alt { width: 16px; height: 0; border-top: 2px dashed var(--safe); }
 .k--trace { width: 16px; height: 0; border-top: 3px solid var(--ink); }
+
+/* change log, as a model view */
+.logview { display: grid; gap: 0.5rem; }
+.logview[hidden] { display: none; }
+.logview__note { margin: 0 0 0.4rem; font-size: 0.84rem; color: var(--fg-2); }
+.logview .log { font-size: 0.86rem; gap: 0.15rem; }
+.logview .log li { grid-template-columns: 5rem 1fr; padding: 0.45rem 0; border-bottom: 1px dashed var(--line); }
+.bench-head__actions [hidden] { display: none; }
+.mode[data-mode="model"] .viewbar .seg { min-width: min(100%, 30rem); }
