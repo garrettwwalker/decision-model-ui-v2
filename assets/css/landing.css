@@ -454,10 +454,10 @@ html { scroll-behavior: smooth; } /* nav CTA glides to the contact form; base.cs
   .tag:nth-child(odd) { transform: rotate(-1deg); }
   .tag:nth-child(even) { transform: rotate(1deg); }
 }
-@media (max-width: 700px) { /* phone: one column, the string runs down through the eyelets */
+@media (max-width: 700px) { /* phone: one column of tags, no string */
   .tags { grid-template-columns: minmax(0, 1fr); max-width: none; gap: 1rem; }
   .tag:nth-child(n) { grid-area: auto; }
-  .tags::before { left: calc(0.85rem + 6px); }
+  .tags::before { display: none; }
   .tag:nth-child(odd) { transform: rotate(-0.6deg); }
   .tag:nth-child(even) { transform: rotate(0.6deg); }
 }
