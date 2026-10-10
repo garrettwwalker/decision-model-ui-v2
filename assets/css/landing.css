@@ -573,8 +573,6 @@ html { scroll-behavior: smooth; } /* nav CTA glides to the contact form; base.cs
 /* chart lines draw themselves left to right when the card arrives (landing.js sets a clip on each .draw) */
 .horizon { width: 100%; max-width: 280px; margin: 0.25rem auto; overflow: visible; }
 .horizon__lab { font: 700 9px var(--font); }
-/* a paper-coloured halo under each chart line, so crossings and the guide lines beneath leave a clean gap */
-.rigor__halo { stroke: var(--paper); stroke-linecap: round; }
 .horizon__ax { font: 500 8px var(--font); fill: #3b4b57; }
 .prov { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.55rem; font-size: 0.82rem; }
 .prov li { display: grid; grid-template-columns: 3rem 1fr; gap: 0.5rem; color: var(--ink-2); }
