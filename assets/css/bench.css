@@ -476,12 +476,12 @@ select.num-input, input.num-input { font-family: var(--font); background: #fff; 
 .board { display: grid; grid-template-columns: repeat(auto-fill, minmax(10.4rem, 1fr)); gap: 0.6rem; }
 .tcard {
   display: grid; gap: 0.35rem; align-content: start; text-align: left; cursor: pointer; min-height: 44px;
-  padding: 0.85rem 0.95rem; border-radius: var(--radius); border: 1.5px solid transparent; background: #fff; color: var(--ink); box-shadow: var(--shadow-card);
+  padding: 0.85rem 0.95rem; border-radius: var(--radius); border: 0; background: rgba(255, 255, 255, 0.5); color: var(--ink);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); transition: background-color 0.2s ease, box-shadow 0.2s ease;
 }
-.tcard:hover { border-color: var(--line-strong); }
-.tcard.is-idle { background: rgba(255, 255, 255, 0.55); box-shadow: none; border: 1.5px dashed var(--line-strong); }
-.tcard.is-open { border: 1.5px solid var(--ink); background: #fff; }
-.tcard.is-over:not(.is-open) { border-color: var(--loss); }
+.tcard:hover { background: rgba(255, 255, 255, 0.72); }
+.tcard.is-open { background: #fff; box-shadow: var(--shadow-card); }
+.tcard.is-idle:not(.is-open) { opacity: 0.75; }
 .tcard__name { font-size: 0.95rem; letter-spacing: -0.01em; }
 .tcard__lead, .tcard__hrs { font-size: 0.75rem; color: var(--fg-2); }
 .tcard__bar, .person__bar { display: block; height: 6px; border-radius: 6px; background: rgba(10, 23, 34, 0.08); overflow: hidden; }
