@@ -49,6 +49,11 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   and data (CSV, signals, sources, SDK). Hormuz/Red Sea losses come from `model.js`; other events are layered on in
   `lossOf()`. "Ask Daybreak" (`#askdrawer`, moved to `<body>` at init to clear `.page`'s stacking context) is a
   scripted assistant: `answer()` matches intents by regex, computes replies from the live engine and offers actions.
+- Motion between views: `assets/js/nav.js` (in every page's `<head>`) records which way the clicked page lies in the
+  nav order; the new page slides in from that side (cross-document view transitions where supported, with the
+  `.bar` held still; otherwise a CSS entrance on `main` and the footer, keyed on `html[data-slide]`). In the
+  workbench, `slideTo()` slides stages, model views and the two modes in sequence order (`.slide-in`/`.slide-out`).
+  All of it is off under reduced motion.
 - `assets/js/app.js` holds the shared helpers (`DB.money`, `DB.toast`, `DB.rng`, range fills).
 - Type: Switzer (Fontshare), self-hosted in `assets/fonts/`, for everything, on a major-third scale; data uses
   tabular figures. JetBrains Mono appears only in the workbench's code, diff and log panels. Labels are sentence

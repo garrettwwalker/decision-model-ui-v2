@@ -311,3 +311,20 @@ a { color: inherit; }
     scroll-behavior: auto !important;
   }
 }
+
+/* ---------- Page-to-page slides (see assets/js/nav.js) ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+  .bar { view-transition-name: bar; }
+  html[data-slide] body { overflow-x: clip; }
+  html[data-slide="fwd"] body > main, html[data-slide="fwd"] body > footer { animation: page-in-r 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) backwards; }
+  html[data-slide="back"] body > main, html[data-slide="back"] body > footer { animation: page-in-l 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) backwards; }
+  html:active-view-transition-type(fwd)::view-transition-old(root) { animation: page-out-l 0.42s cubic-bezier(0.4, 0, 0.2, 1) both; }
+  html:active-view-transition-type(fwd)::view-transition-new(root) { animation: page-in-r 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+  html:active-view-transition-type(back)::view-transition-old(root) { animation: page-out-r 0.42s cubic-bezier(0.4, 0, 0.2, 1) both; }
+  html:active-view-transition-type(back)::view-transition-new(root) { animation: page-in-l 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+}
+@keyframes page-in-r { from { opacity: 0; transform: translateX(72px); } }
+@keyframes page-in-l { from { opacity: 0; transform: translateX(-72px); } }
+@keyframes page-out-l { to { opacity: 0; transform: translateX(-72px); } }
+@keyframes page-out-r { to { opacity: 0; transform: translateX(72px); } }

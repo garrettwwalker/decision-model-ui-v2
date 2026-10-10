@@ -442,18 +442,44 @@
     decide: "Next: assign the work", deliver: "Next: compare outcomes", outcomes: null };
   var stage = "forecast";
   var tabs = document.querySelectorAll(".thread__stage");
+  // slide one panel out and the next in; dir 1 moves forward (the new panel comes from the right)
+  var REDUCE = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function settle(box) { if (box._slid) { var d = box._slid; box._slid = null; d(); } }
+  function slideTo(from, to, dir) {
+    var box = to.parentNode;
+    settle(box);
+    if (from === to || !from || from.hidden) { to.hidden = false; return; }
+    if (REDUCE || !dir) { from.hidden = true; to.hidden = false; return; }
+    var top = from.offsetTop;
+    box.classList.add("is-sliding");
+    from.style.top = top + "px";
+    from.classList.add("slide-out", dir > 0 ? "slide--l" : "slide--r");
+    to.hidden = false;
+    to.classList.add("slide-in", dir > 0 ? "slide--r" : "slide--l");
+    var done = function () {
+      from.hidden = true; from.style.top = "";
+      from.classList.remove("slide-out", "slide--l", "slide--r"); to.classList.remove("slide-in", "slide--l", "slide--r");
+      box.classList.remove("is-sliding");
+    };
+    box._slid = done;
+    setTimeout(function () { if (box._slid === done) settle(box); }, 440);
+  }
   function setMode(m) {
+    var from = document.querySelector('[data-mode="' + mode + '"]'), to = document.querySelector('[data-mode="' + m + '"]');
     mode = m;
-    document.querySelectorAll("[data-mode]").forEach(function (x) { x.hidden = x.getAttribute("data-mode") !== m; });
+    slideTo(from, to, m === "model" ? 1 : -1);
     document.querySelectorAll("[data-mode-btn]").forEach(function (b) { b.setAttribute("aria-selected", String(b.getAttribute("data-mode-btn") === m)); });
   }
   function showStep(id) {
+    var dir = STAGES.indexOf(id) - STAGES.indexOf(stage), from = document.querySelector('[data-panel="' + stage + '"]');
     setMode("scenario"); stage = id;
     tabs.forEach(function (t) {
       var on = t.getAttribute("data-step") === id; t.setAttribute("aria-selected", String(on));
       if (on) { var th = t.parentNode; if (t.offsetLeft < th.scrollLeft || t.offsetLeft + t.offsetWidth > th.scrollLeft + th.clientWidth) th.scrollLeft = t.offsetLeft - 16; }
     });
-    document.querySelectorAll("[data-panel]").forEach(function (p) { p.hidden = p.getAttribute("data-panel") !== id; });
+    var to = document.querySelector('[data-panel="' + id + '"]');
+    document.querySelectorAll("[data-panel]").forEach(function (p) { if (p !== from && p !== to) p.hidden = true; });
+    slideTo(from, to, dir);
     render(true);
     if (typeof renderSuggest === "function" && !document.getElementById("askdrawer").hidden) renderSuggest();
   }
@@ -1431,12 +1457,25 @@
     see.addEventListener("click", function () { isel = a.id; goTo("impact"); });
     ins.appendChild(see);
   }
+  // the four model views slide in their tab order; Data swaps out the whole network-and-inspector block
+  var VIEWS = ["network", "assets", "org", "data"], shownView = "network";
+  function showView(v) {
+    if (v === shownView) return;
+    var dir = VIEWS.indexOf(v) - VIEWS.indexOf(shownView);
+    var world = document.querySelector('[data-mview="world"]'), data = document.querySelector('[data-mview="data"]');
+    if (v !== "data") {
+      var to = document.querySelector('[data-view="' + v + '"]');
+      if (shownView === "data") document.querySelectorAll("[data-view]").forEach(function (x) { x.hidden = x !== to; });
+      else slideTo(document.querySelector('[data-view="' + shownView + '"]'), to, dir);
+    }
+    if (v === "data") slideTo(world, data, dir);
+    else if (shownView === "data") slideTo(data, world, dir);
+    shownView = v;
+  }
   function renderModel() {
     var S = stats({});
     var isData = view === "data";
-    document.querySelector('[data-mview="world"]').hidden = isData;
-    document.querySelector('[data-mview="data"]').hidden = !isData;
-    document.querySelectorAll("[data-view]").forEach(function (v) { v.hidden = v.getAttribute("data-view") !== view; });
+    showView(view);
     $("asset-count").textContent = allAssets().length + " assets, " + Object.keys(TEAMS).length + " teams, " + PEOPLE.length + " people on call.";
     var me = modelEdits();
     $("model-edits").textContent = me ? plural(me, "edit") + " so far." : "";

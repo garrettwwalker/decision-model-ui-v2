@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="assets/css/base.css">
   <link rel="stylesheet" href="assets/css/app.css">
   <link rel="stylesheet" href="assets/css/bench.css">
+  <script src="assets/js/nav.js"></script>
 </head>
 <body class="app t-sunrise grain">
   <a class="skip" href="#main">Skip to content</a>
@@ -51,6 +52,7 @@
       </div>
     </section>
 
+    <div class="modeswrap">
     <!-- ================= Scenario: one decision, six stages ================= -->
     <div class="mode" data-mode="scenario">
       <nav class="thread" aria-label="Scenario stages" role="tablist">
@@ -66,6 +68,7 @@
         <button class="chip-btn" type="button" id="focus-clear">Stop following</button>
       </div>
 
+      <div class="stages">
       <!-- 1. Forecast -->
       <section class="step" data-panel="forecast" role="tabpanel" aria-labelledby="fc-title">
         <div class="step__head">
@@ -204,6 +207,7 @@
           </table></div>
         </div>
       </section>
+      </div>
     </div>
 
     <!-- ================= Your model and data: what every scenario runs on ================= -->
@@ -221,6 +225,7 @@
         </div>
         <p class="viewbar__count" data-out="asset-count"></p>
       </div>
+      <div class="mviews">
       <div class="world" data-mview="world">
         <div class="world__view">
           <div data-view="network">
@@ -305,6 +310,8 @@
           </div>
         </div>
       </div>
+      </div>
+    </div>
     </div>
     <!-- Ask Daybreak: available on every step -->
     <button class="asklaunch" type="button" id="ask-open" aria-expanded="false" aria-controls="askdrawer">

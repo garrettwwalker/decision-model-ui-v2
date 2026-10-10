@@ -571,3 +571,17 @@ select.num-input, input.num-input { font-family: var(--font); background: #fff; 
 .dataview { display: grid; gap: 1rem; }
 .dataview[hidden], .world[hidden] { display: none; }
 .org__team .tcard__avs { margin-top: 0.15rem; }
+
+/* ================= Sliding between stages, views and modes ================= */
+.modeswrap, .stages, .mviews, .world__view { position: relative; }
+.is-sliding { overflow-x: clip; }
+.slide-out { position: absolute; left: 0; right: 0; pointer-events: none; }
+.slide-out.slide--l { animation: slide-out-l 0.34s cubic-bezier(0.4, 0, 0.2, 1) both; }
+.slide-out.slide--r { animation: slide-out-r 0.34s cubic-bezier(0.4, 0, 0.2, 1) both; }
+.slide-in.slide--r { animation: slide-in-r 0.42s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+.slide-in.slide--l { animation: slide-in-l 0.42s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+@keyframes slide-in-r { from { opacity: 0; transform: translateX(64px); } }
+@keyframes slide-in-l { from { opacity: 0; transform: translateX(-64px); } }
+@keyframes slide-out-l { to { opacity: 0; transform: translateX(-64px); } }
+@keyframes slide-out-r { to { opacity: 0; transform: translateX(64px); } }
+@media (prefers-reduced-motion: reduce) { .slide-out, .slide-in { animation: none !important; } }
