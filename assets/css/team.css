@@ -242,3 +242,24 @@
 }
 .update__text:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 .update__acts { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+/* ================= No hard outlines: state is carried by fill, frost and shadow ================= */
+.page--team .btn--ghost { border-color: transparent; background: rgba(10, 23, 34, 0.06); }
+.page--team .btn--ghost:hover { background: rgba(10, 23, 34, 0.11); }
+.page--team .num-input { border-color: transparent; background: rgba(10, 23, 34, 0.05); }
+.glance__tile, .glance__tile:hover { border-color: transparent; }
+.glance__tile:hover { box-shadow: 0 1px 0 rgba(255, 255, 255, 0.6) inset, 0 22px 44px -20px rgba(7, 22, 33, 0.5); }
+.dec__opt { border: 0; background: rgba(10, 23, 34, 0.045); }
+.dec__opt:hover { background: rgba(10, 23, 34, 0.09); }
+.dec__opt.is-pick { background: #ffe9d8; }
+.dec__opt.is-pick:hover { background: #ffdfc6; }
+.task__status { border: 0; background: rgba(10, 23, 34, 0.06); }
+.task__who { border-color: transparent; background: rgba(10, 23, 34, 0.045); }
+.mate, .mate:hover, .mate.is-sel, .mate.is-over:not(.is-sel) { border-color: transparent; }
+.mate { background: rgba(255, 255, 255, 0.5); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); box-shadow: none; transition: background-color 0.2s ease, box-shadow 0.2s ease; }
+.mate:hover { background: rgba(255, 255, 255, 0.72); }
+.mate.is-sel { background: #fff; box-shadow: var(--shadow-card); }
+.wi { border-color: transparent; background: rgba(255, 255, 255, 0.5); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); transition: background-color 0.2s ease, box-shadow 0.2s ease; }
+.wi:hover { background: rgba(255, 255, 255, 0.72); }
+.wi.is-on { border-color: transparent; background: #fff; box-shadow: var(--shadow-card); }
+.update__text { border-color: transparent; background: #fff6ec; }
