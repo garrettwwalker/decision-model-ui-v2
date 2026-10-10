@@ -421,8 +421,16 @@ select.num-input, input.num-input { font-family: var(--font); background: #fff; 
   display: grid; place-items: center; font-size: 0.62rem; font-weight: 800; font-style: normal; color: var(--ink-2); background: #fff; border: 1.5px solid var(--line-strong);
 }
 .fscale__fused { position: absolute; bottom: 0.45rem; transform: translateX(-50%); width: 0.7rem; height: 0.7rem; border-radius: 50%; background: var(--ember); box-shadow: 0 0 0 3px #fff; }
-.fscale__you { position: absolute; bottom: 0.25rem; transform: translateX(-50%) rotate(45deg); width: 0.8rem; height: 0.8rem; border: 2px solid var(--ink); background: #ffd27a; }
-.fscale__you[hidden] { display: none; }
+.fscale__you {
+  position: absolute; bottom: 0.45rem; z-index: 1; transform: translateX(-50%); width: 0.95rem; height: 0.95rem; margin-bottom: -0.125rem;
+  border-radius: 50%; border: 2px solid var(--ink); background: #fff; box-shadow: 0 0 0 3px #fff;
+}
+.fscale__you span {
+  position: absolute; left: 50%; bottom: calc(100% + 0.3rem); transform: translateX(-50%);
+  font-size: 0.66rem; font-weight: 800; font-style: normal; color: var(--ink); white-space: nowrap;
+}
+.fscale__shift { position: absolute; bottom: calc(0.45rem + 0.35rem - 1px); height: 0; border-top: 2px dashed rgba(10, 23, 34, 0.55); }
+.fscale__you[hidden], .fscale__shift[hidden] { display: none; }
 .fcrow__eng { margin: 0.6rem 0 0; font-size: 0.75rem; color: var(--fg-2); }
 .fcrow__p { display: grid; grid-template-columns: auto 1fr; gap: 0.25rem 0.75rem; align-items: center; }
 .fcrow__big { font-size: 2.2rem; font-weight: 800; letter-spacing: -0.05em; line-height: 1; font-variant-numeric: tabular-nums; }
