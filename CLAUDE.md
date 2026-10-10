@@ -32,6 +32,10 @@ no tests. To preview, open `index.html` in a browser; there's no server.
 - `ask.html` (fourth tab, "pre-dawn" theme in `assets/css/ask.css`) is the "ask the model" chat. `assets/js/chat.js`
   answers scripted intents (capacity, what-if, best move, forecast, signposts, decline) live from `model.js`.
   The assumed scenario is kept in `sessionStorage["daybreak.scenario"]`; its "Explore in the workbench" button links out.
+  Question options (slider button in the composer, `#qopts`): how often it runs (`CADENCE`, with stop and notify
+  rules), resolution criteria (text, resolve-by date, source of truth, a suggested wording), and extra documents
+  (names only; read in the browser) plus connected `SOURCES`. Active options show as chips, travel with the
+  message as tags, add a `.track` card to the reply, and recurring questions list under "Standing questions".
 - `team.html` + `assets/js/team.js` is Daybreak for the people who carry decisions out. `PERSONAS` holds three
   managers (Farah, port operations; Elif, Gebze production; Layla, GCC key accounts), switched under "Viewing as"
   and remembered in localStorage. Each has `people` (role, shift, base hours, cap, skills, away, backup), `gaps`,

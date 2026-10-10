@@ -42,6 +42,44 @@
       <ol class="msgs" id="chat-log" role="log" aria-live="polite" aria-label="Conversation with Daybreak"></ol>
 
       <form class="composer" id="chat-form" autocomplete="off">
+        <div class="qopts" id="qopts" hidden>
+          <div class="qopts__head">
+            <h2 class="qopts__title">Question options</h2>
+            <button class="qopts__close" type="button" id="qopts-close" aria-label="Close options">×</button>
+          </div>
+          <fieldset class="qopt">
+            <legend>How often</legend>
+            <div class="qseg" role="radiogroup" aria-label="How often Daybreak runs this question" id="q-cadence"></div>
+            <div class="qopt__more" id="q-cadence-more" hidden>
+              <label class="qfield"><span>Stop</span>
+                <select id="q-until"><option value="resolves">When it resolves</option><option value="2w">After 2 weeks</option><option value="1m">After a month</option><option value="never">Keep running</option></select></label>
+              <label class="qfield"><span>Tell me</span>
+                <select id="q-notify"><option value="change">Only when the answer moves 5+ points</option><option value="every">After every run</option></select></label>
+            </div>
+          </fieldset>
+          <fieldset class="qopt">
+            <legend>Resolution criteria <small>Optional</small></legend>
+            <label class="sr-only" for="q-criteria">This resolves yes if</label>
+            <textarea id="q-criteria" rows="2" maxlength="300" placeholder="Resolves yes if daily transits through the strait fall below 40% of normal for 3 days in a row."></textarea>
+            <div class="qopt__row">
+              <label class="qfield"><span>Resolve by</span><input type="date" id="q-by" value="2026-11-05" min="2026-10-06"></label>
+              <label class="qfield qfield--grow"><span>Source of truth</span><input type="text" id="q-source" maxlength="80" placeholder="AIS transit counts"></label>
+            </div>
+            <button class="qlink" type="button" id="q-suggest">Suggest wording from my question</button>
+          </fieldset>
+          <fieldset class="qopt">
+            <legend>Documents and data <small>Optional</small></legend>
+            <div class="qfiles" id="q-files"></div>
+            <label class="qattach">Attach files<input type="file" id="q-file" multiple accept=".pdf,.csv,.xlsx,.docx,.txt"></label>
+            <p class="qopt__hint">Read on your servers with the rest of your data; nothing leaves them.</p>
+            <div class="qsources" id="q-sources" role="group" aria-label="Connected sources to include"></div>
+          </fieldset>
+        </div>
+        <div class="qchips" id="qchips" hidden></div>
+        <button class="composer__opts" type="button" id="qopts-btn" aria-expanded="false" aria-controls="qopts" aria-label="Question options">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h4M12 17h8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="16" cy="7" r="2.2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="10" cy="17" r="2.2" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+          <span class="composer__badge" id="qopts-n" hidden></span>
+        </button>
         <label class="sr-only" for="composer-input">Ask Daybreak a question</label>
         <input class="composer__input" id="composer-input" type="text" maxlength="200" placeholder="How long can Pune keep running?">
         <button class="composer__send" type="submit" aria-label="Ask">
@@ -62,6 +100,10 @@
       <div class="ctx__actions">
         <a class="btn btn--light btn--sm" href="workbench.html" data-open-war>Explore in the workbench</a>
         <button class="btn btn--ghost btn--sm" type="button" id="ctx-reset">Reset</button>
+      </div>
+      <div class="standing" id="standing" hidden>
+        <h2 class="ctx__title">Standing questions</h2>
+        <ul class="standing__list" id="standing-list"></ul>
       </div>
     </aside>
 

@@ -329,15 +329,140 @@
     return fallback();
   }
 
+  /* ---------- Question options: how often it runs, what counts as yes, and what extra data it reads ---------- */
+  var CADENCE = [["once", "Once"], ["hourly", "Hourly"], ["daily", "Daily"], ["weekly", "Weekly"], ["signal", "When a signal moves"]];
+  var NEXT_RUN = { hourly: "08:00 GST", daily: "tomorrow, 06:00 GST", weekly: "Tue 13 Oct, 06:00 GST", signal: "when AIS, broker or price feeds move" };
+  var UNTIL = { resolves: "until it resolves", "2w": "for 2 weeks", "1m": "for a month", never: "until you stop it" };
+  var SOURCES = [["sap", "SAP S/4HANA", "POs and BOMs", true], ["ais", "AIS stream", "Vessel positions", true], ["broker", "War-risk broker feed", "Gulf quotes", true], ["kinaxis", "Kinaxis RapidResponse", "Supply plan", false], ["workday", "Workday", "Teams and availability", false]];
+  var opts;
+  function freshOpts() { return { cadence: "once", until: "resolves", notify: "change", criteria: "", by: "2026-11-05", source: "", files: [], sources: { sap: true, ais: true, broker: true } }; }
+  opts = freshOpts();
+  var qopts = document.getElementById("qopts"), qbtn = document.getElementById("qopts-btn"), qchips = document.getElementById("qchips");
+  var cadBox = document.getElementById("q-cadence"), cadMore = document.getElementById("q-cadence-more");
+  var fCrit = document.getElementById("q-criteria"), fBy = document.getElementById("q-by"), fSrc = document.getElementById("q-source");
+  var fUntil = document.getElementById("q-until"), fNotify = document.getElementById("q-notify"), fileBox = document.getElementById("q-files"), srcBox = document.getElementById("q-sources");
+  function dateText(iso) { var d = new Date(iso + "T00:00:00"); return isNaN(d) ? iso : d.getDate() + " " + ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][d.getMonth()]; }
+  function changes() {
+    var n = [];
+    if (opts.cadence !== "once") n.push(CADENCE.filter(function (c) { return c[0] === opts.cadence; })[0][1]);
+    if (opts.criteria.trim()) n.push("Resolves by " + dateText(opts.by));
+    if (opts.files.length) n.push(opts.files.length === 1 ? opts.files[0] : opts.files.length + " files");
+    var def = { sap: true, ais: true, broker: true }, diff = SOURCES.filter(function (x) { return !!opts.sources[x[0]] !== !!def[x[0]]; }).length;
+    if (diff) n.push(SOURCES.filter(function (x) { return opts.sources[x[0]]; }).length + " sources");
+    return n;
+  }
+  function renderOpts() {
+    cadBox.textContent = "";
+    CADENCE.forEach(function (c) {
+      var b = el("button", "qseg__opt" + (opts.cadence === c[0] ? " is-on" : ""), c[1]);
+      b.type = "button"; b.setAttribute("role", "radio"); b.setAttribute("aria-checked", String(opts.cadence === c[0]));
+      b.addEventListener("click", function () { opts.cadence = c[0]; renderOpts(); });
+      cadBox.appendChild(b);
+    });
+    cadMore.hidden = opts.cadence === "once";
+    fileBox.textContent = "";
+    opts.files.forEach(function (f, i) {
+      var c = el("span", "qfile"); c.appendChild(el("span", null, f));
+      var x = el("button", "qfile__x", "×"); x.type = "button"; x.setAttribute("aria-label", "Remove " + f);
+      x.addEventListener("click", function () { opts.files.splice(i, 1); renderOpts(); });
+      c.appendChild(x); fileBox.appendChild(c);
+    });
+    srcBox.textContent = "";
+    SOURCES.forEach(function (x) {
+      var lab = el("label", "qsrc" + (opts.sources[x[0]] ? " is-on" : ""));
+      var cb = el("input"); cb.type = "checkbox"; cb.checked = !!opts.sources[x[0]];
+      cb.addEventListener("change", function () { opts.sources[x[0]] = cb.checked; renderOpts(); });
+      lab.appendChild(cb); var t = el("span"); t.appendChild(el("b", null, x[1])); t.appendChild(el("small", null, x[2])); lab.appendChild(t);
+      srcBox.appendChild(lab);
+    });
+    var n = changes(), badge = document.getElementById("qopts-n");
+    badge.hidden = !n.length; badge.textContent = n.length;
+    qchips.textContent = "";
+    n.forEach(function (t) { var b = el("button", "qchip", t); b.type = "button"; b.addEventListener("click", function () { setOpts(true); }); qchips.appendChild(b); });
+    qchips.hidden = !n.length || !qopts.hidden;
+  }
+  function setOpts(open) {
+    qopts.hidden = !open; qbtn.setAttribute("aria-expanded", String(open));
+    renderOpts();
+    if (open) qopts.querySelector(".qseg__opt.is-on").focus();
+  }
+  qbtn.addEventListener("click", function () { setOpts(qopts.hidden); });
+  document.getElementById("qopts-close").addEventListener("click", function () { setOpts(false); qbtn.focus(); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !qopts.hidden) { setOpts(false); qbtn.focus(); } });
+  fCrit.addEventListener("input", function () { opts.criteria = fCrit.value; renderOpts(); });
+  fBy.addEventListener("change", function () { opts.by = fBy.value; renderOpts(); });
+  fSrc.addEventListener("input", function () { opts.source = fSrc.value; });
+  fUntil.addEventListener("change", function () { opts.until = fUntil.value; });
+  fNotify.addEventListener("change", function () { opts.notify = fNotify.value; });
+  document.getElementById("q-file").addEventListener("change", function (e) {
+    [].forEach.call(e.target.files, function (f) { if (opts.files.indexOf(f.name) < 0) opts.files.push(f.name); });
+    e.target.value = ""; renderOpts();
+  });
+  // a measurable yes/no wording for whatever's in the box
+  document.getElementById("q-suggest").addEventListener("click", function () {
+    var q = input.value.toLowerCase(), c, src;
+    if (/red sea|suez|bab/.test(q)) { c = "Resolves yes if Bab el-Mandeb transits stay below half of normal for 7 days in a row."; src = "AIS transit counts"; }
+    else if (/strike|gebze|union/.test(q)) { c = "Resolves yes if the metalworkers' federation files a legal strike notice at Gebze."; src = "Union filings, Turkish labour ministry"; }
+    else if (/bunker|fuel|price/.test(q)) { c = "Resolves yes if Fujairah VLSFO closes above $790 a tonne for 10 trading days."; src = "Platts Fujairah assessment"; }
+    else if (/pune|gebze|plant|run out|cover|stock/.test(q)) { c = "Resolves yes if any Halvorsen plant stops a line for lack of resin."; src = "Plant MES line status"; }
+    else { c = "Resolves yes if daily transits through the Strait of Hormuz fall below 40% of normal for 3 days in a row."; src = "AIS transit counts"; }
+    fCrit.value = opts.criteria = c; fSrc.value = opts.source = src; renderOpts(); fCrit.focus();
+  });
+
+  // recurring questions live in the sidebar until removed
+  var standing = [], standBox = document.getElementById("standing"), standList = document.getElementById("standing-list");
+  function renderStanding() {
+    standBox.hidden = !standing.length; standList.textContent = "";
+    standing.forEach(function (q, i) {
+      var li = el("li", "standing__q" + (q.paused ? " is-paused" : ""));
+      li.appendChild(el("b", null, q.text));
+      li.appendChild(el("span", null, q.paused ? "Paused" : CADENCE.filter(function (c) { return c[0] === q.cadence; })[0][1] + ". Next run " + NEXT_RUN[q.cadence] + "."));
+      var acts = el("div", "standing__acts");
+      var pz = el("button", "qlink", q.paused ? "Resume" : "Pause"); pz.type = "button";
+      pz.addEventListener("click", function () { q.paused = !q.paused; renderStanding(); });
+      var rm = el("button", "qlink", "Remove"); rm.type = "button";
+      rm.addEventListener("click", function () { standing.splice(i, 1); renderStanding(); DB.toast("Stopped running that question."); });
+      acts.appendChild(pz); acts.appendChild(rm); li.appendChild(acts);
+      standList.appendChild(li);
+    });
+  }
+  // the card Daybreak adds to its reply when a question carries options
+  function trackingCard(o, tags) {
+    var rows = [];
+    if (o.cadence !== "once") rows.push(["Runs", CADENCE.filter(function (c) { return c[0] === o.cadence; })[0][1] + ", " + UNTIL[o.until] + ". Next: " + NEXT_RUN[o.cadence] + (o.notify === "change" ? ". You'll hear when the answer moves 5 points or more." : ". You'll get every run.")]);
+    if (o.criteria.trim()) rows.push(["Resolves yes if", o.criteria.trim().replace(/^resolves yes if\s*/i, "").replace(/^\w/, function (m) { return m.toUpperCase(); }) + " Deadline " + dateText(o.by) + (o.source.trim() ? ", checked against " + o.source.trim() : "") + "."]);
+    var src = SOURCES.filter(function (x) { return o.sources[x[0]]; }).map(function (x) { return x[1]; });
+    if (o.files.length || tags.some(function (c) { return /sources$/.test(c); })) rows.push(["Reads", o.files.concat(src).join(", ")]);
+    if (!rows.length) return null;
+    var card = el("div", "track");
+    card.appendChild(el("p", "track__title", o.cadence !== "once" ? "Standing question" : "Your settings for this question"));
+    var dl = el("dl", "track__rows");
+    rows.forEach(function (r) { var d = el("div"); d.appendChild(el("dt", null, r[0])); d.appendChild(el("dd", null, r[1])); dl.appendChild(d); });
+    card.appendChild(dl);
+    if (o.files.length) card.appendChild(el("p", "track__note", plural(o.files.length) + " read alongside the model. They nudge this answer only; the brief and the workbench don't change."));
+    return card;
+  }
+  function plural(n) { return n === 1 ? "1 document" : n + " documents"; }
+
   var busy = false;
   function ask(text) {
     text = text.trim();
     if (!text || busy) return;
     busy = true;
+    var o = opts, tags = changes();
     userSays(text);
+    if (tags.length) { var tg = el("div", "msg__tags"); tags.forEach(function (t) { tg.appendChild(el("span", null, t)); }); log.lastChild.appendChild(tg); }
     input.value = "";
-    think(function () { modelSays(answer(text)); busy = false; input.focus({ preventScroll: true }); });
+    opts = freshOpts(); fCrit.value = ""; fSrc.value = ""; fBy.value = opts.by; fUntil.value = "resolves"; fNotify.value = "change"; setOpts(false);
+    think(function () {
+      modelSays(answer(text));
+      var card = trackingCard(o, tags);
+      if (card) log.lastChild.insertBefore(card, log.lastChild.querySelector(".msg__actions, .msg__followups"));
+      if (o.cadence !== "once") { standing.push({ text: text, cadence: o.cadence }); renderStanding(); }
+      busy = false; input.focus({ preventScroll: true });
+    });
   }
+  renderOpts();
 
   form.addEventListener("submit", function (e) { e.preventDefault(); ask(input.value); });
   STARTERS.forEach(function (s) {
