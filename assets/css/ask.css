@@ -234,20 +234,24 @@
 /* ---------- Daybreak: the first answer brings the sun up ---------- */
 /* a dawn sky fades in over the night; the palette shifts under it */
 .t-predawn::before {
-  content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0;
+  content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  /* a tall soft-edged mask slides up, so the light rises from the horizon */
+  -webkit-mask-image: linear-gradient(to top, #000 33%, transparent 66%); mask-image: linear-gradient(to top, #000 33%, transparent 66%);
+  -webkit-mask-size: 100% 300%; mask-size: 100% 300%; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+  -webkit-mask-position: 0 0%; mask-position: 0 0%;
   background:
     radial-gradient(70% 55% at 75% 0%, rgba(255, 236, 200, 0.95), rgba(255, 236, 200, 0) 100%),
     linear-gradient(180deg, #f39a72 0%, #ffbb8b 40%, #ffc092 75%, #ffd2a8 100%);
-  transition: opacity 2.4s ease;
+  transition: -webkit-mask-position 2.6s cubic-bezier(0.4, 0, 0.2, 1), mask-position 2.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
-.t-predawn.is-dawn::before { opacity: 1; }
+.t-predawn.is-dawn::before { -webkit-mask-position: 0 100%; mask-position: 0 100%; }
 .t-predawn.is-dawn {
   --fg: var(--ink); --fg-2: var(--ink-2); --panel: #fff; --panel-solid: #fff; --panel-line: rgba(10, 23, 34, 0.1);
   --ctl: var(--ink); --ctl-soft: rgba(10, 23, 34, 0.18); --focus: var(--ink);
 }
 .t-predawn, .t-predawn .bar, .t-predawn .ctx, .t-predawn .msg, .t-predawn .msg--user, .t-predawn .followup, .t-predawn .track,
 .t-predawn .composer, .t-predawn .ctx__title, .t-predawn .msg__facts dd, .t-predawn .msg__facts dt, .t-predawn .msg__route {
-  transition: color 1.8s ease, background-color 1.8s ease, border-color 1.8s ease, box-shadow 1.8s ease;
+  transition: color 1.6s ease 0.9s, background-color 1.6s ease 0.9s, border-color 1.6s ease 0.9s, box-shadow 1.6s ease 0.9s;
 }
 .t-predawn.is-dawn .bar { background: rgba(255, 196, 150, 0.72); box-shadow: 0 1px 0 rgba(10, 23, 34, 0.08); }
 .t-predawn.is-dawn .btn--primary { background: var(--ink); color: #fff; }
