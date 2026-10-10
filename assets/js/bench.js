@@ -1533,10 +1533,14 @@
       if (!exec || !cards.length || !col.offsetWidth) return;
       var x = exec.offsetLeft + 22, y0 = exec.offsetTop + exec.offsetHeight, r = 12;
       var svgEl = sv("svg", { class: "org__lines", width: col.offsetWidth, height: col.offsetHeight, "aria-hidden": "true" });
-      cards.forEach(function (c) {
-        var y = c.offsetTop + Math.min(30, c.offsetHeight / 2), x1 = c.offsetLeft;
-        svgEl.appendChild(sv("path", { d: "M" + x + " " + y0 + " V" + (y - r) + " Q" + x + " " + y + " " + (x + r) + " " + y + " H" + x1 }));
+      // one trunk down to the last branch, then each team's own curve off it, so no stretch is drawn twice
+      var ys = [].map.call(cards, function (c) { return c.offsetTop + Math.min(30, c.offsetHeight / 2); });
+      var d = "M" + x + " " + y0 + " V" + (ys[ys.length - 1] - r);
+      [].forEach.call(cards, function (c, i) {
+        var y = ys[i];
+        d += " M" + x + " " + (y - r) + " Q" + x + " " + y + " " + (x + r) + " " + y + " H" + c.offsetLeft;
       });
+      svgEl.appendChild(sv("path", { d: d }));
       col.insertBefore(svgEl, col.firstChild);
     });
   }
