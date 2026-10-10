@@ -324,9 +324,6 @@ select.num-input, input.num-input { font-family: var(--font); background: #fff; 
 #combos td.r, #combos th.r { white-space: nowrap; }
 
 /* ================= Plans chart, simplified ================= */
-.frontier__top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 0.4rem 1rem; }
-.frontier__all { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.8rem; color: rgba(246, 239, 230, 0.75); cursor: pointer; min-height: 32px; }
-.frontier__all input { accent-color: #7fe0c6; width: 16px; height: 16px; }
 .frontier .fp--faint { fill: rgba(127, 224, 198, 0.18); }
 .frontier .fp--front { fill: #7fe0c6; stroke: #0f2131; stroke-width: 1.5; }
 .frontier .fp--best { fill: #7fe0c6; stroke: #fff; stroke-width: 2; }

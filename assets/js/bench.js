@@ -1054,8 +1054,6 @@
     }
     return (cache.plans = out);
   }
-  var showAll = false;
-  document.getElementById("frontier-all").addEventListener("change", function (e) { showAll = e.target.checked; drawFrontier(); });
   function netOf(p, E) { return E0() - E - p.cost; }
   // the original chart: the best plan your teams can staff in time at each budget, valued if every action lands in full
   function drawFrontier() {
@@ -1081,7 +1079,7 @@
       c.addEventListener("click", function () { plan = M.clone(p.A); changed("Adopted a plan from the chart (" + plural(p.n, "action") + ")"); });
       frontier.appendChild(c);
     }
-    if (showAll) plans.forEach(function (p) { dot(p, p.ok ? "fp fp--faint" : "fp fp--no", 2.4); });
+    plans.forEach(function (p) { dot(p, p.ok ? "fp fp--faint" : "fp fp--no", 2.4); });
     frontier.appendChild(sv("path", { class: "fline", d: front.map(function (p, i) { return (i ? "L" : "M") + sx(p.cost).toFixed(1) + " " + sy(p.full).toFixed(1); }).join(" ") }));
     var bestNet = pool.reduce(function (b, p) { return netOf(p, p.full) > netOf(b, b.full) ? p : b; }, pool[0]);
     front.forEach(function (p) { dot(p, "fp fp--front" + (p === bestNet ? " fp--best" : ""), p === bestNet ? 6.5 : 4.5); });
@@ -1094,7 +1092,7 @@
     if (Math.abs(lx - bx) < 70 && Math.abs(ly - (by + 22)) < 14) ly = my - 20;
     frontier.appendChild(sv("text", { x: lx, y: ly, class: "axis axis--mine", "text-anchor": mx > x1 - 90 ? "end" : "start" }, "Your plan"));
     $("frontier-note").textContent = "Each dot on the line is the cheapest plan your teams can deliver in time for that level of protection. The best one saves " +
-      money(Math.max(0, netOf(bestNet, bestNet.full))) + " net, for " + money(bestNet.cost, 2) + (showAll ? ". Faint dots are the other combinations; hollow ones can't be staffed in time." : ".");
+      money(Math.max(0, netOf(bestNet, bestNet.full))) + " net, for " + money(bestNet.cost, 2) + ". Faint dots are the other combinations; hollow ones can't be staffed in time.";
   }
   function bestPlan(capacityAware, maxE) {
     var plans = allPlans(), key = capacityAware ? "E" : "full";
