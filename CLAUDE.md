@@ -15,8 +15,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   managers), `workbench.html` (world-model editor for data/IT) and `ask.html` (chat). `wargame.html` is only a
   redirect to `team.html`; the wargame it used to hold was replaced.
 - Product pages share the landing's vocabulary: dawn ground (`t-sunrise`), white paper (`.panel`,
-  pinned `.note`; the workbench's plans chart, timeline and consequence charts sit on paper too), dark
-  `.instrument` tiles only for the model view's network graph and code, lowercase burnt-dawn section
+  pinned `.note`; every workbench chart and diagram sits on paper too), dark `.instrument` tiles only for code, lowercase burnt-dawn section
   titles, dashed dividers, cargo tags for routes. The ask page keeps its own pre-dawn sky (`t-predawn`).
   The landing page runs night → dawn on scroll.
 - `assets/css/base.css` holds shared tokens and components, `app.css` the product-page

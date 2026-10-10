@@ -708,8 +708,8 @@
       var a = NODES[e[0]], b = NODES[e[1]];
       var mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2 - Math.abs(a.x - b.x) * 0.12;
       var at = { class: "gedge" + (tr.edges[i] ? " is-trace" : tracing ? " is-dim" : ""), d: "M" + a.x + " " + a.y + " Q" + mx + " " + my + " " + b.x + " " + b.y, "stroke-width": 1.6 };
-      if (e[2] === "alt") { at.stroke = "rgba(127,224,198,0.55)"; at["stroke-dasharray"] = "5 5"; }
-      else at.stroke = e[2] === "hot" ? "rgba(255,122,102,0.45)" : "rgba(232,238,242,0.2)";
+      if (e[2] === "alt") { at.stroke = "rgba(15,107,95,0.6)"; at["stroke-dasharray"] = "5 5"; }
+      else at.stroke = e[2] === "hot" ? "rgba(194,51,45,0.45)" : "rgba(10,23,34,0.25)";
       svg.appendChild(sv("path", at));
     });
     Object.keys(NODES).forEach(function (id) {
@@ -720,7 +720,7 @@
       if (hit[id]) g.appendChild(sv("circle", { class: "gnode__ring", cx: n.x, cy: n.y, r: r + 7 }));
       g.appendChild(sv("circle", { class: "gnode__halo", cx: n.x, cy: n.y, r: r + 4 }));
       g.appendChild(sv("circle", { class: "gnode__dot", cx: n.x, cy: n.y, r: r.toFixed(1),
-        fill: loss > 0.01 ? "#ff7a66" : n.kind === "Chokepoint" ? "#ffb547" : n.alt ? "#7fe0c6" : "#9fb0bb" }));
+        fill: loss > 0.01 ? "#d0453a" : n.kind === "Chokepoint" ? "#d98a1c" : n.alt ? "#0f6b5f" : "#6b7780" }));
       var anchor = n.lab ? "end" : "start";
       var tx = n.lab === "left" ? n.x - r - 9 : n.lab === "below" ? n.x - 10 : n.x + r + 9;
       var ty = n.lab === "below" ? n.y + r + 15 : n.y + 4;

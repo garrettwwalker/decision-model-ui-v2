@@ -1,5 +1,5 @@
-/* Workbench: one decision followed through six stages, plus the model it runs on. Paper for controls, tables
-   and charts; only the model view's network graph and the SDK code are dark instruments. */
+/* Workbench: one decision followed through six stages, plus the model it runs on. Paper for controls, tables,
+   charts and diagrams; only the SDK code is a dark instrument. */
 
 .page--bench { max-width: 104rem; }
 
@@ -91,18 +91,18 @@
 .graph__legend { margin: 0.4rem 0 0; font-size: 0.75rem; color: var(--fg-2); display: flex; align-items: center; flex-wrap: wrap; gap: 0.3rem 0.5rem; }
 .gl { display: inline-block; margin-left: 0.6rem; }
 .gl:first-child { margin-left: 0; }
-.gl--hot { width: 9px; height: 9px; border-radius: 50%; background: #ff7a66; }
-.gl--ring { width: 11px; height: 11px; border-radius: 50%; border: 1.5px dashed #ffb547; }
-.gl--alt { width: 16px; height: 0; border-top: 2px dashed rgba(127, 224, 198, 0.7); }
+.gl--hot { width: 9px; height: 9px; border-radius: 50%; background: #d0453a; }
+.gl--ring { width: 11px; height: 11px; border-radius: 50%; border: 1.5px dashed var(--ember); }
+.gl--alt { width: 16px; height: 0; border-top: 2px dashed var(--safe); }
 .gedge { fill: none; stroke-linecap: round; }
 .gnode { cursor: pointer; outline: none; }
 .gnode .gnode__dot { stroke: var(--panel); stroke-width: 2; }
-.gnode .gnode__ring { fill: none; stroke: #ffb547; stroke-width: 1.5; stroke-dasharray: 3 3; }
-.gnode .gnode__halo { fill: none; stroke: #ffb98a; stroke-width: 2; opacity: 0; }
+.gnode .gnode__ring { fill: none; stroke: var(--ember); stroke-width: 1.5; stroke-dasharray: 3 3; }
+.gnode .gnode__halo { fill: none; stroke: var(--ink); stroke-width: 2; opacity: 0; }
 .gnode.is-selected .gnode__halo { opacity: 1; }
-.gnode:focus-visible .gnode__halo { opacity: 1; stroke: var(--focus); }
+.gnode:focus-visible .gnode__halo { opacity: 1; stroke: var(--ember); }
 .gnode text { font: 600 11px var(--font); fill: var(--fg); paint-order: stroke; stroke: var(--panel); stroke-width: 3px; }
-.gnode .gnode__val { font: 600 10.5px var(--font); font-variant-numeric: tabular-nums; fill: #ff9a8a; }
+.gnode .gnode__val { font: 600 10.5px var(--font); font-variant-numeric: tabular-nums; fill: var(--loss); }
 
 .inspector__type { margin: 0 0 0.3rem; color: var(--ember-deep); }
 .inspector__title { margin: 0 0 0.4rem; font-size: 1.35rem; font-weight: 800; letter-spacing: -0.03em; }
@@ -251,8 +251,8 @@ select.num-input, input.num-input { font-family: var(--font); background: #fff; 
 .viewbar__count { margin: 0; font-size: 0.85rem; color: var(--fg-2); }
 .world__view { min-width: 0; }
 .world__view > [hidden] { display: none; }
-.gl--trace { width: 16px; height: 0; border-top: 2.5px solid #ffd27a; }
-.gedge.is-trace { stroke: #ffd27a !important; stroke-width: 2.6; stroke-dasharray: none !important; }
+.gl--trace { width: 16px; height: 0; border-top: 2.5px solid var(--ink); }
+.gedge.is-trace { stroke: var(--ink) !important; stroke-width: 2.6; stroke-dasharray: none !important; }
 .gedge.is-dim { opacity: 0.25; }
 .gnode.is-dim { opacity: 0.35; }
 .register__bar { display: grid; gap: 0.6rem; margin-bottom: 0.75rem; }
@@ -268,8 +268,8 @@ select.num-input, input.num-input { font-family: var(--font); background: #fff; 
 .org { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; align-items: start; }
 @media (max-width: 900px) { .org { grid-template-columns: minmax(0, 1fr); } }
 .org__col { display: grid; gap: 0.75rem; }
-.org__exec { padding: 0.85rem 1rem; border-radius: var(--radius); background: var(--ink); color: #fff; display: grid; gap: 0.15rem; }
-.org__role { font-size: 0.75rem; color: var(--amber); font-weight: 600; }
+.org__exec { padding: 0.85rem 1rem; border-radius: var(--radius); background: #fff8f1; color: var(--ink); border: 1.5px solid var(--line-strong); display: grid; gap: 0.15rem; }
+.org__role { font-size: 0.75rem; color: var(--ember-deep); font-weight: 700; }
 .org__kids { list-style: none; margin: 0; padding: 0 0 0 1rem; border-left: 1.5px dashed var(--line-strong); display: grid; gap: 0.6rem; }
 .org__team {
   width: 100%; text-align: left; cursor: pointer; display: grid; gap: 0.35rem;
