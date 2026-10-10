@@ -1145,21 +1145,6 @@
     var exec = EXECS.filter(function (x) { return x.id === T.parent; })[0];
     hl.appendChild(el("p", { class: "tws__sub" }, "Led by " + T.lead + ", " + T.role + ". Reports to " + exec.lead + ", " + exec.title + ". " + T.heads.toLocaleString() + " people, " + Math.round(T.load * 100) + "% of their time already committed."));
     head.appendChild(hl);
-    // how the team finds the hours: a decision with a price, not a checkbox
-    var capBox = el("div", { class: "tws__cap" });
-    capBox.appendChild(el("p", { class: "tws__label" }, "Where the hours come from"));
-    var seg = el("div", { class: "choice", role: "radiogroup", "aria-label": "Capacity for " + T.name });
-    Object.keys(CAPACITY).forEach(function (k) {
-      var C = CAPACITY[k], on = (capacity[t] || "normal") === k;
-      var b = el("button", { class: "choice__opt" + (on ? " is-on" : ""), type: "button", role: "radio", "aria-checked": String(on) });
-      b.appendChild(el("b", null, C.name));
-      b.appendChild(el("small", null, k === "normal" ? teamFreeAt(t, 1) + " free hours" : k === "overtime" ? "+35%, " + money(C.cost, 2) : "+20%, no cost"));
-      b.addEventListener("click", function () { if (k === "normal") delete capacity[t]; else capacity[t] = k; changed(T.name + ": " + C.name.toLowerCase()); });
-      seg.appendChild(b);
-    });
-    capBox.appendChild(seg);
-    if (capacity[t] === "defer") capBox.appendChild(el("p", { class: "tws__warn" }, "Knock-on: " + T.defer + "."));
-    head.appendChild(capBox);
     ws.appendChild(head);
     // the people
     var ppl = el("ul", { class: "people" });
@@ -1243,7 +1228,7 @@
       ss.appendChild(b);
     });
     when.appendChild(ss); card.appendChild(when);
-    if (ra.stretch > 1.001) card.appendChild(el("p", { class: "acard__why" }, "The crew is asked for " + Math.round((ra.stretch - 1) * 100) + "% more time than it has, so the work takes " + Math.ceil(c.lead * ra.stretch - 1e-9) + " days instead of " + c.lead + ". Add someone, change how it's done, or find more hours."));
+    if (ra.stretch > 1.001) card.appendChild(el("p", { class: "acard__why" }, "The crew is asked for " + Math.round((ra.stretch - 1) * 100) + "% more time than it has, so the work takes " + Math.ceil(c.lead * ra.stretch - 1e-9) + " days instead of " + c.lead + ". Add someone, or change how it's done."));
     return card;
   }
   function shareOf(a, p) {
@@ -1283,7 +1268,7 @@
     for (var i = 0; i < N; i++) if (s0[i] < 0.01) none0++;
     var has = planList(plan).length;
     var groups = [
-      ["Money", [["Expected loss", money(S0.money), money(S1.money), S1.money < S0.money - 0.05 ? "safe" : ""], ["Bad case (1 in 20)", money(q(s0, 0.95)), money(q(s1, 0.95))], ["Plan cost, including overtime", "—", money(cost, 2), ""],
+      ["Money", [["Expected loss", money(S0.money), money(S1.money), S1.money < S0.money - 0.05 ? "safe" : ""], ["Bad case (1 in 20)", money(q(s0, 0.95)), money(q(s1, 0.95))], ["Plan cost", "—", money(cost, 2), ""],
         ["Net value of the plan", "—", (net >= 0 ? "" : "−") + money(Math.abs(net)), net >= 0 ? "safe" : "loss"]]],
       ["Operations", [["Line-days lost, on average", Math.round(S0.lineDays), Math.round(S1.lineDays)], ["Units not built, if they all happen", Math.round(S0.w_units).toLocaleString(), Math.round(S1.w_units).toLocaleString()]]],
       ["Customers, if every contingency happens", [["Days short, EU retail", days(S0.w_eu), days(S1.w_eu)], ["Days short, India retail", days(S0.w_india), days(S1.w_india)], ["Days short, MENA retail", days(S0.w_mena), days(S1.w_mena)]]],
@@ -1912,7 +1897,7 @@
     }
     if (/cheapest|half|halv|cut .*loss in/.test(q)) {
       var target = E0 / 2, p = bestPlan(true, target);
-      if (!p) return { text: ["No plan your teams can deliver halves the loss. Find more hours in Deliver and ask again."] };
+      if (!p) return { text: ["No plan your teams can deliver halves the loss. Add people to the stretched crews in Deliver and ask again."] };
       return { text: ["The cheapest plan that halves expected loss (to " + money(p.E) + " or less) as your teams would deliver it costs " + money(p.cost, 2) + "."], facts: planFacts(p), actions: [adopt(p, "Adopted the cheapest plan that halves the loss")] };
     }
     if (/what should|recommend|best plan|what do we do|best move/.test(q) && !/staff|capacity/.test(q)) {
@@ -1945,7 +1930,6 @@
       var acts = [], t3 = [];
       r.overPeople.slice(0, 4).forEach(function (id) { var p = personById(id); t3.push(p.name + " (" + TEAMS[p.team].name + ") is asked for " + Math.round(r.D[id]) + " hours but has " + freeOf(p) + "."); });
       r.late.forEach(function (a) { t3.push(a.name + " lands on day " + r.acts[a.id].lands + ", " + r.acts[a.id].late + " days after it's needed."); });
-      r.overTeams.slice(0, 2).forEach(function (t) { if (!capacity[t]) acts.push({ label: "Put " + TEAMS[t].name + " on overtime", done: "On overtime", run: function () { capacity[t] = "overtime"; changed(TEAMS[t].name + ": overtime"); } }); });
       var first = r.overTeams[0] || (r.late[0] && ownerOf(r.late[0]));
       acts.push({ label: first ? "Open " + TEAMS[first].name : "Open Deliver", run: function () { if (first) openTeam = first; goTo("deliver"); } });
       return { text: t3, actions: acts };

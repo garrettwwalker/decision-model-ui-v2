@@ -491,7 +491,7 @@ select.num-input, input.num-input { font-family: var(--font); background: #fff; 
 .av.is-busy { background: #ffd8bf; color: #6b2c0b; }
 .av.is-over { background: var(--loss); color: #fff; }
 .teamws { display: grid; gap: 1rem; }
-.tws__head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 1rem 2rem; align-items: start; }
+.tws__head { display: grid; gap: 0.25rem; }
 @media (max-width: 900px) { .tws__head { grid-template-columns: minmax(0, 1fr); } }
 .tws__title { margin: 0; font-size: 1.5rem; font-weight: 800; letter-spacing: -0.04em; }
 .tws__sub { margin: 0.25rem 0 0; font-size: 0.82rem; color: var(--fg-2); }
