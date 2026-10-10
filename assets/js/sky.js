@@ -36,8 +36,8 @@
       { y: 108, w: [46, 58], h: [0.56, 0.66], gap: -0.38 }
     ] },
     edge: { base: 44, rows: [
-      { y: 41, w: [11, 17], h: [0.40, 0.52], gap: -0.22 },
-      { y: 56, w: [13, 20], h: [0.38, 0.48], gap: -0.25 }
+      { y: 42.5, w: [11, 17], h: [0.40, 0.52], gap: -0.26 },
+      { y: 55, w: [13, 20], h: [0.38, 0.48], gap: -0.29 }
     ],
     // phones: clouds are scaled up, so the two rows overlap more and sit closer, leaving no sea between them
     narrowRows: [
