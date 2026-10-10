@@ -439,7 +439,7 @@ select.num-input, input.num-input { font-family: var(--font); background: #fff; 
   padding: 0.85rem 0.95rem; border-radius: var(--radius); border: 1.5px solid transparent; background: rgba(255, 255, 255, 0.6); color: var(--ink);
 }
 .dim:hover { background: #fff; }
-.dim.is-on { background: #fff; border-color: var(--ink); box-shadow: var(--shadow-card); }
+.dim.is-on { background: #fff; box-shadow: var(--shadow-card), inset 0 -3px 0 var(--ember); }
 .dim__name { font-size: 0.75rem; font-weight: 700; color: var(--ember-deep); }
 .dim__val { font-size: 1.3rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1.15; margin-top: 0.2rem; }
 .dim__lab { font-size: 0.78rem; font-weight: 600; }
@@ -639,7 +639,7 @@ select.num-input, input.num-input { font-family: var(--font); background: #fff; 
 .dd__key { margin: 0.2rem 0 0; display: flex; flex-wrap: wrap; gap: 0.3rem 1rem; font-size: 0.76rem; color: var(--fg-2); }
 .dd__key span { display: inline-flex; align-items: center; gap: 0.4rem; }
 .dd__sw { display: inline-block; width: 18px; height: 10px; border-radius: 3px; }
-.dd__sw--avg { background: var(--loss); }
+.dd__sw--avg { background: var(--loss); border-radius: 2px; height: 6px; }
 .dd__sw--all { border: 1.5px dashed rgba(194, 51, 45, 0.55); background: rgba(194, 51, 45, 0.06); }
 .dd__sw--chance { background: var(--ember); }
 .dd__rows { list-style: none; margin: 0; padding: 0; display: grid; }
@@ -649,10 +649,10 @@ select.num-input, input.num-input { font-family: var(--font); background: #fff; 
 .ddrow__lab b { font-size: 0.88rem; }
 .ddrow__lab small { font-size: 0.74rem; color: var(--fg-2); }
 .ddrow.is-hot .ddrow__lab b { color: var(--loss); }
-.ddrow__bar { position: relative; height: 16px; border-radius: 5px; background: rgba(10, 23, 34, 0.04); }
+.ddrow__bar { position: relative; height: 18px; border-radius: 5px; background: rgba(10, 23, 34, 0.04); }
 .ddrow__all { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 5px; border: 1.5px dashed rgba(194, 51, 45, 0.55); background: rgba(194, 51, 45, 0.06); }
-.ddrow__avg { position: absolute; left: 0; top: 3px; bottom: 3px; border-radius: 3px; background: var(--loss); }
-.ddrow__avg--chance { top: 0; bottom: 0; border-radius: 5px; background: var(--ember); }
+.ddrow__avg { position: absolute; left: 4px; top: 4px; bottom: 4px; border-radius: 2px; background: var(--loss); }
+.ddrow__avg--chance { left: 0; top: 0; bottom: 0; border-radius: 5px; background: var(--ember); }
 .ddrow__val { display: grid; justify-items: end; text-align: right; font-variant-numeric: tabular-nums; }
 .ddrow__val b { font-size: 0.95rem; }
 .ddrow__val small { font-size: 0.72rem; color: var(--fg-2); }

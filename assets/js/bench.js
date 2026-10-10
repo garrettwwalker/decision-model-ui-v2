@@ -847,7 +847,7 @@
 
   /* ================= 3. Impact ================= */
   var DIMS = [
-    { id: "money", name: "Money" }, { id: "ops", name: "Operations" }, { id: "customers", name: "Customers" },
+    { id: "money", name: "Finances" }, { id: "ops", name: "Operations" }, { id: "customers", name: "Customers" },
     { id: "people", name: "People" }, { id: "commit", name: "Commitments" }
   ];
   function days(d) { return Math.round(d) + (Math.round(d) === 1 ? " day" : " days"); }
@@ -929,7 +929,9 @@
       li.appendChild(lab);
       var track = el("div", { class: "ddrow__bar", role: "img", "aria-label": x.label + ": " + x.f(x.avg) + (x.all != null ? " on average, " + x.f(x.all) + " if they all happen" : "") });
       if (x.all != null) { var o = el("i", { class: "ddrow__all" }); o.style.width = (100 * x.all / max) + "%"; track.appendChild(o); }
-      var a = el("i", { class: "ddrow__avg" + (bars === "chance" ? " ddrow__avg--chance" : "") }); a.style.width = Math.max(x.avg > 0.0005 ? 0.6 : 0, 100 * x.avg / max) + "%"; track.appendChild(a);
+      var a = el("i", { class: "ddrow__avg" + (bars === "chance" ? " ddrow__avg--chance" : "") }), w = Math.max(x.avg > 0.0005 ? 0.6 : 0, 100 * x.avg / max);
+      // inside the dashed outline, the average sits inset by a few pixels on every side
+      a.style.width = bars === "chance" ? w + "%" : (x.avg > 0.0005 ? "max(3px, calc(" + w.toFixed(2) + "% - 8px))" : "0"); track.appendChild(a);
       li.appendChild(track);
       var val = el("div", { class: "ddrow__val" }); val.appendChild(el("b", null, x.f(x.avg)));
       if (x.all != null) val.appendChild(el("small", null, x.f(x.all) + " if all happen"));
