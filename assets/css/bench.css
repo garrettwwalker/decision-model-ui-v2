@@ -701,3 +701,26 @@ select.num-input, input.num-input { font-family: var(--font); background: #fff; 
 .org__team:hover { background: rgba(255, 255, 255, 0.72); border-color: transparent; }
 .org__team.is-sel { background: #fff; border-color: transparent; box-shadow: var(--shadow-card); }
 .org__team .av { background: rgba(10, 23, 34, 0.07); }
+
+/* ================= Stage notes behind an info icon ================= */
+.step__head { grid-template-columns: minmax(0, 1fr); }
+.info { position: relative; display: inline-block; vertical-align: 0.5em; margin-left: 0.4rem; letter-spacing: 0; line-height: 1; }
+.info__btn {
+  width: 32px; height: 32px; display: inline-grid; place-items: center; padding: 0; border: 0; border-radius: 50%; cursor: pointer;
+  background: transparent; color: var(--tone); opacity: 0.75; transition: opacity 0.15s ease, background-color 0.15s ease;
+}
+.info__btn svg { width: 20px; height: 20px; }
+.info:hover .info__btn, .info.is-open .info__btn, .info__btn:focus-visible { opacity: 1; background: rgba(255, 255, 255, 0.55); }
+.info__btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 1px; }
+.step__note.info__pop {
+  position: absolute; z-index: 25; left: -0.5rem; top: calc(100% + 0.5rem); width: min(24rem, calc(100vw - 2.5rem)); max-width: none;
+  padding: 0.8rem 0.95rem; border-radius: 12px; background: #fff; box-shadow: 0 20px 44px -18px rgba(7, 22, 33, 0.5), 0 2px 6px rgba(7, 22, 33, 0.06);
+  color: var(--ink-2); font-size: 0.86rem; font-weight: 500; line-height: 1.5; letter-spacing: 0; text-align: left; white-space: normal;
+  opacity: 0; visibility: hidden; transform: translateY(-4px); pointer-events: none;
+  transition: opacity 0.16s ease, transform 0.16s ease, visibility 0s linear 0.16s;
+}
+.info:hover .info__pop, .info:focus-within .info__pop, .info.is-open .info__pop {
+  opacity: 1; visibility: visible; transform: none; pointer-events: auto; transition: opacity 0.16s ease, transform 0.16s ease, visibility 0s;
+}
+@media (max-width: 700px) { .info { position: static; } .step__title { position: relative; } .step__note.info__pop { left: 0; right: 0; width: auto; } }
+@media (prefers-reduced-motion: reduce) { .step__note.info__pop { transition: none; } }

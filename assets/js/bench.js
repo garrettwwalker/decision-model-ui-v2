@@ -499,6 +499,22 @@
     var anchor = document.querySelector(mode === "model" ? ".modelbar" : ".thread");
     window.scrollTo({ top: anchor.getBoundingClientRect().top + window.scrollY - 90, behavior: "smooth" });
   }
+  // each stage's explanation sits behind an info icon beside its title: hover or focus to read, tap on touch screens
+  document.querySelectorAll(".step__head").forEach(function (h, i) {
+    var title = h.querySelector(".step__title"), note = h.querySelector(".step__note");
+    if (!title || !note) return;
+    var id = "stepnote-" + i, wrap = el("span", { class: "info" });
+    var btn = el("button", { type: "button", class: "info__btn", "aria-label": "About this stage", "aria-describedby": id, "aria-expanded": "false" });
+    btn.innerHTML = '<svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.25" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10 9v5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="10" cy="6.2" r="1.1" fill="currentColor"/></svg>';
+    note.id = id; note.setAttribute("role", "tooltip"); note.classList.add("info__pop");
+    wrap.appendChild(btn); wrap.appendChild(note);
+    title.appendChild(wrap);
+    btn.addEventListener("click", function (e) { e.stopPropagation(); var on = !wrap.classList.contains("is-open"); closeInfos(); wrap.classList.toggle("is-open", on); btn.setAttribute("aria-expanded", String(on)); });
+  });
+  function closeInfos() { document.querySelectorAll(".info.is-open").forEach(function (w) { w.classList.remove("is-open"); w.querySelector(".info__btn").setAttribute("aria-expanded", "false"); }); }
+  document.addEventListener("click", closeInfos);
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeInfos(); });
+
   // every stage ends by handing over to the next one
   document.querySelectorAll("[data-panel]").forEach(function (p) {
     var id = p.getAttribute("data-panel"), i = STAGES.indexOf(id), foot = el("div", { class: "step__foot" });
