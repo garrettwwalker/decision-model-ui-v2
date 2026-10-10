@@ -35,6 +35,14 @@ no tests. To preview, open `index.html` in a browser; there's no server.
 - Landing "down to who does what." is a node-link diagram (`.graph`, `.gn` nodes in a CSS grid); `landing.js`
   draws rounded-elbow SVG edges with arrowheads between node centers; they draw themselves once, row by row,
   when the section scrolls into view (timer-driven, not rAF, so it also runs in headless checks).
+- `workbench.html` + `assets/js/bench.js` is a six-step workflow over one scenario with a summary rail:
+  1 Events (toggle and tune `EVENTS_BASE`: Hormuz, Red Sea, Gebze strike, feeder sanctions, bunker spike),
+  2 World model (network graph + editable `PROPS`), 3 Options (`ACTIONS`, marginal value, frontier of all
+  2^9 plans, recommend best / best staffable), 4 Consequences (exact expected loss over event combinations,
+  4,000-run Monte Carlo, worst case, service by market), 5 Execution (`TEAMS` capacity and lead time vs
+  deadline), 6 Your data (client-side CSV import mapped onto site parameters, custom signals that shift event
+  probabilities, generated SDK code). Loss for Hormuz/Red Sea comes from `model.js`; other events are layered
+  on in `lossOf()`.
 - `assets/js/app.js` holds the shared helpers (`DB.money`, `DB.toast`, `DB.rng`, range fills).
 - Type: Switzer (Fontshare), self-hosted in `assets/fonts/`, for everything, on a major-third scale; data uses
   tabular figures. JetBrains Mono appears only in the workbench's code, diff and log panels. Labels are sentence
@@ -58,7 +66,7 @@ contributions as things no one else in the field does, in plain language:
 Keep private: specific models and vendors, fusion and calibration methods, the event-sequence
 model, leakage controls, competitor names and patent issues. The Hormuz example's engine figures
 (33 / 26 / 22%, fused 27%, one sub-question declined) appear on the brief and the workbench
-(`ENSEMBLE` in `bench.js`); keep them in sync. The landing page deliberately spans industries: an automaker's
+(the brief and wargame); keep them in sync. The landing page deliberately spans industries: an automaker's
 strike question (engines), a tech company's Brazil launch (timeline), and mixed-sector gray swans.
 
 ## Repository
