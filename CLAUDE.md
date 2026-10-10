@@ -35,18 +35,20 @@ no tests. To preview, open `index.html` in a browser; there's no server.
 - Landing "down to who does what." is a node-link diagram (`.graph`, `.gn` nodes in a CSS grid); `landing.js`
   draws rounded-elbow SVG edges with arrowheads between node centers; they draw themselves once, row by row,
   when the section scrolls into view (timer-driven, not rAF, so it also runs in headless checks).
-- `workbench.html` + `assets/js/bench.js` is a six-step workflow over one scenario with a summary rail:
-  1 Events (`EVENTS_BASE` with presets, 90-day sparklines and each event's live contribution to expected loss),
-  2 World model (three views over `ASSETS` ~45 assets, `NODES`/`EDGES` graph and `TEAMS`/`EXECS` org chart;
-  a shared inspector traces dependencies, links owners, edits `PROPS`), 3 Options (`ACTIONS` with value/net,
-  sort and team filter; the plans chart shows only the staffable efficient frontier, with all 2^9 behind a toggle), 4 Consequences (exact expectation over event
-  combinations, Monte Carlo, sensitivity tornado, every-combination table), 5 Execution (reassign owners,
-  start days, overtime; feasibility feeds the frontier), 6 Your data (client-side CSV: known sites update
-  `PROPS`, unknown sites become new "Your data" assets; custom signals shift event probabilities; SDK code).
-  Hormuz/Red Sea losses come from `model.js`; other events are layered on in `lossOf()`.
-  "Ask Daybreak" (`#askdrawer`, moved to `<body>` at init to clear `.page`'s stacking context) is a scripted
-  assistant: `answer()` matches intents by regex, computes replies from the live engine and offers actions
-  (apply a what-if, adopt a plan, authorize overtime, show an asset). Suggestions are per step (`SUGGEST`).
+- `workbench.html` + `assets/js/bench.js` follows one decision through six stages, with a sticky "thread" strip
+  showing each stage's live result: 1 Forecast (each event's sub-questions per engine, declined part, fused
+  probability ±band, override), 2 Events (include, severity, assets hit first, chance of each number of events),
+  3 Impact (exact `stats(A)` over event combinations: money, operations, customers, people and `TRIGGERS`
+  commitments; `reach()` propagates hits down asset dependencies, price events with `cost: true` don't spread),
+  4 Decide (`ACTIONS` with value/net and the frontier), 5 Deliver (team board; each team's people from `PEOPLE`,
+  each action's way, crew and start, and the team's `CAPACITY` choice), 6 Consequences (the stage 3 figures for
+  doing nothing against the plan as delivered). `readiness()` splits an action's hours across its crew in proportion
+  to free hours; overload stretches lead time, lateness and a scaled-back way cut its protection `f`, and
+  `delivered()` blends that shortfall into every figure. A followed event (`focus`) carries through the stages.
+  "Your model and data" is a separate mode: network, asset register (edit `PROPS`), teams (edit people's free hours)
+  and data (CSV, signals, sources, SDK). Hormuz/Red Sea losses come from `model.js`; other events are layered on in
+  `lossOf()`. "Ask Daybreak" (`#askdrawer`, moved to `<body>` at init to clear `.page`'s stacking context) is a
+  scripted assistant: `answer()` matches intents by regex, computes replies from the live engine and offers actions.
 - `assets/js/app.js` holds the shared helpers (`DB.money`, `DB.toast`, `DB.rng`, range fills).
 - Type: Switzer (Fontshare), self-hosted in `assets/fonts/`, for everything, on a major-third scale; data uses
   tabular figures. JetBrains Mono appears only in the workbench's code, diff and log panels. Labels are sentence

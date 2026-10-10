@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Workbench · Daybreak</title>
-  <meta name="description" content="Daybreak workbench: tune input events, model their effect on your network, explore every possible response, check the consequences and who has to execute, and bring your own data.">
+  <meta name="description" content="Daybreak workbench: follow one decision from the forecast, through the events and their impact on your organization, to the plan, who delivers it and what it changes.">
   <link rel="preload" href="assets/fonts/switzer-800.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/switzer-400.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -38,258 +38,273 @@
         <h1 class="bench-head__title">workbench</h1>
       </div>
       <div class="bench-head__actions">
+        <div class="modes" role="tablist" aria-label="Workbench mode">
+          <button class="modes__btn" role="tab" type="button" data-mode-btn="scenario" aria-selected="true">This scenario</button>
+          <button class="modes__btn" role="tab" type="button" data-mode-btn="model" aria-selected="false">Your model and data <span class="modes__n" data-out="model-n" hidden></span></button>
+        </div>
+        <details class="history">
+          <summary class="btn btn--ghost btn--sm">Change log</summary>
+          <ol class="log" id="log" aria-label="Change log"></ol>
+        </details>
         <button class="btn btn--ghost btn--sm" type="button" id="reset">Reset to baseline</button>
         <button class="btn btn--primary btn--sm" type="button" id="commit">Commit as scenario</button>
       </div>
     </section>
 
-    <nav class="steps" aria-label="Workbench steps" role="tablist">
-      <button class="steps__tab" role="tab" type="button" data-step="events" aria-selected="true"><b>1</b>Events</button>
-      <button class="steps__tab" role="tab" type="button" data-step="world"><b>2</b>World model</button>
-      <button class="steps__tab" role="tab" type="button" data-step="options"><b>3</b>Options</button>
-      <button class="steps__tab" role="tab" type="button" data-step="consequences"><b>4</b>Consequences</button>
-      <button class="steps__tab" role="tab" type="button" data-step="execution"><b>5</b>Execution</button>
-      <button class="steps__tab" role="tab" type="button" data-step="data"><b>6</b>Your data</button>
-    </nav>
-
-    <div class="bench">
-      <div class="bench__main">
-
-        <!-- 1. Events -->
-        <section class="step" data-panel="events" role="tabpanel" aria-labelledby="ev-title">
-          <div class="step__head">
-            <h2 class="step__title" id="ev-title">input events</h2>
-            <p class="step__note">Switch events on, then tune how likely each one is and how bad it gets. Everything downstream recomputes from these.</p>
-          </div>
-          <div class="presets" role="group" aria-label="Scenario presets">
-            <span class="presets__label">Start from</span>
-            <button class="chip-btn is-on" type="button" data-preset="morning">This morning</button>
-            <button class="chip-btn" type="button" data-preset="escalation">Gulf escalation</button>
-            <button class="chip-btn" type="button" data-preset="worst">Everything goes wrong</button>
-            <button class="chip-btn" type="button" data-preset="calm">A quiet quarter</button>
-          </div>
-          <div class="events" id="events"></div>
-        </section>
-
-        <!-- 2. World model -->
-        <section class="step" data-panel="world" role="tabpanel" aria-labelledby="wm-title" hidden>
-          <div class="step__head">
-            <h2 class="step__title" id="wm-title">your world model</h2>
-            <p class="step__note">Every asset Daybreak knows about, how each one depends on the others, and which team owns it. Select anything to trace what it relies on and what relies on it, or to edit what the model knows.</p>
-          </div>
-          <div class="viewbar">
-            <div class="seg seg--light" role="tablist" aria-label="World model view">
-              <label><input type="radio" name="wview" value="network" checked><span>Network</span></label>
-              <label><input type="radio" name="wview" value="assets"><span>Assets</span></label>
-              <label><input type="radio" name="wview" value="org"><span>Organization</span></label>
-            </div>
-            <p class="viewbar__count" data-out="asset-count"></p>
-          </div>
-          <div class="world">
-            <div class="world__view">
-              <div data-view="network">
-                <div class="panel instrument graph">
-                  <svg class="graph__svg" id="graph" viewBox="0 0 760 420" role="img" aria-label="Network graph of Halvorsen's suppliers, ports, plants, distribution centres and chokepoints. Select a node to inspect it and trace its dependencies."></svg>
-                  <p class="graph__legend"><i class="gl gl--hot"></i>Expected loss <i class="gl gl--ring"></i>Touched by an active event <i class="gl gl--alt"></i>Alternate route <i class="gl gl--trace"></i>Dependency of the selection</p>
-                </div>
-              </div>
-              <div data-view="assets" hidden>
-                <div class="register__bar">
-                  <label class="register__search"><span class="sr-only">Search assets</span><input class="num-input" type="search" id="asset-q" placeholder="Search assets, places, owners"></label>
-                  <div class="register__types" id="asset-types" role="group" aria-label="Filter by type"></div>
-                </div>
-                <div class="panel table-panel">
-                  <div class="table-wrap">
-                    <table class="table register" id="register">
-                      <thead><tr><th scope="col">Asset</th><th scope="col">Type</th><th scope="col">Owner</th><th scope="col">Key figure</th><th scope="col" class="r">Exposure</th></tr></thead>
-                      <tbody></tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-              <div data-view="org" hidden>
-                <div class="org" id="org"></div>
-              </div>
-            </div>
-            <aside class="panel inspector" aria-labelledby="ins-title">
-              <p class="eyebrow inspector__type" data-out="type"></p>
-              <h3 class="inspector__title" id="ins-title" data-out="name"></h3>
-              <p class="inspector__desc" data-out="desc"></p>
-              <div class="inspector__body" id="inspector"></div>
-            </aside>
-          </div>
-        </section>
-
-        <!-- 3. Options -->
-        <section class="step" data-panel="options" role="tabpanel" aria-labelledby="op-title" hidden>
-          <div class="step__head">
-            <h2 class="step__title" id="op-title">the decision space</h2>
-            <p class="step__note">Every action Daybreak knows about, valued against the events you've set. Tick actions to build a plan, or let it recommend one.</p>
-          </div>
-          <div class="op-actions">
-            <button class="btn btn--primary btn--sm" type="button" data-recommend="best">Recommend the best plan</button>
-            <button class="btn btn--ghost btn--sm" type="button" data-recommend="staffed">Best plan we can staff in time</button>
-            <button class="btn btn--ghost btn--sm" type="button" data-recommend="none">Clear the plan</button>
-            <span class="op-actions__gap"></span>
-            <label class="op-sort"><span>Sort by</span>
-              <select class="num-input" id="op-sort"><option value="net">Net value</option><option value="value">Value</option><option value="cost">Cost</option><option value="lead">Lead time</option></select></label>
-            <label class="op-sort"><span>Team</span><select class="num-input" id="op-team"><option value="">All teams</option></select></label>
-          </div>
-          <div class="panel table-panel">
-            <div class="table-wrap">
-              <table class="table options" id="options">
-                <thead><tr><th scope="col"><span class="sr-only">In plan</span></th><th scope="col">Action</th><th scope="col">Helps with</th><th scope="col" class="r">Value</th><th scope="col" class="r">Cost</th><th scope="col" class="r">Net</th><th scope="col">Lead time</th><th scope="col">Owner</th></tr></thead>
-                <tbody></tbody>
-              </table>
-            </div>
-            <p class="table-note">Value is how much expected loss this action removes, given the rest of the plan. Net is value minus cost.</p>
-          </div>
-          <div class="panel instrument frontier">
-            <div class="frontier__head">
-              <div class="frontier__top">
-                <h3 class="frontier__title">The best plan at every budget <span class="frontier__hint">Click a dot to adopt that plan</span></h3>
-                <label class="frontier__all"><input type="checkbox" id="frontier-all"> Show all 512 combinations</label>
-              </div>
-              <p class="frontier__note" data-out="frontier-note"></p>
-            </div>
-            <svg class="frontier__svg" id="frontier" viewBox="0 0 640 300" role="img" aria-label="Scatter of every combination of actions by cost and expected loss, with the efficient frontier and your plan highlighted."></svg>
-          </div>
-        </section>
-
-        <!-- 4. Consequences -->
-        <section class="step" data-panel="consequences" role="tabpanel" aria-labelledby="co-title" hidden>
-          <div class="step__head">
-            <h2 class="step__title" id="co-title">what happens next</h2>
-            <p class="step__note">Your plan against doing nothing, across 4,000 simulated futures in which each event may or may not happen.</p>
-          </div>
-          <div class="panel compare">
-            <div class="table-wrap"><table class="table compare__table">
-              <thead><tr><th scope="col"></th><th scope="col" class="r">Do nothing</th><th scope="col" class="r">Your plan</th></tr></thead>
-              <tbody id="compare"></tbody>
-            </table></div>
-          </div>
-          <div class="co-grid">
-            <div class="panel instrument">
-              <h3 class="panel__title">Spread of outcomes</h3>
-              <svg class="hist" id="hist" viewBox="0 0 520 220" role="img" aria-label="Histogram of simulated losses with and without your plan"></svg>
-              <p class="hist__note" data-out="hist-note"></p>
-            </div>
-            <div class="panel">
-              <h3 class="panel__title">Service by market, if everything you've switched on happens</h3>
-              <div class="table-wrap"><table class="table" id="markets">
-                <thead><tr><th scope="col">Market</th><th scope="col" class="r">Days short</th><th scope="col" class="r">Revenue at risk</th></tr></thead>
-                <tbody></tbody>
-              </table></div>
-              <ul class="knock" id="knock"></ul>
-            </div>
-          </div>
-          <div class="co-grid">
-            <div class="panel instrument">
-              <h3 class="panel__title">What moves the number most</h3>
-              <svg class="tornado" id="tornado" viewBox="0 0 520 240" role="img" aria-label="Sensitivity of expected loss to each active event's probability and severity"></svg>
-              <p class="hist__note">Expected loss with your plan, if each input were a little lower (left) or higher (right).</p>
-            </div>
-            <div class="panel">
-              <h3 class="panel__title">Every way this could play out</h3>
-              <div class="table-wrap"><table class="table table--tight" id="combos">
-                <thead><tr><th scope="col">What happens</th><th scope="col" class="r">Chance</th><th scope="col" class="r">Nothing</th><th scope="col" class="r">Plan</th></tr></thead>
-                <tbody></tbody>
-              </table></div>
-            </div>
-          </div>
-        </section>
-
-        <!-- 5. Execution -->
-        <section class="step" data-panel="execution" role="tabpanel" aria-labelledby="ex-title" hidden>
-          <div class="step__head">
-            <h2 class="step__title" id="ex-title">who has to do it</h2>
-            <p class="step__note">The teams that own each action, how much spare capacity they have this week, and whether each action lands before its deadline.</p>
-          </div>
-          <div class="teams" id="teams"></div>
-          <div class="panel table-panel">
-            <h3 class="panel__title">Assign and schedule</h3>
-            <div class="table-wrap"><table class="table assign" id="assign">
-              <thead><tr><th scope="col">Action</th><th scope="col">Owner</th><th scope="col">Start</th><th scope="col" class="r">Takes</th><th scope="col">Lands</th></tr></thead>
-              <tbody></tbody>
-            </table></div>
-          </div>
-          <div class="panel instrument gantt">
-            <h3 class="panel__title">Timeline, from today</h3>
-            <svg class="gantt__svg" id="gantt" viewBox="0 0 720 260" role="img" aria-label="Timeline of each action in the plan from today to completion, against its deadline"></svg>
-          </div>
-        </section>
-
-        <!-- 6. Your data -->
-        <section class="step" data-panel="data" role="tabpanel" aria-labelledby="da-title" hidden>
-          <div class="step__head">
-            <h2 class="step__title" id="da-title">bring your own data</h2>
-            <p class="step__note">Daybreak runs on your servers, so proprietary data never leaves them. Load a dataset to update the world model, or turn one of your own indicators into a signal the forecast listens to.</p>
-          </div>
-          <div class="data-grid">
-            <div class="panel">
-              <h3 class="panel__title">Load a dataset</h3>
-              <div class="drop">
-                <label class="btn btn--primary btn--sm drop__pick">Choose a CSV<input type="file" accept=".csv,text/csv" id="csv-file"></label>
-                <button class="btn btn--ghost btn--sm" type="button" id="csv-sample">Use a sample inventory file</button>
-              </div>
-              <p class="field__hint" data-out="csv-status">Nothing loaded yet. Files are read in your browser; nothing is uploaded.</p>
-              <div id="csv-preview"></div>
-              <div class="mapping" id="csv-mapping" hidden>
-                <p class="mapping__title">Map columns to the model</p>
-                <label class="field"><span class="field__top">Site</span><select class="num-input" data-map="site"></select></label>
-                <label class="field"><span class="field__top">Days of cover</span><select class="num-input" data-map="cover"></select></label>
-                <label class="field"><span class="field__top">Daily cost of a stop ($M)</span><select class="num-input" data-map="rate"></select></label>
-                <button class="btn btn--primary btn--sm" type="button" id="csv-apply">Apply to the world model</button>
-              </div>
-            </div>
-            <div class="panel">
-              <h3 class="panel__title">Build a custom signal</h3>
-              <form class="signal-form" id="signal-form">
-                <label class="field"><span class="field__top">Name</span><input class="num-input" name="name" required placeholder="Jebel Ali dwell time"></label>
-                <label class="field"><span class="field__top">Watches</span><input class="num-input" name="rule" required placeholder="Average container dwell above 60 hours"></label>
-                <label class="field"><span class="field__top">Moves</span><select class="num-input" name="event"></select></label>
-                <label class="field"><span class="field__top">When it fires <span class="field__val" data-out="sig-pts">+6 pts</span></span><input type="range" name="pts" min="-15" max="15" step="1" value="6"></label>
-                <button class="btn btn--primary btn--sm" type="submit">Add signal</button>
-              </form>
-              <ul class="signals" id="signals"></ul>
-            </div>
-          </div>
-          <div class="data-grid">
-            <div class="panel">
-              <h3 class="panel__title">Connected sources</h3>
-              <ul class="sources" id="sources">
-                <li><i class="ok"></i><span>SAP S/4HANA<small>POs and BOMs, 4 min ago</small></span></li>
-                <li><i class="ok"></i><span>Kinaxis RapidResponse<small>Supply plan, 12 min ago</small></span></li>
-                <li><i class="ok"></i><span>AIS stream<small>Vessel positions, live</small></span></li>
-                <li><i class="ok"></i><span>War-risk broker feed<small>Gulf quotes, 3 h ago</small></span></li>
-                <li><i class="warn"></i><span>Gebze MES<small>Schema drift: 2 fields unmapped</small></span></li>
-              </ul>
-            </div>
-            <div class="panel instrument code">
-              <div class="code__head">
-                <h3 class="panel__title">Same thing, in the SDK</h3>
-                <button class="btn btn--ghost btn--sm" type="button" id="copy">Copy</button>
-              </div>
-              <pre><code id="code"></code></pre>
-            </div>
-          </div>
-        </section>
+    <!-- ================= Scenario: one decision, six stages ================= -->
+    <div class="mode" data-mode="scenario">
+      <nav class="thread" aria-label="Scenario stages" role="tablist">
+        <button class="thread__stage" role="tab" type="button" data-step="forecast" aria-selected="true"><span class="thread__n">1</span><span class="thread__name">Forecast</span><b class="thread__val" data-out="t-forecast"></b><span class="thread__sub" data-out="t-forecast-sub"></span></button>
+        <button class="thread__stage" role="tab" type="button" data-step="events" aria-selected="false"><span class="thread__n">2</span><span class="thread__name">Events</span><b class="thread__val" data-out="t-events"></b><span class="thread__sub" data-out="t-events-sub"></span></button>
+        <button class="thread__stage" role="tab" type="button" data-step="impact" aria-selected="false"><span class="thread__n">3</span><span class="thread__name">Impact</span><b class="thread__val" data-out="t-impact"></b><span class="thread__sub" data-out="t-impact-sub"></span></button>
+        <button class="thread__stage" role="tab" type="button" data-step="decide" aria-selected="false"><span class="thread__n">4</span><span class="thread__name">Decide</span><b class="thread__val" data-out="t-decide"></b><span class="thread__sub" data-out="t-decide-sub"></span></button>
+        <button class="thread__stage" role="tab" type="button" data-step="deliver" aria-selected="false"><span class="thread__n">5</span><span class="thread__name">Deliver</span><b class="thread__val" data-out="t-deliver"></b><span class="thread__sub" data-out="t-deliver-sub"></span></button>
+        <button class="thread__stage" role="tab" type="button" data-step="outcomes" aria-selected="false"><span class="thread__n">6</span><span class="thread__name">Consequences</span><b class="thread__val" data-out="t-outcomes"></b><span class="thread__sub" data-out="t-outcomes-sub"></span></button>
+      </nav>
+      <div class="focusbar" id="focusbar" hidden>
+        <span>Following <b data-out="focus-name"></b> through every stage.</span>
+        <button class="chip-btn" type="button" id="focus-clear">Stop following</button>
       </div>
 
-      <!-- Summary rail -->
-      <aside class="panel rail" aria-labelledby="rail-title" aria-live="polite">
-        <h2 class="rail__title" id="rail-title">This scenario</h2>
-        <p class="rail__events" data-out="rail-events"></p>
-        <dl class="rail__nums">
-          <div><dt>Expected loss, doing nothing</dt><dd class="money money--loss" data-out="r-e0"></dd></div>
-          <div><dt>Expected loss, with your plan</dt><dd class="money" data-out="r-e1"></dd></div>
-          <div><dt>Plan cost</dt><dd class="money" data-out="r-cost"></dd></div>
-          <div class="rail__net"><dt>Net value of the plan</dt><dd class="money" data-out="r-net"></dd></div>
-        </dl>
-        <p class="rail__plan" data-out="r-plan"></p>
-        <p class="rail__ready" data-out="r-ready"></p>
-        <ol class="log" id="log" aria-label="Run log"></ol>
-      </aside>
+      <!-- 1. Forecast -->
+      <section class="step" data-panel="forecast" role="tabpanel" aria-labelledby="fc-title">
+        <div class="step__head">
+          <h2 class="step__title" id="fc-title">how likely</h2>
+          <p class="step__note">Daybreak splits each question into parts, sends each part to the engine built for it, declines the parts no one can forecast, and fuses the rest into one probability with error bars. Override any of them and every later stage recomputes.</p>
+        </div>
+        <div class="fc" id="forecast"></div>
+      </section>
+
+      <!-- 2. Events -->
+      <section class="step" data-panel="events" role="tabpanel" aria-labelledby="ev-title" hidden>
+        <div class="step__head">
+          <h2 class="step__title" id="ev-title">what happens if they do</h2>
+          <p class="step__note">Choose which events this scenario includes and how bad each one gets. How likely they are comes from the forecast.</p>
+        </div>
+        <div class="presets" role="group" aria-label="Scenario presets">
+          <span class="presets__label">Start from</span>
+          <button class="chip-btn is-on" type="button" data-preset="morning">This morning</button>
+          <button class="chip-btn" type="button" data-preset="escalation">Gulf escalation</button>
+          <button class="chip-btn" type="button" data-preset="worst">Everything goes wrong</button>
+          <button class="chip-btn" type="button" data-preset="calm">A quiet quarter</button>
+        </div>
+        <div class="events" id="events"></div>
+        <div class="panel futures">
+          <h3 class="panel__title">The futures this makes</h3>
+          <div class="futures__bar" id="futures"></div>
+          <p class="futures__note" data-out="futures-note"></p>
+        </div>
+      </section>
+
+      <!-- 3. Impact -->
+      <section class="step" data-panel="impact" role="tabpanel" aria-labelledby="im-title" hidden>
+        <div class="step__head">
+          <h2 class="step__title" id="im-title">what it does to the organization</h2>
+          <p class="step__note">How the events you've included travel through your network: the sites, people, customers and commitments they reach, not only the money. Averages weigh every combination of events by its chance.</p>
+        </div>
+        <div class="dims" id="dims" role="tablist" aria-label="Kinds of impact"></div>
+        <div class="panel dimdetail" id="dimdetail" aria-live="polite"></div>
+        <div class="impact">
+          <div class="panel instrument graph">
+            <svg class="graph__svg" id="igraph" viewBox="0 0 760 420" role="img" aria-label="Network graph showing where the events you've included hit Halvorsen's network. Select a node to see its impact."></svg>
+            <p class="graph__legend"><i class="gl gl--hot"></i>Expected loss <i class="gl gl--ring"></i>Hit directly <i class="gl gl--alt"></i>Alternate route <i class="gl gl--trace"></i>Path of the selection</p>
+          </div>
+          <aside class="panel inspector" id="iasset" aria-live="polite"></aside>
+        </div>
+        <div class="panel table-panel">
+          <div class="hit__head">
+            <h3 class="panel__title">Everything in the path <span class="hit__count" data-out="hit-count"></span></h3>
+            <div class="hit__teams" id="hit-teams" role="group" aria-label="Filter by team"></div>
+          </div>
+          <div class="table-wrap"><table class="table register" id="hit">
+            <thead><tr><th scope="col">Asset</th><th scope="col">How it's reached</th><th scope="col">Owner</th><th scope="col" class="r">Impact</th></tr></thead>
+            <tbody></tbody>
+          </table></div>
+        </div>
+      </section>
+
+      <!-- 4. Decide -->
+      <section class="step" data-panel="decide" role="tabpanel" aria-labelledby="de-title" hidden>
+        <div class="step__head">
+          <h2 class="step__title" id="de-title">what to do about it</h2>
+          <p class="step__note" data-out="carry-decide"></p>
+        </div>
+        <div class="op-actions">
+          <button class="btn btn--primary btn--sm" type="button" data-recommend="staffed">Recommend a plan we can deliver</button>
+          <button class="btn btn--ghost btn--sm" type="button" data-recommend="best">Best plan, ignoring capacity</button>
+          <button class="btn btn--ghost btn--sm" type="button" data-recommend="none">Clear the plan</button>
+          <span class="op-actions__gap"></span>
+          <label class="op-sort"><span>Sort by</span>
+            <select class="num-input" id="op-sort"><option value="net">Net value</option><option value="value">Value</option><option value="cost">Cost</option><option value="lead">Lead time</option></select></label>
+        </div>
+        <div class="panel table-panel">
+          <div class="table-wrap">
+            <table class="table options" id="options">
+              <thead><tr><th scope="col"><span class="sr-only">In plan</span></th><th scope="col">Action</th><th scope="col">Protects</th><th scope="col" class="r">Value</th><th scope="col" class="r">Cost</th><th scope="col" class="r">Net</th><th scope="col">Timing</th><th scope="col">Led by</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <p class="table-note">Value is how much expected loss the action removes, given the rest of the plan, if it lands in time and in full. Net is value minus cost. How and by whom is decided in Deliver.</p>
+        </div>
+        <div class="panel instrument frontier">
+          <div class="frontier__head">
+            <div class="frontier__top">
+              <h3 class="frontier__title">The best plan at every budget <span class="frontier__hint">Click a dot to adopt that plan</span></h3>
+              <label class="frontier__all"><input type="checkbox" id="frontier-all"> Show all 512 combinations</label>
+            </div>
+            <p class="frontier__note" data-out="frontier-note"></p>
+          </div>
+          <svg class="frontier__svg" id="frontier" viewBox="0 0 640 300" role="img" aria-label="Plans by cost and expected loss, with the efficient frontier and your plan highlighted."></svg>
+        </div>
+      </section>
+
+      <!-- 5. Deliver -->
+      <section class="step" data-panel="deliver" role="tabpanel" aria-labelledby="dl-title" hidden>
+        <div class="step__head">
+          <h2 class="step__title" id="dl-title">who has to do it</h2>
+          <p class="step__note">Open a team to see its people, choose how each action gets done, who works on it and when it starts. A stretched crew lands late, and a late or scaled-back action protects less.</p>
+        </div>
+        <div class="board" id="board" role="tablist" aria-label="Teams"></div>
+        <div class="panel teamws" id="teamws" role="tabpanel" aria-live="polite"></div>
+        <div class="panel instrument gantt">
+          <h3 class="panel__title">Timeline, from today</h3>
+          <svg class="gantt__svg" id="gantt" viewBox="0 0 720 260" role="img" aria-label="Timeline of each action in the plan from its start to when it's in place, against its deadline"></svg>
+        </div>
+      </section>
+
+      <!-- 6. Consequences -->
+      <section class="step" data-panel="outcomes" role="tabpanel" aria-labelledby="co-title" hidden>
+        <div class="step__head">
+          <h2 class="step__title" id="co-title">what your decision changes</h2>
+          <p class="step__note">Your plan as it will actually be delivered, against doing nothing, across every kind of impact from stage 3.</p>
+        </div>
+        <div class="panel compare">
+          <div class="table-wrap"><table class="table compare__table">
+            <thead><tr><th scope="col"></th><th scope="col" class="r">Do nothing</th><th scope="col" class="r">Your plan</th></tr></thead>
+            <tbody id="compare"></tbody>
+          </table></div>
+        </div>
+        <div class="co-grid">
+          <div class="panel instrument">
+            <h3 class="panel__title">Spread of outcomes</h3>
+            <svg class="hist" id="hist" viewBox="0 0 520 220" role="img" aria-label="Histogram of simulated losses with and without your plan"></svg>
+            <p class="hist__note" data-out="hist-note"></p>
+          </div>
+          <div class="panel instrument">
+            <h3 class="panel__title">What moves the number most</h3>
+            <svg class="tornado" id="tornado" viewBox="0 0 520 240" role="img" aria-label="Sensitivity of expected loss to each included event's probability and severity"></svg>
+            <p class="hist__note">Expected loss with your plan, if each input were a little lower (left) or higher (right).</p>
+          </div>
+        </div>
+        <div class="panel">
+          <h3 class="panel__title">Every way this could play out</h3>
+          <div class="table-wrap"><table class="table table--tight" id="combos">
+            <thead><tr><th scope="col">What happens</th><th scope="col" class="r">Chance</th><th scope="col" class="r">Nothing</th><th scope="col" class="r">Plan</th></tr></thead>
+            <tbody></tbody>
+          </table></div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ================= Your model and data: what every scenario runs on ================= -->
+    <div class="mode" data-mode="model" hidden>
+      <div class="modelbar">
+        <p>This is the model every scenario runs on: your assets, how they depend on each other, your teams and your data. Edits here flow into every stage of the scenario. <b data-out="model-edits"></b></p>
+        <button class="btn btn--primary btn--sm" type="button" id="back-scenario">Back to the scenario</button>
+      </div>
+      <div class="viewbar">
+        <div class="seg seg--light" role="tablist" aria-label="Model view">
+          <label><input type="radio" name="wview" value="network" checked><span>Network</span></label>
+          <label><input type="radio" name="wview" value="assets"><span>Assets</span></label>
+          <label><input type="radio" name="wview" value="org"><span>Teams</span></label>
+          <label><input type="radio" name="wview" value="data"><span>Data</span></label>
+        </div>
+        <p class="viewbar__count" data-out="asset-count"></p>
+      </div>
+      <div class="world" data-mview="world">
+        <div class="world__view">
+          <div data-view="network">
+            <div class="panel instrument graph">
+              <svg class="graph__svg" id="graph" viewBox="0 0 760 420" role="img" aria-label="Network graph of Halvorsen's suppliers, ports, plants, distribution centres and chokepoints. Select a node to inspect it and trace its dependencies."></svg>
+              <p class="graph__legend"><i class="gl gl--hot"></i>Expected loss <i class="gl gl--ring"></i>Touched by an included event <i class="gl gl--alt"></i>Alternate route <i class="gl gl--trace"></i>Dependency of the selection</p>
+            </div>
+          </div>
+          <div data-view="assets" hidden>
+            <div class="register__bar">
+              <label class="register__search"><span class="sr-only">Search assets</span><input class="num-input" type="search" id="asset-q" placeholder="Search assets, places, owners"></label>
+              <div class="register__types" id="asset-types" role="group" aria-label="Filter by type"></div>
+            </div>
+            <div class="panel table-panel">
+              <div class="table-wrap">
+                <table class="table register" id="register">
+                  <thead><tr><th scope="col">Asset</th><th scope="col">Type</th><th scope="col">Owner</th><th scope="col">Key figure</th><th scope="col" class="r">Exposure</th></tr></thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div data-view="org" hidden>
+            <div class="org" id="org"></div>
+          </div>
+        </div>
+        <aside class="panel inspector" aria-labelledby="ins-title">
+          <p class="eyebrow inspector__type" data-out="type"></p>
+          <h3 class="inspector__title" id="ins-title" data-out="name"></h3>
+          <p class="inspector__desc" data-out="desc"></p>
+          <div class="inspector__body" id="inspector"></div>
+        </aside>
+      </div>
+      <div class="dataview" data-mview="data" hidden>
+        <div class="data-grid">
+          <div class="panel">
+            <h3 class="panel__title">Load a dataset</h3>
+            <div class="drop">
+              <label class="btn btn--primary btn--sm drop__pick">Choose a CSV<input type="file" accept=".csv,text/csv" id="csv-file"></label>
+              <button class="btn btn--ghost btn--sm" type="button" id="csv-sample">Use a sample inventory file</button>
+            </div>
+            <p class="field__hint" data-out="csv-status">Nothing loaded yet. Files are read in your browser; nothing is uploaded.</p>
+            <div id="csv-preview"></div>
+            <div class="mapping" id="csv-mapping" hidden>
+              <p class="mapping__title">Map columns to the model</p>
+              <label class="field"><span class="field__top">Site</span><select class="num-input" data-map="site"></select></label>
+              <label class="field"><span class="field__top">Days of cover</span><select class="num-input" data-map="cover"></select></label>
+              <label class="field"><span class="field__top">Daily cost of a stop ($M)</span><select class="num-input" data-map="rate"></select></label>
+              <button class="btn btn--primary btn--sm" type="button" id="csv-apply">Apply to the world model</button>
+            </div>
+          </div>
+          <div class="panel">
+            <h3 class="panel__title">Build a custom signal</h3>
+            <form class="signal-form" id="signal-form">
+              <label class="field"><span class="field__top">Name</span><input class="num-input" name="name" required placeholder="Jebel Ali dwell time"></label>
+              <label class="field"><span class="field__top">Watches</span><input class="num-input" name="rule" required placeholder="Average container dwell above 60 hours"></label>
+              <label class="field"><span class="field__top">Moves</span><select class="num-input" name="event"></select></label>
+              <label class="field"><span class="field__top">When it fires <span class="field__val" data-out="sig-pts">+6 pts</span></span><input type="range" name="pts" min="-15" max="15" step="1" value="6"></label>
+              <button class="btn btn--primary btn--sm" type="submit">Add signal</button>
+            </form>
+            <ul class="signals" id="signals"></ul>
+          </div>
+        </div>
+        <div class="data-grid">
+          <div class="panel">
+            <h3 class="panel__title">Connected sources</h3>
+            <ul class="sources" id="sources">
+              <li><i class="ok"></i><span>SAP S/4HANA<small>POs and BOMs, 4 min ago</small></span></li>
+              <li><i class="ok"></i><span>Kinaxis RapidResponse<small>Supply plan, 12 min ago</small></span></li>
+              <li><i class="ok"></i><span>AIS stream<small>Vessel positions, live</small></span></li>
+              <li><i class="ok"></i><span>War-risk broker feed<small>Gulf quotes, 3 h ago</small></span></li>
+              <li><i class="ok"></i><span>Workday<small>Teams and availability, 1 h ago</small></span></li>
+              <li><i class="warn"></i><span>Gebze MES<small>Schema drift: 2 fields unmapped</small></span></li>
+            </ul>
+          </div>
+          <div class="panel instrument code">
+            <div class="code__head">
+              <h3 class="panel__title">Same thing, in the SDK</h3>
+              <button class="btn btn--ghost btn--sm" type="button" id="copy">Copy</button>
+            </div>
+            <pre><code id="code"></code></pre>
+          </div>
+        </div>
+      </div>
     </div>
     <!-- Ask Daybreak: available on every step -->
     <button class="asklaunch" type="button" id="ask-open" aria-expanded="false" aria-controls="askdrawer">
