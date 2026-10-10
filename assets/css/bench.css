@@ -438,10 +438,11 @@ select.num-input, input.num-input { font-family: var(--font); background: #fff; 
 .dims { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0.6rem; }
 .dim {
   display: grid; align-content: start; gap: 0.1rem; text-align: left; cursor: pointer; min-height: 44px;
-  padding: 0.85rem 0.95rem; border-radius: var(--radius); border: 1.5px solid transparent; background: rgba(255, 255, 255, 0.6); color: var(--ink);
+  padding: 0.85rem 0.95rem; border-radius: var(--radius); border: 1.5px solid transparent; background: rgba(255, 255, 255, 0.5); color: var(--ink);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); transition: background-color 0.2s ease, box-shadow 0.2s ease;
 }
-.dim:hover { background: #fff; }
-.dim.is-on { background: #fff; box-shadow: var(--shadow-card), inset 0 -3px 0 var(--ember); }
+.dim:hover { background: rgba(255, 255, 255, 0.72); }
+.dim.is-on { background: #fff; box-shadow: var(--shadow-card); }
 .dim__name { font-size: 0.75rem; font-weight: 700; color: var(--ember-deep); }
 .dim__val { font-size: 1.3rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1.15; margin-top: 0.2rem; }
 .dim__lab { font-size: 0.78rem; font-weight: 600; }
