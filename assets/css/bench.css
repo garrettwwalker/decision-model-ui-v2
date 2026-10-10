@@ -270,9 +270,8 @@ select.num-input, input.num-input { font-family: var(--font); background: #fff; 
 .org__col { position: relative; display: grid; gap: 0.75rem; }
 .org__lines { position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none; }
 .org__lines path { fill: none; stroke: rgba(10, 23, 34, 0.28); stroke-width: 1.5; stroke-linecap: round; }
-.org__exec { position: relative; padding: 0.2rem 0 0.35rem; color: var(--ink); display: grid; gap: 0.1rem; }
-.org__exec b { font-size: 1.15rem; font-weight: 800; letter-spacing: -0.025em; }
-.org__role { font-size: 0.75rem; color: var(--ink-2); font-weight: 600; }
+.org__exec { position: relative; padding: 0.85rem 1rem; border-radius: var(--radius); background: #fff; color: var(--ink); box-shadow: var(--shadow-card); display: grid; gap: 0.15rem; }
+.org__role { font-size: 0.75rem; color: var(--ember-deep); font-weight: 700; }
 .org__kids { list-style: none; margin: 0; padding: 0 0 0 2.6rem; display: grid; gap: 0.6rem; }
 .org__team {
   width: 100%; text-align: left; cursor: pointer; display: grid; gap: 0.35rem;
@@ -693,3 +692,9 @@ select.num-input, input.num-input { font-family: var(--font); background: #fff; 
 .tbar--lo { fill: var(--safe); }
 .tbar--hi { fill: var(--loss); }
 .tmid { stroke: var(--ember-deep); }
+
+/* team cards are frosted until selected */
+.org__team { background: rgba(255, 255, 255, 0.5); box-shadow: none; border-color: rgba(255, 255, 255, 0.6); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); transition: background-color 0.2s ease, box-shadow 0.2s ease; }
+.org__team:hover { background: rgba(255, 255, 255, 0.72); border-color: rgba(255, 255, 255, 0.9); }
+.org__team.is-sel { background: #fff; border-color: transparent; box-shadow: var(--shadow-card); }
+.org__team .av { background: rgba(10, 23, 34, 0.07); }

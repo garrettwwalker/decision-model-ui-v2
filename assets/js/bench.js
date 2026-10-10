@@ -1479,7 +1479,7 @@
       var old = col.querySelector(".org__lines"); if (old) old.remove();
       var exec = col.querySelector(".org__exec"), cards = col.querySelectorAll(".org__team");
       if (!exec || !cards.length || !col.offsetWidth) return;
-      var x = exec.offsetLeft + 10, y0 = exec.offsetTop + exec.offsetHeight + 2, r = 12;
+      var x = exec.offsetLeft + 22, y0 = exec.offsetTop + exec.offsetHeight, r = 12;
       var svgEl = sv("svg", { class: "org__lines", width: col.offsetWidth, height: col.offsetHeight, "aria-hidden": "true" });
       cards.forEach(function (c) {
         var y = c.offsetTop + Math.min(30, c.offsetHeight / 2), x1 = c.offsetLeft;
