@@ -467,7 +467,6 @@
   function setMode(m) {
     var from = document.querySelector('[data-mode="' + mode + '"]'), to = document.querySelector('[data-mode="' + m + '"]');
     mode = m;
-    document.getElementById("reset").hidden = m !== "scenario";
     slideTo(from, to, m === "model" ? 1 : -1);
     document.querySelectorAll("[data-mode-btn]").forEach(function (b) { b.setAttribute("aria-selected", String(b.getAttribute("data-mode-btn") === m)); });
   }
@@ -501,6 +500,7 @@
   // every stage ends by handing over to the next one
   document.querySelectorAll("[data-panel]").forEach(function (p) {
     var id = p.getAttribute("data-panel"), i = STAGES.indexOf(id), foot = el("div", { class: "step__foot" });
+    var r = el("button", { class: "btn btn--ghost btn--sm step__reset", type: "button" }); r.addEventListener("click", resetAll); foot.appendChild(r);
     if (i > 0) { var b = el("button", { class: "btn btn--ghost btn--sm", type: "button" }, "Back"); b.addEventListener("click", function () { goTo(STAGES[i - 1]); }); foot.appendChild(b); }
     if (NEXT[id]) { var n = el("button", { class: "btn btn--primary btn--sm", type: "button" }, NEXT[id]); n.addEventListener("click", function () { goTo(STAGES[i + 1]); }); foot.appendChild(n); }
     else { var c = el("button", { class: "btn btn--primary btn--sm", type: "button" }, "Commit as scenario"); c.addEventListener("click", function () { commitScenario(); }); foot.appendChild(c); }
@@ -1761,11 +1761,27 @@
   }
   var logTimer;
   function changed(msg) {
+    if (justReset) { justReset = false; paintReset(); } // any change after a reset clears its tick
     render(false);
     if (msg) log(msg);
     else { clearTimeout(logTimer); logTimer = setTimeout(function () { log("Re-ran the scenario: " + money(Edel(plan)) + " expected"); }, 700); }
   }
-  document.getElementById("reset").addEventListener("click", function () { resetState(); focus = null; rebuild(); markPreset("morning"); changed("Reset to production"); });
+  // "Reset to baseline" sits in every stage's footer; after a reset it reads "Reset" with a tick until the next change
+  var justReset = false;
+  function paintReset() {
+    document.querySelectorAll(".step__reset").forEach(function (b) {
+      b.classList.toggle("is-done", justReset);
+      b.setAttribute("aria-label", justReset ? "Reset to baseline. Done; nothing changed since." : "Reset to baseline");
+      b.innerHTML = justReset ? '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 4.8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Reset' : "Reset to baseline";
+    });
+  }
+  function resetAll() {
+    resetState(); focus = null; rebuild(); markPreset("morning");
+    changed("Reset to production");
+    justReset = true; paintReset();
+    DB.toast("Back to this morning's baseline.");
+  }
+  paintReset();
   function commitScenario() {
     var c = countChanges();
     if (!c) { DB.toast("Nothing to commit yet. Change a contingency, the model or the plan first."); return; }
