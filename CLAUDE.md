@@ -59,8 +59,8 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   data (CSV, signals, sources, SDK) and the change log. "Reset to baseline" sits at the left of every stage's footer (scenario mode only); after a reset it reads
   "Reset" with a tick until the next change (`justReset`, cleared in `changed()`); committing
   happens from the foot of Consequences. Hormuz/Red Sea losses come from `model.js`; other events are layered on in
-  `lossOf()`. "Ask Daybreak" (`#askdrawer`, moved to `<body>` at init to clear `.page`'s stacking context) is a
-  scripted assistant: `answer()` matches intents by regex, computes replies from the live engine and offers actions.
+  `lossOf()`. "Ask Daybreak" (`#askdrawer`, moved to `<body>` at init to clear `.page`'s stacking context; it rises from the
+  sparkle button and sinks back via `drawer-in`/`drawer-out`, a bottom sheet on phones) is a scripted assistant: `answer()` matches intents by regex, computes replies from the live engine and offers actions.
 - Motion between views: `assets/js/nav.js` (in every page's `<head>`) records which way the clicked page lies in the
   nav order; the new page slides in from that side (cross-document view transitions where supported, with the
   `.bar` held still; otherwise a CSS entrance on `main` and the footer, keyed on `html[data-slide]`). In the

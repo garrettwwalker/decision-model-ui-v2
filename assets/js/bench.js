@@ -352,7 +352,8 @@
   function stats(A) {
     var k = "S" + maskOf(A);
     if (cache[k]) return cache[k];
-    var act = active(), S = { money: 0, lineDays: 0, units: 0, eu: 0, india: 0, mena: 0, crew: 0, crewP: 0, stoodP: 0, m_gebze: 0, m_pune: 0, m_dubai: 0, m_dammam: 0, m_freight: 0, m_eu: 0 };
+    var act = active(), S = { money: 0, lineDays: 0, units: 0, eu: 0, india: 0, mena: 0, crew: 0, crewP: 0, stoodP: 0, stood: 0, m_gebze: 0, m_pune: 0, m_dubai: 0, m_dammam: 0, m_freight: 0, m_eu: 0,
+      d_gebze: 0, d_pune: 0, d_dubai: 0, d_dammam: 0 };
     TRIGGERS.forEach(function (t) { S["t_" + t.id] = 0; });
     for (var m = 0; m < (1 << act.length); m++) {
       var H = {}, w = 1;
@@ -360,7 +361,8 @@
       if (!w) continue;
       var I = impactsOf(H, A, params);
       ["money", "lineDays", "units", "eu", "india", "mena", "crew"].forEach(function (x) { S[x] += w * I[x]; });
-      ["gebze", "pune", "dubai", "dammam"].forEach(function (x) { S["m_" + x] += w * I.L.nodes[x]; });
+      ["gebze", "pune", "dubai", "dammam"].forEach(function (x) { S["m_" + x] += w * I.L.nodes[x]; S["d_" + x] += w * I.L.stop[x]; });
+      S.stood += w * I.stood;
       S.m_freight += w * I.L.freight; S.m_eu += w * I.L.eu;
       if (I.crew) S.crewP += w;
       if (I.stood) S.stoodP += w;
@@ -862,51 +864,83 @@
     var ar = atRisk(S).sort(function (a, b) { return S["t_" + b.id] - S["t_" + a.id]; });
     return [plural(ar.length, "commitment"), "at risk", ar.length ? "Most likely: " + ar[0].name + ", " + pct(S["t_" + ar[0].id]) : "None above 5%"];
   }
-  function addToPlanBtn(a) {
+  function addToPlanBtn(a, bare) {
     var inPlan = !!plan[a.id];
-    var b = el("button", { class: "chip-btn chip-btn--sm" + (inPlan ? " is-on" : ""), type: "button", "aria-pressed": String(inPlan) }, inPlan ? "In the plan: " + a.name : "Add to plan: " + a.name);
+    var b = el("button", { class: "chip-btn chip-btn--sm" + (inPlan ? " is-on" : ""), type: "button", "aria-pressed": String(inPlan), "aria-label": (inPlan ? "In the plan: " : "Add to plan: ") + a.name },
+      bare ? a.name : (inPlan ? "In the plan: " : "Add to plan: ") + a.name);
     b.addEventListener("click", function () { if (plan[a.id]) delete plan[a.id]; else plan[a.id] = true; changed((plan[a.id] ? "Added: " : "Removed: ") + a.name); });
     return b;
   }
+  // the selected kind of impact, explained on the left and broken down as bars on the right:
+  // solid is the probability-weighted average, the dashed outline is the size if every included contingency happens
   function renderDimDetail(S) {
     var box = document.getElementById("dimdetail"); box.textContent = "";
-    var t = el("table", { class: "table table--tight dimtable" }), tb = el("tbody");
-    function row(cells, cls) { var tr = el("tr", cls ? { class: cls } : null); cells.forEach(function (c, i) { var td = el(i ? "td" : "th", i ? { class: "r" } : { scope: "row" }); if (c && c.nodeType) td.appendChild(c); else td.textContent = c; tr.appendChild(td); }); tb.appendChild(tr); }
-    var cols = ["On average", "If they all happen"];
+    var intro = el("div", { class: "dd__intro" }), list = el("ol", { class: "dd__rows" }), rows = [], head, body, note = "", bars = "range";
+    var hasPlan = planList(plan).length > 0;
+    function n0(v) { return Math.round(v).toLocaleString(); }
     if (dim === "money") {
-      [["Gebze plant", "gebze"], ["Pune plant", "pune"], ["Dubai DC", "dubai"], ["Dammam DC", "dammam"]].forEach(function (x) { row([x[0], money(S["m_" + x[1]]), money(S["w_m_" + x[1]])]); });
-      row(["Freight and insurance", money(S.m_freight), money(S.w_freight)]);
-      row(["Late EU deliveries", money(S.m_eu), money(S.w_eu_money)]);
+      head = "Where the " + money(S.money) + " comes from";
+      body = "Each bar is one place the loss lands. If every contingency you've included happened at once, the total would be " + money(S.w_money) + ".";
+      rows = [["Gebze plant", "Line stops on 3 lines", "gebze"], ["Pune plant", "Line stops on 2 lines", "pune"], ["Dubai DC", "Lost margin while out of stock", "dubai"], ["Dammam DC", "Lost margin while out of stock", "dammam"]]
+        .map(function (x) { return { label: x[0], sub: x[1], avg: S["m_" + x[2]], all: S["w_m_" + x[2]], f: money }; })
+        .concat([{ label: "Freight and insurance", sub: "War-risk premium, bunker, trapped cargo", avg: S.m_freight, all: S.w_freight, f: money },
+                 { label: "Late EU deliveries", sub: "Washers and dishwashers going round the Cape", avg: S.m_eu, all: S.w_eu_money, f: money }]);
     } else if (dim === "ops") {
-      row(["Gebze stopped (3 lines)", "", days(S.w_stop_gebze)]);
-      row(["Pune stopped (2 lines)", "", days(S.w_stop_pune)]);
-      row(["Line-days lost, both plants", Math.round(S.lineDays), Math.round(S.w_lineDays)]);
-      row(["Units not built", Math.round(S.units).toLocaleString(), Math.round(S.w_units).toLocaleString()]);
-      row(["Dubai DC out of stock", "", days(S.w_stop_dubai)]);
-      row(["Dammam DC out of stock", "", days(S.w_stop_dammam)]);
+      head = n0(S.lineDays) + " production line-days lost, on average";
+      body = "How long each site stops. If everything happened at once, the plants would lose " + n0(S.w_lineDays) + " line-days, about " + n0(S.w_units) + " units not built.";
+      rows = [["Gebze plant stopped", "3 lines, 6,200 units a day", "gebze"], ["Pune plant stopped", "2 lines, 4,100 units a day", "pune"], ["Dubai DC out of stock", "Serves GCC retail", "dubai"], ["Dammam DC out of stock", "Serves KSA retail", "dammam"]]
+        .map(function (x) { return { label: x[0], sub: x[1], avg: S["d_" + x[2]], all: S["w_stop_" + x[2]], f: days }; });
     } else if (dim === "customers") {
-      [["EU retail", "eu", "38% of revenue"], ["India retail", "india", "21% of revenue"], ["MENA retail", "mena", "17% of revenue"]].forEach(function (x) {
-        row([x[0] + ", " + x[2], days(S[x[1]]) + " short", days(S["w_" + x[1]]) + " short"]);
-      });
-      row(["Chance of MENA late-delivery penalties", pct(S.t_mena), S.w_mena > 7 ? "Triggered" : "Not triggered"]);
+      head = "How long each market goes short";
+      body = "Days of short supply by market. Two MENA partners can claim late-delivery penalties after 7 days short; the chance of that is " + pct(S.t_mena) + ".";
+      rows = [["EU retail", "38% of revenue", "eu"], ["India retail", "21% of revenue", "india"], ["MENA retail", "17% of revenue, penalties after 7 days", "mena"]]
+        .map(function (x) { return { label: x[0], sub: x[1], avg: S[x[2]], all: S["w_" + x[2]], f: days }; });
     } else if (dim === "people") {
-      row(["Seafarers on chartered ships inside the strait", pct(S.crewP) + " chance", (S.w_crew ? Math.min(S.w_crew, CREW_IN) : 0) + " people"]);
-      row(["Seafarers on the two ships headed for it", plan.divert ? "Diverted" : pct(S.crewP) + " chance", (S.w_crew > CREW_IN ? CREW_OUT : 0) + " people"]);
-      row(["Plant staff stood down", pct(S.stoodP) + " chance", S.w_stood.toLocaleString() + " people"]);
-      row(["Your teams' capacity for the response", "", readiness(plan).late.length + readiness(plan).overPeople.length ? "Overstretched" : planList(plan).length ? "Enough" : "No plan yet"]);
+      head = "Who's in harm's way";
+      body = "People exposed if the contingencies happen. The solid part is the expected number, given the chance of each contingency.";
+      var inside = S.w_crew ? Math.min(S.w_crew, CREW_IN) : 0, headed = S.w_crew > CREW_IN ? CREW_OUT : 0;
+      rows = [{ label: "Seafarers inside the strait", sub: "Crew on 3 chartered ships", avg: S.crewP * inside, all: inside, f: n0 },
+              { label: "Seafarers headed for it", sub: plan.divert ? "Diverted to Khor Fakkan by your plan" : "Crew on the 2 ships that could still divert", avg: S.crewP * headed, all: headed, f: n0 },
+              { label: "Plant staff stood down", sub: "Gebze and Pune, while lines are stopped", avg: S.stood, all: S.w_stood, f: n0 }];
+      var r = readiness(plan);
+      note = "Your own teams: " + (!hasPlan ? "no response work assigned yet." : r.late.length + r.overPeople.length ? plural(r.overPeople.length, "person", "people") + " overstretched by the plan; see Deliver." : "the plan fits in everyone's week.");
     } else {
-      cols = ["Chance", "Accountable team"];
-      TRIGGERS.forEach(function (tg) {
-        var fixes = el("span", { class: "dimfix" });
-        tg.fix.map(actionById).forEach(function (a) { if (!plan[a.id]) fixes.appendChild(addToPlanBtn(a)); });
-        var name = el("span"); name.appendChild(el("b", null, tg.name)); name.appendChild(el("small", null, tg.note)); if (fixes.children.length && S["t_" + tg.id] > 0.005) name.appendChild(fixes);
-        row([name, pct(S["t_" + tg.id]), TEAMS[tg.team].name], S["t_" + tg.id] > 0.05 ? "is-hot" : "");
-      });
+      bars = "chance";
+      var ar = atRisk(S);
+      head = plural(ar.length, "commitment") + " at risk";
+      body = "The chance each commitment is breached, and who answers for it. Add an action to your plan to protect one.";
+      rows = TRIGGERS.map(function (tg) {
+        var fixes = tg.fix.map(actionById).filter(function (a) { return !plan[a.id]; });
+        return { label: tg.name, sub: tg.note + ". " + TEAMS[tg.team].name + " answers for it.", avg: S["t_" + tg.id], all: null, f: pct, fixes: S["t_" + tg.id] > 0.005 ? fixes : [] };
+      }).sort(function (a, b) { return b.avg - a.avg; });
     }
-    var th = el("thead"); var hr = el("tr"); hr.appendChild(el("th", { scope: "col" }, DIMS.filter(function (d) { return d.id === dim; })[0].name)); cols.forEach(function (c) { hr.appendChild(el("th", { scope: "col", class: "r" }, c)); }); th.appendChild(hr);
-    t.appendChild(th); t.appendChild(tb);
-    var wrap = el("div", { class: "table-wrap" }); wrap.appendChild(t); box.appendChild(wrap);
-    if (planList(plan).length) box.appendChild(el("p", { class: "table-note" }, "These figures assume you do nothing, so they show what's at stake. Stage 6 compares them with your plan."));
+    intro.appendChild(el("h3", { class: "dd__head" }, head));
+    intro.appendChild(el("p", { class: "dd__body" }, body));
+    var key = el("p", { class: "dd__key" });
+    if (bars === "range") { key.appendChild(el("span", null, "")).appendChild(el("i", { class: "dd__sw dd__sw--avg" })); key.lastChild.appendChild(document.createTextNode("On average")); key.appendChild(el("span", null, "")).appendChild(el("i", { class: "dd__sw dd__sw--all" })); key.lastChild.appendChild(document.createTextNode("If they all happen")); }
+    else { key.appendChild(el("span", null, "")).appendChild(el("i", { class: "dd__sw dd__sw--chance" })); key.lastChild.appendChild(document.createTextNode("Chance of a breach")); }
+    intro.appendChild(key);
+    if (note) intro.appendChild(el("p", { class: "dd__note" }, note));
+    if (hasPlan) intro.appendChild(el("p", { class: "dd__note" }, "These figures assume you do nothing, so they show what's at stake. Consequences compares them with your plan."));
+    var max = bars === "chance" ? 1 : Math.max(1e-9, Math.max.apply(null, rows.map(function (x) { return x.all; })));
+    rows.forEach(function (x) {
+      var li = el("li", { class: "ddrow" + (bars === "chance" && x.avg > 0.05 ? " is-hot" : "") });
+      var lab = el("div", { class: "ddrow__lab" }); lab.appendChild(el("b", null, x.label)); lab.appendChild(el("small", null, x.sub));
+      li.appendChild(lab);
+      var track = el("div", { class: "ddrow__bar", role: "img", "aria-label": x.label + ": " + x.f(x.avg) + (x.all != null ? " on average, " + x.f(x.all) + " if they all happen" : "") });
+      if (x.all != null) { var o = el("i", { class: "ddrow__all" }); o.style.width = (100 * x.all / max) + "%"; track.appendChild(o); }
+      var a = el("i", { class: "ddrow__avg" + (bars === "chance" ? " ddrow__avg--chance" : "") }); a.style.width = Math.max(x.avg > 0.0005 ? 0.6 : 0, 100 * x.avg / max) + "%"; track.appendChild(a);
+      li.appendChild(track);
+      var val = el("div", { class: "ddrow__val" }); val.appendChild(el("b", null, x.f(x.avg)));
+      if (x.all != null) val.appendChild(el("small", null, x.f(x.all) + " if all happen"));
+      li.appendChild(val);
+      if (x.fixes && x.fixes.length) {
+        var fx = el("div", { class: "ddrow__fix" }); fx.appendChild(el("span", { class: "ddrow__fixlab" }, "Protect it by adding:"));
+        x.fixes.forEach(function (a) { fx.appendChild(addToPlanBtn(a, true)); }); li.appendChild(fx);
+      }
+      list.appendChild(li);
+    });
+    box.appendChild(intro); box.appendChild(list);
   }
   function renderImpact() {
     var S = stats({}), R = reach(focus);
@@ -1804,9 +1838,16 @@
     outcomes: ["Is my plan worth it?", "What's the worst that could happen?", "What's driving the loss?"],
     model: ["What data would improve the model?", "How would a custom signal help?", "What depends on Jebel Ali?"]
   };
+  var drawerTimer;
   function setDrawer(open) {
-    drawer.hidden = !open; askOpen.setAttribute("aria-expanded", String(open));
-    document.body.classList.toggle("ask-is-open", open);
+    clearTimeout(drawerTimer);
+    askOpen.setAttribute("aria-expanded", String(open));
+    if (open) { drawer.classList.remove("is-closing"); drawer.hidden = false; document.body.classList.add("ask-is-open"); }
+    else if (!drawer.hidden) {
+      drawer.classList.add("is-closing");
+      var finish = function () { drawer.hidden = true; drawer.classList.remove("is-closing"); document.body.classList.remove("ask-is-open"); };
+      if (REDUCE) finish(); else drawerTimer = setTimeout(finish, 240);
+    }
     if (open) { renderSuggest(); if (!askLog.children.length) say({ text: ["Ask me about this scenario: what's driving the loss, what to do, who has to do it, or what a change would cost. I answer from the numbers on screen and can make the change for you."] }); askInput.focus(); }
     else askOpen.focus();
   }
