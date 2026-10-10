@@ -108,10 +108,12 @@
         <div class="dims" id="dims" role="tablist" aria-label="Kinds of impact"></div>
         <div class="panel dimdetail" id="dimdetail" aria-live="polite"></div>
         <div class="impact">
-          <div class="panel instrument graph">
-            <svg class="graph__svg" id="igraph" viewBox="0 0 760 420" role="img" aria-label="Network graph showing where the contingencies you've included hit Halvorsen's network. Select a node to see its impact."></svg>
-            <p class="graph__legend"><i class="gl gl--hot"></i>Expected loss <i class="gl gl--ring"></i>Hit directly <i class="gl gl--alt"></i>Alternate route <i class="gl gl--trace"></i>Path of the selection</p>
-          </div>
+          <figure class="panel imap">
+            <div class="imap__scroll">
+              <svg class="imap__svg" id="imap" viewBox="0 0 1000 500" role="img" aria-label="Map from Türkiye to Korea showing Halvorsen's plants, ports, chokepoints and shipping lanes, with an enlarged inset of the Gulf. Places hit by the contingencies you've included are ringed; select one to see its impact."></svg>
+            </div>
+            <figcaption class="imap__key"><span><i class="k k--loss"></i>Expected loss</span><span><i class="k k--ring"></i>Hit directly</span><span><i class="k k--lane"></i>Shipping lane</span><span><i class="k k--alt"></i>Alternate route</span><span><i class="k k--trace"></i>Path of the selection</span></figcaption>
+          </figure>
           <aside class="panel inspector" id="iasset" aria-live="polite"></aside>
         </div>
         <div class="panel table-panel">
@@ -343,6 +345,7 @@
   <script src="assets/js/sky.js"></script>
   <script>Sky.drift(document.body);</script>
   <script src="assets/js/model.js"></script>
+  <script src="assets/js/bench-map.js"></script>
   <script src="assets/js/bench.js"></script>
 </body>
 </html>

@@ -759,6 +759,107 @@
   }
   function teamName(t) { return t ? TEAMS[t].name : "Watched by Daybreak"; }
 
+  /* ================= 3. Impact: the map ================= */
+  // where each graph node sits, in lon/lat; the Gulf ones are too close together at this scale, so they get an inset
+  var GEO = { busan: [129.04, 35.10], ningbo: [121.85, 29.93], kaoh: [120.28, 22.61], sing: [103.82, 1.26], pune: [73.86, 18.52],
+    khor: [56.35, 25.34], hormuz: [56.45, 26.57], dubai: [55.03, 25.01], mesaieed: [51.55, 24.99], dammam: [50.10, 26.43], jubail: [49.66, 27.01],
+    bab: [43.4, 12.6], suez: [32.55, 30.0], gebze: [29.43, 40.80] };
+  var GULF = { khor: 1, hormuz: 1, dubai: 1, mesaieed: 1, dammam: 1, jubail: 1 };
+  // projections shared with tools/bench-map.py
+  var IX = 10, IY = 344, IW = 265, IH = 152;
+  function MP(ll) { return [(ll[0] - 24) * 9.06, (46 - ll[1]) * 10]; }
+  function IP(ll) { return [IX + (ll[0] - 47.8) * 27, IY + (28.6 - ll[1]) * 29.8]; }
+  // sea lanes, as waypoints that keep each route at sea; khor-dubai is the road from the east coast
+  var LANES = {
+    "jubail-hormuz": [[49.66, 27.01], [50.6, 27.3], [52, 26.9], [53.5, 26.3], [55, 26.2], [56.0, 26.4], [56.45, 26.57]],
+    "mesaieed-hormuz": [[51.55, 24.99], [52.2, 25.3], [53.5, 25.9], [55, 26.15], [56.0, 26.4], [56.45, 26.57]],
+    "dammam-hormuz": [[50.10, 26.43], [50.7, 26.95], [52, 26.85], [53.5, 26.3], [55, 26.2], [56.0, 26.4], [56.45, 26.57]],
+    "dubai-hormuz": [[55.03, 25.01], [55.4, 25.55], [56.0, 26.3], [56.45, 26.57]],
+    "hormuz-pune": [[56.45, 26.57], [57.2, 25.6], [59, 24], [66, 21], [72.7, 19.0], [73.86, 18.52]],
+    "hormuz-bab": [[56.45, 26.57], [57.2, 25.6], [58.6, 24.5], [60.3, 22.4], [57.6, 17.2], [52, 14], [46, 12.2], [43.4, 12.6]],
+    "bab-suez": [[43.4, 12.6], [42.3, 14.8], [39.5, 19], [37.2, 22.5], [34.8, 26.4], [33.3, 28.4], [32.55, 30.0]],
+    "suez-gebze": [[32.55, 30.0], [32.35, 31.2], [30, 33.4], [27.5, 35.6], [25.9, 37.9], [26.2, 40.05], [26.8, 40.4], [28.8, 40.85], [29.43, 40.80]],
+    "busan-ningbo": [[129.04, 35.1], [127, 33], [124, 31], [122.3, 30.0], [121.85, 29.93]],
+    "ningbo-kaoh": [[121.85, 29.93], [122.4, 29], [121, 26.5], [119.8, 24.8], [119.9, 23], [120.28, 22.61]],
+    "kaoh-sing": [[120.28, 22.61], [118, 19.5], [112, 12], [107.5, 6], [104.5, 2.3], [103.82, 1.26]],
+    "sing-hormuz": [[103.82, 1.26], [101, 2.9], [98.5, 4.7], [95.5, 6.3], [90, 6], [81, 5.0], [73, 10], [64, 18.5], [60.5, 22.6], [58.6, 24.5], [57.2, 25.6], [56.45, 26.57]],
+    "sing-khor": [[103.82, 1.26], [101, 2.9], [98.5, 4.7], [95.5, 6.3], [90, 6], [81, 5.0], [73, 10], [64, 18.5], [60.5, 22.6], [58.4, 24.4], [57, 25.1], [56.35, 25.34]],
+    "khor-dubai": [[56.35, 25.34], [55.8, 25.2], [55.03, 25.01]],
+    "sing-pune": [[103.82, 1.26], [101, 2.9], [98.5, 4.7], [95.5, 6.3], [90, 6], [81, 5.0], [76, 8.8], [73.5, 14], [72.7, 18.9], [73.86, 18.52]],
+    "sing-bab": [[103.82, 1.26], [101, 2.9], [98.5, 4.7], [95.5, 6.3], [90, 6], [81, 5.0], [70, 8], [58, 11], [51.6, 12.4], [46, 12.2], [43.4, 12.6]]
+  };
+  // where each label sits: [dx, dy, anchor], in main-map or inset units
+  var LAB = { gebze: [10, 4, "start"], suez: [-9, 4, "end"], bab: [9, -6, "start"], pune: [12, 4, "start"], sing: [-10, 14, "end"], kaoh: [10, 4, "start"],
+    ningbo: [10, 4, "start"], busan: [10, 4, "start"],
+    jubail: [-8, -6, "end"], dammam: [10, 4, "start"], mesaieed: [-9, 12, "end"], dubai: [-4, 22, "middle"], hormuz: [0, -14, "middle"], khor: [10, 4, "start"] };
+  var REGIONS = [["TÜRKIYE", 37, 38.0], ["EGYPT", 29.2, 25.8], ["SAUDI ARABIA", 43.6, 22.4], ["IRAN", 55.5, 32.4], ["INDIA", 78.5, 21.5], ["CHINA", 106, 32.5], ["OMAN", 55.8, 19.6]];
+  var SEAS = [["Arabian Sea", 63.5, 14], ["Bay of Bengal", 88.5, 15], ["South China Sea", 113.5, 15.5], ["Red Sea", 36.6, 21], ["Indian Ocean", 78, 1.5]];
+  function smooth(pts) {
+    var d = "M" + pts[0][0].toFixed(1) + " " + pts[0][1].toFixed(1);
+    for (var i = 0; i < pts.length - 1; i++) {
+      var p0 = pts[i - 1] || pts[i], p1 = pts[i], p2 = pts[i + 1], p3 = pts[i + 2] || p2;
+      d += " C" + (p1[0] + (p2[0] - p0[0]) / 6).toFixed(1) + " " + (p1[1] + (p2[1] - p0[1]) / 6).toFixed(1) + " " +
+        (p2[0] - (p3[0] - p1[0]) / 6).toFixed(1) + " " + (p2[1] - (p3[1] - p1[1]) / 6).toFixed(1) + " " + p2[0].toFixed(1) + " " + p2[1].toFixed(1);
+    }
+    return d;
+  }
+  var imap = document.getElementById("imap"), imapLayer = null;
+  function mapBase() {
+    var B = window.BENCH_MAP || { main: "", inset: "" };
+    imap.appendChild(sv("rect", { x: 0, y: 0, width: 1000, height: 500, class: "imap__sea" }));
+    imap.appendChild(sv("path", { d: B.main, class: "imap__land" }));
+    REGIONS.forEach(function (r) { var p = MP([r[1], r[2]]); imap.appendChild(sv("text", { x: p[0], y: p[1], class: "imap__region", "text-anchor": "middle" }, r[0])); });
+    SEAS.forEach(function (r) { var p = MP([r[1], r[2]]); imap.appendChild(sv("text", { x: p[0], y: p[1], class: "imap__seaname", "text-anchor": "middle" }, r[0])); });
+    // the Gulf, boxed on the main map and enlarged in the corner
+    var a = MP([47.8, 28.6]), b = MP([57.6, 23.5]);
+    imap.appendChild(sv("rect", { x: a[0], y: a[1], width: b[0] - a[0], height: b[1] - a[1], class: "imap__box" }));
+    imap.appendChild(sv("path", { d: "M" + a[0] + " " + b[1] + " L" + IX + " " + IY + " M" + b[0] + " " + b[1] + " L" + (IX + IW) + " " + IY, class: "imap__leader" }));
+    var defs = sv("defs"), cp = sv("clipPath", { id: "imap-clip" }), mk = sv("mask", { id: "imap-out", maskUnits: "userSpaceOnUse", x: 0, y: 0, width: 1000, height: 500 });
+    cp.appendChild(sv("rect", { x: IX, y: IY, width: IW, height: IH, rx: 10 })); defs.appendChild(cp);
+    mk.appendChild(sv("rect", { x: 0, y: 0, width: 1000, height: 500, fill: "#fff" })); mk.appendChild(sv("rect", { x: IX - 4, y: IY - 4, width: IW + 8, height: IH + 8, rx: 12, fill: "#000" })); defs.appendChild(mk);
+    imap.appendChild(defs);
+    var g = sv("g", { "clip-path": "url(#imap-clip)" });
+    g.appendChild(sv("rect", { x: IX, y: IY, width: IW, height: IH, class: "imap__sea" }));
+    g.appendChild(sv("path", { d: B.inset, class: "imap__land" }));
+    imap.appendChild(g);
+    imap.appendChild(sv("rect", { x: IX, y: IY, width: IW, height: IH, rx: 10, class: "imap__frame" }));
+    imap.appendChild(sv("text", { x: IX + 10, y: IY + 17, class: "imap__inset-title" }, "The Gulf, enlarged"));
+    imapLayer = sv("g"); imap.appendChild(imapLayer);
+  }
+  function drawMap(nodeLoss, lit, path, pickedNode, hit, onPick) {
+    if (!imapLayer) mapBase();
+    imapLayer.textContent = "";
+    var tracing = Object.keys(path).length > 0, any = Object.keys(lit).length > 0;
+    var max = Math.max(1, Math.max.apply(null, Object.keys(nodeLoss).map(function (k) { return nodeLoss[k]; })));
+    var main = sv("g", { mask: "url(#imap-out)" }), inset = sv("g", { "clip-path": "url(#imap-clip)" }), pins = sv("g");
+    EDGES.forEach(function (e) {
+      var pts = LANES[e[0] + "-" + e[1]]; if (!pts) return;
+      var cls = "lane lane--" + e[2] + (path[e[0]] && path[e[1]] ? " is-trace" : tracing ? " is-dim" : "");
+      main.appendChild(sv("path", { d: smooth(pts.map(MP)), class: cls }));
+      inset.appendChild(sv("path", { d: smooth(pts.map(IP)), class: cls }));
+    });
+    imapLayer.appendChild(main); imapLayer.appendChild(inset);
+    Object.keys(NODES).forEach(function (id) {
+      var n = NODES[id], loss = nodeLoss[id] || 0, gulf = !!GULF[id];
+      var p = gulf ? IP(GEO[id]) : MP(GEO[id]);
+      if (gulf) { var m = MP(GEO[id]); main.appendChild(sv("circle", { cx: m[0].toFixed(1), cy: m[1].toFixed(1), r: 1.8, class: "imap__pin" + (lit[id] ? " is-lit" : "") })); }
+      var r = 4.5 + (loss > 0.01 ? 13 * Math.sqrt(loss / max) : 0);
+      var g = sv("g", { class: "mnode" + (pickedNode === id ? " is-selected" : "") + (any && !lit[id] ? " is-dim" : ""), tabindex: 0, role: "button",
+        "aria-label": n.name + (loss > 0.01 ? ", " + money(loss) + " expected loss" : "") + (hit[id] ? ", hit directly" : "") + ". Inspect." });
+      if (hit[id]) g.appendChild(sv("circle", { class: "mnode__ring", cx: p[0], cy: p[1], r: r + 5 }));
+      g.appendChild(sv("circle", { class: "mnode__halo", cx: p[0], cy: p[1], r: r + 3.5 }));
+      g.appendChild(sv("circle", { class: "mnode__dot mnode__dot--" + (loss > 0.01 ? "loss" : n.kind === "Chokepoint" ? "choke" : n.alt ? "alt" : "plain"), cx: p[0], cy: p[1], r: r.toFixed(1) }));
+      var L = LAB[id] || [10, 4, "start"], push = L[2] === "middle" ? 0 : (L[2] === "end" ? -r + 4 : r - 4);
+      var tx = p[0] + L[0] + push, ty = p[1] + L[1] + (L[1] > 12 ? r - 4 : L[1] < 0 ? -r + 4 : 0);
+      g.appendChild(sv("text", { x: tx.toFixed(1), y: ty.toFixed(1), "text-anchor": L[2], class: "mnode__name" }, n.name));
+      if (loss > 0.01) g.appendChild(sv("text", { x: tx.toFixed(1), y: (ty + 12).toFixed(1), "text-anchor": L[2], class: "mnode__val" }, money(loss)));
+      g.addEventListener("click", function () { onPick(id); });
+      g.addEventListener("keydown", function (k) { if (k.key === "Enter" || k.key === " ") { k.preventDefault(); onPick(id); } });
+      pins.appendChild(g);
+    });
+    imapLayer.appendChild(pins);
+  }
+
   /* ================= 3. Impact ================= */
   var DIMS = [
     { id: "money", name: "Money" }, { id: "ops", name: "Operations" }, { id: "customers", name: "Customers" },
@@ -844,7 +945,7 @@
     var a = assetById(isel), lit = {}, path = {};
     Object.keys(R).forEach(function (id) { var x = assetById(id); if (x.node) lit[x.node] = 1; });
     (function up(id, d) { var x = assetById(id); if (!x || d > 6) return; if (x.node) path[x.node] = 1; ((R[id] && !R[id].direct) ? [R[id].via] : (x.deps || []).filter(function (k) { return R[k]; })).forEach(function (k) { up(k, d + 1); }); })(R[isel] ? isel : null, 0);
-    drawGraph(document.getElementById("igraph"), nodeLossOf(S), { ids: lit, edges: edgesFor(path) }, a && a.node, hitNodes(focus), function (id) {
+    drawMap(nodeLossOf(S), lit, path, a && a.node, hitNodes(focus), function (id) {
       var m = mainAssetAt(id); if (m) { isel = m.id; renderImpact(); }
     });
     renderImpactAsset(R, S);
