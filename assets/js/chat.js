@@ -456,7 +456,6 @@
     opts = freshOpts(); fCrit.value = ""; fSrc.value = ""; fBy.value = opts.by; fUntil.value = "resolves"; fNotify.value = "change"; setOpts(false);
     think(function () {
       modelSays(answer(text));
-      document.body.classList.add("is-dawn"); // the first answer brings the sun up
       var card = trackingCard(o, tags);
       if (card) log.lastChild.insertBefore(card, log.lastChild.querySelector(".msg__actions, .msg__followups"));
       if (o.cadence !== "once") { standing.push({ text: text, cadence: o.cadence }); renderStanding(); }
