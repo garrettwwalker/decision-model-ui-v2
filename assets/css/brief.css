@@ -211,17 +211,33 @@
 @media (max-width: 480px) { .build { grid-template-columns: minmax(0, 1fr); } }
 .why__grid { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 2rem 3.5rem; padding-top: 1.5rem; border-top: 1.5px dashed var(--line-strong); }
 @media (max-width: 980px) { .why__grid { grid-template-columns: minmax(0, 1fr); } }
-.fall { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.45rem; --scale: 0.35; }
-.fall li { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) 2.6rem; align-items: center; gap: 0.8rem; font-size: 0.84rem; }
-.fall i { position: relative; height: 18px; }
+.fall { list-style: none; margin: 0; padding: 0; display: grid; --scale: 0.35; }
+.fall li { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) 3.6rem; align-items: center; gap: 0 0.8rem; min-height: 28px; font-size: 0.84rem; }
+.fall li > b { text-align: right; white-space: nowrap; }
+/* the bar track carries the scale's gridlines, so they run unbroken down the chart */
+.fall i {
+  position: relative; align-self: stretch;
+  background-image: linear-gradient(90deg,
+    rgba(10, 23, 34, 0.14) 0 1px, transparent 1px calc(28.571% - 0.5px),
+    rgba(10, 23, 34, 0.1) calc(28.571% - 0.5px) calc(28.571% + 0.5px), transparent calc(28.571% + 0.5px) calc(57.143% - 0.5px),
+    rgba(10, 23, 34, 0.1) calc(57.143% - 0.5px) calc(57.143% + 0.5px), transparent calc(57.143% + 0.5px) calc(85.714% - 0.5px),
+    rgba(10, 23, 34, 0.1) calc(85.714% - 0.5px) calc(85.714% + 0.5px), transparent calc(85.714% + 0.5px));
+}
 .fall i::after {
-  content: ""; position: absolute; top: 0; bottom: 0;
+  content: ""; position: absolute; top: 50%; height: 18px; margin-top: -9px;
   left: calc(var(--a) / var(--scale) * 100%);
   width: max(3px, calc(var(--d) / var(--scale) * 100%));
   border-radius: 4px; background: var(--loss);
 }
-.fall li:first-child i::after { left: 0; width: calc(0.09 / var(--scale) * 100%); background: rgba(10, 23, 34, 0.3); }
+.fall li:nth-child(2) i::after { left: 0; width: calc(0.09 / var(--scale) * 100%); background: rgba(10, 23, 34, 0.3); }
 .fall__neg i::after { background: var(--safe) !important; }
+.fall__axis { min-height: 34px !important; align-items: end !important; }
+.fall__axis span { font-size: 0.74rem; font-weight: 700; color: var(--fg-2); padding-bottom: 0.3rem; }
+.fall__axis i { background-image: none; }
+.fall__axis i::after { display: none; }
+.fall__axis em { position: absolute; bottom: 0.25rem; left: calc(var(--v) / var(--scale) * 100%); transform: translateX(-50%); font-style: normal; font-size: 0.7rem; font-weight: 600; color: var(--fg-2); font-variant-numeric: tabular-nums; }
+.fall__axis em:first-child { transform: none; }
+.fall__note { margin: 0.75rem 0 0; font-size: 0.76rem; color: var(--fg-2); max-width: 34rem; }
 .fall__total { padding-top: 0.45rem; border-top: 1px dashed var(--panel-line); font-weight: 800; }
 .fall__total i::after { left: 0 !important; background: var(--ink) !important; }
 .fall b { text-align: right; font-size: 0.82rem; }
