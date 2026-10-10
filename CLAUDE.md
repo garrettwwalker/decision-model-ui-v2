@@ -16,7 +16,8 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   redirect to `team.html`; the wargame it used to hold was replaced.
 - Product pages share the landing's vocabulary: dawn ground (`t-sunrise`), white paper (`.panel`,
   pinned `.note`; every workbench chart and diagram sits on paper too), dark `.instrument` tiles only for code, lowercase burnt-dawn section
-  titles, dashed dividers, cargo tags for routes. The ask page keeps its own pre-dawn sky (`t-predawn`).
+  titles, dashed dividers, cargo tags for routes. The ask page opens in its own pre-dawn sky (`t-predawn`) and warms to dawn when the first answer
+  arrives (`body.is-dawn`: a fixed dawn layer fades in and the palette variables switch).
   The landing page runs night → dawn on scroll.
 - `assets/css/base.css` holds shared tokens and components, `app.css` the product-page
   chrome, and `landing.css`, `brief.css`, `team.css` and `bench.css` are per page.
