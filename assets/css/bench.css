@@ -267,10 +267,12 @@ select.num-input, input.num-input { font-family: var(--font); background: #fff; 
 .register__empty { color: var(--fg-2); font-size: 0.85rem; }
 .org { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; align-items: start; }
 @media (max-width: 900px) { .org { grid-template-columns: minmax(0, 1fr); } }
-.org__col { display: grid; gap: 0.75rem; }
-.org__exec { padding: 0.85rem 1rem; border-radius: var(--radius); background: #fff8f1; color: var(--ink); border: 1.5px solid var(--line-strong); display: grid; gap: 0.15rem; }
+.org__col { position: relative; display: grid; gap: 0.75rem; }
+.org__lines { position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none; }
+.org__lines path { fill: none; stroke: rgba(168, 74, 35, 0.4); stroke-width: 1.5; stroke-linecap: round; }
+.org__exec { position: relative; padding: 0.85rem 1rem; border-radius: var(--radius); background: #ffe2cc; color: var(--ink); border: 1.5px solid rgba(168, 74, 35, 0.28); display: grid; gap: 0.15rem; }
 .org__role { font-size: 0.75rem; color: var(--ember-deep); font-weight: 700; }
-.org__kids { list-style: none; margin: 0; padding: 0 0 0 1rem; border-left: 1.5px dashed var(--line-strong); display: grid; gap: 0.6rem; }
+.org__kids { list-style: none; margin: 0; padding: 0 0 0 2.6rem; display: grid; gap: 0.6rem; }
 .org__team {
   width: 100%; text-align: left; cursor: pointer; display: grid; gap: 0.35rem;
   padding: 0.75rem 0.9rem; border-radius: 12px; border: 1.5px solid transparent;
