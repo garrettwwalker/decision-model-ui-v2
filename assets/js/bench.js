@@ -277,6 +277,7 @@
     tabs.forEach(function (t) { t.setAttribute("aria-selected", String(t.getAttribute("data-step") === id)); });
     document.querySelectorAll("[data-panel]").forEach(function (p) { p.hidden = p.getAttribute("data-panel") !== id; });
     render(true);
+    if (typeof renderSuggest === "function" && !document.getElementById("askdrawer").hidden) renderSuggest();
   }
   tabs.forEach(function (t) { t.addEventListener("click", function () { showStep(t.getAttribute("data-step")); }); });
   function goTo(step) { showStep(step); window.scrollTo({ top: document.querySelector(".steps").getBoundingClientRect().top + window.scrollY - 90, behavior: "smooth" }); }
@@ -673,36 +674,46 @@
     }
     return out;
   }
+  var showAll = false;
+  document.getElementById("frontier-all").addEventListener("change", function (e) { showAll = e.target.checked; drawFrontier(); });
   function drawFrontier() {
     var plans = allPlans(), E0 = expected({}, params).E;
-    var x0 = 60, x1 = 620, y0 = 22, y1 = 250;
+    var x0 = 64, x1 = 612, y0 = 18, y1 = 236;
     var maxC = Math.max.apply(null, plans.map(function (p) { return p.cost; }));
     var maxE = Math.max(E0, 1);
     var sx = function (c) { return x0 + (x1 - x0) * c / maxC; }, sy = function (e) { return y1 - (y1 - y0) * e / maxE; };
     frontier.textContent = "";
     [0, 0.5, 1].forEach(function (f) {
       frontier.appendChild(sv("line", { x1: x0, x2: x1, y1: sy(maxE * f), y2: sy(maxE * f), class: "grid" }));
-      frontier.appendChild(sv("text", { x: x0 - 8, y: sy(maxE * f) + 4, class: "axis", "text-anchor": "end" }, money(maxE * f, 0)));
+      frontier.appendChild(sv("text", { x: x0 - 10, y: sy(maxE * f) + 4, class: "axis", "text-anchor": "end" }, money(maxE * f, 0)));
     });
-    [0, maxC / 2, maxC].forEach(function (c) { frontier.appendChild(sv("text", { x: sx(c), y: y1 + 18, class: "axis", "text-anchor": "middle" }, money(c, 1))); });
-    frontier.appendChild(sv("text", { x: x1, y: y1 + 36, class: "axis", "text-anchor": "end" }, "Plan cost"));
-    frontier.appendChild(sv("text", { x: x0, y: y0 - 8, class: "axis" }, "Expected loss"));
-    var sorted = plans.slice().sort(function (a, b) { return a.cost - b.cost; }), best = Infinity, front = [];
+    [0, maxC / 2, maxC].forEach(function (c) { frontier.appendChild(sv("text", { x: sx(c), y: y1 + 20, class: "axis", "text-anchor": "middle" }, money(c, 1))); });
+    frontier.appendChild(sv("text", { x: (x0 + x1) / 2, y: y1 + 42, class: "axis", "text-anchor": "middle" }, "Plan cost"));
+    frontier.appendChild(sv("text", { x: 14, y: (y0 + y1) / 2, class: "axis", "text-anchor": "middle", transform: "rotate(-90 14 " + (y0 + y1) / 2 + ")" }, "Expected loss"));
+    // efficient plans only: the lowest expected loss reachable at each budget, among plans you can staff in time
+    var pool = plans.filter(function (p) { return p.ok; }), sorted = pool.slice().sort(function (a, b) { return a.cost - b.cost; }), best = Infinity, front = [];
     sorted.forEach(function (p) { if (p.E < best - 1e-9) { best = p.E; front.push(p); } });
-    frontier.appendChild(sv("path", { class: "fline", d: front.map(function (p, i) { return (i ? "L" : "M") + sx(p.cost).toFixed(1) + " " + sy(p.E).toFixed(1); }).join(" ") }));
-    plans.forEach(function (p) {
-      var c = sv("circle", { cx: sx(p.cost).toFixed(1), cy: sy(p.E).toFixed(1), r: 3, class: p.ok ? "fp" : "fp fp--no", tabindex: -1 });
+    function dot(p, cls, r) {
+      var c = sv("circle", { cx: sx(p.cost).toFixed(1), cy: sy(p.E).toFixed(1), r: r, class: cls });
       c.appendChild(sv("title", null, (p.n ? planList(p.A).map(function (a) { return a.name; }).join("; ") : "Do nothing") +
         "\nCost " + money(p.cost, 2) + ", expected loss " + money(p.E) + ", net " + signed(E0 - p.E - p.cost) + (p.ok ? "" : "\nCan't be staffed or lands too late")));
-      c.addEventListener("click", function () { plan = M.clone(p.A); changed("Adopted a plan from the frontier (" + p.n + " actions)"); });
+      c.addEventListener("click", function () { plan = M.clone(p.A); changed("Adopted a plan from the chart (" + p.n + " action" + (p.n === 1 ? "" : "s") + ")"); });
       frontier.appendChild(c);
-    });
-    var mc = costOf(plan), me = expected(plan, params).E;
-    frontier.appendChild(sv("circle", { cx: sx(mc), cy: sy(me), r: 8, class: "fp--mine" }));
-    frontier.appendChild(sv("text", { x: Math.min(sx(mc) + 12, x1 - 60), y: sy(me) - 11, class: "axis axis--mine" }, "Your plan"));
-    var bestNet = plans.reduce(function (b, p) { return (E0 - p.E - p.cost) > (E0 - b.E - b.cost) ? p : b; }, plans[0]);
-    $("frontier-note").textContent = "Each dot is one combination of actions; hollow ones can't be staffed or land too late. The line is the cheapest way to reach each level of protection. The best plan saves " +
-      money(Math.max(0, E0 - bestNet.E - bestNet.cost)) + " net, for " + money(bestNet.cost, 2) + ".";
+    }
+    if (showAll) plans.forEach(function (p) { dot(p, p.ok ? "fp fp--faint" : "fp fp--no", 2.4); });
+    frontier.appendChild(sv("path", { class: "fline", d: front.map(function (p, i) { return (i ? "L" : "M") + sx(p.cost).toFixed(1) + " " + sy(p.E).toFixed(1); }).join(" ") }));
+    var bestNet = pool.reduce(function (b, p) { return (E0 - p.E - p.cost) > (E0 - b.E - b.cost) ? p : b; }, pool[0]);
+    front.forEach(function (p) { dot(p, "fp fp--front" + (p === bestNet ? " fp--best" : ""), p === bestNet ? 6.5 : 4.5); });
+    var bx = sx(bestNet.cost), by = sy(bestNet.E);
+    frontier.appendChild(sv("text", { x: bx, y: by + 22, class: "axis axis--best", "text-anchor": "middle" }, "Best net value"));
+    var mc = costOf(plan), me = expected(plan, params).E, mx = sx(mc), my = sy(me);
+    frontier.appendChild(sv("circle", { cx: mx, cy: my, r: 9, class: "fp--mine" }));
+    // put the label where it can't collide: above unless near the top, left unless near the right edge
+    var lx = mx > x1 - 90 ? mx - 14 : mx + 14, ly = my < y0 + 30 ? my + 24 : my - 14;
+    if (Math.abs(lx - bx) < 70 && Math.abs(ly - (by + 22)) < 14) ly = my - 20;
+    frontier.appendChild(sv("text", { x: lx, y: ly, class: "axis axis--mine", "text-anchor": mx > x1 - 90 ? "end" : "start" }, "Your plan"));
+    $("frontier-note").textContent = "Each dot on the line is the cheapest plan your teams can deliver in time for that level of protection. The best one saves " +
+      money(Math.max(0, E0 - bestNet.E - bestNet.cost)) + " net, for " + money(bestNet.cost, 2) + (showAll ? ". Faint dots are the other combinations; hollow ones can't be staffed in time." : ".");
   }
   function recommend(kind) {
     if (kind === "none") { plan = {}; changed("Cleared the plan"); return; }
@@ -1070,6 +1081,209 @@
     log("Committed scenario halvorsen/v14.2+" + c);
     DB.toast("Committed as a scenario. Each action in the plan has gone to its owner, with a deadline.");
   });
+
+  /* ================= Ask Daybreak: questions about the live scenario ================= */
+  var askOpen = document.getElementById("ask-open"), drawer = document.getElementById("askdrawer");
+  document.body.appendChild(drawer); // out of .page's stacking context, so it can sit over the sticky bar
+  var askLog = document.getElementById("ask-log"), askForm = document.getElementById("ask-form"), askInput = document.getElementById("ask-input");
+  var askSuggest = document.getElementById("ask-suggest");
+  var SUGGEST = {
+    events: ["What's driving the loss?", "What if Hormuz stays closed for 60 days?", "What if the Gebze strike is 40% likely?"],
+    world: ["What depends on Jebel Ali?", "How exposed is the Gebze plant?", "Who owns the most exposed assets?"],
+    options: ["What should we do?", "What's the cheapest plan that halves the loss?", "Is my plan worth it?"],
+    consequences: ["Is my plan worth it?", "What's the worst that could happen?", "What's driving the loss?"],
+    execution: ["Which team is the bottleneck?", "Why is safety stock late?", "Can we staff the best plan?"],
+    data: ["What data would improve the model?", "How would a custom signal help?", "What depends on Jebel Ali?"]
+  };
+  function setDrawer(open) {
+    drawer.hidden = !open; askOpen.setAttribute("aria-expanded", String(open));
+    document.body.classList.toggle("ask-is-open", open);
+    if (open) { renderSuggest(); if (!askLog.children.length) say({ text: ["Ask me about this scenario: what's driving the loss, what to do, who has to do it, or what a change would cost. I answer from the numbers on screen and can make the change for you."] }); askInput.focus(); }
+    else askOpen.focus();
+  }
+  askOpen.addEventListener("click", function () { setDrawer(drawer.hidden); });
+  document.getElementById("ask-close").addEventListener("click", function () { setDrawer(false); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !drawer.hidden) setDrawer(false); });
+  function renderSuggest() {
+    askSuggest.textContent = "";
+    (SUGGEST[currentStep()] || SUGGEST.events).forEach(function (q) {
+      var b = el("button", { type: "button", class: "chip-btn" }, q);
+      b.addEventListener("click", function () { ask(q); });
+      askSuggest.appendChild(b);
+    });
+  }
+  function say(a, who) {
+    var li = el("li", { class: "amsg " + (who === "user" ? "amsg--user" : "amsg--bot") });
+    (a.text || []).forEach(function (t) { li.appendChild(el("p", null, t)); });
+    if (a.facts && a.facts.length) {
+      var dl = el("dl", { class: "amsg__facts" });
+      a.facts.forEach(function (f) { var d = el("div", f[2] ? { class: "is-" + f[2] } : null); d.appendChild(el("dt", null, f[0])); d.appendChild(el("dd", null, f[1])); dl.appendChild(d); });
+      li.appendChild(dl);
+    }
+    if (a.actions && a.actions.length) {
+      var box = el("div", { class: "amsg__acts" });
+      a.actions.forEach(function (x, i) {
+        var b = el("button", { type: "button", class: "btn btn--sm " + (i ? "btn--ghost" : "btn--primary") }, x.label);
+        b.addEventListener("click", function () { x.run(); if (x.done) { b.disabled = true; b.textContent = x.done; } });
+        box.appendChild(b);
+      });
+      li.appendChild(box);
+    }
+    askLog.appendChild(li);
+    askLog.scrollTop = askLog.scrollHeight;
+  }
+  function ask(text) {
+    text = text.trim(); if (!text) return;
+    say({ text: [text] }, "user"); askInput.value = "";
+    var typing = el("li", { class: "amsg amsg--bot amsg--typing" }, "…");
+    askLog.appendChild(typing); askLog.scrollTop = askLog.scrollHeight;
+    setTimeout(function () { typing.remove(); say(answer(text)); renderSuggest(); }, 450);
+  }
+  askForm.addEventListener("submit", function (e) { e.preventDefault(); ask(askInput.value); });
+
+  var EV_WORDS = { hormuz: /hormuz|strait|gulf closure/, redsea: /red sea|suez|bab/, strike: /strike|union|labou?r/, feeders: /feeder|sanction|me4/, bunker: /bunker|fuel|oil/ };
+  function findEvent(q) { for (var k in EV_WORDS) if (EV_WORDS[k].test(q)) return events.filter(function (e) { return e.id === k; })[0]; return null; }
+  function findAsset(q) {
+    var best = null, score = 0;
+    allAssets().forEach(function (a) {
+      var words = (a.name + " " + a.where).toLowerCase().split(/[^a-z0-9]+/).filter(function (w) { return w.length > 3; });
+      var s = words.filter(function (w) { return q.indexOf(w) > -1; }).length;
+      if (q.indexOf(a.name.toLowerCase()) > -1) s += 5;
+      if (s > score) { score = s; best = a; }
+    });
+    return best;
+  }
+  function findAction(q) {
+    var best = null, score = 0;
+    ACTIONS.forEach(function (a) {
+      var s = a.name.toLowerCase().split(/[^a-z0-9]+/).filter(function (w) { return w.length > 3 && q.indexOf(w) > -1; }).length;
+      if (s > score) { score = s; best = a; }
+    });
+    return best;
+  }
+  function showAsset(a) { return { label: "Show " + a.name, run: function () { sel = { kind: "asset", id: a.id }; view = "network"; document.querySelector('input[name="wview"][value="network"]').checked = true; goTo("world"); } }; }
+  function bestPlan(staffed, maxE) {
+    var plans = allPlans(), E0 = expected({}, params).E;
+    var pool = plans.filter(function (p) { return (!staffed || p.ok) && (maxE == null || p.E <= maxE); });
+    if (!pool.length) return null;
+    return maxE != null ? pool.reduce(function (b, p) { return p.cost < b.cost ? p : b; }, pool[0])
+                        : pool.reduce(function (b, p) { return (E0 - p.E - p.cost) > (E0 - b.E - b.cost) ? p : b; }, pool[0]);
+  }
+  function adopt(p, why) { return { label: "Adopt this plan", done: "Adopted", run: function () { plan = M.clone(p.A); changed(why); } }; }
+  function planFacts(p) { return planList(p.A).map(function (a) { return [a.name, money(a.cost, 2)]; }); }
+
+  function answer(raw) {
+    var q = raw.toLowerCase(), E0 = expected({}, params).E, E1 = expected(plan, params).E;
+    var ev = findEvent(q);
+    // what-if: change an event's duration/size or probability
+    var num = q.match(/(\d+)\s*(%|percent|days?|weeks?)/);
+    if (ev && num && /what if|if |suppose|happens if|lasts|stays|closes for|likely/.test(q)) {
+      var v = +num[1], unit = num[2], next = { p: ev.p, mag: ev.mag };
+      if (/%|percent/.test(unit)) next.p = Math.max(0.01, Math.min(0.95, v / 100)); else next.mag = Math.max(ev.min, Math.min(ev.max, v * (/week/.test(unit) ? 7 : 1)));
+      var tw = { id: ev.id, p: next.p - pOf(ev), mag: next.mag / ev.mag };
+      var wasOn = ev.on; ev.on = true;
+      var e0 = expected({}, params, null, tw).E, e1 = expected(plan, params, null, tw).E;
+      ev.on = wasOn;
+      return {
+        text: ["Setting “" + ev.name + "” to " + [next.mag !== ev.mag ? next.mag + (ev.unit.charAt(0) === "%" ? "%" : " " + ev.unit) : "", next.p !== ev.p ? Math.round(next.p * 100) + "% likely" : ""].filter(Boolean).join(", ") +
+          " moves expected loss, doing nothing, from " + money(E0) + " to " + money(e0) + "." + (planList(plan).length ? " With your plan it's " + money(e1) + "." : " You don't have a plan yet.")],
+        facts: [["Doing nothing", money(e0), "loss"]].concat(planList(plan).length ? [["With your plan", money(e1)]] : []).concat([["Change vs now", signed(e1 - E1), e1 > E1 ? "loss" : "safe"]]),
+        actions: [{ label: "Apply to the scenario", done: "Applied", run: function () { ev.on = true; ev.p = next.p; ev.mag = next.mag; buildEvents(); markPreset(null); changed("Applied what-if: " + ev.short); } }]
+      };
+    }
+    if (/driv|biggest|main (risk|cause)|what matters|where.*loss come/.test(q)) {
+      var rows = active().map(function (e) { return { e: e, add: E0 - expected({}, params, e.id).E }; }).sort(function (a, b) { return b.add - a.add; });
+      if (!rows.length) return { text: ["No events are switched on, so nothing is driving a loss yet. Switch one on in step 1."] };
+      var base = expected({}, params).nodes, sites = Object.keys(base).sort(function (a, b) { return base[b] - base[a]; });
+      var top = assetById({ gebze: "f-gebze", pune: "f-pune", dubai: "d-dubai", dammam: "d-dammam" }[sites[0]]);
+      return {
+        text: [rows[0].e.name + " drives most of it, adding " + money(rows[0].add) + " of the " + money(E0) + " expected loss. The site that takes the biggest hit is " + top.name + "."],
+        facts: rows.map(function (r) { return [r.e.short + ", " + Math.round(pOf(r.e) * 100) + "%", signed(r.add), "loss"]; }),
+        actions: [showAsset(top), { label: "See what moves it most", run: function () { goTo("consequences"); } }]
+      };
+    }
+    if (/cheapest|half|halv|cut .*loss in/.test(q)) {
+      var target = E0 / 2, p = bestPlan(true, target);
+      if (!p) return { text: ["No plan your teams can deliver in time halves the loss. Authorize overtime in step 5 and ask again."] };
+      return { text: ["The cheapest plan that halves expected loss (to " + money(p.E) + " or less) and can be staffed in time costs " + money(p.cost, 2) + "."], facts: planFacts(p), actions: [adopt(p, "Adopted the cheapest plan that halves the loss")] };
+    }
+    if (/what should|recommend|best plan|what do we do|best move/.test(q) && !/staff|capacity/.test(q)) {
+      var b = bestPlan(true), bAll = bestPlan(false);
+      var t = ["The best plan your teams can deliver in time saves " + money(E0 - b.E - b.cost) + " net, for " + money(b.cost, 2) + "."];
+      if (bAll && bAll.E < b.E - 0.1) t.push("Ignoring capacity, a bigger plan would save " + money(E0 - bAll.E - bAll.cost) + ", but it can't all land before the deadlines.");
+      return { text: t, facts: planFacts(b), actions: [adopt(b, "Adopted the recommended plan")] };
+    }
+    if (/worth|net value|is my plan|my plan good/.test(q)) {
+      var pl = planList(plan);
+      if (!pl.length) return { text: ["You don't have a plan yet. Ask me what you should do, or tick actions in step 3."], actions: [{ label: "Go to options", run: function () { goTo("options"); } }] };
+      var cost = costOf(plan), net = E0 - E1 - cost, b2 = bestPlan(true);
+      return {
+        text: [net > 0 ? "Yes. It cuts expected loss from " + money(E0) + " to " + money(E1) + " for " + money(cost, 2) + ", worth " + money(net) + " net." : "Not on these numbers. It costs " + money(cost, 2) + " but only removes " + money(E0 - E1) + " of expected loss.",
+          "If nothing happens, you've spent " + money(cost, 2) + "." + (b2 && (E0 - b2.E - b2.cost) > net + 0.1 ? " A different plan would save " + money(E0 - b2.E - b2.cost - net) + " more." : "")],
+        actions: b2 && (E0 - b2.E - b2.cost) > net + 0.1 ? [adopt(b2, "Adopted a better plan")] : []
+      };
+    }
+    if (/worst|bad case|tail|disaster/.test(q)) {
+      var w0 = worst({}, params), w1 = worst(plan, params);
+      return { text: ["If everything you've switched on happens at once, the loss is " + money(w0.total) + (planList(plan).length ? " doing nothing and " + money(w1.total) + " with your plan." : ". You don't have a plan yet to soften it.")],
+        facts: [["Plants and DCs, doing nothing", money(w0.total - w0.freight - w0.eu), "loss"], ["Freight and insurance", money(w0.freight), "loss"], ["Late EU deliveries", money(w0.eu), "loss"]],
+        actions: [{ label: "See the spread", run: function () { goTo("consequences"); } }] };
+    }
+    if (/bottleneck|capacity|overloaded|stretched|staff/.test(q)) {
+      var target2 = /best plan|recommend/.test(q) ? bestPlan(false).A : plan;
+      var r = readiness(target2);
+      if (!planList(target2).length) return { text: ["There's no plan yet, so no team is stretched. Ask me what you should do first."] };
+      if (!r.over.length && !r.late.length) return { text: ["Every team can absorb " + (target2 === plan ? "your" : "that") + " plan this week, and every action lands before its deadline."] };
+      var acts = [], t3 = [];
+      r.over.forEach(function (t) { var T = TEAMS[t]; t3.push(T.name + " needs " + r.load[t].hours + " hours but has " + spareOf(t) + " spare."); if (!overtime[t] && r.load[t].hours <= Math.round(T.spare * OVERTIME_GAIN)) acts.push({ label: "Authorize overtime for " + T.name, done: "Authorized", run: function () { overtime[t] = true; changed("Authorized overtime for " + T.name); } }); });
+      r.late.forEach(function (a) { t3.push(a.name + " lands on day " + lands(a) + ", " + (lands(a) - a.need) + " days after it's needed."); });
+      acts.push({ label: "Open execution", run: function () { goTo("execution"); } });
+      return { text: t3, actions: acts };
+    }
+    if (/late|why.*(slow|delay)/.test(q)) {
+      var a = findAction(q) || planList(plan).filter(function (x) { return lands(x) > x.need; })[0] || ACTIONS.filter(function (x) { return x.lead > x.need; })[0];
+      var lateBy = lands(a) - a.need;
+      return { text: [a.name + " takes " + a.lead + " days to put in place" + ((start[a.id] || 0) ? ", starting day " + start[a.id] : "") + ", but it's needed within " + a.need + ". " +
+        (lateBy > 0 ? "It lands " + lateBy + " days late, so it only partly protects you." : "It lands in time.") ,
+        lateBy > 0 ? "It can't be started any sooner. You could drop it, or pair it with an action that covers the gap, such as diverting sailings or pre-positioning stock." : ""].filter(Boolean),
+        actions: [{ label: "Open execution", run: function () { goTo("execution"); } }] };
+    }
+    if (/depend|relies|rely|upstream|downstream|feeds/.test(q)) {
+      var as = findAsset(q);
+      if (!as) return { text: ["Which asset? Try a port, plant or supplier, like Jebel Ali or the Gebze plant."] };
+      var users = allAssets().filter(function (b) { return (b.deps || []).indexOf(as.id) > -1; }), deps = (as.deps || []).map(assetById).filter(Boolean);
+      return { text: [users.length + (users.length === 1 ? " asset relies" : " assets rely") + " on " + as.name + ", and it relies on " + deps.length + "."],
+        facts: users.slice(0, 6).map(function (u) { return [u.name, u.type]; }).concat(deps.length ? [["It relies on", deps.map(function (d) { return d.name; }).join(", ")]] : []),
+        actions: [showAsset(as)] };
+    }
+    if (/who owns|owners?|which team owns/.test(q)) {
+      var on = active().map(function (e) { return e.id; }), byTeam = {};
+      allAssets().forEach(function (a2) { if (a2.owner && (a2.events || []).some(function (x) { return on.indexOf(x) > -1; })) byTeam[a2.owner] = (byTeam[a2.owner] || 0) + 1; });
+      var ts = Object.keys(byTeam).sort(function (a3, b3) { return byTeam[b3] - byTeam[a3]; });
+      if (!ts.length) return { text: ["No owned assets are exposed to the events you've switched on."] };
+      return { text: [TEAMS[ts[0]].name + " owns the most exposed assets (" + byTeam[ts[0]] + "), under " + TEAMS[ts[0]].lead + "."],
+        facts: ts.map(function (t) { return [TEAMS[t].name, byTeam[t] + " exposed"]; }),
+        actions: [{ label: "Show " + TEAMS[ts[0]].name, run: function () { sel = { kind: "team", id: ts[0] }; view = "org"; document.querySelector('input[name="wview"][value="org"]').checked = true; goTo("world"); } }] };
+    }
+    if (/data|improve the model|missing|blind spot/.test(q)) {
+      return { text: ["Three gaps would sharpen this scenario most:"],
+        facts: [["Gebze MES", "2 fields unmapped, so line rates are estimates"], ["Supplier tier 2", "Who supplies the Bursa seat maker isn't modelled"], ["Dammam DC stock", "Cover is a weekly snapshot, not live"]],
+        actions: [{ label: "Load a dataset", run: function () { goTo("data"); } }] };
+    }
+    if (/signal/.test(q)) {
+      return { text: ["A custom signal is one of your own indicators, such as container dwell time at Jebel Ali, that nudges a forecast when it fires. Daybreak back-tests it on your history before it counts, so a noisy signal can't skew the numbers."],
+        actions: [{ label: "Build a signal", run: function () { goTo("data"); } }] };
+    }
+    var as2 = findAsset(q);
+    if (as2 && /expos|risk|how bad|loss|at stake/.test(q) || as2 && q.split(" ").length <= 4) {
+      var nodes = expected(plan, params).nodes, base2 = expected({}, params).nodes, onIds = active().map(function (e) { return e.id; });
+      var hit = (as2.events || []).filter(function (x) { return onIds.indexOf(x) > -1; });
+      return { text: [as2.name + " (" + as2.where + ") is exposed to " + (hit.length ? hit.map(function (h) { return EVSHORT[h]; }).join(" and ") : "none of the events you've switched on") + "." +
+        (as2.loss ? " Expected loss there is " + money(base2[as2.loss]) + (planList(plan).length ? " doing nothing, " + money(nodes[as2.loss]) + " with your plan." : ".") : "")],
+        facts: (as2.attrs || []).slice(0, 3), actions: [showAsset(as2)] };
+    }
+    return { text: ["I can answer what's driving the loss, what you should do, whether your plan is worth it, which team is the bottleneck, what depends on an asset, or what a change would cost (try \"what if Hormuz closes for 60 days\")."] };
+  }
 
   buildEvents();
   log("Loaded halvorsen/v14.2: " + ASSETS.length + " assets, " + Object.keys(TEAMS).length + " teams");

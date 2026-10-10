@@ -309,3 +309,58 @@ select.num-input, input.num-input { font-family: var(--font); background: #fff; 
 #combos { table-layout: auto; }
 #combos .combos__what { white-space: normal; min-width: 9rem; }
 #combos td.r, #combos th.r { white-space: nowrap; }
+
+/* ================= Plans chart, simplified ================= */
+.frontier__top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 0.4rem 1rem; }
+.frontier__all { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.8rem; color: rgba(246, 239, 230, 0.75); cursor: pointer; min-height: 32px; }
+.frontier__all input { accent-color: #7fe0c6; width: 16px; height: 16px; }
+.frontier .fp--faint { fill: rgba(127, 224, 198, 0.18); }
+.frontier .fp--front { fill: #7fe0c6; stroke: #0f2131; stroke-width: 1.5; }
+.frontier .fp--best { fill: #7fe0c6; stroke: #fff; stroke-width: 2; }
+.axis--best { fill: #7fe0c6; font-weight: 700; }
+
+/* ================= Ask Daybreak (workbench) ================= */
+.asklaunch {
+  position: fixed; right: max(1rem, env(safe-area-inset-right)); bottom: calc(env(safe-area-inset-bottom, 0px) + 1rem); z-index: 60;
+  display: inline-flex; align-items: center; gap: 0.5rem; min-height: 48px; padding: 0 1.15rem 0 1rem;
+  border: 0; border-radius: 999px; cursor: pointer; background: var(--ink); color: #fff;
+  font-size: 0.92rem; font-weight: 700; box-shadow: 0 16px 34px -14px rgba(7, 22, 33, 0.7);
+}
+.asklaunch svg { width: 20px; height: 20px; }
+.asklaunch:hover { background: #1d3446; }
+.ask-is-open .asklaunch { display: none; }
+.askdrawer {
+  position: fixed; z-index: 70; right: 1rem; bottom: 1rem; top: 5.5rem;
+  width: min(26rem, calc(100vw - 2rem));
+  display: flex; flex-direction: column; gap: 0.75rem; padding: 1rem 1.1rem;
+  background: #fffaf3; border-radius: 18px; box-shadow: 0 30px 60px -24px rgba(7, 22, 33, 0.6), 0 0 0 1px rgba(10, 23, 34, 0.08);
+}
+.askdrawer[hidden] { display: none; }
+.askdrawer__head { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.askdrawer__title { margin: 0; font-size: 1.05rem; font-weight: 800; letter-spacing: -0.02em; }
+.askdrawer__close { width: 36px; height: 36px; border: 0; border-radius: 50%; background: rgba(10, 23, 34, 0.06); font-size: 1.3rem; line-height: 1; cursor: pointer; color: var(--ink); }
+.askdrawer__close:hover { background: rgba(10, 23, 34, 0.12); }
+.askdrawer__log { list-style: none; margin: 0; padding: 0 0.15rem 0 0; flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 0.75rem; }
+.amsg { max-width: 92%; font-size: 0.88rem; line-height: 1.5; }
+.amsg p { margin: 0; }
+.amsg p + p { margin-top: 0.4rem; }
+.amsg--user { align-self: flex-end; padding: 0.55rem 0.85rem; border-radius: 14px 14px 4px 14px; background: var(--ink); color: #fff; font-weight: 600; }
+.amsg--bot { align-self: flex-start; padding: 0.7rem 0.85rem; border-radius: 14px 14px 14px 4px; background: #fff; box-shadow: 0 6px 16px -12px rgba(7, 22, 33, 0.5); }
+.amsg--typing { color: var(--fg-2); letter-spacing: 0.2em; }
+.amsg__facts { margin: 0.55rem 0 0; display: grid; gap: 0.3rem; font-size: 0.8rem; }
+.amsg__facts div { display: flex; justify-content: space-between; gap: 0.8rem; padding-bottom: 0.3rem; border-bottom: 1px dashed var(--line); }
+.amsg__facts dt { color: var(--fg-2); }
+.amsg__facts dd { margin: 0; font-weight: 700; text-align: right; font-variant-numeric: tabular-nums; }
+.amsg__facts .is-loss dd { color: var(--loss); }
+.amsg__facts .is-safe dd { color: var(--safe); }
+.amsg__acts { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.65rem; }
+.askdrawer__suggest { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+.askdrawer__suggest .chip-btn { white-space: normal; text-align: left; min-height: 32px; font-size: 0.78rem; background: #fff; }
+.askdrawer__form { display: flex; gap: 0.45rem; }
+.askdrawer__form .num-input { flex: 1; min-width: 0; min-height: 40px; }
+.askdrawer__fine { margin: 0; font-size: 0.7rem; color: var(--fg-2); }
+@media (max-width: 600px) {
+  .askdrawer { right: 0; left: 0; bottom: 0; top: 4.5rem; width: auto; border-radius: 18px 18px 0 0; }
+  .asklaunch { padding: 0 1rem; }
+}
+.page--bench ~ .app-foot { padding-right: 12rem; padding-bottom: 5rem; }

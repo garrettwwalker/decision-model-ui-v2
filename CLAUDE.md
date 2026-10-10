@@ -39,11 +39,14 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   1 Events (`EVENTS_BASE` with presets, 90-day sparklines and each event's live contribution to expected loss),
   2 World model (three views over `ASSETS` ~45 assets, `NODES`/`EDGES` graph and `TEAMS`/`EXECS` org chart;
   a shared inspector traces dependencies, links owners, edits `PROPS`), 3 Options (`ACTIONS` with value/net,
-  sort and team filter, clickable frontier of all 2^9 plans), 4 Consequences (exact expectation over event
+  sort and team filter; the plans chart shows only the staffable efficient frontier, with all 2^9 behind a toggle), 4 Consequences (exact expectation over event
   combinations, Monte Carlo, sensitivity tornado, every-combination table), 5 Execution (reassign owners,
   start days, overtime; feasibility feeds the frontier), 6 Your data (client-side CSV: known sites update
   `PROPS`, unknown sites become new "Your data" assets; custom signals shift event probabilities; SDK code).
   Hormuz/Red Sea losses come from `model.js`; other events are layered on in `lossOf()`.
+  "Ask Daybreak" (`#askdrawer`, moved to `<body>` at init to clear `.page`'s stacking context) is a scripted
+  assistant: `answer()` matches intents by regex, computes replies from the live engine and offers actions
+  (apply a what-if, adopt a plan, authorize overtime, show an asset). Suggestions are per step (`SUGGEST`).
 - `assets/js/app.js` holds the shared helpers (`DB.money`, `DB.toast`, `DB.rng`, range fills).
 - Type: Switzer (Fontshare), self-hosted in `assets/fonts/`, for everything, on a major-third scale; data uses
   tabular figures. JetBrains Mono appears only in the workbench's code, diff and log panels. Labels are sentence

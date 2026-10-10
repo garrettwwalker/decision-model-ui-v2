@@ -146,7 +146,10 @@
           </div>
           <div class="panel instrument frontier">
             <div class="frontier__head">
-              <h3 class="frontier__title">All 512 possible plans <span class="frontier__hint">Click any dot to adopt that plan</span></h3>
+              <div class="frontier__top">
+                <h3 class="frontier__title">The best plan at every budget <span class="frontier__hint">Click a dot to adopt that plan</span></h3>
+                <label class="frontier__all"><input type="checkbox" id="frontier-all"> Show all 512 combinations</label>
+              </div>
               <p class="frontier__note" data-out="frontier-note"></p>
             </div>
             <svg class="frontier__svg" id="frontier" viewBox="0 0 640 300" role="img" aria-label="Scatter of every combination of actions by cost and expected loss, with the efficient frontier and your plan highlighted."></svg>
@@ -288,6 +291,25 @@
         <ol class="log" id="log" aria-label="Run log"></ol>
       </aside>
     </div>
+    <!-- Ask Daybreak: available on every step -->
+    <button class="asklaunch" type="button" id="ask-open" aria-expanded="false" aria-controls="askdrawer">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      Ask Daybreak
+    </button>
+    <aside class="askdrawer" id="askdrawer" aria-labelledby="askdrawer-title" hidden>
+      <div class="askdrawer__head">
+        <h2 class="askdrawer__title" id="askdrawer-title">Ask about this scenario</h2>
+        <button class="askdrawer__close" type="button" id="ask-close" aria-label="Close">×</button>
+      </div>
+      <ol class="askdrawer__log" id="ask-log" role="log" aria-live="polite"></ol>
+      <div class="askdrawer__suggest" id="ask-suggest" aria-label="Suggested questions"></div>
+      <form class="askdrawer__form" id="ask-form" autocomplete="off">
+        <label class="sr-only" for="ask-input">Ask a question</label>
+        <input class="num-input" id="ask-input" type="text" maxlength="200" placeholder="Which team is the bottleneck?">
+        <button class="btn btn--primary btn--sm" type="submit">Ask</button>
+      </form>
+      <p class="askdrawer__fine">Mockup: answers are worked out from this scenario by script, not a live model.</p>
+    </aside>
   </main>
 
   <footer class="app-foot">
