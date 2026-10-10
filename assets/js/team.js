@@ -433,21 +433,54 @@
       setTimeout(function () { inp.focus(); }, 0);
     }
     li.appendChild(body);
-    var who = el("select", { class: "num-input task__who", "aria-label": "Who does: " + t.text });
-    P.people.forEach(function (p) {
-      var left = p.cap - hoursOf(p.id) + (t.who === p.id && t.status !== "done" ? t.hours : 0);
-      var o = el("option", { value: p.id }, (p.id === P.people[0].id ? "You" : p.name) + (p.away ? ", away" : ", " + Math.max(0, left) + " h free"));
-      if (p.id === t.who) o.selected = true;
-      who.appendChild(o);
-    });
-    who.addEventListener("change", function () { var from = firstName(t.who); t.who = who.value; DB.toast("Handed from " + from + " to " + firstName(t.who) + "."); changed(); });
-    li.appendChild(who);
+    li.appendChild(ownerPicker(t));
     var meta = el("div", { class: "task__meta" });
     meta.appendChild(el("span", { class: "task__due" + (t.day <= 1 && t.status !== "done" ? " is-soon" : "") }, dayText(t.day)));
     meta.appendChild(el("span", { class: "task__hrs" }, t.hours + " h"));
     if (t.status !== "blocked" && t.status !== "done") meta.appendChild(button("Flag a problem", "link-btn", function () { flagging = t.id; render(); }));
     li.appendChild(meta);
     return li;
+  }
+  // the owner of a task: a chip that opens a menu of the team with each person's free hours
+  var openPicker = null;
+  function closePicker() { if (openPicker) { var o = openPicker; openPicker = null; o.close(); } }
+  document.addEventListener("click", function (e) { if (openPicker && !openPicker.box.contains(e.target)) closePicker(); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && openPicker) { var b = openPicker.btn; closePicker(); b.focus(); } });
+  function ownerPicker(t) {
+    var box = el("div", { class: "who" }), cur = person(t.who);
+    var btn = el("button", { type: "button", class: "who__btn", "aria-haspopup": "listbox", "aria-expanded": "false", "aria-label": "Owner: " + (t.who === P.people[0].id ? "you" : cur.name) + ". Change who does: " + t.text });
+    btn.appendChild(avatar(cur, "av--sm"));
+    btn.appendChild(el("span", { class: "who__name" }, t.who === P.people[0].id ? "You" : cur.name.split(" ")[0]));
+    btn.appendChild(el("span", { class: "who__caret", "aria-hidden": "true" }));
+    box.appendChild(btn);
+    var menu = null;
+    function close() { if (menu) { menu.remove(); menu = null; } btn.setAttribute("aria-expanded", "false"); }
+    function open() {
+      closePicker();
+      menu = el("ul", { class: "who__menu", role: "listbox", "aria-label": "Who does: " + t.text });
+      P.people.forEach(function (p) {
+        var left = p.cap - hoursOf(p.id) + (t.who === p.id && t.status !== "done" ? t.hours : 0), on = p.id === t.who;
+        var li = el("li", { role: "option", "aria-selected": String(on), tabindex: "-1", class: "who__opt" + (on ? " is-on" : "") + (p.away ? " is-away" : left < t.hours ? " is-tight" : "") });
+        li.appendChild(avatar(p, "av--sm"));
+        var tx = el("span", { class: "who__txt" }); tx.appendChild(el("b", null, p.id === P.people[0].id ? "You" : p.name)); tx.appendChild(el("small", null, p.role)); li.appendChild(tx);
+        li.appendChild(el("span", { class: "who__free" }, p.away ? "Away" : Math.max(0, left) + " h free"));
+        function pick() { closePicker(); if (p.id === t.who) return; var from = firstName(t.who); t.who = p.id; DB.toast("Handed from " + from + " to " + firstName(p.id) + "."); changed(); }
+        li.addEventListener("click", function (e) { e.stopPropagation(); pick(); });
+        li.addEventListener("keydown", function (e) {
+          if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pick(); }
+          else if (e.key === "ArrowDown" && li.nextSibling) { e.preventDefault(); li.nextSibling.focus(); }
+          else if (e.key === "ArrowUp" && li.previousSibling) { e.preventDefault(); li.previousSibling.focus(); }
+        });
+        menu.appendChild(li);
+      });
+      box.appendChild(menu);
+      btn.setAttribute("aria-expanded", "true");
+      openPicker = { box: box, btn: btn, close: close };
+      (menu.querySelector(".is-on") || menu.firstChild).focus();
+    }
+    btn.addEventListener("click", function (e) { e.stopPropagation(); if (menu) closePicker(); else open(); });
+    btn.addEventListener("keydown", function (e) { if (e.key === "ArrowDown" && !menu) { e.preventDefault(); open(); } });
+    return box;
   }
   function directiveCard(d, opts) {
     opts = opts || {};
