@@ -214,3 +214,98 @@ select.num-input, input.num-input { font-family: var(--font); background: #fff; 
 .log { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.4rem; font-size: 0.75rem; color: var(--fg-2); overflow-y: auto; }
 .log li { display: grid; grid-template-columns: 3.6rem 1fr; gap: 0.5rem; }
 .log time { font-variant-numeric: tabular-nums; color: var(--ink-3); }
+
+/* ================= Interactivity additions ================= */
+.chip-btn {
+  min-height: 36px; padding: 0.3rem 0.85rem; border-radius: 999px; cursor: pointer;
+  border: 1.5px solid var(--line-strong); background: rgba(255, 255, 255, 0.5); color: var(--ink);
+  font-size: 0.82rem; font-weight: 700; white-space: nowrap;
+}
+.chip-btn:hover { background: #fff; }
+.chip-btn.is-on { background: var(--ink); color: #fff; border-color: var(--ink); }
+.presets { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; }
+.presets__label { font-size: 0.82rem; font-weight: 600; color: var(--fg-2); margin-right: 0.25rem; }
+
+/* events */
+.event__trend { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; padding-bottom: 0.55rem; border-bottom: 1px dashed var(--line); }
+.event__spark .spark { width: 120px; height: 30px; display: block; overflow: visible; }
+.spark__line { fill: none; stroke: rgba(10, 23, 34, 0.45); stroke-width: 1.5; }
+.spark__you { fill: none; stroke: var(--ember); stroke-width: 1.5; stroke-dasharray: 2 2; }
+.spark__dot { fill: var(--ember); }
+.event__contrib { margin: 0; font-size: 0.78rem; color: var(--fg-2); text-align: right; }
+.event__contrib b { display: block; font-size: 1.05rem; color: var(--loss); font-variant-numeric: tabular-nums; }
+.event__reset { justify-self: start; border: 0; background: none; padding: 0.15rem 0; font-size: 0.78rem; font-weight: 600; color: var(--ember-deep); text-decoration: underline; cursor: pointer; }
+.event__reset[hidden] { display: none; }
+
+/* world model */
+.viewbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem 1.5rem; }
+.viewbar .seg { min-width: min(100%, 22rem); }
+.viewbar__count { margin: 0; font-size: 0.85rem; color: var(--fg-2); }
+.world__view { min-width: 0; }
+.world__view > [hidden] { display: none; }
+.gl--trace { width: 16px; height: 0; border-top: 2.5px solid #ffd27a; }
+.gedge.is-trace { stroke: #ffd27a !important; stroke-width: 2.6; stroke-dasharray: none !important; }
+.gedge.is-dim { opacity: 0.25; }
+.gnode.is-dim { opacity: 0.35; }
+.register__bar { display: grid; gap: 0.6rem; margin-bottom: 0.75rem; }
+.register__search input { width: 100%; }
+.register__types { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.register tbody tr { cursor: pointer; }
+.register tbody tr:hover td { background: rgba(255, 192, 146, 0.18); }
+.register tbody tr.is-sel td { background: rgba(255, 192, 146, 0.35); }
+.register tbody tr:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
+.register td b { font-size: 0.9rem; }
+.register__yours { margin-left: 0.4rem; vertical-align: 1px; }
+.register__empty { color: var(--fg-2); font-size: 0.85rem; }
+.org { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; align-items: start; }
+@media (max-width: 900px) { .org { grid-template-columns: minmax(0, 1fr); } }
+.org__col { display: grid; gap: 0.75rem; }
+.org__exec { padding: 0.85rem 1rem; border-radius: var(--radius); background: var(--ink); color: #fff; display: grid; gap: 0.15rem; }
+.org__role { font-size: 0.75rem; color: var(--amber); font-weight: 600; }
+.org__kids { list-style: none; margin: 0; padding: 0 0 0 1rem; border-left: 1.5px dashed var(--line-strong); display: grid; gap: 0.6rem; }
+.org__team {
+  width: 100%; text-align: left; cursor: pointer; display: grid; gap: 0.35rem;
+  padding: 0.75rem 0.9rem; border-radius: 12px; border: 1.5px solid transparent;
+  background: #fff; color: var(--ink); box-shadow: var(--shadow-card);
+}
+.org__team:hover { border-color: var(--line-strong); }
+.org__team.is-sel { border-color: var(--ember); }
+.org__team.is-over { box-shadow: 0 0 0 2px var(--loss), var(--shadow-card); }
+.org__name { font-size: 0.95rem; }
+.org__lead, .org__meta { font-size: 0.75rem; color: var(--fg-2); }
+.ins-h { margin: 0.4rem 0 0; font-size: 0.78rem; font-weight: 700; color: var(--fg-2); }
+.ins-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.2rem; font-size: 0.85rem; }
+.ins-chips { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+.ins-link { border: 0; background: none; padding: 0.15rem 0; color: var(--ink); font-weight: 600; text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 3px; cursor: pointer; text-align: left; }
+.ins-link:hover { text-decoration-color: var(--ember); }
+.inspector .switch { padding: 0.4rem 0; }
+
+/* options */
+.op-actions__gap { flex: 1; }
+.op-sort { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.8rem; font-weight: 600; color: var(--fg-2); }
+.op-sort .num-input { min-height: 36px; width: auto; padding: 0.2rem 0.5rem; }
+.frontier__hint { margin-left: 0.6rem; font-size: 0.75rem; font-weight: 500; color: rgba(246, 239, 230, 0.6); }
+.frontier .fp { cursor: pointer; transition: r 0.15s ease; }
+.frontier .fp:hover { r: 6; fill: #ffd27a; stroke: none; }
+
+/* consequences */
+.tornado { width: 100%; height: auto; display: block; overflow: visible; }
+.tornado__lab { font: 600 11px var(--font); fill: #f6efe6; }
+.tbar--lo { fill: #7fe0c6; }
+.tbar--hi { fill: #ff7a66; }
+.tmid { stroke: #ffd27a; stroke-width: 2; }
+
+/* execution */
+.team__ot { display: flex; align-items: center; gap: 0.45rem; font-size: 0.78rem; font-weight: 600; color: var(--fg-2); cursor: pointer; min-height: 32px; }
+.team__ot input { width: 17px; height: 17px; accent-color: var(--ink); }
+.assign select.num-input { min-height: 36px; padding: 0.2rem 0.4rem; width: auto; max-width: 13rem; }
+
+/* rail feedback */
+.rail__net dd.is-bump { animation: bump 0.5s ease; }
+@keyframes bump { 30% { transform: scale(1.12); } }
+@media (prefers-reduced-motion: reduce) { .rail__net dd.is-bump { animation: none; } }
+.ins-list li[hidden] { display: none; }
+.ins-more { color: var(--ember-deep); }
+#combos { table-layout: auto; }
+#combos .combos__what { white-space: normal; min-width: 9rem; }
+#combos td.r, #combos th.r { white-space: nowrap; }

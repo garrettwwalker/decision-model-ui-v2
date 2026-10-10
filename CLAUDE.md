@@ -36,13 +36,14 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   draws rounded-elbow SVG edges with arrowheads between node centers; they draw themselves once, row by row,
   when the section scrolls into view (timer-driven, not rAF, so it also runs in headless checks).
 - `workbench.html` + `assets/js/bench.js` is a six-step workflow over one scenario with a summary rail:
-  1 Events (toggle and tune `EVENTS_BASE`: Hormuz, Red Sea, Gebze strike, feeder sanctions, bunker spike),
-  2 World model (network graph + editable `PROPS`), 3 Options (`ACTIONS`, marginal value, frontier of all
-  2^9 plans, recommend best / best staffable), 4 Consequences (exact expected loss over event combinations,
-  4,000-run Monte Carlo, worst case, service by market), 5 Execution (`TEAMS` capacity and lead time vs
-  deadline), 6 Your data (client-side CSV import mapped onto site parameters, custom signals that shift event
-  probabilities, generated SDK code). Loss for Hormuz/Red Sea comes from `model.js`; other events are layered
-  on in `lossOf()`.
+  1 Events (`EVENTS_BASE` with presets, 90-day sparklines and each event's live contribution to expected loss),
+  2 World model (three views over `ASSETS` ~45 assets, `NODES`/`EDGES` graph and `TEAMS`/`EXECS` org chart;
+  a shared inspector traces dependencies, links owners, edits `PROPS`), 3 Options (`ACTIONS` with value/net,
+  sort and team filter, clickable frontier of all 2^9 plans), 4 Consequences (exact expectation over event
+  combinations, Monte Carlo, sensitivity tornado, every-combination table), 5 Execution (reassign owners,
+  start days, overtime; feasibility feeds the frontier), 6 Your data (client-side CSV: known sites update
+  `PROPS`, unknown sites become new "Your data" assets; custom signals shift event probabilities; SDK code).
+  Hormuz/Red Sea losses come from `model.js`; other events are layered on in `lossOf()`.
 - `assets/js/app.js` holds the shared helpers (`DB.money`, `DB.toast`, `DB.rng`, range fills).
 - Type: Switzer (Fontshare), self-hosted in `assets/fonts/`, for everything, on a major-third scale; data uses
   tabular figures. JetBrains Mono appears only in the workbench's code, diff and log panels. Labels are sentence
