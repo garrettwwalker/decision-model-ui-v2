@@ -37,10 +37,10 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   when the section scrolls into view (timer-driven, not rAF, so it also runs in headless checks).
 - `workbench.html` + `assets/js/bench.js` follows one decision through six stages, with a sticky "thread" strip
   showing each stage's live result: 1 Forecast (each event's sub-questions per engine, declined part, fused
-  probability ±band, override), 2 Events (include, severity, assets hit first, chance of each number of events),
+  probability ±band, override), 2 Contingencies (the `events` data: include, severity, assets hit first, chance of each number happening),
   3 Impact (exact `stats(A)` over event combinations: money, operations, customers, people and `TRIGGERS`
   commitments; `reach()` propagates hits down asset dependencies, price events with `cost: true` don't spread),
-  4 Decide (`ACTIONS` with value/net and the frontier), 5 Deliver (team board; each team's people from `PEOPLE`,
+  4 Decide (`ACTIONS` with value/net, and the "best plan at every budget" chart of staffable plans valued in full), 5 Deliver (team board; each team's people from `PEOPLE`,
   each action's way, crew and start, and the team's `CAPACITY` choice), 6 Consequences (the stage 3 figures for
   doing nothing against the plan as delivered). `readiness()` splits an action's hours across its crew in proportion
   to free hours; overload stretches lead time, lateness and a scaled-back way cut its protection `f`, and

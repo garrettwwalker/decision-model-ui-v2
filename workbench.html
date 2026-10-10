@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Workbench · Daybreak</title>
-  <meta name="description" content="Daybreak workbench: follow one decision from the forecast, through the events and their impact on your organization, to the plan, who delivers it and what it changes.">
+  <meta name="description" content="Daybreak workbench: follow one decision from the forecast, through the contingencies and their impact on your organization, to the plan, who delivers it and what it changes.">
   <link rel="preload" href="assets/fonts/switzer-800.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/switzer-400.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -55,7 +55,7 @@
     <div class="mode" data-mode="scenario">
       <nav class="thread" aria-label="Scenario stages" role="tablist">
         <button class="thread__stage" role="tab" type="button" data-step="forecast" aria-selected="true"><span class="thread__n">1</span><span class="thread__name">Forecast</span><b class="thread__val" data-out="t-forecast"></b><span class="thread__sub" data-out="t-forecast-sub"></span></button>
-        <button class="thread__stage" role="tab" type="button" data-step="events" aria-selected="false"><span class="thread__n">2</span><span class="thread__name">Events</span><b class="thread__val" data-out="t-events"></b><span class="thread__sub" data-out="t-events-sub"></span></button>
+        <button class="thread__stage" role="tab" type="button" data-step="events" aria-selected="false"><span class="thread__n">2</span><span class="thread__name">Contingencies</span><b class="thread__val" data-out="t-events"></b><span class="thread__sub" data-out="t-events-sub"></span></button>
         <button class="thread__stage" role="tab" type="button" data-step="impact" aria-selected="false"><span class="thread__n">3</span><span class="thread__name">Impact</span><b class="thread__val" data-out="t-impact"></b><span class="thread__sub" data-out="t-impact-sub"></span></button>
         <button class="thread__stage" role="tab" type="button" data-step="decide" aria-selected="false"><span class="thread__n">4</span><span class="thread__name">Decide</span><b class="thread__val" data-out="t-decide"></b><span class="thread__sub" data-out="t-decide-sub"></span></button>
         <button class="thread__stage" role="tab" type="button" data-step="deliver" aria-selected="false"><span class="thread__n">5</span><span class="thread__name">Deliver</span><b class="thread__val" data-out="t-deliver"></b><span class="thread__sub" data-out="t-deliver-sub"></span></button>
@@ -70,7 +70,7 @@
       <section class="step" data-panel="forecast" role="tabpanel" aria-labelledby="fc-title">
         <div class="step__head">
           <h2 class="step__title" id="fc-title">how likely</h2>
-          <p class="step__note">Daybreak splits each question into parts, sends each part to the engine built for it, declines the parts no one can forecast, and fuses the rest into one probability with error bars. Override any of them and every later stage recomputes.</p>
+          <p class="step__note">Daybreak splits each question into parts, sends each part to the engine built for it, declines the parts no one can forecast, and fuses the rest into one probability with error bars. Override any of them, and every later stage recomputes.</p>
         </div>
         <div class="fc" id="forecast"></div>
       </section>
@@ -78,8 +78,8 @@
       <!-- 2. Events -->
       <section class="step" data-panel="events" role="tabpanel" aria-labelledby="ev-title" hidden>
         <div class="step__head">
-          <h2 class="step__title" id="ev-title">what happens if they do</h2>
-          <p class="step__note">Choose which events this scenario includes and how bad each one gets. How likely they are comes from the forecast.</p>
+          <h2 class="step__title" id="ev-title">contingencies to plan for</h2>
+          <p class="step__note">Choose which contingencies this scenario covers and how severe each one gets. Their likelihood comes from the forecast.</p>
         </div>
         <div class="presets" role="group" aria-label="Scenario presets">
           <span class="presets__label">Start from</span>
@@ -90,7 +90,7 @@
         </div>
         <div class="events" id="events"></div>
         <div class="panel futures">
-          <h3 class="panel__title">The futures this makes</h3>
+          <h3 class="panel__title">How many could happen at once</h3>
           <div class="futures__bar" id="futures"></div>
           <p class="futures__note" data-out="futures-note"></p>
         </div>
@@ -99,25 +99,25 @@
       <!-- 3. Impact -->
       <section class="step" data-panel="impact" role="tabpanel" aria-labelledby="im-title" hidden>
         <div class="step__head">
-          <h2 class="step__title" id="im-title">what it does to the organization</h2>
-          <p class="step__note">How the events you've included travel through your network: the sites, people, customers and commitments they reach, not only the money. Averages weigh every combination of events by its chance.</p>
+          <h2 class="step__title" id="im-title">the impact on your organization</h2>
+          <p class="step__note">How the contingencies you've included spread through your network, and the sites, people, customers and commitments they reach beyond the money. Averages weight each combination of contingencies by its probability.</p>
         </div>
         <div class="dims" id="dims" role="tablist" aria-label="Kinds of impact"></div>
         <div class="panel dimdetail" id="dimdetail" aria-live="polite"></div>
         <div class="impact">
           <div class="panel instrument graph">
-            <svg class="graph__svg" id="igraph" viewBox="0 0 760 420" role="img" aria-label="Network graph showing where the events you've included hit Halvorsen's network. Select a node to see its impact."></svg>
+            <svg class="graph__svg" id="igraph" viewBox="0 0 760 420" role="img" aria-label="Network graph showing where the contingencies you've included hit Halvorsen's network. Select a node to see its impact."></svg>
             <p class="graph__legend"><i class="gl gl--hot"></i>Expected loss <i class="gl gl--ring"></i>Hit directly <i class="gl gl--alt"></i>Alternate route <i class="gl gl--trace"></i>Path of the selection</p>
           </div>
           <aside class="panel inspector" id="iasset" aria-live="polite"></aside>
         </div>
         <div class="panel table-panel">
           <div class="hit__head">
-            <h3 class="panel__title">Everything in the path <span class="hit__count" data-out="hit-count"></span></h3>
+            <h3 class="panel__title">Assets affected <span class="hit__count" data-out="hit-count"></span></h3>
             <div class="hit__teams" id="hit-teams" role="group" aria-label="Filter by team"></div>
           </div>
           <div class="table-wrap"><table class="table register" id="hit">
-            <thead><tr><th scope="col">Asset</th><th scope="col">How it's reached</th><th scope="col">Owner</th><th scope="col" class="r">Impact</th></tr></thead>
+            <thead><tr><th scope="col">Asset</th><th scope="col">How it's affected</th><th scope="col">Owner</th><th scope="col" class="r">Impact</th></tr></thead>
             <tbody></tbody>
           </table></div>
         </div>
@@ -126,7 +126,7 @@
       <!-- 4. Decide -->
       <section class="step" data-panel="decide" role="tabpanel" aria-labelledby="de-title" hidden>
         <div class="step__head">
-          <h2 class="step__title" id="de-title">what to do about it</h2>
+          <h2 class="step__title" id="de-title">your response</h2>
           <p class="step__note" data-out="carry-decide"></p>
         </div>
         <div class="op-actions">
@@ -144,7 +144,7 @@
               <tbody></tbody>
             </table>
           </div>
-          <p class="table-note">Value is how much expected loss the action removes, given the rest of the plan, if it lands in time and in full. Net is value minus cost. How and by whom is decided in Deliver.</p>
+          <p class="table-note">Value is how much expected loss the action removes, given the rest of the plan, if it lands in time and in full. Net is value minus cost. Who does each action, and how, is decided in Deliver.</p>
         </div>
         <div class="panel instrument frontier">
           <div class="frontier__head">
@@ -154,15 +154,15 @@
             </div>
             <p class="frontier__note" data-out="frontier-note"></p>
           </div>
-          <svg class="frontier__svg" id="frontier" viewBox="0 0 640 300" role="img" aria-label="Plans by cost and expected loss, with the efficient frontier and your plan highlighted."></svg>
+          <svg class="frontier__svg" id="frontier" viewBox="0 0 640 300" role="img" aria-label="Plans by cost and expected loss, with the best plan at each budget and your plan highlighted."></svg>
         </div>
       </section>
 
       <!-- 5. Deliver -->
       <section class="step" data-panel="deliver" role="tabpanel" aria-labelledby="dl-title" hidden>
         <div class="step__head">
-          <h2 class="step__title" id="dl-title">who has to do it</h2>
-          <p class="step__note">Open a team to see its people, choose how each action gets done, who works on it and when it starts. A stretched crew lands late, and a late or scaled-back action protects less.</p>
+          <h2 class="step__title" id="dl-title">who does the work</h2>
+          <p class="step__note">Open a team to see its people, then choose how each action is done, who works on it and when it starts. An overstretched crew finishes late, and a late or scaled-back action protects less.</p>
         </div>
         <div class="board" id="board" role="tablist" aria-label="Teams"></div>
         <div class="panel teamws" id="teamws" role="tabpanel" aria-live="polite"></div>
@@ -175,8 +175,8 @@
       <!-- 6. Consequences -->
       <section class="step" data-panel="outcomes" role="tabpanel" aria-labelledby="co-title" hidden>
         <div class="step__head">
-          <h2 class="step__title" id="co-title">what your decision changes</h2>
-          <p class="step__note">Your plan as it will actually be delivered, against doing nothing, across every kind of impact from stage 3.</p>
+          <h2 class="step__title" id="co-title">what your plan changes</h2>
+          <p class="step__note">Your plan, as your teams would actually deliver it, compared with doing nothing across every kind of impact from stage 3.</p>
         </div>
         <div class="panel compare">
           <div class="table-wrap"><table class="table compare__table">
@@ -191,8 +191,8 @@
             <p class="hist__note" data-out="hist-note"></p>
           </div>
           <div class="panel instrument">
-            <h3 class="panel__title">What moves the number most</h3>
-            <svg class="tornado" id="tornado" viewBox="0 0 520 240" role="img" aria-label="Sensitivity of expected loss to each included event's probability and severity"></svg>
+            <h3 class="panel__title">What moves expected loss most</h3>
+            <svg class="tornado" id="tornado" viewBox="0 0 520 240" role="img" aria-label="Sensitivity of expected loss to each included contingency's probability and severity"></svg>
             <p class="hist__note">Expected loss with your plan, if each input were a little lower (left) or higher (right).</p>
           </div>
         </div>
@@ -226,7 +226,7 @@
           <div data-view="network">
             <div class="panel instrument graph">
               <svg class="graph__svg" id="graph" viewBox="0 0 760 420" role="img" aria-label="Network graph of Halvorsen's suppliers, ports, plants, distribution centres and chokepoints. Select a node to inspect it and trace its dependencies."></svg>
-              <p class="graph__legend"><i class="gl gl--hot"></i>Expected loss <i class="gl gl--ring"></i>Touched by an included event <i class="gl gl--alt"></i>Alternate route <i class="gl gl--trace"></i>Dependency of the selection</p>
+              <p class="graph__legend"><i class="gl gl--hot"></i>Expected loss <i class="gl gl--ring"></i>Hit by an included contingency <i class="gl gl--alt"></i>Alternate route <i class="gl gl--trace"></i>Dependency of the selection</p>
             </div>
           </div>
           <div data-view="assets" hidden>
@@ -298,7 +298,7 @@
           </div>
           <div class="panel instrument code">
             <div class="code__head">
-              <h3 class="panel__title">Same thing, in the SDK</h3>
+              <h3 class="panel__title">The same changes in the SDK</h3>
               <button class="btn btn--ghost btn--sm" type="button" id="copy">Copy</button>
             </div>
             <pre><code id="code"></code></pre>
