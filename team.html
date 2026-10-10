@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Team · Daybreak</title>
+  <meta name="description" content="Daybreak for team leads: the decisions that need you today, leadership's directives broken into your team's tasks, who on the team has room, what to watch and how the team adapts.">
+  <link rel="preload" href="assets/fonts/switzer-800.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/switzer-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/app.css">
+  <link rel="stylesheet" href="assets/css/team.css">
+  <script src="assets/js/nav.js"></script>
+</head>
+<body class="app t-sunrise grain">
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="bar">
+    <a class="wordmark" href="index.html" aria-label="Daybreak home">
+      <svg viewBox="0 0 26 26" aria-hidden="true"><defs><mask id="crack-team-1" maskUnits="userSpaceOnUse" x="0" y="0" width="26" height="26"><rect width="26" height="26" fill="#fff"/><path d="M21.20 4.80 L18.34 9.29 L14.13 10.17 L13.49 14.34 L9.36 15.02 L8.62 18.80 L4.80 21.20" fill="none" stroke="#000" stroke-width="1.4" stroke-linejoin="miter"/></mask></defs><circle cx="13" cy="13" r="10" fill="#f2683c" mask="url(#crack-team-1)"/></svg>
+      daybreak
+    </a>
+    <nav class="tabs" aria-label="Product">
+      <a href="briefing.html">brief</a>
+      <a href="team.html" aria-current="page">team</a>
+      <a href="workbench.html">workbench</a>
+      <a href="ask.html">ask</a>
+    </nav>
+    <p class="bar__meta"><b>Halvorsen Group</b><span>Tue 6 Oct, 07:10 GST</span></p>
+  </header>
+
+  <main id="main" class="page page--team">
+    <section class="thead">
+      <div class="thead__who">
+        <p class="eyebrow thead__kicker" data-out="kicker"></p>
+        <h1 class="display thead__title" data-out="hello"></h1>
+      </div>
+      <div class="persona" role="radiogroup" aria-label="Viewing as" id="persona"></div>
+    </section>
+
+    <section class="glance" aria-label="Your team at a glance" id="glance"></section>
+
+    <!-- Decisions that need the manager, and the week -->
+    <div class="tgrid">
+      <section class="tsec" aria-labelledby="dec-title">
+        <div class="tsec__head">
+          <h2 class="tsec__title" id="dec-title">needs you today</h2>
+          <p class="tsec__note">Smaller calls that are yours to make. Daybreak suggests one option and says why; pick it, pick another, or leave it for later.</p>
+        </div>
+        <ol class="decisions" id="decisions"></ol>
+      </section>
+      <aside class="panel week" aria-labelledby="week-title">
+        <h2 class="week__title" id="week-title">This week</h2>
+        <ol class="week__days" id="week"></ol>
+      </aside>
+    </div>
+
+    <!-- Leadership's decisions, broken into the team's tasks -->
+    <section class="tsec" aria-labelledby="dir-title">
+      <div class="tsec__head">
+        <h2 class="tsec__title" id="dir-title">from leadership</h2>
+        <p class="tsec__note">Decisions made above you, what your team's part is, and the tasks that deliver it. Move each task along, hand it to someone with room, or flag what's in the way.</p>
+      </div>
+      <div class="directives" id="directives"></div>
+    </section>
+
+    <!-- The team -->
+    <section class="tsec" aria-labelledby="team-title">
+      <div class="tsec__head">
+        <h2 class="tsec__title" id="team-title">your team</h2>
+        <p class="tsec__note">Who's on, how much of their week is spoken for, what they're certified to do and who covers for them. Select someone to see their work.</p>
+      </div>
+      <div class="crew">
+        <ul class="roster" id="roster"></ul>
+        <aside class="panel member" id="member" aria-live="polite"></aside>
+      </div>
+      <div class="panel gaps">
+        <h3 class="panel__title">Gaps to cover</h3>
+        <ul class="gaps__list" id="gaps"></ul>
+      </div>
+    </section>
+
+    <!-- Threats and opportunities -->
+    <section class="tsec" aria-labelledby="watch-title">
+      <div class="tsec__head">
+        <h2 class="tsec__title" id="watch-title">what to watch</h2>
+        <p class="tsec__note">The threats and openings that matter to your team specifically, the early signal for each, and the playbook your team runs if it happens. Get steps ready now so the team isn't starting cold.</p>
+      </div>
+      <div class="watch">
+        <ul class="watch__list" id="watch" role="tablist" aria-label="Threats and opportunities"></ul>
+        <div class="panel play" id="play" role="tabpanel" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- The update upward -->
+    <section class="tsec" aria-labelledby="up-title">
+      <div class="tsec__head">
+        <h2 class="tsec__title" id="up-title">your update</h2>
+        <p class="tsec__note">Drafted from what's on this page: progress on each directive, what you decided, what's stuck and what you're watching. Edit it, then send it.</p>
+      </div>
+      <div class="panel update">
+        <p class="update__to" data-out="update-to"></p>
+        <label class="sr-only" for="update-text">Your update</label>
+        <textarea class="update__text" id="update-text" rows="14"></textarea>
+        <div class="update__acts">
+          <button class="btn btn--primary btn--sm" type="button" id="update-send"></button>
+          <button class="btn btn--ghost btn--sm" type="button" id="update-copy">Copy</button>
+          <button class="btn btn--ghost btn--sm" type="button" id="update-redraft">Redraft from the page</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="app-foot">
+    <span>A Daybreak mockup. Halvorsen Group is fictional and every figure is illustrative.</span>
+    <a href="index.html">back to daybreak.com</a>
+  </footer>
+
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/sky.js"></script>
+  <script>Sky.drift(document.body);</script>
+  <script src="assets/js/team.js"></script>
+</body>
+</html>

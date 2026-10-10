@@ -3,7 +3,7 @@
    the new page then slides in from that side. Where the browser supports cross-document
    view transitions, the old page slides out too and the top bar stays put. */
 (function () {
-  var ORDER = ["index.html", "briefing.html", "wargame.html", "workbench.html", "ask.html"];
+  var ORDER = ["index.html", "briefing.html", "team.html", "workbench.html", "ask.html"];
   var KEY = "daybreak.slide";
   function idx(href) {
     try { return ORDER.indexOf(new URL(href, location.href).pathname.split("/").pop() || "index.html"); } catch (e) { return -1; }

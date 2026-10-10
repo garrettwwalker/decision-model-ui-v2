@@ -13,7 +13,7 @@
       }
     });
     defer.addEventListener("click", function () {
-      window.location.href = "wargame.html?try=" + defer.getAttribute("data-move");
+      window.location.href = "team.html?directive=" + defer.getAttribute("data-move");
     });
   });
 

@@ -1,4 +1,4 @@
-/* The toy loss model behind the wargame and workbench. All money in $ millions.
+/* The toy loss model behind the brief, the ask page and the workbench. All money in $ millions.
    It is deliberately simple: a scenario blocks the strait for D effective days, and
    each node loses money once its cover runs out, until supply returns. */
 (function () {

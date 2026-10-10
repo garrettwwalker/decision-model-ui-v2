@@ -1,6 +1,6 @@
 /* Ask page: a scripted chat over the scenario model (mockup, no live assistant).
    Questions are matched to a few intents; every number is computed from model.js.
-   The scenario being assumed is shared with the wargame through sessionStorage. */
+   The scenario being assumed is kept in sessionStorage, so it survives a trip to the workbench and back. */
 (function () {
   var M = DBModel;
   var STORE = "daybreak.scenario";
@@ -38,7 +38,7 @@
     try { saved = JSON.parse(sessionStorage.getItem(STORE) || "null"); } catch (e) {}
     var fromWar = saved && M.STATUS[saved.status] && JSON.stringify(saved) !== JSON.stringify(M.DEFAULTS);
     ctx = fromWar ? saved : M.clone(M.DEFAULTS);
-    source = fromWar ? "Your latest settings in the wargame." : "This morning's scenario.";
+    source = fromWar ? "Your settings from earlier in this session." : "This morning's scenario.";
   }
   function save() { try { sessionStorage.setItem(STORE, JSON.stringify(ctx)); } catch (e) {} }
 
@@ -156,7 +156,7 @@
     toBottom();
     setTimeout(function () { li.remove(); then(); toBottom(); }, 600 + Math.random() * 500);
   }
-  var OPEN_WAR = { label: "Open in the wargame", href: "wargame.html?from=ask" };
+  var OPEN_WAR = { label: "Explore in the workbench", href: "workbench.html" };
 
   /* ---------- Intents ---------- */
   function lossFacts(r) {
@@ -217,7 +217,7 @@
     return {
       text: text,
       facts: lossFacts(b).concat([["Hit hardest", NODES[worst[0]].name + ", " + DB.money(worst[1].loss), "loss"]]),
-      route: "Worked out by running this world through your network model. The wargame shows the full spread of outcomes.",
+      route: "Worked out by running this world through your network model. The workbench shows the full spread of outcomes.",
       actions: [OPEN_WAR],
       followups: ["How long can our plants keep running?", "What's the best way to cut our losses?"]
     };

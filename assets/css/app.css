@@ -26,7 +26,7 @@ body.app { min-height: 100vh; }
     radial-gradient(70% 380px at 78% 0%, rgba(255, 236, 200, 0.95), rgba(255, 236, 200, 0) 100%),
     linear-gradient(180deg, #f39a72 0px, #ffbb8b 320px, var(--dawn) 700px, #ffd2a8 1800px, #ffe6c9 3200px, #fff1df 100%);
 }
-/* Blue hour (wargame): the whole page is an instrument, the sun not yet up */
+/* Blue hour: a dark ground where the whole page is an instrument, the sun not yet up (no page uses it now) */
 .t-bluehour {
   --ctl: #ffb547;
   --ctl-soft: rgba(255, 181, 71, 0.3);

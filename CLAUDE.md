@@ -11,16 +11,17 @@ no tests. To preview, open `index.html` in a browser; there's no server.
 
 ## Architecture
 
-- Pages: `index.html` (landing), `briefing.html` (executive brief), `wargame.html`
-  (scenario sandbox), `workbench.html` (world-model editor for data/IT) and `ask.html` (chat).
-- Product pages share the landing's vocabulary: dawn ground (`t-sunrise`; the wargame keeps its dark `t-bluehour` ground), white paper (`.panel`,
+- Pages: `index.html` (landing), `briefing.html` (executive brief), `team.html` (team workflows for middle
+  managers), `workbench.html` (world-model editor for data/IT) and `ask.html` (chat). `wargame.html` is only a
+  redirect to `team.html`; the wargame it used to hold was replaced.
+- Product pages share the landing's vocabulary: dawn ground (`t-sunrise`), white paper (`.panel`,
   pinned `.note`), dark `.instrument` tiles only for live charts and code, lowercase burnt-dawn section
   titles, dashed dividers, cargo tags for routes. The ask page keeps its own pre-dawn sky (`t-predawn`).
   The landing page runs night → dawn on scroll.
 - `assets/css/base.css` holds shared tokens and components, `app.css` the product-page
-  chrome, and `landing.css`, `brief.css`, `war.css` and `bench.css` are per page.
+  chrome, and `landing.css`, `brief.css`, `team.css` and `bench.css` are per page.
 - `assets/js/model.js` is the single source of truth for every loss figure. The
-  wargame and workbench run it live. The brief's numbers are static but were computed from
+  ask page and workbench run it live. The brief's numbers are static but were computed from
   it, so if you change `BASE`, recompute and update `briefing.html`. Money is in $M.
 - `assets/js/sky.js` renders procedural cumulus banks (`[data-clouds]`, shapes in `SHAPES`): flat-based
   clouds with puffs peaking mid-cloud, one light gradient per cloud, crown highlights and an underside glow.
@@ -30,8 +31,15 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   start point cross a fixed background layer (CSS `drift` keyframes; still under reduced motion).
 - `ask.html` (fourth tab, "pre-dawn" theme in `assets/css/ask.css`) is the "ask the model" chat. `assets/js/chat.js`
   answers scripted intents (capacity, what-if, best move, forecast, signposts, decline) live from `model.js`.
-  The assumed scenario is shared with the wargame via `sessionStorage["daybreak.scenario"]`; the wargame saves
-  it on every update and loads it on `wargame.html?from=ask`.
+  The assumed scenario is kept in `sessionStorage["daybreak.scenario"]`; its "Explore in the workbench" button links out.
+- `team.html` + `assets/js/team.js` is Daybreak for the people who carry decisions out. `PERSONAS` holds three
+  managers (Farah, port operations; Elif, Gebze production; Layla, GCC key accounts), switched under "Viewing as"
+  and remembered in localStorage. Each has `people` (role, shift, base hours, cap, skills, away, backup), `gaps`,
+  `decisions` (options can finish a task or add one), `directives` from leadership broken into `tasks`
+  (status, owner, day, hours, blocker; `AFTER` holds dependencies), `watch` items (threats and opportunities with
+  an early `signal` against its trigger and playbook `steps`), and `fixed` calendar events. Day 0 is Tue 6 Oct,
+  the morning of the brief. State is per manager (`S[pid]`); everything re-renders from it, including the drafted
+  update to their boss. The brief's "See the team's part" opens `team.html?directive=bridge|divert|cover`.
 - Landing "down to who does what." is a node-link diagram (`.graph`, `.gn` nodes in a CSS grid); `landing.js`
   draws rounded-elbow SVG edges with arrowheads between node centers; they draw themselves once, row by row,
   when the section scrolls into view (timer-driven, not rAF, so it also runs in headless checks).
@@ -79,8 +87,8 @@ contributions as things no one else in the field does, in plain language:
 
 Keep private: specific models and vendors, fusion and calibration methods, the event-sequence
 model, leakage controls, competitor names and patent issues. The Hormuz example's engine figures
-(33 / 26 / 22%, fused 27%, one sub-question declined) appear on the brief and the workbench
-(the brief and wargame); keep them in sync. The landing page deliberately spans industries: an automaker's
+(33 / 26 / 22%, fused 27%, one sub-question declined) appear on the brief and the workbench;
+keep them in sync. The team page reuses the brief's actions, dates and probabilities, so keep those in sync too. The landing page deliberately spans industries: an automaker's
 strike question (engines), a tech company's Brazil launch (timeline), and mixed-sector gray swans.
 
 ## Repository
