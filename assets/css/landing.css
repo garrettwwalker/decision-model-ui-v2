@@ -381,26 +381,13 @@ html { scroll-behavior: smooth; } /* nav CTA glides to the contact form; base.cs
   transform: translate(-50%, -50%);
 }
 .pv-fan { width: 100%; height: auto; margin-top: 0.3rem; }
-/* team workflows: a decision fans out to people, then to their tasks; pulses carry the work along */
-.pv-flow { padding: 0.6rem 0.7rem; }
-.pv-flow svg { width: 100%; height: auto; overflow: visible; }
-.pv-flow__edges path { fill: none; stroke: #b9a493; stroke-width: 1.3; }
-.pv-flow__pulses circle { fill: var(--ember); }
-.pv-flow__lead { fill: var(--ink); }
-.pv-flow__lead-t { font: 800 10.5px var(--font); fill: #fff; letter-spacing: -0.02em; }
-.pv-flow__lead-s { font: 500 8px var(--font); fill: rgba(255, 255, 255, 0.68); }
-.pv-flow__who { fill: #fff; stroke: var(--line-strong); stroke-width: 1.5; }
-.pv-flow__ini { font: 800 8px var(--font); fill: var(--ink); text-anchor: middle; }
-.pv-flow__task rect { fill: #fff; stroke: var(--line); stroke-width: 1; }
-.pv-flow__task text { font: 600 8.5px var(--font); fill: var(--ink-2); }
-.pv-flow__task circle { fill: none; stroke: var(--ink-3); stroke-width: 1.4; }
-.pv-flow__task--done rect { fill: var(--safe-tint); stroke: none; }
-.pv-flow__task--done circle { fill: var(--safe); stroke: none; }
-.pv-flow__task--done text { fill: var(--safe); }
-.pv-flow__task--doing rect { fill: #fff0d1; stroke: none; }
-.pv-flow__task--doing circle { fill: var(--amber); stroke: none; }
-.pv-flow__task--doing text { fill: #7a4a00; }
-@media (prefers-reduced-motion: reduce) { .pv-flow__pulses { display: none; } }
+.pv-team__row { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 0.5rem; align-items: center; padding: 0.4rem 0; }
+.pv-team__row + .pv-team__row { border-top: 1px dashed var(--line-strong); }
+.pv-team__row span:nth-child(2) { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pv-st { padding: 0.1rem 0.45rem; border-radius: 999px; font-size: 0.68rem; font-weight: 800; box-shadow: inset 0 0 0 1.5px var(--line-strong); }
+.pv-st--done { background: var(--safe-tint); color: var(--safe); box-shadow: none; }
+.pv-st--doing { background: #fff0d1; color: #7a4a00; box-shadow: none; }
+.pv-av { width: 1.5rem; height: 1.5rem; border-radius: 50%; display: grid; place-items: center; font-size: 0.6rem; font-weight: 800; background: rgba(10, 23, 34, 0.08); }
 .pv-mid { background: var(--night); border-color: transparent; }
 .pv-heat { display: grid; grid-template-columns: repeat(8, 1fr); gap: 3px; }
 .pv-heat span { aspect-ratio: 1.6; border-radius: 3px; }
