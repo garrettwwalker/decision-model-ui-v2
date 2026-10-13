@@ -67,17 +67,32 @@
     });
   }
 
-  function readFrame() {
-    var vh = window.innerHeight;
-    var atEnd = window.scrollY + vh >= document.documentElement.scrollHeight - 4;
+  // Every word gets a place in reading order: its line's page position, plus how far along the line it
+  // sits (as a fraction of one line height). One reading line sweeps down the page, so a paragraph can't
+  // start before the one above it is done. Measured once per layout, not per frame.
+  var READ_LINE = 0.7; // share of the viewport height
+  function measureReads() {
+    var sy = window.scrollY;
     reads.forEach(function (r) {
-      var b = r.el.getBoundingClientRect();
-      if (b.bottom < -vh || b.top > vh * 2) return; // far off screen: leave as is
-      // starts when the block's top reaches 85% of the viewport, done when its bottom reaches 55%
-      var start = vh * 0.85, end = vh * 0.55;
-      var t = clamp((start - b.top) / ((b.bottom - b.top) + (start - end)), 0, 1);
-      if (atEnd && b.top < vh) t = 1; // the page can't scroll further: finish what's visible
-      var n = Math.round(t * r.units.length);
+      var bb = r.el.getBoundingClientRect(), w = Math.max(1, bb.width);
+      r.top = bb.top + sy; r.bottom = bb.bottom + sy;
+      r.keys = r.units.map(function (u) {
+        var b = u.getBoundingClientRect();
+        return b.top + sy + (b.left - bb.left) / w * b.height;
+      });
+      r.n = -1;
+    });
+  }
+
+  function readFrame() {
+    var vh = window.innerHeight, sy = window.scrollY;
+    var atEnd = sy + vh >= document.documentElement.scrollHeight - 4;
+    var line = sy + vh * READ_LINE;
+    reads.forEach(function (r) {
+      if (!r.keys || r.bottom < sy - vh || r.top > sy + vh * 2) return; // far off screen: leave as is
+      var lim = atEnd && r.top < sy + vh ? Infinity : line; // the page can't scroll further: finish what's visible
+      var n = 0;
+      while (n < r.keys.length && r.keys[n] < lim) n++;
       if (n === r.n) return;
       r.units.forEach(function (u, i) { u.classList.toggle("on", i < n); });
       r.n = n;
@@ -281,6 +296,13 @@
   }
   window.addEventListener("scroll", onScroll, { passive: true });
   window.addEventListener("resize", onScroll);
+  // word positions shift whenever the layout does (resize, late fonts, the watch card changing height)
+  var remeasure = 0;
+  function relayout() { cancelAnimationFrame(remeasure); remeasure = requestAnimationFrame(function () { measureReads(); readFrame(); }); }
+  measureReads();
+  if (window.ResizeObserver) new ResizeObserver(relayout).observe(document.body);
+  else window.addEventListener("resize", relayout);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(relayout);
   onScroll();
 
   /* ---------- Mobile menu ---------- */
