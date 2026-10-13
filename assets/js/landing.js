@@ -144,9 +144,9 @@
     setInterval(next, 4500);
   })();
 
-  /* ---------- Node-link model: connectors draw themselves once, row by row, when the section arrives;
-     each node fades in (as a tile) when its arrow lands, the first one as the drawing starts. Like every
-     tile, the diagram fades back out (lines dimmed too) when it drops below 85% of the viewport. ---------- */
+  /* ---------- Node-link model: connectors draw themselves once, row by row, when the section arrives.
+     The nodes are tiles: all fade in once the diagram's top crosses 85% of the viewport, and back out
+     (lines dimmed too) when it drops below that line again. ---------- */
   (function () {
     var fig = document.querySelector(".graph");
     if (!fig) return;
@@ -156,13 +156,11 @@
                  ["exposure", "security"], ["exposure", "procurement"], ["exposure", "board"]];
     var WAVES = [[0], [1, 2], [3, 4], [5, 6, 7]]; // edges in a wave draw together
     var node = function (k) { return fig.querySelector('[data-node="' + k + '"]'); };
-    var arrived = {};
-    var lit = function (k) { arrived[k] = true; paint(); };
     function paint() {
       if (still) return;
       var on = fig.getBoundingClientRect().top < window.innerHeight * 0.85;
       fig.querySelectorAll(".gn").forEach(function (n) {
-        n.classList.toggle("on", on && (done || !!arrived[n.getAttribute("data-node")]));
+        n.classList.toggle("on", on);
       });
       fig.classList.toggle("is-away", started && !on);
     }
@@ -211,16 +209,15 @@
         var ease = 1 - Math.pow(1 - k, 3);
         idx.forEach(function (i) { edges[i].p.style.strokeDashoffset = edges[i].len * (1 - ease); });
         if (k < 1) return setTimeout(step, 16);
-        idx.forEach(function (i) { edges[i].head.style.opacity = 1; lit(EDGES[i][1]); });
+        idx.forEach(function (i) { edges[i].head.style.opacity = 1; });
         then();
       })();
     }
     function play() {
       started = true;
-      lit(EDGES[0][0]);
       var w = 0;
       (function next() {
-        if (w >= WAVES.length) { done = true; paint(); return; }
+        if (w >= WAVES.length) { done = true; return; }
         drawWave(WAVES[w++], function () { setTimeout(next, 90); });
       })();
     }
