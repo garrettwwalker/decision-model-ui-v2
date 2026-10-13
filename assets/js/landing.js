@@ -351,15 +351,15 @@
       heat.appendChild(c);
       return { el: c, base: v };
     });
-    // a live panel: about two-thirds of the cells breathe slowly around their reading, each on its own
+    // a live panel: about three-quarters of the cells breathe slowly around their reading, each on its own
     // period and phase, staying on the same ramp. Computed continuously (no CSS transitions to interrupt),
     // only while the card is on screen, and never under reduced motion
     var calm = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (!calm) {
       var rnd = Math.random;
       cells.forEach(function (c) {
-        c.amp = rnd() < 0.35 ? 0 : 0.04 + rnd() * 0.09;
-        c.per = 4000 + rnd() * 6000;
+        c.amp = rnd() < 0.25 ? 0 : 0.06 + rnd() * 0.12;
+        c.per = 3500 + rnd() * 5000;
         c.ph = rnd() * Math.PI * 2;
       });
       var shown = false, last = 0;
