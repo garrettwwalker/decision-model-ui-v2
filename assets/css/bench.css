@@ -343,7 +343,7 @@ select.num-input, input.num-input { font-family: var(--font); background: #fff; 
 .frontier .fp--best { fill: #7fe0c6; stroke: #fff; stroke-width: 2; }
 .axis--best { fill: #7fe0c6; font-weight: 700; }
 
-/* ================= Ask Daybreak (workbench) ================= */
+/* ================= Ask ByNine (workbench) ================= */
 .asklaunch {
   position: fixed; right: max(1rem, env(safe-area-inset-right)); bottom: calc(env(safe-area-inset-bottom, 0px) + 1rem); z-index: 60;
   display: inline-flex; align-items: center; gap: 0.5rem; min-height: 48px; padding: 0 1.15rem 0 1rem;

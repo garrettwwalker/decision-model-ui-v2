@@ -16,7 +16,7 @@
 
   // fit: yes / mixed / no for each interest, in INTERESTS order
   var OPTIONS = [
-    { id: "watch", n: 1, title: "Watch and set tripwires", line: "Change nothing yet. Set Daybreak to watch four signposts and draft, but don't send, the exit letters.",
+    { id: "watch", n: 1, title: "Watch and set tripwires", line: "Change nothing yet. Set the Daylight engine to watch four signposts and draft, but don't send, the exit letters.",
       cost: 0.1, protects: 0, fit: ["yes", "no", "no", "mixed", "yes"],
       pros: ["Costs almost nothing and keeps every supplier and trader", "Nothing to unwind if the talks restart"],
       cons: ["A 30-day window is too short to qualify new resin, which takes 6 to 8 weeks", "If a trader is named before we act, the shipment is already a breach"] },
@@ -41,7 +41,7 @@
     watch: {
       lead: "Risk office", hours: 60, first: "Thu 8 Oct",
       steps: [
-        ["Set tripwires on four signposts in Daybreak", "Risk office", 0, 1],
+        ["Set tripwires on four signposts in ByNine", "Risk office", 0, 1],
         ["Weekly sanctions read-out to the exec team", "Risk office", 0, 10],
         ["Draft exit letters for suppliers and traders", "Legal", 1, 2],
         ["Keep non-Gulf resin samples on file", "Procurement", 2, 2]
@@ -133,7 +133,7 @@
     c.id = "opt-" + o.id;
     var head = el("div", "option__head");
     head.appendChild(el("span", "option__n", String(o.n)));
-    if (o.tag) head.appendChild(el("span", "pill " + (o.pick ? "pill--safe" : "pill--warn"), "Daybreak's read: " + o.tag));
+    if (o.tag) head.appendChild(el("span", "pill " + (o.pick ? "pill--safe" : "pill--warn"), "Daylight's read: " + o.tag));
     c.appendChild(head);
     c.appendChild(el("h3", "option__title", o.title));
     c.appendChild(el("p", "option__line", o.line));

@@ -539,7 +539,7 @@
   /* ================= 1. Forecast ================= */
   var fcBox = document.getElementById("forecast");
   function spark(e) {
-    // 90 days of forecast history, ending at Daybreak's forecast this morning
+    // 90 days of forecast history, ending at the Daylight engine's forecast this morning
     var rand = DB.rng(e.id.length * 97 + 13), pts = [], h = e.hist, n = 30;
     for (var i = 0; i < n; i++) {
       var t = i / (n - 1), seg = Math.min(2, Math.floor(t * 3)), k = t * 3 - seg;
@@ -589,11 +589,11 @@
       var pt = el("span", { class: "field__top" }, "Your view"); var pv = el("span", { class: "field__val" }); pt.appendChild(pv); pf.appendChild(pt);
       var pr = el("input", { type: "range", min: 1, max: 95, step: 1, value: Math.round(e.p * 100), "aria-label": "Your probability for " + e.name }); pf.appendChild(pr);
       pd.appendChild(pf);
-      var reset = el("button", { class: "event__reset", type: "button" }, "Back to Daybreak's forecast");
-      reset.addEventListener("click", function () { e.p = e.base.p; pr.value = Math.round(e.p * 100); DB.fillRanges(row); changed("Reset " + e.short + " to Daybreak's forecast"); });
+      var reset = el("button", { class: "event__reset", type: "button" }, "Back to Daylight's forecast");
+      reset.addEventListener("click", function () { e.p = e.base.p; pr.value = Math.round(e.p * 100); DB.fillRanges(row); changed("Reset " + e.short + " to Daylight's forecast"); });
       pd.appendChild(reset);
       row.appendChild(pd);
-      // how Daybreak got there
+      // how the Daylight engine got there
       var hw = el("ol", { class: "fcrow__how" }); hw.hidden = true;
       row.appendChild(hw);
       how.addEventListener("click", function () { opened[e.id] = hw.hidden; sync(); });
@@ -603,7 +603,7 @@
         row.classList.toggle("is-off", !e.on); row.classList.toggle("is-focus", focus === e.id);
         det.textContent = e.detail + ". 30-day horizon." + (e.on ? "" : " Not included in this scenario.");
         big.textContent = Math.round(p * 100) + "%";
-        pv.textContent = moved ? "Your override" : "Same as Daybreak";
+        pv.textContent = moved ? "Your override" : "Daylight's forecast";
         reset.hidden = !moved;
         // one scale for every row, just wide enough for the largest number on it
         var top = Math.max.apply(null, events.map(function (x) { return Math.max(pOf(x), x.base.p + x.band / 100, x.fused.Judgment, x.fused.Telemetry, x.fused.Procedure); }));
@@ -614,7 +614,7 @@
         var prev = -1, lvl = 0;
         engs.forEach(function (x) { var v = e.fused[x[0]]; lvl = prev >= 0 && (v - prev) * 100 / dom < 0.035 ? lvl + 1 : 0; prev = v; x[1].style.left = X(v); x[1].style.bottom = (1.45 + lvl * 1.25) + "rem"; });
         fd.style.left = X(e.base.p);
-        // overridden: the solid dot moves to your value and Daybreak's stays behind as a faint outline
+        // overridden: the solid dot moves to your value and Daylight's stays behind as a faint outline
         var over = moved || Math.abs(p - e.p) > 1e-9;
         you.hidden = !over; you.style.left = X(p); fd.classList.toggle("is-ghost", over);
         track.setAttribute("aria-label", "Engines: " + Object.keys(e.fused).map(function (k) { return k + " " + Math.round(e.fused[k] * 100) + "%"; }).join(", ") + ". Fused " + Math.round(e.base.p * 100) + "% plus or minus " + e.band + " points." + (moved ? " Your view: " + Math.round(p * 100) + "%." : ""));
@@ -622,7 +622,7 @@
         sp.textContent = ""; sp.appendChild(spark(e)); sp.title = "Last 90 days: " + Math.round(e.hist[0] * 100) + "% to " + Math.round(e.base.p * 100) + "%";
         var open = opened[e.id] != null ? opened[e.id] : focus === e.id;
         hw.hidden = !open; how.setAttribute("aria-expanded", String(open));
-        how.textContent = open ? "Hide the working" : "How Daybreak got " + Math.round(e.base.p * 100) + "%";
+        how.textContent = open ? "Hide the working" : "How Daylight got " + Math.round(e.base.p * 100) + "%";
         fb.setAttribute("aria-pressed", String(focus === e.id)); fb.textContent = focus === e.id ? "Following" : "Follow this contingency";
         if (open) {
           hw.textContent = "";
@@ -760,7 +760,7 @@
     Object.keys(NODES).forEach(function (id) { if ((NODES[id].touched || []).some(function (t) { return on.indexOf(t) > -1; })) out[id] = 1; });
     return out;
   }
-  function teamName(t) { return t ? TEAMS[t].name : "Watched by Daybreak"; }
+  function teamName(t) { return t ? TEAMS[t].name : "Watched by ByNine"; }
 
   /* ================= 3. Impact: the map ================= */
   // where each graph node sits, in lon/lat; the Gulf ones are too close together at this scale, so they get an inset
@@ -993,7 +993,7 @@
     rows.forEach(function (x) { var t = x.owner || "none"; byTeam[t] = (byTeam[t] || 0) + 1; });
     var tb = document.getElementById("hit-teams"); tb.textContent = "";
     Object.keys(byTeam).sort(function (x, y) { return byTeam[y] - byTeam[x]; }).forEach(function (t) {
-      var b = el("button", { class: "chip-btn chip-btn--sm" + (hitTeam === t ? " is-on" : ""), type: "button", "aria-pressed": String(hitTeam === t) }, (t === "none" ? "Watched by Daybreak" : TEAMS[t].name) + " " + byTeam[t]);
+      var b = el("button", { class: "chip-btn chip-btn--sm" + (hitTeam === t ? " is-on" : ""), type: "button", "aria-pressed": String(hitTeam === t) }, (t === "none" ? "Watched by ByNine" : TEAMS[t].name) + " " + byTeam[t]);
       b.addEventListener("click", function () { hitTeam = hitTeam === t ? "" : t; renderImpact(); });
       tb.appendChild(b);
     });
@@ -1090,7 +1090,7 @@
   function renderDecide() {
     var S = stats({}), ar = atRisk(S);
     $("carry-decide").textContent = "At stake from stage 3: " + money(S.money) + " of expected loss, " + plural(ar.length, "commitment") + " at risk" +
-      (S.w_crew ? ", and " + S.w_crew + " seafarers if Hormuz closes" : "") + (focus ? ". Actions that don't address " + eventById(focus).short + " are faded." : ". Tick actions to build a plan, or let Daybreak recommend one.");
+      (S.w_crew ? ", and " + S.w_crew + " seafarers if Hormuz closes" : "") + (focus ? ". Actions that don't address " + eventById(focus).short + " are faded." : ". Tick actions to build a plan, or let the Daylight engine recommend one.");
     opBody.textContent = "";
     var act = active().map(function (e) { return e.id; }), r = readiness(plan);
     var rows = ACTIONS.map(function (a) {
@@ -1773,7 +1773,7 @@
     });
   }
   function renderCode() {
-    var L = ['<span class="k">from</span> daybreak <span class="k">import</span> World', "", 'w = World.load(<span class="s">"halvorsen/v14.2"</span>)'];
+    var L = ['<span class="k">from</span> bynine <span class="k">import</span> World', "", 'w = World.load(<span class="s">"halvorsen/v14.2"</span>)'];
     Object.keys(PROPS).forEach(function (path) {
       var a = get(M.BASE, path), b = get(params, path);
       if (Math.abs(a - b) > 1e-9) L.push('w.set(<span class="s">"' + PROPS[path][5] + '"</span>, <span class="n">' + fmt(b, PROPS[path][4]) + '</span>)  <span class="c"># was ' + fmt(a, PROPS[path][4]) + "</span>");
@@ -1823,7 +1823,7 @@
     var act = active(), S0 = stats({}), r = readiness(plan), list = planList(plan), D = delivered(plan), cost = costOf(plan), net = S0.money - D.money - cost;
     var moved = events.filter(function (e) { return Math.abs(e.p - e.base.p) > 1e-9; }).length;
     $("t-forecast").textContent = act.length ? act.slice(0, 2).map(function (e) { return e.short + " " + Math.round(pOf(e) * 100) + "%"; }).join(", ") + (act.length > 2 ? " and " + (act.length - 2) + " more" : "") : "Nothing included";
-    $("t-forecast-sub").textContent = moved ? plural(moved, "override") : "Daybreak's fused forecast";
+    $("t-forecast-sub").textContent = moved ? plural(moved, "override") : "Daylight's fused forecast";
     var none = act.reduce(function (s, e) { return s * (1 - pOf(e)); }, 1);
     $("t-events").textContent = plural(act.length, "contingency", "contingencies");
     $("t-events-sub").textContent = act.length ? pct(1 - none) + " chance at least one happens" : "Include one to begin";
@@ -1831,7 +1831,7 @@
     var ar = atRisk(S0);
     $("t-impact-sub").textContent = Object.keys(reach(null)).length + " assets, " + plural(ar.length, "commitment") + " at risk";
     $("t-decide").textContent = list.length ? plural(list.length, "action") : "No plan yet";
-    $("t-decide-sub").textContent = list.length ? money(cost, 2) + " to put in place" : "Daybreak can recommend one";
+    $("t-decide-sub").textContent = list.length ? money(cost, 2) + " to put in place" : "Daylight can recommend one";
     var ppl = {}; list.forEach(function (a) { crewOf(a).forEach(function (id) { ppl[id] = 1; }); });
     $("t-deliver").textContent = !list.length ? "Nothing to deliver" : r.late.length ? r.late.length + " of " + list.length + " land late" : "All land in time";
     $("t-deliver-sub").textContent = list.length ? plural(Object.keys(ppl).length, "person", "people") + " assigned" + (r.overPeople.length ? ", " + r.overPeople.length + " overstretched" : "") : "No work assigned";
@@ -1899,7 +1899,7 @@
     DB.toast(planList(plan).length ? "Committed as a scenario. Each person on the plan has their action, with a deadline." : "Committed as a scenario.");
   }
 
-  /* ================= Ask Daybreak: questions about the live scenario ================= */
+  /* ================= Ask ByNine: questions about the live scenario ================= */
   var askOpen = document.getElementById("ask-open"), drawer = document.getElementById("askdrawer");
   document.body.appendChild(drawer); // out of .page's stacking context, so it can sit over the sticky bar
   var askLog = document.getElementById("ask-log"), askForm = document.getElementById("ask-form"), askInput = document.getElementById("ask-input");
@@ -2011,7 +2011,7 @@
       };
     }
     if (ev && /why|how did|how does|where does|get (to|that)|come from/.test(q) && !/late|slow|delay/.test(q)) {
-      return { text: ["Daybreak split “" + ev.name + "” into parts and sent each to the engine built for it" + (ev.declined ? ", and declined one part no one can forecast" : "") + ". Fused and calibrated, that's " + Math.round(ev.base.p * 100) + "%, ±" + ev.band + " points over 30 days." +
+      return { text: ["The Daylight engine split “" + ev.name + "” into parts and sent each to the engine built for it" + (ev.declined ? ", and declined one part no one can forecast" : "") + ". Fused and calibrated, that's " + Math.round(ev.base.p * 100) + "%, ±" + ev.band + " points over 30 days." +
           (Math.abs(pOf(ev) - ev.base.p) > 0.005 ? " With your overrides and signals it's " + Math.round(pOf(ev) * 100) + "%." : "")],
         facts: ev.subs.map(function (s) { return [s[0] + ": " + s[1], Math.round(ev.fused[s[0]] * 100) + "%"]; }).concat(ev.declined ? [["Declined: " + ev.declined, "no skill"]] : []),
         actions: [{ label: "Show the working", run: function () { opened[ev.id] = true; goTo("forecast"); } }] };
@@ -2100,7 +2100,7 @@
         actions: [{ label: "Load a dataset", run: function () { goTo("model:data"); } }] };
     }
     if (/signal/.test(q)) {
-      return { text: ["A custom signal is one of your own indicators, such as container dwell time at Jebel Ali, that nudges a forecast when it fires. Daybreak back-tests it on your history before it counts, so a noisy signal can't skew the numbers."],
+      return { text: ["A custom signal is one of your own indicators, such as container dwell time at Jebel Ali, that nudges a forecast when it fires. The Daylight engine back-tests it on your history before it counts, so a noisy signal can't skew the numbers."],
         actions: [{ label: "Build a signal", run: function () { goTo("model:data"); } }] };
     }
     var as2 = findAsset(q);

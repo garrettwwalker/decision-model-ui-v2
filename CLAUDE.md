@@ -4,7 +4,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project status
 
-Decision Model UI v2 is a clickable mockup for **Daybreak**, a geopolitical decision model.
+Decision Model UI v2 is a clickable mockup for **ByNine** (working name; the company and product were
+called Daybreak until 2026-10-13), a geopolitical decision model. Its forecasting model is the **Daylight engine**.
 The demo client is Halvorsen Group, a fictional Fortune 500 appliance maker, facing a
 Strait of Hormuz closure. It is plain static HTML/CSS/JS: no framework, no build step and
 no tests. To preview, open `index.html` in a browser; there's no server.
@@ -44,7 +45,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   rules), resolution criteria (text, resolve-by date, source of truth, a suggested wording), and extra documents
   (names only; read in the browser) plus connected `SOURCES`. Active options show as chips, travel with the
   message as tags, add a `.track` card to the reply, and recurring questions list under "Standing questions".
-- `team.html` + `assets/js/team.js` is Daybreak for the people who carry decisions out. `PERSONAS` holds three
+- `team.html` + `assets/js/team.js` is ByNine for the people who carry decisions out. `PERSONAS` holds three
   managers (Farah, port operations; Elif, Gebze production; Layla, GCC key accounts), switched under "Viewing as"
   and remembered in localStorage. Each has `people` (role, shift, base hours, cap, skills, away, backup), `gaps`,
   `decisions` (options can finish a task or add one), `directives` from leadership broken into `tasks`
@@ -71,7 +72,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   data (CSV, signals, sources, SDK) and the change log. "Reset to baseline" sits at the left of every stage's footer (scenario mode only); after a reset it reads
   "Reset" with a tick until the next change (`justReset`, cleared in `changed()`); committing
   happens from the foot of Consequences. Hormuz/Red Sea losses come from `model.js`; other events are layered on in
-  `lossOf()`. "Ask Daybreak" (`#askdrawer`, moved to `<body>` at init to clear `.page`'s stacking context; it rises from the
+  `lossOf()`. "Ask ByNine" (`#askdrawer`, moved to `<body>` at init to clear `.page`'s stacking context; it rises from the
   sparkle button and sinks back via `drawer-in`/`drawer-out`, a bottom sheet on phones) is a scripted assistant: `answer()` matches intents by regex, computes replies from the live engine and offers actions.
 - Motion between views: `assets/js/nav.js` (in every page's `<head>`) records which way the clicked page lies in the
   nav order; the new page slides in from that side (cross-document view transitions where supported, with the
@@ -89,6 +90,12 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   (crimson) and protected money uses `--safe` (teal).
 
 ## Product messaging
+
+Naming: say **ByNine** for the company and the product (wordmark, titles, footers, `bynine.com`, "Ask ByNine",
+anything the customer uses or buys). Say **the Daylight engine** when the copy describes the model doing analysis:
+splitting questions, running its three engines, fusing, forecasting, declining, suggesting. Tight labels may
+shorten it to "Daylight" ("Daylight's read", "How Daylight got 27%"). Storage keys and SVG mask IDs still say
+`daybreak`; they're internal, so leave them.
 
 Source docs: `references/Decision Model Pitch.docx` (overview) and
 `references/Sector-Agnostic Decision Notes.docx` (technical breakdown). The site names three
@@ -122,7 +129,7 @@ capture of convodesign101.xyz, a Framer site). Per §2 of the standards below, m
 direction. Open the image before any UI work; it is 1895×19466, so view it in vertical slices.
 
 **User override (2026-10-06):** emulate the reference loosely. Swap its sky-blue ground for
-**dawn** (the product is Daybreak): dawn gradients, dark storm clouds that part to reveal a
+**dawn** (the product was named Daybreak when this was set; the theme stays under ByNine): dawn gradients, dark storm clouds that part to reveal a
 rising sun. Keep the reference's moves (tone-on-tone type, clouds, bubbles, collectibles)
 but in the dawn palette.
 
