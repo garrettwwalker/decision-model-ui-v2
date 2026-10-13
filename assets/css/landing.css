@@ -390,7 +390,7 @@ html { scroll-behavior: smooth; } /* nav CTA glides to the contact form; base.cs
 .pv-av { width: 1.5rem; height: 1.5rem; border-radius: 50%; display: grid; place-items: center; font-size: 0.6rem; font-weight: 800; background: rgba(10, 23, 34, 0.08); }
 .pv-mid { background: var(--night); border-color: transparent; }
 .pv-heat { display: grid; grid-template-columns: repeat(8, 1fr); gap: 3px; }
-.pv-heat span { aspect-ratio: 1.6; border-radius: 3px; transition: background-color 1.4s ease; }
+.pv-heat span { aspect-ratio: 1.6; border-radius: 3px; }
 
 @media (max-width: 960px) {
   .modes__grid { grid-template-columns: minmax(0, 1fr); max-width: 34rem; gap: 2.5rem; }

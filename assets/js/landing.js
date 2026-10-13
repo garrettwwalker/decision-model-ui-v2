@@ -349,27 +349,33 @@
       var c = document.createElement("span");
       c.style.background = heatColor(v);
       heat.appendChild(c);
-      return { el: c, base: v, v: v };
+      return { el: c, base: v };
     });
-    // a live panel: every so often a few cells drift a little from their reading and ease back,
-    // staying on the same ramp; only while the card is on screen, and never under reduced motion
+    // a live panel: about two-thirds of the cells breathe slowly around their reading, each on its own
+    // period and phase, staying on the same ramp. Computed continuously (no CSS transitions to interrupt),
+    // only while the card is on screen, and never under reduced motion
     var calm = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (!calm) {
-      var shown = false;
-      var tick = function () {
-        if (shown && !document.hidden) {
-          for (var k = 0; k < 4; k++) {
-            var c = cells[Math.floor(Math.random() * cells.length)];
-            c.v = clamp(c.base + (Math.random() - 0.5) * 0.24, 0, 1);
-            c.el.style.background = heatColor(c.v);
-          }
+      var rnd = Math.random;
+      cells.forEach(function (c) {
+        c.amp = rnd() < 0.35 ? 0 : 0.04 + rnd() * 0.09;
+        c.per = 4000 + rnd() * 6000;
+        c.ph = rnd() * Math.PI * 2;
+      });
+      var shown = false, last = 0;
+      var frame = function (t) {
+        if (shown && !document.hidden && t - last > 50) {
+          last = t;
+          cells.forEach(function (c) {
+            if (c.amp) c.el.style.background = heatColor(c.base + c.amp * Math.sin(t / c.per * Math.PI * 2 + c.ph));
+          });
         }
-        setTimeout(tick, 650 + Math.random() * 500);
+        requestAnimationFrame(frame);
       };
       if (window.IntersectionObserver) {
         new IntersectionObserver(function (es) { shown = es[0].isIntersecting; }).observe(heat);
       } else shown = true;
-      tick();
+      requestAnimationFrame(frame);
     }
   }
   function heatColor(v) {
