@@ -179,6 +179,9 @@ These are the fingerprints of a vibe-coded site. Do not use them.
   bottom. Use real composition.
 - **No raw system font / unstyled Inter** as the entire type system (see §3).
 - **No rainbow of soft drop shadows** on every card. Shadow is an accent, not a texture.
+- **No "fingernail" accents:** no thick colored stripe down one edge of a card, tile or callout
+  (`border-left: 3px solid <accent>` on a rounded, tinted box). Let a card stand on its fill, a full
+  hairline outline, an icon or its type instead.
 
 If a design brief or reference *explicitly* asks for one of these (e.g. the client genuinely
 wants purple), the brief wins — but confirm it's intentional, and execute it with care so it
@@ -276,6 +279,7 @@ the code runs.
 - [ ] Is there a "Why Choose us?" or generic SaaS-slogan section?
 - [ ] Is everything centered in one column?
 - [ ] Is the type just default Inter/system with no display face?
+- [ ] Does any card carry a colored stripe down one edge?
 - [ ] Does it break or look unstyled on mobile?
 
 ### 9. Process summary
