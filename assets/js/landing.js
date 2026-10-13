@@ -145,7 +145,8 @@
   })();
 
   /* ---------- Node-link model: connectors draw themselves once, row by row, when the section arrives;
-     each node fades in (as a tile) when its arrow lands, the first one as the drawing starts ---------- */
+     each node fades in (as a tile) when its arrow lands, the first one as the drawing starts. Like every
+     tile, the diagram fades back out (lines dimmed too) when it drops below 85% of the viewport. ---------- */
   (function () {
     var fig = document.querySelector(".graph");
     if (!fig) return;
@@ -155,7 +156,16 @@
                  ["exposure", "security"], ["exposure", "procurement"], ["exposure", "board"]];
     var WAVES = [[0], [1, 2], [3, 4], [5, 6, 7]]; // edges in a wave draw together
     var node = function (k) { return fig.querySelector('[data-node="' + k + '"]'); };
-    var lit = function (k) { node(k).classList.add("on"); };
+    var arrived = {};
+    var lit = function (k) { arrived[k] = true; paint(); };
+    function paint() {
+      if (still) return;
+      var on = fig.getBoundingClientRect().top < window.innerHeight * 0.85;
+      fig.querySelectorAll(".gn").forEach(function (n) {
+        n.classList.toggle("on", on && (done || !!arrived[n.getAttribute("data-node")]));
+      });
+      fig.classList.toggle("is-away", started && !on);
+    }
     var edges = [], done = false, started = false;
     function draw() {
       var box = fig.getBoundingClientRect();
@@ -210,14 +220,14 @@
       lit(EDGES[0][0]);
       var w = 0;
       (function next() {
-        if (w >= WAVES.length) { done = true; return; }
+        if (w >= WAVES.length) { done = true; paint(); return; }
         drawWave(WAVES[w++], function () { setTimeout(next, 90); });
       })();
     }
     function check() {
-      if (started) return;
       var r = fig.getBoundingClientRect();
-      if (r.top < window.innerHeight * 0.7 && r.bottom > 0) play();
+      if (!started && r.top < window.innerHeight * 0.85 && r.bottom > 0) play();
+      paint();
     }
     var still = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (still) done = started = true;
@@ -225,8 +235,8 @@
     draw();
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(draw);
     window.addEventListener("resize", function () {
-      if (started) { done = true; fig.querySelectorAll(".gn").forEach(function (n) { n.classList.add("on"); }); }
-      draw();
+      if (started) done = true;
+      draw(); paint();
     });
     window.addEventListener("scroll", check, { passive: true });
     check();
