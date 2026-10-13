@@ -53,7 +53,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   the morning of the brief. State is per manager (`S[pid]`); everything re-renders from it, including the drafted
   update to their boss. The brief's "See the team's part" opens `team.html?directive=bridge|divert|cover`.
 - Landing "down to who does what." is a node-link diagram (`.graph`, `.gn` nodes in a CSS grid); `landing.js`
-  draws rounded-elbow SVG edges with arrowheads between node centers; they draw themselves once, row by row,
+  draws rounded-elbow SVG edges with arrowheads between node centers; they draw themselves once, row by row (each node fading in as a tile when its arrow lands),
   when the section scrolls into view (timer-driven, not rAF, so it also runs in headless checks).
 - `workbench.html` + `assets/js/bench.js` follows one decision through six stages, with a sticky "thread" strip
   showing each stage's live result: 1 Forecast (each event's sub-questions per engine, declined part, fused

@@ -144,7 +144,8 @@
     setInterval(next, 4500);
   })();
 
-  /* ---------- Node-link model: connectors draw themselves once, row by row, when the section arrives ---------- */
+  /* ---------- Node-link model: connectors draw themselves once, row by row, when the section arrives;
+     each node fades in (as a tile) when its arrow lands, the first one as the drawing starts ---------- */
   (function () {
     var fig = document.querySelector(".graph");
     if (!fig) return;
@@ -154,6 +155,7 @@
                  ["exposure", "security"], ["exposure", "procurement"], ["exposure", "board"]];
     var WAVES = [[0], [1, 2], [3, 4], [5, 6, 7]]; // edges in a wave draw together
     var node = function (k) { return fig.querySelector('[data-node="' + k + '"]'); };
+    var lit = function (k) { node(k).classList.add("on"); };
     var edges = [], done = false, started = false;
     function draw() {
       var box = fig.getBoundingClientRect();
@@ -199,12 +201,13 @@
         var ease = 1 - Math.pow(1 - k, 3);
         idx.forEach(function (i) { edges[i].p.style.strokeDashoffset = edges[i].len * (1 - ease); });
         if (k < 1) return setTimeout(step, 16);
-        idx.forEach(function (i) { edges[i].head.style.opacity = 1; });
+        idx.forEach(function (i) { edges[i].head.style.opacity = 1; lit(EDGES[i][1]); });
         then();
       })();
     }
     function play() {
       started = true;
+      lit(EDGES[0][0]);
       var w = 0;
       (function next() {
         if (w >= WAVES.length) { done = true; return; }
@@ -218,9 +221,13 @@
     }
     var still = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (still) done = started = true;
+    else fig.querySelectorAll(".gn").forEach(function (n) { n.classList.add("tile"); });
     draw();
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(draw);
-    window.addEventListener("resize", function () { if (started) done = true; draw(); });
+    window.addEventListener("resize", function () {
+      if (started) { done = true; fig.querySelectorAll(".gn").forEach(function (n) { n.classList.add("on"); }); }
+      draw();
+    });
     window.addEventListener("scroll", check, { passive: true });
     check();
   })();
