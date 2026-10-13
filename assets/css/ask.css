@@ -193,7 +193,7 @@
 .qchip { min-height: 30px; padding: 0.2rem 0.7rem; border: 0; border-radius: 999px; cursor: pointer; background: rgba(243, 237, 230, 0.92); color: var(--ink); font-size: 0.74rem; font-weight: 700; }
 .qchip:hover { background: #fff; }
 
-/* ---------- What a question carried, and how the Daylight engine will keep running it ---------- */
+/* ---------- What a question carried, and how the Daybreak engine will keep running it ---------- */
 .msg__tags { display: flex; flex-wrap: wrap; gap: 0.25rem; margin-top: 0.45rem; }
 .msg__tags span { padding: 0.1rem 0.5rem; border-radius: 999px; background: rgba(10, 23, 34, 0.08); font-size: 0.72rem; font-weight: 700; }
 .track { margin-top: 1rem; padding: 0.85rem 1rem; border-radius: 14px; background: rgba(255, 181, 71, 0.08); box-shadow: inset 0 0 0 1px rgba(255, 181, 71, 0.28); }

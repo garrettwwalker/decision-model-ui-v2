@@ -347,7 +347,7 @@
         var opts = el("div", { class: "dec__opts", role: "group", "aria-label": d.q });
         d.opts.forEach(function (o, i) {
           var b = el("button", { type: "button", class: "dec__opt" + (i === d.pick ? " is-pick" : "") });
-          if (i === d.pick) b.appendChild(el("span", { class: "dec__tag" }, "Daylight suggests"));
+          if (i === d.pick) b.appendChild(el("span", { class: "dec__tag" }, "Daybreak suggests"));
           b.appendChild(el("b", null, o.t)); b.appendChild(el("small", null, o.sub));
           b.addEventListener("click", function () { decide(d, i); });
           opts.appendChild(b);

@@ -4,8 +4,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project status
 
-Decision Model UI v2 is a clickable mockup for **ByNine** (working name; the company and product were
-called Daybreak until 2026-10-13), a geopolitical decision model. Its forecasting model is the **Daylight engine**.
+Decision Model UI v2 is a clickable mockup for **ByNine** (working name; until 2026-10-13 the whole company and
+product were called Daybreak), a geopolitical decision model. Its forecasting model is the **Daybreak engine**.
 The demo client is Halvorsen Group, a fictional Fortune 500 appliance maker, facing a
 Strait of Hormuz closure. It is plain static HTML/CSS/JS: no framework, no build step and
 no tests. To preview, open `index.html` in a browser; there's no server.
@@ -92,10 +92,10 @@ no tests. To preview, open `index.html` in a browser; there's no server.
 ## Product messaging
 
 Naming: say **ByNine** for the company and the product (wordmark, titles, footers, `bynine.com`, "Ask ByNine",
-anything the customer uses or buys). Say **the Daylight engine** when the copy describes the model doing analysis:
+anything the customer uses or buys). Say **the Daybreak engine** when the copy describes the model doing analysis:
 splitting questions, running its three engines, fusing, forecasting, declining, suggesting. Tight labels may
-shorten it to "Daylight" ("Daylight's read", "How Daylight got 27%"). Storage keys and SVG mask IDs still say
-`daybreak`; they're internal, so leave them.
+shorten it to "Daybreak" ("Daybreak's read", "How Daybreak got 27%"). Storage keys and SVG mask IDs say
+`daybreak` from the old company name; they're internal, so leave them.
 
 Source docs: `references/Decision Model Pitch.docx` (overview) and
 `references/Sector-Agnostic Decision Notes.docx` (technical breakdown). The site names three
