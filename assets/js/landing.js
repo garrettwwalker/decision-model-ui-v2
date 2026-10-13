@@ -345,11 +345,32 @@
     var vals = [.12,.08,.31,.05,.62,.18,.09,.22, .41,.12,.08,.71,.15,.05,.33,.10,
                 .06,.44,.19,.09,.07,.28,.52,.14, .23,.05,.11,.36,.83,.17,.06,.09,
                 .14,.27,.06,.48,.21,.11,.39,.04];
-    vals.forEach(function (v) {
+    var cells = vals.map(function (v) {
       var c = document.createElement("span");
       c.style.background = heatColor(v);
       heat.appendChild(c);
+      return { el: c, base: v, v: v };
     });
+    // a live panel: every so often a few cells drift a little from their reading and ease back,
+    // staying on the same ramp; only while the card is on screen, and never under reduced motion
+    var calm = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!calm) {
+      var shown = false;
+      var tick = function () {
+        if (shown && !document.hidden) {
+          for (var k = 0; k < 4; k++) {
+            var c = cells[Math.floor(Math.random() * cells.length)];
+            c.v = clamp(c.base + (Math.random() - 0.5) * 0.24, 0, 1);
+            c.el.style.background = heatColor(c.v);
+          }
+        }
+        setTimeout(tick, 650 + Math.random() * 500);
+      };
+      if (window.IntersectionObserver) {
+        new IntersectionObserver(function (es) { shown = es[0].isIntersecting; }).observe(heat);
+      } else shown = true;
+      tick();
+    }
   }
   function heatColor(v) {
     // night → dusk rose → amber → ember: the same ramp as the sky
