@@ -481,4 +481,8 @@
 
   load();
   renderCtx(false);
+
+  // arriving from the memo's related questions: put the question in the box, ready to send
+  var q = new URLSearchParams(location.search).get("q");
+  if (q) { input.value = q.slice(0, 300); input.focus({ preventScroll: true }); }
 })();

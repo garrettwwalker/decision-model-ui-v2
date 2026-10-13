@@ -11,7 +11,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
 
 ## Architecture
 
-- Pages: `index.html` (landing), `briefing.html` (daily brief), `team.html` ("workflows" in the nav; team workflows for middle
+- Pages: `index.html` (landing), `briefing.html` (daily brief), `memo.html` ("sample memo"), `team.html` ("workflows" in the nav; team workflows for middle
   managers), `workbench.html` (world-model editor for data/IT) and `ask.html` (chat). `wargame.html` is only a
   redirect to `team.html`; the wargame it used to hold was replaced.
 - Product pages share the landing's vocabulary: dawn ground (`t-sunrise`), white paper (`.panel`,
@@ -19,7 +19,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   titles, dashed dividers, cargo tags for routes. The ask page keeps its own pre-dawn sky (`t-predawn`).
   The landing page runs night → dawn on scroll.
 - `assets/css/base.css` holds shared tokens and components, `app.css` the product-page
-  chrome, and `landing.css`, `brief.css`, `team.css` and `bench.css` are per page.
+  chrome, and `landing.css`, `brief.css`, `memo.css`, `team.css` and `bench.css` are per page.
 - `assets/js/model.js` is the single source of truth for every loss figure. The
   ask page and workbench run it live. The brief's numbers are static but were computed from
   it, so if you change `BASE`, recompute and update `briefing.html`. Money is in $M.
@@ -29,6 +29,14 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   joins the next section; `data-flip` hangs a bank upside down.
   Product pages call `Sky.drift()`: 2-4 lone translucent clouds with random size, height, speed and
   start point cross a fixed background layer (CSS `drift` keyframes; still under reduced motion).
+- `memo.html` + `assets/js/memo.js` is a sample strategic options memo, dated Wed 7 Oct, answering the CEO's
+  "How should we respond to the potential of new sanctions by the Trump Administration?" Static HTML holds the bottom
+  line (key judgments with confidence, 41% ±7 by 6 Dec on an estimative-words scale) and the drivers tug-of-war
+  (22% on 1 Aug, +24/−5, 41% today); `memo.js` renders the rest from data: `INTERESTS`, `OPTIONS` (cost, expected
+  value protected at P = 0.41, pros/cons, a fit per interest), `PLANS` (week-grid Gantt steps, decision points,
+  tripwires), `TRENDS` (three weekly line charts with hover readouts) and `ASKS`, which open `ask.html?q=` with the
+  question typed in. Choices persist in localStorage (`daybreak.memo.choice`). It reuses the brief's resin, Dubai
+  and feeder exposures and the 29 Sep talks collapse, so keep those in sync.
 - `ask.html` (fourth tab, "pre-dawn" theme in `assets/css/ask.css`) is the "ask the model" chat. `assets/js/chat.js`
   answers scripted intents (capacity, what-if, best move, forecast, signposts, decline) live from `model.js`.
   The assumed scenario is kept in `sessionStorage["daybreak.scenario"]`; its "Explore in the workbench" button links out.
