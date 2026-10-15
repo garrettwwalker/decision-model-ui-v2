@@ -317,7 +317,23 @@ main, .footer { position: relative; z-index: 2; }
 .w { transition: color 0.35s ease; }
 .w:not(.on) { color: var(--unread) !important; } /* color only, so un-reading fades as smoothly as reading */
 .prose .w.on, .read .w.on { color: var(--moon); }
-.h2 .w.on, .contact__title .w.on, .how__title .w.on { color: transparent; }
+/* Gradient headings, once split into words. A single gradient on the heading would show a hairline of color around
+   every unread word (the unread fill and the gradient underneath are both antialiased to the same glyph edge), so the
+   heading drops its own gradient and each word paints one fill: the unread color laid over its slice of the
+   heading's gradient (aligned by --gx/--gy/--gw/--gh from penumbra.js). Reading fades the unread layer out. */
+@property --u { syntax: "<number>"; inherits: false; initial-value: 1; }
+.is-split { background: none; }
+.is-split .w {
+  --u: 1;
+  background-image: linear-gradient(rgba(44, 47, 55, var(--u)), rgba(44, 47, 55, var(--u))), var(--aurora);
+  background-size: 100% 100%, var(--gw, 100%) var(--gh, 100%);
+  background-position: 0 0, calc(var(--gx, 0px) * -1) calc(var(--gy, 0px) * -1);
+  background-repeat: no-repeat;
+  -webkit-background-clip: text; background-clip: text;
+  color: transparent !important;
+  transition: --u 0.35s ease;
+}
+.is-split .w.on { --u: 0; }
 .tile { opacity: 0.18; transition: opacity 0.6s ease, translate 0.6s ease; translate: 0 10px; }
 .tile.on { opacity: 1; translate: 0 0; }
 
