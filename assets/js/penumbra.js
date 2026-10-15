@@ -62,11 +62,7 @@
       if (el.querySelector(BLOCKS) || el.closest(TILES)) return; // innermost free-standing text only
       var units = [];
       splitWords(el, units);
-      if (!units.length) return;
-      // gradient headings: each word carries its own slice of the heading's gradient (see .is-split in the CSS)
-      var grad = el.matches(".h2, .contact__title, .how__title");
-      if (grad) el.classList.add("is-split");
-      reads.push({ el: el, units: units, n: -1, grad: grad });
+      if (units.length) reads.push({ el: el, units: units, n: -1 });
     });
     day.querySelectorAll(TILES).forEach(function (el) {
       if (el.parentElement.closest(TILES)) return; // outermost tiles only
@@ -84,10 +80,8 @@
     reads.forEach(function (r) {
       var bb = r.el.getBoundingClientRect(), w = Math.max(1, bb.width);
       r.top = bb.top + sy; r.bottom = bb.bottom + sy;
-      if (r.grad) { r.el.style.setProperty("--gw", bb.width + "px"); r.el.style.setProperty("--gh", bb.height + "px"); }
       r.keys = r.units.map(function (u) {
         var b = u.getBoundingClientRect();
-        if (r.grad) { u.style.setProperty("--gx", (b.left - bb.left) + "px"); u.style.setProperty("--gy", (b.top - bb.top) + "px"); }
         return b.top + sy + (b.left - bb.left) / w * b.height;
       });
       r.n = -1;

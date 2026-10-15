@@ -85,14 +85,13 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   arrives. Before the burst the headline is a white copy in `mix-blend-mode: difference` (black on the sun, white on
   space), crossfading to the real `h1`; `.hero__copy` has no z-index so the blend reaches the sun. The mark keeps the shape of `references/Penumbra Logo Color.jpeg` (ring with
   a four-point spark at 45°) but not its colors, which clashed: it's inline SVG masks in `penumbra.css` filled with
-  `--mark`, a conic gradient of the site's spectrum (also the corona). Don't use the JPEG itself. Below the hero: fixed starfield canvas, drifting background glows
-  whose hue shifts with scroll, a pointer glow, aurora-edged card spotlights (`.spot`, `--mx/--my`), gradient headings
-  revealed word by word, a nebula behind gray swans (`.nebula`: two gas layers and dark dust lanes from domain-warped
+  `--logo-ring`, a full-spectrum conic gradient the user chose for the logo (the page's warm `--mark` drives the corona). Don't use the JPEG itself. Below the hero: fixed starfield canvas, drifting background glows
+  whose hue shifts with scroll, a pointer glow, aurora-edged card spotlights (`.spot`, `--mx/--my`), headings revealed
+  word by word, a nebula behind gray swans (`.nebula`: two gas layers and dark dust lanes from domain-warped
   fractal noise, painted once at low resolution, plus specks; CSS drifts each layer and scroll parts them by depth),
   and pulses running down the graph's edges. The page closes on the northern lights
   (`.borealis`, a half-resolution canvas of three drifting curtains in red-aurora colors: pale gold hem, rose-orange
-  body, deep red crown, fine rays) over a dark ridge that runs into the footer. Gradient text (`background-clip: text`) is padded out to the glyphs' ink and margin-compensated; tight
-  leading and negative tracking otherwise clip ascenders, descenders and each line's last letter. `penumbra.js` is a fork of
+  body, deep red crown, fine rays) over a dark ridge that runs into the footer. Headings are solid moonlight (`--moon`, white for the hero's second line); the user rejected gradient text. `penumbra.js` is a fork of
   `landing.js`; if the preview is adopted, it replaces `index.html` and the fork goes away.
 - Motion between views: `assets/js/nav.js` (in every page's `<head>`) records which way the clicked page lies in the
   nav order; the new page slides in from that side (cross-document view transitions where supported, with the
