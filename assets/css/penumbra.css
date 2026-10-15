@@ -161,13 +161,13 @@ main, .footer { position: relative; z-index: 2; }
    --burst (the rim explodes into the page's colors, fast then settling) and --flash (a bloom at the moment). */
 .hero { position: relative; height: 280vh; }
 .hero__stage {
-  position: sticky; top: 0; height: 100vh; height: 100svh;
-  /* clipped at the sides only: below, the burst runs on past the hero and fades out over the next section */
-  overflow-x: clip; overflow-y: visible;
+  position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden;
   --cover: 0; --ring: 0; --burst: 0; --flash: 0; --after: 0; --tx: 0px; --ty: 0px;
+  -webkit-mask-image: linear-gradient(180deg, #000 90%, rgba(0, 0, 0, 0) 100%);
+  mask-image: linear-gradient(180deg, #000 90%, rgba(0, 0, 0, 0) 100%);
 }
 .eclipse {
-  --D: 120vmin; /* runs off the bottom of the screen; the stage doesn't clip there, so the disc is whole below */
+  --D: 120vmin;
   position: absolute; left: 60%; top: 64%;
   width: var(--D); height: var(--D);
   translate: -50% -50%;
@@ -260,7 +260,7 @@ main, .footer { position: relative; z-index: 2; }
   filter: drop-shadow(0 0 24px rgba(167, 123, 255, 0.35));
 }
 .hero__cue {
-  position: absolute; left: var(--gutter); bottom: 2.2rem; margin: 0;
+  position: absolute; left: var(--gutter); bottom: calc(10% + 1.2rem); margin: 0; /* above the stage's fade-out */
   display: flex; align-items: center; gap: 0.5rem;
   font-size: var(--fs-micro); font-weight: 600; color: #fff; mix-blend-mode: difference;
   opacity: calc(0.9 - var(--cover) * 2);
