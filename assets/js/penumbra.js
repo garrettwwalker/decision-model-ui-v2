@@ -377,17 +377,15 @@
     }
   }
   function heatColor(v, h) {
-    // hue from the cell's place in the spectrum (pink → rose → red → orange → amber); the reading sets how brightly it
-    // glows out of a dark wine ground (a gray ground turns dim orange to mud), and the hottest cells run toward white
+    // muted like the original panel: brightness follows the reading closely, so most cells sit dark and only a few
+    // glow. Each cell has its own random hue from the palette (pink → rose → red → orange → amber), but low readings
+    // lean toward dusky rose, as the original ramp did, because dim orange on the dark ground reads as brown
     var SPEC = [[255, 122, 170], [255, 84, 120], [255, 68, 56], [255, 122, 60], [255, 170, 64]];
-    var x = clamp(h || 0, 0, 1) * (SPEC.length - 1);
+    v = clamp(v, 0, 1);
+    var x = lerp(0.2, clamp(h || 0, 0, 1), Math.min(1, v / 0.5)) * (SPEC.length - 1);
     var i = Math.min(SPEC.length - 2, Math.floor(x)), t = x - i;
-    var k = 0.3 + 0.7 * Math.pow(Math.min(1, clamp(v, 0, 1) / 0.5), 0.65);
-    var hot = Math.max(0, (v - 0.6) / 0.4) * 0.35, BASE = [38, 14, 22];
-    var c = SPEC[i].map(function (a, n) {
-      var lit = lerp(BASE[n], lerp(a, SPEC[i + 1][n], t), k);
-      return Math.round(lerp(lit, 255, hot));
-    });
+    var k = Math.min(1, 0.06 + v * 1.1), BASE = [24, 20, 27];
+    var c = SPEC[i].map(function (a, n) { return Math.round(lerp(BASE[n], lerp(a, SPEC[i + 1][n], t), k)); });
     return "rgb(" + c.join(",") + ")";
   }
 
