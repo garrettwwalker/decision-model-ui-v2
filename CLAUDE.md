@@ -74,6 +74,17 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   happens from the foot of Consequences. Hormuz/Red Sea losses come from `model.js`; other events are layered on in
   `lossOf()`. "Ask ByNine" (`#askdrawer`, moved to `<body>` at init to clear `.page`'s stacking context; it rises from the
   sparkle button and sinks back via `drawer-in`/`drawer-out`, a bottom sheet on phones) is a scripted assistant: `answer()` matches intents by regex, computes replies from the live engine and offers actions.
+- `penumbra.html` + `assets/css/penumbra.css` + `assets/js/penumbra.js` is a **preview** of the landing page
+  under the next name, Penumbra (added 2026-10-15; linked as "penumbra preview" at the end of the product tour tabs and
+  last in `nav.js`'s order). Same copy and section layout as `index.html` (ByNine swapped for Penumbra), but moon-dark
+  ground with one accent read as a spectrum (the logo's ring in `references/Penumbra Logo Color.jpeg`: teal, blue,
+  violet, pink, coral, gold; violet is one stop, never the dominant hue). Hero: a total eclipse over a planet's glowing
+  rim (after the draft site in `references/Screenshot 2026-10-15 5.45.04 PM.png`); scroll drives `--cover` (moon
+  over sun, corona blooms), then `--flare`/`--flash` (the logo's spark as the diamond ring) with "at first light".
+  Below it: fixed starfield canvas, drifting aurora blobs whose hue shifts with scroll, a pointer glow, aurora-edged
+  card spotlights (`.spot`, `--mx/--my`), gradient headings revealed word by word, an aurora curtain over gray swans,
+  pulses running down the graph's edges, and a second horizon behind the contact form. `penumbra.js` is a fork of
+  `landing.js`; if the preview is adopted, it replaces `index.html` and the fork goes away.
 - Motion between views: `assets/js/nav.js` (in every page's `<head>`) records which way the clicked page lies in the
   nav order; the new page slides in from that side (cross-document view transitions where supported, with the
   `.bar` held still; otherwise a CSS entrance on `main` and the footer, keyed on `html[data-slide]`). In the

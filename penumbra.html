@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Penumbra — geopolitical decision intelligence</title>
+  <meta name="description" content="Penumbra forecasts geopolitical risk, traces it to your vessels, routes and purchase orders, and recommends what to do before the market opens.">
+  <link rel="preload" href="assets/fonts/switzer-800.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/switzer-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/penumbra.css">
+  <script src="assets/js/nav.js"></script>
+</head>
+<body class="pn grain">
+  <div class="aurora" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+  <canvas class="stars" aria-hidden="true"></canvas>
+  <div class="glow" aria-hidden="true"></div>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="nav">
+    <a class="wordmark" href="index.html" aria-label="Penumbra home">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><defs><linearGradient id="pn-logo-1" x1="4" y1="28" x2="29" y2="3" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ff4fa8"/><stop offset=".28" stop-color="#ffb347"/><stop offset=".52" stop-color="#3ef0c6"/><stop offset=".76" stop-color="#3aa8ff"/><stop offset="1" stop-color="#a77bff"/></linearGradient></defs><circle cx="15" cy="17" r="11" fill="none" stroke="url(#pn-logo-1)" stroke-width="2.2"/><path transform="translate(22.78 9.22) rotate(-45)" d="M8.4 0 Q1 1 0 2.7 Q-1 1 -8.4 0 Q-1 -1 0 -2.7 Q1 -1 8.4 0Z" fill="url(#pn-logo-1)"/></svg>
+      Penumbra
+    </a>
+    <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="nav-links">
+      <span class="nav__toggle-bars" aria-hidden="true"></span><span class="sr-only">Menu</span>
+    </button>
+    <nav class="nav__links" id="nav-links" aria-label="Primary">
+      <a href="briefing.html">product tour</a>
+      <a class="btn btn--primary btn--sm" href="#contact">Request a briefing</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <!-- 1. Hero: a total eclipse over a planet's rim; scrolling carries it to totality, then the diamond ring -->
+    <section class="hero" aria-label="Introduction">
+      <div class="hero__stage">
+        <div class="hero__limb" aria-hidden="true"></div>
+        <div class="eclipse" aria-hidden="true">
+          <div class="eclipse__halo"></div>
+          <div class="eclipse__corona"></div>
+          <div class="eclipse__sun"></div>
+          <div class="eclipse__moon"></div>
+          <div class="eclipse__ring"></div>
+          <div class="eclipse__bead"></div>
+          <svg class="eclipse__spark" viewBox="-10 -10 20 20"><defs><radialGradient id="pn-spark"><stop offset="0" stop-color="#fff"/><stop offset=".3" stop-color="#ffd0ec"/><stop offset=".65" stop-color="#ff5fb0"/><stop offset="1" stop-color="#ff9a4c"/></radialGradient></defs><path d="M10 0 Q1.1 1.1 0 3.1 Q-1.1 1.1 -10 0 Q-1.1 -1.1 0 -3.1 Q1.1 -1.1 10 0Z" fill="url(#pn-spark)"/></svg>
+        </div>
+
+        <div class="hero__copy">
+          <h1 class="display hero__title">
+            <span>risk moves</span>
+            <span>overnight.</span>
+          </h1>
+          <p class="display hero__after" aria-hidden="true">so you move<br>at first light.</p>
+          <p class="hero__cue">Scroll into the eclipse <svg class="hero__arrow" viewBox="0 0 12 16" aria-hidden="true"><path d="M6 1v13M1.5 9.5 6 14l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
+        </div>
+      </div>
+    </section>
+
+    <div class="day">
+
+      <!-- 2. Thesis: two lines of setup beside a live forecast card -->
+      <section class="thesis" aria-label="Why Penumbra">
+        <div class="thesis__setup">
+          <p class="prose read thesis__lull">While the world sleeps, conditions change.</p>
+          <p class="prose read">You need decision intelligence that keeps up — and tells you how you can respond.</p>
+        </div>
+
+        <figure class="watch note" aria-label="Examples of what the Daybreak engine flags overnight">
+          <figcaption class="watch__head">
+            <span class="watch__title">Flagged overnight</span>
+            <span class="watch__count" data-watch-count>1 of 5</span>
+          </figcaption>
+          <div class="watch__body" aria-live="off">
+            <p class="watch__event" data-watch="event">Hormuz closes for 7+ days</p>
+            <div class="watch__p">
+              <span class="watch__bar"><i data-watch="bar"></i></span>
+              <span class="watch__pct"><b data-watch="p">27%</b> <span data-watch="when">within 30 days</span></span>
+            </div>
+            <dl class="watch__facts">
+              <div><dt>Touches</dt><dd data-watch="touches">9 vessels and 312 purchase orders</dd></div>
+              <div><dt>Best move</dt><dd data-watch="move">Bridge-buy resin from Singapore</dd></div>
+              <div class="watch__value"><dt data-watch="vlabel">Protects</dt><dd data-watch="value">$11.7M</dd></div>
+            </dl>
+          </div>
+        </figure>
+      </section>
+
+      <!-- 3. How it thinks: decomposition, three engines, fusion -->
+      <section class="engine" id="engine" aria-labelledby="engine-title">
+        <h2 class="h2 watermark engine__title" id="engine-title">one question,<br>three engines.</h2>
+        <div class="engine__grid">
+          <ol class="engine__steps">
+            <li>
+              <svg class="engine__n" viewBox="0 0 34 34" aria-hidden="true"><defs><mask id="step-1"><rect width="34" height="34" fill="#fff"/><text x="17" y="17" text-anchor="middle" dominant-baseline="central" fill="#000">1</text></mask></defs><circle cx="17" cy="17" r="16.25" mask="url(#step-1)"/></svg>
+              <h3>Penumbra's Daybreak engine takes the question apart.</h3>
+              <p>Real questions are tangled. (What does “ceasefire in Ukraine” really mean?) The Daybreak engine divides each query into parts that can actually be forecast. No other forecaster in the field decomposes questions this way.</p>
+            </li>
+            <li>
+              <svg class="engine__n" viewBox="0 0 34 34" aria-hidden="true"><defs><mask id="step-2"><rect width="34" height="34" fill="#fff"/><text x="17" y="17" text-anchor="middle" dominant-baseline="central" fill="#000">2</text></mask></defs><circle cx="17" cy="17" r="16.25" mask="url(#step-2)"/></svg>
+              <h3>It gets each subquery to the right engine.</h3>
+              <p>A union's choice, a plant's output and a contract deadline move in different ways. Inside Daybreak are three engines: one for judgment, one for telemetry, one for procedure. Each knows how far ahead it can see. Most other forecasters run one kind of model on every question.</p>
+            </li>
+            <li>
+              <svg class="engine__n" viewBox="0 0 34 34" aria-hidden="true"><defs><mask id="step-3"><rect width="34" height="34" fill="#fff"/><text x="17" y="17" text-anchor="middle" dominant-baseline="central" fill="#000">3</text></mask></defs><circle cx="17" cy="17" r="16.25" mask="url(#step-3)"/></svg>
+              <h3>It fuses the answers into actionable intelligence.</h3>
+              <p>Averaging good forecasts makes a worse one. Daybreak's fusion layer combines all three engines into a single calibrated probability, with error bars.</p>
+            </li>
+          </ol>
+
+          <figure class="split" aria-labelledby="split-cap">
+            <div class="split__q">
+              <span class="split__label">The question</span>
+              <strong>Will a strike stop the transmission plant that feeds four assembly lines for 5+ days this quarter?</strong>
+            </div>
+            <ul class="split__parts">
+              <li class="part">
+                <span class="split__label">Judgment engine</span>
+                <strong>Will the union reject the final wage offer?</strong>
+                <span class="part__p">44%</span>
+              </li>
+              <li class="part">
+                <span class="split__label">Telemetry engine</span>
+                <strong>Will overtime refusals cut output by 30%?</strong>
+                <span class="part__p">29%</span>
+              </li>
+              <li class="part">
+                <span class="split__label">Procedure engine</span>
+                <strong>Will the strike vote pass before the contract expires?</strong>
+                <span class="part__p">38%</span>
+              </li>
+              <li class="part">
+                <span class="split__label">Telemetry engine</span>
+                <strong>Will parts inventory at the assembly plants fall below 5 days?</strong>
+                <span class="part__p">31%</span>
+              </li>
+            </ul>
+            <div class="split__fused">
+              <span class="split__label">Fused and calibrated</span>
+              <strong class="split__num">34%</strong>
+              <span>±6 points, 90-day horizon</span>
+            </div>
+            <figcaption id="split-cap" class="sr-only">An automaker's question about a strike at a bottleneck transmission plant, split into three sub-questions answered by the judgment, telemetry and procedure engines at 44, 29, 38 and 31 percent, and the answers fused into a single 34 percent forecast.</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <!-- 4. Trimodal platform -->
+      <section class="modes" id="platform" aria-labelledby="modes-title">
+        <div class="modes__head">
+          <h2 class="h2 watermark" id="modes-title">one model,<br>three levels.</h2>
+        </div>
+
+        <div class="modes__grid">
+          <article class="note mode">
+            <p class="eyebrow mode__for">for the C-suite</p>
+            <h3 class="h3">daily brief</h3>
+            <p class="mode__desc">Three decisions, not three hundred alerts. What each risk costs the organization, why the forecast moved, and the intervention that protects the most value. Every probability comes with error bars.</p>
+            <div class="pv pv-war" aria-hidden="true">
+              <div class="pv-slider"><span>Hormuz closed for 21 days</span><i style="--v:.23"></i></div>
+              <div class="pv-slider"><span>7 extra days of safety stock</span><i style="--v:.33"></i></div>
+              <svg viewBox="0 0 220 70" class="pv-fan"><defs><linearGradient id="pn-fan" x1="0" x2="220" y1="0" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#3ef0c6"/><stop offset=".5" stop-color="#a77bff"/><stop offset="1" stop-color="#ff4fa8"/></linearGradient></defs>
+                <path d="M0 52 C40 50 70 46 100 40 S170 22 220 14 L220 50 C170 52 130 56 100 58 S40 60 0 56Z" fill="url(#pn-fan)" fill-opacity=".16"/>
+                <path d="M0 54 C40 53 70 50 100 47 S170 36 220 30 L220 40 C170 44 130 50 100 52 S40 56 0 55Z" fill="url(#pn-fan)" fill-opacity=".34"/>
+                <path d="M0 54.5 C40 53.5 70 49 100 49.5 S170 39 220 35" fill="none" stroke="url(#pn-fan)" stroke-width="1.8"/>
+              </svg>
+            </div>
+            <a class="btn btn--ink btn--sm" href="briefing.html">Open the daily brief</a>
+          </article>
+
+          <article class="note mode">
+            <p class="eyebrow mode__for">for team leads &amp; managers</p>
+            <h3 class="h3">team workflows</h3>
+            <p class="mode__desc">Leadership's decisions, turned into your team's tasks with owners and deadlines. The everyday calls that are yours to make, with a suggestion and the reason for it, plus the threats your team should watch and the playbook if one hits.</p>
+            <div class="pv pv-team" aria-hidden="true">
+              <div class="pv-team__row"><span class="pv-st pv-st--done">Done</span><span>Update arrival times in the TMS</span><span class="pv-av">ML</span></div>
+              <div class="pv-team__row"><span class="pv-st pv-st--doing">Doing</span><span>Line up 14 trucks a sailing</span><span class="pv-av">SP</span></div>
+              <div class="pv-team__row"><span class="pv-st">To do</span><span>Book four Khor Fakkan slots</span><span class="pv-av">FS</span></div>
+            </div>
+            <a class="btn btn--ink btn--sm" href="team.html">Open team workflows</a>
+          </article>
+
+          <article class="note mode">
+            <p class="eyebrow mode__for">for data science &amp; IT</p>
+            <h3 class="h3">modeling workbench</h3>
+            <p class="mode__desc">Penumbra as middleware: a world model of your network wired to your ERP, AIS and broker feeds. Change any capacity, cover or fusion weight and watch the forecast respond, then run it headless through the API.</p>
+            <div class="pv pv-mid" aria-hidden="true"><div class="pv-heat" data-heat="8x5"></div></div>
+            <a class="btn btn--ink btn--sm" href="workbench.html">Open the workbench</a>
+          </article>
+        </div>
+      </section>
+
+      <!-- 4. Signal to decision: a tech company resequences a market launch -->
+      <section class="how" id="how" aria-labelledby="how-title">
+        <h2 class="h3 how__title" id="how-title">from a 2 a.m. signal<br>to a 6 a.m. decision.</h2>
+        <hr class="dash">
+        <ol class="tags">
+          <li class="tag">
+            <span class="tag__eyelet" aria-hidden="true"></span>
+            <span class="tag__time">02:40 UTC, the signal</span>
+            <strong>Draft cloud-licensing decree leaks in Brazil</strong>
+            <span>It would require local data hosting and a license for any AI service sold to consumers.</span>
+          </li>
+          <li class="tag">
+            <span class="tag__eyelet" aria-hidden="true"></span>
+            <span class="tag__time">03:15, the forecast</span>
+            <strong>p(decree in force within 6 months) 0.31 → 0.48</strong>
+            <span>The procedure engine reads the comment calendar; judgment and telemetry move the same way.</span>
+          </li>
+          <li class="tag">
+            <span class="tag__eyelet" aria-hidden="true"></span>
+            <span class="tag__time">03:16, the exposure</span>
+            <strong>The Brazil launch, planned for March</strong>
+            <span>Four products, $320M of first-year revenue and a data-center lease that assumed no local hosting.</span>
+          </li>
+          <li class="tag">
+            <span class="tag__eyelet" aria-hidden="true"></span>
+            <span class="tag__time">05:58, the recommendation</span>
+            <strong>Lead with the enterprise tier, hold the consumer app</strong>
+            <span>Keeps $210M of revenue on schedule and avoids $38M of rework if the decree passes.</span>
+          </li>
+          <li class="tag tag--done">
+            <span class="tag__eyelet" aria-hidden="true"></span>
+            <span class="tag__time">06:14, the decision</span>
+            <strong>Approved by the GM, Latin America</strong>
+            <span>The launch plan is resequenced, and the decision is logged for back-testing.</span>
+          </li>
+        </ol>
+      </section>
+
+      <!-- 5. Gray swans -->
+      <section class="swans" id="gray-swans" aria-labelledby="swans-title">
+        <div class="curtain" aria-hidden="true"><i></i><i></i><i></i></div>
+        <div class="swans__inner">
+          <div class="swans__head">
+            <h2 class="h2 watermark" id="swans-title">gray swans.</h2>
+          </div>
+          <p class="swans__lede">Watchlists only catch what you already fear. The Daybreak engine scores the whole world against your organization and surfaces risks with real base rates that sit outside every list you've configured.</p>
+
+          <div class="swans__grid">
+            <article class="swan">
+              <p class="swan__flag eyebrow">not on your watchlist</p>
+              <h3>Wage dispute spreading to a sole-source seat supplier</h3>
+              <p>Workers at a supplier that makes every seat for two of your best-selling models have voted to join a regional strike fund. Its nearest substitute needs 14 weeks to tool up.</p>
+              <dl class="swan__stats">
+                <div><dt>p(supplier stoppage &gt;7d, 90d)</dt><dd class="num">0.16</dd></div>
+                <div><dt>touches</dt><dd>2 plants, 41,000 vehicles</dd></div>
+              </dl>
+            </article>
+            <article class="swan">
+              <p class="swan__flag eyebrow">not on your watchlist</p>
+              <h3>Data-localization bill gathers votes in Indonesia</h3>
+              <p>A committee draft would force consumer data onshore within a year. Three similar bills in the region passed within eight months of reaching committee.</p>
+              <dl class="swan__stats">
+                <div><dt>p(bill passes, 12mo)</dt><dd class="num">0.24</dd></div>
+                <div><dt>touches</dt><dd>$140M growth plan, 1 region</dd></div>
+              </dl>
+            </article>
+            <article class="swan">
+              <p class="swan__flag eyebrow">not on your watchlist</p>
+              <h3>GNSS spoofing cluster, eastern Mediterranean</h3>
+              <p>41 vessels logged position jumps near Port Said in 72 hours. Navigation incidents at canal approaches have preceded multi-day queues twice since 2021.</p>
+              <dl class="swan__stats">
+                <div><dt>p(Suez delay &gt;48h, 14d)</dt><dd class="num">0.11</dd></div>
+                <div><dt>touches</dt><dd>6 sailings, 2,040 TEU</dd></div>
+              </dl>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6. Asset and organizational modeling, through to workflow -->
+      <section class="assets" id="assets" aria-labelledby="assets-title">
+        <div class="assets__copy">
+          <h2 class="h2" id="assets-title">down to who<br>does what.</h2>
+          <p class="assets__lede">The Daybreak engine's at its best when it generates a world model of your organization — hosted on your servers. It maps your assets, shows how each forecast will affect them, and identifies who owns each decision.</p>
+          <p class="assets__lede">It's the greatest geopolitical expert and chief of staff that's ever existed. And it never sits still. When the forecasts move enough to matter for your organization, Penumbra routes the right information to the right owner.</p>
+        </div>
+
+        <figure class="graph" aria-label="Example: insurgent escalation in Cabo Delgado traced through an energy company's LNG site, its dependencies and its exposure, then routed as actions to security, procurement and the board.">
+          <svg class="graph__edges" aria-hidden="true"></svg>
+          <div class="gn gn--driver" data-node="driver" style="grid-area: driver"><span class="gn__kind">Driver</span><b>Insurgent escalation, Cabo Delgado</b><span class="gn__meta">22% within 90 days</span></div>
+          <div class="gn" data-node="asset" style="grid-area: asset"><span class="gn__kind">Asset</span><b>Afungi LNG site</b><span class="gn__meta">Meridian Energy, $8.2B committed</span></div>
+          <div class="gn" data-node="road" style="grid-area: road"><span class="gn__kind">Depends on</span><b>One supply road</b><span class="gn__meta">Palma to Afungi</span></div>
+          <div class="gn" data-node="crew" style="grid-area: crew"><span class="gn__kind">Depends on</span><b>2,300 contractors</b><span class="gn__meta">72 hours to evacuate</span></div>
+          <div class="gn gn--exposure" data-node="exposure" style="grid-area: exposure"><span class="gn__kind">Exposure</span><b>Force majeure on a $1.4B package</b><span class="gn__meta">$186M expected loss</span></div>
+          <div class="gn gn--owner" data-node="security" style="grid-area: o1"><span class="gn__kind">Head of security</span><b>Raise posture, stage flights</b><span class="gn__when">by Friday</span></div>
+          <div class="gn gn--owner" data-node="procurement" style="grid-area: o2"><span class="gn__kind">Procurement</span><b>Defer $240M of contracts</b><span class="gn__when">before Q4 close</span></div>
+          <div class="gn gn--owner" data-node="board" style="grid-area: o3"><span class="gn__kind">The board</span><b>Decide on the next capex tranche</b><span class="gn__when">14 November</span></div>
+        </figure>
+      </section>
+
+      <!-- 7. Rigor -->
+      <section class="rigor" id="rigor" aria-labelledby="rigor-title">
+        <h2 class="h2 watermark" id="rigor-title">showing our<br>work.</h2>
+        <p class="rigor__lede">Executives don't act on a black box. Every number in Penumbra opens up into the sub-questions behind it, the engine that answered each one, and the record of how well those engines have done. The results get even better over time.</p>
+        <div class="rigor__grid">
+          <article class="note">
+            <h3 class="h3 rigor__h">when we say 30%, it happens about 30% of the time.</h3>
+            <svg class="calib" viewBox="0 0 210 208" role="img" aria-label="Reliability diagram: forecast probability against observed frequency, closely following the diagonal">
+              <defs><linearGradient id="pn-calib" x1="20" y1="190" x2="190" y2="20" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#3ef0c6"/><stop offset=".5" stop-color="#3aa8ff"/><stop offset="1" stop-color="#ff4fa8"/></linearGradient></defs>
+              <path d="M20 20 V190 H190" fill="none" stroke="rgba(236,238,242,.22)"/>
+              <line x1="20" y1="190" x2="190" y2="20" stroke="rgba(236,238,242,.3)" stroke-dasharray="4 4"/>
+              <polyline class="draw" fill="none" stroke="url(#pn-calib)" stroke-width="2.5" stroke-linejoin="round"
+                points="28.5,183.2 45.5,167.9 62.5,144.1 79.5,133.9 96.5,110.1 113.5,101.6 130.5,74.4 147.5,65.9 164.5,40.4 181.5,31.9"/>
+              <g class="draw draw--late" fill="url(#pn-calib)">
+                <circle cx="28.5" cy="183.2" r="3"/><circle cx="45.5" cy="167.9" r="3"/><circle cx="62.5" cy="144.1" r="3"/><circle cx="79.5" cy="133.9" r="3"/><circle cx="96.5" cy="110.1" r="3"/>
+                <circle cx="113.5" cy="101.6" r="3"/><circle cx="130.5" cy="74.4" r="3"/><circle cx="147.5" cy="65.9" r="3"/><circle cx="164.5" cy="40.4" r="3"/><circle cx="181.5" cy="31.9" r="3"/>
+              </g>
+              <text x="105" y="200" font-size="8" text-anchor="middle" fill="#8d93a0" font-family="Switzer, sans-serif">forecast probability</text>
+              <text x="8" y="105" font-size="8" text-anchor="middle" fill="#8d93a0" font-family="Switzer, sans-serif" transform="rotate(-90 8 105)">observed</text>
+            </svg>
+            <p class="rigor__foot mono">Brier score 0.118 across 1,402 resolved questions since January 2024</p>
+          </article>
+
+          <article class="note">
+            <h3 class="h3 rigor__h">we publish where our skill runs out.</h3>
+            <svg class="horizon" viewBox="0 0 220 196" role="img" aria-label="Forecasting skill by horizon for each engine. Telemetry skill is highest over days and reaches zero within about three weeks. Judgment holds for months. Procedure holds out to a year. Past zero, the Daybreak engine declines to forecast.">
+              <line x1="26" y1="160" x2="206" y2="160" stroke="rgba(236,238,242,.3)" stroke-dasharray="3 3"/>
+              <path class="draw" d="M26 34 C50 40 64 62 78 96 S100 150 112 160" fill="none" stroke="#3ef0c6" stroke-width="2.5"/>
+              <path class="draw" style="--d:.25s" d="M26 82 C70 84 110 96 140 124 S168 156 178 160" fill="none" stroke="#e6e8ee" stroke-width="2.5"/>
+              <path class="draw" style="--d:.5s" d="M26 112 C80 110 140 112 170 120 S200 130 206 134" fill="none" stroke="#ff5fb0" stroke-width="2.5" stroke-dasharray="6 4"/>
+              <line x1="26" y1="20" x2="26" y2="160" stroke="rgba(236,238,242,.22)"/>
+              <text x="40" y="30" class="horizon__lab draw-label" fill="#3ef0c6">telemetry</text>
+              <text x="96" y="86" class="horizon__lab draw-label" style="--d:.25s" fill="#e6e8ee">judgment</text>
+              <text x="150" y="106" class="horizon__lab draw-label" style="--d:.5s" fill="#ff5fb0">procedure</text>
+              <text x="206" y="174" class="horizon__ax" text-anchor="end">past zero, we decline</text>
+              <g class="horizon__ax" text-anchor="middle">
+                <text x="26" y="188">1 day</text><text x="78" y="188">1 week</text><text x="126" y="188">1 month</text><text x="200" y="188">1 year</text>
+              </g>
+              <text x="10" y="90" class="horizon__ax" text-anchor="middle" transform="rotate(-90 10 90)">skill over base rate</text>
+            </svg>
+            <p class="rigor__foot mono">Scored per engine and per horizon, declined questions included</p>
+          </article>
+
+          <article class="note">
+            <h3 class="h3 rigor__h">every claim links to its source.</h3>
+            <ul class="prov">
+              <li><span class="mono">02:40</span> Boarding confirmed by 3 maritime security advisories</li>
+              <li><span class="mono">02:51</span> AIS: 9 transponders dark, 26.9°N 56.4°E</li>
+              <li><span class="mono">03:02</span> Joint War Committee listed-area circular</li>
+              <li><span class="mono">03:09</span> War-risk premium quotes +0.15% hull value</li>
+              <li><span class="mono">03:15</span> Engines re-run and fused, model card v14.2</li>
+            </ul>
+            <p class="rigor__foot mono">2,914 sources reviewed overnight</p>
+          </article>
+        </div>
+        <p class="rigor__note mono">Figures on this page are illustrative mockup data.</p>
+      </section>
+
+      <!-- 8. Contact -->
+      <section class="contact" id="contact" aria-labelledby="contact-title">
+        <div class="contact__inner">
+          <h2 class="display contact__title" id="contact-title">good morning.<br>let's talk.</h2>
+          <div class="contact__side">
+            <form class="contact__form" novalidate>
+              <label>Work email<input type="email" name="email" autocomplete="email" required placeholder="you@company.com"></label>
+              <label>Company<input type="text" name="company" autocomplete="organization" required placeholder="Company name"></label>
+              <button class="btn btn--primary" type="submit">Request a briefing</button>
+              <p class="contact__msg" role="status" aria-live="polite"></p>
+            </form>
+          </div>
+        </div>
+        <div class="contact__horizon" aria-hidden="true"></div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <a class="wordmark" href="index.html">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><defs><linearGradient id="pn-logo-2" x1="4" y1="28" x2="29" y2="3" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ff4fa8"/><stop offset=".28" stop-color="#ffb347"/><stop offset=".52" stop-color="#3ef0c6"/><stop offset=".76" stop-color="#3aa8ff"/><stop offset="1" stop-color="#a77bff"/></linearGradient></defs><circle cx="15" cy="17" r="11" fill="none" stroke="url(#pn-logo-2)" stroke-width="2.2"/><path transform="translate(22.78 9.22) rotate(-45)" d="M8.4 0 Q1 1 0 2.7 Q-1 1 -8.4 0 Q-1 -1 0 -2.7 Q1 -1 8.4 0Z" fill="url(#pn-logo-2)"/></svg>
+      Penumbra
+    </a>
+    <nav class="footer__links" aria-label="Footer">
+      <a href="briefing.html">daily brief</a>
+      <a href="memo.html">sample memo</a>
+      <a href="team.html">team workflows</a>
+      <a href="workbench.html">modeling workbench</a>
+      <a href="ask.html">ask the model</a>
+    </nav>
+    <p class="footer__legal">Preview of the Penumbra landing. <a href="index.html">See the current one</a>. © 2026 Penumbra. A mockup: Halvorsen Group and Meridian Energy are fictional clients.</p>
+  </footer>
+
+  <script src="assets/js/penumbra.js"></script>
+</body>
+</html>
