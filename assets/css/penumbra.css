@@ -325,9 +325,13 @@ main, .footer { position: relative; z-index: 2; }
 .is-split { background: none; }
 .is-split .w {
   --u: 1;
+  /* a word's fill only paints inside its own box, and tight tracking pushes the last letter's ink past it (the
+     final "e" of "three" was cut), so pad every word out on all sides and cancel the padding with margins.
+     The unread layer is oversized too, so pixel snapping at the box edge can't leave a sliver of gradient. */
+  padding: 0.16em 0.14em 0.26em; margin: -0.16em -0.14em -0.26em;
   background-image: linear-gradient(rgba(44, 47, 55, var(--u)), rgba(44, 47, 55, var(--u))), var(--aurora);
-  background-size: 100% 100%, var(--gw, 100%) var(--gh, 100%);
-  background-position: 0 0, calc(var(--gx, 0px) * -1) calc(var(--gy, 0px) * -1);
+  background-size: calc(100% + 6px) calc(100% + 6px), var(--gw, 100%) var(--gh, 100%);
+  background-position: -3px -3px, calc(var(--gx, 0px) * -1) calc(var(--gy, 0px) * -1);
   background-repeat: no-repeat;
   -webkit-background-clip: text; background-clip: text;
   color: transparent !important;
