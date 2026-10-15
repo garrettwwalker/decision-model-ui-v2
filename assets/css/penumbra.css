@@ -87,11 +87,11 @@ main, .footer { position: relative; z-index: 2; }
 .nav.is-scrolled::before { opacity: 1; }
 /* The mark: the logo's ring and spark as white SVG shapes (ring r44 centered in a 128 box, spark at 45°, its two
    long points equal and its sides curving in tangent to the ring's edges so it grows out of the ring), inlined
-   as masks so file:// previews load them, filled with the site's own spectrum so it matches the corona. Two
-   weights: a heavier one with a longer spark for the wordmark, a fine one for the hero. The glow sits on the wrapper because a mask
+   as masks so file:// previews load them, filled with the site's own spectrum so it matches the corona. This is
+   the small weight, with a longer spark, for the wordmark. The glow sits on the wrapper because a mask
    would clip it. */
-.logo, .eclipse__logo { filter: drop-shadow(0 0 5px rgba(167, 123, 255, 0.5)); }
-.logo::before, .eclipse__logo::before {
+.logo { filter: drop-shadow(0 0 5px rgba(167, 123, 255, 0.5)); }
+.logo::before {
   content: ""; position: absolute; inset: 0;
   /* the spark burns white at its heart (74.3% 25.7% is where it crosses the ring) and fades back into the ring's color */
   background: radial-gradient(circle at 74.3% 25.7%, #fff 0, #fff 4%, rgba(255, 255, 255, 0.7) 8%, rgba(255, 255, 255, 0) 15%), var(--mark);
@@ -150,125 +150,124 @@ main, .footer { position: relative; z-index: 2; }
 }
 .h2, .contact__title { padding-bottom: 0.08em; } /* room for descenders inside the clip */
 
-/* ---------- Hero: eclipse over a planet's rim ---------- */
-.hero { position: relative; height: 270vh; }
+/* ---------- Hero: one eclipse, screen-sized ----------
+   penumbra.js sets --cover (0 → 1: the moon slides over the sun), --ring (the rim lights at totality),
+   --burst (the rim explodes into the page's colors, fast then settling) and --flash (a bloom at the moment). */
+.hero { position: relative; height: 280vh; }
 .hero__stage {
   position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden;
-  --p: 0; --cover: 0; --flare: 0; --flash: 0; --after: 0; --tx: 0px; --ty: 0px;
-  -webkit-mask-image: linear-gradient(180deg, #000 82%, rgba(0, 0, 0, 0) 100%);
-  mask-image: linear-gradient(180deg, #000 82%, rgba(0, 0, 0, 0) 100%);
+  --cover: 0; --ring: 0; --burst: 0; --flash: 0; --after: 0; --tx: 0px; --ty: 0px;
+  -webkit-mask-image: linear-gradient(180deg, #000 90%, rgba(0, 0, 0, 0) 100%);
+  mask-image: linear-gradient(180deg, #000 90%, rgba(0, 0, 0, 0) 100%);
 }
-
-/* the planet: a huge dark disc whose rim catches the light, like the reference's horizon arc */
-.hero__limb {
-  position: absolute; left: 50%; top: 76%;
-  width: 260vmax; aspect-ratio: 1; border-radius: 50%;
-  transform: translate(calc(-50% + var(--tx) * -0.4), calc(var(--p) * -5vh));
-  background: radial-gradient(closest-side, #050608 97%, #0b0d12 100%);
-}
-.hero__limb::before, .hero__limb::after {
-  content: ""; position: absolute; border-radius: 50%;
-  background: linear-gradient(90deg, var(--a-teal) 30%, var(--a-blue) 40%, var(--a-violet) 48%, var(--a-pink) 56%, var(--a-coral) 63%, var(--a-gold) 70%);
-}
-.hero__limb::before { /* the bright rim */
-  inset: -2px;
-  -webkit-mask-image: radial-gradient(closest-side, transparent calc(100% - 3px), #000 calc(100% - 2px));
-  mask-image: radial-gradient(closest-side, transparent calc(100% - 3px), #000 calc(100% - 2px));
-  opacity: calc(0.55 + var(--p) * 0.45);
-}
-.hero__limb::after { /* atmosphere glowing above it */
-  inset: -70px;
-  -webkit-mask-image: radial-gradient(closest-side, transparent 96.6%, #000 98.4%, transparent 100%);
-  mask-image: radial-gradient(closest-side, transparent 96.6%, #000 98.4%, transparent 100%);
-  opacity: calc(0.25 + var(--p) * 0.6); /* the mask's own falloff is the blur: no filter on a disc this size */
-}
-
 .eclipse {
-  --size: min(44vmin, 470px);
-  position: absolute; left: 68%; top: 42%;
-  width: var(--size); height: var(--size);
-  translate: calc(-50% + var(--tx)) calc(-50% + var(--ty));
+  --D: 120vmin;
+  position: absolute; left: 60%; top: 64%;
+  width: var(--D); height: var(--D);
+  translate: -50% -50%;
 }
 .eclipse > * { position: absolute; border-radius: 50%; }
-.eclipse__halo { /* wide, soft color thrown into space at totality */
-  inset: -55%;
-  background: radial-gradient(closest-side, rgba(167, 123, 255, 0.0) 34%, rgba(167, 123, 255, 0.2) 44%, rgba(62, 240, 198, 0.12) 58%, rgba(255, 79, 168, 0.06) 72%, rgba(0, 0, 0, 0) 100%);
-  opacity: var(--cover);
-  translate: calc(var(--tx) * 0.6) calc(var(--ty) * 0.6);
-  animation: breathe 9s ease-in-out infinite;
-}
-@keyframes breathe { 50% { transform: scale(1.06); } }
-.eclipse__corona { /* the colored corona: a blurred conic ring that turns slowly */
+.eclipse__sun { inset: 0; background: radial-gradient(circle, #fff 0 62%, #fffaf3 88%, #fff1e6 100%); }
+.eclipse__glow { /* daylight spilling off the sun; mostly gone once the moon is on it */
   inset: -14%;
-  background: var(--aurora-ring);
-  -webkit-mask-image: radial-gradient(closest-side, transparent 66%, #000 74%, rgba(0, 0, 0, 0.35) 86%, transparent 100%);
-  mask-image: radial-gradient(closest-side, transparent 66%, #000 74%, rgba(0, 0, 0, 0.35) 86%, transparent 100%);
-  filter: blur(16px);
-  opacity: calc(0.12 + var(--cover) * var(--cover) * 0.88);
-  rotate: calc(var(--p) * 140deg);
-  animation: spin 60s linear infinite;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
-.eclipse__sun {
-  inset: 4px;
-  background: radial-gradient(circle, #fffdf8 0 55%, #fff1dc 80%, #ffd9b0 100%);
-  box-shadow: 0 0 40px 6px rgba(255, 236, 214, 0.55), 0 0 120px 30px rgba(255, 190, 160, 0.18);
-  opacity: calc(1 - var(--cover) * 0.88);
+  background: radial-gradient(closest-side, rgba(255, 255, 255, 0.5) 76%, rgba(255, 244, 236, 0.16) 84%, rgba(255, 255, 255, 0) 100%);
+  opacity: calc(1 - var(--cover) * 0.8);
 }
 .eclipse__moon {
-  inset: 3px;
-  background: radial-gradient(circle at 38% 34%, #1a1c22 0%, #0c0d11 55%, #060709 100%);
-  box-shadow: inset 6px -8px 24px rgba(167, 123, 255, 0.08), inset -4px 6px 18px rgba(62, 240, 198, 0.06);
-  /* slides in from the lower left; centered at totality */
-  transform: translate(calc((1 - var(--cover)) * -24%), calc((1 - var(--cover)) * 17%));
+  inset: -0.4%;
+  background: radial-gradient(circle at 40% 36%, #0d0e12 0%, #050608 70%);
+  /* comes in from the lower left, dead center at totality */
+  transform: translate(calc((1 - var(--cover)) * -150%), calc((1 - var(--cover)) * 32%));
 }
-.eclipse__logo { /* the mark is the ring at totality: its ring's outer edge (45.2 of 64 units) meets the moon's edge */
-  inset: -20.8%; border-radius: 0;
-  opacity: calc(var(--cover) * var(--cover));
-  filter: brightness(calc(1 + var(--flash) * 0.3)) drop-shadow(0 0 10px rgba(167, 123, 255, 0.55)) drop-shadow(0 0 28px rgba(255, 79, 168, 0.3));
+.eclipse__ring { /* the rim of light left at totality */
+  inset: -0.5%;
+  background: var(--mark);
+  -webkit-mask-image: radial-gradient(closest-side, transparent calc(100% - 6px), #000 calc(100% - 5px), #000 calc(100% - 1px), transparent 100%);
+  mask-image: radial-gradient(closest-side, transparent calc(100% - 6px), #000 calc(100% - 5px), #000 calc(100% - 1px), transparent 100%);
+  opacity: var(--ring);
+  transform: scale(calc(1 + var(--burst) * 0.025));
+  filter: brightness(calc(1 + var(--flash) * 0.8)) drop-shadow(0 0 8px rgba(255, 255, 255, 0.6));
 }
-.eclipse__logo::before { -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-64 -64 128 128'%3E%3Ccircle r='44' fill='none' stroke='%23fff' stroke-width='2.4'/%3E%3Cpath d='M43.13 -43.13 Q31.84 -33.11 25.01 -37.65 L23.28 -35.91 Q30.17 -31.45 19.09 -19.09 Q31.45 -30.17 35.91 -23.28 L37.65 -25.01 Q33.11 -31.84 43.13 -43.13Z' fill='%23fff'/%3E%3C/svg%3E"); mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-64 -64 128 128'%3E%3Ccircle r='44' fill='none' stroke='%23fff' stroke-width='2.4'/%3E%3Cpath d='M43.13 -43.13 Q31.84 -33.11 25.01 -37.65 L23.28 -35.91 Q30.17 -31.45 19.09 -19.09 Q31.45 -30.17 35.91 -23.28 L37.65 -25.01 Q33.11 -31.84 43.13 -43.13Z' fill='%23fff'/%3E%3C/svg%3E"); }
-.eclipse__bead { /* the diamond-ring flash as light returns */
-  left: 84.4%; top: 15.6%; width: 46%; height: 46%; /* over the mark's spark */
-  transform: translate(-50%, -50%) scale(calc(0.4 + var(--flash) * 0.8));
-  background: radial-gradient(closest-side, rgba(255, 255, 255, 0.95), rgba(255, 210, 236, 0.5) 22%, rgba(255, 79, 168, 0.18) 50%, rgba(255, 138, 76, 0) 100%);
+.eclipse__flash { /* white bloom off the rim at the instant of totality */
+  inset: -12%;
+  background: radial-gradient(closest-side, rgba(255, 255, 255, 0) 80%, rgba(255, 255, 255, 0.9) 85%, rgba(255, 220, 240, 0.35) 90%, rgba(255, 255, 255, 0) 100%);
   opacity: var(--flash);
+}
+.eclipse__corona { /* the burst: the page's colors thrown off the rim, blurred */
+  inset: -40%; /* the sun's edge sits at 55.6% of this box's radius */
+  background: var(--mark);
+  -webkit-mask-image: radial-gradient(closest-side, transparent 54%, #000 56.5%, rgba(0, 0, 0, 0.45) 70%, transparent 100%);
+  mask-image: radial-gradient(closest-side, transparent 54%, #000 56.5%, rgba(0, 0, 0, 0.45) 70%, transparent 100%);
+  filter: blur(22px) saturate(1.2);
+  opacity: var(--burst);
+  transform: scale(calc(0.84 + var(--burst) * 0.3));
+  translate: calc(var(--tx) * 0.5) calc(var(--ty) * 0.5);
+}
+.eclipse__rays { /* streamers: two uneven ray patterns, brighter and dimmer by sector, colored by the same spectrum, fading outward */
+  inset: -60%; /* the sun's edge sits at 45.5% of this box's radius */
+  background: var(--mark);
+  -webkit-mask-image:
+    radial-gradient(closest-side, transparent 44%, #000 46%, rgba(0, 0, 0, 0.5) 64%, transparent 94%),
+    repeating-conic-gradient(from 10deg, #000 0deg, rgba(0, 0, 0, 0.3) 11deg, #000 19deg, rgba(0, 0, 0, 0.55) 31deg, #000 43deg),
+    repeating-conic-gradient(#000 0deg 0.5deg, transparent 1.3deg 4.1deg),
+    repeating-conic-gradient(from 1.7deg, rgba(0, 0, 0, 0.7) 0deg 1.1deg, transparent 2deg 7.3deg);
+  -webkit-mask-composite: source-in, source-in, source-over;
+  mask-image:
+    radial-gradient(closest-side, transparent 44%, #000 46%, rgba(0, 0, 0, 0.5) 64%, transparent 94%),
+    repeating-conic-gradient(from 10deg, #000 0deg, rgba(0, 0, 0, 0.3) 11deg, #000 19deg, rgba(0, 0, 0, 0.55) 31deg, #000 43deg),
+    repeating-conic-gradient(#000 0deg 0.5deg, transparent 1.3deg 4.1deg),
+    repeating-conic-gradient(from 1.7deg, rgba(0, 0, 0, 0.7) 0deg 1.1deg, transparent 2deg 7.3deg);
+  mask-composite: intersect, intersect, add;
+  filter: blur(1.5px);
+  opacity: calc(var(--burst) * 0.9);
+  scale: calc(0.62 + var(--burst) * 0.62);
+  translate: var(--tx) var(--ty);
+  animation: spin 160s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.eclipse__wash { /* the color reaching across the whole sky afterwards */
+  inset: -90%;
+  background: radial-gradient(closest-side, rgba(167, 123, 255, 0.22) 26%, rgba(62, 240, 198, 0.1) 40%, rgba(255, 79, 168, 0.06) 56%, rgba(0, 0, 0, 0) 76%);
+  opacity: var(--burst);
 }
 
 .hero__copy {
-  position: absolute; inset: 0; z-index: 5;
+  position: absolute; inset: 0; /* no z-index: the inverted headline has to blend with the sun beneath it */
   padding: calc(env(safe-area-inset-top, 0px) + 22vh) var(--gutter) 0;
   pointer-events: none;
 }
-.hero__title { color: var(--moon); }
+.hero__head { position: relative; }
 .hero__title > span { display: block; }
+.hero__title { color: var(--moon); opacity: var(--burst); } /* the real headline, once the sky is dark and colored */
+.hero__title--ink { /* white set in difference: black over the sun, white over space and the moon */
+  position: absolute; inset: 0; margin: 0;
+  color: #fff; mix-blend-mode: difference;
+  opacity: calc(1 - var(--burst));
+}
 .hero__after {
-  position: absolute; left: var(--gutter); right: auto; bottom: calc(24% + 2vh);
+  position: absolute; left: var(--gutter); right: auto; bottom: 16%;
   margin: 0; font-size: clamp(2.4rem, 7vw, 6rem);
   opacity: var(--after);
   transform: translateY(calc((1 - var(--after)) * 30px));
   filter: drop-shadow(0 0 24px rgba(167, 123, 255, 0.35));
 }
 .hero__cue {
-  position: absolute; left: var(--gutter); bottom: calc(24% + 1.2rem); margin: 0;
+  position: absolute; left: var(--gutter); bottom: 2.4rem; margin: 0;
   display: flex; align-items: center; gap: 0.5rem;
-  font-size: var(--fs-micro); font-weight: 600; color: var(--moon-2);
-  opacity: calc(0.9 - var(--p) * 2);
+  font-size: var(--fs-micro); font-weight: 600; color: #fff; mix-blend-mode: difference;
+  opacity: calc(0.9 - var(--cover) * 2);
 }
 .hero__arrow { width: 0.7rem; height: 0.95rem; animation: cue-arrow 1.6s ease-in-out infinite; }
 @keyframes cue-arrow { 0%, 100% { transform: translateY(-2px); } 50% { transform: translateY(3px); } }
 
 @media (max-width: 900px) {
   .hero__copy { padding-top: calc(env(safe-area-inset-top, 0px) + 16vh); }
-  .eclipse { left: 66%; top: 52%; --size: min(52vmin, 420px); }
 }
-@media (max-width: 600px) { /* phones: headline on top, the eclipse below it, both clear of the rim */
+@media (max-width: 600px) { /* phones: headline on top, the sun filling the lower two-thirds */
   .hero__copy { padding-top: calc(env(safe-area-inset-top, 0px) + 12vh); }
   .hero__title { font-size: 16vw; }
   .hero__after { position: static; margin-top: 0.6em; font-size: 12.5vw; }
-  .eclipse { left: 58%; top: 60%; --size: 58vw; }
-  .hero__limb { top: 82%; }
-  .hero__cue { bottom: calc(18% + 1rem); }
+  .eclipse { --D: 132vmin; left: 58%; top: 66%; }
 }
 @media (min-width: 901px) and (max-height: 820px) {
   .hero__copy { padding-top: calc(env(safe-area-inset-top, 0px) + 15vh); }
@@ -656,6 +655,6 @@ main, .footer { position: relative; z-index: 2; }
 .footer__legal { margin: 0; width: 100%; font-size: var(--fs-micro); color: var(--moon-3); }
 
 @media (prefers-reduced-motion: reduce) {
-  .aurora i, .nebula canvas, .eclipse__corona, .eclipse__halo, .hero__arrow, .watch__title::before { animation: none; }
+  .aurora i, .nebula canvas, .eclipse__rays, .hero__arrow, .watch__title::before { animation: none; }
   .tile { translate: none; }
 }

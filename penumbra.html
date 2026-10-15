@@ -32,24 +32,29 @@
   </header>
 
   <main id="main">
-    <!-- 1. Hero: a total eclipse over a planet's rim; scrolling carries it to totality, then the diamond ring -->
+    <!-- 1. Hero: a sun fills the screen; scrolling slides the moon across it, and at totality its rim bursts into the
+         page's colors. The headline inverts over the sun, so it reads on white and on black alike. -->
     <section class="hero" aria-label="Introduction">
       <div class="hero__stage">
-        <div class="hero__limb" aria-hidden="true"></div>
         <div class="eclipse" aria-hidden="true">
-          <div class="eclipse__halo"></div>
-          <div class="eclipse__corona"></div>
+          <div class="eclipse__wash"></div>
+          <div class="eclipse__glow"></div>
           <div class="eclipse__sun"></div>
+          <div class="eclipse__rays"></div>
+          <div class="eclipse__corona"></div>
+          <div class="eclipse__flash"></div>
           <div class="eclipse__moon"></div>
-          <div class="eclipse__logo"></div>
-          <div class="eclipse__bead"></div>
+          <div class="eclipse__ring"></div>
         </div>
 
         <div class="hero__copy">
-          <h1 class="display hero__title">
-            <span>risk moves</span>
-            <span>overnight.</span>
-          </h1>
+          <div class="hero__head">
+            <h1 class="display hero__title">
+              <span>risk moves</span>
+              <span>overnight.</span>
+            </h1>
+            <p class="display hero__title hero__title--ink" aria-hidden="true"><span>risk moves</span><span>overnight.</span></p>
+          </div>
           <p class="display hero__after" aria-hidden="true">so you move<br>at first light.</p>
           <p class="hero__cue">Scroll into the eclipse <svg class="hero__arrow" viewBox="0 0 12 16" aria-hidden="true"><path d="M6 1v13M1.5 9.5 6 14l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
         </div>
