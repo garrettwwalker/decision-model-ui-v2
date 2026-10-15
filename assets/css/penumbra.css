@@ -274,7 +274,6 @@ main, .footer { position: relative; z-index: 2; }
 @media (max-width: 600px) { /* phones: headline on top, the whole sun below it */
   .hero__copy { padding-top: calc(env(safe-area-inset-top, 0px) + 12vh); }
   .hero__title { font-size: 16vw; }
-  .hero__cue { display: none; } /* the sun sits low on phones; the headline is cue enough */
   .hero__after { position: static; margin-top: calc(0.6em - 0.14em); margin-bottom: -0.24em; font-size: 12.5vw; }
   .eclipse { --D: min(86vh, 92vw); left: 50%; top: 64%; }
 }
