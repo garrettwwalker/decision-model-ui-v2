@@ -367,11 +367,12 @@
     var vals = [.12,.08,.31,.05,.62,.18,.09,.22, .41,.12,.08,.71,.15,.05,.33,.10,
                 .06,.44,.19,.09,.07,.28,.52,.14, .23,.05,.11,.36,.83,.17,.06,.09,
                 .14,.27,.06,.48,.21,.11,.39,.04];
-    var cells = vals.map(function (v) {
+    var cells = vals.map(function (v, i) {
       var c = document.createElement("span");
-      c.style.background = heatColor(v);
+      var h = (i % 8) / 7 * 0.8 + Math.floor(i / 8) / 4 * 0.2; // each cell's hue: the spectrum sweeps across the grid
+      c.style.background = heatColor(v, h);
       heat.appendChild(c);
-      return { el: c, base: v };
+      return { el: c, base: v, h: h };
     });
     // a live panel: about three-quarters of the cells breathe slowly around their reading, each on its own
     // period and phase, staying on the same ramp. Computed continuously (no CSS transitions to interrupt),
@@ -389,7 +390,7 @@
         if (shown && !document.hidden && t - last > 50) {
           last = t;
           cells.forEach(function (c) {
-            if (c.amp) c.el.style.background = heatColor(c.base + c.amp * Math.sin(t / c.per * Math.PI * 2 + c.ph));
+            if (c.amp) c.el.style.background = heatColor(c.base + c.amp * Math.sin(t / c.per * Math.PI * 2 + c.ph), c.h);
           });
         }
         requestAnimationFrame(frame);
@@ -400,12 +401,18 @@
       requestAnimationFrame(frame);
     }
   }
-  function heatColor(v) {
-    // void → blue → violet → pink → gold: the penumbra's ramp
-    var stops = [[22, 25, 32], [32, 92, 170], [140, 105, 245], [255, 79, 168], [255, 200, 95]];
-    var x = clamp(v, 0, 1) * (stops.length - 1);
-    var i = Math.min(stops.length - 2, Math.floor(x)), t = x - i;
-    var c = stops[i].map(function (a, k) { return Math.round(lerp(a, stops[i + 1][k], t)); });
+  function heatColor(v, h) {
+    // hue from the cell's place in the spectrum (teal → blue → violet → pink → coral → gold); the reading sets how
+    // brightly it glows out of the dark, and the hottest cells run toward white
+    var SPEC = [[62, 240, 198], [58, 168, 255], [167, 123, 255], [255, 79, 168], [255, 138, 76], [255, 210, 90]];
+    var x = clamp(h || 0, 0, 1) * (SPEC.length - 1);
+    var i = Math.min(SPEC.length - 2, Math.floor(x)), t = x - i;
+    var k = 0.16 + 0.84 * Math.pow(Math.min(1, clamp(v, 0, 1) / 0.5), 0.65);
+    var hot = Math.max(0, (v - 0.6) / 0.4) * 0.35, BASE = [24, 27, 34];
+    var c = SPEC[i].map(function (a, n) {
+      var lit = lerp(BASE[n], lerp(a, SPEC[i + 1][n], t), k);
+      return Math.round(lerp(lit, 255, hot));
+    });
     return "rgb(" + c.join(",") + ")";
   }
 

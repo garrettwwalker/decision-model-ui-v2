@@ -426,18 +426,15 @@ main, .footer { position: relative; z-index: 2; }
 .modes__head { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 1.5rem 3rem; margin-left: clamp(0rem, 6vw, 6rem); }
 .modes__grid {
   display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1.5rem; margin-top: 3.5rem; max-width: 76rem; align-items: start;
+  gap: 1.5rem; margin-top: 3.5rem; max-width: 76rem; align-items: stretch; /* squared up: equal heights, no stagger */
 }
 .mode { display: flex; flex-direction: column; gap: 0.85rem; }
-.mode:nth-child(2), .rigor__grid .note:nth-child(2) { margin-top: 1.5rem; } /* a gentle stagger */
-.mode:nth-child(3), .rigor__grid .note:nth-child(3) { margin-top: 0.6rem; }
-@media (max-width: 960px) { .mode:nth-child(n), .rigor__grid .note:nth-child(n) { margin-top: 0; } }
 .mode__for { margin: 0; color: var(--a-teal); }
 .mode:nth-child(2) .mode__for { color: var(--a-violet); }
 .mode:nth-child(3) .mode__for { color: var(--a-pink); }
 .mode .h3 .w.on { color: var(--moon); }
 .mode__desc { margin: 0; color: var(--moon-2); font-size: 0.95rem; }
-.mode .btn { align-self: flex-start; margin-top: 0.25rem; }
+.mode .btn { align-self: flex-start; margin-top: auto; } /* every card's button on one line */
 
 .pv { border-radius: 12px; padding: 0.85rem; background: rgba(7, 8, 11, 0.7); border: 1px solid var(--rim); font-size: 0.75rem; }
 .pv-slider { display: grid; gap: 0.3rem; margin-bottom: 0.6rem; font-weight: 600; color: var(--moon-2); }
@@ -481,8 +478,6 @@ main, .footer { position: relative; z-index: 2; }
   -webkit-mask-image: radial-gradient(circle at var(--eye), transparent 5.5px, #000 6px);
   mask-image: radial-gradient(circle at var(--eye), transparent 5.5px, #000 6px);
 }
-.tag:nth-child(odd) { transform: rotate(-1.2deg); }
-.tag:nth-child(even) { transform: rotate(1deg) translateY(10px); }
 .tag strong { font-size: 1.02rem; letter-spacing: -0.015em; line-height: 1.25; }
 .tag > span:last-child { color: var(--moon-2); }
 .tag__eyelet { display: none; }
@@ -502,14 +497,10 @@ main, .footer { position: relative; z-index: 2; }
   .tag:nth-child(3) { grid-area: 3 / 1 / span 2; }
   .tag:nth-child(4) { grid-area: 4 / 2 / span 2; }
   .tag:nth-child(5) { grid-area: 5 / 1 / span 2; }
-  .tag:nth-child(odd) { transform: rotate(-1deg); }
-  .tag:nth-child(even) { transform: rotate(1deg); }
 }
 @media (max-width: 700px) {
   .tags { grid-template-columns: minmax(0, 1fr); max-width: none; gap: 1rem; }
   .tag:nth-child(n) { grid-area: auto; }
-  .tag:nth-child(odd) { transform: rotate(-0.6deg); }
-  .tag:nth-child(even) { transform: rotate(0.6deg); }
 }
 
 /* ---------- Gray swans: a band of nebula and space dust ---------- */
@@ -543,7 +534,7 @@ main, .footer { position: relative; z-index: 2; }
 .swans__head { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 1.5rem 3rem; }
 .swans__lede { max-width: 36rem; margin: 2rem 0 3rem 0.15rem; font-size: 1.1rem; color: var(--moon-2); }
 .swans__lede .w.on { color: var(--moon-2); }
-.swans__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; }
+.swans__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; align-items: stretch; }
 .swan {
   border-radius: var(--radius); padding: 1.35rem;
   background: rgba(18, 20, 26, 0.55);
@@ -551,7 +542,6 @@ main, .footer { position: relative; z-index: 2; }
   -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
   display: flex; flex-direction: column; gap: 0.6rem;
 }
-.swan:nth-child(2) { transform: translateY(2rem); }
 .swan h3 { margin: 0; font-size: 1.2rem; line-height: 1.2; letter-spacing: -0.02em; }
 .swan p { margin: 0; font-size: 0.92rem; color: var(--moon-2); }
 .swan__flag { align-self: flex-start; color: var(--a-gold) !important; border: 1px solid rgba(255, 210, 90, 0.45); border-radius: 999px; padding: 0.2rem 0.6rem; }
@@ -561,7 +551,6 @@ main, .footer { position: relative; z-index: 2; }
 .swan__stats dd { margin: 0; font-weight: 700; text-align: right; }
 @media (max-width: 960px) {
   .swans__grid { grid-template-columns: minmax(0, 1fr); max-width: 34rem; }
-  .swan:nth-child(2) { transform: none; }
 }
 
 /* ---------- Assets: node-link model with signals running down it ---------- */
@@ -621,7 +610,7 @@ main, .footer { position: relative; z-index: 2; }
 .rigor { padding: clamp(5rem, 12vh, 8rem) var(--gutter); }
 .rigor > .h2 { margin-left: clamp(0rem, 6vw, 6rem); display: inline-block; }
 .rigor__lede { max-width: 34rem; margin: 2rem 0 3.5rem calc(clamp(0rem, 6vw, 6rem) + 0.15rem); font-size: 1.1rem; }
-.rigor__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; max-width: 76rem; align-items: start; }
+.rigor__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; max-width: 76rem; align-items: stretch; }
 .rigor__grid .note { display: flex; flex-direction: column; gap: 0.75rem; }
 .rigor__h { font-size: 1.3rem; }
 .rigor__foot { margin: auto 0 0; padding-top: 0.75rem; border-top: 1px dashed var(--line-strong); font-size: 0.72rem; color: var(--moon-3); }
