@@ -376,7 +376,9 @@ main, .footer { position: relative; z-index: 2; }
 }
 .engine__steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 2.25rem; }
 .engine__steps li { position: relative; padding-left: 3.25rem; }
-.engine__n { position: absolute; left: 0; top: 0.1rem; width: 2.1rem; height: 2.1rem; fill: var(--moon); font: 800 19px var(--font); overflow: visible; }
+.engine__n { position: absolute; left: 0; top: 0.1rem; width: 2.1rem; height: 2.1rem; fill: var(--moon); font: 800 19px var(--font); overflow: visible; transition: fill 0.35s ease; }
+/* each number lights with the first word of its heading, and dims again with it on the way back up */
+.engine__steps li:has(h3 .w):not(:has(h3 .w.on)) .engine__n { fill: var(--unread); }
 .engine__steps h3 { margin: 0 0 0.45rem; font-size: 1.4rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1.15; }
 .engine__steps h3 .w.on { color: var(--moon); }
 .engine__steps p { margin: 0; color: var(--moon-2); max-width: 34rem; }
