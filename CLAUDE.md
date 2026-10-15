@@ -78,10 +78,10 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   under the next name, Penumbra (added 2026-10-15; linked as "penumbra preview" at the end of the product tour tabs and
   last in `nav.js`'s order). Same copy and section layout as `index.html` (ByNine swapped for Penumbra), but moon-dark
   ground with one accent read as a spectrum (the logo's ring in `references/Penumbra Logo Color.jpeg`: teal, blue,
-  violet, pink, coral, gold; violet is one stop, never the dominant hue). Hero: one screen-sized eclipse. A white sun fills most of the viewport; scroll slides the
+  violet, pink, coral, gold; violet is one stop, never the dominant hue). Hero: one screen-sized eclipse. A white sun as big as fits whole on screen (`--D`); scroll slides the
   moon over it from the lower left (`--cover`), the rim lights at totality (`--ring`, `--flash`) and then bursts
   into the page's spectrum (`--burst`: blurred corona, conic ray streamers, a sky-wide wash) as "at first light"
-  arrives. Before the burst the headline is a white copy in `mix-blend-mode: difference` (black on the sun, white on
+  arrives. The stage clips only at the sides, so the burst runs on below the hero and fades over the next section. Before the burst the headline is a white copy in `mix-blend-mode: difference` (black on the sun, white on
   space), crossfading to the real `h1`; `.hero__copy` has no z-index so the blend reaches the sun. The mark keeps the shape of `references/Penumbra Logo Color.jpeg` (ring with
   a four-point spark at 45°) but not its colors, which clashed: it's inline SVG masks in `penumbra.css` filled with
   `--mark`, a conic gradient of the site's spectrum (also the corona). Don't use the JPEG itself. Below the hero: fixed starfield canvas, drifting background glows
