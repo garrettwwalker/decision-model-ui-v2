@@ -200,26 +200,27 @@ main, .footer { position: relative; z-index: 2; }
   opacity: var(--flash);
 }
 .eclipse__corona { /* the burst: the page's colors thrown off the rim, blurred */
-  inset: -40%; /* the sun's edge sits at 55.6% of this box's radius */
+  inset: -40%; /* the sun's edge sits at 55.6% of this box's radius; like the rays, the mask starts under the moon */
   background: var(--mark);
-  -webkit-mask-image: radial-gradient(closest-side, transparent 54%, #000 56.5%, rgba(0, 0, 0, 0.45) 70%, transparent 100%);
-  mask-image: radial-gradient(closest-side, transparent 54%, #000 56.5%, rgba(0, 0, 0, 0.45) 70%, transparent 100%);
+  -webkit-mask-image: radial-gradient(closest-side, transparent 30%, #000 36%, #000 50%, rgba(0, 0, 0, 0.45) 66%, transparent 100%);
+  mask-image: radial-gradient(closest-side, transparent 30%, #000 36%, #000 50%, rgba(0, 0, 0, 0.45) 66%, transparent 100%);
   filter: blur(22px) saturate(1.2);
   opacity: var(--burst);
   transform: scale(calc(0.84 + var(--burst) * 0.3));
   translate: calc(var(--tx) * 0.5) calc(var(--ty) * 0.5);
 }
 .eclipse__rays { /* streamers: two uneven ray patterns, brighter and dimmer by sector, colored by the same spectrum, fading outward */
-  inset: -60%; /* the sun's edge sits at 45.5% of this box's radius */
+  inset: -60%; /* the sun's edge sits at 45.5% of this box's radius (36.7% once scaled up); the mask starts far
+     inside it, under the moon, so the rays always leave from the rim with no gap */
   background: var(--mark);
   -webkit-mask-image:
-    radial-gradient(closest-side, transparent 44%, #000 46%, rgba(0, 0, 0, 0.5) 64%, transparent 94%),
+    radial-gradient(closest-side, transparent 18%, #000 22%, #000 40%, rgba(0, 0, 0, 0.5) 62%, transparent 94%),
     repeating-conic-gradient(from 10deg, #000 0deg, rgba(0, 0, 0, 0.3) 11deg, #000 19deg, rgba(0, 0, 0, 0.55) 31deg, #000 43deg),
     repeating-conic-gradient(#000 0deg 0.5deg, transparent 1.3deg 4.1deg),
     repeating-conic-gradient(from 1.7deg, rgba(0, 0, 0, 0.7) 0deg 1.1deg, transparent 2deg 7.3deg);
   -webkit-mask-composite: source-in, source-in, source-over;
   mask-image:
-    radial-gradient(closest-side, transparent 44%, #000 46%, rgba(0, 0, 0, 0.5) 64%, transparent 94%),
+    radial-gradient(closest-side, transparent 18%, #000 22%, #000 40%, rgba(0, 0, 0, 0.5) 62%, transparent 94%),
     repeating-conic-gradient(from 10deg, #000 0deg, rgba(0, 0, 0, 0.3) 11deg, #000 19deg, rgba(0, 0, 0, 0.55) 31deg, #000 43deg),
     repeating-conic-gradient(#000 0deg 0.5deg, transparent 1.3deg 4.1deg),
     repeating-conic-gradient(from 1.7deg, rgba(0, 0, 0, 0.7) 0deg 1.1deg, transparent 2deg 7.3deg);
