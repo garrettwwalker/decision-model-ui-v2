@@ -477,13 +477,33 @@ main, .footer { position: relative; z-index: 2; }
   .tag:nth-child(even) { transform: rotate(0.6deg); }
 }
 
-/* ---------- Gray swans: a darker band ---------- */
+/* ---------- Gray swans: a band of nebula and space dust ---------- */
 .swans {
   position: relative; overflow: hidden;
   padding: clamp(8rem, 18vh, 11rem) var(--gutter) clamp(7rem, 16vh, 10rem);
   margin-block: 3rem;
   background: linear-gradient(180deg, rgba(3, 4, 6, 0) 0%, rgba(3, 4, 6, 0.75) 18%, rgba(3, 4, 6, 0.75) 82%, rgba(3, 4, 6, 0) 100%);
 }
+/* penumbra.js paints the layers once (warped fractal noise, low resolution so the upscale is soft); CSS drifts them
+   slowly, each on its own clock, and scroll pulls them apart at different depths (--nb) */
+.nebula {
+  position: absolute; inset: 0; pointer-events: none; --nb: 0;
+  -webkit-mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000 20%, #000 80%, rgba(0, 0, 0, 0) 100%);
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000 20%, #000 80%, rgba(0, 0, 0, 0) 100%);
+}
+.nebula canvas {
+  position: absolute; left: -10%; top: -10%; width: 120%; height: 120%;
+  opacity: 0; transition: opacity 1.6s ease;
+}
+.nebula canvas.is-ready { opacity: 1; }
+.nebula__gas { filter: blur(5px) saturate(1.15); translate: 0 calc(var(--nb) * -40px); animation: neb-a 90s ease-in-out infinite alternate; }
+.nebula .nebula__gas.is-ready { opacity: 0.8; }
+.nebula__gas--b { translate: 0 calc(var(--nb) * -60px); animation: neb-b 110s ease-in-out infinite alternate; }
+.nebula .nebula__gas--b.is-ready { opacity: 0.55; }
+.nebula__dust { filter: blur(1.5px); translate: 0 calc(var(--nb) * -80px); animation: neb-b 130s ease-in-out infinite alternate-reverse; }
+.nebula__specks { translate: 0 calc(var(--nb) * -120px); }
+@keyframes neb-a { from { transform: translate(-2%, 1%) scale(1) rotate(-1deg); } to { transform: translate(2%, -1.5%) scale(1.07) rotate(1.5deg); } }
+@keyframes neb-b { from { transform: translate(2%, -1%) scale(1.05) rotate(1deg); } to { transform: translate(-2.5%, 1%) scale(1) rotate(-1deg); } }
 .swans__inner { position: relative; z-index: 1; max-width: 76rem; margin-inline: auto; }
 .swans__head { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 1.5rem 3rem; }
 .swans__lede { max-width: 36rem; margin: 2rem 0 3rem 0.15rem; font-size: 1.1rem; color: var(--moon-2); }
@@ -626,6 +646,6 @@ main, .footer { position: relative; z-index: 2; }
 .footer__legal { margin: 0; width: 100%; font-size: var(--fs-micro); color: var(--moon-3); }
 
 @media (prefers-reduced-motion: reduce) {
-  .aurora i, .eclipse__corona, .eclipse__halo, .hero__arrow, .watch__title::before { animation: none; }
+  .aurora i, .nebula canvas, .eclipse__corona, .eclipse__halo, .hero__arrow, .watch__title::before { animation: none; }
   .tile { translate: none; }
 }

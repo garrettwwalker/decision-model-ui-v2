@@ -480,6 +480,126 @@
     window.addEventListener("scroll", function () { requestAnimationFrame(function () { drawStars(0); }); }, { passive: true });
   } else requestAnimationFrame(loop);
 
+  /* ---------- Nebula behind the gray swans ----------
+     Two gas layers and a layer of dark dust lanes from domain-warped fractal noise (wispy rather than blobby),
+     painted once at low resolution when the section comes near, plus a full-resolution layer of specks. */
+  (function () {
+    var box = document.querySelector(".nebula");
+    if (!box) return;
+    var gasA = box.querySelector(".nebula__gas:not(.nebula__gas--b)"), gasB = box.querySelector(".nebula__gas--b");
+    var dust = box.querySelector(".nebula__dust"), specks = box.querySelector(".nebula__specks");
+
+    function makeNoise(seed) {
+      var rnd = DB_rng(seed * 48271 + 1), perm = new Uint8Array(512), vals = new Float32Array(256), i;
+      for (i = 0; i < 256; i++) { perm[i] = i; vals[i] = rnd(); }
+      for (i = 255; i > 0; i--) { var j = Math.floor(rnd() * (i + 1)), t = perm[i]; perm[i] = perm[j]; perm[j] = t; }
+      for (i = 0; i < 256; i++) perm[i + 256] = perm[i];
+      return function (x, y) {
+        var xi = Math.floor(x), yi = Math.floor(y), xf = x - xi, yf = y - yi;
+        var u = xf * xf * (3 - 2 * xf), v = yf * yf * (3 - 2 * yf);
+        xi &= 255; yi &= 255;
+        var a = vals[perm[perm[xi] + yi]], b = vals[perm[perm[xi + 1] + yi]];
+        var c = vals[perm[perm[xi] + yi + 1]], d = vals[perm[perm[xi + 1] + yi + 1]];
+        return lerp(lerp(a, b, u), lerp(c, d, u), v);
+      };
+    }
+    function fbm(n, x, y, oct) {
+      var s = 0, a = 0.5, f = 1, norm = 0;
+      for (var o = 0; o < oct; o++) { s += a * n(x * f, y * f); norm += a; a *= 0.5; f *= 2.03; }
+      return s / norm;
+    }
+    function warped(n, x, y) { // fbm sampled through fbm: streaks and filaments
+      var q1 = fbm(n, x + 1.7, y + 9.2, 4), q2 = fbm(n, x + 8.3, y + 2.8, 4);
+      return fbm(n, x + 2.4 * q1, y + 2.4 * q2, 5);
+    }
+    function ramp(stops, t) {
+      t = clamp(t, 0, 1) * (stops.length - 1);
+      var i = Math.min(stops.length - 2, Math.floor(t)), k = t - i;
+      return [0, 1, 2].map(function (c) { return lerp(stops[i][c], stops[i + 1][c], k); });
+    }
+    var band = function (v, a, b) { return smooth((v - a) / (b - a)); };
+
+    function paint(cv, w, h, pixel) {
+      cv.width = w; cv.height = h;
+      var c = cv.getContext("2d"), img = c.createImageData(w, h), d = img.data;
+      for (var y = 0; y < h; y++) for (var x = 0; x < w; x++) {
+        var px = pixel(x / w * 3.4, y / w * 3.4), o = (y * w + x) * 4;
+        d[o] = px[0]; d[o + 1] = px[1]; d[o + 2] = px[2]; d[o + 3] = px[3];
+      }
+      c.putImageData(img, 0, 0);
+      cv.classList.add("is-ready");
+    }
+
+    var WARM = [[58, 168, 255], [167, 123, 255], [255, 79, 168], [255, 138, 76]];
+    var COOL = [[62, 240, 198], [58, 168, 255], [120, 110, 255]];
+    function render() {
+      var b = box.getBoundingClientRect(), aspect = (b.height * 1.2) / Math.max(1, b.width * 1.2);
+      var nA = makeNoise(11), nB = makeNoise(23), nC = makeNoise(37), nD = makeNoise(53);
+      var W = 300, H = Math.max(60, Math.round(W * aspect));
+      var steps = [];
+      steps.push(function () { paint(gasA, W, H, function (x, y) {
+        var open = band(fbm(nB, x * 0.35, y * 0.35, 2), 0.3, 0.6);         // where the cloud is at all
+        var w = warped(nA, x, y);
+        var dens = band(w, 0.4, 0.76); dens = dens * dens * open + band(w, 0.3, 0.7) * 0.22 * (0.4 + 0.6 * open); // body + faint haze
+        var col = ramp(WARM, (fbm(nC, x * 0.6, y * 0.6, 3) - 0.3) / 0.4);
+        var hot = clamp((dens - 0.6) / 0.4, 0, 1) * 0.55;                  // hot cores go toward white
+        return [lerp(col[0], 255, hot), lerp(col[1], 245, hot), lerp(col[2], 250, hot), 255 * Math.min(1, dens * 1.1)];
+      }); });
+      steps.push(function () { paint(gasB, W, H, function (x, y) {
+        var dens = band(warped(nB, x * 1.4 + 5, y * 1.4), 0.48, 0.74);
+        dens *= dens * band(fbm(nC, x * 0.4 + 3, y * 0.4, 2), 0.4, 0.62);
+        var col = ramp(COOL, fbm(nA, x * 0.8, y * 0.8, 2) * 1.6 - 0.4);
+        return [col[0], col[1], col[2], 200 * dens];
+      }); });
+      var DW = 440, DH = Math.max(80, Math.round(DW * aspect));
+      steps.push(function () { paint(dust, DW, DH, function (x, y) {
+        var lanes = band(warped(nD, x * 1.1, y * 1.1), 0.56, 0.7);           // dark filaments across the glow
+        return [4, 5, 8, 225 * lanes];
+      }); });
+      steps.push(drawSpecks);
+      (function next() { var f = steps.shift(); if (f) { f(); setTimeout(next, 30); } })();
+    }
+    function drawSpecks() {
+      // specks: fine dust and a few bright stars caught in the cloud
+      var sb = specks.getBoundingClientRect(), dpr = Math.min(2, window.devicePixelRatio || 1);
+      specks.width = Math.round(sb.width * dpr); specks.height = Math.round(sb.height * dpr);
+      var g = specks.getContext("2d"), rnd = DB_rng(91), n = Math.min(900, Math.round(sb.width * sb.height / 1800));
+      g.scale(dpr, dpr);
+      var TINT = ["255,255,255", "255,214,236", "214,200,255", "190,255,236"];
+      for (var i = 0; i < n; i++) {
+        var x = rnd() * sb.width, y = rnd() * sb.height, r = 0.25 + Math.pow(rnd(), 3) * 1.1;
+        g.fillStyle = "rgba(" + TINT[Math.floor(rnd() * TINT.length)] + "," + (0.2 + rnd() * 0.6).toFixed(2) + ")";
+        g.beginPath(); g.arc(x, y, r, 0, 6.283); g.fill();
+      }
+      for (i = 0; i < 9; i++) {
+        var bx = rnd() * sb.width, by = rnd() * sb.height, br = 6 + rnd() * 10;
+        var gr = g.createRadialGradient(bx, by, 0, bx, by, br);
+        gr.addColorStop(0, "rgba(255,255,255,0.95)"); gr.addColorStop(0.12, "rgba(255,230,245,0.6)"); gr.addColorStop(1, "rgba(255,180,230,0)");
+        g.fillStyle = gr; g.beginPath(); g.arc(bx, by, br, 0, 6.283); g.fill();
+      }
+      specks.classList.add("is-ready");
+    }
+
+    var done = false;
+    function go() { if (done) return; done = true; setTimeout(render, 0); }
+    if (window.IntersectionObserver) {
+      var io = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { io.disconnect(); go(); } }, { rootMargin: "800px 0px" });
+      io.observe(box);
+    } else go();
+    var lastW = 0;
+    window.addEventListener("resize", function () {
+      if (!done || Math.abs(window.innerWidth - lastW) < 120) return; // repaint only for a real change of shape
+      lastW = window.innerWidth; render();
+    });
+    lastW = window.innerWidth;
+    // depth on scroll: layers part as the band passes
+    window.addEventListener("scroll", function () {
+      var r = box.getBoundingClientRect(), vh = window.innerHeight;
+      if (r.bottom < 0 || r.top > vh) return;
+      box.style.setProperty("--nb", ((r.top + r.height / 2 - vh / 2) / vh).toFixed(3));
+    }, { passive: true });
+  })();
+
   /* ---------- Northern lights over the closing section ----------
      Each curtain is a wandering lower edge with light rising off it: bright green at the hem, fading to teal
      and then a faint violet-pink crown, with fine vertical rays and folds that brighten and slide along.

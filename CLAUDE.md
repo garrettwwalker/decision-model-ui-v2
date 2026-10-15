@@ -85,7 +85,9 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   `assets/img/penumbra-logo.jpg` and used as-is (don't redraw it): a centered square crop, its brightness as a
   luminance mask so the gray ground drops out. Below the hero: fixed starfield canvas, drifting background glows
   whose hue shifts with scroll, a pointer glow, aurora-edged card spotlights (`.spot`, `--mx/--my`), gradient headings
-  revealed word by word, and pulses running down the graph's edges. The page closes on the northern lights
+  revealed word by word, a nebula behind gray swans (`.nebula`: two gas layers and dark dust lanes from domain-warped
+  fractal noise, painted once at low resolution, plus specks; CSS drifts each layer and scroll parts them by depth),
+  and pulses running down the graph's edges. The page closes on the northern lights
   (`.borealis`, a half-resolution canvas of three drifting curtains: green hem, teal body, violet-pink crown, fine
   rays) over a dark ridge that runs into the footer. `penumbra.js` is a fork of
   `landing.js`; if the preview is adopted, it replaces `index.html` and the fork goes away.
