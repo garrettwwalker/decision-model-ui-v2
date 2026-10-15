@@ -85,7 +85,8 @@ main, .footer { position: relative; z-index: 2; }
   opacity: 0; transition: opacity 0.3s ease;
 }
 .nav.is-scrolled::before { opacity: 1; }
-/* The mark: the logo's ring and spark as white SVG shapes (ring r44 centered in a 128 box, spark at 45°), inlined
+/* The mark: the logo's ring and spark as white SVG shapes (ring r44 centered in a 128 box, spark at 45°, its two
+   long points equal and its sides curving in tangent to the ring's edges so it grows out of the ring), inlined
    as masks so file:// previews load them, filled with the site's own spectrum so it matches the corona. Two
    weights: a heavier one for the wordmark, a fine one for the hero. The glow sits on the wrapper because a mask
    would clip it. */
@@ -94,8 +95,8 @@ main, .footer { position: relative; z-index: 2; }
   content: ""; position: absolute; inset: 0;
   /* the spark burns white at its heart (74.3% 25.7% is where it crosses the ring) and fades back into the ring's color */
   background: radial-gradient(circle at 74.3% 25.7%, #fff 0, #fff 4%, rgba(255, 255, 255, 0.7) 8%, rgba(255, 255, 255, 0) 15%), var(--mark);
-  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%22-64 -64 128 128%22%3E%3Ccircle r=%2244%22 fill=%22none%22 stroke=%22%23fff%22 stroke-width=%227.5%22/%3E%3Cpath transform=%22translate(31.11 -31.11) rotate(-45)%22 d=%22M20 0Q3.2 2.6 0 11Q-2.6 2.6-15 0Q-2.6-2.6 0-11Q3.2-2.6 20 0Z%22 fill=%22%23fff%22/%3E%3C/svg%3E") center / contain no-repeat;
-  mask: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%22-64 -64 128 128%22%3E%3Ccircle r=%2244%22 fill=%22none%22 stroke=%22%23fff%22 stroke-width=%227.5%22/%3E%3Cpath transform=%22translate(31.11 -31.11) rotate(-45)%22 d=%22M20 0Q3.2 2.6 0 11Q-2.6 2.6-15 0Q-2.6-2.6 0-11Q3.2-2.6 20 0Z%22 fill=%22%23fff%22/%3E%3C/svg%3E") center / contain no-repeat;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-64 -64 128 128'%3E%3Ccircle r='44' fill='none' stroke='%23fff' stroke-width='7.5'/%3E%3Cpath d='M43.84 -43.84 Q33.26 -35.81 24.31 -41.10 L18.85 -35.57 Q28.11 -30.66 18.38 -18.38 Q30.66 -28.11 35.57 -18.85 L41.10 -24.31 Q35.81 -33.26 43.84 -43.84Z' fill='%23fff'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-64 -64 128 128'%3E%3Ccircle r='44' fill='none' stroke='%23fff' stroke-width='7.5'/%3E%3Cpath d='M43.84 -43.84 Q33.26 -35.81 24.31 -41.10 L18.85 -35.57 Q28.11 -30.66 18.38 -18.38 Q30.66 -28.11 35.57 -18.85 L41.10 -24.31 Q35.81 -33.26 43.84 -43.84Z' fill='%23fff'/%3E%3C/svg%3E") center / contain no-repeat;
 }
 .logo { position: relative; display: block; width: 32px; height: 32px; margin: -2px -1px -2px -3px; flex: none; }
 .footer .logo { width: 28px; height: 28px; }
@@ -224,7 +225,7 @@ main, .footer { position: relative; z-index: 2; }
   opacity: calc(var(--cover) * var(--cover));
   filter: brightness(calc(1 + var(--flash) * 0.3)) drop-shadow(0 0 10px rgba(167, 123, 255, 0.55)) drop-shadow(0 0 28px rgba(255, 79, 168, 0.3));
 }
-.eclipse__logo::before { -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%22-64 -64 128 128%22%3E%3Ccircle r=%2244%22 fill=%22none%22 stroke=%22%23fff%22 stroke-width=%222.4%22/%3E%3Cpath transform=%22translate(31.11 -31.11) rotate(-45)%22 d=%22M19 0Q2.4 1.8 0 7Q-1.8 1.8-15 0Q-1.8-1.8 0-7Q2.4-1.8 19 0Z%22 fill=%22%23fff%22/%3E%3C/svg%3E"); mask-image: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%22-64 -64 128 128%22%3E%3Ccircle r=%2244%22 fill=%22none%22 stroke=%22%23fff%22 stroke-width=%222.4%22/%3E%3Cpath transform=%22translate(31.11 -31.11) rotate(-45)%22 d=%22M19 0Q2.4 1.8 0 7Q-1.8 1.8-15 0Q-1.8-1.8 0-7Q2.4-1.8 19 0Z%22 fill=%22%23fff%22/%3E%3C/svg%3E"); }
+.eclipse__logo::before { -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-64 -64 128 128'%3E%3Ccircle r='44' fill='none' stroke='%23fff' stroke-width='2.4'/%3E%3Cpath d='M43.13 -43.13 Q31.84 -33.11 25.01 -37.65 L23.28 -35.91 Q30.17 -31.45 19.09 -19.09 Q31.45 -30.17 35.91 -23.28 L37.65 -25.01 Q33.11 -31.84 43.13 -43.13Z' fill='%23fff'/%3E%3C/svg%3E"); mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-64 -64 128 128'%3E%3Ccircle r='44' fill='none' stroke='%23fff' stroke-width='2.4'/%3E%3Cpath d='M43.13 -43.13 Q31.84 -33.11 25.01 -37.65 L23.28 -35.91 Q30.17 -31.45 19.09 -19.09 Q31.45 -30.17 35.91 -23.28 L37.65 -25.01 Q33.11 -31.84 43.13 -43.13Z' fill='%23fff'/%3E%3C/svg%3E"); }
 .eclipse__bead { /* the diamond-ring flash as light returns */
   left: 84.4%; top: 15.6%; width: 46%; height: 46%; /* over the mark's spark */
   transform: translate(-50%, -50%) scale(calc(0.4 + var(--flash) * 0.8));
