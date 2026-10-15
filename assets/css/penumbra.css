@@ -22,7 +22,10 @@
   --a-coral: #ff8a4c;
   --a-gold: #ffd25a;
   --aurora: linear-gradient(100deg, var(--a-teal) 0%, var(--a-blue) 28%, var(--a-violet) 48%, var(--a-pink) 70%, var(--a-coral) 88%, var(--a-gold) 100%);
-  --aurora-ring: conic-gradient(from 210deg, var(--a-gold), var(--a-coral), var(--a-pink), var(--a-violet), var(--a-blue), var(--a-teal), #7cf28a, var(--a-gold)); /* the corona */
+  /* the mark's ring, laid out like the logo: pink at the spark (45°), teal low right, gold low left */
+  --mark: conic-gradient(var(--a-blue) 0deg, var(--a-violet) 25deg, var(--a-pink) 45deg, var(--a-violet) 75deg, var(--a-blue) 125deg,
+    var(--a-teal) 175deg, var(--a-gold) 235deg, var(--a-coral) 280deg, var(--a-pink) 320deg, var(--a-violet) 345deg, var(--a-blue) 360deg);
+  --aurora-ring: var(--mark); /* the corona */
   /* money on dark */
   --loss: #ff6b81;
   --safe: #4fe3b5;
@@ -82,17 +85,19 @@ main, .footer { position: relative; z-index: 2; }
   opacity: 0; transition: opacity 0.3s ease;
 }
 .nav.is-scrolled::before { opacity: 1; }
-/* The supplied color logo (assets/img/penumbra-logo.jpg). The ring sits dead center in the 2752×1536 image, so a
-   centered square crop of its height × 0.68 (1040px) holds ring, spark and glow. The JPEG has no transparency:
-   its own brightness is the mask (twice over, so the ring stays solid), so the gray ground drops out and the
-   glow fades into whatever is behind; the contrast filter pushes what's left of the ground to black. */
-.logo, .eclipse__logo {
-  background: url("../img/penumbra-logo.jpg") 50% 50% / 264.6% auto no-repeat;
-  mask: url("../img/penumbra-logo.jpg") 50% 50% / 264.6% auto no-repeat luminance, url("../img/penumbra-logo.jpg") 50% 50% / 264.6% auto no-repeat luminance;
-  filter: contrast(1.5);
+/* The mark: the logo's ring and spark as white SVG shapes (ring r44 centered in a 128 box, spark at 45°), inlined
+   as masks so file:// previews load them, filled with the site's own spectrum so it matches the corona. Two
+   weights: a heavier one for the wordmark, a fine one for the hero. The glow sits on the wrapper because a mask
+   would clip it. */
+.logo, .eclipse__logo { filter: drop-shadow(0 0 5px rgba(167, 123, 255, 0.5)); }
+.logo::before, .eclipse__logo::before {
+  content: ""; position: absolute; inset: 0;
+  background: var(--mark);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%22-64 -64 128 128%22%3E%3Ccircle r=%2244%22 fill=%22none%22 stroke=%22%23fff%22 stroke-width=%227.5%22/%3E%3Cpath transform=%22translate(31.11 -31.11) rotate(-45)%22 d=%22M20 0Q3.2 2.6 0 11Q-2.6 2.6-15 0Q-2.6-2.6 0-11Q3.2-2.6 20 0Z%22 fill=%22%23fff%22/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%22-64 -64 128 128%22%3E%3Ccircle r=%2244%22 fill=%22none%22 stroke=%22%23fff%22 stroke-width=%227.5%22/%3E%3Cpath transform=%22translate(31.11 -31.11) rotate(-45)%22 d=%22M20 0Q3.2 2.6 0 11Q-2.6 2.6-15 0Q-2.6-2.6 0-11Q3.2-2.6 20 0Z%22 fill=%22%23fff%22/%3E%3C/svg%3E") center / contain no-repeat;
 }
-.logo { display: block; width: 34px; height: 34px; margin: -3px -2px -3px -4px; flex: none; }
-.footer .logo { width: 30px; height: 30px; }
+.logo { position: relative; display: block; width: 32px; height: 32px; margin: -2px -1px -2px -3px; flex: none; }
+.footer .logo { width: 28px; height: 28px; }
 .nav__links { display: flex; align-items: center; gap: 1.6rem; }
 .nav__links a:not(.btn) { text-decoration: none; font-weight: 600; font-size: 0.9rem; opacity: 0.8; }
 .nav__links a:not(.btn):hover { opacity: 1; text-decoration: underline; text-underline-offset: 4px; }
@@ -213,13 +218,14 @@ main, .footer { position: relative; z-index: 2; }
   /* slides in from the lower left; centered at totality */
   transform: translate(calc((1 - var(--cover)) * -24%), calc((1 - var(--cover)) * 17%));
 }
-.eclipse__logo { /* the logo is the ring at totality: its ring (81.7% of the crop) lines up with the moon's edge */
-  inset: -11.2%; border-radius: 0;
+.eclipse__logo { /* the mark is the ring at totality: its ring's outer edge (45.2 of 64 units) meets the moon's edge */
+  inset: -20.8%; border-radius: 0;
   opacity: calc(var(--cover) * var(--cover));
-  filter: contrast(1.5) brightness(calc(1 + var(--flash) * 0.35));
+  filter: brightness(calc(1 + var(--flash) * 0.3)) drop-shadow(0 0 10px rgba(167, 123, 255, 0.55)) drop-shadow(0 0 28px rgba(255, 79, 168, 0.3));
 }
+.eclipse__logo::before { -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%22-64 -64 128 128%22%3E%3Ccircle r=%2244%22 fill=%22none%22 stroke=%22%23fff%22 stroke-width=%222.4%22/%3E%3Cpath transform=%22translate(31.11 -31.11) rotate(-45)%22 d=%22M19 0Q2.4 1.8 0 7Q-1.8 1.8-15 0Q-1.8-1.8 0-7Q2.4-1.8 19 0Z%22 fill=%22%23fff%22/%3E%3C/svg%3E"); mask-image: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%22-64 -64 128 128%22%3E%3Ccircle r=%2244%22 fill=%22none%22 stroke=%22%23fff%22 stroke-width=%222.4%22/%3E%3Cpath transform=%22translate(31.11 -31.11) rotate(-45)%22 d=%22M19 0Q2.4 1.8 0 7Q-1.8 1.8-15 0Q-1.8-1.8 0-7Q2.4-1.8 19 0Z%22 fill=%22%23fff%22/%3E%3C/svg%3E"); }
 .eclipse__bead { /* the diamond-ring flash as light returns */
-  left: 84%; top: 12%; width: 46%; height: 46%; /* over the logo's spark */
+  left: 84.4%; top: 15.6%; width: 46%; height: 46%; /* over the mark's spark */
   transform: translate(-50%, -50%) scale(calc(0.4 + var(--flash) * 0.8));
   background: radial-gradient(closest-side, rgba(255, 255, 255, 0.95), rgba(255, 210, 236, 0.5) 22%, rgba(255, 79, 168, 0.18) 50%, rgba(255, 138, 76, 0) 100%);
   opacity: var(--flash);

@@ -80,10 +80,10 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   ground with one accent read as a spectrum (the logo's ring in `references/Penumbra Logo Color.jpeg`: teal, blue,
   violet, pink, coral, gold; violet is one stop, never the dominant hue). Hero: a total eclipse over a planet's glowing
   rim (after the draft site in `references/Screenshot 2026-10-15 5.45.04 PM.png`); scroll drives `--cover` (moon
-  over sun, corona blooms; at totality the logo itself is the ring), then `--flash` (a diamond-ring bloom over the
-  logo's spark) with "at first light". The logo is the user's own `references/Penumbra Logo Color.jpeg`, copied to
-  `assets/img/penumbra-logo.jpg` and used as-is (don't redraw it): a centered square crop, its brightness as a
-  luminance mask so the gray ground drops out. Below the hero: fixed starfield canvas, drifting background glows
+  over sun, corona blooms; at totality the mark itself is the ring), then `--flash` (a diamond-ring bloom over the
+  mark's spark) with "at first light". The mark keeps the shape of `references/Penumbra Logo Color.jpeg` (ring with
+  a four-point spark at 45°) but not its colors, which clashed: it's inline SVG masks in `penumbra.css` filled with
+  `--mark`, a conic gradient of the site's spectrum (also the corona). Don't use the JPEG itself. Below the hero: fixed starfield canvas, drifting background glows
   whose hue shifts with scroll, a pointer glow, aurora-edged card spotlights (`.spot`, `--mx/--my`), gradient headings
   revealed word by word, a nebula behind gray swans (`.nebula`: two gas layers and dark dust lanes from domain-warped
   fractal noise, painted once at low resolution, plus specks; CSS drifts each layer and scroll parts them by depth),
