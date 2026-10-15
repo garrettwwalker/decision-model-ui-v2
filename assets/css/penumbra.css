@@ -594,7 +594,7 @@ main, .footer { position: relative; z-index: 2; }
   .rigor__lede { margin-left: 0; }
 }
 
-/* ---------- Contact: closes under the northern lights ---------- */
+/* ---------- Contact: closes in a nebula ---------- */
 .contact { position: relative; overflow: hidden; padding: clamp(6rem, 14vh, 9rem) var(--gutter) clamp(18rem, 46vh, 28rem); }
 .contact__inner { display: flex; flex-wrap: wrap; gap: 3rem 4rem; align-items: flex-end; position: relative; z-index: 1; }
 .contact__title { font-size: clamp(3rem, 10vw, 8.5rem); }
@@ -615,17 +615,14 @@ main, .footer { position: relative; z-index: 2; }
 .contact__form input:focus-visible { border-color: var(--a-yellow); outline-offset: 1px; }
 .contact__form input[aria-invalid="true"] { border-color: var(--loss); }
 .contact__msg { margin: 0; font-size: 0.85rem; min-height: 1.2em; color: var(--moon-2); }
-.borealis { position: absolute; inset: 0; pointer-events: none; }
-.borealis__sky { /* drawn at half resolution by penumbra.js; the upscale softens it like a long exposure */
-  position: absolute; left: 0; top: 0; width: 100%; height: 100%;
-  -webkit-mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000 30%);
-  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000 30%);
+.nebula--close { /* rises out of the dark behind the form and runs on into the footer */
+  -webkit-mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000 34%, #000 88%, rgba(0, 0, 0, 0) 100%);
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000 34%, #000 88%, rgba(0, 0, 0, 0) 100%);
 }
-.borealis__ridge { position: absolute; left: 0; bottom: -1px; width: 100%; height: clamp(60px, 9vw, 120px); fill: #050608; }
 
 /* ---------- Footer ---------- */
 .footer {
-  background: #050608; /* continues the ridge */
+  background: #050608;
   display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
   gap: 1rem 2rem; padding: 2rem var(--gutter) calc(env(safe-area-inset-bottom, 0px) + 2rem);
 }

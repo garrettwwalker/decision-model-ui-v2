@@ -90,9 +90,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   whose hue shifts with scroll, a pointer glow, aurora-edged card spotlights (`.spot`, `--mx/--my`), headings revealed
   word by word, a nebula behind gray swans (`.nebula`: two gas layers and dark dust lanes from domain-warped
   fractal noise, painted once at low resolution, plus specks; CSS drifts each layer and scroll parts them by depth),
-  and graph arrows that draw themselves, as on the main landing. The page closes on the northern lights
-  (`.borealis`, a half-resolution canvas of three drifting curtains in red-aurora colors: pale gold hem, rose-orange
-  body, deep red crown, fine rays) over a dark ridge that runs into the footer. Headings are solid moonlight (`--moon`, white for the hero's second line); the user rejected gradient text. `penumbra.js` is a fork of
+  and graph arrows that draw themselves, as on the main landing. The page closes in a second nebula (`.nebula--close`, same renderer, its own seeds) behind the contact form; the user preferred it to a northern-lights effect. Headings are solid moonlight (`--moon`, white for the hero's second line); the user rejected gradient text. `penumbra.js` is a fork of
   `landing.js`; if the preview is adopted, it replaces `index.html` and the fork goes away.
 - Motion between views: `assets/js/nav.js` (in every page's `<head>`) records which way the clicked page lies in the
   nav order; the new page slides in from that side (cross-document view transitions where supported, with the

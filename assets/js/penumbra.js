@@ -471,12 +471,12 @@
     window.addEventListener("scroll", function () { requestAnimationFrame(function () { drawStars(0); }); }, { passive: true });
   } else requestAnimationFrame(loop);
 
-  /* ---------- Nebula behind the gray swans ----------
+  /* ---------- Nebulae: behind the gray swans, and the cloud the page closes on ----------
      Two gas layers and a layer of dark dust lanes from domain-warped fractal noise (wispy rather than blobby),
-     painted once at low resolution when the section comes near, plus a full-resolution layer of specks. */
-  (function () {
-    var box = document.querySelector(".nebula");
-    if (!box) return;
+     painted once at low resolution when the section comes near, plus a full-resolution layer of specks.
+     Each nebula gets its own seeds, so no two look alike. */
+  document.querySelectorAll(".nebula").forEach(function (box, k) {
+    var seed = k * 140; // offsets picked by rendering them: 140 gives the closing cloud a full, wispy body
     var gasA = box.querySelector(".nebula__gas:not(.nebula__gas--b)"), gasB = box.querySelector(".nebula__gas--b");
     var dust = box.querySelector(".nebula__dust"), specks = box.querySelector(".nebula__specks");
 
@@ -525,7 +525,7 @@
     var COOL = [[255, 176, 120], [255, 120, 140], [255, 86, 96]]; // the paler, peach-to-rose layer
     function render() {
       var b = box.getBoundingClientRect(), aspect = (b.height * 1.2) / Math.max(1, b.width * 1.2);
-      var nA = makeNoise(11), nB = makeNoise(23), nC = makeNoise(37), nD = makeNoise(53);
+      var nA = makeNoise(11 + seed), nB = makeNoise(23 + seed), nC = makeNoise(37 + seed), nD = makeNoise(53 + seed);
       var W = 300, H = Math.max(60, Math.round(W * aspect));
       var steps = [];
       steps.push(function () { paint(gasA, W, H, function (x, y) {
@@ -554,7 +554,7 @@
       // specks: fine dust and a few bright stars caught in the cloud
       var sb = specks.getBoundingClientRect(), dpr = Math.min(2, window.devicePixelRatio || 1);
       specks.width = Math.round(sb.width * dpr); specks.height = Math.round(sb.height * dpr);
-      var g = specks.getContext("2d"), rnd = DB_rng(91), n = Math.min(900, Math.round(sb.width * sb.height / 1800));
+      var g = specks.getContext("2d"), rnd = DB_rng(91 + seed), n = Math.min(900, Math.round(sb.width * sb.height / 1800));
       g.scale(dpr, dpr);
       var TINT = ["255,255,255", "255,214,236", "214,200,255", "190,255,236"];
       for (var i = 0; i < n; i++) {
@@ -589,80 +589,7 @@
       if (r.bottom < 0 || r.top > vh) return;
       box.style.setProperty("--nb", ((r.top + r.height / 2 - vh / 2) / vh).toFixed(3));
     }, { passive: true });
-  })();
-
-  /* ---------- Northern lights over the closing section ----------
-     Each curtain is a wandering lower edge with light rising off it: a pale gold hem, fading through rose-orange
-     to a faint deep red crown, with fine vertical rays and folds that brighten and slide along.
-     Columns are painted from pre-drawn gradient strips with additive blending, at half resolution. */
-  (function () {
-    var cv = document.querySelector(".borealis__sky");
-    if (!cv) return;
-    var g = cv.getContext("2d"), S = 0.5, cw = 0, ch = 0;
-    // a strip runs from the top of a curtain (transparent) down to its hem
-    function makeStrip(stops) {
-      var el = document.createElement("canvas");
-      el.width = 1; el.height = 256;
-      var c = el.getContext("2d"), gr = c.createLinearGradient(0, 0, 0, 256);
-      stops.forEach(function (st) { gr.addColorStop(st[0], st[1]); });
-      c.fillStyle = gr; c.fillRect(0, 0, 1, 256);
-      return el;
-    }
-    // a red aurora, as at the far edges of a great storm: a pale gold hem, rose-orange body and a deep red crown
-    var HEM = makeStrip([[0, "rgba(255,40,60,0)"], [0.22, "rgba(255,50,70,0.18)"], [0.5, "rgba(255,90,90,0.32)"],
-      [0.8, "rgba(255,130,80,0.7)"], [0.94, "rgba(255,200,120,1)"], [0.975, "rgba(255,240,210,1)"], [1, "rgba(255,110,150,0.5)"]]);
-    var CROWN = makeStrip([[0, "rgba(255,60,90,0)"], [0.3, "rgba(255,60,90,0.22)"], [0.6, "rgba(255,100,140,0.35)"],
-      [0.88, "rgba(255,170,90,0.6)"], [1, "rgba(255,210,140,0.8)"]]);
-    // three curtains: near and bright, a middle one, a high faint one leaning pink
-    var CURTAINS = [
-      { base: 0.8, amp: 0.07, len: 0.5, a: 0.75, sp: 1, ph: 0.4, f: 1.6, strip: HEM },
-      { base: 0.66, amp: 0.06, len: 0.42, a: 0.5, sp: 0.7, ph: 2.1, f: 2.3, strip: HEM },
-      { base: 0.52, amp: 0.05, len: 0.36, a: 0.35, sp: 0.5, ph: 4.0, f: 3.1, strip: CROWN }
-    ];
-    function size() {
-      var b = cv.getBoundingClientRect();
-      cw = Math.max(1, Math.round(b.width * S)); ch = Math.max(1, Math.round(b.height * S));
-      cv.width = cw; cv.height = ch;
-    }
-    function frame(t) {
-      t /= 1000;
-      g.globalCompositeOperation = "source-over";
-      g.clearRect(0, 0, cw, ch);
-      g.globalCompositeOperation = "lighter";
-      var PI = Math.PI;
-      CURTAINS.forEach(function (c) {
-        var k = t * c.sp * 0.12;
-        for (var x = 0; x < cw; x++) {
-          var u = x / cw;
-          var hem = ch * (c.base + c.amp * (0.6 * Math.sin(u * c.f * PI + k * 1.3 + c.ph) +
-                                            0.3 * Math.sin(u * c.f * 2.7 * PI - k * 2.1 + c.ph * 2) +
-                                            0.1 * Math.sin(u * 19 * PI + k * 3.4)));
-          var h = ch * c.len * (0.5 + 0.5 * (0.5 + 0.5 * Math.sin(u * 3.3 * PI - k * 1.7 + c.ph)));
-          var fold = 0.5 + 0.5 * Math.sin(u * 4.6 * PI + k * 2.6 + c.ph * 3); // bright folds drifting along
-          var rays = 0.72 + 0.28 * Math.sin(u * 260 + t * 0.35) * Math.sin(u * 97 - t * 0.22);
-          var edge = Math.min(1, u * 5, (1 - u) * 5); // soften the ends
-          var alpha = c.a * (0.25 + 0.75 * fold * fold) * rays * edge;
-          if (alpha < 0.01) continue;
-          g.globalAlpha = alpha;
-          g.drawImage(c.strip, 0, 0, 1, 256, x, hem - h, 1, h + 2); // exactly one column: overlaps would band under additive blending
-        }
-      });
-      g.globalAlpha = 1;
-    }
-    size();
-    var shown = false, last = 0;
-    function loop(t) {
-      if (shown && !document.hidden && t - last > 40) { last = t; frame(t); }
-      if (shown) requestAnimationFrame(loop);
-    }
-    if (window.ResizeObserver) new ResizeObserver(function () { size(); frame(performance.now()); }).observe(cv);
-    if (reduceMotion || !window.IntersectionObserver) { frame(20000); return; }
-    new IntersectionObserver(function (es) {
-      var was = shown; shown = es[0].isIntersecting;
-      if (shown && !was) requestAnimationFrame(loop);
-    }).observe(cv);
-    frame(performance.now());
-  })();
+  });
 
   /* ---------- Contact form (mockup: no backend) ---------- */
   var form = document.querySelector(".contact__form");
