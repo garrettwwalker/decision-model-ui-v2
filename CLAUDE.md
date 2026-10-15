@@ -80,10 +80,14 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   ground with one accent read as a spectrum (the logo's ring in `references/Penumbra Logo Color.jpeg`: teal, blue,
   violet, pink, coral, gold; violet is one stop, never the dominant hue). Hero: a total eclipse over a planet's glowing
   rim (after the draft site in `references/Screenshot 2026-10-15 5.45.04 PM.png`); scroll drives `--cover` (moon
-  over sun, corona blooms), then `--flare`/`--flash` (the logo's spark as the diamond ring) with "at first light".
-  Below it: fixed starfield canvas, drifting aurora blobs whose hue shifts with scroll, a pointer glow, aurora-edged
-  card spotlights (`.spot`, `--mx/--my`), gradient headings revealed word by word, an aurora curtain over gray swans,
-  pulses running down the graph's edges, and a second horizon behind the contact form. `penumbra.js` is a fork of
+  over sun, corona blooms; at totality the logo itself is the ring), then `--flash` (a diamond-ring bloom over the
+  logo's spark) with "at first light". The logo is the user's own `references/Penumbra Logo Color.jpeg`, copied to
+  `assets/img/penumbra-logo.jpg` and used as-is (don't redraw it): a centered square crop, its brightness as a
+  luminance mask so the gray ground drops out. Below the hero: fixed starfield canvas, drifting background glows
+  whose hue shifts with scroll, a pointer glow, aurora-edged card spotlights (`.spot`, `--mx/--my`), gradient headings
+  revealed word by word, and pulses running down the graph's edges. The page closes on the northern lights
+  (`.borealis`, a half-resolution canvas of three drifting curtains: green hem, teal body, violet-pink crown, fine
+  rays) over a dark ridge that runs into the footer. `penumbra.js` is a fork of
   `landing.js`; if the preview is adopted, it replaces `index.html` and the fork goes away.
 - Motion between views: `assets/js/nav.js` (in every page's `<head>`) records which way the clicked page lies in the
   nav order; the new page slides in from that side (cross-document view transitions where supported, with the

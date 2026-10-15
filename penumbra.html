@@ -19,7 +19,7 @@
 
   <header class="nav">
     <a class="wordmark" href="index.html" aria-label="Penumbra home">
-      <svg viewBox="0 0 32 32" aria-hidden="true"><defs><linearGradient id="pn-logo-1" x1="4" y1="28" x2="29" y2="3" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ff4fa8"/><stop offset=".28" stop-color="#ffb347"/><stop offset=".52" stop-color="#3ef0c6"/><stop offset=".76" stop-color="#3aa8ff"/><stop offset="1" stop-color="#a77bff"/></linearGradient></defs><circle cx="15" cy="17" r="11" fill="none" stroke="url(#pn-logo-1)" stroke-width="2.2"/><path transform="translate(22.78 9.22) rotate(-45)" d="M8.4 0 Q1 1 0 2.7 Q-1 1 -8.4 0 Q-1 -1 0 -2.7 Q1 -1 8.4 0Z" fill="url(#pn-logo-1)"/></svg>
+      <span class="logo" aria-hidden="true"></span>
       Penumbra
     </a>
     <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="nav-links">
@@ -41,9 +41,8 @@
           <div class="eclipse__corona"></div>
           <div class="eclipse__sun"></div>
           <div class="eclipse__moon"></div>
-          <div class="eclipse__ring"></div>
+          <div class="eclipse__logo"></div>
           <div class="eclipse__bead"></div>
-          <svg class="eclipse__spark" viewBox="-10 -10 20 20"><defs><radialGradient id="pn-spark"><stop offset="0" stop-color="#fff"/><stop offset=".3" stop-color="#ffd0ec"/><stop offset=".65" stop-color="#ff5fb0"/><stop offset="1" stop-color="#ff9a4c"/></radialGradient></defs><path d="M10 0 Q1.1 1.1 0 3.1 Q-1.1 1.1 -10 0 Q-1.1 -1.1 0 -3.1 Q1.1 -1.1 10 0Z" fill="url(#pn-spark)"/></svg>
         </div>
 
         <div class="hero__copy">
@@ -230,7 +229,6 @@
 
       <!-- 5. Gray swans -->
       <section class="swans" id="gray-swans" aria-labelledby="swans-title">
-        <div class="curtain" aria-hidden="true"><i></i><i></i><i></i></div>
         <div class="swans__inner">
           <div class="swans__head">
             <h2 class="h2 watermark" id="swans-title">gray swans.</h2>
@@ -361,14 +359,17 @@
             </form>
           </div>
         </div>
-        <div class="contact__horizon" aria-hidden="true"></div>
+        <div class="borealis" aria-hidden="true">
+          <canvas class="borealis__sky"></canvas>
+          <svg class="borealis__ridge" viewBox="0 0 1440 120" preserveAspectRatio="none"><path d="M0 120 V74 C60 70 110 58 170 61 S270 80 340 76 S450 48 520 52 S620 72 700 70 S820 40 900 44 S1010 70 1090 66 S1210 50 1280 56 S1390 72 1440 68 V120 Z"/></svg>
+        </div>
       </section>
     </div>
   </main>
 
   <footer class="footer">
     <a class="wordmark" href="index.html">
-      <svg viewBox="0 0 32 32" aria-hidden="true"><defs><linearGradient id="pn-logo-2" x1="4" y1="28" x2="29" y2="3" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ff4fa8"/><stop offset=".28" stop-color="#ffb347"/><stop offset=".52" stop-color="#3ef0c6"/><stop offset=".76" stop-color="#3aa8ff"/><stop offset="1" stop-color="#a77bff"/></linearGradient></defs><circle cx="15" cy="17" r="11" fill="none" stroke="url(#pn-logo-2)" stroke-width="2.2"/><path transform="translate(22.78 9.22) rotate(-45)" d="M8.4 0 Q1 1 0 2.7 Q-1 1 -8.4 0 Q-1 -1 0 -2.7 Q1 -1 8.4 0Z" fill="url(#pn-logo-2)"/></svg>
+      <span class="logo" aria-hidden="true"></span>
       Penumbra
     </a>
     <nav class="footer__links" aria-label="Footer">

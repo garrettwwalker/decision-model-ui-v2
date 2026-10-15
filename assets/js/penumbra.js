@@ -402,15 +402,10 @@
 
   /* ---------- Space: page-wide aurora tint, starfield, pointer glow, card spotlights ---------- */
   var aurora = document.querySelector(".aurora");
-  var swans = document.querySelector(".swans");
   function skyFrame() {
     var max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
     // the aurora's hue drifts as you read down the page: teal-violet at the top, warmer by the end
     aurora.style.filter = "hue-rotate(" + (-70 * window.scrollY / max).toFixed(1) + "deg)";
-    if (swans) {
-      var b = swans.getBoundingClientRect(), vh = window.innerHeight;
-      swans.style.setProperty("--swans", smooth((vh - b.top) / (vh * 0.8)).toFixed(3));
-    }
   }
 
   var canvas = document.querySelector(".stars");
@@ -484,6 +479,78 @@
     drawStars(0);
     window.addEventListener("scroll", function () { requestAnimationFrame(function () { drawStars(0); }); }, { passive: true });
   } else requestAnimationFrame(loop);
+
+  /* ---------- Northern lights over the closing section ----------
+     Each curtain is a wandering lower edge with light rising off it: bright green at the hem, fading to teal
+     and then a faint violet-pink crown, with fine vertical rays and folds that brighten and slide along.
+     Columns are painted from pre-drawn gradient strips with additive blending, at half resolution. */
+  (function () {
+    var cv = document.querySelector(".borealis__sky");
+    if (!cv) return;
+    var g = cv.getContext("2d"), S = 0.5, cw = 0, ch = 0;
+    // a strip runs from the top of a curtain (transparent) down to its hem
+    function makeStrip(stops) {
+      var el = document.createElement("canvas");
+      el.width = 1; el.height = 256;
+      var c = el.getContext("2d"), gr = c.createLinearGradient(0, 0, 0, 256);
+      stops.forEach(function (st) { gr.addColorStop(st[0], st[1]); });
+      c.fillStyle = gr; c.fillRect(0, 0, 1, 256);
+      return el;
+    }
+    var GREEN = makeStrip([[0, "rgba(255,79,168,0)"], [0.22, "rgba(200,90,220,0.16)"], [0.5, "rgba(62,200,200,0.3)"],
+      [0.8, "rgba(70,240,150,0.7)"], [0.94, "rgba(150,255,190,1)"], [0.975, "rgba(220,255,235,1)"], [1, "rgba(255,90,170,0.5)"]]);
+    var CROWN = makeStrip([[0, "rgba(255,79,168,0)"], [0.3, "rgba(255,79,168,0.22)"], [0.6, "rgba(167,123,255,0.35)"],
+      [0.88, "rgba(62,240,198,0.6)"], [1, "rgba(120,255,200,0.8)"]]);
+    // three curtains: near and bright, a middle one, a high faint one leaning pink
+    var CURTAINS = [
+      { base: 0.8, amp: 0.07, len: 0.5, a: 0.75, sp: 1, ph: 0.4, f: 1.6, strip: GREEN },
+      { base: 0.66, amp: 0.06, len: 0.42, a: 0.5, sp: 0.7, ph: 2.1, f: 2.3, strip: GREEN },
+      { base: 0.52, amp: 0.05, len: 0.36, a: 0.35, sp: 0.5, ph: 4.0, f: 3.1, strip: CROWN }
+    ];
+    function size() {
+      var b = cv.getBoundingClientRect();
+      cw = Math.max(1, Math.round(b.width * S)); ch = Math.max(1, Math.round(b.height * S));
+      cv.width = cw; cv.height = ch;
+    }
+    function frame(t) {
+      t /= 1000;
+      g.globalCompositeOperation = "source-over";
+      g.clearRect(0, 0, cw, ch);
+      g.globalCompositeOperation = "lighter";
+      var PI = Math.PI;
+      CURTAINS.forEach(function (c) {
+        var k = t * c.sp * 0.12;
+        for (var x = 0; x < cw; x++) {
+          var u = x / cw;
+          var hem = ch * (c.base + c.amp * (0.6 * Math.sin(u * c.f * PI + k * 1.3 + c.ph) +
+                                            0.3 * Math.sin(u * c.f * 2.7 * PI - k * 2.1 + c.ph * 2) +
+                                            0.1 * Math.sin(u * 19 * PI + k * 3.4)));
+          var h = ch * c.len * (0.5 + 0.5 * (0.5 + 0.5 * Math.sin(u * 3.3 * PI - k * 1.7 + c.ph)));
+          var fold = 0.5 + 0.5 * Math.sin(u * 4.6 * PI + k * 2.6 + c.ph * 3); // bright folds drifting along
+          var rays = 0.72 + 0.28 * Math.sin(u * 260 + t * 0.35) * Math.sin(u * 97 - t * 0.22);
+          var edge = Math.min(1, u * 5, (1 - u) * 5); // soften the ends
+          var alpha = c.a * (0.25 + 0.75 * fold * fold) * rays * edge;
+          if (alpha < 0.01) continue;
+          g.globalAlpha = alpha;
+          g.drawImage(c.strip, 0, 0, 1, 256, x, hem - h, 1, h + 2); // exactly one column: overlaps would band under additive blending
+        }
+      });
+      g.globalAlpha = 1;
+    }
+    size();
+    var shown = false, last = 0;
+    function loop(t) {
+      if (shown && !document.hidden && t - last > 40) { last = t; frame(t); }
+      if (shown) requestAnimationFrame(loop);
+    }
+    if (window.ResizeObserver) new ResizeObserver(function () { size(); frame(performance.now()); }).observe(cv);
+    if (reduceMotion || !window.IntersectionObserver) { frame(20000); return; }
+    new IntersectionObserver(function (es) {
+      var was = shown; shown = es[0].isIntersecting;
+      if (shown && !was) requestAnimationFrame(loop);
+    }).observe(cv);
+    frame(performance.now());
+  })();
 
   /* ---------- Contact form (mockup: no backend) ---------- */
   var form = document.querySelector(".contact__form");

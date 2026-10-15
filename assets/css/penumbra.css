@@ -22,7 +22,7 @@
   --a-coral: #ff8a4c;
   --a-gold: #ffd25a;
   --aurora: linear-gradient(100deg, var(--a-teal) 0%, var(--a-blue) 28%, var(--a-violet) 48%, var(--a-pink) 70%, var(--a-coral) 88%, var(--a-gold) 100%);
-  --aurora-ring: conic-gradient(from 210deg, var(--a-gold), var(--a-coral), var(--a-pink), var(--a-violet), var(--a-blue), var(--a-teal), #7cf28a, var(--a-gold));
+  --aurora-ring: conic-gradient(from 210deg, var(--a-gold), var(--a-coral), var(--a-pink), var(--a-violet), var(--a-blue), var(--a-teal), #7cf28a, var(--a-gold)); /* the corona */
   /* money on dark */
   --loss: #ff6b81;
   --safe: #4fe3b5;
@@ -82,7 +82,17 @@ main, .footer { position: relative; z-index: 2; }
   opacity: 0; transition: opacity 0.3s ease;
 }
 .nav.is-scrolled::before { opacity: 1; }
-.wordmark svg { width: 28px; height: 28px; overflow: visible; filter: drop-shadow(0 0 6px rgba(167, 123, 255, 0.45)); }
+/* The supplied color logo (assets/img/penumbra-logo.jpg). The ring sits dead center in the 2752×1536 image, so a
+   centered square crop of its height × 0.68 (1040px) holds ring, spark and glow. The JPEG has no transparency:
+   its own brightness is the mask (twice over, so the ring stays solid), so the gray ground drops out and the
+   glow fades into whatever is behind; the contrast filter pushes what's left of the ground to black. */
+.logo, .eclipse__logo {
+  background: url("../img/penumbra-logo.jpg") 50% 50% / 264.6% auto no-repeat;
+  mask: url("../img/penumbra-logo.jpg") 50% 50% / 264.6% auto no-repeat luminance, url("../img/penumbra-logo.jpg") 50% 50% / 264.6% auto no-repeat luminance;
+  filter: contrast(1.5);
+}
+.logo { display: block; width: 34px; height: 34px; margin: -3px -2px -3px -4px; flex: none; }
+.footer .logo { width: 30px; height: 30px; }
 .nav__links { display: flex; align-items: center; gap: 1.6rem; }
 .nav__links a:not(.btn) { text-decoration: none; font-weight: 600; font-size: 0.9rem; opacity: 0.8; }
 .nav__links a:not(.btn):hover { opacity: 1; text-decoration: underline; text-underline-offset: 4px; }
@@ -203,27 +213,16 @@ main, .footer { position: relative; z-index: 2; }
   /* slides in from the lower left; centered at totality */
   transform: translate(calc((1 - var(--cover)) * -24%), calc((1 - var(--cover)) * 17%));
 }
-.eclipse__ring { /* the crisp chromosphere ring: the logo's circle */
-  inset: 0;
-  background: var(--aurora-ring);
-  -webkit-mask-image: radial-gradient(closest-side, transparent calc(100% - 6px), #000 calc(100% - 5px), #000 calc(100% - 1px), transparent 100%);
-  mask-image: radial-gradient(closest-side, transparent calc(100% - 6px), #000 calc(100% - 5px), #000 calc(100% - 1px), transparent 100%);
+.eclipse__logo { /* the logo is the ring at totality: its ring (81.7% of the crop) lines up with the moon's edge */
+  inset: -11.2%; border-radius: 0;
   opacity: calc(var(--cover) * var(--cover));
-  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.35));
-  rotate: calc(var(--p) * 140deg);
-  animation: spin 60s linear infinite;
+  filter: contrast(1.5) brightness(calc(1 + var(--flash) * 0.35));
 }
 .eclipse__bead { /* the diamond-ring flash as light returns */
-  left: 85.36%; top: 14.64%; width: 46%; height: 46%;
+  left: 84%; top: 12%; width: 46%; height: 46%; /* over the logo's spark */
   transform: translate(-50%, -50%) scale(calc(0.4 + var(--flash) * 0.8));
   background: radial-gradient(closest-side, rgba(255, 255, 255, 0.95), rgba(255, 210, 236, 0.5) 22%, rgba(255, 79, 168, 0.18) 50%, rgba(255, 138, 76, 0) 100%);
   opacity: var(--flash);
-}
-.eclipse__spark {
-  left: 85.36%; top: 14.64%; width: 42%; height: 42%;
-  border-radius: 0; overflow: visible;
-  transform: translate(-50%, -50%) rotate(-45deg) scale(var(--flare));
-  filter: drop-shadow(0 0 10px rgba(255, 79, 168, 0.85)) drop-shadow(0 0 28px rgba(255, 138, 76, 0.5));
 }
 
 .hero__copy {
@@ -478,28 +477,12 @@ main, .footer { position: relative; z-index: 2; }
   .tag:nth-child(even) { transform: rotate(0.6deg); }
 }
 
-/* ---------- Gray swans: under an aurora curtain ---------- */
+/* ---------- Gray swans: a darker band ---------- */
 .swans {
   position: relative; overflow: hidden;
   padding: clamp(8rem, 18vh, 11rem) var(--gutter) clamp(7rem, 16vh, 10rem);
   margin-block: 3rem;
   background: linear-gradient(180deg, rgba(3, 4, 6, 0) 0%, rgba(3, 4, 6, 0.75) 18%, rgba(3, 4, 6, 0.75) 82%, rgba(3, 4, 6, 0) 100%);
-}
-.curtain { position: absolute; left: -10%; right: -10%; top: 0; height: 70%; pointer-events: none; opacity: calc(0.25 + var(--swans, 0) * 0.75); }
-.curtain i {
-  position: absolute; inset: 0;
-  background: repeating-linear-gradient(90deg, rgba(62, 240, 198, 0) 0, rgba(62, 240, 198, 0.16) 1.2%, rgba(62, 240, 198, 0) 3.4%, rgba(167, 123, 255, 0.12) 5%, rgba(167, 123, 255, 0) 7.5%);
-  -webkit-mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000 22%, rgba(0, 0, 0, 0.5) 55%, rgba(0, 0, 0, 0) 100%);
-  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000 22%, rgba(0, 0, 0, 0.5) 55%, rgba(0, 0, 0, 0) 100%);
-  filter: blur(6px);
-  transform-origin: 50% 0;
-  animation: sway 18s ease-in-out infinite alternate;
-}
-.curtain i:nth-child(2) { background-size: 140% 100%; opacity: 0.7; animation-duration: 23s; animation-direction: alternate-reverse; filter: blur(10px) hue-rotate(60deg); }
-.curtain i:nth-child(3) { background-size: 80% 100%; opacity: 0.5; animation-duration: 29s; filter: blur(14px) hue-rotate(140deg); }
-@keyframes sway {
-  from { transform: translateX(-4%) skewX(-6deg) scaleY(0.92); }
-  to { transform: translateX(4%) skewX(6deg) scaleY(1.06); }
 }
 .swans__inner { position: relative; z-index: 1; max-width: 76rem; margin-inline: auto; }
 .swans__head { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 1.5rem 3rem; }
@@ -602,8 +585,8 @@ main, .footer { position: relative; z-index: 2; }
   .rigor__lede { margin-left: 0; }
 }
 
-/* ---------- Contact: closes on a second horizon ---------- */
-.contact { position: relative; overflow: hidden; padding: clamp(6rem, 14vh, 9rem) var(--gutter) clamp(14rem, 34vh, 20rem); }
+/* ---------- Contact: closes under the northern lights ---------- */
+.contact { position: relative; overflow: hidden; padding: clamp(6rem, 14vh, 9rem) var(--gutter) clamp(18rem, 46vh, 28rem); }
 .contact__inner { display: flex; flex-wrap: wrap; gap: 3rem 4rem; align-items: flex-end; position: relative; z-index: 1; }
 .contact__title { font-size: clamp(3rem, 10vw, 8.5rem); }
 .contact__side { display: grid; gap: 1.5rem; width: min(100%, 24rem); }
@@ -623,22 +606,17 @@ main, .footer { position: relative; z-index: 2; }
 .contact__form input:focus-visible { border-color: var(--a-teal); outline-offset: 1px; }
 .contact__form input[aria-invalid="true"] { border-color: var(--loss); }
 .contact__msg { margin: 0; font-size: 0.85rem; min-height: 1.2em; color: var(--moon-2); }
-.contact__horizon {
-  position: absolute; left: 50%; top: calc(100% - clamp(7rem, 16vh, 10rem));
-  width: 300vmax; aspect-ratio: 1; border-radius: 50%; transform: translateX(-50%);
-  background: radial-gradient(closest-side, #050608 98%, #0b0d12 100%);
-  box-shadow: 0 0 80px 10px rgba(167, 123, 255, 0.18), 0 0 160px 40px rgba(62, 240, 198, 0.08);
+.borealis { position: absolute; inset: 0; pointer-events: none; }
+.borealis__sky { /* drawn at half resolution by penumbra.js; the upscale softens it like a long exposure */
+  position: absolute; left: 0; top: 0; width: 100%; height: 100%;
+  -webkit-mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000 30%);
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000 30%);
 }
-.contact__horizon::before {
-  content: ""; position: absolute; inset: -2px; border-radius: 50%;
-  background: linear-gradient(90deg, var(--a-gold) 36%, var(--a-pink) 45%, var(--a-violet) 50%, var(--a-blue) 55%, var(--a-teal) 64%);
-  -webkit-mask-image: radial-gradient(closest-side, transparent calc(100% - 3px), #000 calc(100% - 2px));
-  mask-image: radial-gradient(closest-side, transparent calc(100% - 3px), #000 calc(100% - 2px));
-}
+.borealis__ridge { position: absolute; left: 0; bottom: -1px; width: 100%; height: clamp(60px, 9vw, 120px); fill: #050608; }
 
 /* ---------- Footer ---------- */
 .footer {
-  background: #050608; border-top: 1px solid var(--rim);
+  background: #050608; /* continues the ridge */
   display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
   gap: 1rem 2rem; padding: 2rem var(--gutter) calc(env(safe-area-inset-bottom, 0px) + 2rem);
 }
@@ -648,6 +626,6 @@ main, .footer { position: relative; z-index: 2; }
 .footer__legal { margin: 0; width: 100%; font-size: var(--fs-micro); color: var(--moon-3); }
 
 @media (prefers-reduced-motion: reduce) {
-  .aurora i, .curtain i, .eclipse__corona, .eclipse__ring, .eclipse__halo, .hero__arrow, .watch__title::before { animation: none; }
+  .aurora i, .eclipse__corona, .eclipse__halo, .hero__arrow, .watch__title::before { animation: none; }
   .tile { translate: none; }
 }
