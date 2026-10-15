@@ -179,10 +179,10 @@
       var box = fig.getBoundingClientRect();
       svg.setAttribute("viewBox", "0 0 " + box.width + " " + box.height);
       svg.textContent = "";
-      // the pulses' color runs down the diagram: teal at the driver to gold at the owners
+      // the pulses' color runs down the diagram: pink at the driver to gold at the owners
       svg.insertAdjacentHTML("afterbegin", '<defs><linearGradient id="pn-pulse" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="' + box.height + '">' +
-        '<stop offset="0" stop-color="#3ef0c6"/><stop offset=".35" stop-color="#3aa8ff"/><stop offset=".6" stop-color="#a77bff"/>' +
-        '<stop offset=".82" stop-color="#ff4fa8"/><stop offset="1" stop-color="#ffd25a"/></linearGradient></defs>');
+        '<stop offset="0" stop-color="#ff7aaa"/><stop offset=".3" stop-color="#ff5478"/><stop offset=".55" stop-color="#ff4438"/>' +
+        '<stop offset=".8" stop-color="#ff7a3c"/><stop offset="1" stop-color="#ffd25a"/></linearGradient></defs>');
       var heads = {};
       edges = EDGES.map(function (e) {
         var a = node(e[0]).getBoundingClientRect(), b = node(e[1]).getBoundingClientRect();
@@ -402,13 +402,13 @@
     }
   }
   function heatColor(v, h) {
-    // hue from the cell's place in the spectrum (teal → blue → violet → pink → coral → gold); the reading sets how
-    // brightly it glows out of the dark, and the hottest cells run toward white
-    var SPEC = [[62, 240, 198], [58, 168, 255], [167, 123, 255], [255, 79, 168], [255, 138, 76], [255, 210, 90]];
+    // hue from the cell's place in the spectrum (pink → rose → red → orange → amber); the reading sets how brightly it
+    // glows out of a dark wine ground (a gray ground turns dim orange to mud), and the hottest cells run toward white
+    var SPEC = [[255, 122, 170], [255, 84, 120], [255, 68, 56], [255, 122, 60], [255, 170, 64]];
     var x = clamp(h || 0, 0, 1) * (SPEC.length - 1);
     var i = Math.min(SPEC.length - 2, Math.floor(x)), t = x - i;
-    var k = 0.16 + 0.84 * Math.pow(Math.min(1, clamp(v, 0, 1) / 0.5), 0.65);
-    var hot = Math.max(0, (v - 0.6) / 0.4) * 0.35, BASE = [24, 27, 34];
+    var k = 0.3 + 0.7 * Math.pow(Math.min(1, clamp(v, 0, 1) / 0.5), 0.65);
+    var hot = Math.max(0, (v - 0.6) / 0.4) * 0.35, BASE = [38, 14, 22];
     var c = SPEC[i].map(function (a, n) {
       var lit = lerp(BASE[n], lerp(a, SPEC[i + 1][n], t), k);
       return Math.round(lerp(lit, 255, hot));
@@ -420,15 +420,15 @@
   var aurora = document.querySelector(".aurora");
   function skyFrame() {
     var max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
-    // the aurora's hue drifts as you read down the page: teal-violet at the top, warmer by the end
-    aurora.style.filter = "hue-rotate(" + (-70 * window.scrollY / max).toFixed(1) + "deg)";
+    // the background glows warm slightly as you read down the page: rose at the top, more orange by the end
+    aurora.style.filter = "hue-rotate(" + (22 * window.scrollY / max).toFixed(1) + "deg)";
   }
 
   var canvas = document.querySelector(".stars");
   var ctx = canvas.getContext("2d");
   var stars = [], W = 0, H = 0, DPR = 1;
   var pointer = { x: 0.5, y: 0.5, tx: 0.5, ty: 0.5, seen: false };
-  var TINTS = ["255,255,255", "255,255,255", "255,255,255", "214,236,255", "190,255,236", "255,214,236"];
+  var TINTS = ["255,255,255", "255,255,255", "255,255,255", "255,236,214", "255,224,190", "255,214,220"];
   function seed() {
     DPR = Math.min(2, window.devicePixelRatio || 1);
     W = window.innerWidth; H = window.innerHeight;
@@ -546,8 +546,8 @@
       cv.classList.add("is-ready");
     }
 
-    var WARM = [[58, 168, 255], [167, 123, 255], [255, 79, 168], [255, 138, 76]];
-    var COOL = [[62, 240, 198], [58, 168, 255], [120, 110, 255]];
+    var WARM = [[255, 90, 160], [255, 70, 90], [255, 96, 64], [255, 150, 90]];
+    var COOL = [[255, 176, 120], [255, 120, 140], [255, 86, 96]]; // the paler, peach-to-rose layer
     function render() {
       var b = box.getBoundingClientRect(), aspect = (b.height * 1.2) / Math.max(1, b.width * 1.2);
       var nA = makeNoise(11), nB = makeNoise(23), nC = makeNoise(37), nD = makeNoise(53);
@@ -590,7 +590,7 @@
       for (i = 0; i < 9; i++) {
         var bx = rnd() * sb.width, by = rnd() * sb.height, br = 6 + rnd() * 10;
         var gr = g.createRadialGradient(bx, by, 0, bx, by, br);
-        gr.addColorStop(0, "rgba(255,255,255,0.95)"); gr.addColorStop(0.12, "rgba(255,230,245,0.6)"); gr.addColorStop(1, "rgba(255,180,230,0)");
+        gr.addColorStop(0, "rgba(255,255,255,0.95)"); gr.addColorStop(0.12, "rgba(255,232,210,0.6)"); gr.addColorStop(1, "rgba(255,170,130,0)");
         g.fillStyle = gr; g.beginPath(); g.arc(bx, by, br, 0, 6.283); g.fill();
       }
       specks.classList.add("is-ready");
@@ -617,8 +617,8 @@
   })();
 
   /* ---------- Northern lights over the closing section ----------
-     Each curtain is a wandering lower edge with light rising off it: bright green at the hem, fading to teal
-     and then a faint violet-pink crown, with fine vertical rays and folds that brighten and slide along.
+     Each curtain is a wandering lower edge with light rising off it: a pale gold hem, fading through rose-orange
+     to a faint deep red crown, with fine vertical rays and folds that brighten and slide along.
      Columns are painted from pre-drawn gradient strips with additive blending, at half resolution. */
   (function () {
     var cv = document.querySelector(".borealis__sky");
@@ -633,14 +633,15 @@
       c.fillStyle = gr; c.fillRect(0, 0, 1, 256);
       return el;
     }
-    var GREEN = makeStrip([[0, "rgba(255,79,168,0)"], [0.22, "rgba(200,90,220,0.16)"], [0.5, "rgba(62,200,200,0.3)"],
-      [0.8, "rgba(70,240,150,0.7)"], [0.94, "rgba(150,255,190,1)"], [0.975, "rgba(220,255,235,1)"], [1, "rgba(255,90,170,0.5)"]]);
-    var CROWN = makeStrip([[0, "rgba(255,79,168,0)"], [0.3, "rgba(255,79,168,0.22)"], [0.6, "rgba(167,123,255,0.35)"],
-      [0.88, "rgba(62,240,198,0.6)"], [1, "rgba(120,255,200,0.8)"]]);
+    // a red aurora, as at the far edges of a great storm: a pale gold hem, rose-orange body and a deep red crown
+    var HEM = makeStrip([[0, "rgba(255,40,60,0)"], [0.22, "rgba(255,50,70,0.18)"], [0.5, "rgba(255,90,90,0.32)"],
+      [0.8, "rgba(255,130,80,0.7)"], [0.94, "rgba(255,200,120,1)"], [0.975, "rgba(255,240,210,1)"], [1, "rgba(255,110,150,0.5)"]]);
+    var CROWN = makeStrip([[0, "rgba(255,60,90,0)"], [0.3, "rgba(255,60,90,0.22)"], [0.6, "rgba(255,100,140,0.35)"],
+      [0.88, "rgba(255,170,90,0.6)"], [1, "rgba(255,210,140,0.8)"]]);
     // three curtains: near and bright, a middle one, a high faint one leaning pink
     var CURTAINS = [
-      { base: 0.8, amp: 0.07, len: 0.5, a: 0.75, sp: 1, ph: 0.4, f: 1.6, strip: GREEN },
-      { base: 0.66, amp: 0.06, len: 0.42, a: 0.5, sp: 0.7, ph: 2.1, f: 2.3, strip: GREEN },
+      { base: 0.8, amp: 0.07, len: 0.5, a: 0.75, sp: 1, ph: 0.4, f: 1.6, strip: HEM },
+      { base: 0.66, amp: 0.06, len: 0.42, a: 0.5, sp: 0.7, ph: 2.1, f: 2.3, strip: HEM },
       { base: 0.52, amp: 0.05, len: 0.36, a: 0.35, sp: 0.5, ph: 4.0, f: 3.1, strip: CROWN }
     ];
     function size() {

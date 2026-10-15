@@ -77,8 +77,9 @@ no tests. To preview, open `index.html` in a browser; there's no server.
 - `penumbra.html` + `assets/css/penumbra.css` + `assets/js/penumbra.js` is a **preview** of the landing page
   under the next name, Penumbra (added 2026-10-15; linked as "penumbra preview" at the end of the product tour tabs and
   last in `nav.js`'s order). Same copy and section layout as `index.html` (ByNine swapped for Penumbra), but moon-dark
-  ground with one accent read as a spectrum (the logo's ring in `references/Penumbra Logo Color.jpeg`: teal, blue,
-  violet, pink, coral, gold; violet is one stop, never the dominant hue). Hero: one screen-sized eclipse. A white sun fills most of the viewport; scroll slides the
+  ground with one warm accent, the light at an eclipse's edge: pink, rose, red, orange, amber, pale gold (`--a-*`,
+  `--aurora`, and the conic `--mark`). The user rejected the logo JPEG's full rainbow; keep the page off blues,
+  greens and violets (the teal `--safe` for protected money is the one functional exception). Hero: one screen-sized eclipse. A white sun fills most of the viewport; scroll slides the
   moon over it from the lower left (`--cover`), the rim lights at totality (`--ring`, `--flash`) and then bursts
   into the page's spectrum (`--burst`: blurred corona, conic ray streamers, a sky-wide wash) as "at first light"
   arrives. Before the burst the headline is a white copy in `mix-blend-mode: difference` (black on the sun, white on
@@ -89,8 +90,8 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   revealed word by word, a nebula behind gray swans (`.nebula`: two gas layers and dark dust lanes from domain-warped
   fractal noise, painted once at low resolution, plus specks; CSS drifts each layer and scroll parts them by depth),
   and pulses running down the graph's edges. The page closes on the northern lights
-  (`.borealis`, a half-resolution canvas of three drifting curtains: green hem, teal body, violet-pink crown, fine
-  rays) over a dark ridge that runs into the footer. Gradient text (`background-clip: text`) is padded out to the glyphs' ink and margin-compensated; tight
+  (`.borealis`, a half-resolution canvas of three drifting curtains in red-aurora colors: pale gold hem, rose-orange
+  body, deep red crown, fine rays) over a dark ridge that runs into the footer. Gradient text (`background-clip: text`) is padded out to the glyphs' ink and margin-compensated; tight
   leading and negative tracking otherwise clip ascenders, descenders and each line's last letter. `penumbra.js` is a fork of
   `landing.js`; if the preview is adopted, it replaces `index.html` and the fork goes away.
 - Motion between views: `assets/js/nav.js` (in every page's `<head>`) records which way the clicked page lies in the
