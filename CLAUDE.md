@@ -90,7 +90,8 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   fractal noise, painted once at low resolution, plus specks; CSS drifts each layer and scroll parts them by depth),
   and pulses running down the graph's edges. The page closes on the northern lights
   (`.borealis`, a half-resolution canvas of three drifting curtains: green hem, teal body, violet-pink crown, fine
-  rays) over a dark ridge that runs into the footer. `penumbra.js` is a fork of
+  rays) over a dark ridge that runs into the footer. Gradient text (`background-clip: text`) is padded out to the glyphs' ink and margin-compensated; tight
+  leading and negative tracking otherwise clip ascenders, descenders and each line's last letter. `penumbra.js` is a fork of
   `landing.js`; if the preview is adopted, it replaces `index.html` and the fork goes away.
 - Motion between views: `assets/js/nav.js` (in every page's `<head>`) records which way the clicked page lies in the
   nav order; the new page slides in from that side (cross-document view transitions where supported, with the
