@@ -32,7 +32,7 @@
     #3ef0c6 175deg, #ffd25a 235deg, #ff8a4c 280deg, #ff4fa8 320deg, #a77bff 345deg, #3aa8ff 360deg);
   /* money on dark */
   --loss: #ff6b81;
-  --safe: #4fe3b5;
+  --safe: #ffd56b; /* protected money: pale gold, against the rose-red of money at risk */
   --focus: var(--a-yellow);
   --line: rgba(236, 238, 242, 0.1);
   --line-strong: rgba(236, 238, 242, 0.2);
@@ -326,12 +326,7 @@ main, .footer { position: relative; z-index: 2; }
 .thesis__setup .thesis__lull { font-weight: 400; }
 .watch { margin: 0; padding: 1.4rem 1.5rem 1.3rem; }
 .watch__head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1.5px dashed var(--line-strong); }
-.watch__title { font-size: var(--fs-small); font-weight: 700; display: inline-flex; align-items: center; gap: 0.5rem; }
-.watch__title::before { /* a live dot that pulses in the aurora */
-  content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--a-yellow);
-  box-shadow: 0 0 0 0 rgba(255, 224, 122, 0.6); animation: live 2.4s ease-out infinite;
-}
-@keyframes live { 70%, 100% { box-shadow: 0 0 0 8px rgba(255, 224, 122, 0); } }
+.watch__title { font-size: var(--fs-small); font-weight: 700; }
 .watch__count { font-size: var(--fs-micro); font-weight: 600; color: var(--moon-3); font-variant-numeric: tabular-nums; }
 .watch__body { transition: opacity 0.35s ease; }
 .watch__body.is-out { opacity: 0; }
@@ -340,11 +335,11 @@ main, .footer { position: relative; z-index: 2; }
 .watch__bar { height: 6px; border-radius: 6px; background: rgba(236, 238, 242, 0.08); overflow: hidden; }
 .watch__bar i {
   display: block; height: 100%; width: 0; border-radius: 6px;
-  background: linear-gradient(90deg, var(--a-orange), var(--loss));
-  box-shadow: 0 0 12px rgba(255, 107, 129, 0.6);
+  background: var(--loss);
+  box-shadow: 0 0 12px rgba(255, 107, 129, 0.5);
   transition: width 0.9s cubic-bezier(.3,.7,.3,1);
 }
-.watch.is-up .watch__bar i { background: linear-gradient(90deg, #2fbf94, var(--safe)); box-shadow: 0 0 12px rgba(79, 227, 181, 0.6); }
+.watch.is-up .watch__bar i { background: var(--safe); box-shadow: 0 0 12px rgba(255, 213, 107, 0.5); }
 .watch__pct { font-size: 0.9rem; color: var(--moon-2); }
 .watch__pct b { font-size: 1.15rem; color: var(--loss); font-variant-numeric: tabular-nums; }
 .watch.is-up .watch__pct b { color: var(--safe); }
@@ -384,10 +379,9 @@ main, .footer { position: relative; z-index: 2; }
 .part { background: rgba(18, 20, 26, 0.8); border: 1px solid var(--rim); display: grid; gap: 0.2rem; align-content: start; }
 .part strong { font-size: 0.95rem; line-height: 1.3; letter-spacing: -0.01em; }
 .part__p { font-size: 1.95rem; font-weight: 800; letter-spacing: -0.05em; line-height: 1; margin-top: 0.4rem; font-variant-numeric: tabular-nums; }
-.split__fused { /* the one answer: ringed in the aurora */
+.split__fused { /* the one answer: ringed in amber light */
   background: var(--space); display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.25rem 1rem;
-  border: 1px solid transparent;
-  background: linear-gradient(var(--space), var(--space)) padding-box, var(--aurora) border-box;
+  border: 1px solid rgba(255, 170, 64, 0.6);
   box-shadow: 0 0 40px -12px rgba(255, 84, 120, 0.55), 0 0 60px -20px rgba(255, 224, 122, 0.4);
 }
 .split__fused .split__label { width: 100%; color: var(--moon-2); }
@@ -415,7 +409,7 @@ main, .footer { position: relative; z-index: 2; }
 .pv-slider { display: grid; gap: 0.3rem; margin-bottom: 0.6rem; font-weight: 600; color: var(--moon-2); }
 .pv-slider i {
   height: 4px; border-radius: 4px; position: relative;
-  background: linear-gradient(90deg, var(--a-yellow), var(--a-rose) calc(var(--v) * 100%), rgba(255, 255, 255, 0.14) 0);
+  background: linear-gradient(90deg, var(--a-amber) calc(var(--v) * 100%), rgba(255, 255, 255, 0.14) 0); /* filled to the knob, one color */
 }
 .pv-slider i::after {
   content: ""; position: absolute; top: 50%; left: calc(var(--v) * 100%);
@@ -427,7 +421,7 @@ main, .footer { position: relative; z-index: 2; }
 .pv-team__row + .pv-team__row { border-top: 1px dashed var(--line-strong); }
 .pv-team__row span:nth-child(2) { line-height: 1.3; } /* wraps rather than truncating in narrow cards */
 .pv-st { padding: 0.1rem 0.45rem; border-radius: 999px; font-size: 0.68rem; font-weight: 800; box-shadow: inset 0 0 0 1.5px var(--line-strong); color: var(--moon-2); }
-.pv-st--done { background: rgba(79, 227, 181, 0.14); color: var(--safe); box-shadow: none; }
+.pv-st--done { background: rgba(255, 213, 107, 0.14); color: var(--safe); box-shadow: none; }
 .pv-st--doing { background: rgba(255, 210, 90, 0.14); color: var(--a-gold); box-shadow: none; }
 .pv-av { width: 1.5rem; height: 1.5rem; border-radius: 50%; display: grid; place-items: center; font-size: 0.6rem; font-weight: 800; background: rgba(236, 238, 242, 0.1); color: var(--moon); }
 .pv-heat { display: grid; grid-template-columns: repeat(8, 1fr); gap: 3px; }
@@ -528,7 +522,7 @@ main, .footer { position: relative; z-index: 2; }
   .swans__grid { grid-template-columns: minmax(0, 1fr); max-width: 34rem; }
 }
 
-/* ---------- Assets: node-link model with signals running down it ---------- */
+/* ---------- Assets: node-link model ---------- */
 .assets {
   padding: clamp(6rem, 14vh, 9rem) var(--gutter);
   display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
@@ -552,11 +546,6 @@ main, .footer { position: relative; z-index: 2; }
 .graph__edges { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; transition: opacity 0.5s ease; }
 .graph__edges path { fill: none; stroke: #4a4f5b; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
 .graph__edges .graph__head { transition: opacity 0.2s ease; }
-.graph__edges .graph__pulse { stroke: url(#pn-pulse); stroke-width: 2.5; filter: drop-shadow(0 0 4px rgba(255, 84, 120, 0.9)); animation: pulse 3.2s cubic-bezier(.45, 0, .55, 1) infinite; animation-delay: var(--delay, 0s); }
-@keyframes pulse {
-  from { stroke-dashoffset: 28; }
-  70%, to { stroke-dashoffset: calc(var(--len) * -1px); }
-}
 .graph.is-away .graph__edges { opacity: 0.2; }
 .gn {
   position: relative; z-index: 1; min-width: 0;
@@ -645,6 +634,6 @@ main, .footer { position: relative; z-index: 2; }
 .footer__legal { margin: 0; width: 100%; font-size: var(--fs-micro); color: var(--moon-3); }
 
 @media (prefers-reduced-motion: reduce) {
-  .aurora i, .nebula canvas, .eclipse__rays, .hero__arrow, .watch__title::before { animation: none; }
+  .aurora i, .nebula canvas, .eclipse__rays, .hero__arrow { animation: none; }
   .tile { translate: none; }
 }

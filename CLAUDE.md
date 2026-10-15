@@ -78,8 +78,9 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   under the next name, Penumbra (added 2026-10-15; linked as "penumbra preview" at the end of the product tour tabs and
   last in `nav.js`'s order). Same copy and section layout as `index.html` (ByNine swapped for Penumbra), but moon-dark
   ground with one warm accent, the light at an eclipse's edge: pink, rose, red, orange, amber, pale gold (`--a-*`,
-  `--aurora`, and the conic `--mark`). The user rejected the logo JPEG's full rainbow; keep the page off blues,
-  greens and violets (the teal `--safe` for protected money is the one functional exception). Hero: one screen-sized eclipse. A white sun fills most of the viewport; scroll slides the
+  `--aurora`, and the conic `--mark`). The user rejected the logo JPEG's full rainbow on the page (the logo alone keeps it); keep the page
+  off blues, greens and violets, and keep lines, bars and borders one color, not gradients. Protected money
+  (`--safe`) is pale gold here, not green. Hero: one screen-sized eclipse. A white sun fills most of the viewport; scroll slides the
   moon over it from the lower left (`--cover`), the rim lights at totality (`--ring`, `--flash`) and then bursts
   into the page's spectrum (`--burst`: blurred corona, conic ray streamers, a sky-wide wash) as "at first light"
   arrives. Before the burst the headline is a white copy in `mix-blend-mode: difference` (black on the sun, white on
@@ -89,7 +90,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   whose hue shifts with scroll, a pointer glow, aurora-edged card spotlights (`.spot`, `--mx/--my`), headings revealed
   word by word, a nebula behind gray swans (`.nebula`: two gas layers and dark dust lanes from domain-warped
   fractal noise, painted once at low resolution, plus specks; CSS drifts each layer and scroll parts them by depth),
-  and pulses running down the graph's edges. The page closes on the northern lights
+  and graph arrows that draw themselves, as on the main landing. The page closes on the northern lights
   (`.borealis`, a half-resolution canvas of three drifting curtains in red-aurora colors: pale gold hem, rose-orange
   body, deep red crown, fine rays) over a dark ridge that runs into the footer. Headings are solid moonlight (`--moon`, white for the hero's second line); the user rejected gradient text. `penumbra.js` is a fork of
   `landing.js`; if the preview is adopted, it replaces `index.html` and the fork goes away.

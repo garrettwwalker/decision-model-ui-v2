@@ -173,10 +173,6 @@
       var box = fig.getBoundingClientRect();
       svg.setAttribute("viewBox", "0 0 " + box.width + " " + box.height);
       svg.textContent = "";
-      // the pulses' color runs down the diagram: pink at the driver to gold at the owners
-      svg.insertAdjacentHTML("afterbegin", '<defs><linearGradient id="pn-pulse" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="' + box.height + '">' +
-        '<stop offset="0" stop-color="#ff7aaa"/><stop offset=".3" stop-color="#ff5478"/><stop offset=".55" stop-color="#ff4438"/>' +
-        '<stop offset=".8" stop-color="#ff7a3c"/><stop offset="1" stop-color="#ffd25a"/></linearGradient></defs>');
       var heads = {};
       edges = EDGES.map(function (e) {
         var a = node(e[0]).getBoundingClientRect(), b = node(e[1]).getBoundingClientRect();
@@ -207,23 +203,7 @@
         p.style.strokeDasharray = len;
         p.style.strokeDashoffset = done ? 0 : len;
         head.style.opacity = done ? 1 : 0;
-        return { p: p, head: head, len: len, d: d };
-      });
-      if (done) pulses();
-    }
-    // once the lines are down, a short bright dash travels each one, wave by wave, on a loop
-    function pulses() {
-      if (still) return;
-      WAVES.forEach(function (wave, w) {
-        wave.forEach(function (i) {
-          var e = edges[i], q = document.createElementNS(NS, "path");
-          q.setAttribute("d", e.d);
-          q.setAttribute("class", "graph__pulse");
-          q.style.strokeDasharray = "28 " + Math.ceil(e.len + 60);
-          q.style.setProperty("--len", Math.ceil(e.len));
-          q.style.setProperty("--delay", (w * 0.55) + "s");
-          svg.appendChild(q);
-        });
+        return { p: p, head: head, len: len };
       });
     }
     function drawWave(idx, then) {
@@ -241,7 +221,7 @@
       started = true;
       var w = 0;
       (function next() {
-        if (w >= WAVES.length) { done = true; pulses(); return; }
+        if (w >= WAVES.length) { done = true; return; }
         drawWave(WAVES[w++], function () { setTimeout(next, 90); });
       })();
     }
@@ -361,9 +341,10 @@
     var vals = [.12,.08,.31,.05,.62,.18,.09,.22, .41,.12,.08,.71,.15,.05,.33,.10,
                 .06,.44,.19,.09,.07,.28,.52,.14, .23,.05,.11,.36,.83,.17,.06,.09,
                 .14,.27,.06,.48,.21,.11,.39,.04];
-    var cells = vals.map(function (v, i) {
+    var hue = DB_rng(29); hue(); // skip the first draw, which is tiny for a small seed
+    var cells = vals.map(function (v) {
       var c = document.createElement("span");
-      var h = (i % 8) / 7 * 0.8 + Math.floor(i / 8) / 4 * 0.2; // each cell's hue: the spectrum sweeps across the grid
+      var h = hue(); // each cell gets a hue at random from the palette (seeded, so it's the same every visit)
       c.style.background = heatColor(v, h);
       heat.appendChild(c);
       return { el: c, base: v, h: h };
