@@ -311,6 +311,7 @@ main, .footer { position: relative; z-index: 2; }
 .prose .w.on, .read .w.on { color: var(--moon); }
 .tile { opacity: 0.18; transition: opacity 0.6s ease, translate 0.6s ease; translate: 0 10px; }
 .tile.on { opacity: 1; translate: 0 0; }
+.gn.tile { translate: none; } /* graph nodes only fade: the arrows are measured to where the nodes sit, so they can't move */
 
 /* ---------- Thesis ---------- */
 .thesis {
