@@ -34,9 +34,9 @@
 .stack { display: flex; height: 14px; border-radius: 7px; overflow: hidden; gap: 2px; margin-top: 0.4rem; }
 .stack span { flex: var(--w) 1 0; }
 .stack span:nth-child(1), .stack__key li:nth-child(1) i { background: var(--loss); }
-.stack span:nth-child(2), .stack__key li:nth-child(2) i { background: #d4507a; } /* one rose, stepping down: the biggest share is the brightest */
-.stack span:nth-child(3), .stack__key li:nth-child(3) i { background: #a44466; }
-.stack span:nth-child(4), .stack__key li:nth-child(4) i { background: #733a52; }
+.stack span:nth-child(2), .stack__key li:nth-child(2) i { background: color-mix(in srgb, var(--alert) 76%, var(--card-solid)); } /* the alert color, stepping down: the biggest share is the brightest */
+.stack span:nth-child(3), .stack__key li:nth-child(3) i { background: color-mix(in srgb, var(--alert) 54%, var(--card-solid)); }
+.stack span:nth-child(4), .stack__key li:nth-child(4) i { background: color-mix(in srgb, var(--alert) 34%, var(--card-solid)); }
 .stack__key { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.4rem; font-size: 0.82rem; }
 .stack__key li { display: grid; grid-template-columns: 10px 1fr auto; gap: 0.6rem; align-items: center; color: var(--fg-2); }
 .stack__key i { width: 10px; height: 10px; border-radius: 3px; }
@@ -112,7 +112,7 @@
    land, ink labels, a step dimmer than the original so it sits in the dark page. Inside it the money colors take deeper shades so they hold on the light paper. */
 .map__svg {
   width: 100%; height: auto; border-radius: 14px;
-  --ink: #2a1d14; --ink-2: #5a4636; --loss: #c43a52; --safe: #0e7d68;
+  --ink: #2a1d14; --ink-2: #5a4636; --loss: #b8342a; --safe: #8a5c08; /* deeper coral and gold, so they hold on the paper */
   opacity: 0.85; /* lets the dark panel through a little, so the chart sits in the page */
 }
 @media (max-width: 600px) {
@@ -174,8 +174,8 @@
 .route-card[data-route-card] { cursor: pointer; }
 .route-card[data-route-card]:hover, .route-card[data-route-card]:focus-visible { transform: translateY(-3px); }
 .route-card.is-best {
-  background: var(--space); border-color: rgba(74, 168, 255, 0.6);
-  box-shadow: 0 0 40px -12px rgba(74, 168, 255, 0.55), 0 0 60px -20px rgba(62, 224, 184, 0.4);
+  background: var(--space); border-color: color-mix(in srgb, var(--blue) 60%, transparent);
+  box-shadow: 0 0 40px -12px color-mix(in srgb, var(--blue) 55%, transparent), 0 0 60px -20px color-mix(in srgb, var(--teal) 40%, transparent);
 }
 .route-card--no { opacity: 0.6; }
 .route-card__tag { margin: 0 0 0.35rem; font-size: 0.8rem; font-weight: 600; color: var(--fg-2); }
@@ -202,7 +202,7 @@
 .build__out .build__q { color: var(--fg-2); }
 .build__out .build__p { font-size: 1rem; letter-spacing: 0; color: var(--fg-2); }
 /* the one answer: ringed in amber light, as on the landing */
-.build__fused { background: var(--space) !important; border: 1px solid rgba(74, 168, 255, 0.6); box-shadow: 0 0 40px -12px rgba(74, 168, 255, 0.55), 0 0 60px -20px rgba(62, 224, 184, 0.4); }
+.build__fused { background: var(--space) !important; border: 1px solid color-mix(in srgb, var(--blue) 60%, transparent); box-shadow: 0 0 40px -12px color-mix(in srgb, var(--blue) 55%, transparent), 0 0 60px -20px color-mix(in srgb, var(--teal) 40%, transparent); }
 .build__fused .build__eng { color: var(--amber); }
 .build__fused .build__q { color: var(--moon-2); font-weight: 500; }
 @media (max-width: 1080px) { .build { grid-template-columns: repeat(2, minmax(0, 1fr)); } .build__fused { grid-column: 1 / -1; } }

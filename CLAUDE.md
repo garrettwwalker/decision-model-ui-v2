@@ -15,13 +15,17 @@ no tests. To preview, open `index.html` in a browser; there's no server.
 - Pages: `index.html` (landing), `briefing.html` (daily brief), `memo.html` ("sample memo"), `team.html` ("workflows" in the nav; team workflows for middle
   managers), `workbench.html` (world-model editor for data/IT) and `ask.html` (chat). `wargame.html` is only a
   redirect to `team.html`; the wargame it used to hold was replaced.
-- Product pages (`t-night`, defined in `app.css`) share the landing's structure but not its warm palette: the user
-  found red and yellow everywhere monotonous and chose the logo ring's spectrum for the tour (2026-10-16). Blue
-  (`--blue`) for controls, selection and the lit answer (a blue ring with a blue-teal glow on the fused forecast,
-  the best route, a running playbook), teal (`--teal`) for money protected and healthy status, rose (`--rose`) for
-  money at risk, violet (`--violet`) for what you changed or chose ("mine" in charts), gold (`--gold`) only for
-  warnings and deadlines. `.t-night` redefines every alias the page rules use (`--ember` is blue, `--ember-deep`
-  violet, `--safe` teal, `--a-amber` blue ...), because a var() in a custom property resolves where it's declared.
+- Product pages (`t-night`, defined in `app.css`) share the landing's structure, but each page has its own small
+  palette taken from its sky (the user found a tour-wide five-hue scheme incoherent and not very informative,
+  2026-10-16): `--accent` (controls, selection, the lit answer, anything good: protected money, done, healthy),
+  `--good` (a paler accent for good beside the accent), `--alert` (money at risk, losses, overload, late),
+  `--alert-2` (softer warnings), and moonlight for everything else ("yours", e.g. your plan in a chart, is plain
+  white). Brief `sky-warm`: amber / pale gold / coral. Memo `sky-deep`: sky blue / aqua / coral. Workflows
+  `sky-plum`: violet / lilac / red-rose. Workbench (the defaults): blue / pale cyan / orange-coral. Ask
+  `sky-violet`: periwinkle / pale periwinkle / pink. The older names the page rules use (`--blue`, `--teal`,
+  `--rose`, `--gold`, `--violet`, `--ember`, `--safe`, `--loss` ...) are aliases redefined on `.t-night`, and tints
+  are `color-mix()` of the tokens, so a page's palette is four values on its `sky-*` class. bench.js sets SVG colors
+  through `style` (attributes can't read var()).
   Ground: deep blue-black (`#070a14`) under a nebula haze and stars (`space.js`), dark glass cards (`--card`,
   70% over a blur so the haze shows softly through), moonlight type with `--moon-3` a step lighter than the
   landing's so labels hold 4.5:1 over bright haze, solid hairlines, no pins, tilts, cargo tags or dashes. Maps:

@@ -178,7 +178,7 @@
 .option { display: flex; flex-direction: column; gap: 0.75rem; transition: box-shadow 0.2s ease; }
 .option::before { display: none; }
 .option.is-pick::before { display: block; }
-.option.is-chosen { box-shadow: 0 0 0 1px rgba(62, 224, 184, 0.7), 0 0 40px -14px rgba(62, 224, 184, 0.55); } /* the chosen option is lit */
+.option.is-chosen { box-shadow: 0 0 0 1px color-mix(in srgb, var(--teal) 70%, transparent), 0 0 40px -14px color-mix(in srgb, var(--teal) 55%, transparent); } /* the chosen option is lit */
 .option__head { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; min-height: 2.2rem; }
 .option__n { width: 2.2rem; height: 2.2rem; border-radius: 50%; display: grid; place-items: center; background: var(--ink); color: var(--on-ink); font-weight: 800; }
 .option.is-chosen .option__n { background: var(--safe); }

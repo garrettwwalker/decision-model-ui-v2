@@ -11,16 +11,24 @@ body.app { min-height: 100vh; }
 .skip:focus { top: 1rem; }
 
 /* ---------- Night: the one ground every product page uses ----------
-   The landing keeps its warm eclipse palette; the product tour takes its colors from the logo's ring instead, so
-   the data reads with more variety: blue for controls and selection, teal for money protected, rose for money at
-   risk, violet for what you changed or chose, gold only for warnings. Every alias the page rules use is redefined
-   here, because a var() inside a custom property resolves where it is declared. */
+   Each page has its own small palette, taken from its sky (space.js), rather than one set of hues for the tour:
+   --accent  controls, selection, the lit answer, and anything good (money protected, done, healthy)
+   --good    a paler accent where good needs to sit beside the accent (protected money, the best plan)
+   --alert   money at risk, losses, overload, anything late
+   --alert-2 a paler alert for softer warnings (doing, due soon)
+   Everything else is moonlight. The defaults below are the workbench's (blue sky); `sky-*` classes on <body> set
+   the rest. The older names (--blue, --teal, --rose, --gold, --violet, --ember ...) are aliases the page rules
+   use; they're all redefined here, because a var() inside a custom property resolves where it is declared. */
 .t-night {
-  --blue: #4aa8ff;
-  --teal: #3ee0b8;
-  --rose: #ff5f8f;
-  --violet: #a98bff;
-  --gold: #ffc85a;
+  --accent: #4aa8ff;
+  --good: #8fd0ff;
+  --alert: #ff8a5c;
+  --alert-2: #ffb27a;
+  --blue: var(--accent);
+  --teal: var(--good);
+  --rose: var(--alert);
+  --gold: var(--alert-2);
+  --violet: var(--moon); /* "yours" (your plan, your edits) reads in plain moonlight, not a sixth hue */
   --void: #070a14;       /* deep blue-black, under a nebula haze (space.js) */
   --space: #0b1020;
   --moon-2: #b3bccd;
@@ -34,26 +42,26 @@ body.app { min-height: 100vh; }
   --cream: #182036;
   --mist: #121a2e;
   --loss: var(--rose);
-  --loss-tint: rgba(255, 95, 143, 0.15);
+  --loss-tint: color-mix(in srgb, var(--rose) 15%, transparent);
   --safe: var(--teal);
-  --safe-tint: rgba(62, 224, 184, 0.14);
+  --safe-tint: color-mix(in srgb, var(--teal) 14%, transparent);
   --warn: var(--gold);
-  --warn-tint: rgba(255, 200, 90, 0.14);
+  --warn-tint: color-mix(in srgb, var(--gold) 14%, transparent);
   --ember: var(--blue);
   --ember-deep: var(--violet);
   --amber: var(--gold);
   --dawn: var(--blue);
   --dawn-deep: var(--violet);
-  --dawn-pale: rgba(74, 168, 255, 0.14);
+  --dawn-pale: color-mix(in srgb, var(--blue) 14%, transparent);
   --dawn-rose: var(--rose);
   --a-amber: var(--blue);
   --a-orange: var(--violet);
   --a-gold: var(--gold);
-  --a-yellow: #8fc8ff;
+  --a-yellow: var(--good);
   --a-pink: var(--violet);
   --a-rose: var(--rose);
   --ctl: var(--blue);
-  --ctl-soft: rgba(74, 168, 255, 0.3);
+  --ctl-soft: color-mix(in srgb, var(--blue) 30%, transparent);
   --focus: var(--blue);
   --fg: var(--moon);
   --fg-2: var(--moon-2);
@@ -70,7 +78,7 @@ body.app { min-height: 100vh; }
 /* Instruments: code, logs and terminals, set a step darker than the panels */
 .instrument {
   --ctl: var(--a-amber);
-  --ctl-soft: rgba(74, 168, 255, 0.28);
+  --ctl-soft: color-mix(in srgb, var(--blue) 28%, transparent);
   --fg: var(--moon);
   --fg-2: var(--moon-2);
   --panel: #0a0e1a;
@@ -98,11 +106,23 @@ body.app { min-height: 100vh; }
 }
 .t-night .bar { background: rgba(7, 10, 20, 0.72); box-shadow: 0 1px 0 rgba(220, 230, 255, 0.08); }
 /* the daily brief's sky is warm (an amber nebula, space.js), so its ground is warm-black and its glass neutral */
+.t-night.sky-warm { /* daily brief: amber sky; amber accent, pale gold good, coral alert */
+  --accent: #ffa94d; --good: #ffd27a; --alert: #ff6b5e; --alert-2: #ff9a6b;
+}
 .t-night.sky-warm { --void: #0a0709; --space: #120c0d; --card: rgba(26, 23, 30, 0.7); --card-solid: #1d181d; --cream: #221c22; --mist: #1a1519; }
 .t-night.sky-warm .bar { background: rgba(10, 7, 9, 0.74); }
 /* workflows: a violet-red nebula over plum-black */
+.t-night.sky-plum { /* workflows: violet-red sky; violet accent, lilac good, red-rose alert */
+  --accent: #b49bff; --good: #dccfff; --alert: #ff5f7a; --alert-2: #ff9db0;
+}
 .t-night.sky-plum { --void: #0a060c; --space: #120b14; --card: rgba(26, 22, 32, 0.7); --card-solid: #1c1722; --cream: #221b28; --mist: #19141e; }
 .t-night.sky-plum .bar { background: rgba(10, 6, 12, 0.74); }
+.t-night.sky-deep { /* sample memo: deep blue and teal sky; sky-blue accent, aqua good, coral alert */
+  --accent: #5ab8ff; --good: #7fe0ea; --alert: #ff8a7a; --alert-2: #ffb09e;
+}
+.t-night.sky-violet { /* ask: violet and blue sky; periwinkle accent, pale periwinkle good, pink alert */
+  --accent: #9fb2ff; --good: #c8d2ff; --alert: #ff8fa8; --alert-2: #ffb6c6;
+}
 .bar .wordmark { font-size: 1.3rem; }
 
 .tabs { display: flex; gap: 1.75rem; }
@@ -119,7 +139,7 @@ body.app { min-height: 100vh; }
 .tabs a[aria-current="page"]::after { /* a small point of light under the current page */
   content: ""; position: absolute; left: 50%; bottom: 4px;
   width: 6px; height: 6px; border-radius: 50%; transform: translateX(-50%);
-  background: var(--blue); box-shadow: 0 0 8px rgba(74, 168, 255, 0.8);
+  background: var(--blue); box-shadow: 0 0 8px color-mix(in srgb, var(--blue) 80%, transparent);
 }
 
 .bar__meta { margin: 0; display: grid; justify-items: end; line-height: 1.25; font-size: 0.8rem; }
@@ -266,8 +286,8 @@ input[type="range"]:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 4px 
   border-radius: 8px; border: 1px solid var(--panel-line); background: rgba(255, 255, 255, 0.04);
   font-size: 0.875rem; font-variant-numeric: tabular-nums; color: var(--fg);
 }
-.num-input:focus-visible { outline: none; border-color: rgba(74, 168, 255, 0.6); box-shadow: 0 0 0 3px rgba(74, 168, 255, 0.1), 0 0 22px -4px rgba(74, 168, 255, 0.45); } /* the landing's gold focus glow */
-.num-input.is-changed { border-color: rgba(74, 168, 255, 0.7); background: rgba(74, 168, 255, 0.08); }
+.num-input:focus-visible { outline: none; border-color: color-mix(in srgb, var(--blue) 60%, transparent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--blue) 10%, transparent), 0 0 22px -4px color-mix(in srgb, var(--blue) 45%, transparent); } /* the landing's gold focus glow */
+.num-input.is-changed { border-color: color-mix(in srgb, var(--blue) 70%, transparent); background: color-mix(in srgb, var(--blue) 8%, transparent); }
 
 /* ---------- Toast ---------- */
 .toast {
