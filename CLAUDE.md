@@ -99,10 +99,8 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   24 "Sgr" HIP pairs, with SIMBAD J2000 positions and V magnitudes; east left, north up, star size by magnitude;
   over faint field stars; twinkling, lines drawing once in view; bleeds toward the page edge). No text, no cursor
   reaction: the user tried a labelled hub and spoke and a cursor-reactive version first. Nebula layers don't move: each has a twin painted from the same cloud a little further along in time (warp
-  offset 0.3) and CSS crossfades the pair, so wisps re-form in place, as in a vacuum (rigid drift and churn both read
-  as a cloud on Earth); only a faint swell remains. The cursor disturbs them like gas: a relaxing field of offsets and thinning, fed by the pointer's motion (shove
-  plus curl) and by lingering (outward push and thinning, so a clearing opens rather than the cloud magnifying);
-  every painted layer and twin is redrawn through it. (Earlier static radial push read as the cloud growing.) The top bar hides while scrolling down once the hero's bottom edge has passed it and returns on any scroll up. The page closes in a second nebula (`.nebula--close`, same renderer, its own seeds) behind the contact form, thinning to black before the solid black footer; the user preferred it to a northern-lights effect. Headings are solid moonlight (`--moon`, white for the hero's second line); the user rejected gradient text. `penumbra.js` is a fork of
+  offset 0.42) and CSS crossfades the pair, so wisps re-form in place, as in a vacuum (rigid drift and churn both read
+  as a cloud on Earth); only a faint swell remains. No cursor effect on them (the user tried several and removed them). The top bar hides while scrolling down once the hero's bottom edge has passed it and returns on any scroll up. The page closes in a second nebula (`.nebula--close`, same renderer, its own seeds) behind the contact form, thinning to black before the solid black footer; the user preferred it to a northern-lights effect. Headings are solid moonlight (`--moon`, white for the hero's second line); the user rejected gradient text. `penumbra.js` is a fork of
   `landing.js`; if the preview is adopted, it replaces `index.html` and the fork goes away.
 - Motion between views: `assets/js/nav.js` (in every page's `<head>`) records which way the clicked page lies in the
   nav order; the new page slides in from that side (cross-document view transitions where supported, with the
