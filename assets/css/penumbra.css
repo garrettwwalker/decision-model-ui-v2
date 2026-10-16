@@ -355,9 +355,11 @@ main, .footer { position: relative; z-index: 2; }
 .engine__title { margin-left: clamp(0rem, 6vw, 6rem); }
 .engine__grid {
   display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-  gap: 3rem clamp(2rem, 5vw, 5rem); align-items: start; margin-top: 3rem; max-width: 82rem;
+  gap: 3rem clamp(2rem, 5vw, 5rem); align-items: stretch; margin-top: 3rem; max-width: 82rem;
 }
-.engine__steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 2.25rem; }
+/* the steps spread down the full height of the diagram beside them, so the last one ends level with the fused card */
+.engine__steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; justify-content: space-between; gap: 2.25rem; }
+.engine__grid .split { align-self: start; }
 .engine__steps li { position: relative; padding-left: 3.25rem; }
 .engine__n { position: absolute; left: 0; top: 0.1rem; width: 2.1rem; height: 2.1rem; fill: var(--moon); font: 800 19px var(--font); overflow: visible; transition: fill 0.35s ease; }
 /* each number lights with the first word of its heading, and dims again with it on the way back up */
@@ -384,7 +386,7 @@ main, .footer { position: relative; z-index: 2; }
 .split__fused .split__label { width: 100%; color: var(--moon-2); }
 .split__num { font-size: 3rem; font-weight: 800; letter-spacing: -0.06em; line-height: 1; }
 .split__fused span:last-child { color: var(--moon-2); font-size: 0.9rem; }
-@media (max-width: 960px) { .engine__grid { grid-template-columns: minmax(0, 1fr); max-width: 40rem; } }
+@media (max-width: 960px) { .engine__grid { grid-template-columns: minmax(0, 1fr); max-width: 40rem; } .engine__steps { justify-content: flex-start; } }
 @media (max-width: 480px) { .split__parts { grid-template-columns: minmax(0, 1fr); } }
 
 /* ---------- Modes ---------- */
