@@ -21,7 +21,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   `--good` (a paler accent for good beside the accent), `--alert` (money at risk, losses, overload, late),
   `--alert-2` (softer warnings); alerts sit next to the sky's hue rather than opposite it (the user found
   orange-on-blue and red-on-green harsh), and moonlight for everything else ("yours", e.g. your plan in a chart, is plain
-  white). Brief `sky-warm`: amber / pale gold / coral. Memo `sky-green` (green nebula, green-black ground): mint / pale mint / muted gold. Workflows
+  white). Brief `sky-warm`: amber / pale gold / coral. Memo `sky-green` (green nebula, green-black ground): mint / pale mint / honey-gold pastel (a warm gold: a greener gold read as chartreuse against the green sky). Workflows
   `sky-plum`: violet / lilac / red-rose. Workbench (the defaults): blue / pale cyan / orchid. Ask
   `sky-violet`: periwinkle / pale periwinkle / pink. The older names the page rules use (`--blue`, `--teal`,
   `--rose`, `--gold`, `--violet`, `--ember`, `--safe`, `--loss` ...) are aliases redefined on `.t-night`, and tints

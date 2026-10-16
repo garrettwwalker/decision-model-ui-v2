@@ -118,9 +118,9 @@ body.app { min-height: 100vh; }
 .t-night.sky-plum { --void: #0a060c; --space: #120b14; --card: rgba(26, 22, 32, 0.7); --card-solid: #1c1722; --cream: #221b28; --mist: #19141e; }
 .t-night.sky-plum .bar { background: rgba(10, 6, 12, 0.74); }
 .t-night.sky-plum .tabs a[aria-current="page"]::after { background: #f04a72; box-shadow: 0 0 8px rgba(240, 74, 114, 0.8); } /* rose, the red in the page's violet-red nebula */
-.t-night.sky-green { /* sample memo: green sky; mint accent, pale mint good, muted gold alert (a neighbor of green,
+.t-night.sky-green { /* sample memo: green sky; mint accent, pale mint good, honey-gold pastel alert (a neighbor of green,
                          not its opposite). Good is much paler than alert, so the pair separates for color blindness too */
-  --accent: #5fdc9a; --good: #bff2d6; --alert: #e3c25e; --alert-2: #efd89a;
+  --accent: #5fdc9a; --good: #bff2d6; --alert: #f2c27e; --alert-2: #f8dcb0;
   --void: #060b0a; --space: #0b1412; --card: rgba(20, 27, 26, 0.7); --card-solid: #16201e; --cream: #1b2624; --mist: #141d1b;
 }
 .t-night.sky-green .bar { background: rgba(6, 11, 10, 0.74); }
