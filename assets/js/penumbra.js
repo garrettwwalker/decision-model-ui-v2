@@ -31,7 +31,7 @@
   var day = document.querySelector(".day");
   var BLOCKS = "p, h2, h3, li, dt, dd, label";
   var UNITS = ".chip";                       // inline widgets revealed whole, like a word
-  var TILES = ".note, .tag, .swan, .contact__form, .split__q, .part, .split__fused"; // revealed whole, text included
+  var TILES = ".note, .swan, .contact__form, .split__q, .part, .split__fused"; // revealed whole, text included
   var reads = [], tiles = [];
 
   function splitWords(root, units) {
@@ -59,7 +59,7 @@
 
   if (day && !reduceMotion) {
     day.querySelectorAll(BLOCKS).forEach(function (el) {
-      if (el.querySelector(BLOCKS) || el.closest(TILES)) return; // innermost free-standing text only
+      if (el.querySelector(BLOCKS) || el.closest(TILES) || el.closest(".phases")) return; // innermost free-standing text only; the phases light on their own
       var units = [];
       splitWords(el, units);
       if (units.length) reads.push({ el: el, units: units, n: -1 });
@@ -108,6 +108,32 @@
       if (on === o.on) return;
       o.el.classList.toggle("on", on);
       o.on = on;
+    });
+  }
+
+  /* ---------- 2 a.m. to 6 a.m.: the track fills and the eclipse discs light in order ----------
+     Progress is a position along the track: in a row (desktop) it's how far the section has scrolled; stacked
+     (narrow screens) it's where the reading line falls between one disc and the next. */
+  var phaseList = document.querySelector(".phases");
+  var phases = phaseList ? Array.prototype.slice.call(phaseList.children) : [];
+  function phaseFrame() {
+    if (!phases.length) return;
+    var n = phases.length, vh = window.innerHeight, pos;
+    var tops = phases.map(function (li) { return li.querySelector(".phase__disc").getBoundingClientRect().top; });
+    if (reduceMotion) pos = n - 1;
+    else if (Math.abs(tops[n - 1] - tops[0]) < 4) { // one row
+      pos = clamp((vh * 0.8 - tops[0]) / (vh * 0.45), 0, 1) * (n - 1);
+      if (vh * 0.8 - tops[0] < 0) pos = -1;
+    } else {
+      var line = vh * 0.7; pos = -1;
+      for (var k = 0; k < n; k++) {
+        if (line < tops[k]) break;
+        pos = k + (k < n - 1 ? clamp((line - tops[k]) / (tops[k + 1] - tops[k]), 0, 1) : 0);
+      }
+    }
+    phases.forEach(function (li, k) {
+      li.classList.toggle("is-lit", pos >= k - 0.001);
+      li.style.setProperty("--fill", clamp(pos - k, 0, 1).toFixed(3));
     });
   }
 
@@ -296,7 +322,7 @@
 
   var ticking = false;
   function onScroll() {
-    navFrame(); readFrame(); // cheap, and must never lag behind the page
+    navFrame(); readFrame(); phaseFrame(); // cheap, and must never lag behind the page
     if (ticking) return;
     ticking = true;
     requestAnimationFrame(function () {
