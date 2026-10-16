@@ -307,7 +307,6 @@ main, .footer { position: relative; z-index: 2; }
 .prose .w.on, .read .w.on { color: var(--moon); }
 .tile { opacity: 0.18; transition: opacity 0.6s ease, translate 0.6s ease; translate: 0 10px; }
 .tile.on { opacity: 1; translate: 0 0; }
-.gn.tile { translate: none; } /* graph nodes only fade: the arrows are measured to where the nodes sit, so they can't move */
 
 /* ---------- Thesis ---------- */
 .thesis {
@@ -528,46 +527,27 @@ main, .footer { position: relative; z-index: 2; }
 .assets__copy h2 { margin-bottom: 0.75rem; }
 .assets__lede { margin: 0; max-width: 32rem; font-size: 1.1rem; color: var(--moon-2); }
 .assets__lede .w.on { color: var(--moon-2); }
-.graph {
-  position: relative; margin: 0;
-  display: grid; gap: 2.4rem 0.9rem;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  grid-template-areas:
-    ". driver driver driver driver ."
-    ". . asset asset . ."
-    ". road road crew crew ."
-    ". exposure exposure exposure exposure ."
-    "o1 o1 o2 o2 o3 o3";
-}
-.graph__edges { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; transition: opacity 0.5s ease; }
-.graph__edges path { fill: none; stroke: #4a4f5b; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
-.graph__edges .graph__head { transition: opacity 0.2s ease; }
-.graph.is-away .graph__edges { opacity: 0.2; }
-.gn {
-  position: relative; z-index: 1; min-width: 0;
-  display: grid; gap: 0.1rem; justify-self: center; width: 100%;
-  padding: 0.7rem 0.85rem; border-radius: 12px;
-  background: var(--card); border: 1px solid var(--card-rim);
-  box-shadow: 0 14px 30px -20px rgba(0, 0, 0, 0.9);
-  text-align: center; font-size: 0.8rem; line-height: 1.3;
-}
-.gn__kind { font-size: 0.72rem; font-weight: 600; color: var(--moon-3); }
-.gn b { font-size: 0.92rem; letter-spacing: -0.01em; }
-.gn__meta { color: var(--moon-2); }
-.gn--driver .gn__meta, .gn--exposure .gn__meta { color: var(--loss); font-weight: 700; }
-.gn--driver { box-shadow: 0 0 30px -10px rgba(255, 107, 129, 0.45); }
-.gn--owner { /* the owners who act: lit like the fused answer in "one question, three engines" */
-  background: var(--space); color: var(--moon);
-  border-color: rgba(255, 170, 64, 0.6);
-  box-shadow: 0 0 40px -12px rgba(255, 84, 120, 0.55), 0 0 60px -20px rgba(255, 224, 122, 0.4);
-}
-.gn--owner .gn__kind { color: var(--moon-3); }
-.gn__when { color: var(--a-amber); font-weight: 700; }
-@media (max-width: 560px) {
-  .graph { gap: 1.8rem 0.5rem; }
-  .gn { padding: 0.55rem 0.5rem; font-size: 0.72rem; }
-  .gn b { font-size: 0.8rem; }
-}
+/* the plan as a network (drawn by penumbra.js): the hub, seven owners on spokes, their tasks on twigs. Nodes give
+   way a little to the cursor and spring back; hovering an owner or task lights its path and shows the tasks. */
+.net { margin: 0; position: relative; min-height: 22rem; }
+.net__svg { display: block; width: 100%; height: auto; overflow: visible; font-family: var(--font); }
+.net__spoke, .net__twig { stroke-linecap: round; transition: stroke 0.25s ease, opacity 0.25s ease; }
+.net__spoke { stroke: rgba(236, 238, 242, 0.22); stroke-width: 1.2; }
+.net__twig { stroke: rgba(236, 238, 242, 0.12); stroke-width: 1; }
+.net__drawn .net__spoke, .net__drawn .net__twig { stroke-dasharray: 1; stroke-dashoffset: 1; animation: net-draw 0.7s cubic-bezier(.3,.7,.3,1) forwards; animation-delay: var(--d, 0s); }
+@keyframes net-draw { to { stroke-dashoffset: 0; } }
+.net__hub { fill: var(--space); stroke: rgba(255, 170, 64, 0.6); stroke-width: 1; filter: drop-shadow(0 0 14px rgba(255, 84, 120, 0.45)) drop-shadow(0 0 26px rgba(255, 224, 122, 0.25)); }
+.net__hubtext { font-size: 12px; font-weight: 700; fill: var(--moon); text-anchor: middle; dominant-baseline: central; }
+.net__owner { fill: var(--moon-2); transition: fill 0.25s ease; }
+.net__task { fill: var(--moon-3); transition: fill 0.25s ease; }
+.net__lab { font-size: 12px; font-weight: 600; fill: var(--moon-2); transition: fill 0.25s ease; }
+.net.is-hovering .net__spoke, .net.is-hovering .net__twig { opacity: 0.45; }
+.net .is-on.net__spoke, .net .is-on.net__twig { stroke: var(--a-amber); opacity: 1; }
+.net .is-on.net__owner, .net .is-on.net__task { fill: var(--a-amber); }
+.net .is-on.net__lab { fill: var(--moon); }
+.net__read { margin: 0.5rem 0 0; min-height: 3.4em; font-size: 0.85rem; line-height: 1.45; color: var(--moon-2); text-align: center; }
+.net__read b { color: var(--a-amber); font-weight: 700; }
+.net__hint { color: var(--moon-3); }
 @media (max-width: 900px) { .assets { grid-template-columns: minmax(0, 1fr); } }
 
 /* ---------- Rigor ---------- */

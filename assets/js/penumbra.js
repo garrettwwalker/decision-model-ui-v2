@@ -148,97 +148,153 @@
     setInterval(next, 4500);
   })();
 
-  /* ---------- Node-link model: connectors draw themselves once, row by row, when the section arrives.
-     The nodes are tiles: all fade in once the diagram's top crosses 85% of the viewport, and back out
-     (lines dimmed too) when it drops below that line again. ---------- */
+  /* ---------- Here's the plan: hub and spokes ----------
+     The plan at the hub; the owners who carry it out on spokes; their tasks on twigs. Laid out in the figure's own
+     pixels (so labels stay legible at any width). Nodes give way a little to the cursor and spring back; hovering an
+     owner lights its spoke and twigs and shows its tasks, hovering a task lights the path to it, hovering the hub
+     lights everything. The spokes draw themselves the first time the figure comes into view. */
   (function () {
-    var fig = document.querySelector(".graph");
+    var fig = document.querySelector(".net");
     if (!fig) return;
-    var svg = fig.querySelector(".graph__edges");
-    var NS = "http://www.w3.org/2000/svg";
-    var EDGES = [["driver", "asset"], ["asset", "road"], ["asset", "crew"], ["road", "exposure"], ["crew", "exposure"],
-                 ["exposure", "security"], ["exposure", "procurement"], ["exposure", "board"]];
-    var WAVES = [[0], [1, 2], [3, 4], [5, 6, 7]]; // edges in a wave draw together
-    var node = function (k) { return fig.querySelector('[data-node="' + k + '"]'); };
-    function paint() {
-      if (still) return;
-      var on = fig.getBoundingClientRect().top < window.innerHeight * 0.85;
-      fig.querySelectorAll(".gn").forEach(function (n) {
-        n.classList.toggle("on", on);
+    var svg = fig.querySelector(".net__svg"), NS = "http://www.w3.org/2000/svg";
+    var OWNERS = [
+      { name: "GM, Latin America", tasks: ["Sign off the resequenced launch", "Brief the regional board"] },
+      { name: "Product", tasks: ["Ship the enterprise tier first", "Hold the consumer app build"] },
+      { name: "Legal", tasks: ["File a comment on the decree", "Review data-hosting terms"] },
+      { name: "Cloud", tasks: ["Price local hosting", "Reopen the data-center lease"] },
+      { name: "Sales", tasks: ["Resequence the March pipeline", "Brief key accounts"] },
+      { name: "Finance", tasks: ["Re-forecast first-year revenue", "Set aside the rework budget"] },
+      { name: "Comms", tasks: ["Prepare launch messaging"] }
+    ];
+    var still = reduceMotion, nodes = [], links = [], hub, W = 0, H = 0, drawn = false;
+    var el = function (tag, cls, parent) { var e = document.createElementNS(NS, tag); if (cls) e.setAttribute("class", cls); (parent || svg).appendChild(e); return e; };
+
+    function build() {
+      W = Math.max(280, fig.clientWidth); H = Math.round(W * (W < 520 ? 0.95 : 0.78));
+      svg.setAttribute("viewBox", "0 0 " + W + " " + H); svg.setAttribute("width", W); svg.setAttribute("height", H);
+      svg.textContent = ""; nodes = []; links = [];
+      var cx = W / 2, cy = H / 2, R1 = Math.min(W, H) * 0.3, R2 = Math.min(W, H) * 0.44, gLines = el("g"), gNodes = el("g");
+      hub = { kind: "hub", rx: cx, ry: cy, x: cx, y: cy, vx: 0, vy: 0 };
+      OWNERS.forEach(function (o, k) {
+        var a = -Math.PI / 2 + k / OWNERS.length * Math.PI * 2;
+        var on = { kind: "owner", k: k, rx: cx + Math.cos(a) * R1, ry: cy + Math.sin(a) * R1, a: a, vx: 0, vy: 0 };
+        on.x = on.rx; on.y = on.ry; nodes.push(on);
+        links.push({ a: hub, b: on, owner: k, el: el("line", "net__spoke", gLines), d: k * 0.06 });
+        o.tasks.forEach(function (t, j) {
+          var spread = o.tasks.length > 1 ? (j - (o.tasks.length - 1) / 2) * 0.32 : 0, ta = a + spread;
+          var tn = { kind: "task", k: k, label: t, rx: cx + Math.cos(ta) * R2, ry: cy + Math.sin(ta) * R2, a: ta, vx: 0, vy: 0 };
+          tn.x = tn.rx; tn.y = tn.ry; nodes.push(tn);
+          links.push({ a: on, b: tn, owner: k, task: tn, el: el("line", "net__twig", gLines), d: 0.45 + k * 0.06 + j * 0.05 });
+        });
       });
-      fig.classList.toggle("is-away", started && !on);
+      links.forEach(function (l) { l.el.setAttribute("pathLength", "1"); l.el.style.setProperty("--d", l.d + "s"); });
+      // nodes on top of the lines; only owners carry a label (tasks are read out below the figure)
+      nodes.forEach(function (n) {
+        n.dot = el("circle", n.kind === "owner" ? "net__owner" : "net__task", gNodes);
+        n.dot.setAttribute("r", n.kind === "owner" ? 5 : 3);
+        if (n.kind !== "owner") return;
+        var right = Math.cos(n.a) > 0.2, left = Math.cos(n.a) < -0.2;
+        var lab = el("text", "net__lab", gNodes);
+        lab.textContent = OWNERS[n.k].name;
+        lab.setAttribute("text-anchor", right ? "start" : left ? "end" : "middle");
+        n.lab = lab; n.lx = right ? 10 : left ? -10 : 0; n.ly = Math.sin(n.a) > 0.3 ? 20 : Math.sin(n.a) < -0.3 ? -12 : 4;
+      });
+      var hc = el("circle", "net__hub", gNodes); hc.setAttribute("r", Math.max(26, R1 * 0.22)); hub.dot = hc;
+      var ht = el("text", "net__hubtext", gNodes); ht.textContent = "the plan"; hub.lab = ht;
+      if (drawn) svg.classList.remove("net__drawn");
+      place();
     }
-    var edges = [], done = false, started = false;
-    function draw() {
-      var box = fig.getBoundingClientRect();
-      svg.setAttribute("viewBox", "0 0 " + box.width + " " + box.height);
-      svg.textContent = "";
-      var heads = {};
-      edges = EDGES.map(function (e) {
-        var a = node(e[0]).getBoundingClientRect(), b = node(e[1]).getBoundingClientRect();
-        var x1 = a.left + a.width / 2 - box.left, y1 = a.bottom - box.top;
-        var x2 = b.left + b.width / 2 - box.left, y2 = b.top - box.top - 3;
-        // rounded elbow: down, across, then straight down into the box, so every arrow lands vertically
-        var my = (y1 + y2) / 2, dx = x2 - x1, sx = dx > 0 ? 1 : -1;
-        var r = Math.min(10, Math.abs(dx) / 2, (y2 - y1) / 4);
-        var d = Math.abs(dx) < 1
-          ? "M" + x1 + " " + y1 + " V" + y2
-          : "M" + x1 + " " + y1 + " V" + (my - r) + " Q" + x1 + " " + my + " " + (x1 + sx * r) + " " + my +
-            " H" + (x2 - sx * r) + " Q" + x2 + " " + my + " " + x2 + " " + (my + r) + " V" + y2;
-        var p = document.createElementNS(NS, "path");
-        p.setAttribute("d", d);
-        svg.appendChild(p);
-        var len = p.getTotalLength();
-        // point the arrowhead along the line's direction over its last few pixels, not straight down
-        var tip = p.getPointAtLength(len), back = p.getPointAtLength(Math.max(0, len - 7));
-        var dx = tip.x - back.x, dy = tip.y - back.y, m = Math.hypot(dx, dy) || 1;
-        dx /= m; dy /= m;
-        var bx = tip.x - dx * 7, by = tip.y - dy * 7; // base of the arrowhead, 7px back along the line
-        var head = document.createElementNS(NS, "path");
-        head.setAttribute("class", "graph__head");
-        head.setAttribute("d", "M" + (bx - dy * 4) + " " + (by + dx * 4) + " L" + tip.x + " " + tip.y + " L" + (bx + dy * 4) + " " + (by - dx * 4));
-        var key = Math.round(tip.x) + "," + Math.round(tip.y);
-        if (heads[key]) head.setAttribute("visibility", "hidden"); else heads[key] = 1; // merging lines share one arrow
-        svg.appendChild(head);
-        p.style.strokeDasharray = len;
-        p.style.strokeDashoffset = done ? 0 : len;
-        head.style.opacity = done ? 1 : 0;
-        return { p: p, head: head, len: len };
+    function place() {
+      hub.dot.setAttribute("cx", hub.x.toFixed(1)); hub.dot.setAttribute("cy", hub.y.toFixed(1));
+      hub.lab.setAttribute("x", hub.x.toFixed(1)); hub.lab.setAttribute("y", hub.y.toFixed(1));
+      nodes.forEach(function (n) {
+        n.dot.setAttribute("cx", n.x.toFixed(1)); n.dot.setAttribute("cy", n.y.toFixed(1));
+        if (n.lab) { n.lab.setAttribute("x", (n.x + n.lx).toFixed(1)); n.lab.setAttribute("y", (n.y + n.ly).toFixed(1)); }
+      });
+      links.forEach(function (l) {
+        l.el.setAttribute("x1", l.a.x.toFixed(1)); l.el.setAttribute("y1", l.a.y.toFixed(1));
+        l.el.setAttribute("x2", l.b.x.toFixed(1)); l.el.setAttribute("y2", l.b.y.toFixed(1));
       });
     }
-    function drawWave(idx, then) {
-      var t0 = Date.now(), D = 520;
-      (function step() {
-        var k = Math.min(1, (Date.now() - t0) / D);
-        var ease = 1 - Math.pow(1 - k, 3);
-        idx.forEach(function (i) { edges[i].p.style.strokeDashoffset = edges[i].len * (1 - ease); });
-        if (k < 1) return setTimeout(step, 16);
-        idx.forEach(function (i) { edges[i].head.style.opacity = 1; });
-        then();
-      })();
+
+    // hover: light the path to whatever is nearest the pointer
+    var ptr = null, active = null;
+    function light(target) {
+      if (target === active) return;
+      active = target;
+      fig.classList.toggle("is-hovering", !!target);
+      links.forEach(function (l) {
+        var on = !!target && (target === hub || (target.kind === "owner" && l.owner === target.k) ||
+                 (target.kind === "task" && (l.task === target || (l.owner === target.k && !l.task))));
+        l.el.classList.toggle("is-on", on);
+      });
+      nodes.forEach(function (n) {
+        var on = !!target && (target === hub || n.k === target.k && (target.kind === "owner" || n === target || n.kind === "owner"));
+        n.dot.classList.toggle("is-on", on); if (n.lab) n.lab.classList.toggle("is-on", on);
+      });
+      // the readout: the team and its tasks, or the task, or the whole plan
+      read.textContent = "";
+      if (!target) { var hint = document.createElement("span"); hint.className = "net__hint"; hint.textContent = "Point at a team to see its part of the plan."; read.appendChild(hint); return; }
+      var b = document.createElement("b");
+      if (target === hub) { b.textContent = "The plan: "; read.appendChild(b); read.appendChild(document.createTextNode(OWNERS.length + " teams, " + nodes.filter(function (n) { return n.kind === "task"; }).length + " tasks, each with an owner and a deadline.")); return; }
+      var o = OWNERS[target.k];
+      b.textContent = o.name + ": "; read.appendChild(b);
+      read.appendChild(document.createTextNode(target.kind === "task" ? target.label : o.tasks.join("; ")));
     }
-    function play() {
-      started = true;
-      var w = 0;
-      (function next() {
-        if (w >= WAVES.length) { done = true; return; }
-        drawWave(WAVES[w++], function () { setTimeout(next, 90); });
-      })();
+    var read = fig.querySelector(".net__read");
+    function aim(e) {
+      var b = svg.getBoundingClientRect(), sc = W / b.width;
+      ptr = { x: (e.clientX - b.left) * sc, y: (e.clientY - b.top) * sc };
+      var best = null, bd = 34 * 34;
+      [hub].concat(nodes).forEach(function (n) {
+        var d = (n.x - ptr.x) * (n.x - ptr.x) + (n.y - ptr.y) * (n.y - ptr.y);
+        var r = n === hub ? 50 * 50 : bd;
+        if (d < r && (!best || d < best.d)) best = { n: n, d: d };
+      });
+      light(best ? best.n : null);
+      if (e.pointerType === "touch") ptr = null; // a tap selects; nothing to give way to afterwards
+      wake();
     }
+    fig.addEventListener("pointermove", aim);
+    fig.addEventListener("pointerdown", aim); // a tap does the same on touch screens
+    fig.addEventListener("pointerleave", function (e) { if (e.pointerType === "touch") return; ptr = null; light(null); wake(); });
+
+    // give way to the cursor, spring back
+    var running = false, last = 0;
+    function wake() { if (!still && !running) { running = true; requestAnimationFrame(step); } }
+    function step(t) {
+      if (t - last < 16) { requestAnimationFrame(step); return; }
+      last = t;
+      var moving = false;
+      nodes.forEach(function (n) {
+        var fx = (n.rx - n.x) * 0.08, fy = (n.ry - n.y) * 0.08;
+        if (ptr) {
+          var dx = n.x - ptr.x, dy = n.y - ptr.y, d = Math.sqrt(dx * dx + dy * dy) || 1, R = 110;
+          if (d < R) { var f = (1 - d / R) * (1 - d / R) * 2.4; fx += dx / d * f; fy += dy / d * f; }
+        }
+        n.vx = (n.vx + fx) * 0.78; n.vy = (n.vy + fy) * 0.78;
+        n.x += n.vx; n.y += n.vy;
+        if (Math.abs(n.vx) + Math.abs(n.vy) > 0.02 || Math.abs(n.x - n.rx) + Math.abs(n.y - n.ry) > 0.3) moving = true;
+      });
+      place();
+      if (moving || ptr) requestAnimationFrame(step); else running = false;
+    }
+
+    build();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(build);
+    var lastW = fig.clientWidth;
+    window.addEventListener("resize", function () { if (Math.abs(fig.clientWidth - lastW) > 2) { lastW = fig.clientWidth; build(); } });
+    if (still) { drawn = true; return; }
+    // draw the spokes the first time the figure comes into view
+    svg.style.opacity = "0";
     function check() {
+      if (drawn) return;
       var r = fig.getBoundingClientRect();
-      if (!started && r.top < window.innerHeight * 0.85 && r.bottom > 0) play();
-      paint();
+      if (r.top < window.innerHeight * 0.85 && r.bottom > 0) {
+        drawn = true; svg.style.opacity = ""; svg.classList.add("net__drawn");
+        window.removeEventListener("scroll", check);
+      }
     }
-    var still = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (still) done = started = true;
-    else fig.querySelectorAll(".gn").forEach(function (n) { n.classList.add("tile"); });
-    draw();
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(draw);
-    window.addEventListener("resize", function () {
-      if (started) done = true;
-      draw(); paint();
-    });
     window.addEventListener("scroll", check, { passive: true });
     check();
   })();
@@ -439,7 +495,7 @@
   window.addEventListener("resize", function () { seed(); drawStars(performance.now()); });
 
   var glow = document.querySelector(".glow");
-  var spots = Array.prototype.slice.call(document.querySelectorAll(".note, .swan, .split__q, .part, .gn, .contact__form"));
+  var spots = Array.prototype.slice.call(document.querySelectorAll(".note, .swan, .split__q, .part, .contact__form"));
   spots.forEach(function (el) { el.classList.add("spot"); });
   var lit = null;
   window.addEventListener("pointermove", function (e) {
