@@ -1,5 +1,5 @@
 /* Penumbra landing (preview). Built from landing.js: same reveal, watch card, graph and charts, with the
-   eclipse hero, starfield, aurora and pointer glows in place of the dawn sky. */
+   eclipse hero, starfield, nebulae and pointer glow in place of the dawn sky. */
 (function () {
   var clamp = function (v, a, b) { return Math.min(b, Math.max(a, v)); };
   var lerp = function (a, b, t) { return a + (b - a) * t; };
@@ -228,7 +228,7 @@
     if (ticking) return;
     ticking = true;
     requestAnimationFrame(function () {
-      heroFrame(); skyFrame();
+      heroFrame();
       ticking = false;
     });
   }
@@ -317,13 +317,7 @@
     return "rgb(" + c.join(",") + ")";
   }
 
-  /* ---------- Space: page-wide aurora tint, starfield, pointer glow, card spotlights ---------- */
-  var aurora = document.querySelector(".aurora");
-  function skyFrame() {
-    var max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
-    // the background glows warm slightly as you read down the page: rose at the top, more orange by the end
-    aurora.style.filter = "hue-rotate(" + (22 * window.scrollY / max).toFixed(1) + "deg)";
-  }
+  /* ---------- Space: starfield, pointer glow, card spotlights ---------- */
 
   var canvas = document.querySelector(".stars");
   var ctx = canvas.getContext("2d");

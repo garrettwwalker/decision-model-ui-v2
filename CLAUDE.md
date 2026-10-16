@@ -87,8 +87,8 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   arrives. Before the burst the headline is a white copy in `mix-blend-mode: difference` (black on the sun, white on
   space), crossfading to the real `h1`; `.hero__copy` has no z-index so the blend reaches the sun. The mark keeps the shape of `references/Penumbra Logo Color.jpeg` (ring with
   a four-point spark at 45°) but not its colors, which clashed: it's inline SVG masks in `penumbra.css` filled with
-  `--logo-ring`, a full-spectrum conic gradient the user chose for the logo (the page's warm `--mark` drives the corona). Don't use the JPEG itself. Below the hero: fixed starfield canvas, drifting background glows
-  whose hue shifts with scroll, a pointer glow, aurora-edged card spotlights (`.spot`, `--mx/--my`), headings revealed
+  `--logo-ring`, a full-spectrum conic gradient the user chose for the logo (the page's warm `--mark` drives the corona). Don't use the JPEG itself. Below the hero: fixed starfield canvas (no coloured background glows: the user removed them as
+  tints), a faint white pointer glow, aurora-edged card spotlights (`.spot`, `--mx/--my`), headings revealed
   word by word, "what should you do?" (after gray swans) as a moon chart (`.lunes`, heading styled like the other sections), introduced by
   the world-model lines moved from the plan section: the four responses,
   worst to best, waxing from crescent to half, gibbous and full moon on an orbit line (lead with enterprise 265, best at 48%;
