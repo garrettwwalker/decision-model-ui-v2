@@ -31,7 +31,7 @@
   var day = document.querySelector(".day");
   var BLOCKS = "p, h2, h3, li, dt, dd, label";
   var UNITS = ".chip";                       // inline widgets revealed whole, like a word
-  var TILES = ".note, .swan, .contact__form, .split__q, .part, .split__fused"; // revealed whole, text included
+  var TILES = ".note, .choice, .swan, .contact__form, .split__q, .part, .split__fused"; // revealed whole, text included
   var reads = [], tiles = [];
 
   function splitWords(root, units) {
@@ -110,77 +110,6 @@
       o.on = on;
     });
   }
-
-  /* ---------- What should I do? Four responses to the Brazil decree, modelled ----------
-     Each option's first-year revenue ($M) if the decree doesn't pass (n) and if it does (d); its expected value at
-     probability p is n(1 - p) + d p. The slider sets p: expected values slide along the scale, the best option and its
-     zone light up. The flip points are found from the data, not typed in. */
-  (function () {
-    var list = document.querySelector("[data-opts]");
-    if (!list) return;
-    var OPTIONS = [
-      { name: "Launch all four in March", note: "As planned", n: 320, d: 172 },
-      { name: "Lead with the enterprise tier, hold the consumer app", note: "The app follows once the decree resolves", n: 272, d: 258 },
-      { name: "Build local hosting first", note: "$60M up front; every product launches covered", n: 260, d: 260 },
-      { name: "Delay the launch six months", note: "Waits out the comment period", n: 160, d: 148 }
-    ];
-    var ZONE = ["launch all four", "lead with enterprise", "build hosting first", "delay"];
-    var LO = 140, HI = 330, WAS = 0.31;
-    var x = function (v) { return ((v - LO) / (HI - LO) * 100).toFixed(2) + "%"; };
-    var ev = function (o, p) { return o.n * (1 - p) + o.d * p; };
-    var best = function (p) { var b = 0; OPTIONS.forEach(function (o, k) { if (ev(o, p) > ev(OPTIONS[b], p) + 1e-9) b = k; }); return b; };
-
-    var rows = OPTIONS.map(function (o) {
-      var li = document.createElement("li");
-      li.className = "opt";
-      li.innerHTML = '<div class="opt__name"><b></b><span></span><em class="opt__best"></em></div>' +
-        '<div class="opt__track"><i class="opt__n"></i><i class="opt__d"></i><i class="opt__ev"></i><span class="opt__evlab"></span></div>';
-      li.querySelector("b").textContent = o.name;
-      li.querySelector(".opt__name span").textContent = o.note;
-      var tr = li.querySelector(".opt__track");
-      tr.style.setProperty("--xn", x(o.n)); tr.style.setProperty("--xd", x(o.d));
-      tr.title = "$" + o.n + "M if no decree, $" + o.d + "M if it passes";
-      list.appendChild(li);
-      return { li: li, tr: tr, lab: li.querySelector(".opt__evlab"), tag: li.querySelector(".opt__best") };
-    });
-    var axis = document.querySelector("[data-axis]");
-    [150, 200, 250, 300].forEach(function (v) {
-      var t = document.createElement("span"); t.style.left = x(v); t.textContent = "$" + v + "M"; axis.appendChild(t);
-    });
-
-    // zones along the probability bar, from where the best option changes
-    var zones = document.querySelector("[data-zones]"), segs = [], prev = -1, flips = [];
-    for (var i = 0; i <= 1000; i++) {
-      var b = best(i / 1000);
-      if (b !== prev) { if (prev >= 0) flips.push(i / 1000); segs.push({ k: b, from: i / 1000 }); prev = b; }
-    }
-    segs.forEach(function (sg, n) {
-      var to = n + 1 < segs.length ? segs[n + 1].from : 1, z = document.createElement("span");
-      z.className = "z"; z.style.flex = "0 0 " + ((to - sg.from) * 100).toFixed(2) + "%"; z.textContent = ZONE[sg.k];
-      sg.el = z; zones.appendChild(z);
-    });
-    var was = document.createElement("i"); was.className = "was"; was.style.left = WAS * 100 + "%"; was.title = "before the leak, 31%";
-    zones.appendChild(was);
-    var flipsEl = document.querySelector("[data-flips]");
-    if (flipsEl) flipsEl.textContent = flips.map(function (f) { return Math.round(f * 100) + "%"; }).join(" and ");
-
-    var range = document.getElementById("odds"), out = document.querySelector("[data-odds-val]");
-    function update() {
-      var p = range.value / 100, b = best(p);
-      range.style.setProperty("--p", p);
-      out.textContent = range.value + "%";
-      rows.forEach(function (r, k) {
-        var e = ev(OPTIONS[k], p);
-        r.tr.style.setProperty("--xe", x(e));
-        r.lab.textContent = "$" + Math.round(e) + "M";
-        r.li.classList.toggle("is-best", k === b);
-        r.tag.textContent = k === b ? "best at " + range.value + "%" : "";
-      });
-      segs.forEach(function (sg) { sg.el.classList.toggle("is-on", sg.k === b); });
-    }
-    range.addEventListener("input", update);
-    update();
-  })();
 
   /* ---------- Overnight watch card: cycles through flagged events ---------- */
   (function () {

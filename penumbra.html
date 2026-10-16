@@ -194,42 +194,40 @@
         </div>
       </section>
 
-      <!-- 4. What should I do? The overnight signal, the responses modelled against it, and where the answer flips.
-           penumbra.js draws the options from OPTIONS and recomputes them as the probability slider moves. -->
+      <!-- 4. What should I do? The overnight signal and the four responses Penumbra weighed, each with its expected
+           first-year revenue and its range between "the decree passes" and "it doesn't" on one shared scale. -->
       <section class="how decide" id="how" aria-labelledby="how-title">
-        <div class="decide__head">
-          <h2 class="h2" id="how-title">so, what<br>should i do?</h2>
-          <p class="decide__lede">At 02:40 UTC a draft decree leaks in Brazil. By 05:58 Penumbra has modelled every way to respond against the launch you planned for March, and the best one has changed.</p>
-        </div>
-
-        <div class="decide__grid">
-          <aside class="note decide__q" aria-label="The question and what happened overnight">
-            <p class="decide__ask">Should we still launch in Brazil in March?</p>
-            <dl class="decide__facts">
-              <div><dt>02:40 UTC, the signal</dt><dd>Draft cloud-licensing decree leaks in Brazil. It would require local data hosting and a license for any AI service sold to consumers.</dd></div>
-              <div><dt>03:15, the forecast</dt><dd>p(decree in force within 6 months) <b>0.31 → 0.48</b>. The procedure engine reads the comment calendar; judgment and telemetry move the same way.</dd></div>
-              <div><dt>03:16, the exposure</dt><dd>Four products, $320M of first-year revenue and a data-center lease that assumed no local hosting.</dd></div>
-            </dl>
-          </aside>
-
-          <figure class="note decide__model">
-            <figcaption class="decide__cap">
-              <span class="decide__title">Each response, modelled: first-year revenue</span>
-              <span class="decide__key"><i class="k k--n"></i>if no decree <i class="k k--d"></i>if it passes <i class="k k--ev"></i>expected</span>
-            </figcaption>
-            <ol class="opts" data-opts></ol>
-            <div class="opts__axis" aria-hidden="true" data-axis></div>
-
-            <div class="odds">
-              <label class="odds__label" for="odds">Chance the decree is in force within 6 months <output class="odds__val" for="odds" data-odds-val>48%</output></label>
-              <input class="odds__range" id="odds" type="range" min="0" max="100" step="1" value="48" aria-describedby="odds-help">
-              <div class="odds__zones" aria-hidden="true" data-zones></div>
-              <p class="odds__help" id="odds-help">Drag to see how the answer changes. The answer flips at <span data-flips>36% and 86%</span>; before the leak it stood at 31%.</p>
-            </div>
-          </figure>
-        </div>
-
-        <p class="decide__call"><span class="decide__when">06:14, the decision</span> Approved by the GM, Latin America: lead with the enterprise tier and hold the consumer app. It keeps $210M of revenue on schedule and avoids $38M of rework if the decree passes. The decision is logged for back-testing.</p>
+        <h2 class="h3 how__title" id="how-title">so, what<br>should i do?</h2>
+        <p class="decide__lede">02:40 UTC: a draft decree leaks in Brazil, and the chance it's in force within six months jumps from 31% to 48%. By 05:58 Penumbra has weighed every response against your March launch.</p>
+        <ol class="choices" aria-label="Expected first-year revenue for each response">
+          <li class="choice">
+            <span class="choice__name">Launch all four in March</span>
+            <b class="choice__ev">$249M</b>
+            <span class="choice__line" style="--lo: 16.8%; --hi: 94.7%; --ev: 57.4%" aria-hidden="true"></span>
+            <span class="choice__spread">$172M if the decree passes, $320M if not</span>
+          </li>
+          <li class="choice is-best">
+            <span class="choice__flag">Best at 48%</span>
+            <span class="choice__name">Lead with enterprise, hold the consumer app</span>
+            <b class="choice__ev">$265M</b>
+            <span class="choice__line" style="--lo: 62.1%; --hi: 69.5%; --ev: 65.8%" aria-hidden="true"></span>
+            <span class="choice__spread">$258M if the decree passes, $272M if not</span>
+          </li>
+          <li class="choice">
+            <span class="choice__name">Build local hosting first</span>
+            <b class="choice__ev">$260M</b>
+            <span class="choice__line" style="--lo: 63.2%; --hi: 63.2%; --ev: 63.2%" aria-hidden="true"></span>
+            <span class="choice__spread">$260M either way</span>
+          </li>
+          <li class="choice">
+            <span class="choice__name">Delay the launch six months</span>
+            <b class="choice__ev">$154M</b>
+            <span class="choice__line" style="--lo: 4.2%; --hi: 10.5%; --ev: 7.4%" aria-hidden="true"></span>
+            <span class="choice__spread">$148M if the decree passes, $160M if not</span>
+          </li>
+        </ol>
+        <p class="decide__was">At 31%, before the leak, launching all four came out ahead.</p>
+        <p class="decide__call"><span class="decide__when">06:14, the decision</span> Approved by the GM, Latin America: lead with the enterprise tier and hold the consumer app. It keeps $210M of revenue on schedule and avoids $38M of rework if the decree passes.</p>
       </section>
 
       <!-- 5. Gray swans -->

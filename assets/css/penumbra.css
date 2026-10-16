@@ -423,111 +423,51 @@ main, .footer { position: relative; z-index: 2; }
 .pv-heat span { aspect-ratio: 1.6; border-radius: 3px; }
 @media (max-width: 960px) { .modes__grid { grid-template-columns: minmax(0, 1fr); max-width: 34rem; gap: 2.5rem; } }
 
-/* ---------- What should I do? The responses modelled, and where the answer flips ----------
-   penumbra.js lays each option's outcomes on one revenue scale (--xn, --xd, --xe as % of the axis) and marks the best
-   one at the slider's probability. */
+/* ---------- What should I do? Four responses in a row, the best one lit ----------
+   Each card: expected first-year revenue, and a line from its "decree passes" to its "doesn't" outcome on one shared
+   $140M-$330M scale (--lo, --hi), with a tick at the expected value (--ev). */
 .decide { padding: 2rem var(--gutter) clamp(6rem, 14vh, 9rem); }
-.decide__head { margin-left: clamp(0rem, 6vw, 6rem); display: grid; gap: 1.6rem; }
-.decide__lede { margin: 0; max-width: 34rem; font-size: 1.1rem; color: var(--moon-2); }
+.how__title { margin: 0 0 1.25rem clamp(0rem, 6vw, 6rem); display: inline-block; }
+.decide__lede { margin: 0 0 0 clamp(0rem, 6vw, 6rem); max-width: 40rem; font-size: 1.05rem; color: var(--moon-2); }
 .decide__lede .w.on { color: var(--moon-2); }
-.decide__grid {
-  display: grid; grid-template-columns: minmax(0, 19rem) minmax(0, 1fr); gap: 1.5rem;
-  margin-top: 3rem; max-width: 82rem; align-items: start;
+.choices {
+  list-style: none; margin: 2.5rem 0 0; padding: 0; max-width: 82rem;
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem;
 }
-.decide__q { display: grid; gap: 1.1rem; padding: 1.35rem; }
-.decide__ask { margin: 0; font-size: 1.35rem; font-weight: 800; letter-spacing: -0.025em; line-height: 1.2; }
-.decide__facts { margin: 0; display: grid; gap: 0.9rem; font-size: 0.85rem; }
-.decide__facts dt { font-size: var(--fs-small); font-weight: 600; color: var(--a-amber); font-variant-numeric: tabular-nums; margin-bottom: 0.15rem; }
-.decide__facts dd { margin: 0; color: var(--moon-2); }
-.decide__facts b { color: var(--moon); font-variant-numeric: tabular-nums; }
-
-.decide__model { margin: 0; padding: 1.35rem 1.5rem 1.4rem; display: grid; gap: 1rem; }
-.decide__cap { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 0.5rem 1.5rem; }
-.decide__title { font-size: var(--fs-small); font-weight: 700; }
-.decide__key { display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem 0.9rem; font-size: 0.75rem; color: var(--moon-3); }
-.k { display: inline-block; vertical-align: middle; margin-right: 0.35rem; }
-.k--n { width: 9px; height: 9px; border-radius: 50%; box-shadow: inset 0 0 0 1.5px var(--moon-2); }
-.k--d { width: 9px; height: 9px; border-radius: 50%; background: var(--moon-3); }
-.k--ev { width: 3px; height: 12px; border-radius: 2px; background: var(--a-amber); }
-
-.opts { list-style: none; margin: 0.25rem 0 0; padding: 0; display: grid; gap: 0.35rem; }
-.opt {
-  display: grid; grid-template-columns: minmax(0, 15rem) minmax(0, 1fr); gap: 0.4rem 1.25rem; align-items: center;
-  padding: 0.6rem 0.7rem; border-radius: 10px; transition: background-color 0.3s ease;
+.choice {
+  position: relative; display: flex; flex-direction: column; gap: 0.45rem;
+  padding: 1.1rem 1.15rem 1.15rem; border-radius: var(--radius);
+  background: var(--card); border: 1px solid var(--card-rim); box-shadow: var(--shadow-card);
 }
-.opt__name { display: grid; gap: 0.1rem; min-width: 0; }
-.opt__name b { font-size: 0.92rem; letter-spacing: -0.01em; line-height: 1.25; color: var(--moon-2); transition: color 0.3s ease; }
-.opt__name span { font-size: 0.75rem; color: var(--moon-3); line-height: 1.35; }
-.opt__track { position: relative; height: 34px; }
-.opt__track::before { /* the spread between the two outcomes */
-  content: ""; position: absolute; top: 50%; height: 1px; background: var(--line-strong);
-  left: min(var(--xn), var(--xd)); width: calc(max(var(--xn), var(--xd)) - min(var(--xn), var(--xd)));
+.choice__name { font-size: 0.92rem; font-weight: 600; line-height: 1.3; color: var(--moon-2); min-height: 2.6em; }
+.choice__ev { font-size: 1.9rem; font-weight: 800; letter-spacing: -0.04em; line-height: 1; font-variant-numeric: tabular-nums; color: var(--moon-2); }
+.choice__line { position: relative; height: 14px; margin: 0.2rem 0 0; }
+.choice__line::before { /* the shared scale */
+  content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: var(--line);
 }
-.opt__n, .opt__d, .opt__ev { position: absolute; top: 50%; transform: translate(-50%, -50%); }
-.opt__n { left: var(--xn); width: 11px; height: 11px; border-radius: 50%; background: var(--card); box-shadow: inset 0 0 0 1.5px var(--moon-2); }
-.opt__d { left: var(--xd); width: 11px; height: 11px; border-radius: 50%; background: var(--moon-3); }
-.opt__ev { left: var(--xe); width: 3px; height: 20px; border-radius: 2px; background: var(--moon-3); transition: left 0.15s ease, background-color 0.3s ease; }
-.opt__evlab {
-  position: absolute; left: var(--xe); bottom: calc(50% + 12px); transform: translateX(-50%);
-  font-size: 0.72rem; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--moon-3); white-space: nowrap;
-  transition: left 0.15s ease, color 0.3s ease;
+.choice__line::after { /* this option's range */
+  content: ""; position: absolute; top: calc(50% - 1.5px); height: 3px; border-radius: 3px;
+  left: var(--lo); width: max(3px, calc(var(--hi) - var(--lo))); background: var(--moon-3);
 }
-.opt.is-best { background: rgba(255, 170, 64, 0.08); }
-.opt.is-best .opt__name b { color: var(--moon); }
-.opt.is-best .opt__ev { background: var(--a-amber); box-shadow: 0 0 10px rgba(255, 170, 64, 0.7); }
-.opt.is-best .opt__evlab { color: var(--a-amber); }
-.opt__best { font-size: 0.72rem; font-weight: 700; font-style: normal; color: var(--a-amber); }
-.opt:not(.is-best) .opt__best { display: none; }
-.opts__axis { position: relative; height: 1.1rem; margin-left: calc(15rem + 1.25rem + 0.7rem); margin-right: 0.7rem; border-top: 1px solid var(--line); }
-.opts__axis span { position: absolute; top: 0.25rem; transform: translateX(-50%); font-size: 0.7rem; color: var(--moon-3); font-variant-numeric: tabular-nums; }
-
-.odds { display: grid; gap: 0.6rem; margin-top: 0.6rem; padding-top: 1rem; border-top: 1px solid var(--line); }
-.odds__label { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; font-size: 0.85rem; font-weight: 600; color: var(--moon-2); }
-.odds__val { font-size: 1.6rem; font-weight: 800; letter-spacing: -0.04em; color: var(--moon); font-variant-numeric: tabular-nums; }
-.odds__range { /* the handle is a small eclipse: the likelier the decree, the more of the sun the moon covers */
-  --p: 0.48;
-  -webkit-appearance: none; appearance: none; width: 100%; height: 26px; margin: 0; background: transparent; cursor: pointer;
-}
-.odds__range::-webkit-slider-runnable-track { height: 4px; border-radius: 4px; background: var(--line-strong); }
-.odds__range::-moz-range-track { height: 4px; border-radius: 4px; background: var(--line-strong); }
-.odds__range::-webkit-slider-thumb {
-  -webkit-appearance: none; width: 26px; height: 26px; margin-top: -11px; border-radius: 50%; border: 0;
-  background: radial-gradient(circle at calc(50% + (1 - var(--p)) * 100%) 50%, var(--void) 0 48%, transparent 50%),
-              radial-gradient(circle, #fff 0 38%, #ffe0b8 62%, #ffaa60 100%);
-  box-shadow: 0 0 0 1px rgba(255, 190, 120, 0.7), 0 0 14px rgba(255, 150, 90, 0.5);
-}
-.odds__range::-moz-range-thumb {
-  width: 26px; height: 26px; border-radius: 50%; border: 0;
-  background: radial-gradient(circle at calc(50% + (1 - var(--p)) * 100%) 50%, var(--void) 0 48%, transparent 50%),
-              radial-gradient(circle, #fff 0 38%, #ffe0b8 62%, #ffaa60 100%);
-  box-shadow: 0 0 0 1px rgba(255, 190, 120, 0.7), 0 0 14px rgba(255, 150, 90, 0.5);
-}
-.odds__range:focus-visible { outline: 2px solid var(--focus); outline-offset: 4px; border-radius: 6px; }
-.odds__zones { position: relative; height: 1.9rem; border-radius: 8px; overflow: hidden; display: flex; }
-.odds__zones .z {
-  display: flex; align-items: center; justify-content: center; min-width: 0; padding: 0 0.4rem;
-  font-size: 0.72rem; font-weight: 600; color: var(--moon-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-  background: rgba(236, 238, 242, 0.04); transition: background-color 0.3s ease, color 0.3s ease;
-}
-.odds__zones .z + .z { border-left: 1px solid var(--void); }
-.odds__zones .z.is-on { background: rgba(255, 170, 64, 0.14); color: var(--a-amber); }
-.odds__zones .was { /* where the forecast stood before the leak */
-  position: absolute; top: 0; bottom: 0; width: 1px; background: var(--moon-3); opacity: 0.8;
-}
-.odds__help { margin: 0; font-size: 0.78rem; color: var(--moon-3); }
-
-.decide__call { margin: 2.5rem 0 0 clamp(0rem, 6vw, 6rem); max-width: 46rem; font-size: 1.1rem; color: var(--moon-2); }
+.choice__line { background: linear-gradient(var(--moon-2), var(--moon-2)) no-repeat calc(var(--ev) - 1px) 0 / 2px 100%; } /* the expected value */
+.choice__spread { font-size: 0.75rem; color: var(--moon-3); line-height: 1.35; }
+.choice.is-best { box-shadow: 0 0 0 1px rgba(255, 170, 64, 0.55), 0 0 30px -10px rgba(255, 150, 90, 0.5), var(--shadow-card); }
+.choice.is-best .choice__name { color: var(--moon); }
+.choice.is-best .choice__ev { color: var(--a-amber); }
+.choice.is-best .choice__line::after { background: var(--a-amber); }
+.choice__flag { align-self: flex-start; font-size: 0.72rem; font-weight: 700; color: var(--a-amber); }
+.choice:not(.is-best) { padding-top: calc(1.1rem + 0.72rem * 1.3 + 0.45rem); } /* names line up with the flagged card's */
+.decide__was { margin: 1rem 0 0; font-size: 0.82rem; color: var(--moon-3); }
+.decide__was .w.on { color: var(--moon-3); }
+.decide__call { margin: 2rem 0 0 clamp(0rem, 6vw, 6rem); max-width: 46rem; font-size: 1.05rem; color: var(--moon-2); }
 .decide__call .w.on { color: var(--moon-2); }
 .decide__when { display: block; margin-bottom: 0.3rem; font-size: var(--fs-small); font-weight: 600; color: var(--a-gold); }
 .decide__when .w.on { color: var(--a-gold); }
-
-@media (max-width: 960px) {
-  .decide__grid { grid-template-columns: minmax(0, 1fr); max-width: 44rem; }
-}
-@media (max-width: 640px) {
-  .opt { grid-template-columns: minmax(0, 1fr); }
-  .opts__axis { margin-left: 0.7rem; }
-  .decide__model { padding: 1.1rem 1rem 1.2rem; }
+@media (max-width: 1000px) { .choices { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 40rem; } }
+@media (max-width: 520px) {
+  .choices { grid-template-columns: minmax(0, 1fr); }
+  .choice:not(.is-best) { padding-top: 1.1rem; }
+  .choice__name { min-height: 0; }
 }
 
 /* ---------- Gray swans: a band of nebula and space dust ---------- */
