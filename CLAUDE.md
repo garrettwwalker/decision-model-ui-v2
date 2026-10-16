@@ -19,9 +19,10 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   palette taken from its sky (the user found a tour-wide five-hue scheme incoherent and not very informative,
   2026-10-16): `--accent` (controls, selection, the lit answer, anything good: protected money, done, healthy),
   `--good` (a paler accent for good beside the accent), `--alert` (money at risk, losses, overload, late),
-  `--alert-2` (softer warnings), and moonlight for everything else ("yours", e.g. your plan in a chart, is plain
-  white). Brief `sky-warm`: amber / pale gold / coral. Memo `sky-green` (green nebula, green-black ground): mint / pale mint / coral. Workflows
-  `sky-plum`: violet / lilac / red-rose. Workbench (the defaults): blue / pale cyan / orange-coral. Ask
+  `--alert-2` (softer warnings); alerts sit next to the sky's hue rather than opposite it (the user found
+  orange-on-blue and red-on-green harsh), and moonlight for everything else ("yours", e.g. your plan in a chart, is plain
+  white). Brief `sky-warm`: amber / pale gold / coral. Memo `sky-green` (green nebula, green-black ground): mint / pale mint / muted gold. Workflows
+  `sky-plum`: violet / lilac / red-rose. Workbench (the defaults): blue / pale cyan / orchid. Ask
   `sky-violet`: periwinkle / pale periwinkle / pink. The older names the page rules use (`--blue`, `--teal`,
   `--rose`, `--gold`, `--violet`, `--ember`, `--safe`, `--loss` ...) are aliases redefined on `.t-night`, and tints
   are `color-mix()` of the tokens, so a page's palette is four values on its `sky-*` class. bench.js sets SVG colors
