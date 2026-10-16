@@ -531,7 +531,7 @@ main, .footer { position: relative; z-index: 2; }
    stars twinkle and the lines draw themselves once in view (penumbra.js adds .is-drawn). No text, no cursor. */
 .cst { margin: -2rem calc(var(--gutter) * -1) -2rem -1rem; align-self: center; } /* bleeds toward the page edge: the sky doesn't stop at the column */
 .cst__svg { display: block; width: 100%; height: auto; overflow: visible; }
-.cst__line { stroke: rgba(236, 238, 242, 0.24); stroke-width: 1; stroke-linecap: round; vector-effect: non-scaling-stroke; stroke-dasharray: 1; stroke-dashoffset: 0; }
+.cst__line { stroke: rgba(236, 238, 242, 0.24); stroke-width: 0.9; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 0; } /* no non-scaling-stroke: with pathLength it turns the dash into 1px gaps */
 .cst.is-waiting .cst__line { stroke-dashoffset: 1; }
 .cst.is-drawn .cst__line { stroke-dashoffset: 1; animation: cst-draw 0.9s cubic-bezier(.3,.7,.3,1) forwards; animation-delay: var(--d, 0s); }
 @keyframes cst-draw { to { stroke-dashoffset: 0; } }
