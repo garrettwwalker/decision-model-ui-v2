@@ -12,6 +12,60 @@
   var hero = document.querySelector(".hero");
   var stage = document.querySelector(".hero__stage");
 
+  /* ---------- Hero type set against the sun's curve (wide screens) ----------
+     Each line ends just short of the sun's edge at its own height; in "in shadow." the "in" ends at the curve and
+     "shadow." starts just past it, the only word on the sun. The type shrinks until every line fits the sky beside
+     the sun (and "shadow." fits on it). Narrow or portrait screens keep the stacked, left-aligned lines. */
+  var copyEl = document.querySelector(".hero__copy"), sunEl = document.querySelector(".eclipse__sun");
+  var titleEl = document.querySelector(".hero__title"), afterEl = document.querySelector(".hero__after");
+  function curveType() {
+    var lines = copyEl.querySelectorAll(".hl");
+    lines.forEach(function (l) { l.style.left = l.style.top = ""; });
+    if (window.innerWidth < 900 || window.innerWidth < window.innerHeight * 1.1) { copyEl.classList.remove("is-curved"); return; }
+    copyEl.classList.add("is-curved");
+    var copy = copyEl.getBoundingClientRect(), sun = sunEl.getBoundingClientRect(), vh = window.innerHeight;
+    var R = sun.width / 2, cx = sun.left + R, cy = sun.top + R;
+    var gut = parseFloat(getComputedStyle(copyEl).paddingLeft) || 24, top0 = copy.top + vh * 0.16;
+    var edge = function (y) { var d = y - cy; return Math.abs(d) < R ? cx - Math.sqrt(R * R - d * d) : null; };
+    var chord = function (y) { var d = y - cy; return Math.abs(d) < R ? 2 * Math.sqrt(R * R - d * d) : 0; };
+    var t = titleEl.querySelectorAll(".hl"), a = afterEl.querySelectorAll(".hl");
+    // the title: fit "risk lies" and "in" left of the curve, "shadow." on the sun
+    var fs = Math.min(parseFloat(getComputedStyle(document.documentElement).fontSize) * 9.313, vh * 0.19, window.innerWidth * 0.105), lay;
+    for (var i = 0; i < 6; i++) {
+      copyEl.style.setProperty("--hfs", fs.toFixed(1) + "px");
+      var lh = fs * 0.86, gap = fs * 0.22, y1 = top0 + lh / 2, y2 = top0 + lh * 1.5;
+      var w1 = t[0].offsetWidth, w2 = t[1].offsetWidth, wS = t[2].offsetWidth;
+      var e1 = edge(y1), e2 = edge(y2), k = 1;
+      if (e1 !== null) k = Math.min(k, (e1 - gap - (copy.left + gut)) / w1);
+      if (e2 !== null) { k = Math.min(k, (e2 - gap - (copy.left + gut)) / w2, (chord(y2) - gap * 3) / wS); }
+      lay = { lh: lh, gap: gap, e1: e1, e2: e2, w1: w1, w2: w2 };
+      if (k > 0.995) break;
+      fs *= Math.max(0.5, k);
+    }
+    var L = function (el, x, y) { el.style.left = (x - copy.left).toFixed(1) + "px"; el.style.top = (y - copy.top).toFixed(1) + "px"; };
+    var left0 = copy.left + gut;
+    L(t[0], lay.e1 !== null ? lay.e1 - lay.gap - lay.w1 : left0, top0);
+    L(t[1], lay.e2 !== null ? lay.e2 - lay.gap - lay.w2 : left0, top0 + lay.lh);
+    L(t[2], lay.e2 !== null ? lay.e2 + lay.gap : left0 + lay.w2 + lay.gap, top0 + lay.lh);
+    // the second headline, low on the left, against the same curve (no bigger than the title)
+    var afs = fs, bottom = copy.top + vh * 0.9, alay;
+    for (i = 0; i < 6; i++) {
+      copyEl.style.setProperty("--afs", afs.toFixed(1) + "px");
+      var alh = afs * 0.86, agap = afs * 0.22, ya = bottom - alh * 1.5, yb = bottom - alh / 2;
+      var wa = a[0].offsetWidth, wb = a[1].offsetWidth, ea = edge(ya), eb = edge(yb), ak = 1;
+      if (ea !== null) ak = Math.min(ak, (ea - agap - left0) / wa);
+      if (eb !== null) ak = Math.min(ak, (eb - agap - left0) / wb);
+      alay = { lh: alh, gap: agap, ea: ea, eb: eb, wa: wa, wb: wb, ya: bottom - alh * 2 };
+      if (ak > 0.995) break;
+      afs *= Math.max(0.5, ak);
+    }
+    L(a[0], alay.ea !== null ? alay.ea - alay.gap - alay.wa : left0, alay.ya);
+    L(a[1], alay.eb !== null ? alay.eb - alay.gap - alay.wb : left0, alay.ya + alay.lh);
+  }
+  curveType();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(curveType);
+  window.addEventListener("resize", curveType);
+
   function heroFrame() {
     var r = hero.getBoundingClientRect();
     var span = hero.offsetHeight - window.innerHeight;

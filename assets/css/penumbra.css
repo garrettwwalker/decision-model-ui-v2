@@ -242,15 +242,17 @@ main, .footer { position: relative; z-index: 2; }
   padding: calc(env(safe-area-inset-top, 0px) + 22vh) var(--gutter) 0;
   pointer-events: none;
 }
-.hero__head { position: relative; }
-.hero__title > span { display: block; }
-.hero__title { font-size: min(var(--fs-display), 19vh); }
-.hero__title { color: var(--moon); opacity: var(--burst); } /* the real headline, once the sky is dark and colored */
-.hero__title--ink { /* white set in difference: black over the sun, white over space and the moon */
-  position: absolute; inset: 0; margin: 0;
-  color: #fff; mix-blend-mode: difference;
-  opacity: calc(1 - var(--burst));
-}
+.hero__title { font-size: min(var(--fs-display), 19vh); color: var(--moon); }
+/* default (narrow screens, and before the script runs): stacked, left-aligned lines */
+.hero__title .hl:first-child, .hero__after .hl { display: block; }
+.hero__after .hl + .hl { display: block; }
+/* "shadow." is white in difference: dark while it sits on the white sun, white where the moon has crossed it */
+.hl--sun { color: #fff; mix-blend-mode: difference; }
+/* wide screens: penumbra.js lays each line against the sun's curve, ending just short of it, with "shadow." the one
+   word on the sun's surface; type is sized to fit (--hfs, --afs) */
+.hero__copy.is-curved .hl { position: absolute; left: 0; top: 0; display: block; white-space: nowrap; }
+.hero__copy.is-curved .hero__title { font-size: var(--hfs); }
+.hero__copy.is-curved .hero__after { position: absolute; inset: 0; font-size: var(--afs); }
 .hero__after {
   position: absolute; left: var(--gutter); right: auto; bottom: 16%;
   margin: 0; font-size: min(clamp(2.4rem, 7vw, 6rem), 11vh); /* capped by height so short screens keep it clear of the headline */
