@@ -297,11 +297,23 @@ main, .footer { position: relative; z-index: 2; }
 .spot.is-lit::after, .spot.is-lit::before { opacity: 1; }
 
 /* dark glass in place of white paper; no pins */
+/* Moon-white tiles. Inside them the text and accent tokens are redefined darker, so every rule that says
+   var(--moon), var(--loss), var(--a-rose)... reads correctly on the light paper without its own override. The
+   instruments inside (.pv), the fused answer and the graph's owner nodes stay dark. */
+.pn .note, .pn .swan, .pn .split__q, .pn .part, .pn .gn, .pn .contact__form {
+  --moon: #16181d; --moon-2: #4b505b; --moon-3: #6c717c;
+  --rim: rgba(16, 18, 23, 0.08); --rim-strong: rgba(16, 18, 23, 0.14);
+  --line: rgba(16, 18, 23, 0.1); --line-strong: rgba(16, 18, 23, 0.2);
+  --loss: #c42f4a; --safe: #9a6a00;
+  --a-yellow: #9c6c00; --a-amber: #b25c00; --a-rose: #c42f58; --a-pink: #bf4477;
+  --a-orange: #c04c18; --a-red: #c42a20; --a-gold: #946f00;
+  --paper: #eceef2;
+  color: var(--moon);
+}
 .pn .note {
-  background: linear-gradient(180deg, rgba(24, 27, 34, 0.86), rgba(15, 17, 22, 0.86));
-  border: 1px solid var(--rim);
-  box-shadow: var(--shadow-card);
-  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  background: var(--paper);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 24px 50px -30px rgba(0, 0, 0, 0.9);
 }
 .pn .note::before { display: none; }
 .pn .note.spot::before { display: block; }
@@ -334,7 +346,7 @@ main, .footer { position: relative; z-index: 2; }
 .watch__body.is-out { opacity: 0; }
 .watch__event { margin: 0; font-size: 1.6rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1.15; min-height: 2.3em; }
 .watch__p { display: grid; gap: 0.45rem; margin: 0.9rem 0 1.1rem; }
-.watch__bar { height: 6px; border-radius: 6px; background: rgba(236, 238, 242, 0.08); overflow: hidden; }
+.watch__bar { height: 6px; border-radius: 6px; background: rgba(16, 18, 23, 0.08); overflow: hidden; }
 .watch__bar i {
   display: block; height: 100%; width: 0; border-radius: 6px;
   background: var(--loss);
@@ -376,10 +388,10 @@ main, .footer { position: relative; z-index: 2; }
 .split { margin: 0; display: grid; gap: 1.6rem; position: relative; }
 .split__label { display: block; font-size: var(--fs-small); font-weight: 600; color: var(--moon-3); margin-bottom: 0.35rem; }
 .split__q, .part, .split__fused { position: relative; border-radius: var(--radius); padding: 1rem 1.15rem; }
-.split__q { background: var(--panel-2); border: 1px solid var(--rim-strong); box-shadow: var(--shadow-card); }
+.split__q { background: var(--paper); border: 1px solid rgba(255, 255, 255, 0.5); box-shadow: var(--shadow-card); }
 .split__q strong { font-size: 1.15rem; line-height: 1.3; letter-spacing: -0.02em; }
 .split__parts { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.9rem; position: relative; }
-.part { background: rgba(18, 20, 26, 0.8); border: 1px solid var(--rim); display: grid; gap: 0.2rem; align-content: start; }
+.part { background: #e2e4e9; border: 1px solid rgba(255, 255, 255, 0.4); display: grid; gap: 0.2rem; align-content: start; }
 .part strong { font-size: 0.95rem; line-height: 1.3; letter-spacing: -0.01em; }
 .part__p { font-size: 1.95rem; font-weight: 800; letter-spacing: -0.05em; line-height: 1; margin-top: 0.4rem; font-variant-numeric: tabular-nums; }
 .split__fused { /* the one answer: ringed in amber light */
@@ -406,9 +418,16 @@ main, .footer { position: relative; z-index: 2; }
 .mode:nth-child(3) .mode__for { color: var(--a-pink); }
 .mode .h3 .w.on { color: var(--moon); }
 .mode__desc { margin: 0; color: var(--moon-2); font-size: 0.95rem; }
+.pn .note .btn--ink, .pn .contact__form .btn--primary { background: #16181d; color: #fff; }
+.pn .note .btn--ink:hover, .pn .contact__form .btn--primary:hover { background: #000; }
 .mode .btn { align-self: flex-start; margin-top: auto; } /* every card's button on one line */
 
-.pv { border-radius: 12px; padding: 0.85rem; background: rgba(7, 8, 11, 0.7); border: 1px solid var(--rim); font-size: 0.75rem; }
+.pv { /* a dark instrument set into the light card: the night tokens come back inside it */
+  --moon: #eceef2; --moon-2: #a9aeb9; --moon-3: #7f8592;
+  --rim: rgba(236, 238, 242, 0.09); --line-strong: rgba(236, 238, 242, 0.2);
+  --safe: #ffd56b; --a-amber: #ffaa40; --a-gold: #ffd25a;
+  border-radius: 12px; padding: 0.85rem; background: #0d0f13; border: 1px solid #0d0f13; font-size: 0.75rem; color: var(--moon);
+}
 .pv-slider { display: grid; gap: 0.3rem; margin-bottom: 0.6rem; font-weight: 600; color: var(--moon-2); }
 .pv-slider i {
   height: 4px; border-radius: 4px; position: relative;
@@ -532,14 +551,13 @@ main, .footer { position: relative; z-index: 2; }
 .swan {
   --bw: 1.5px; /* its dashed border is heavier */
   border-radius: var(--radius); padding: 1.35rem;
-  background: rgba(18, 20, 26, 0.55);
-  border: 1.5px dashed rgba(236, 238, 242, 0.22);
-  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  background: var(--paper);
+  border: 1.5px dashed rgba(16, 18, 23, 0.3);
   display: flex; flex-direction: column; gap: 0.6rem;
 }
 .swan h3 { margin: 0; font-size: 1.2rem; line-height: 1.2; letter-spacing: -0.02em; }
 .swan p { margin: 0; font-size: 0.92rem; color: var(--moon-2); }
-.swan__flag { align-self: flex-start; color: var(--a-gold) !important; border: 1px solid rgba(255, 210, 90, 0.45); border-radius: 999px; padding: 0.2rem 0.6rem; }
+.swan__flag { align-self: flex-start; color: var(--a-gold) !important; border: 1px solid rgba(148, 111, 0, 0.45); border-radius: 999px; padding: 0.2rem 0.6rem; }
 .swan__stats { margin: auto 0 0; padding-top: 0.75rem; border-top: 1px dashed var(--line-strong); display: grid; gap: 0.5rem; }
 .swan__stats div { display: flex; justify-content: space-between; gap: 1rem; font-size: 0.8rem; }
 .swan__stats dt { color: var(--moon-3); font-size: 0.8rem; }
@@ -577,7 +595,7 @@ main, .footer { position: relative; z-index: 2; }
   position: relative; z-index: 1; min-width: 0;
   display: grid; gap: 0.1rem; justify-self: center; width: 100%;
   padding: 0.7rem 0.85rem; border-radius: 12px;
-  background: #13151b; border: 1px solid var(--rim-strong);
+  background: var(--paper); border: 1px solid rgba(255, 255, 255, 0.5);
   box-shadow: 0 14px 30px -20px rgba(0, 0, 0, 0.9);
   text-align: center; font-size: 0.8rem; line-height: 1.3;
 }
@@ -586,9 +604,11 @@ main, .footer { position: relative; z-index: 2; }
 .gn__meta { color: var(--moon-2); }
 .gn--driver .gn__meta, .gn--exposure .gn__meta { color: var(--loss); font-weight: 700; }
 .gn--driver { box-shadow: 0 0 30px -10px rgba(255, 107, 129, 0.45); }
-.gn--owner { background: var(--moon); color: var(--void); border-color: transparent; box-shadow: 0 0 26px -10px rgba(255, 84, 120, 0.7); }
-.gn--owner .gn__kind { color: #555b67; }
-.gn__when { color: #b8321c; font-weight: 700; }
+.pn .gn--owner { /* the owners who act: night tiles among the light ones */
+  --moon: #eceef2; --moon-3: #9aa0ab;
+  background: #16181d; border-color: #16181d; box-shadow: 0 0 26px -10px rgba(255, 84, 120, 0.7);
+}
+.gn__when { color: #ffaa40; font-weight: 700; }
 @media (max-width: 560px) {
   .graph { gap: 1.8rem 0.5rem; }
   .gn { padding: 0.55rem 0.5rem; font-size: 0.72rem; }
@@ -626,18 +646,17 @@ main, .footer { position: relative; z-index: 2; }
 .contact__side { display: grid; gap: 1.5rem; width: min(100%, 24rem); }
 .contact__form {
   display: grid; gap: 0.85rem; padding: 1.35rem; border-radius: var(--radius-lg);
-  background: rgba(18, 20, 26, 0.82); border: 1px solid var(--rim-strong);
-  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  background: var(--paper); border: 1px solid rgba(255, 255, 255, 0.5);
   box-shadow: var(--shadow-card);
 }
 .contact__form label { display: grid; gap: 0.35rem; font-size: 0.8rem; font-weight: 700; }
 .contact__form input {
   min-height: 44px; padding: 0.55rem 0.8rem;
-  border: 1.5px solid var(--line-strong); border-radius: 10px; background: rgba(7, 8, 11, 0.7);
+  border: 1.5px solid var(--line-strong); border-radius: 10px; background: #fff;
   font-weight: 500; color: var(--moon);
 }
 .contact__form input::placeholder { color: var(--moon-3); }
-.contact__form input:focus-visible { border-color: var(--a-yellow); outline-offset: 1px; }
+.contact__form input:focus-visible { border-color: var(--a-amber); outline-offset: 1px; }
 .contact__form input[aria-invalid="true"] { border-color: var(--loss); }
 .contact__msg { margin: 0; font-size: 0.85rem; min-height: 1.2em; color: var(--moon-2); }
 .nebula--close { /* rises out of the dark behind the form and thins away to black before the footer */
