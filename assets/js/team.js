@@ -1,4 +1,4 @@
-/* Team: ByNine for the people who carry decisions out. One manager's week: the calls that are
+/* Team: Penumbra for the people who carry decisions out. One manager's week: the calls that are
    theirs to make, leadership's directives broken into their team's tasks, who has room, what to
    watch and how the team adapts, and the update that goes back up. Three managers to view as.
    Today is Tue 6 Oct, the morning of the brief; day 0 below is today. Every figure is illustrative. */
@@ -347,7 +347,7 @@
         var opts = el("div", { class: "dec__opts", role: "group", "aria-label": d.q });
         d.opts.forEach(function (o, i) {
           var b = el("button", { type: "button", class: "dec__opt" + (i === d.pick ? " is-pick" : "") });
-          if (i === d.pick) b.appendChild(el("span", { class: "dec__tag" }, "Daybreak suggests"));
+          if (i === d.pick) b.appendChild(el("span", { class: "dec__tag" }, "Totality suggests"));
           b.appendChild(el("b", null, o.t)); b.appendChild(el("small", null, o.sub));
           b.addEventListener("click", function () { decide(d, i); });
           opts.appendChild(b);

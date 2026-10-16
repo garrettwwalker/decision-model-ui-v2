@@ -26,9 +26,6 @@
   --mark: conic-gradient(var(--a-amber) 0deg, var(--a-orange) 25deg, var(--a-rose) 45deg, var(--a-red) 85deg, var(--a-orange) 130deg,
     var(--a-gold) 180deg, var(--a-yellow) 220deg, var(--a-amber) 260deg, var(--a-pink) 305deg, var(--a-rose) 335deg, var(--a-amber) 360deg);
   --aurora-ring: var(--mark); /* the corona */
-  /* the logo keeps its own full-spectrum ring, as the user chose; the page around it stays warm */
-  --logo-ring: conic-gradient(#3aa8ff 0deg, #a77bff 25deg, #ff4fa8 45deg, #a77bff 75deg, #3aa8ff 125deg,
-    #3ef0c6 175deg, #ffd25a 235deg, #ff8a4c 280deg, #ff4fa8 320deg, #a77bff 345deg, #3aa8ff 360deg);
   /* money on dark */
   --loss: #ff6b81;
   --safe: #ffd56b; /* protected money: pale gold, against the rose-red of money at risk */
@@ -85,23 +82,7 @@ main, .footer { position: relative; z-index: 2; }
   opacity: 0; transition: opacity 0.3s ease;
 }
 .nav.is-scrolled::before { opacity: 1; }
-/* The mark: the logo's ring and spark as white SVG shapes (ring r44 centered in a 128 box, spark at 45°, its two
-   long points equal and its sides curving in tangent to the ring's edges so it grows out of the ring), inlined
-   as masks so file:// previews load them, filled with the site's own spectrum so it matches the corona. This is
-   the small weight, with a longer spark, for the wordmark. The glow sits on the wrapper because a mask
-   would clip it. */
-.logo { filter: drop-shadow(0 0 5px rgba(167, 123, 255, 0.5)); }
-.logo::before {
-  content: ""; position: absolute; inset: 0;
-  /* the spark burns white at its heart (74.3% 25.7% is where it crosses the ring) and fades back into the ring's color */
-  background: radial-gradient(circle at 74.3% 25.7%, #fff 0, #fff 4%, rgba(255, 255, 255, 0.7) 8%, rgba(255, 255, 255, 0) 15%), var(--logo-ring);
-  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-68 -68 136 136'%3E%3Ccircle r='44' fill='none' stroke='%23fff' stroke-width='7.5'/%3E%3Cpath d='M47.38 -47.38 Q33.26 -35.81 24.31 -41.10 L18.85 -35.57 Q28.11 -30.66 14.85 -14.85 Q30.66 -28.11 35.57 -18.85 L41.10 -24.31 Q35.81 -33.26 47.38 -47.38Z' fill='%23fff'/%3E%3C/svg%3E") center / contain no-repeat;
-  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-68 -68 136 136'%3E%3Ccircle r='44' fill='none' stroke='%23fff' stroke-width='7.5'/%3E%3Cpath d='M47.38 -47.38 Q33.26 -35.81 24.31 -41.10 L18.85 -35.57 Q28.11 -30.66 14.85 -14.85 Q30.66 -28.11 35.57 -18.85 L41.10 -24.31 Q35.81 -33.26 47.38 -47.38Z' fill='%23fff'/%3E%3C/svg%3E") center / contain no-repeat;
-}
-.logo { position: relative; display: block; width: 34px; height: 34px; margin: -3px -2px -3px -4px; flex: none; }
 .footer .logo { width: 30px; height: 30px; }
-/* the small mark's box is 136 units (room for its longer spark), so its spark crosses the ring at 72.9% 27.1% */
-.logo::before { background: radial-gradient(circle at 72.9% 27.1%, #fff 0, #fff 4%, rgba(255, 255, 255, 0.7) 8%, rgba(255, 255, 255, 0) 15%), var(--logo-ring); }
 .nav__links { display: flex; align-items: center; gap: 1.6rem; }
 .nav__links a:not(.btn) { text-decoration: none; font-weight: 600; font-size: 0.9rem; opacity: 0.8; }
 .nav__links a:not(.btn):hover { opacity: 1; text-decoration: underline; text-underline-offset: 4px; }

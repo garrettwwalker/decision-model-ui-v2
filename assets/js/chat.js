@@ -106,7 +106,7 @@
   // a: { text, facts: [[label, value, tone]], route, actions: [{label, run} | {label, href}], followups: [] }
   function modelSays(a) {
     var li = el("li", "msg msg--model");
-    li.setAttribute("aria-label", "ByNine");
+    li.setAttribute("aria-label", "Penumbra");
     (a.text || []).forEach(function (t) { li.appendChild(el("p", null, t)); });
     if (a.facts && a.facts.length) {
       var dl = el("dl", "msg__facts");
@@ -150,7 +150,7 @@
   }
   function think(then) {
     var li = el("li", "typing");
-    li.setAttribute("aria-label", "ByNine is answering");
+    li.setAttribute("aria-label", "Penumbra is answering");
     li.innerHTML = "<span></span><span></span><span></span>";
     log.appendChild(li);
     toBottom();
@@ -288,7 +288,7 @@
         ["The Muscat talks set a date for round two", "down to ~15%", "safe"],
         ["Ten quiet days and AIS traffic recovers", "down to ~10%", "safe"]
       ],
-      route: "The Daybreak engine watches for each of these and re-runs the engines when one fires."
+      route: "The Totality engine watches for each of these and re-runs the engines when one fires."
     };
   }
 
@@ -426,7 +426,7 @@
       standList.appendChild(li);
     });
   }
-  // the card ByNine adds to its reply when a question carries options
+  // the card Penumbra adds to its reply when a question carries options
   function trackingCard(o, tags) {
     var rows = [];
     if (o.cadence !== "once") rows.push(["Runs", CADENCE.filter(function (c) { return c[0] === o.cadence; })[0][1] + ", " + UNTIL[o.until] + ". Next: " + NEXT_RUN[o.cadence] + (o.notify === "change" ? ". You'll hear when the answer moves 5 points or more." : ". You'll get every run.")]);
