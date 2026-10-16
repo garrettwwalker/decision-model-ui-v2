@@ -31,7 +31,7 @@
   var day = document.querySelector(".day");
   var BLOCKS = "p, h2, h3, li, dt, dd, label";
   var UNITS = ".chip";                       // inline widgets revealed whole, like a word
-  var TILES = ".note, .choice, .swan, .contact__form, .split__q, .part, .split__fused"; // revealed whole, text included
+  var TILES = ".note, .lune, .swan, .contact__form, .split__q, .part, .split__fused"; // revealed whole, text included
   var reads = [], tiles = [];
 
   function splitWords(root, units) {

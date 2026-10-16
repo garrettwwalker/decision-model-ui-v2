@@ -194,39 +194,56 @@
         </div>
       </section>
 
-      <!-- 4. What should I do? The overnight signal and the four responses Penumbra weighed, each with its expected
-           first-year revenue and its range between "the decree passes" and "it doesn't" on one shared scale. -->
+      <!-- 4. What should I do? A moon chart: the four responses Penumbra weighed as four moons, each lit in proportion to
+           the first-year revenue it's expected to keep; the best move is the full moon. -->
       <section class="how decide" id="how" aria-labelledby="how-title">
         <h2 class="h3 how__title" id="how-title">so, what<br>should i do?</h2>
         <p class="decide__lede">02:40 UTC: a draft decree leaks in Brazil, and the chance it's in force within six months jumps from 31% to 48%. By 05:58 Penumbra has weighed every response against your March launch.</p>
-        <ol class="choices" aria-label="Expected first-year revenue for each response">
-          <li class="choice">
-            <span class="choice__name">Launch all four in March</span>
-            <b class="choice__ev">$249M</b>
-            <span class="choice__line" style="--lo: 16.8%; --hi: 94.7%; --ev: 57.4%" aria-hidden="true"></span>
-            <span class="choice__spread">$172M if the decree passes, $320M if not</span>
+        <figure class="lunes">
+          <ol class="lunes__row" aria-label="Expected first-year revenue for each response">
+          <li class="lune">
+            <svg class="lune__moon" viewBox="0 0 100 100" aria-hidden="true">
+              <defs><clipPath id="lit-0"><path d="M50 4 A46 46 0 0 1 50 96 A34.22 46 0 0 1 50 4Z"/></clipPath></defs>
+              <circle class="lune__dark" cx="50" cy="50" r="46"/>
+              <g clip-path="url(#lit-0)"><circle class="lune__lit" cx="50" cy="50" r="46"/><g class="lune__craters"><circle cx="36" cy="34" r="7"/><circle cx="62" cy="30" r="5"/><circle cx="58" cy="58" r="9"/><circle cx="34" cy="64" r="6"/><circle cx="72" cy="48" r="4"/><circle cx="46" cy="48" r="3.5"/><circle cx="68" cy="70" r="5"/><circle cx="28" cy="46" r="4"/></g></g>
+            </svg>
+            <span class="lune__name">Launch all four in March</span>
+            <b class="lune__ev">$249M</b>
+            <span class="lune__spread">$172M–$320M</span>
           </li>
-          <li class="choice is-best">
-            <span class="choice__flag">Best at 48%</span>
-            <span class="choice__name">Lead with enterprise, hold the consumer app</span>
-            <b class="choice__ev">$265M</b>
-            <span class="choice__line" style="--lo: 62.1%; --hi: 69.5%; --ev: 65.8%" aria-hidden="true"></span>
-            <span class="choice__spread">$258M if the decree passes, $272M if not</span>
+          <li class="lune is-best">
+            <svg class="lune__moon" viewBox="0 0 100 100" aria-hidden="true">
+              <defs><clipPath id="lit-1"><path d="M50 4 A46 46 0 1 1 50 96 A46 46 0 1 1 50 4Z"/></clipPath></defs>
+              <circle class="lune__dark" cx="50" cy="50" r="46"/>
+              <g clip-path="url(#lit-1)"><circle class="lune__lit" cx="50" cy="50" r="46"/><g class="lune__craters"><circle cx="36" cy="34" r="7"/><circle cx="62" cy="30" r="5"/><circle cx="58" cy="58" r="9"/><circle cx="34" cy="64" r="6"/><circle cx="72" cy="48" r="4"/><circle cx="46" cy="48" r="3.5"/><circle cx="68" cy="70" r="5"/><circle cx="28" cy="46" r="4"/></g></g>
+            </svg>
+            <span class="lune__flag">Best at 48%</span><span class="lune__name">Lead with enterprise, hold the consumer app</span>
+            <b class="lune__ev">$265M</b>
+            <span class="lune__spread">$258M–$272M</span>
           </li>
-          <li class="choice">
-            <span class="choice__name">Build local hosting first</span>
-            <b class="choice__ev">$260M</b>
-            <span class="choice__line" style="--lo: 63.2%; --hi: 63.2%; --ev: 63.2%" aria-hidden="true"></span>
-            <span class="choice__spread">$260M either way</span>
+          <li class="lune">
+            <svg class="lune__moon" viewBox="0 0 100 100" aria-hidden="true">
+              <defs><clipPath id="lit-2"><path d="M50 4 A46 46 0 0 1 50 96 A42.32 46 0 0 1 50 4Z"/></clipPath></defs>
+              <circle class="lune__dark" cx="50" cy="50" r="46"/>
+              <g clip-path="url(#lit-2)"><circle class="lune__lit" cx="50" cy="50" r="46"/><g class="lune__craters"><circle cx="36" cy="34" r="7"/><circle cx="62" cy="30" r="5"/><circle cx="58" cy="58" r="9"/><circle cx="34" cy="64" r="6"/><circle cx="72" cy="48" r="4"/><circle cx="46" cy="48" r="3.5"/><circle cx="68" cy="70" r="5"/><circle cx="28" cy="46" r="4"/></g></g>
+            </svg>
+            <span class="lune__name">Build local hosting first</span>
+            <b class="lune__ev">$260M</b>
+            <span class="lune__spread">$260M either way</span>
           </li>
-          <li class="choice">
-            <span class="choice__name">Delay the launch six months</span>
-            <b class="choice__ev">$154M</b>
-            <span class="choice__line" style="--lo: 4.2%; --hi: 10.5%; --ev: 7.4%" aria-hidden="true"></span>
-            <span class="choice__spread">$148M if the decree passes, $160M if not</span>
+          <li class="lune">
+            <svg class="lune__moon" viewBox="0 0 100 100" aria-hidden="true">
+              <defs><clipPath id="lit-3"><path d="M50 4 A46 46 0 0 1 50 96 A35.7 46 0 0 0 50 4Z"/></clipPath></defs>
+              <circle class="lune__dark" cx="50" cy="50" r="46"/>
+              <g clip-path="url(#lit-3)"><circle class="lune__lit" cx="50" cy="50" r="46"/><g class="lune__craters"><circle cx="36" cy="34" r="7"/><circle cx="62" cy="30" r="5"/><circle cx="58" cy="58" r="9"/><circle cx="34" cy="64" r="6"/><circle cx="72" cy="48" r="4"/><circle cx="46" cy="48" r="3.5"/><circle cx="68" cy="70" r="5"/><circle cx="28" cy="46" r="4"/></g></g>
+            </svg>
+            <span class="lune__name">Delay the launch six months</span>
+            <b class="lune__ev">$154M</b>
+            <span class="lune__spread">$148M–$160M</span>
           </li>
-        </ol>
-        <p class="decide__was">At 31%, before the leak, launching all four came out ahead.</p>
+          </ol>
+          <figcaption class="lunes__cap">The fuller the moon, the more first-year revenue the response is expected to keep. At 31%, before the leak, launching all four came out ahead.</figcaption>
+        </figure>
         <p class="decide__call"><span class="decide__when">06:14, the decision</span> Approved by the GM, Latin America: lead with the enterprise tier and hold the consumer app. It keeps $210M of revenue on schedule and avoids $38M of rework if the decree passes.</p>
       </section>
 
