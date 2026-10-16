@@ -408,7 +408,7 @@ main, .footer { position: relative; z-index: 2; }
 .pv-team__row + .pv-team__row { border-top: 1px solid var(--line); }
 .pv-team__row span:nth-child(2) { line-height: 1.3; } /* wraps rather than truncating in narrow cards */
 .pv-st { padding: 0.1rem 0.45rem; border-radius: 999px; font-size: 0.68rem; font-weight: 800; box-shadow: inset 0 0 0 1.5px var(--line-strong); color: var(--moon-2); }
-.pv-st--done { background: rgba(255, 213, 107, 0.14); color: var(--safe); box-shadow: none; }
+.pv-st--done { background: rgba(94, 214, 138, 0.15); color: #6fdc96; box-shadow: none; } /* green by the user's request: the page's one exception to keeping off greens */
 .pv-st--doing { background: rgba(255, 210, 90, 0.14); color: var(--a-gold); box-shadow: none; }
 .pv-av { width: 1.5rem; height: 1.5rem; border-radius: 50%; display: grid; place-items: center; font-size: 0.6rem; font-weight: 800; background: rgba(236, 238, 242, 0.1); color: var(--moon); }
 .pv-heat { display: grid; grid-template-columns: repeat(8, 1fr); gap: 3px; }
@@ -539,7 +539,7 @@ main, .footer { position: relative; z-index: 2; }
 .horizon { width: 100%; max-width: 280px; margin: 0.25rem auto; overflow: visible; }
 .horizon__lab { font: 700 10px var(--font); }
 .horizon__ax { font: 500 9px var(--font); fill: var(--moon-3); } /* about 11px on screen */
-.prov { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.55rem; font-size: 0.82rem; }
+.prov { list-style: none; margin: 1.75rem 0 0; /* first line level with the tops of the two charts beside it */ padding: 0; display: grid; gap: 0.55rem; font-size: 0.82rem; }
 .prov li { display: grid; grid-template-columns: 3rem 1fr; gap: 0.5rem; color: var(--moon-2); }
 .prov .mono { color: var(--moon-3); font-size: 0.75rem; }
 @media (max-width: 960px) {
