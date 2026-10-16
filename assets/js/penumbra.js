@@ -405,10 +405,6 @@
     var seed = k * 140; // offsets picked by rendering them: 140 gives the closing cloud a full, wispy body
     var gasA = box.querySelector(".nebula__gas:not(.nebula__gas--b)"), gasB = box.querySelector(".nebula__gas--b");
     var dust = box.querySelector(".nebula__dust"), specks = box.querySelector(".nebula__specks");
-    // each layer gets a twin painted from the same cloud a little further along in time; CSS crossfades the pair, so
-    // the wisps re-form in place rather than the cloud travelling (it's in a vacuum)
-    var twin = function (el) { var t = el.cloneNode(); t.classList.add("is-twin"); el.after(t); return t; };
-    var gasA2 = twin(gasA), gasB2 = twin(gasB), dust2 = twin(dust);
 
     function makeNoise(seed) {
       var rnd = DB_rng(seed * 48271 + 1), perm = new Uint8Array(512), vals = new Float32Array(256), i;
@@ -449,6 +445,8 @@
         d[o] = px[0]; d[o + 1] = px[1]; d[o + 2] = px[2]; d[o + 3] = px[3];
       }
       c.putImageData(img, 0, 0);
+      cv._base = new Uint8ClampedArray(d); // the painting; the visible canvas is a slowly warped copy of it
+      cv._out = c.createImageData(w, h);
       cv.classList.add("is-ready");
     }
 
@@ -482,10 +480,6 @@
       steps.push(function () { paint(gasB, W, H, gasBt(0)); });
       steps.push(function () { paint(dust, DW, DH, dustT(0)); });
       steps.push(drawSpecks);
-      steps.push(function () { paint(gasA2, W, H, gasAt(0.42)); });
-      steps.push(function () { paint(gasB2, W, H, gasBt(0.42)); });
-      steps.push(function () { paint(dust2, DW, DH, dustT(0.42)); });
-      steps.push(function () { box.classList.add("is-live"); });
       (function next() { var f = steps.shift(); if (f) { f(); setTimeout(next, 30); } })();
     }
     function drawSpecks() {
@@ -527,6 +521,52 @@
       if (r.bottom < 0 || r.top > vh) return;
       box.style.setProperty("--nb", ((r.top + r.height / 2 - vh / 2) / vh).toFixed(3));
     }, { passive: true });
+
+    // Slow flow: each layer is redrawn from its painting through a smooth displacement field that undulates over
+    // time (a few overlapping long waves, zero on average), each layer with its own wavelengths, speeds and phases,
+    // so the wisps sway and curl against each other while the cloud as a whole stays put. ~15 frames a second,
+    // only while on screen.
+    if (reduceMotion) return;
+    var FLOW = [{ cv: gasA, a: 3.2, f: [0.042, 0.031, 0.037, 0.028], w: [0.11, 0.08, 0.095, 0.07], p: [0.3, 2.1, 4.0, 5.2] },
+                { cv: gasB, a: 3.6, f: [0.036, 0.044, 0.029, 0.039], w: [0.085, 0.12, 0.075, 0.1], p: [1.7, 3.3, 0.6, 2.8] },
+                { cv: dust, a: 3.0, f: [0.033, 0.026, 0.041, 0.03], w: [0.07, 0.095, 0.06, 0.085], p: [2.5, 0.9, 3.6, 4.7] }];
+    var shown = false, lastF = 0, flowing = false;
+    if (window.IntersectionObserver) new IntersectionObserver(function (es) {
+      shown = es[0].isIntersecting;
+      if (shown && !flowing) { flowing = true; requestAnimationFrame(flow); } // one loop, however often this fires
+    }).observe(box);
+    function flow(t) {
+      if (!shown) { flowing = false; return; }
+      if (!document.hidden && t - lastF > 66) {
+        lastF = t; var ts = t / 1000;
+        FLOW.forEach(function (L) {
+          var cv = L.cv, base = cv._base;
+          if (!base) return;
+          var w = cv.width, h = cv.height, o = L.cv._out.data, sc = w / 300; // waves are set for a 300px-wide painting
+          var A = L.a * sc, f = L.f, wv = L.w, p = L.p, k, y, x;
+          // the field separates into row and column terms, so the trig runs per row and per column, not per pixel
+          var sy1 = new Float32Array(h), sy2 = new Float32Array(h), sx1 = new Float32Array(w), sx2 = new Float32Array(w);
+          for (y = 0; y < h; y++) { sy1[y] = Math.sin(y * f[0] / sc + ts * wv[0] + p[0]); sy2[y] = Math.sin(y * f[3] / sc + ts * wv[3] + p[3]); }
+          for (x = 0; x < w; x++) { sx1[x] = Math.sin(x * f[1] / sc - ts * wv[1] + p[1]); sx2[x] = Math.sin(x * f[2] / sc - ts * wv[2] + p[2]); }
+          for (y = 0; y < h; y++) {
+            for (x = 0; x < w; x++) {
+              var ox = A * (sy1[y] + 0.6 * sx1[x]) / 1.6, oy = A * (sx2[x] + 0.6 * sy2[y]) / 1.6;
+              var fx = x - ox, fy = y - oy, di = (y * w + x) * 4;
+              if (fx < 0) fx = 0; else if (fx > w - 1.001) fx = w - 1.001;
+              if (fy < 0) fy = 0; else if (fy > h - 1.001) fy = h - 1.001;
+              var ix = fx | 0, iy = fy | 0, ux = fx - ix, uy = fy - iy;
+              var a00 = (iy * w + ix) * 4, a10 = a00 + 4, a01 = a00 + w * 4, a11 = a01 + 4;
+              for (k = 0; k < 4; k++) {
+                var top = base[a00 + k] + (base[a10 + k] - base[a00 + k]) * ux;
+                o[di + k] = top + (base[a01 + k] + (base[a11 + k] - base[a01 + k]) * ux - top) * uy;
+              }
+            }
+          }
+          cv.getContext("2d").putImageData(L.cv._out, 0, 0);
+        });
+      }
+      requestAnimationFrame(flow);
+    }
   });
 
   /* ---------- Contact form (mockup: no backend) ---------- */

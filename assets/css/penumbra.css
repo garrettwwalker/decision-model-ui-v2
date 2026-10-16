@@ -478,25 +478,14 @@ main, .footer { position: relative; z-index: 2; }
   opacity: 0; transition: opacity 1.6s ease;
 }
 .nebula canvas.is-ready { opacity: 1; }
-/* in a vacuum nothing travels: each layer and its twin (painted a little further along in time) hold still and
-   crossfade, so the wisps re-form in place, every layer on its own long cycle; only a faint swell is left as motion.
-   --o is each layer's full opacity. */
-.nebula__gas { --o: 0.8; filter: blur(5px) saturate(1.15); translate: 0 calc(var(--nb) * -40px); transform-origin: 46% 54%; }
-.nebula__gas--b { --o: 0.55; translate: 0 calc(var(--nb) * -60px); transform-origin: 58% 42%; }
-.nebula__dust { --o: 1; filter: blur(1.5px); translate: 0 calc(var(--nb) * -80px); transform-origin: 40% 48%; }
+/* in a vacuum nothing travels and nothing fades: penumbra.js warps each painted layer in place by a slow, undulating
+   flow (zero on average, a different rhythm per layer), so the wisps sway and curl against one another. --o is each
+   layer's opacity. */
+.nebula__gas { --o: 0.8; filter: blur(5px) saturate(1.15); translate: 0 calc(var(--nb) * -40px); }
+.nebula__gas--b { --o: 0.55; translate: 0 calc(var(--nb) * -60px); }
+.nebula__dust { --o: 1; filter: blur(1.5px); translate: 0 calc(var(--nb) * -80px); }
 .nebula__specks { translate: 0 calc(var(--nb) * -120px); }
 .nebula .nebula__gas.is-ready, .nebula .nebula__dust.is-ready { opacity: var(--o); }
-.nebula:not(.is-live) .is-twin { opacity: 0; }
-/* the crossfades start together, once every layer and its twin are painted (penumbra.js adds .is-live) */
-.nebula.is-live .nebula__gas:not(.is-twin) { animation: neb-out 17s ease-in-out infinite, neb-swell 61s ease-in-out infinite alternate; }
-.nebula.is-live .nebula__gas.is-twin { animation: neb-in 17s ease-in-out infinite, neb-swell 61s ease-in-out infinite alternate; }
-.nebula.is-live .nebula__gas--b:not(.is-twin) { animation: neb-out 23s ease-in-out infinite -9s, neb-swell 73s ease-in-out infinite alternate-reverse; }
-.nebula.is-live .nebula__gas--b.is-twin { animation: neb-in 23s ease-in-out infinite -9s, neb-swell 73s ease-in-out infinite alternate-reverse; }
-.nebula.is-live .nebula__dust:not(.is-twin) { animation: neb-out 28s ease-in-out infinite -17s; }
-.nebula.is-live .nebula__dust.is-twin { animation: neb-in 28s ease-in-out infinite -17s; }
-@keyframes neb-in { 0%, 100% { opacity: 0; } 50% { opacity: var(--o); } }
-@keyframes neb-out { 0%, 100% { opacity: var(--o); } 50% { opacity: calc(var(--o) * 0.35); } } /* never fully out: mid-fade, the cloud mustn't hollow */
-@keyframes neb-swell { from { transform: scale(1.02); } to { transform: scale(1.075); } }
 .swans__inner { position: relative; z-index: 1; max-width: 76rem; margin-inline: auto; }
 .swans__head { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 1.5rem 3rem; }
 .swans__lede { max-width: 36rem; margin: 2rem 0 3rem 0.15rem; font-size: 1.1rem; color: var(--moon-2); }
@@ -615,7 +604,5 @@ main, .footer { position: relative; z-index: 2; }
 
 @media (prefers-reduced-motion: reduce) {
   .aurora i, .nebula canvas, .eclipse__rays, .hero__arrow { animation: none; }
-  .nebula canvas { animation: none !important; } /* the crossfade rules are more specific */
-  .nebula .is-twin { display: none; }
   .tile { translate: none; }
 }
