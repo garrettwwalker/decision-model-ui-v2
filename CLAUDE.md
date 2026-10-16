@@ -77,10 +77,10 @@ no tests. To preview, open `index.html` in a browser; there's no server.
 - `penumbra.html` + `assets/css/penumbra.css` + `assets/js/penumbra.js` is a **preview** of the landing page
   under the next name, Penumbra (added 2026-10-15; linked as "penumbra preview" at the end of the product tour tabs and
   last in `nav.js`'s order). Same copy and section layout as `index.html` (ByNine swapped for Penumbra), but moon-dark
-  ground with one accent read as a spectrum, from the logo's ring: teal, blue, violet, pink, coral, gold (`--a-*`,
-  `--aurora`, the conic `--mark` for the corona and the logo). The user tried a warm-only palette and came back to this;
-  what they disliked was gradient everywhere, so the spectrum lives in the graphics only: headings are solid
-  moonlight, and lines, bars and borders take one color each. Protected money (`--safe`) is pale gold, not green. Hero: one screen-sized eclipse. A white sun fills most of the viewport; scroll slides the
+  ground with one warm accent, the light at an eclipse's edge: pink, rose, red, orange, amber, pale gold (`--a-*`,
+  `--aurora`, and the conic `--mark`). The user rejected the logo JPEG's full rainbow on the page (the logo alone keeps it); keep the page
+  off blues, greens and violets, and keep lines, bars and borders one color, not gradients. Protected money
+  (`--safe`) is pale gold here, not green. Hero: one screen-sized eclipse. A white sun fills most of the viewport; scroll slides the
   moon over it from the lower left (`--cover`), the rim lights at totality (`--ring`, `--flash`) and then bursts
   into the page's spectrum (`--burst`: blurred corona, conic ray streamers, a sky-wide wash) as "at first light"
   arrives. Before the burst the headline is a white copy in `mix-blend-mode: difference` (black on the sun, white on

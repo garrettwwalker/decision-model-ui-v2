@@ -1,4 +1,4 @@
-/* Penumbra landing (preview): moon-dark ground, one spectral accent drawn from the eclipse's edge.
+/* Penumbra landing (preview): moon-dark ground, one warm accent drawn from the eclipse's edge.
    Layout follows landing.css; color, graphics and motion are this page's own. */
 
 .pn {
@@ -14,24 +14,26 @@
   --moon-2: #a9aeb9;
   --moon-3: #7f8592;
   --unread: #2c2f37;
-  /* the penumbra: one accent read as a spectrum, from the logo's ring (teal, blue, violet, pink, coral, gold).
-     It lives in the graphics only: headings stay moonlight, and lines, bars and borders take one color each */
-  --a-teal: #3ef0c6;
-  --a-blue: #3aa8ff;
-  --a-violet: #a77bff;
-  --a-pink: #ff4fa8;
-  --a-coral: #ff8a4c;
+  /* the penumbra: one accent, the warm light at an eclipse's edge (pink, rose, red, orange, amber, pale gold) */
+  --a-pink: #ff7aaa;
+  --a-rose: #ff5478;
+  --a-red: #ff4438;
+  --a-orange: #ff7a3c;
+  --a-amber: #ffaa40;
   --a-gold: #ffd25a;
-  --aurora: linear-gradient(100deg, var(--a-teal) 0%, var(--a-blue) 28%, var(--a-violet) 48%, var(--a-pink) 70%, var(--a-coral) 88%, var(--a-gold) 100%);
-  /* the mark's ring and the corona: pink at the spark (45°), teal low right, gold low left */
-  --mark: conic-gradient(var(--a-blue) 0deg, var(--a-violet) 25deg, var(--a-pink) 45deg, var(--a-violet) 75deg, var(--a-blue) 125deg,
-    var(--a-teal) 175deg, var(--a-gold) 235deg, var(--a-coral) 280deg, var(--a-pink) 320deg, var(--a-violet) 345deg, var(--a-blue) 360deg);
+  --a-yellow: #ffe07a;
+  --aurora: linear-gradient(100deg, var(--a-pink) 0%, var(--a-rose) 22%, var(--a-red) 40%, var(--a-orange) 60%, var(--a-amber) 80%, var(--a-yellow) 100%);
+  /* the mark's ring: rose at the spark (45°), red and orange around the right, gold low left, pink coming round */
+  --mark: conic-gradient(var(--a-amber) 0deg, var(--a-orange) 25deg, var(--a-rose) 45deg, var(--a-red) 85deg, var(--a-orange) 130deg,
+    var(--a-gold) 180deg, var(--a-yellow) 220deg, var(--a-amber) 260deg, var(--a-pink) 305deg, var(--a-rose) 335deg, var(--a-amber) 360deg);
   --aurora-ring: var(--mark); /* the corona */
-  --logo-ring: var(--mark);
+  /* the logo keeps its own full-spectrum ring, as the user chose; the page around it stays warm */
+  --logo-ring: conic-gradient(#3aa8ff 0deg, #a77bff 25deg, #ff4fa8 45deg, #a77bff 75deg, #3aa8ff 125deg,
+    #3ef0c6 175deg, #ffd25a 235deg, #ff8a4c 280deg, #ff4fa8 320deg, #a77bff 345deg, #3aa8ff 360deg);
   /* money on dark */
   --loss: #ff6b81;
   --safe: #ffd56b; /* protected money: pale gold, against the rose-red of money at risk */
-  --focus: var(--a-teal);
+  --focus: var(--a-yellow);
   --line: rgba(236, 238, 242, 0.1);
   --line-strong: rgba(236, 238, 242, 0.2);
   --shadow-card: 0 24px 50px -30px rgba(0, 0, 0, 0.9);
@@ -40,7 +42,7 @@
   color: var(--moon);
 }
 html { scroll-behavior: smooth; background: #07080b; }
-.pn ::selection { background: rgba(62, 240, 198, 0.3); color: #fff; }
+.pn ::selection { background: rgba(255, 224, 122, 0.3); color: #fff; }
 
 .skip {
   position: absolute; left: 1rem; top: -4rem; z-index: 200;
@@ -55,10 +57,10 @@ html { scroll-behavior: smooth; background: #07080b; }
   position: absolute; width: 70vmax; height: 70vmax; border-radius: 50%;
   will-change: transform;
 }
-.aurora i:nth-child(1) { left: -25vmax; top: -30vmax; background: radial-gradient(closest-side, rgba(62, 240, 198, 0.22), rgba(62, 240, 198, 0)); animation: drift-a 34s ease-in-out infinite alternate; }
-.aurora i:nth-child(2) { right: -30vmax; top: -10vmax; background: radial-gradient(closest-side, rgba(167, 123, 255, 0.2), rgba(167, 123, 255, 0)); animation: drift-b 41s ease-in-out infinite alternate; }
-.aurora i:nth-child(3) { left: 10vmax; bottom: -40vmax; background: radial-gradient(closest-side, rgba(255, 79, 168, 0.16), rgba(255, 79, 168, 0)); animation: drift-c 47s ease-in-out infinite alternate; }
-.aurora i:nth-child(4) { right: -10vmax; bottom: -35vmax; background: radial-gradient(closest-side, rgba(58, 168, 255, 0.16), rgba(58, 168, 255, 0)); animation: drift-a 53s ease-in-out infinite alternate-reverse; }
+.aurora i:nth-child(1) { left: -25vmax; top: -30vmax; background: radial-gradient(closest-side, rgba(255, 224, 122, 0.22), rgba(255, 224, 122, 0)); animation: drift-a 34s ease-in-out infinite alternate; }
+.aurora i:nth-child(2) { right: -30vmax; top: -10vmax; background: radial-gradient(closest-side, rgba(255, 84, 120, 0.2), rgba(255, 84, 120, 0)); animation: drift-b 41s ease-in-out infinite alternate; }
+.aurora i:nth-child(3) { left: 10vmax; bottom: -40vmax; background: radial-gradient(closest-side, rgba(255, 106, 154, 0.16), rgba(255, 106, 154, 0)); animation: drift-c 47s ease-in-out infinite alternate; }
+.aurora i:nth-child(4) { right: -10vmax; bottom: -35vmax; background: radial-gradient(closest-side, rgba(255, 170, 64, 0.16), rgba(255, 170, 64, 0)); animation: drift-a 53s ease-in-out infinite alternate-reverse; }
 @keyframes drift-a { to { transform: translate(18vmax, 12vmax) scale(1.15); } }
 @keyframes drift-b { to { transform: translate(-16vmax, 20vmax) scale(0.9); } }
 @keyframes drift-c { to { transform: translate(22vmax, -14vmax) scale(1.2); } }
@@ -66,7 +68,7 @@ html { scroll-behavior: smooth; background: #07080b; }
 .glow { /* over the content (below the nav), added as light, so it shows on solid areas like the footer too */
   z-index: 3; inset: auto; left: 0; top: 0; mix-blend-mode: screen;
   width: 56vmax; height: 56vmax; margin: -28vmax 0 0 -28vmax; border-radius: 50%;
-  background: radial-gradient(closest-side, rgba(62, 240, 198, 0.1), rgba(167, 123, 255, 0.06) 45%, rgba(167, 123, 255, 0) 100%);
+  background: radial-gradient(closest-side, rgba(255, 224, 122, 0.1), rgba(255, 84, 120, 0.06) 45%, rgba(255, 84, 120, 0) 100%);
   opacity: 0; transition: opacity 0.6s ease; will-change: transform;
 }
 .glow.is-on { opacity: 1; }
@@ -139,7 +141,7 @@ main, .footer { position: relative; z-index: 2; }
 .pn .btn--primary, .pn .btn--ink { background: var(--moon); color: var(--void); }
 .pn .btn--primary:hover, .pn .btn--ink:hover {
   background: #fff;
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.4), 0 6px 26px -6px rgba(167, 123, 255, 0.7), 0 2px 16px -4px rgba(62, 240, 198, 0.6);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.4), 0 6px 26px -6px rgba(255, 84, 120, 0.7), 0 2px 16px -4px rgba(255, 224, 122, 0.6);
 }
 
 /* ---------- Headings: moonlight, solid (the accent stays in the graphics) ---------- */
@@ -225,7 +227,7 @@ main, .footer { position: relative; z-index: 2; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .eclipse__wash { /* the color reaching across the whole sky afterwards */
   inset: -90%;
-  background: radial-gradient(closest-side, rgba(167, 123, 255, 0.22) 26%, rgba(62, 240, 198, 0.1) 40%, rgba(255, 79, 168, 0.06) 56%, rgba(0, 0, 0, 0) 76%);
+  background: radial-gradient(closest-side, rgba(255, 84, 120, 0.22) 26%, rgba(255, 224, 122, 0.1) 40%, rgba(255, 106, 154, 0.06) 56%, rgba(0, 0, 0, 0) 76%);
   opacity: var(--burst);
 }
 
@@ -281,7 +283,7 @@ main, .footer { position: relative; z-index: 2; }
      the spotlight is only a soft mask on its strength. (Cutting a ring out of two rounded masks thinned it at
      every corner, where both edges are antialiased.) */
   content: ""; position: absolute; inset: calc(var(--bw, 1px) * -1); border-radius: inherit; pointer-events: none; z-index: 2;
-  border: var(--bw, 1px) solid rgba(214, 222, 255, 0.9);
+  border: var(--bw, 1px) solid rgba(255, 190, 120, 0.95);
   -webkit-mask: radial-gradient(280px circle at var(--mx, 50%) var(--my, 50%), #000 0%, rgba(0, 0, 0, 0.55) 35%, rgba(0, 0, 0, 0) 75%);
   mask: radial-gradient(280px circle at var(--mx, 50%) var(--my, 50%), #000 0%, rgba(0, 0, 0, 0.55) 35%, rgba(0, 0, 0, 0) 75%);
   opacity: 0; transition: opacity 0.35s ease;
@@ -289,7 +291,7 @@ main, .footer { position: relative; z-index: 2; }
 .spot::before {
   content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; z-index: -1;
   width: auto; height: auto; transform: none; box-shadow: none; /* undo the base note's pin */
-  background: radial-gradient(360px circle at var(--mx, 50%) var(--my, 50%), rgba(167, 123, 255, 0.1), rgba(167, 123, 255, 0) 70%);
+  background: radial-gradient(360px circle at var(--mx, 50%) var(--my, 50%), rgba(255, 84, 120, 0.1), rgba(255, 84, 120, 0) 70%);
   opacity: 0; transition: opacity 0.35s ease;
 }
 .spot.is-lit::after, .spot.is-lit::before { opacity: 1; }
@@ -382,8 +384,8 @@ main, .footer { position: relative; z-index: 2; }
 .part__p { font-size: 1.95rem; font-weight: 800; letter-spacing: -0.05em; line-height: 1; margin-top: 0.4rem; font-variant-numeric: tabular-nums; }
 .split__fused { /* the one answer: ringed in amber light */
   background: var(--space); display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.25rem 1rem;
-  border: 1px solid rgba(58, 168, 255, 0.6);
-  box-shadow: 0 0 40px -12px rgba(167, 123, 255, 0.55), 0 0 60px -20px rgba(62, 240, 198, 0.4);
+  border: 1px solid rgba(255, 170, 64, 0.6);
+  box-shadow: 0 0 40px -12px rgba(255, 84, 120, 0.55), 0 0 60px -20px rgba(255, 224, 122, 0.4);
 }
 .split__fused .split__label { width: 100%; color: var(--moon-2); }
 .split__num { font-size: 3rem; font-weight: 800; letter-spacing: -0.06em; line-height: 1; }
@@ -399,8 +401,8 @@ main, .footer { position: relative; z-index: 2; }
   gap: 1.5rem; margin-top: 3.5rem; max-width: 76rem; align-items: stretch; /* squared up: equal heights, no stagger */
 }
 .mode { display: flex; flex-direction: column; gap: 0.85rem; }
-.mode__for { margin: 0; color: var(--a-teal); }
-.mode:nth-child(2) .mode__for { color: var(--a-violet); }
+.mode__for { margin: 0; color: var(--a-yellow); }
+.mode:nth-child(2) .mode__for { color: var(--a-rose); }
 .mode:nth-child(3) .mode__for { color: var(--a-pink); }
 .mode .h3 .w.on { color: var(--moon); }
 .mode__desc { margin: 0; color: var(--moon-2); font-size: 0.95rem; }
@@ -410,12 +412,12 @@ main, .footer { position: relative; z-index: 2; }
 .pv-slider { display: grid; gap: 0.3rem; margin-bottom: 0.6rem; font-weight: 600; color: var(--moon-2); }
 .pv-slider i {
   height: 4px; border-radius: 4px; position: relative;
-  background: linear-gradient(90deg, var(--a-blue) calc(var(--v) * 100%), rgba(255, 255, 255, 0.14) 0); /* filled to the knob, one color */
+  background: linear-gradient(90deg, var(--a-amber) calc(var(--v) * 100%), rgba(255, 255, 255, 0.14) 0); /* filled to the knob, one color */
 }
 .pv-slider i::after {
   content: ""; position: absolute; top: 50%; left: calc(var(--v) * 100%);
   width: 12px; height: 12px; border-radius: 50%; background: #fff;
-  transform: translate(-50%, -50%); box-shadow: 0 0 10px rgba(167, 123, 255, 0.8);
+  transform: translate(-50%, -50%); box-shadow: 0 0 10px rgba(255, 84, 120, 0.8);
 }
 .pv-fan { width: 100%; height: auto; margin-top: 0.3rem; }
 .pv-team__row { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 0.5rem; align-items: center; padding: 0.4rem 0; color: var(--moon-2); }
@@ -444,7 +446,7 @@ main, .footer { position: relative; z-index: 2; }
   content: ""; position: absolute; left: calc(var(--d) / 2); top: calc(var(--d) / 2 - 0.5px);
   width: calc(100% + var(--g)); height: 1px; background: var(--line-strong);
 }
-.phase::after { background: var(--a-blue); box-shadow: 0 0 8px rgba(58, 168, 255, 0.6); transform-origin: 0 50%; transform: scaleX(var(--fill)); }
+.phase::after { background: var(--a-amber); box-shadow: 0 0 8px rgba(255, 170, 64, 0.6); transform-origin: 0 50%; transform: scaleX(var(--fill)); }
 .phase:last-child::before, .phase:last-child::after { display: none; }
 .phase__disc {
   position: relative; z-index: 1; flex: none; width: var(--d); height: var(--d); margin-bottom: 0.9rem;
@@ -463,7 +465,7 @@ main, .footer { position: relative; z-index: 2; }
 .phase > :not(.phase__disc) { opacity: 0.28; transition: opacity 0.5s ease; }
 .phase.is-lit > :not(.phase__disc) { opacity: 1; }
 .phase__time { font-size: var(--fs-small); font-weight: 600; font-variant-numeric: tabular-nums; color: var(--moon-3); transition: color 0.5s ease, opacity 0.5s ease; }
-.phase.is-lit .phase__time { color: var(--a-blue); }
+.phase.is-lit .phase__time { color: var(--a-amber); }
 .phase strong { font-size: 1.02rem; letter-spacing: -0.015em; line-height: 1.25; color: var(--moon); }
 .phase > span:last-child { color: var(--moon-2); }
 .phase--done.is-lit .phase__time { color: var(--a-gold); }
@@ -584,9 +586,9 @@ main, .footer { position: relative; z-index: 2; }
 .gn__meta { color: var(--moon-2); }
 .gn--driver .gn__meta, .gn--exposure .gn__meta { color: var(--loss); font-weight: 700; }
 .gn--driver { box-shadow: 0 0 30px -10px rgba(255, 107, 129, 0.45); }
-.gn--owner { background: var(--moon); color: var(--void); border-color: transparent; box-shadow: 0 0 26px -10px rgba(167, 123, 255, 0.7); }
+.gn--owner { background: var(--moon); color: var(--void); border-color: transparent; box-shadow: 0 0 26px -10px rgba(255, 84, 120, 0.7); }
 .gn--owner .gn__kind { color: #555b67; }
-.gn__when { color: #9b2a6a; font-weight: 700; }
+.gn__when { color: #b8321c; font-weight: 700; }
 @media (max-width: 560px) {
   .graph { gap: 1.8rem 0.5rem; }
   .gn { padding: 0.55rem 0.5rem; font-size: 0.72rem; }
@@ -605,13 +607,13 @@ main, .footer { position: relative; z-index: 2; }
 .rigor__note { margin: 2.5rem 0 0; font-size: var(--fs-micro); color: var(--moon-3); }
 .rigor__note .w.on { color: var(--moon-3); }
 .calib { width: 100%; max-width: 260px; margin: 0.25rem auto; overflow: visible; }
-.calib .draw { filter: drop-shadow(0 0 5px rgba(62, 240, 198, 0.45)); }
+.calib .draw { filter: drop-shadow(0 0 5px rgba(255, 224, 122, 0.45)); }
 .horizon { width: 100%; max-width: 280px; margin: 0.25rem auto; overflow: visible; }
 .horizon__lab { font: 700 9px var(--font); }
 .horizon__ax { font: 500 8px var(--font); fill: var(--moon-3); }
 .prov { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.55rem; font-size: 0.82rem; }
 .prov li { display: grid; grid-template-columns: 3rem 1fr; gap: 0.5rem; color: var(--moon-2); }
-.prov .mono { color: var(--a-teal); font-size: 0.75rem; }
+.prov .mono { color: var(--a-yellow); font-size: 0.75rem; }
 @media (max-width: 960px) {
   .rigor__grid { grid-template-columns: minmax(0, 1fr); max-width: 34rem; }
   .rigor__lede { margin-left: 0; }
@@ -635,7 +637,7 @@ main, .footer { position: relative; z-index: 2; }
   font-weight: 500; color: var(--moon);
 }
 .contact__form input::placeholder { color: var(--moon-3); }
-.contact__form input:focus-visible { border-color: var(--a-teal); outline-offset: 1px; }
+.contact__form input:focus-visible { border-color: var(--a-yellow); outline-offset: 1px; }
 .contact__form input[aria-invalid="true"] { border-color: var(--loss); }
 .contact__msg { margin: 0; font-size: 0.85rem; min-height: 1.2em; color: var(--moon-2); }
 .nebula--close { /* rises out of the dark behind the form and thins away to black before the footer */
