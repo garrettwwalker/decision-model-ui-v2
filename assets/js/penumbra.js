@@ -527,9 +527,11 @@
     // so the wisps sway and curl against each other while the cloud as a whole stays put. ~15 frames a second,
     // only while on screen.
     if (reduceMotion) return;
-    var FLOW = [{ cv: gasA, a: 3.2, f: [0.042, 0.031, 0.037, 0.028], w: [0.11, 0.08, 0.095, 0.07], p: [0.3, 2.1, 4.0, 5.2] },
-                { cv: gasB, a: 3.6, f: [0.036, 0.044, 0.029, 0.039], w: [0.085, 0.12, 0.075, 0.1], p: [1.7, 3.3, 0.6, 2.8] },
-                { cv: dust, a: 3.0, f: [0.033, 0.026, 0.041, 0.03], w: [0.07, 0.095, 0.06, 0.085], p: [2.5, 0.9, 3.6, 4.7] }];
+    // a: sway in painting px (1px is ~6 screen px); w: rad/s, so a full sway takes ~20-35s. Slower and smaller than this
+    // was invisible on a soft, blurred cloud.
+    var FLOW = [{ cv: gasA, a: 6.5, f: [0.042, 0.031, 0.037, 0.028], w: [0.27, 0.2, 0.24, 0.18], p: [0.3, 2.1, 4.0, 5.2] },
+                { cv: gasB, a: 7.5, f: [0.036, 0.044, 0.029, 0.039], w: [0.21, 0.3, 0.19, 0.25], p: [1.7, 3.3, 0.6, 2.8] },
+                { cv: dust, a: 6.0, f: [0.033, 0.026, 0.041, 0.03], w: [0.18, 0.24, 0.15, 0.21], p: [2.5, 0.9, 3.6, 4.7] }];
     var shown = false, lastF = 0, flowing = false;
     if (window.IntersectionObserver) new IntersectionObserver(function (es) {
       shown = es[0].isIntersecting;
