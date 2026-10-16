@@ -548,6 +548,10 @@
     var seed = k * 140; // offsets picked by rendering them: 140 gives the closing cloud a full, wispy body
     var gasA = box.querySelector(".nebula__gas:not(.nebula__gas--b)"), gasB = box.querySelector(".nebula__gas--b");
     var dust = box.querySelector(".nebula__dust"), specks = box.querySelector(".nebula__specks");
+    // each layer gets a twin painted from the same cloud a little further along in time; CSS crossfades the pair, so
+    // the wisps re-form in place rather than the cloud travelling (it's in a vacuum)
+    var twin = function (el) { var t = el.cloneNode(); t.classList.add("is-twin"); el.after(t); return t; };
+    var gasA2 = twin(gasA), gasB2 = twin(gasB), dust2 = twin(dust);
 
     function makeNoise(seed) {
       var rnd = DB_rng(seed * 48271 + 1), perm = new Uint8Array(512), vals = new Float32Array(256), i;
@@ -568,8 +572,9 @@
       for (var o = 0; o < oct; o++) { s += a * n(x * f, y * f); norm += a; a *= 0.5; f *= 2.03; }
       return s / norm;
     }
-    function warped(n, x, y) { // fbm sampled through fbm: streaks and filaments
-      var q1 = fbm(n, x + 1.7, y + 9.2, 4), q2 = fbm(n, x + 8.3, y + 2.8, 4);
+    function warped(n, x, y, t) { // fbm sampled through fbm: streaks and filaments; t evolves the warp (0.3 re-forms the wisps, not the cloud)
+      t = t || 0;
+      var q1 = fbm(n, x + 1.7 + t * 0.5, y + 9.2 - t * 0.3, 4), q2 = fbm(n, x + 8.3 - t * 0.4, y + 2.8 + t * 0.5, 4);
       return fbm(n, x + 2.4 * q1, y + 2.4 * q2, 5);
     }
     function ramp(stops, t) {
@@ -597,26 +602,32 @@
       var nA = makeNoise(11 + seed), nB = makeNoise(23 + seed), nC = makeNoise(37 + seed), nD = makeNoise(53 + seed);
       var W = 300, H = Math.max(60, Math.round(W * aspect));
       var steps = [];
-      steps.push(function () { paint(gasA, W, H, function (x, y) {
+      var gasAt = function (t) { return function (x, y) {
         var open = band(fbm(nB, x * 0.35, y * 0.35, 2), 0.3, 0.6);         // where the cloud is at all
-        var w = warped(nA, x, y);
+        var w = warped(nA, x, y, t);
         var dens = band(w, 0.4, 0.76); dens = dens * dens * open + band(w, 0.3, 0.7) * 0.22 * (0.4 + 0.6 * open); // body + faint haze
         var col = ramp(WARM, (fbm(nC, x * 0.6, y * 0.6, 3) - 0.3) / 0.4);
         var hot = clamp((dens - 0.6) / 0.4, 0, 1) * 0.55;                  // hot cores go toward white
         return [lerp(col[0], 255, hot), lerp(col[1], 245, hot), lerp(col[2], 250, hot), 255 * Math.min(1, dens * 1.1)];
-      }); });
-      steps.push(function () { paint(gasB, W, H, function (x, y) {
-        var dens = band(warped(nB, x * 1.4 + 5, y * 1.4), 0.48, 0.74);
+      }; };
+      var gasBt = function (t) { return function (x, y) {
+        var dens = band(warped(nB, x * 1.4 + 5, y * 1.4, t), 0.48, 0.74);
         dens *= dens * band(fbm(nC, x * 0.4 + 3, y * 0.4, 2), 0.4, 0.62);
         var col = ramp(COOL, fbm(nA, x * 0.8, y * 0.8, 2) * 1.6 - 0.4);
         return [col[0], col[1], col[2], 200 * dens];
-      }); });
+      }; };
       var DW = 440, DH = Math.max(80, Math.round(DW * aspect));
-      steps.push(function () { paint(dust, DW, DH, function (x, y) {
-        var lanes = band(warped(nD, x * 1.1, y * 1.1), 0.56, 0.7);           // dark filaments across the glow
+      var dustT = function (t) { return function (x, y) {
+        var lanes = band(warped(nD, x * 1.1, y * 1.1, t), 0.56, 0.7);        // dark filaments across the glow
         return [4, 5, 8, 225 * lanes];
-      }); });
+      }; };
+      steps.push(function () { paint(gasA, W, H, gasAt(0)); });
+      steps.push(function () { paint(gasB, W, H, gasBt(0)); });
+      steps.push(function () { paint(dust, DW, DH, dustT(0)); });
       steps.push(drawSpecks);
+      steps.push(function () { paint(gasA2, W, H, gasAt(0.3)); });
+      steps.push(function () { paint(gasB2, W, H, gasBt(0.3)); });
+      steps.push(function () { paint(dust2, DW, DH, dustT(0.3)); });
       (function next() { var f = steps.shift(); if (f) { f(); setTimeout(next, 30); } })();
     }
     function drawSpecks() {

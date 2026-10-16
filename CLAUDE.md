@@ -95,7 +95,9 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   (computed: 36% and 86%), with 31%, before the leak, marked. At 48% leading with enterprise wins ($265M), which keeps
   the copy's "$210M on schedule, $38M of rework avoided" true; keep those consistent if numbers change. a nebula behind gray swans (`.nebula`: two gas layers and dark dust lanes from domain-warped
   fractal noise, painted once at low resolution, plus specks; CSS drifts each layer and scroll parts them by depth),
-  and graph arrows that draw themselves, as on the main landing. Nebula layers churn in place (no net drift, as in a vacuum); the user tried and dropped cursor effects on them. The page closes in a second nebula (`.nebula--close`, same renderer, its own seeds) behind the contact form, thinning to black before the solid black footer; the user preferred it to a northern-lights effect. Headings are solid moonlight (`--moon`, white for the hero's second line); the user rejected gradient text. `penumbra.js` is a fork of
+  and graph arrows that draw themselves, as on the main landing. Nebula layers don't move: each has a twin painted from the same cloud a little further along in time (warp
+  offset 0.3) and CSS crossfades the pair, so wisps re-form in place, as in a vacuum (rigid drift and churn both read
+  as a cloud on Earth); only a faint swell remains. The user tried and dropped cursor effects on them. The page closes in a second nebula (`.nebula--close`, same renderer, its own seeds) behind the contact form, thinning to black before the solid black footer; the user preferred it to a northern-lights effect. Headings are solid moonlight (`--moon`, white for the hero's second line); the user rejected gradient text. `penumbra.js` is a fork of
   `landing.js`; if the preview is adopted, it replaces `index.html` and the fork goes away.
 - Motion between views: `assets/js/nav.js` (in every page's `<head>`) records which way the clicked page lies in the
   nav order; the new page slides in from that side (cross-document view transitions where supported, with the
