@@ -282,12 +282,12 @@ main, .footer { position: relative; z-index: 2; }
 /* ---------- Below the hero ---------- */
 .day { position: relative; }
 
-/* card spotlight: a soft glow inside the card that follows the pointer (penumbra.js sets --mx/--my); no edge line */
+/* card spotlight: a soft white glow inside the card that follows the pointer (penumbra.js sets --mx/--my); no edge line */
 .spot { position: relative; isolation: isolate; }
 .spot::before {
   content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; z-index: -1;
   width: auto; height: auto; transform: none; box-shadow: none; /* undo the base note's pin */
-  background: radial-gradient(360px circle at var(--mx, 50%) var(--my, 50%), rgba(255, 84, 120, 0.1), rgba(255, 84, 120, 0) 70%);
+  background: radial-gradient(360px circle at var(--mx, 50%) var(--my, 50%), rgba(236, 238, 242, 0.09), rgba(236, 238, 242, 0) 70%); /* the same faint moonlight as the cursor glow */
   opacity: 0; transition: opacity 0.35s ease;
 }
 .spot.is-lit::before { opacity: 1; }
