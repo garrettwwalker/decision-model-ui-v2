@@ -293,7 +293,7 @@
   var lastY = window.scrollY;
   function navFrame() {
     var hb = hero.getBoundingClientRect().bottom, y = window.scrollY, dy = y - lastY;
-    nav.classList.toggle("is-scrolled", hb < window.innerHeight * 0.5);
+    nav.classList.toggle("is-scrolled", hb <= nav.offsetHeight); // frosted only once the hero has gone by underneath it
     // hide on the way down, show on the way up; it stays put until the hero's bottom edge has passed it, and with the menu open
     if (hb > nav.offsetHeight || nav.classList.contains("is-open")) nav.classList.remove("is-hidden");
     else if (dy > 4) nav.classList.add("is-hidden");
