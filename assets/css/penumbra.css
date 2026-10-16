@@ -148,8 +148,12 @@ main, .footer { position: relative; z-index: 2; }
    --burst (the rim explodes into the page's colors, fast then settling) and --flash (a bloom at the moment). */
 .hero { position: relative; height: 280vh; }
 .hero__stage {
-  position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden;
+  position: sticky; top: 0; height: 100vh; height: 100svh;
+  overflow-x: clip; overflow-y: visible; /* the moon may run on below; the light is clipped and faded by .hero__sky */
   --cover: 0; --ring: 0; --burst: 0; --flash: 0; --after: 0; --tx: 0px; --ty: 0px;
+}
+.hero__sky { /* the sun and its light fade out at the bottom of the screen; the moon (outside this) doesn't */
+  position: absolute; inset: 0; overflow: hidden;
   -webkit-mask-image: linear-gradient(180deg, #000 90%, rgba(0, 0, 0, 0) 100%);
   mask-image: linear-gradient(180deg, #000 90%, rgba(0, 0, 0, 0) 100%);
 }
