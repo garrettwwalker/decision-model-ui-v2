@@ -69,23 +69,40 @@
           <p class="prose read">You need decision intelligence that keeps up — and tells you how you can respond.</p>
         </div>
 
-        <figure class="watch note" aria-label="Examples of what the Totality engine flags overnight">
-          <figcaption class="watch__head">
-            <span class="watch__title">Flagged overnight</span>
-            <span class="watch__count" data-watch-count>1 of 5</span>
-          </figcaption>
-          <div class="watch__body" aria-live="off">
-            <p class="watch__event" data-watch="event">Hormuz closes for 7+ days</p>
-            <div class="watch__p">
-              <span class="watch__bar"><i data-watch="bar"></i></span>
-              <span class="watch__pct"><b data-watch="p">27%</b> <span data-watch="when">within 30 days</span></span>
-            </div>
-            <dl class="watch__facts">
-              <div><dt>Touches</dt><dd data-watch="touches">9 vessels and 312 purchase orders</dd></div>
-              <div><dt>Best move</dt><dd data-watch="move">Bridge-buy resin from Singapore</dd></div>
-              <div class="watch__value"><dt data-watch="vlabel">Protects</dt><dd data-watch="value">$11.7M</dd></div>
-            </dl>
-          </div>
+        <figure class="sat" aria-hidden="true">
+          <svg viewBox="0 0 440 340" class="sat__svg">
+            <defs>
+              <linearGradient id="daybreak-foil" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#ffd27a"/><stop offset="0.55" stop-color="#e8913f"/><stop offset="1" stop-color="#9c4f24"/>
+              </linearGradient>
+              <linearGradient id="daybreak-glint" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset="0.5" stop-color="#ffe9c4" stop-opacity="0.55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/>
+              </linearGradient>
+              <clipPath id="daybreak-panels"><rect x="40" y="146" width="110" height="52" rx="2"/><rect x="290" y="146" width="110" height="52" rx="2"/></clipPath>
+            </defs>
+            <path class="sat__orbit" d="M-10 292C120 214 300 120 450 52"/>
+            <g class="sat__float">
+              <g transform="rotate(-18 220 172)">
+                <path class="sat__strut" d="M150 172H190M250 172H290"/>
+                <g class="sat__panel">
+                  <rect x="40" y="146" width="110" height="52" rx="2"/>
+                  <rect x="290" y="146" width="110" height="52" rx="2"/>
+                  <path class="sat__grid" d="M67.5 146V198 M95.0 146V198 M122.5 146V198 M40 172H150 M317.5 146V198 M345.0 146V198 M372.5 146V198 M290 172H400"/>
+                </g>
+                <g clip-path="url(#daybreak-panels)"><rect class="sat__glint" x="-60" y="120" width="60" height="110" fill="url(#daybreak-glint)"/></g>
+                <path class="sat__dish-stem" d="M226 128V112"/>
+                <ellipse class="sat__dish" cx="226" cy="104" rx="22" ry="7"/>
+                <path class="sat__dish-stem" d="M226 104L226 92"/>
+                <polygon class="sat__top" points="190,140 202,128 262,128 250,140"/>
+                <polygon class="sat__side" points="250,140 262,128 262,192 250,204"/>
+                <rect class="sat__body" x="190" y="140" width="60" height="64" rx="2"/>
+                <path class="sat__seam" d="M190 161H250M190 183H250"/>
+                <path class="sat__rod" d="M200 204L194 236"/>
+                <circle class="sat__tip" cx="194" cy="237" r="2"/>
+                <circle class="sat__light" cx="262" cy="128" r="2.6"/>
+              </g>
+            </g>
+          </svg>
         </figure>
       </section>
 
