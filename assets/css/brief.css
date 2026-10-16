@@ -177,7 +177,7 @@
   background: var(--space); border-color: color-mix(in srgb, var(--blue) 60%, transparent);
   box-shadow: 0 0 40px -12px color-mix(in srgb, var(--blue) 55%, transparent), 0 0 60px -20px color-mix(in srgb, var(--teal) 40%, transparent);
 }
-.route-card--no { opacity: 0.6; }
+.route-card--no > * { opacity: 0.6; } /* dim the words, not the glass: a faded card lets the haze glare through */
 .route-card__tag { margin: 0 0 0.35rem; font-size: 0.8rem; font-weight: 600; color: var(--fg-2); }
 .route-card__tag::first-letter { text-transform: uppercase; }
 .is-best .route-card__tag { color: var(--amber); }
@@ -198,7 +198,6 @@
 .build__eng { font-size: var(--fs-small); font-weight: 600; color: var(--fg-2); }
 .build__q { font-size: 0.88rem; font-weight: 600; line-height: 1.3; }
 .build__p { margin-top: auto; font-size: 1.6rem; font-weight: 800; letter-spacing: -0.04em; font-variant-numeric: tabular-nums; }
-.build__out { background: transparent !important; border: 1px solid var(--line); }
 .build__out .build__q { color: var(--fg-2); }
 .build__out .build__p { font-size: 1rem; letter-spacing: 0; color: var(--fg-2); }
 /* the one answer: ringed in amber light, as on the landing */

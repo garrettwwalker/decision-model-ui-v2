@@ -35,7 +35,9 @@ body.app { min-height: 100vh; }
   --moon-3: #8f9ab0; /* a step lighter than the landing's: labels stay 4.5:1 even where bright haze shows through the glass */
   --ink-2: var(--moon-2);
   --ink-3: var(--moon-3);
-  --card: rgba(22, 28, 48, 0.7); /* the haze shows through, softened by the blur */
+  --card: rgba(18, 24, 42, 0.8); /* the haze shows through, softened by the blur; denser than the other skies' cards, since the blue haze is the brightest */
+  --card-hover: color-mix(in srgb, var(--card) 90%, var(--moon) 10%); /* a step up for hover; off and unselected cards stay on --card and dim their text, never a white film the haze turns milky */
+  --card-on: color-mix(in srgb, var(--card) 80%, var(--accent) 20%); /* selected: the card takes on the page's accent */
   --paper: var(--card);
   --card-solid: #131a2c;
   --card-low: rgba(220, 230, 255, 0.045);

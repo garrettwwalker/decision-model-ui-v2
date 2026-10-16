@@ -58,7 +58,8 @@
 @media (max-width: 1080px) { .tgrid { grid-template-columns: minmax(0, 1fr); } }
 .decisions { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.75rem; }
 .dec { padding: 1rem 1.15rem; border-radius: var(--radius); background: var(--paper);  display: grid; gap: 0.6rem; }
-.dec.is-made { background: rgba(236, 238, 242, 0.05); -webkit-backdrop-filter: var(--glass); backdrop-filter: var(--glass); box-shadow: none; }
+.dec.is-made { box-shadow: none; }
+.dec.is-made .dec__q, .dec.is-made .dec__ctx { opacity: 0.6; }
 .dec__top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 0.3rem 1rem; }
 .dec__q { margin: 0; font-size: 1.05rem; letter-spacing: -0.02em; }
 .dec__ctx, .dec__why { margin: 0; font-size: 0.84rem; color: var(--fg-2); }
@@ -149,9 +150,9 @@
   padding: 0.85rem 0.95rem; border-radius: var(--radius); border: 1.5px solid transparent; background: var(--paper); color: var(--ink); 
 }
 .mate:hover { border-color: var(--line-strong); }
-.mate.is-sel { border-color: var(--ink); }
 .mate.is-over:not(.is-sel) { border-color: var(--loss); }
-.mate.is-away { background: rgba(236, 238, 242, 0.05); -webkit-backdrop-filter: var(--glass); backdrop-filter: var(--glass); box-shadow: none; border-color: transparent; }
+.mate.is-away { box-shadow: none; }
+.mate.is-away > * { opacity: 0.6; }
 .mate__top { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0.6rem; align-items: center; }
 .mate__name { display: grid; }
 .mate__name b { font-size: 0.9rem; }
@@ -194,10 +195,10 @@
 .watch__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; }
 .wi {
   width: 100%; display: grid; gap: 0.3rem; text-align: left; cursor: pointer; min-height: 44px;
-  padding: 0.8rem 0.95rem; border-radius: var(--radius); border: 1.5px solid transparent; background: rgba(236, 238, 242, 0.05); color: var(--ink);
+  padding: 0.8rem 0.95rem; border-radius: var(--radius); border: 1.5px solid transparent; background: var(--card); color: var(--ink);
 }
-.wi:hover { background: var(--paper); }
-.wi.is-on { background: var(--paper); border-color: var(--ink);  }
+.wi:hover { background: var(--card-hover); }
+.wi.is-on { background: var(--card-on); }
 .wi__top { display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; }
 .wi__kind { font-size: 0.72rem; font-weight: 800; color: var(--loss); }
 .wi--opportunity .wi__kind { color: var(--safe); }
@@ -255,12 +256,12 @@
 .dec__opt.is-pick:hover { background: color-mix(in srgb, var(--blue) 16%, transparent); }
 .task__status { border: 0; background: rgba(236, 238, 242, 0.06); }
 .mate, .mate:hover, .mate.is-sel, .mate.is-over:not(.is-sel) { border-color: transparent; }
-.mate { background: rgba(236, 238, 242, 0.05); -webkit-backdrop-filter: var(--glass); backdrop-filter: var(--glass); box-shadow: none; transition: background-color 0.2s ease, box-shadow 0.2s ease; }
-.mate:hover { background: rgba(236, 238, 242, 0.09); }
-.mate.is-sel { background: var(--paper);  }
-.wi { border-color: transparent; background: rgba(236, 238, 242, 0.05); -webkit-backdrop-filter: var(--glass); backdrop-filter: var(--glass); transition: background-color 0.2s ease, box-shadow 0.2s ease; }
-.wi:hover { background: rgba(236, 238, 242, 0.09); }
-.wi.is-on { border-color: transparent; background: var(--paper);  }
+.mate { background: var(--card); -webkit-backdrop-filter: var(--glass); backdrop-filter: var(--glass); box-shadow: none; transition: background-color 0.2s ease, box-shadow 0.2s ease; }
+.mate:hover { background: var(--card-hover); }
+.mate.is-sel { background: var(--card-on); }
+.wi { border-color: transparent; background: var(--card); -webkit-backdrop-filter: var(--glass); backdrop-filter: var(--glass); transition: background-color 0.2s ease, box-shadow 0.2s ease; }
+.wi:hover { background: var(--card-hover); }
+.wi.is-on { border-color: transparent; background: var(--card-on); }
 .update__text { border-color: var(--line); background: rgba(7, 8, 11, 0.6); }
 .update__text:focus-visible { outline: none; border-color: color-mix(in srgb, var(--blue) 60%, transparent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--blue) 10%, transparent), 0 0 22px -4px color-mix(in srgb, var(--blue) 45%, transparent); }
 
