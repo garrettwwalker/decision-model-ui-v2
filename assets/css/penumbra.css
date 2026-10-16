@@ -61,8 +61,8 @@ html { scroll-behavior: smooth; background: #07080b; }
   will-change: transform;
 }
 .aurora i:nth-child(1) { left: -25vmax; top: -30vmax; background: radial-gradient(closest-side, rgba(255, 224, 122, 0.22), rgba(255, 224, 122, 0)); animation: drift-a 34s ease-in-out infinite alternate; }
-.aurora i:nth-child(2) { right: -30vmax; top: -10vmax; background: radial-gradient(closest-side, rgba(255, 84, 120, 0.2), rgba(255, 84, 120, 0)); animation: drift-b 41s ease-in-out infinite alternate; }
-.aurora i:nth-child(3) { left: 10vmax; bottom: -40vmax; background: radial-gradient(closest-side, rgba(255, 106, 154, 0.16), rgba(255, 106, 154, 0)); animation: drift-c 47s ease-in-out infinite alternate; }
+.aurora i:nth-child(2) { display: none; } /* removed: its rose/pink cast spread across the lower right */
+.aurora i:nth-child(3) { display: none; } /* removed: its rose/pink cast spread across the lower right */
 .aurora i:nth-child(4) { display: none; } /* no glow in the lower right: it read as a red cast */
 @keyframes drift-a { to { transform: translate(18vmax, 12vmax) scale(1.15); } }
 @keyframes drift-b { to { transform: translate(-16vmax, 20vmax) scale(0.9); } }
