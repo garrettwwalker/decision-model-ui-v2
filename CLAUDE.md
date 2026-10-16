@@ -92,7 +92,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   word by word, "what should you do?" (after gray swans) as a moon chart (`.lunes`, heading styled like the other sections), introduced by
   the world-model lines moved from the plan section: the four responses,
   worst to best, waxing from crescent to half, gibbous and full moon on an orbit line (launch enterprise 265, flagged "Best move";
-  build hosting 260; launch all four 249, 172-320; delay 154, 148-160); each moon stands alone with no intro: the Brazil action, "expected first-year revenue", and its range spelled out as "$X if Brazil requires local hosting, $Y if not" (a 48% law, so EV = .48 low + .52 high); the best glows. Phases are static SVG paths.
+  build hosting 260; launch all four 249, 172-320; delay 154, 148-160); each moon stands alone with no intro and stays short: the action, the figure and "expected revenue", no ranges and no Brazil (the user found more too text-heavy); the best glows. Phases are static SVG paths.
   a nebula behind gray swans (`.nebula`: two gas layers and dark dust lanes from domain-warped
   fractal noise, painted once at low resolution, plus specks; CSS drifts each layer and scroll parts them by depth),
   and "here's the plan." (the old node-link section) beside the constellation Sagittarius (`.cst`, static SVG of Stellarium's western stick figure, the
