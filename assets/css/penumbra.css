@@ -279,25 +279,15 @@ main, .footer { position: relative; z-index: 2; }
 /* ---------- Below the hero ---------- */
 .day { position: relative; }
 
-/* card spotlight: an aurora-edged glow that follows the pointer (penumbra.js sets --mx/--my) */
+/* card spotlight: a soft glow inside the card that follows the pointer (penumbra.js sets --mx/--my); no edge line */
 .spot { position: relative; isolation: isolate; }
-.spot::after {
-  /* a real border, laid exactly over the card's own (--bw wide), which the browser draws evenly round the corners;
-     the spotlight is only a soft mask on its strength. (Cutting a ring out of two rounded masks thinned it at
-     every corner, where both edges are antialiased.) */
-  content: ""; position: absolute; inset: calc(var(--bw, 1px) * -1); border-radius: inherit; pointer-events: none; z-index: 2;
-  border: var(--bw, 1px) solid rgba(255, 190, 120, 0.95);
-  -webkit-mask: radial-gradient(280px circle at var(--mx, 50%) var(--my, 50%), #000 0%, rgba(0, 0, 0, 0.55) 35%, rgba(0, 0, 0, 0) 75%);
-  mask: radial-gradient(280px circle at var(--mx, 50%) var(--my, 50%), #000 0%, rgba(0, 0, 0, 0.55) 35%, rgba(0, 0, 0, 0) 75%);
-  opacity: 0; transition: opacity 0.35s ease;
-}
 .spot::before {
   content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; z-index: -1;
   width: auto; height: auto; transform: none; box-shadow: none; /* undo the base note's pin */
   background: radial-gradient(360px circle at var(--mx, 50%) var(--my, 50%), rgba(255, 84, 120, 0.1), rgba(255, 84, 120, 0) 70%);
   opacity: 0; transition: opacity 0.35s ease;
 }
-.spot.is-lit::after, .spot.is-lit::before { opacity: 1; }
+.spot.is-lit::before { opacity: 1; }
 
 /* dark glass in place of white paper; no pins */
 .pn .note {
