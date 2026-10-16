@@ -358,7 +358,7 @@ main, .footer { position: relative; z-index: 2; }
   gap: 3rem clamp(2rem, 5vw, 5rem); align-items: stretch; margin-top: 3rem; max-width: 82rem;
 }
 .engine__steps { list-style: none; margin: 0; padding: 0; display: grid; align-content: start; align-self: center; gap: 3.25rem; } /* a little more air between steps; centred against the diagram */
-.engine__grid .split { align-self: start; }
+.engine__grid .split { align-self: center; } /* both centred on the shared row: equal space above step 1 and below step 3, whichever is taller */
 .engine__steps li { position: relative; padding-left: 3.25rem; }
 .engine__n { position: absolute; left: 0; top: 0.1rem; width: 2.1rem; height: 2.1rem; fill: var(--moon); font: 800 19px var(--font); overflow: visible; transition: fill 0.35s ease; }
 /* each number lights with the first word of its heading, and dims again with it on the way back up */
