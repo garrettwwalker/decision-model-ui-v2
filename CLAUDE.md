@@ -95,8 +95,8 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   build hosting 260; launch all four 249, 172-320; delay 154, 148-160); the best glows. Phases are static SVG paths.
   a nebula behind gray swans (`.nebula`: two gas layers and dark dust lanes from domain-warped
   fractal noise, painted once at low resolution, plus specks; CSS drifts each layer and scroll parts them by depth),
-  and "here's the plan." (the old node-link section) beside the constellation Sagittarius (`.cst`, static SVG projected from real J2000
-  positions, east left and north up, star size by magnitude: the Teapot plus the arrow tip, the archer's head and legs,
+  and "here's the plan." (the old node-link section) beside the constellation Sagittarius (`.cst`, static SVG of Stellarium's western stick figure, the
+  24 "Sgr" HIP pairs, with SIMBAD J2000 positions and V magnitudes; east left, north up, star size by magnitude;
   over faint field stars; twinkling, lines drawing once in view; bleeds toward the page edge). No text, no cursor
   reaction: the user tried a labelled hub and spoke and a cursor-reactive version first. Nebula layers don't move: each has a twin painted from the same cloud a little further along in time (warp
   offset 0.3) and CSS crossfades the pair, so wisps re-form in place, as in a vacuum (rigid drift and churn both read
