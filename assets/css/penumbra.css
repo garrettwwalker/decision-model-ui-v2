@@ -296,7 +296,7 @@ main, .footer { position: relative; z-index: 2; }
 /* ---------- Read as you scroll (classes added by penumbra.js) ---------- */
 .w { transition: color 0.35s ease; }
 .w:not(.on) { color: var(--unread) !important; } /* color only, so un-reading fades as smoothly as reading */
-.prose .w.on, .read .w.on { color: var(--moon); }
+.prose .w.on, .read .w.on { color: var(--moon-2); } /* every body paragraph reads in the same moon gray; headings are the white */
 .tile { opacity: 0.18; transition: opacity 0.6s ease, translate 0.6s ease; translate: 0 10px; }
 .tile.on { opacity: 1; translate: 0 0; }
 
@@ -528,7 +528,8 @@ main, .footer { position: relative; z-index: 2; }
 /* ---------- Rigor ---------- */
 .rigor { padding: clamp(5rem, 12vh, 8rem) var(--gutter); }
 .rigor > .h2 { margin-left: clamp(0rem, 6vw, 6rem); display: inline-block; }
-.rigor__lede { max-width: 34rem; margin: 2rem 0 3.5rem calc(clamp(0rem, 6vw, 6rem) + 0.15rem); font-size: 1.1rem; }
+.rigor__lede { max-width: 34rem; margin: 2rem 0 3.5rem calc(clamp(0rem, 6vw, 6rem) + 0.15rem); font-size: 1.1rem; color: var(--moon-2); }
+.rigor__lede .w.on { color: var(--moon-2); }
 .rigor__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; max-width: 76rem; align-items: stretch; }
 .rigor__grid .note { display: flex; flex-direction: column; gap: 0.75rem; }
 .rigor__h { font-size: 1.3rem; }
