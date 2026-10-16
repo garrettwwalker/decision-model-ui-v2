@@ -292,10 +292,10 @@
   var nav = document.querySelector(".nav");
   var lastY = window.scrollY;
   function navFrame() {
-    var past = hero.getBoundingClientRect().bottom < window.innerHeight * 0.5, y = window.scrollY, dy = y - lastY;
-    nav.classList.toggle("is-scrolled", past);
-    // hide on the way down, show on the way up; never over the hero or with the menu open
-    if (!past || nav.classList.contains("is-open")) nav.classList.remove("is-hidden");
+    var hb = hero.getBoundingClientRect().bottom, y = window.scrollY, dy = y - lastY;
+    nav.classList.toggle("is-scrolled", hb < window.innerHeight * 0.5);
+    // hide on the way down, show on the way up; it stays put until the hero's bottom edge has passed it, and with the menu open
+    if (hb > nav.offsetHeight || nav.classList.contains("is-open")) nav.classList.remove("is-hidden");
     else if (dy > 4) nav.classList.add("is-hidden");
     else if (dy < -4) nav.classList.remove("is-hidden");
     if (Math.abs(dy) > 4) lastY = y;
