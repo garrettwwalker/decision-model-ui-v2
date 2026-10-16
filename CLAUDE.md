@@ -81,7 +81,8 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   ground with one warm accent, the light at an eclipse's edge: pink, rose, red, orange, amber, pale gold (`--a-*`,
   `--aurora`, and the conic `--mark`). The user rejected the logo JPEG's full rainbow on the page (the logo alone keeps it); keep the page
   off blues, greens and violets, and keep lines, bars and borders one color, not gradients. Protected money
-  (`--safe`) is pale gold here, not green. Hero: one screen-sized eclipse. A white sun fills most of the viewport; scroll slides the
+  (`--safe`) is pale gold here, not green. Hero: one screen-sized eclipse; the headline breaks "risk lies in / shadow.", and on landscape screens `penumbra.js`
+  (`fitHero`, `--hfs`/`--afs`) shrinks both headlines just enough to clear the sun's disc. A white sun fills most of the viewport; scroll slides the
   moon over it from the lower left (`--cover`), the rim lights at totality (`--ring`, `--flash`) and then bursts
   into the page's spectrum (`--burst`: blurred corona, conic ray streamers, a sky-wide wash); the headline is "risk lies in shadow." as "look around the bend"
   arrives. Before the burst the headline is a white copy in `mix-blend-mode: difference` (black on the sun, white on

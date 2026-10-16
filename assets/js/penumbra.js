@@ -12,6 +12,36 @@
   var hero = document.querySelector(".hero");
   var stage = document.querySelector(".hero__stage");
 
+  /* ---------- Hero type sized to clear the sun (landscape screens) ----------
+     Shrink each headline just enough that every line, left-aligned as it is, ends short of the sun's disc at the
+     height where that line comes closest to it. The sun stays put. */
+  var copyEl = document.querySelector(".hero__copy");
+  function fitHero() {
+    copyEl.style.removeProperty("--hfs"); copyEl.style.removeProperty("--afs");
+    if (window.innerWidth <= window.innerHeight) return; // portrait: the text sits above the sun
+    var ecl = stage.querySelector(".eclipse").getBoundingClientRect(), R = ecl.width / 2, cx = ecl.left + R, cy = ecl.top + R;
+    var pad = Math.max(20, window.innerWidth * 0.015);
+    function fit(block, prop, lift) {
+      var lines = block.querySelectorAll(":scope > span"), fs = parseFloat(getComputedStyle(block).fontSize);
+      for (var i = 0; i < 8; i++) {
+        copyEl.style.setProperty(prop, fs.toFixed(1) + "px");
+        var k = 1;
+        lines.forEach(function (ln) {
+          var r = ln.getBoundingClientRect(), inset = r.height * 0.1;
+          var y = Math.max(r.top + inset - lift, Math.min(r.bottom - inset, cy)), d = y - cy; // lift: it ends up higher than measured
+          if (Math.abs(d) < R) { var edge = cx - Math.sqrt(R * R - d * d); k = Math.min(k, (edge - pad - r.left) / Math.max(1, r.width)); }
+        });
+        if (k > 0.995) break;
+        fs *= Math.max(0.4, k);
+      }
+    }
+    fit(stage.querySelector(".hero__title:not(.hero__title--ink)"), "--hfs", 0);
+    fit(stage.querySelector(".hero__after"), "--afs", 30); // the second line rises 30px as it appears
+  }
+  fitHero();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitHero);
+  window.addEventListener("resize", fitHero);
+
   function heroFrame() {
     var r = hero.getBoundingClientRect();
     var span = hero.offsetHeight - window.innerHeight;

@@ -141,6 +141,8 @@ main, .footer { position: relative; z-index: 2; }
 /* ---------- Headings: moonlight, solid (the accent stays in the graphics) ---------- */
 .h2, .contact__title { color: var(--moon); }
 .hero__after { color: #fff; }
+.hero__after > span { display: block; }
+.hero__title > span, .hero__after > span { width: fit-content; } /* lines hug their text, so penumbra.js can measure where they end */
 .split__num { color: #fff; }
 
 /* ---------- Hero: one eclipse, screen-sized ----------
@@ -232,7 +234,7 @@ main, .footer { position: relative; z-index: 2; }
 }
 .hero__head { position: relative; }
 .hero__title > span { display: block; }
-.hero__title { font-size: min(var(--fs-display), 19vh); }
+.hero__title { font-size: var(--hfs, min(var(--fs-display), 19vh)); } /* --hfs: sized by penumbra.js to clear the sun */
 .hero__title { color: var(--moon); opacity: var(--burst); } /* the real headline, once the sky is dark and colored */
 .hero__title--ink { /* white set in difference: black over the sun, white over space and the moon */
   position: absolute; inset: 0; margin: 0;
@@ -241,7 +243,7 @@ main, .footer { position: relative; z-index: 2; }
 }
 .hero__after {
   position: absolute; left: var(--gutter); right: auto; bottom: 16%;
-  margin: 0; font-size: min(clamp(2.4rem, 7vw, 6rem), 11vh); /* capped by height so short screens keep it clear of the headline */
+  margin: 0; font-size: var(--afs, min(clamp(2.4rem, 7vw, 6rem), 11vh)); /* --afs: sized by penumbra.js to clear the sun */
   opacity: var(--after);
   transform: translateY(calc((1 - var(--after)) * 30px));
 }
@@ -259,7 +261,7 @@ main, .footer { position: relative; z-index: 2; }
 }
 @media (max-width: 600px) { /* phones: headline on top, the sun filling the lower two-thirds */
   .hero__copy { padding-top: calc(env(safe-area-inset-top, 0px) + 12vh); }
-  .hero__title { font-size: 16vw; }
+  .hero__title { font-size: 14vw; } /* "risk lies in" has to fit the width */
   .hero__after { position: static; margin-top: 0.6em; font-size: 12.5vw; }
   .eclipse { --D: 132vmin; left: 58%; top: 66%; }
 }
