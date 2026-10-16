@@ -558,20 +558,27 @@ main, .footer { position: relative; z-index: 2; }
 .contact__side { display: grid; gap: 1.5rem; }
 @media (max-width: 820px) { .contact__inner { grid-template-columns: minmax(0, 1fr); } .contact__title { font-size: clamp(2.8rem, 11vw, 5rem); } }
 .contact__form {
-  display: grid; gap: 0.85rem; padding: 1.35rem; border-radius: var(--radius-lg);
+  display: grid; gap: 1.1rem; padding: 1.5rem; border-radius: var(--radius-lg);
   background: var(--card); border: 1px solid var(--card-rim);
   box-shadow: var(--shadow-card);
 }
-.contact__form label { display: grid; gap: 0.35rem; font-size: 0.8rem; font-weight: 700; }
+.contact__form label { display: grid; gap: 0.45rem; font-size: 0.85rem; font-weight: 600; color: var(--moon-2); }
 .contact__form input {
   min-height: 44px; padding: 0.55rem 0.8rem;
-  border: 1.5px solid var(--line-strong); border-radius: 10px; background: rgba(7, 8, 11, 0.7);
+  border: 1px solid var(--line-strong); border-radius: 10px; background: rgba(7, 8, 11, 0.7);
   font-weight: 500; color: var(--moon);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
 .contact__form input::placeholder { color: var(--moon-3); }
-.contact__form input:focus-visible { border-color: var(--a-yellow); outline-offset: 1px; }
+/* focus: the soft gold light the page uses for good news (the protected bar, the best moon), not a hard ring */
+.contact__form input:focus, .contact__form input:focus-visible {
+  outline: none; border-color: rgba(255, 210, 90, 0.6);
+  box-shadow: 0 0 0 3px rgba(255, 210, 90, 0.1), 0 0 22px -4px rgba(255, 210, 90, 0.45);
+}
 .contact__form input[aria-invalid="true"] { border-color: var(--loss); }
-.contact__msg { margin: 0; font-size: 0.85rem; min-height: 1.2em; color: var(--moon-2); }
+.contact__form .btn { margin-top: 0.4rem; } /* the button sits a step below the fields */
+.contact__msg { margin: 0; font-size: 0.85rem; color: var(--moon-2); }
+.contact__msg:empty { display: none; } /* no empty line under the button: equal space above the first field and below the button */
 .nebula--close { /* rises out of the dark behind the form and thins away to black before the footer */
   -webkit-mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.05) 7%, rgba(0, 0, 0, 0.2) 15%, rgba(0, 0, 0, 0.48) 23%, rgba(0, 0, 0, 0.76) 31%, rgba(0, 0, 0, 0.93) 38%, #000 44%, #000 54%, rgba(0, 0, 0, 0.3) 76%, rgba(0, 0, 0, 0) 92%);
   mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.05) 7%, rgba(0, 0, 0, 0.2) 15%, rgba(0, 0, 0, 0.48) 23%, rgba(0, 0, 0, 0.76) 31%, rgba(0, 0, 0, 0.93) 38%, #000 44%, #000 54%, rgba(0, 0, 0, 0.3) 76%, rgba(0, 0, 0, 0) 92%);
