@@ -71,7 +71,7 @@ html { scroll-behavior: smooth; background: #07080b; }
 .glow { /* over the content (below the nav), added as light, so it shows on solid areas like the footer too */
   z-index: 3; inset: auto; left: 0; top: 0; mix-blend-mode: screen;
   width: 56vmax; height: 56vmax; margin: -28vmax 0 0 -28vmax; border-radius: 50%;
-  background: radial-gradient(closest-side, rgba(255, 224, 122, 0.1), rgba(255, 84, 120, 0.06) 45%, rgba(255, 84, 120, 0) 100%);
+  background: radial-gradient(closest-side, rgba(236, 238, 242, 0.07), rgba(236, 238, 242, 0.03) 45%, rgba(236, 238, 242, 0) 100%); /* faint moonlight */
   opacity: 0; transition: opacity 0.6s ease; will-change: transform;
 }
 .glow.is-on { opacity: 1; }
