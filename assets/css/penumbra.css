@@ -423,51 +423,111 @@ main, .footer { position: relative; z-index: 2; }
 .pv-heat span { aspect-ratio: 1.6; border-radius: 3px; }
 @media (max-width: 960px) { .modes__grid { grid-template-columns: minmax(0, 1fr); max-width: 34rem; gap: 2.5rem; } }
 
-/* ---------- How: from 2 a.m. to first light, as eclipse phases ----------
-   Each step is a small eclipse: the moon (.phase__disc i) slides off the sun by --off of a diameter. A segment of
-   track runs from each disc to the next; penumbra.js fills it (--fill) and lights the disc (.is-lit) as you scroll. */
-.how { padding: 2rem var(--gutter) clamp(6rem, 14vh, 9rem); }
-.how__title { margin: 0 0 1.5rem clamp(0rem, 6vw, 6rem); display: inline-block; }
-.phases {
-  --g: 1.5rem; --d: 46px;
-  list-style: none; margin: 3rem 0 0; padding: 0;
-  display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--g);
+/* ---------- What should I do? The responses modelled, and where the answer flips ----------
+   penumbra.js lays each option's outcomes on one revenue scale (--xn, --xd, --xe as % of the axis) and marks the best
+   one at the slider's probability. */
+.decide { padding: 2rem var(--gutter) clamp(6rem, 14vh, 9rem); }
+.decide__head { margin-left: clamp(0rem, 6vw, 6rem); display: grid; gap: 1.6rem; }
+.decide__lede { margin: 0; max-width: 34rem; font-size: 1.1rem; color: var(--moon-2); }
+.decide__lede .w.on { color: var(--moon-2); }
+.decide__grid {
+  display: grid; grid-template-columns: minmax(0, 19rem) minmax(0, 1fr); gap: 1.5rem;
+  margin-top: 3rem; max-width: 82rem; align-items: start;
 }
-.phase { position: relative; display: flex; flex-direction: column; gap: 0.4rem; min-width: 0; font-size: 0.9rem; line-height: 1.45; --fill: 0; }
-.phase::before, .phase::after { /* track to the next disc */
-  content: ""; position: absolute; left: calc(var(--d) / 2); top: calc(var(--d) / 2 - 0.5px);
-  width: calc(100% + var(--g)); height: 1px; background: var(--line-strong);
+.decide__q { display: grid; gap: 1.1rem; padding: 1.35rem; }
+.decide__ask { margin: 0; font-size: 1.35rem; font-weight: 800; letter-spacing: -0.025em; line-height: 1.2; }
+.decide__facts { margin: 0; display: grid; gap: 0.9rem; font-size: 0.85rem; }
+.decide__facts dt { font-size: var(--fs-small); font-weight: 600; color: var(--a-amber); font-variant-numeric: tabular-nums; margin-bottom: 0.15rem; }
+.decide__facts dd { margin: 0; color: var(--moon-2); }
+.decide__facts b { color: var(--moon); font-variant-numeric: tabular-nums; }
+
+.decide__model { margin: 0; padding: 1.35rem 1.5rem 1.4rem; display: grid; gap: 1rem; }
+.decide__cap { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 0.5rem 1.5rem; }
+.decide__title { font-size: var(--fs-small); font-weight: 700; }
+.decide__key { display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem 0.9rem; font-size: 0.75rem; color: var(--moon-3); }
+.k { display: inline-block; vertical-align: middle; margin-right: 0.35rem; }
+.k--n { width: 9px; height: 9px; border-radius: 50%; box-shadow: inset 0 0 0 1.5px var(--moon-2); }
+.k--d { width: 9px; height: 9px; border-radius: 50%; background: var(--moon-3); }
+.k--ev { width: 3px; height: 12px; border-radius: 2px; background: var(--a-amber); }
+
+.opts { list-style: none; margin: 0.25rem 0 0; padding: 0; display: grid; gap: 0.35rem; }
+.opt {
+  display: grid; grid-template-columns: minmax(0, 15rem) minmax(0, 1fr); gap: 0.4rem 1.25rem; align-items: center;
+  padding: 0.6rem 0.7rem; border-radius: 10px; transition: background-color 0.3s ease;
 }
-.phase::after { background: var(--a-amber); box-shadow: 0 0 8px rgba(255, 170, 64, 0.6); transform-origin: 0 50%; transform: scaleX(var(--fill)); }
-.phase:last-child::before, .phase:last-child::after { display: none; }
-.phase__disc {
-  position: relative; z-index: 1; flex: none; width: var(--d); height: var(--d); margin-bottom: 0.9rem;
-  border-radius: 50%; overflow: hidden;
-  background: radial-gradient(circle, #fff 0 42%, #ffe6c4 68%, #ffb46a 100%);
-  box-shadow: 0 0 0 1px var(--rim-strong);
-  filter: grayscale(1) brightness(0.4);
-  transition: filter 0.5s ease, box-shadow 0.5s ease;
+.opt__name { display: grid; gap: 0.1rem; min-width: 0; }
+.opt__name b { font-size: 0.92rem; letter-spacing: -0.01em; line-height: 1.25; color: var(--moon-2); transition: color 0.3s ease; }
+.opt__name span { font-size: 0.75rem; color: var(--moon-3); line-height: 1.35; }
+.opt__track { position: relative; height: 34px; }
+.opt__track::before { /* the spread between the two outcomes */
+  content: ""; position: absolute; top: 50%; height: 1px; background: var(--line-strong);
+  left: min(var(--xn), var(--xd)); width: calc(max(var(--xn), var(--xd)) - min(var(--xn), var(--xd)));
 }
-.phase__disc i { position: absolute; inset: -1px; border-radius: 50%; background: var(--void); transform: translateX(calc(var(--off) * 100%)); }
-.phase.is-lit .phase__disc {
-  filter: none;
-  /* the totality disc shows only its corona; the brighter the phase, the wider the glow */
-  box-shadow: 0 0 0 1px rgba(255, 190, 120, 0.7), 0 0 calc(8px + var(--off) * 26px) rgba(255, 150, 90, calc(0.35 + var(--off) * 0.35));
+.opt__n, .opt__d, .opt__ev { position: absolute; top: 50%; transform: translate(-50%, -50%); }
+.opt__n { left: var(--xn); width: 11px; height: 11px; border-radius: 50%; background: var(--card); box-shadow: inset 0 0 0 1.5px var(--moon-2); }
+.opt__d { left: var(--xd); width: 11px; height: 11px; border-radius: 50%; background: var(--moon-3); }
+.opt__ev { left: var(--xe); width: 3px; height: 20px; border-radius: 2px; background: var(--moon-3); transition: left 0.15s ease, background-color 0.3s ease; }
+.opt__evlab {
+  position: absolute; left: var(--xe); bottom: calc(50% + 12px); transform: translateX(-50%);
+  font-size: 0.72rem; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--moon-3); white-space: nowrap;
+  transition: left 0.15s ease, color 0.3s ease;
 }
-.phase > :not(.phase__disc) { opacity: 0.28; transition: opacity 0.5s ease; }
-.phase.is-lit > :not(.phase__disc) { opacity: 1; }
-.phase__time { font-size: var(--fs-small); font-weight: 600; font-variant-numeric: tabular-nums; color: var(--moon-3); transition: color 0.5s ease, opacity 0.5s ease; }
-.phase.is-lit .phase__time { color: var(--a-amber); }
-.phase strong { font-size: 1.02rem; letter-spacing: -0.015em; line-height: 1.25; color: var(--moon); }
-.phase > span:last-child { color: var(--moon-2); }
-.phase--done.is-lit .phase__time { color: var(--a-gold); }
-.phase--done strong { color: #fff; }
-@media (max-width: 900px) { /* the track turns vertical, down the left */
-  .phases { grid-template-columns: minmax(0, 1fr); --g: 2rem; max-width: 34rem; }
-  .phase { padding-left: calc(var(--d) + 1.1rem); min-height: var(--d); }
-  .phase__disc { position: absolute; left: 0; top: 0; margin: 0; }
-  .phase::before, .phase::after { left: calc(var(--d) / 2 - 0.5px); top: calc(var(--d) / 2); width: 1px; height: calc(100% + var(--g)); }
-  .phase::after { transform-origin: 50% 0; transform: scaleY(var(--fill)); }
+.opt.is-best { background: rgba(255, 170, 64, 0.08); }
+.opt.is-best .opt__name b { color: var(--moon); }
+.opt.is-best .opt__ev { background: var(--a-amber); box-shadow: 0 0 10px rgba(255, 170, 64, 0.7); }
+.opt.is-best .opt__evlab { color: var(--a-amber); }
+.opt__best { font-size: 0.72rem; font-weight: 700; font-style: normal; color: var(--a-amber); }
+.opt:not(.is-best) .opt__best { display: none; }
+.opts__axis { position: relative; height: 1.1rem; margin-left: calc(15rem + 1.25rem + 0.7rem); margin-right: 0.7rem; border-top: 1px solid var(--line); }
+.opts__axis span { position: absolute; top: 0.25rem; transform: translateX(-50%); font-size: 0.7rem; color: var(--moon-3); font-variant-numeric: tabular-nums; }
+
+.odds { display: grid; gap: 0.6rem; margin-top: 0.6rem; padding-top: 1rem; border-top: 1px solid var(--line); }
+.odds__label { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; font-size: 0.85rem; font-weight: 600; color: var(--moon-2); }
+.odds__val { font-size: 1.6rem; font-weight: 800; letter-spacing: -0.04em; color: var(--moon); font-variant-numeric: tabular-nums; }
+.odds__range { /* the handle is a small eclipse: the likelier the decree, the more of the sun the moon covers */
+  --p: 0.48;
+  -webkit-appearance: none; appearance: none; width: 100%; height: 26px; margin: 0; background: transparent; cursor: pointer;
+}
+.odds__range::-webkit-slider-runnable-track { height: 4px; border-radius: 4px; background: var(--line-strong); }
+.odds__range::-moz-range-track { height: 4px; border-radius: 4px; background: var(--line-strong); }
+.odds__range::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 26px; height: 26px; margin-top: -11px; border-radius: 50%; border: 0;
+  background: radial-gradient(circle at calc(50% + (1 - var(--p)) * 100%) 50%, var(--void) 0 48%, transparent 50%),
+              radial-gradient(circle, #fff 0 38%, #ffe0b8 62%, #ffaa60 100%);
+  box-shadow: 0 0 0 1px rgba(255, 190, 120, 0.7), 0 0 14px rgba(255, 150, 90, 0.5);
+}
+.odds__range::-moz-range-thumb {
+  width: 26px; height: 26px; border-radius: 50%; border: 0;
+  background: radial-gradient(circle at calc(50% + (1 - var(--p)) * 100%) 50%, var(--void) 0 48%, transparent 50%),
+              radial-gradient(circle, #fff 0 38%, #ffe0b8 62%, #ffaa60 100%);
+  box-shadow: 0 0 0 1px rgba(255, 190, 120, 0.7), 0 0 14px rgba(255, 150, 90, 0.5);
+}
+.odds__range:focus-visible { outline: 2px solid var(--focus); outline-offset: 4px; border-radius: 6px; }
+.odds__zones { position: relative; height: 1.9rem; border-radius: 8px; overflow: hidden; display: flex; }
+.odds__zones .z {
+  display: flex; align-items: center; justify-content: center; min-width: 0; padding: 0 0.4rem;
+  font-size: 0.72rem; font-weight: 600; color: var(--moon-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  background: rgba(236, 238, 242, 0.04); transition: background-color 0.3s ease, color 0.3s ease;
+}
+.odds__zones .z + .z { border-left: 1px solid var(--void); }
+.odds__zones .z.is-on { background: rgba(255, 170, 64, 0.14); color: var(--a-amber); }
+.odds__zones .was { /* where the forecast stood before the leak */
+  position: absolute; top: 0; bottom: 0; width: 1px; background: var(--moon-3); opacity: 0.8;
+}
+.odds__help { margin: 0; font-size: 0.78rem; color: var(--moon-3); }
+
+.decide__call { margin: 2.5rem 0 0 clamp(0rem, 6vw, 6rem); max-width: 46rem; font-size: 1.1rem; color: var(--moon-2); }
+.decide__call .w.on { color: var(--moon-2); }
+.decide__when { display: block; margin-bottom: 0.3rem; font-size: var(--fs-small); font-weight: 600; color: var(--a-gold); }
+.decide__when .w.on { color: var(--a-gold); }
+
+@media (max-width: 960px) {
+  .decide__grid { grid-template-columns: minmax(0, 1fr); max-width: 44rem; }
+}
+@media (max-width: 640px) {
+  .opt { grid-template-columns: minmax(0, 1fr); }
+  .opts__axis { margin-left: 0.7rem; }
+  .decide__model { padding: 1.1rem 1rem 1.2rem; }
 }
 
 /* ---------- Gray swans: a band of nebula and space dust ---------- */

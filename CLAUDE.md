@@ -88,9 +88,12 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   a four-point spark at 45°) but not its colors, which clashed: it's inline SVG masks in `penumbra.css` filled with
   `--logo-ring`, a full-spectrum conic gradient the user chose for the logo (the page's warm `--mark` drives the corona). Don't use the JPEG itself. Below the hero: fixed starfield canvas, drifting background glows
   whose hue shifts with scroll, a pointer glow, aurora-edged card spotlights (`.spot`, `--mx/--my`), headings revealed
-  word by word, "from a 2 a.m. signal" as five eclipse-phase discs on a track (`.phases`: total at 02:40, the moon sliding
-  off by `--off` until full light at the 06:14 decision; the track fills and discs light with scroll, vertical on
-  narrow screens; it replaced the dawn-era cargo tags), a nebula behind gray swans (`.nebula`: two gas layers and dark dust lanes from domain-warped
+  word by word, "so, what should i do?" (the old 2 a.m. signal section, reworked to show the decision modelling): the
+  overnight Brazil decree story as context, four responses with first-year revenue if the decree does or doesn't pass
+  and their expected value (`OPTIONS` in `penumbra.js`: 320/172, 272/258, 260/260, 160/148 $M), and a probability
+  slider (an eclipse handle) that moves the expected values and re-picks the best; zones show where the answer flips
+  (computed: 36% and 86%), with 31%, before the leak, marked. At 48% leading with enterprise wins ($265M), which keeps
+  the copy's "$210M on schedule, $38M of rework avoided" true; keep those consistent if numbers change. a nebula behind gray swans (`.nebula`: two gas layers and dark dust lanes from domain-warped
   fractal noise, painted once at low resolution, plus specks; CSS drifts each layer and scroll parts them by depth),
   and graph arrows that draw themselves, as on the main landing. Nebula layers churn in place (no net drift, as in a vacuum); the user tried and dropped cursor effects on them. The page closes in a second nebula (`.nebula--close`, same renderer, its own seeds) behind the contact form, thinning to black before the solid black footer; the user preferred it to a northern-lights effect. Headings are solid moonlight (`--moon`, white for the hero's second line); the user rejected gradient text. `penumbra.js` is a fork of
   `landing.js`; if the preview is adopted, it replaces `index.html` and the fork goes away.
