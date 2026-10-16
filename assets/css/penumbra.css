@@ -279,8 +279,10 @@ main, .footer { position: relative; z-index: 2; }
 /* card spotlight: an aurora-edged glow that follows the pointer (penumbra.js sets --mx/--my) */
 .spot { position: relative; isolation: isolate; }
 .spot::after {
-  content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; z-index: 2;
-  padding: 1px;
+  /* laid exactly over the card's own border (--bw wide), so its rounded corners follow the border's curve; inset
+     inside the border, its curve was tighter than the border's and the ring thinned at every corner */
+  content: ""; position: absolute; inset: calc(var(--bw, 1px) * -1); border-radius: inherit; pointer-events: none; z-index: 2;
+  padding: var(--bw, 1px);
   background: radial-gradient(280px circle at var(--mx, 50%) var(--my, 50%), rgba(255, 224, 122, 0.95), rgba(255, 84, 120, 0.7) 30%, rgba(255, 106, 154, 0.35) 55%, rgba(255, 106, 154, 0) 75%);
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
@@ -506,6 +508,7 @@ main, .footer { position: relative; z-index: 2; }
 .swans__lede .w.on { color: var(--moon-2); }
 .swans__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; align-items: stretch; }
 .swan {
+  --bw: 1.5px; /* its dashed border is heavier */
   border-radius: var(--radius); padding: 1.35rem;
   background: rgba(18, 20, 26, 0.55);
   border: 1.5px dashed rgba(236, 238, 242, 0.22);
