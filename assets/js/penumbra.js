@@ -26,41 +26,53 @@
     var copy = copyEl.getBoundingClientRect(), sun = sunEl.getBoundingClientRect(), vh = window.innerHeight;
     var R = sun.width / 2, cx = sun.left + R, cy = sun.top + R;
     var gut = parseFloat(getComputedStyle(copyEl).paddingLeft) || 24, top0 = copy.top + vh * 0.16;
-    var edge = function (y) { var d = y - cy; return Math.abs(d) < R ? cx - Math.sqrt(R * R - d * d) : null; };
-    var chord = function (y) { var d = y - cy; return Math.abs(d) < R ? 2 * Math.sqrt(R * R - d * d) : 0; };
-    var t = titleEl.querySelectorAll(".hl"), a = afterEl.querySelectorAll(".hl");
-    // the title: fit "risk lies" and "in" left of the curve, "shadow." on the sun
+    // The letters' ink sits in a band within each line box (no descenders in any of these words): from about 0.06em
+    // to 0.78em below the box top. Lines must clear the curve across that whole band, not just at its middle.
+    var edgeX = function (y) { var d = y - cy; return Math.abs(d) < R ? cx - Math.sqrt(R * R - d * d) : null; };
+    var band = function (top, fs) { return [top + fs * 0.06, top + fs * 0.78]; };
+    var edgeMin = function (b) { // the curve's leftmost point across the band: what a line in the sky must end before
+      var y = Math.max(b[0], Math.min(b[1], cy)); return edgeX(y);
+    };
+    var edgeMax = function (b) { // its rightmost point across the band: where a word on the sun must start after
+      var a = edgeX(b[0]), c = edgeX(b[1]); if (a === null || c === null) return null; return Math.max(a, c);
+    };
+    var chordMin = function (b) { var y = Math.abs(b[0] - cy) > Math.abs(b[1] - cy) ? b[0] : b[1], d = y - cy; return Math.abs(d) < R ? 2 * Math.sqrt(R * R - d * d) : 0; };
+    var M = 0.08, SP = 0.27; // margin from the curve, and a normal word space (both in em)
+    var t = titleEl.querySelectorAll(".hl"), a = afterEl.querySelectorAll(".hl"), left0 = copy.left + gut;
+    // the title: "risk lies" and "in" end before the curve; "shadow." sits on the sun, a word space after "in"
     var fs = Math.min(parseFloat(getComputedStyle(document.documentElement).fontSize) * 9.313, vh * 0.19, window.innerWidth * 0.105), lay;
-    for (var i = 0; i < 6; i++) {
+    for (var i = 0; i < 8; i++) {
       copyEl.style.setProperty("--hfs", fs.toFixed(1) + "px");
-      var lh = fs * 0.86, gap = fs * 0.22, y1 = top0 + lh / 2, y2 = top0 + lh * 1.5;
+      var lh = fs * 0.86, b1 = band(top0, fs), b2 = band(top0 + lh, fs);
       var w1 = t[0].offsetWidth, w2 = t[1].offsetWidth, wS = t[2].offsetWidth;
-      var e1 = edge(y1), e2 = edge(y2), k = 1;
-      if (e1 !== null) k = Math.min(k, (e1 - gap - (copy.left + gut)) / w1);
-      if (e2 !== null) { k = Math.min(k, (e2 - gap - (copy.left + gut)) / w2, (chord(y2) - gap * 3) / wS); }
-      lay = { lh: lh, gap: gap, e1: e1, e2: e2, w1: w1, w2: w2 };
+      var e1 = edgeMin(b1), e2 = edgeMin(b2), e2r = edgeMax(b2), k = 1;
+      var end1 = e1 === null ? null : e1 - M * fs, end2 = e2 === null ? null : e2 - M * fs;
+      var sLeft = end2 === null ? null : Math.max(end2 + SP * fs, (e2r === null ? e2 : e2r) + 0.04 * fs);
+      if (end1 !== null) k = Math.min(k, (end1 - left0) / w1);
+      if (end2 !== null) { k = Math.min(k, (end2 - left0) / w2); var room = cx + chordMin(b2) / 2 - M * fs - sLeft; k = Math.min(k, room / wS); }
+      lay = { lh: lh, end1: end1, end2: end2, sLeft: sLeft, w1: w1, w2: w2 };
       if (k > 0.995) break;
       fs *= Math.max(0.5, k);
     }
     var L = function (el, x, y) { el.style.left = (x - copy.left).toFixed(1) + "px"; el.style.top = (y - copy.top).toFixed(1) + "px"; };
-    var left0 = copy.left + gut;
-    L(t[0], lay.e1 !== null ? lay.e1 - lay.gap - lay.w1 : left0, top0);
-    L(t[1], lay.e2 !== null ? lay.e2 - lay.gap - lay.w2 : left0, top0 + lay.lh);
-    L(t[2], lay.e2 !== null ? lay.e2 + lay.gap : left0 + lay.w2 + lay.gap, top0 + lay.lh);
+    L(t[0], lay.end1 !== null ? lay.end1 - lay.w1 : left0, top0);
+    L(t[1], lay.end2 !== null ? lay.end2 - lay.w2 : left0, top0 + lay.lh);
+    L(t[2], lay.sLeft !== null ? lay.sLeft : left0 + lay.w2 + SP * fs, top0 + lay.lh);
     // the second headline, low on the left, against the same curve (no bigger than the title)
     var afs = fs, bottom = copy.top + vh * 0.9, alay;
-    for (i = 0; i < 6; i++) {
+    for (i = 0; i < 8; i++) {
       copyEl.style.setProperty("--afs", afs.toFixed(1) + "px");
-      var alh = afs * 0.86, agap = afs * 0.22, ya = bottom - alh * 1.5, yb = bottom - alh / 2;
-      var wa = a[0].offsetWidth, wb = a[1].offsetWidth, ea = edge(ya), eb = edge(yb), ak = 1;
-      if (ea !== null) ak = Math.min(ak, (ea - agap - left0) / wa);
-      if (eb !== null) ak = Math.min(ak, (eb - agap - left0) / wb);
-      alay = { lh: alh, gap: agap, ea: ea, eb: eb, wa: wa, wb: wb, ya: bottom - alh * 2 };
+      var alh = afs * 0.86, ytop = bottom - alh * 2, ba = band(ytop, afs), bb = band(ytop + alh, afs);
+      var wa = a[0].offsetWidth, wb = a[1].offsetWidth, ea = edgeMin(ba), eb = edgeMin(bb), ak = 1;
+      var enda = ea === null ? null : ea - M * afs, endb = eb === null ? null : eb - M * afs;
+      if (enda !== null) ak = Math.min(ak, (enda - left0) / wa);
+      if (endb !== null) ak = Math.min(ak, (endb - left0) / wb);
+      alay = { lh: alh, enda: enda, endb: endb, wa: wa, wb: wb, ytop: ytop };
       if (ak > 0.995) break;
       afs *= Math.max(0.5, ak);
     }
-    L(a[0], alay.ea !== null ? alay.ea - alay.gap - alay.wa : left0, alay.ya);
-    L(a[1], alay.eb !== null ? alay.eb - alay.gap - alay.wb : left0, alay.ya + alay.lh);
+    L(a[0], alay.enda !== null ? alay.enda - alay.wa : left0, alay.ytop);
+    L(a[1], alay.endb !== null ? alay.endb - alay.wb : left0, alay.ytop + alay.lh);
   }
   curveType();
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(curveType);
