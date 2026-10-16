@@ -148,76 +148,59 @@
     setInterval(next, 4500);
   })();
 
-  /* ---------- Here's the plan: hub and spokes ----------
-     The plan at the hub; the owners who carry it out on spokes; their tasks on twigs. Laid out in the figure's own
-     pixels (so labels stay legible at any width). Nodes give way a little to the cursor and spring back; hovering an
-     owner lights its spoke and twigs and shows its tasks, hovering a task lights the path to it, hovering the hub
-     lights everything. The spokes draw themselves the first time the figure comes into view. */
+  /* ---------- Here's the plan: a constellation ----------
+     The plan as the brightest star, the seven owners who carry it out around it, their tasks as fainter stars further
+     out, joined by hairlines; placed off a perfect circle (seeded) so it reads as a star pattern, laid out in the
+     figure's own pixels. Stars give way a little to the cursor and spring back; pointing at a star lights its lines
+     and group (the centre lights everything). The lines draw themselves the first time the figure comes into view. */
   (function () {
     var fig = document.querySelector(".net");
     if (!fig) return;
     var svg = fig.querySelector(".net__svg"), NS = "http://www.w3.org/2000/svg";
-    var OWNERS = [
-      { name: "GM, Latin America", tasks: ["Sign off the resequenced launch", "Brief the regional board"] },
-      { name: "Product", tasks: ["Ship the enterprise tier first", "Hold the consumer app build"] },
-      { name: "Legal", tasks: ["File a comment on the decree", "Review data-hosting terms"] },
-      { name: "Cloud", tasks: ["Price local hosting", "Reopen the data-center lease"] },
-      { name: "Sales", tasks: ["Resequence the March pipeline", "Brief key accounts"] },
-      { name: "Finance", tasks: ["Re-forecast first-year revenue", "Set aside the rework budget"] },
-      { name: "Comms", tasks: ["Prepare launch messaging"] }
-    ];
+    var TASKS = [2, 2, 2, 2, 2, 2, 1]; // tasks per owner: GM, product, legal, cloud, sales, finance, comms
     var still = reduceMotion, nodes = [], links = [], hub, W = 0, H = 0, drawn = false;
     var el = function (tag, cls, parent) { var e = document.createElementNS(NS, tag); if (cls) e.setAttribute("class", cls); (parent || svg).appendChild(e); return e; };
 
     function build() {
+      var rnd = DB_rng(17); rnd();
       W = Math.max(280, fig.clientWidth); H = Math.round(W * (W < 520 ? 0.95 : 0.78));
       svg.setAttribute("viewBox", "0 0 " + W + " " + H); svg.setAttribute("width", W); svg.setAttribute("height", H);
       svg.textContent = ""; nodes = []; links = [];
-      var cx = W / 2, cy = H / 2, R1 = Math.min(W, H) * 0.3, R2 = Math.min(W, H) * 0.44, gLines = el("g"), gNodes = el("g");
+      var cx = W / 2, cy = H / 2, R1 = Math.min(W, H) * 0.29, R2 = Math.min(W, H) * 0.45, gLines = el("g"), gStars = el("g");
       hub = { kind: "hub", rx: cx, ry: cy, x: cx, y: cy, vx: 0, vy: 0 };
-      OWNERS.forEach(function (o, k) {
-        var a = -Math.PI / 2 + k / OWNERS.length * Math.PI * 2;
-        var on = { kind: "owner", k: k, rx: cx + Math.cos(a) * R1, ry: cy + Math.sin(a) * R1, a: a, vx: 0, vy: 0 };
+      TASKS.forEach(function (count, k) {
+        var a = -Math.PI / 2 + k / TASKS.length * Math.PI * 2 + (rnd() - 0.5) * 0.35, r1 = R1 * (0.82 + rnd() * 0.36);
+        var on = { kind: "owner", k: k, rx: cx + Math.cos(a) * r1, ry: cy + Math.sin(a) * r1, vx: 0, vy: 0 };
         on.x = on.rx; on.y = on.ry; nodes.push(on);
-        links.push({ a: hub, b: on, owner: k, el: el("line", "net__spoke", gLines), d: k * 0.06 });
-        o.tasks.forEach(function (t, j) {
-          var spread = o.tasks.length > 1 ? (j - (o.tasks.length - 1) / 2) * 0.32 : 0, ta = a + spread;
-          var tn = { kind: "task", k: k, label: t, rx: cx + Math.cos(ta) * R2, ry: cy + Math.sin(ta) * R2, a: ta, vx: 0, vy: 0 };
+        links.push({ a: hub, b: on, owner: k, el: el("line", "net__spoke", gLines), d: k * 0.07 });
+        for (var j = 0; j < count; j++) {
+          var ta = a + (count > 1 ? (j - (count - 1) / 2) * (0.28 + rnd() * 0.16) : (rnd() - 0.5) * 0.2), r2 = R2 * (0.84 + rnd() * 0.24);
+          var tn = { kind: "task", k: k, rx: cx + Math.cos(ta) * r2, ry: cy + Math.sin(ta) * r2, vx: 0, vy: 0 };
           tn.x = tn.rx; tn.y = tn.ry; nodes.push(tn);
-          links.push({ a: on, b: tn, owner: k, task: tn, el: el("line", "net__twig", gLines), d: 0.45 + k * 0.06 + j * 0.05 });
-        });
+          links.push({ a: on, b: tn, owner: k, task: tn, el: el("line", "net__twig", gLines), d: 0.5 + k * 0.07 + j * 0.05 });
+        }
       });
       links.forEach(function (l) { l.el.setAttribute("pathLength", "1"); l.el.style.setProperty("--d", l.d + "s"); });
-      // nodes on top of the lines; only owners carry a label (tasks are read out below the figure)
       nodes.forEach(function (n) {
-        n.dot = el("circle", n.kind === "owner" ? "net__owner" : "net__task", gNodes);
-        n.dot.setAttribute("r", n.kind === "owner" ? 5 : 3);
-        if (n.kind !== "owner") return;
-        var right = Math.cos(n.a) > 0.2, left = Math.cos(n.a) < -0.2;
-        var lab = el("text", "net__lab", gNodes);
-        lab.textContent = OWNERS[n.k].name;
-        lab.setAttribute("text-anchor", right ? "start" : left ? "end" : "middle");
-        n.lab = lab; n.lx = right ? 10 : left ? -10 : 0; n.ly = Math.sin(n.a) > 0.3 ? 20 : Math.sin(n.a) < -0.3 ? -12 : 4;
+        n.dot = el("circle", "net__star net__star--" + n.kind, gStars);
+        n.dot.setAttribute("r", n.kind === "owner" ? 2.6 + rnd() * 1.2 : 1.2 + rnd() * 0.9);
+        n.dot.style.setProperty("--tw", (3.5 + rnd() * 4).toFixed(2) + "s");
+        n.dot.style.setProperty("--td", (-rnd() * 6).toFixed(2) + "s");
       });
-      var hc = el("circle", "net__hub", gNodes); hc.setAttribute("r", Math.max(26, R1 * 0.22)); hub.dot = hc;
-      var ht = el("text", "net__hubtext", gNodes); ht.textContent = "the plan"; hub.lab = ht;
+      hub.dot = el("circle", "net__star net__star--hub", gStars); hub.dot.setAttribute("r", 5.5);
       if (drawn) svg.classList.remove("net__drawn");
       place();
     }
     function place() {
       hub.dot.setAttribute("cx", hub.x.toFixed(1)); hub.dot.setAttribute("cy", hub.y.toFixed(1));
-      hub.lab.setAttribute("x", hub.x.toFixed(1)); hub.lab.setAttribute("y", hub.y.toFixed(1));
-      nodes.forEach(function (n) {
-        n.dot.setAttribute("cx", n.x.toFixed(1)); n.dot.setAttribute("cy", n.y.toFixed(1));
-        if (n.lab) { n.lab.setAttribute("x", (n.x + n.lx).toFixed(1)); n.lab.setAttribute("y", (n.y + n.ly).toFixed(1)); }
-      });
+      nodes.forEach(function (n) { n.dot.setAttribute("cx", n.x.toFixed(1)); n.dot.setAttribute("cy", n.y.toFixed(1)); });
       links.forEach(function (l) {
         l.el.setAttribute("x1", l.a.x.toFixed(1)); l.el.setAttribute("y1", l.a.y.toFixed(1));
         l.el.setAttribute("x2", l.b.x.toFixed(1)); l.el.setAttribute("y2", l.b.y.toFixed(1));
       });
     }
 
-    // hover: light the path to whatever is nearest the pointer
+    // pointing at a star lights its lines and its group
     var ptr = null, active = null;
     function light(target) {
       if (target === active) return;
@@ -230,25 +213,16 @@
       });
       nodes.forEach(function (n) {
         var on = !!target && (target === hub || n.k === target.k && (target.kind === "owner" || n === target || n.kind === "owner"));
-        n.dot.classList.toggle("is-on", on); if (n.lab) n.lab.classList.toggle("is-on", on);
+        n.dot.classList.toggle("is-on", on);
       });
-      // the readout: the team and its tasks, or the task, or the whole plan
-      read.textContent = "";
-      if (!target) { var hint = document.createElement("span"); hint.className = "net__hint"; hint.textContent = "Point at a team to see its part of the plan."; read.appendChild(hint); return; }
-      var b = document.createElement("b");
-      if (target === hub) { b.textContent = "The plan: "; read.appendChild(b); read.appendChild(document.createTextNode(OWNERS.length + " teams, " + nodes.filter(function (n) { return n.kind === "task"; }).length + " tasks, each with an owner and a deadline.")); return; }
-      var o = OWNERS[target.k];
-      b.textContent = o.name + ": "; read.appendChild(b);
-      read.appendChild(document.createTextNode(target.kind === "task" ? target.label : o.tasks.join("; ")));
+      hub.dot.classList.toggle("is-on", !!target);
     }
-    var read = fig.querySelector(".net__read");
     function aim(e) {
       var b = svg.getBoundingClientRect(), sc = W / b.width;
       ptr = { x: (e.clientX - b.left) * sc, y: (e.clientY - b.top) * sc };
-      var best = null, bd = 34 * 34;
+      var best = null;
       [hub].concat(nodes).forEach(function (n) {
-        var d = (n.x - ptr.x) * (n.x - ptr.x) + (n.y - ptr.y) * (n.y - ptr.y);
-        var r = n === hub ? 50 * 50 : bd;
+        var d = (n.x - ptr.x) * (n.x - ptr.x) + (n.y - ptr.y) * (n.y - ptr.y), r = n === hub ? 40 * 40 : 30 * 30;
         if (d < r && (!best || d < best.d)) best = { n: n, d: d };
       });
       light(best ? best.n : null);
@@ -256,7 +230,7 @@
       wake();
     }
     fig.addEventListener("pointermove", aim);
-    fig.addEventListener("pointerdown", aim); // a tap does the same on touch screens
+    fig.addEventListener("pointerdown", aim);
     fig.addEventListener("pointerleave", function (e) { if (e.pointerType === "touch") return; ptr = null; light(null); wake(); });
 
     // give way to the cursor, spring back
@@ -281,11 +255,9 @@
     }
 
     build();
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(build);
     var lastW = fig.clientWidth;
     window.addEventListener("resize", function () { if (Math.abs(fig.clientWidth - lastW) > 2) { lastW = fig.clientWidth; build(); } });
     if (still) { drawn = true; return; }
-    // draw the spokes the first time the figure comes into view
     svg.style.opacity = "0";
     function check() {
       if (drawn) return;

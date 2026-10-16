@@ -95,9 +95,9 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   build hosting 260; launch all four 249, 172-320; delay 154, 148-160); the best glows. Phases are static SVG paths.
   a nebula behind gray swans (`.nebula`: two gas layers and dark dust lanes from domain-warped
   fractal noise, painted once at low resolution, plus specks; CSS drifts each layer and scroll parts them by depth),
-  and "here's the plan." (the old node-link section) as a hub-and-spoke network of the Brazil plan (`.net`, drawn
-  by `penumbra.js` from `OWNERS`): the plan at the hub, seven owners on spokes, their tasks on twigs; nodes give way to
-  the cursor and spring back, and hovering lights a path and reads the team's tasks out below (a tap on touch screens). Nebula layers don't move: each has a twin painted from the same cloud a little further along in time (warp
+  and "here's the plan." (the old node-link section) as a constellation of the Brazil plan (`.net`, drawn by `penumbra.js`):
+  the plan the brightest star, seven owners around it, their tasks as fainter stars, seeded off a perfect circle,
+  no text (the user disliked labels on it); stars give way to the cursor and spring back, and pointing lights a group. Nebula layers don't move: each has a twin painted from the same cloud a little further along in time (warp
   offset 0.3) and CSS crossfades the pair, so wisps re-form in place, as in a vacuum (rigid drift and churn both read
   as a cloud on Earth); only a faint swell remains. The cursor disturbs them like gas: a relaxing field of offsets and thinning, fed by the pointer's motion (shove
   plus curl) and by lingering (outward push and thinning, so a clearing opens rather than the cloud magnifying);

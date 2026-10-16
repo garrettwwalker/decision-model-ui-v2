@@ -527,27 +527,25 @@ main, .footer { position: relative; z-index: 2; }
 .assets__copy h2 { margin-bottom: 0.75rem; }
 .assets__lede { margin: 0; max-width: 32rem; font-size: 1.1rem; color: var(--moon-2); }
 .assets__lede .w.on { color: var(--moon-2); }
-/* the plan as a network (drawn by penumbra.js): the hub, seven owners on spokes, their tasks on twigs. Nodes give
-   way a little to the cursor and spring back; hovering an owner or task lights its path and shows the tasks. */
+/* the plan as a constellation (drawn by penumbra.js): the plan the brightest star, the owners around it, their tasks
+   as fainter stars, joined by hairlines. Stars give way a little to the cursor and spring back; pointing at one lights
+   its lines and its group. No text: the copy beside it carries the meaning. */
 .net { margin: 0; position: relative; min-height: 22rem; }
-.net__svg { display: block; width: 100%; height: auto; overflow: visible; font-family: var(--font); }
+.net__svg { display: block; width: 100%; height: auto; overflow: visible; }
 .net__spoke, .net__twig { stroke-linecap: round; transition: stroke 0.25s ease, opacity 0.25s ease; }
-.net__spoke { stroke: rgba(236, 238, 242, 0.22); stroke-width: 1.2; }
-.net__twig { stroke: rgba(236, 238, 242, 0.12); stroke-width: 1; }
-.net__drawn .net__spoke, .net__drawn .net__twig { stroke-dasharray: 1; stroke-dashoffset: 1; animation: net-draw 0.7s cubic-bezier(.3,.7,.3,1) forwards; animation-delay: var(--d, 0s); }
+.net__spoke { stroke: rgba(236, 238, 242, 0.2); stroke-width: 1; }
+.net__twig { stroke: rgba(236, 238, 242, 0.11); stroke-width: 0.8; }
+.net__drawn .net__spoke, .net__drawn .net__twig { stroke-dasharray: 1; stroke-dashoffset: 1; animation: net-draw 0.8s cubic-bezier(.3,.7,.3,1) forwards; animation-delay: var(--d, 0s); }
 @keyframes net-draw { to { stroke-dashoffset: 0; } }
-.net__hub { fill: var(--space); stroke: rgba(255, 170, 64, 0.6); stroke-width: 1; filter: drop-shadow(0 0 14px rgba(255, 84, 120, 0.45)) drop-shadow(0 0 26px rgba(255, 224, 122, 0.25)); }
-.net__hubtext { font-size: 12px; font-weight: 700; fill: var(--moon); text-anchor: middle; dominant-baseline: central; }
-.net__owner { fill: var(--moon-2); transition: fill 0.25s ease; }
-.net__task { fill: var(--moon-3); transition: fill 0.25s ease; }
-.net__lab { font-size: 12px; font-weight: 600; fill: var(--moon-2); transition: fill 0.25s ease; }
-.net.is-hovering .net__spoke, .net.is-hovering .net__twig { opacity: 0.45; }
+.net__star { fill: #f4f5f8; transition: fill 0.25s ease; animation: net-twinkle var(--tw, 5s) ease-in-out infinite; animation-delay: var(--td, 0s); }
+.net__star--hub { fill: #fff; filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.9)) drop-shadow(0 0 18px rgba(255, 200, 150, 0.55)); animation: none; }
+.net__star--owner { filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.7)); }
+.net__star--task { fill: #c9ccd3; opacity: 0.8; }
+@keyframes net-twinkle { 50% { opacity: 0.55; } }
+.net.is-hovering .net__spoke, .net.is-hovering .net__twig { opacity: 0.4; }
 .net .is-on.net__spoke, .net .is-on.net__twig { stroke: var(--a-amber); opacity: 1; }
-.net .is-on.net__owner, .net .is-on.net__task { fill: var(--a-amber); }
-.net .is-on.net__lab { fill: var(--moon); }
-.net__read { margin: 0.5rem 0 0; min-height: 3.4em; font-size: 0.85rem; line-height: 1.45; color: var(--moon-2); text-align: center; }
-.net__read b { color: var(--a-amber); font-weight: 700; }
-.net__hint { color: var(--moon-3); }
+.net .is-on.net__star { fill: #ffe2b0; opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .net__star { animation: none; } }
 @media (max-width: 900px) { .assets { grid-template-columns: minmax(0, 1fr); } }
 
 /* ---------- Rigor ---------- */
