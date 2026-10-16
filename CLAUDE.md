@@ -92,7 +92,8 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   off by `--off` until full light at the 06:14 decision; the track fills and discs light with scroll, vertical on
   narrow screens; it replaced the dawn-era cargo tags), a nebula behind gray swans (`.nebula`: two gas layers and dark dust lanes from domain-warped
   fractal noise, painted once at low resolution, plus specks; CSS drifts each layer and scroll parts them by depth),
-  and graph arrows that draw themselves, as on the main landing. The page closes in a second nebula (`.nebula--close`, same renderer, its own seeds) behind the contact form; the user preferred it to a northern-lights effect. Headings are solid moonlight (`--moon`, white for the hero's second line); the user rejected gradient text. `penumbra.js` is a fork of
+  and graph arrows that draw themselves, as on the main landing. Nebula layers churn in place (no net drift, as in a vacuum) and part around the cursor (a local pixel warp of each
+  painted layer near the pointer, eased in and out). The page closes in a second nebula (`.nebula--close`, same renderer, its own seeds) behind the contact form, running on under a see-through footer; the user preferred it to a northern-lights effect. Headings are solid moonlight (`--moon`, white for the hero's second line); the user rejected gradient text. `penumbra.js` is a fork of
   `landing.js`; if the preview is adopted, it replaces `index.html` and the fork goes away.
 - Motion between views: `assets/js/nav.js` (in every page's `<head>`) records which way the clicked page lies in the
   nav order; the new page slides in from that side (cross-document view transitions where supported, with the

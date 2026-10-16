@@ -542,6 +542,9 @@
         d[o] = px[0]; d[o + 1] = px[1]; d[o + 2] = px[2]; d[o + 3] = px[3];
       }
       c.putImageData(img, 0, 0);
+      // keep the painting as a source, so the cursor can push the visible copy around and let it go
+      cv._base = new Uint8ClampedArray(d);
+      cv._out = c.createImageData(w, h);
       cv.classList.add("is-ready");
     }
 
@@ -613,6 +616,51 @@
       if (r.bottom < 0 || r.top > vh) return;
       box.style.setProperty("--nb", ((r.top + r.height / 2 - vh / 2) / vh).toFixed(3));
     }, { passive: true });
+
+    // the cursor pushes the cloud aside: within ~240px of the pointer each layer's pixels are warped outward by a soft
+    // falloff (strongest close in), everything else is copied straight from the painting. Layers give by different
+    // amounts, so it has depth; when the pointer leaves, the push eases off and the cloud settles back
+    if (reduceMotion || !window.matchMedia("(hover: hover)").matches) return;
+    var LAYERS = [{ cv: gasA, k: 1 }, { cv: gasB, k: 0.7 }, { cv: dust, k: 1.25 }];
+    var ptr = { x: 0, y: 0, inside: false }, amp = 0, seen = false, last = 0, running = false;
+    window.addEventListener("pointermove", function (e) {
+      if (e.pointerType === "touch") return;
+      var r = box.getBoundingClientRect();
+      ptr.x = e.clientX; ptr.y = e.clientY;
+      ptr.inside = e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom;
+      if (ptr.inside && !running) { running = true; requestAnimationFrame(push); }
+    }, { passive: true });
+    if (window.IntersectionObserver) new IntersectionObserver(function (es) { seen = es[0].isIntersecting; }).observe(box);
+    var R = 240, PUSH = 40; // screen px (the peak push is ~0.7 of PUSH)
+    function push(t) {
+      if (t - last < 32) { requestAnimationFrame(push); return; }
+      last = t;
+      amp = lerp(amp, ptr.inside && seen ? 1 : 0, 0.07);
+      LAYERS.forEach(function (L) {
+        var cv = L.cv, base = cv._base;
+        if (!base) return;
+        var g = cv.getContext("2d"), out = cv._out, o = out.data, w = cv.width, h = cv.height;
+        o.set(base);
+        if (amp > 0.01) {
+          var b = cv.getBoundingClientRect(), sc = w / b.width; // screen px → canvas px
+          var px = (ptr.x - b.left) * sc, py = (ptr.y - b.top) * (h / b.height), rr = R * sc, m = PUSH * sc * L.k * amp;
+          var x0 = Math.max(0, Math.floor(px - rr * 1.7)), x1 = Math.min(w - 1, Math.ceil(px + rr * 1.7));
+          var y0 = Math.max(0, Math.floor(py - rr * 1.7)), y1 = Math.min(h - 1, Math.ceil(py + rr * 1.7));
+          for (var y = y0; y <= y1; y++) for (var x = x0; x <= x1; x++) {
+            var dx = x - px, dy = y - py, d2 = dx * dx + dy * dy;
+            // push grows from nothing under the cursor to a peak ~0.7 radius out, then fades: the cloud parts without folding
+            var f = Math.exp(-d2 / (rr * rr)) * m * 1.65 / rr;
+            var sxp = Math.round(x - dx * f), syp = Math.round(y - dy * f); // so this pixel shows what sat nearer it
+            if (sxp < 0 || syp < 0 || sxp >= w || syp >= h) continue;
+            var si = (syp * w + sxp) * 4, di = (y * w + x) * 4;
+            o[di] = base[si]; o[di + 1] = base[si + 1]; o[di + 2] = base[si + 2]; o[di + 3] = base[si + 3];
+          }
+        }
+        g.putImageData(out, 0, 0);
+      });
+      if (amp < 0.01 && !ptr.inside) { running = false; return; }
+      requestAnimationFrame(push);
+    }
   });
 
   /* ---------- Contact form (mockup: no backend) ---------- */
