@@ -450,13 +450,11 @@ main, .footer { position: relative; z-index: 2; }
 .lune__spread { font-size: 0.75rem; color: var(--moon-3); font-variant-numeric: tabular-nums; }
 .lune.is-best .lune__name { color: var(--moon); }
 .lune.is-best .lune__ev { color: #fff; }
-.decide__call { margin: 3rem 0 0 calc(clamp(0rem, 6vw, 6rem) + 0.15rem); max-width: 46rem; font-size: 1.05rem; color: var(--moon-2); }
-.decide__call .w.on { color: var(--moon-2); }
 @media (max-width: 820px) {
   .lunes { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 2.5rem; }
   .lunes::before { display: none; }
 }
-@media (max-width: 960px) { .decide__lede, .decide__call { margin-left: 0; } }
+@media (max-width: 960px) { .decide__lede { margin-left: 0; } }
 
 /* ---------- Gray swans: a band of nebula and space dust ---------- */
 .swans {

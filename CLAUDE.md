@@ -92,7 +92,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   word by word, "so, what should i do?" as a moon chart (`.lunes`, heading styled like the other sections): the four responses,
   best to worst, as a full, gibbous, half and crescent moon on an orbit line (lead with enterprise 265, best at 48%;
   build hosting 260; launch all four 249, 172-320; delay 154, 148-160); the best glows. Phases are static SVG paths.
-  The figures keep the copy's "$210M on schedule, $38M of rework avoided" true. a nebula behind gray swans (`.nebula`: two gas layers and dark dust lanes from domain-warped
+  a nebula behind gray swans (`.nebula`: two gas layers and dark dust lanes from domain-warped
   fractal noise, painted once at low resolution, plus specks; CSS drifts each layer and scroll parts them by depth),
   and graph arrows that draw themselves, as on the main landing. Nebula layers don't move: each has a twin painted from the same cloud a little further along in time (warp
   offset 0.3) and CSS crossfades the pair, so wisps re-form in place, as in a vacuum (rigid drift and churn both read
