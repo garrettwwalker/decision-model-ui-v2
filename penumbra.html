@@ -32,8 +32,7 @@
   </header>
 
   <main id="main">
-    <!-- 1. Hero: a sun fills the screen with "shadow." written on it; scrolling slides the moon across it (and over the word),
-         and at totality its rim bursts into the
+    <!-- 1. Hero: a sun fills the screen; scrolling slides the moon across it, and at totality its rim bursts into the
          page's colors. The headline inverts over the sun, so it reads on white and on black alike. -->
     <section class="hero" aria-label="Introduction">
       <div class="hero__stage">
@@ -49,10 +48,13 @@
         </div>
 
         <div class="hero__copy">
-          <h1 class="display hero__title">
-            <span>risk lies</span>
-            <span class="hero__line2">in <span class="hero__shadow"><span class="hero__shadow-lit">shadow.</span><span class="hero__shadow-dim" aria-hidden="true">shadow.</span></span></span>
-          </h1>
+          <div class="hero__head">
+            <h1 class="display hero__title">
+              <span>risk lies</span>
+              <span>in shadow.</span>
+            </h1>
+            <p class="display hero__title hero__title--ink" aria-hidden="true"><span>risk lies</span><span>in shadow.</span></p>
+          </div>
           <p class="display hero__after" aria-hidden="true">look around<br>the bend.</p>
           <p class="hero__cue">Scroll into the eclipse <svg class="hero__arrow" viewBox="0 0 12 16" aria-hidden="true"><path d="M6 1v13M1.5 9.5 6 14l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
         </div>

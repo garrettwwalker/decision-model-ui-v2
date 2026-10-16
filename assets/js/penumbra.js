@@ -12,40 +12,6 @@
   var hero = document.querySelector(".hero");
   var stage = document.querySelector(".hero__stage");
 
-  /* "shadow." on the sun: placed once per layout, masked by the moon every frame */
-  var shadowWord = document.querySelector(".hero__shadow"), line2 = document.querySelector(".hero__line2");
-  var sunEl = document.querySelector(".eclipse__sun"), moonEl = document.querySelector(".eclipse__moon"), copyEl = document.querySelector(".hero__copy");
-  function placeShadow() {
-    if (!shadowWord) return;
-    var sun = sunEl.getBoundingClientRect(), copy = copyEl.getBoundingClientRect(), ln = line2.getBoundingClientRect();
-    var r = sun.width / 2, cx = sun.left + r, cy = sun.top + r;
-    shadowWord.style.left = "0px"; shadowWord.style.top = "0px";
-    var w = shadowWord.getBoundingClientRect().width, hgt = shadowWord.getBoundingClientRect().height;
-    var ly = ln.top + ln.height / 2, dy = ly - cy, left, top;
-    var reach = Math.abs(dy) < r * 0.9 ? Math.sqrt(r * r - dy * dy) : 0;
-    if (reach && 2 * reach - r * 0.2 > w) {
-      // on its own line: just inside the sun's edge, after "in"
-      left = Math.max(cx - reach + r * 0.12, ln.left + hgt * 0.6);
-      top = ln.top;
-    } else {
-      // the line doesn't reach the sun (narrow screens): in the sun's upper part
-      left = cx - w / 2; top = cy - r * 0.42 - hgt / 2;
-    }
-    shadowWord.style.left = (left - copy.left).toFixed(1) + "px";
-    shadowWord.style.top = (top - copy.top).toFixed(1) + "px";
-    shadowWord.classList.add("is-placed");
-  }
-  function maskShadow() {
-    if (!shadowWord) return;
-    var m = moonEl.getBoundingClientRect(), wr = shadowWord.getBoundingClientRect();
-    shadowWord.style.setProperty("--mx", (m.left + m.width / 2 - wr.left).toFixed(1) + "px");
-    shadowWord.style.setProperty("--my", (m.top + m.height / 2 - wr.top).toFixed(1) + "px");
-    shadowWord.style.setProperty("--mr", (m.width / 2).toFixed(1) + "px");
-  }
-  placeShadow();
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { placeShadow(); maskShadow(); });
-  window.addEventListener("resize", function () { placeShadow(); maskShadow(); });
-
   function heroFrame() {
     var r = hero.getBoundingClientRect();
     var span = hero.offsetHeight - window.innerHeight;
@@ -58,7 +24,6 @@
     stage.style.setProperty("--burst", (1 - Math.pow(1 - b, 3)).toFixed(4)); // explosive: fast, then settling
     stage.style.setProperty("--flash", Math.sin(Math.PI * clamp((p - 0.52) / 0.16, 0, 1)).toFixed(4));
     stage.style.setProperty("--after", clamp((p - 0.62) / 0.24, 0, 1).toFixed(3));
-    maskShadow();
   }
 
   /* ---------- Read-as-you-scroll: text darkens word by word, widgets fill in ----------
