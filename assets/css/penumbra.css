@@ -554,9 +554,10 @@ main, .footer { position: relative; z-index: 2; }
 .gn__meta { color: var(--moon-2); }
 .gn--driver .gn__meta, .gn--exposure .gn__meta { color: var(--loss); font-weight: 700; }
 .gn--driver { box-shadow: 0 0 30px -10px rgba(255, 107, 129, 0.45); }
-.gn--owner { /* the owners who act: dark like the rest, lit by the eclipse's warm glow */
-  background: var(--card); color: var(--moon);
-  box-shadow: 0 0 22px -4px rgba(255, 150, 90, 0.5), 0 0 54px -14px rgba(255, 84, 120, 0.45), 0 14px 30px -20px rgba(0, 0, 0, 0.9);
+.gn--owner { /* the owners who act: lit like the fused answer in "one question, three engines" */
+  background: var(--space); color: var(--moon);
+  border-color: rgba(255, 170, 64, 0.6);
+  box-shadow: 0 0 40px -12px rgba(255, 84, 120, 0.55), 0 0 60px -20px rgba(255, 224, 122, 0.4);
 }
 .gn--owner .gn__kind { color: var(--moon-3); }
 .gn__when { color: var(--a-amber); font-weight: 700; }
