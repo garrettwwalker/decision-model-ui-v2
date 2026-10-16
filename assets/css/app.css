@@ -1,76 +1,45 @@
-/* Product pages: shared app chrome, paper, instruments, data display.
-   Same vocabulary as the landing page: dawn ground, white paper and pinned notes, dark
-   instrument tiles only where a live chart or code needs them. The ask page has its own sky. */
+/* Product pages: shared app chrome, panels, instruments, data display.
+   Same vocabulary as the Penumbra landing: moon-dark ground under a quiet starfield (space.js), dark glass
+   panels, moonlight type, solid hairlines, and one warm accent kept for the answer. */
 
 body.app { min-height: 100vh; }
 
 .skip {
   position: absolute; left: 1rem; top: -4rem; z-index: 200;
-  background: #fff; color: var(--ink); padding: 0.5rem 0.9rem; border-radius: 8px;
+  background: var(--moon); color: var(--on-ink); padding: 0.5rem 0.9rem; border-radius: 8px;
 }
 .skip:focus { top: 1rem; }
 
-/* ---------- Time-of-day grounds ---------- */
-.t-sunrise {
-  --ctl: var(--ink);
-  --ctl-soft: rgba(10, 23, 34, 0.18);
-  --focus: var(--ink);
-  --fg: var(--ink);
-  --fg-2: var(--ink-2);
-  --panel: #ffffff;
-  --panel-solid: #ffffff;
-  --panel-line: rgba(10, 23, 34, 0.1);
-  --tone: #a84a23; /* the landing's read watermark: burnt dawn, 3.5:1 on the ground */
+/* ---------- Night: the one ground every product page uses ---------- */
+.t-night {
+  --ctl: var(--a-amber);
+  --ctl-soft: rgba(255, 170, 64, 0.28);
+  --focus: var(--a-yellow);
+  --fg: var(--moon);
+  --fg-2: var(--moon-2);
+  --panel: var(--card);
+  --panel-solid: var(--card-solid); /* diagrams that draw pre-blended colors sit on this */
+  --panel-line: rgba(236, 238, 242, 0.1);
+  --tone: var(--moon); /* section titles: solid moonlight, as on the landing */
   color: var(--fg);
-  background:
-    radial-gradient(70% 380px at 78% 0%, rgba(255, 236, 200, 0.95), rgba(255, 236, 200, 0) 100%),
-    linear-gradient(180deg, #f39a72 0px, #ffbb8b 320px, var(--dawn) 700px, #ffd2a8 1800px, #ffe6c9 3200px, #fff1df 100%);
+  background: var(--void);
 }
-/* Blue hour: a dark ground where the whole page is an instrument, the sun not yet up (no page uses it now) */
-.t-bluehour {
-  --ctl: #ffb547;
-  --ctl-soft: rgba(255, 181, 71, 0.3);
-  --focus: #ffb547;
-  --fg: #f6efe6;
-  --fg-2: rgba(246, 239, 230, 0.72);
-  --panel: #0f2131; /* solid: diagrams draw pre-blended colors on it */
-  --panel-solid: #0f2131;
-  --panel-line: rgba(255, 255, 255, 0.1);
-  --line-strong: rgba(255, 255, 255, 0.16);
-  --tone: rgba(255, 170, 120, 0.55);
-  color: var(--fg);
-  background:
-    radial-gradient(90% 520px at 50% 100%, rgba(233, 135, 106, 0.35), rgba(233, 135, 106, 0) 100%),
-    linear-gradient(180deg, #071621 0px, #0d2233 420px, #1c2c3f 1100px, #3a3446 1700px, #6a4650 2300px, #b9675b 100%);
-  background-attachment: fixed;
-}
-.t-bluehour .bar { background: rgba(7, 22, 33, 0.72); box-shadow: none; }
-.t-bluehour .panel { box-shadow: none; border: 1px solid var(--panel-line); }
-.t-bluehour .btn--primary { background: #f6efe6; color: var(--ink); }
-.t-bluehour .btn--primary:hover { background: #fff; }
-.t-bluehour .btn--ghost { color: var(--fg); }
-.t-bluehour .money--loss { color: #ff7a66; }
-.t-bluehour .money--safe { color: #5fd3b5; }
-.t-bluehour .toast { background: #f6efe6; color: var(--ink); }
-.t-bluehour .drift .clouds, .t-predawn .drift .clouds { --c-hi: #4a5a70; --c-mid: #34445a; --c-lo: #223044; --c-rim: #7a5058; }
 
-/* Instruments: the only dark surfaces, for live charts and code (the landing's preview tiles) */
+/* Instruments: code, logs and terminals, set a step darker than the panels */
 .instrument {
-  --ctl: #ffb547;
-  --ctl-soft: rgba(255, 181, 71, 0.3);
-  --focus: #ffb547;
-  --fg: #f6efe6;
-  --fg-2: rgba(246, 239, 230, 0.72);
-  --panel: #0f2131; /* solid: diagrams draw pre-blended colors on it */
-  --panel-solid: #0f2131;
-  --panel-line: rgba(255, 255, 255, 0.1);
+  --ctl: var(--a-amber);
+  --ctl-soft: rgba(255, 170, 64, 0.28);
+  --fg: var(--moon);
+  --fg-2: var(--moon-2);
+  --panel: #0b0c10;
+  --panel-solid: #0b0c10;
+  --panel-line: rgba(236, 238, 242, 0.08);
   color: var(--fg);
-  background: #0f2131;
+  background: #0b0c10;
+  border: 1px solid rgba(236, 238, 242, 0.08);
   border-radius: var(--radius);
   padding: clamp(1rem, 2vw, 1.4rem);
 }
-.instrument .btn--primary, .instrument .btn--light { background: #f6efe6; color: var(--ink); }
-.instrument .btn--ghost { color: var(--fg); }
 
 /* ---------- Top bar: the landing nav, not a dashboard toolbar ---------- */
 .bar {
@@ -85,7 +54,7 @@ body.app { min-height: 100vh; }
   -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(14px);
 }
-.t-sunrise .bar { background: rgba(255, 196, 150, 0.72); box-shadow: 0 1px 0 rgba(10, 23, 34, 0.08); }
+.t-night .bar { background: rgba(7, 8, 11, 0.72); box-shadow: 0 1px 0 rgba(236, 238, 242, 0.08); }
 .bar .wordmark { font-size: 1.3rem; }
 
 .tabs { display: flex; gap: 1.75rem; }
@@ -99,10 +68,10 @@ body.app { min-height: 100vh; }
 }
 .tabs a:hover { opacity: 1; }
 .tabs a[aria-current="page"] { opacity: 1; }
-.tabs a[aria-current="page"]::after { /* a small sun on the horizon under the current page */
+.tabs a[aria-current="page"]::after { /* a small point of light under the current page */
   content: ""; position: absolute; left: 50%; bottom: 4px;
   width: 6px; height: 6px; border-radius: 50%; transform: translateX(-50%);
-  background: var(--ember);
+  background: var(--a-gold); box-shadow: 0 0 8px rgba(255, 210, 90, 0.7);
 }
 
 .bar__meta { margin: 0; display: grid; justify-items: end; line-height: 1.25; font-size: 0.8rem; }
@@ -146,21 +115,19 @@ body.app { min-height: 100vh; }
 /* ---------- Panels ---------- */
 .panel {
   background: var(--panel);
+  -webkit-backdrop-filter: var(--glass); backdrop-filter: var(--glass);
   border-radius: var(--radius);
   padding: clamp(1rem, 2vw, 1.5rem);
-  box-shadow: var(--shadow-card);
 }
-.panel.instrument { box-shadow: 0 18px 40px -24px rgba(7, 22, 33, 0.6); }
+.panel.instrument { background: #0b0c10; }
 
 .panel__title { margin: 0 0 0.9rem; font-size: 1.05rem; font-weight: 800; letter-spacing: -0.02em; }
 .panel__title .eyebrow { display: block; margin-bottom: 0.3rem; color: var(--fg-2); font-weight: 500; }
 
-/* ---------- Money: losses are loud, protection is calm ---------- */
+/* ---------- Money: at risk in rose-red, protected in pale gold ---------- */
 .money { font-weight: 800; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
 .money--loss { color: var(--loss); }
 .money--safe { color: var(--safe); }
-.instrument .money--loss { color: #ff7a66; }
-.instrument .money--safe { color: #5fd3b5; }
 .pill {
   display: inline-flex; align-items: center; gap: 0.35rem;
   padding: 0.18rem 0.6rem; border-radius: 999px;
@@ -168,11 +135,8 @@ body.app { min-height: 100vh; }
 }
 .pill--loss { background: var(--loss-tint); color: var(--loss); }
 .pill--safe { background: var(--safe-tint); color: var(--safe); }
-.pill--warn { background: #fff0d1; color: #8a5300; }
-.pill--quiet { background: rgba(10, 23, 34, 0.07); color: var(--ink-2); }
-.instrument .pill--quiet { background: rgba(255, 255, 255, 0.08); color: var(--fg-2); }
-.instrument .pill--loss { background: rgba(255, 122, 102, 0.14); color: #ff9a8a; }
-.instrument .pill--safe { background: rgba(95, 211, 181, 0.14); color: #7fe0c6; }
+.pill--warn { background: var(--warn-tint); color: var(--warn); }
+.pill--quiet { background: rgba(236, 238, 242, 0.08); color: var(--ink-2); }
 
 /* ---------- Tables ---------- */
 .table-wrap { position: relative; overflow-x: auto; margin: 0 -0.25rem; }
@@ -181,7 +145,7 @@ body.app { min-height: 100vh; }
   text-align: left; font-weight: 600; font-size: 0.75rem; color: var(--fg-2);
   padding: 0 0.6rem 0.6rem; white-space: nowrap;
 }
-.table td { padding: 0.75rem 0.6rem; border-top: 1px dashed var(--panel-line); vertical-align: middle; }
+.table td { padding: 0.75rem 0.6rem; border-top: 1px solid var(--panel-line); vertical-align: middle; }
 .table th::first-letter { text-transform: uppercase; }
 .table .r { text-align: right; }
 .table .mono { font-size: 0.78rem; }
@@ -189,7 +153,7 @@ body.app { min-height: 100vh; }
 
 /* inline loss bar */
 .lossbar { display: grid; grid-template-columns: 4.4rem 1fr; align-items: center; gap: 0.6rem; min-width: 9rem; }
-.lossbar i { height: 6px; border-radius: 6px; background: rgba(163, 32, 26, 0.12); position: relative; overflow: hidden; }
+.lossbar i { height: 6px; border-radius: 6px; background: var(--loss-tint); position: relative; overflow: hidden; }
 .lossbar i::after { content: ""; position: absolute; inset: 0 auto 0 0; width: calc(var(--v) * 100%); background: var(--loss); border-radius: 6px; }
 .lossbar b { text-align: right; }
 
@@ -206,9 +170,9 @@ input[type="range"] {
 }
 input[type="range"]::-webkit-slider-runnable-track {
   height: 4px; border-radius: 4px;
-  background: linear-gradient(90deg, var(--ctl) var(--fill), rgba(127, 140, 150, 0.3) var(--fill));
+  background: linear-gradient(90deg, var(--ctl) var(--fill), rgba(236, 238, 242, 0.14) var(--fill)); /* one color to the knob */
 }
-input[type="range"]::-moz-range-track { height: 4px; border-radius: 4px; background: rgba(127, 140, 150, 0.3); }
+input[type="range"]::-moz-range-track { height: 4px; border-radius: 4px; background: rgba(236, 238, 242, 0.14); }
 input[type="range"]::-moz-range-progress { height: 4px; border-radius: 4px; background: var(--ctl); }
 input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none; appearance: none;
@@ -230,7 +194,7 @@ input[type="range"]:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 4px 
   border-radius: 9px; font-size: 0.74rem; font-weight: 700; text-align: center; line-height: 1.15;
   color: var(--fg-2); transition: background-color 0.15s ease, color 0.15s ease;
 }
-.seg input:checked + span { background: var(--fg); color: var(--panel-solid, #fff); }
+.seg input:checked + span { background: var(--fg); color: var(--on-ink); }
 .seg input:focus-visible + span { outline: 2px solid var(--ctl); outline-offset: 1px; }
 
 .switch { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 44px; cursor: pointer; }
@@ -239,7 +203,7 @@ input[type="range"]:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 4px 
 .switch input { position: absolute; opacity: 0; width: 1px; height: 1px; }
 .switch__ui {
   flex: none; width: 42px; height: 24px; border-radius: 999px; position: relative;
-  background: rgba(127, 140, 150, 0.35); transition: background-color 0.15s ease;
+  background: rgba(236, 238, 242, 0.18); transition: background-color 0.15s ease;
 }
 .switch__ui::after {
   content: ""; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%;
@@ -254,44 +218,29 @@ input[type="range"]:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 4px 
   border-radius: 8px; border: 1px solid var(--panel-line); background: rgba(255, 255, 255, 0.04);
   font-size: 0.875rem; font-variant-numeric: tabular-nums; color: var(--fg);
 }
-.num-input:focus-visible { outline: 2px solid var(--ctl); outline-offset: 0; border-color: transparent; }
-.num-input.is-changed { border-color: rgba(255, 181, 71, 0.7); background: rgba(255, 181, 71, 0.08); }
+.num-input:focus-visible { outline: none; border-color: rgba(255, 210, 90, 0.6); box-shadow: 0 0 0 3px rgba(255, 210, 90, 0.1), 0 0 22px -4px rgba(255, 210, 90, 0.45); } /* the landing's gold focus glow */
+.num-input.is-changed { border-color: rgba(255, 170, 64, 0.7); background: rgba(255, 170, 64, 0.08); }
 
 /* ---------- Toast ---------- */
 .toast {
   position: fixed; left: 50%; bottom: calc(env(safe-area-inset-bottom, 0px) + 1.25rem); z-index: 90;
   transform: translate(-50%, 140%); transition: transform 0.25s ease;
-  background: var(--ink); color: #fff; border-radius: 12px; padding: 0.75rem 1rem;
+  background: var(--moon); color: var(--on-ink); border-radius: 12px; padding: 0.75rem 1rem;
   font-size: 0.85rem; font-weight: 600; max-width: calc(100vw - 2rem);
   box-shadow: 0 18px 40px -16px rgba(0, 0, 0, 0.6);
 }
 .toast.is-on { transform: translate(-50%, 0); }
-.t-predawn .toast { background: #f6efe6; color: var(--ink); }
 
 /* ---------- Footer ---------- */
 .app-foot {
   display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem 2rem;
   padding: 1.5rem var(--gutter) calc(env(safe-area-inset-bottom, 0px) + 1.5rem);
   font-size: var(--fs-micro); color: var(--fg-2);
-  border-top: 1px dashed var(--panel-line);
+  border-top: 1px solid var(--panel-line);
 }
 .app-foot a { color: inherit; }
 
-/* ---------- Drifting clouds: a quiet homage to the landing sky ---------- */
-.drift { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
-.t-sunrise .drift .clouds { --c-hi: #ffffff; --c-mid: #fffaf3; --c-lo: #ffe9d6; --c-rim: #fff4e8; }
-.drift .clouds {
-  left: 0; width: var(--w); height: calc(var(--w) * 0.5);
-  opacity: var(--o, 0.35);
-  animation: drift var(--t) linear infinite;
-  animation-delay: var(--d);
-}
-@keyframes drift {
-  from { transform: translateX(-100%); }
-  to { transform: translateX(calc(100vw + 10%)); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .drift .clouds { animation: none; transform: translateX(var(--rest)); }
-}
+/* ---------- Starfield: a fixed canvas drawn by space.js, kept faint so data stays the brightest thing ---------- */
+.stars { position: fixed; inset: 0; z-index: 0; width: 100%; height: 100%; pointer-events: none; }
 .bar, .page, .app-foot, .ask { position: relative; z-index: 1; }
 .bar { position: sticky; z-index: 40; }

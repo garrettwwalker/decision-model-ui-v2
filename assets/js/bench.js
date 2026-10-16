@@ -726,8 +726,8 @@
       var a = NODES[e[0]], b = NODES[e[1]];
       var mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2 - Math.abs(a.x - b.x) * 0.12;
       var at = { class: "gedge" + (tr.edges[i] ? " is-trace" : tracing ? " is-dim" : ""), d: "M" + a.x + " " + a.y + " Q" + mx + " " + my + " " + b.x + " " + b.y, "stroke-width": 1.6 };
-      if (e[2] === "alt") { at.stroke = "rgba(15,107,95,0.6)"; at["stroke-dasharray"] = "5 5"; }
-      else at.stroke = e[2] === "hot" ? "rgba(194,51,45,0.45)" : "rgba(10,23,34,0.25)";
+      if (e[2] === "alt") { at.stroke = "rgba(255,213,107,0.6)"; at["stroke-dasharray"] = "5 5"; }
+      else at.stroke = e[2] === "hot" ? "rgba(255,107,129,0.5)" : "rgba(236,238,242,0.25)";
       svg.appendChild(sv("path", at));
     });
     Object.keys(NODES).forEach(function (id) {
@@ -738,7 +738,7 @@
       if (hit[id]) g.appendChild(sv("circle", { class: "gnode__ring", cx: n.x, cy: n.y, r: r + 7 }));
       g.appendChild(sv("circle", { class: "gnode__halo", cx: n.x, cy: n.y, r: r + 4 }));
       g.appendChild(sv("circle", { class: "gnode__dot", cx: n.x, cy: n.y, r: r.toFixed(1),
-        fill: loss > 0.01 ? "#d0453a" : n.kind === "Chokepoint" ? "#d98a1c" : n.alt ? "#0f6b5f" : "#6b7780" }));
+        fill: loss > 0.01 ? "#ff6b81" : n.kind === "Chokepoint" ? "#ffaa40" : n.alt ? "#ffd56b" : "#7f8592" }));
       var anchor = n.lab ? "end" : "start";
       var tx = n.lab === "left" ? n.x - r - 9 : n.lab === "below" ? n.x - 10 : n.x + r + 9;
       var ty = n.lab === "below" ? n.y + r + 15 : n.y + 4;
@@ -1401,8 +1401,8 @@
     var c0 = count(s0), c1 = count(s1), top = Math.max(1, Math.max.apply(null, c0.concat(c1)));
     hist.textContent = "";
     hist.appendChild(sv("line", { x1: x0, x2: x1, y1: y1, y2: y1, class: "grid" }));
-    c0.forEach(function (c, i) { var h = (y1 - y0) * c / top; hist.appendChild(sv("rect", { x: x0 + i * bw + 1, y: y1 - h, width: bw - 2, height: h, fill: "none", stroke: "rgba(10,23,34,0.38)", "stroke-dasharray": "2 2" })); });
-    c1.forEach(function (c, i) { var h = (y1 - y0) * c / top; hist.appendChild(sv("rect", { x: x0 + i * bw + 1, y: y1 - h, width: bw - 2, height: h, rx: 2, fill: "#f2683c", "fill-opacity": 0.85 })); });
+    c0.forEach(function (c, i) { var h = (y1 - y0) * c / top; hist.appendChild(sv("rect", { x: x0 + i * bw + 1, y: y1 - h, width: bw - 2, height: h, fill: "none", stroke: "rgba(236,238,242,0.38)", "stroke-dasharray": "2 2" })); });
+    c1.forEach(function (c, i) { var h = (y1 - y0) * c / top; hist.appendChild(sv("rect", { x: x0 + i * bw + 1, y: y1 - h, width: bw - 2, height: h, rx: 2, fill: "#ffaa40", "fill-opacity": 0.85 })); });
     for (var t = 0; t <= 4; t++) hist.appendChild(sv("text", { x: x0 + (x1 - x0) * t / 4, y: y1 + 18, class: "axis", "text-anchor": "middle" }, money(hi * t / 4, 0)));
   }
   var tornado = document.getElementById("tornado");

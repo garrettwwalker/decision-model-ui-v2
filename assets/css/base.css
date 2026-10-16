@@ -39,28 +39,50 @@
 }
 
 :root {
-  /* Palette */
-  --night: #071621;
-  --night-2: #0c2433;
-  --ink: #0a1722;
-  --ink-2: #3b4b57;
-  --ink-3: #55636d;
-  --paper: #ffffff;
-  --cream: #fbf6ef;
-  --mist: #eef3f5;
-  --dawn: #ffc092;       /* page ground: the reference's sky, at sunrise */
-  --dawn-deep: #f39c68;  /* tone-on-tone: unread copy, watermark titles */
-  --dawn-pale: #ffe6cc;
-  --dawn-rose: #e9876a;
-  --ember: #f2683c;      /* the one accent: sunrise */
-  --ember-deep: #c94a22;
-  --amber: #ffb547;
-  --loss: #a3201a;       /* money at risk */
-  --loss-tint: #fbe3dc;
-  --safe: #0f6b5f;       /* money protected */
-  --safe-tint: #dcefe9;
-  --line: rgba(10, 23, 34, 0.12);
-  --line-strong: rgba(10, 23, 34, 0.22);
+  /* Palette: Penumbra. Moon-dark ground, moonlight type, one warm accent from the light at an eclipse's edge.
+     The old dawn names are kept as aliases so the product pages' rules carry over: --ink is now the moonlight
+     everything is written in (and the fill of selected controls), --paper the glass every card sits on. */
+  --void: #07080b;       /* page ground */
+  --space: #0d0f13;
+  --night: #07080b;
+  --night-2: #0d0f13;
+  --moon: #eceef2;
+  --moon-2: #a9aeb9;
+  --moon-3: #7f8592;
+  --ink: #eceef2;        /* headlines and read copy */
+  --ink-2: #a9aeb9;      /* body copy */
+  --ink-3: #7f8592;      /* captions */
+  --on-ink: #07080b;     /* text on a moonlit (selected) fill */
+  --paper: rgba(30, 33, 42, 0.76); /* dark glass over a blur: cards and panels */
+  --card: rgba(30, 33, 42, 0.76);
+  --card-solid: #181b22; /* where a diagram needs an opaque ground */
+  --card-low: rgba(255, 255, 255, 0.04); /* a well inside a card */
+  --glass: blur(14px);
+  --cream: #1a1d24;
+  --mist: #15171d;
+  /* the penumbra: pink, rose, red, orange, amber, pale gold. No blues, greens or violets on the page */
+  --a-pink: #ff7aaa;
+  --a-rose: #ff5478;
+  --a-red: #ff4438;
+  --a-orange: #ff7a3c;
+  --a-amber: #ffaa40;
+  --a-gold: #ffd25a;
+  --a-yellow: #ffe07a;
+  --dawn: var(--a-amber);
+  --dawn-deep: var(--a-orange);
+  --dawn-pale: rgba(255, 170, 64, 0.14);
+  --dawn-rose: var(--a-rose);
+  --ember: var(--a-amber);      /* the one accent */
+  --ember-deep: var(--a-orange);
+  --amber: var(--a-amber);
+  --loss: #ff6b81;       /* money at risk: rose-red */
+  --loss-tint: rgba(255, 107, 129, 0.14);
+  --safe: #ffd56b;       /* money protected: pale gold */
+  --safe-tint: rgba(255, 213, 107, 0.14);
+  --warn: #ffb35c;
+  --warn-tint: rgba(255, 170, 64, 0.14);
+  --line: rgba(236, 238, 242, 0.1);
+  --line-strong: rgba(236, 238, 242, 0.2);
 
   /* Type */
   --font: "Switzer", "Helvetica Neue", Arial, sans-serif;
@@ -76,11 +98,11 @@
   --fs-small: 0.8rem;
   --fs-micro: 0.75rem;
 
-  --focus: var(--ink);
+  --focus: var(--a-yellow);
 
   --radius: 14px;
   --radius-lg: 22px;
-  --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.6) inset, 0 18px 40px -22px rgba(7, 22, 33, 0.45);
+  --shadow-card: none; /* a black shadow on a black ground does nothing */
   --gutter: clamp(1rem, 4vw, 3rem);
 
   /* the logo keeps its own full-spectrum ring, as the user chose; the page around it stays warm */
@@ -101,6 +123,7 @@ body {
   line-height: 1.55;
   word-spacing: 0.03em; /* Switzer's space runs narrow at small sizes */
   color: var(--ink);
+  background: var(--void);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -173,7 +196,7 @@ a { color: inherit; }
 
 /* Tone-on-tone watermark titles (reference: "emerging trends") */
 .watermark {
-  color: var(--tone, rgba(10, 23, 34, 0.14));
+  color: var(--tone, var(--moon));
 }
 
 /* ---------- Wordmark ---------- */
@@ -220,9 +243,9 @@ a { color: inherit; }
   border: 1.5px solid currentColor;
 }
 .chip--solid {
-  background: var(--paper);
-  color: var(--ink);
-  border-color: var(--paper);
+  background: var(--moon);
+  color: var(--on-ink);
+  border-color: var(--moon);
 }
 .chip .dot {
   width: 0.62em;
@@ -245,7 +268,7 @@ a { color: inherit; }
   width: 0.66em;
   height: 0.66em;
   border-radius: 50%;
-  background: #fff;
+  background: var(--on-ink);
 }
 
 /* ---------- Buttons ---------- */
@@ -266,62 +289,28 @@ a { color: inherit; }
   transition: transform 0.15s ease, background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
 }
 .btn:hover { transform: translateY(-1px); }
-/* Actions are ink; orange is reserved for the sun */
-.btn--primary { background: var(--ink); color: #fff; }
-.btn--primary:hover { background: #1d3446; }
-.btn--ink { background: var(--ink); color: #fff; }
+/* Actions are moonlight; the warm accent is kept for what matters */
+.btn--primary { background: var(--moon); color: var(--on-ink); }
+.btn--primary:hover { background: #fff; box-shadow: 0 0 22px -6px rgba(255, 255, 255, 0.5); }
+.btn--ink { background: var(--moon); color: var(--on-ink); }
 .btn--ghost { background: transparent; border-color: currentColor; }
-.btn--light { background: #fff; color: var(--ink); }
+.btn--light { background: var(--moon); color: var(--on-ink); }
 .btn--sm { min-height: 36px; padding: 0.35rem 0.85rem; font-size: 0.8125rem; }
 
-/* ---------- Dashed hairline divider ---------- */
+/* ---------- Hairline divider (solid: dashes were the dawn site's paper look) ---------- */
 .dash {
   border: 0;
-  border-top: 1.5px dashed var(--line-strong);
+  border-top: 1px solid var(--line);
   margin: 0;
 }
 
-/* ---------- Pinned note card (reference: "emerging trends" cards) ---------- */
+/* ---------- Note card: dark glass, no pin ---------- */
 .note {
   position: relative;
   background: var(--paper);
+  -webkit-backdrop-filter: var(--glass); backdrop-filter: var(--glass);
   border-radius: var(--radius);
   padding: 1.25rem 1.25rem 1.35rem;
-  box-shadow: var(--shadow-card);
-}
-.note::before {
-  content: "";
-  position: absolute;
-  top: -7px;
-  left: 50%;
-  width: 13px;
-  height: 13px;
-  transform: translateX(-50%);
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, #fff 0 20%, var(--ember) 45%, var(--ember-deep) 100%);
-  box-shadow: 0 2px 4px rgba(7, 22, 33, 0.35);
-}
-
-/* ---------- Clouds (SVG generated by sky.js) ---------- */
-.clouds { position: absolute; pointer-events: none; will-change: transform; }
-.clouds svg { display: block; overflow: visible; max-width: none; }
-.clouds--storm {
-  --c-rim: var(--rim, #2a3442);
-  --c-lo: #141d29;
-  --c-mid: #222d3b;
-  --c-hi: #3a4656;
-}
-.clouds--dawn {
-  --c-rim: #ffd2a6;
-  --c-lo: #f0a07f;
-  --c-mid: #ffc6a0;
-  --c-hi: #fff0dd;
-}
-.clouds--cream {
-  --c-rim: #fff1de;
-  --c-lo: #fbd9b8;
-  --c-mid: #ffead4;
-  --c-hi: #fffaf2;
 }
 
 @media (prefers-reduced-motion: reduce) {

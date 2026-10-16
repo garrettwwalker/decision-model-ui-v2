@@ -4,8 +4,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project status
 
-Decision Model UI v2 is a clickable mockup for **ByNine** (working name; until 2026-10-13 the whole company and
-product were called Daybreak), a geopolitical decision model. Its forecasting model is the **Daybreak engine**.
+Decision Model UI v2 is a clickable mockup for **Penumbra** (renamed 2026-10-16; earlier the company was ByNine and,
+until 2026-10-13, Daybreak), a geopolitical decision model. Its forecasting model is the **Totality engine**.
 The demo client is Halvorsen Group, a fictional Fortune 500 appliance maker, facing a
 Strait of Hormuz closure. It is plain static HTML/CSS/JS: no framework, no build step and
 no tests. To preview, open `index.html` in a browser; there's no server.
@@ -15,21 +15,22 @@ no tests. To preview, open `index.html` in a browser; there's no server.
 - Pages: `index.html` (landing), `briefing.html` (daily brief), `memo.html` ("sample memo"), `team.html` ("workflows" in the nav; team workflows for middle
   managers), `workbench.html` (world-model editor for data/IT) and `ask.html` (chat). `wargame.html` is only a
   redirect to `team.html`; the wargame it used to hold was replaced.
-- Product pages share the landing's vocabulary: dawn ground (`t-sunrise`), white paper (`.panel`,
-  pinned `.note`; every workbench chart and diagram sits on paper too), dark `.instrument` tiles only for code, lowercase burnt-dawn section
-  titles, dashed dividers, cargo tags for routes. The ask page keeps its own pre-dawn sky (`t-predawn`).
-  The landing page runs night → dawn on scroll.
-- `assets/css/base.css` holds shared tokens and components, `app.css` the product-page
-  chrome, and `landing.css`, `brief.css`, `memo.css`, `team.css` and `bench.css` are per page.
+- Every page shares the Penumbra landing's vocabulary (`t-night` on product pages): moon-dark ground (`--void`) under a
+  quiet fixed starfield (`space.js`), dark glass cards and panels (`--paper`/`--card`, part-clear over `--glass` blur,
+  no shadow, no outline, no pins, no tilt), moonlight type (`--ink` is now the moonlight text color and the fill of
+  selected controls, with `--on-ink` for text on it), solid hairlines (no dashes), section titles in solid moonlight,
+  and one warm accent kept for the answer (the fused forecast, the best route, a running playbook, the chosen option
+  are lit with an amber ring and glow). Labels stay `--moon-3`. Focused fields take the landing's gold glow.
+  Maps are dark (`#10131a` sea, `#1e222b` land). `.instrument` is only for code, a step darker than the panels.
+- `assets/css/base.css` holds shared tokens (the Penumbra palette; the old dawn names such as `--dawn`, `--ember`,
+  `--paper` are aliases onto it) and components, including the logo mark (`.logo`); `app.css` the product-page
+  chrome, and `landing.css`, `brief.css`, `memo.css`, `team.css`, `bench.css` and `ask.css` are per page.
 - `assets/js/model.js` is the single source of truth for every loss figure. The
   ask page and workbench run it live. The brief's numbers are static but were computed from
   it, so if you change `BASE`, recompute and update `briefing.html`. Money is in $M.
-- `assets/js/sky.js` renders procedural cumulus banks (`[data-clouds]`, shapes in `SHAPES`): flat-based
-  clouds with puffs peaking mid-cloud, one light gradient per cloud, crown highlights and an underside glow.
-  Colors come from `--c-hi/mid/lo/rim` on `.clouds--storm/dawn/cream`; `--c-base` is the fading strip that
-  joins the next section; `data-flip` hangs a bank upside down.
-  Product pages call `Sky.drift()`: 2-4 lone translucent clouds with random size, height, speed and
-  start point cross a fixed background layer (CSS `drift` keyframes; still under reduced motion).
+- `assets/js/space.js` gives product pages the landing's starfield, quieter: `Space.stars()` adds a fixed canvas of
+  faint stars that twinkle slowly and drift a little against the scroll (~15fps, paused when hidden, still under
+  reduced motion). It replaced the dawn site's drifting clouds (`sky.js`, removed).
 - `memo.html` + `assets/js/memo.js` is a sample strategic options memo, dated Wed 7 Oct, answering the CEO's
   "How should we respond to the potential of new sanctions by the Trump Administration?" Static HTML holds the bottom
   line (key judgments with confidence, 41% ±7 by 6 Dec on an estimative-words scale) and the drivers tug-of-war
@@ -38,14 +39,14 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   tripwires), `TRENDS` (three weekly line charts with hover readouts) and `ASKS`, which open `ask.html?q=` with the
   question typed in. Choices persist in localStorage (`daybreak.memo.choice`). It reuses the brief's resin, Dubai
   and feeder exposures and the 29 Sep talks collapse, so keep those in sync.
-- `ask.html` (fourth tab, "pre-dawn" theme in `assets/css/ask.css`) is the "ask the model" chat. `assets/js/chat.js`
+- `ask.html` (fifth tab, `assets/css/ask.css`, body class `ask-page`) is the "ask the model" chat. `assets/js/chat.js`
   answers scripted intents (capacity, what-if, best move, forecast, signposts, decline) live from `model.js`.
   The assumed scenario is kept in `sessionStorage["daybreak.scenario"]`; its "Explore in the workbench" button links out.
   Question options (slider button in the composer, `#qopts`): how often it runs (`CADENCE`, with stop and notify
   rules), resolution criteria (text, resolve-by date, source of truth, a suggested wording), and extra documents
   (names only; read in the browser) plus connected `SOURCES`. Active options show as chips, travel with the
   message as tags, add a `.track` card to the reply, and recurring questions list under "Standing questions".
-- `team.html` + `assets/js/team.js` is ByNine for the people who carry decisions out. `PERSONAS` holds three
+- `team.html` + `assets/js/team.js` is Penumbra for the people who carry decisions out. `PERSONAS` holds three
   managers (Farah, port operations; Elif, Gebze production; Layla, GCC key accounts), switched under "Viewing as"
   and remembered in localStorage. Each has `people` (role, shift, base hours, cap, skills, away, backup), `gaps`,
   `decisions` (options can finish a task or add one), `directives` from leadership broken into `tasks`
@@ -53,13 +54,10 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   an early `signal` against its trigger and playbook `steps`), and `fixed` calendar events. Day 0 is Tue 6 Oct,
   the morning of the brief. State is per manager (`S[pid]`); everything re-renders from it, including the drafted
   update to their boss. The brief's "See the team's part" opens `team.html?directive=bridge|divert|cover`.
-- Landing "down to who does what." is a node-link diagram (`.graph`, `.gn` nodes in a CSS grid); `landing.js`
-  draws rounded-elbow SVG edges with arrowheads between node centers; they draw themselves once, row by row (the nodes are tiles that fade in together at 85%, and back out with the lines dimmed when scrolled above),
-  when the section scrolls into view (timer-driven, not rAF, so it also runs in headless checks).
 - `workbench.html` + `assets/js/bench.js` follows one decision through six stages, with a sticky "thread" strip
   showing each stage's live result: 1 Forecast (each event's sub-questions per engine, declined part, fused
   probability ±band, override), 2 Contingencies (the `events` data: include, severity, assets hit first),
-  3 Impact (a paper map in the brief's style, Türkiye to Korea, drawn by `drawMap()` from `GEO` lon/lat and sea-lane
+  3 Impact (a dark map in the brief's style, Türkiye to Korea, drawn by `drawMap()` from `GEO` lon/lat and sea-lane
   waypoints in `LANES`, with an enlarged Gulf inset; land comes from `assets/js/bench-map.js`, generated by
   `tools/bench-map.py`; then exact `stats(A)` over event combinations: money, operations, customers, people and `TRIGGERS`
   commitments; `reach()` propagates hits down asset dependencies, price events with `cost: true` don't spread),
@@ -72,13 +70,12 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   data (CSV, signals, sources, SDK) and the change log. "Reset to baseline" sits at the left of every stage's footer (scenario mode only); after a reset it reads
   "Reset" with a tick until the next change (`justReset`, cleared in `changed()`); committing
   happens from the foot of Consequences. Hormuz/Red Sea losses come from `model.js`; other events are layered on in
-  `lossOf()`. "Ask ByNine" (`#askdrawer`, moved to `<body>` at init to clear `.page`'s stacking context; it rises from the
+  `lossOf()`. "Ask Penumbra" (`#askdrawer`, moved to `<body>` at init to clear `.page`'s stacking context; it rises from the
   sparkle button and sinks back via `drawer-in`/`drawer-out`, a bottom sheet on phones) is a scripted assistant: `answer()` matches intents by regex, computes replies from the live engine and offers actions.
-- `penumbra.html` + `assets/css/penumbra.css` + `assets/js/penumbra.js` is a **preview** of the landing page
-  under the next name, Penumbra (added 2026-10-15; linked as "penumbra preview" at the end of the product tour tabs and
-  last in `nav.js`'s order). Same copy and section layout as `index.html` (ByNine swapped for Penumbra, the Daybreak engine renamed the
-  **Totality engine**, and dawn lines recast for the eclipse: "out of the shadow. let's talk."), but moon-dark
-  ground with one warm accent, the light at an eclipse's edge: pink, rose, red, orange, amber, pale gold (`--a-*`,
+- `index.html` + `assets/css/landing.css` + `assets/js/landing.js` is the landing, Penumbra (it was a preview at
+  `penumbra.html` from 2026-10-15 until the switchover on 2026-10-16; `penumbra.html` now only redirects home). Same
+  sections as the old ByNine landing, with the Daybreak engine renamed the **Totality engine** and dawn lines
+  recast for the eclipse ("out of the shadow. let's talk."), but moon-dark ground with one warm accent, the light at an eclipse's edge: pink, rose, red, orange, amber, pale gold (`--a-*`,
   `--aurora`, and the conic `--mark`). The user rejected the logo JPEG's full rainbow on the page (the logo alone keeps it); keep the page
   off blues, greens and violets (one exception the user asked for: the "Done" status pill on the team workflows card is green), and keep lines, bars and borders one color, not gradients. Protected money
   (`--safe`) is pale gold here, not green. Hero: one screen-sized eclipse. A white sun fills most of the viewport; scroll slides the
@@ -86,7 +83,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   into the page's spectrum (`--burst`: blurred corona, conic ray streamers, a sky-wide wash); the headline is "risk lies in shadow." as "look around the bend"
   arrives. Before the burst the headline is a white copy in `mix-blend-mode: difference` (black on the sun, white on
   space), crossfading to the real `h1`; `.hero__copy` has no z-index so the blend reaches the sun. The mark keeps the shape of `references/Penumbra Logo Color.jpeg` (ring with
-  a four-point spark at 45°) but not its colors, which clashed: it's inline SVG masks in `penumbra.css` filled with
+  a four-point spark at 45°) but not its colors, which clashed: it's inline SVG masks in `base.css` (`.logo`) filled with
   `--logo-ring`, a full-spectrum conic gradient the user chose for the logo (the page's warm `--mark` drives the corona). Don't use the JPEG itself. Below the hero: fixed starfield canvas (no coloured background glows: the user removed them as
   tints), a faint white pointer glow, aurora-edged card spotlights (`.spot`, `--mx/--my`), headings revealed
   word by word, "what should you do?" (after gray swans) as a moon chart (`.lunes`, heading styled like the other sections), introduced by
@@ -101,7 +98,6 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   reaction: the user tried a labelled hub and spoke and a cursor-reactive version first. Nebula layers don't travel or fade: each painted layer is redrawn ~15 times a second through a slow,
   zero-mean undulating displacement field (its own wavelengths and speeds), so wisps sway against each other in
   place. The user rejected rigid drift (read as wind) and twin crossfades (read as fading). No cursor effect on them (the user tried several and removed them). The top bar hides while scrolling down once the hero's bottom edge has passed it and returns on any scroll up. The page closes in a second nebula (`.nebula--close`, same renderer, its own seeds) behind the contact form, thinning to black before the solid black footer; the user preferred it to a northern-lights effect. Headings are solid moonlight (`--moon`, white for the hero's second line); the user rejected gradient text. Tiles are dark glass (`--card`, part-clear over `--glass` blur, no shadow, no outline), dividers solid hairlines (no dashes), and only the answer is lit: the fused forecast, the best moon, a card's money figure (the overnight card's percentage shares its color); labels such as the mode cards' audience lines stay `--moon-3`. Gray swan cards are written for a first-time reader: a plain headline, one line of why, then a foot with the probability as a large percentage beside a short plain label and "Affects ..." (no jargon like p(...), GNSS or TEU, no "not on your watchlist" pill). `penumbra.js` is a fork of
-  `landing.js`; if the preview is adopted, it replaces `index.html` and the fork goes away.
 - Motion between views: `assets/js/nav.js` (in every page's `<head>`) records which way the clicked page lies in the
   nav order; the new page slides in from that side (cross-document view transitions where supported, with the
   `.bar` held still; otherwise a CSS entrance on `main` and the footer, keyed on `html[data-slide]`). In the
@@ -114,16 +110,18 @@ no tests. To preview, open `index.html` in a browser; there's no server.
 - Landing page: `landing.js` splits every text block below the hero into words that darken, in reading order, as they cross the
   reading line (`.w` / `.w.on`). Tiles (cards, tags, chain rows, bubbles, the form) are never split: each
   fades in whole (`.tile.on`) once its top crosses 85% of the viewport. Unread text color comes from `--unread`.
-- Dawn palette tokens: `--dawn`, `--dawn-deep`, `--ember`. Money at risk uses `--loss`
-  (crimson) and protected money uses `--safe` (teal).
+- Palette tokens (`base.css`): `--void`, `--moon`/`--moon-2`/`--moon-3`, the warm accents `--a-pink` to `--a-yellow`
+  (`--ember` is amber). Money at risk uses `--loss` (rose-red) and protected money uses `--safe` (pale gold); `--warn`
+  for things running late. Green appears only for "done"/healthy status (the team card's Done pill, the workbench's
+  source-OK dot), at the user's request.
 
 ## Product messaging
 
-Naming: say **ByNine** for the company and the product (wordmark, titles, footers, `bynine.com`, "Ask ByNine",
-anything the customer uses or buys). Say **the Daybreak engine** when the copy describes the model doing analysis:
-splitting questions, running its three engines, fusing, forecasting, declining, suggesting. Tight labels may
-shorten it to "Daybreak" ("Daybreak's read", "How Daybreak got 27%"). Storage keys and SVG mask IDs say
-`daybreak` from the old company name; they're internal, so leave them.
+Naming: say **Penumbra** for the company and the product (wordmark, titles, footers, "Ask Penumbra", the SDK's
+`from penumbra import World`, anything the customer uses or buys). Say **the Totality engine** (lowercase "engine")
+when the copy describes the model doing analysis: splitting questions, running its three engines, fusing,
+forecasting, declining, suggesting. Tight labels may shorten it to "Totality" ("Totality's read", "How Totality got
+27%"). Storage keys and SVG mask IDs say `daybreak` from the first company name; they're internal, so leave them.
 
 Source docs: `references/Decision Model Pitch.docx` (overview) and
 `references/Sector-Agnostic Decision Notes.docx` (technical breakdown). The site names three
@@ -137,7 +135,7 @@ Keep private: specific models and vendors, fusion and calibration methods, the e
 model, leakage controls, competitor names and patent issues. The Hormuz example's engine figures
 (33 / 26 / 22%, fused 27%, one sub-question declined) appear on the brief and the workbench;
 keep them in sync. The team page reuses the brief's actions, dates and probabilities, so keep those in sync too. The landing page deliberately spans industries: an automaker's
-strike question (engines), a tech company's Brazil launch (timeline), and mixed-sector gray swans.
+strike question (engines), a tech company's launch (the moon chart), and mixed-sector gray swans.
 
 ## Repository
 
@@ -156,10 +154,11 @@ The user's chosen visual model is `references/convodesign101-full-page.png` (a f
 capture of convodesign101.xyz, a Framer site). Per §2 of the standards below, match its
 direction. Open the image before any UI work; it is 1895×19466, so view it in vertical slices.
 
-**User override (2026-10-06):** emulate the reference loosely. Swap its sky-blue ground for
-**dawn** (the product was named Daybreak when this was set; the theme stays under ByNine): dawn gradients, dark storm clouds that part to reveal a
-rising sun. Keep the reference's moves (tone-on-tone type, clouds, bubbles, collectibles)
-but in the dawn palette.
+**User override (2026-10-16): the Penumbra landing is now the design system for the whole site.** Every page
+follows it (see Architecture): moon-dark ground, stars, dark glass cards, moonlight type, one warm accent from an
+eclipse's edge, solid hairlines. The convodesign capture and the dawn override (2026-10-06) below are history:
+keep their composition habits (offset left-hung headlines, narrow reading columns, scroll-read copy on the landing),
+not their sky-blue or dawn palette, clouds, pinned paper, tilted notes, cargo tags or dashed dividers.
 
 - **Palette** (sampled from the capture and its CSS):
   - Sky `#33CBEA`: the page ground for nearly the whole scroll

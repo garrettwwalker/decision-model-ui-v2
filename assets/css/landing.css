@@ -52,7 +52,7 @@ html { scroll-behavior: smooth; background: #07080b; }
 }
 .skip:focus { top: 1rem; }
 
-/* ---------- Background: drifting aurora, stars, a glow that follows the pointer ---------- */
+/* ---------- Background: stars and a glow that follows the pointer ---------- */
 .stars, .glow { position: fixed; inset: 0; pointer-events: none; }
 .stars { z-index: 0; width: 100%; height: 100%; }
 .glow { /* over the content (below the nav), added as light, so it shows on solid areas like the footer too */
@@ -127,7 +127,7 @@ main, .footer { position: relative; z-index: 2; }
 .split__num { color: #fff; }
 
 /* ---------- Hero: one eclipse, screen-sized ----------
-   penumbra.js sets --cover (0 → 1: the moon slides over the sun), --ring (the rim lights at totality),
+   landing.js sets --cover (0 → 1: the moon slides over the sun), --ring (the rim lights at totality),
    --burst (the rim explodes into the page's colors, fast then settling) and --flash (a bloom at the moment). */
 .hero { position: relative; height: 280vh; }
 .hero__stage {
@@ -253,7 +253,7 @@ main, .footer { position: relative; z-index: 2; }
 /* ---------- Below the hero ---------- */
 .day { position: relative; }
 
-/* card spotlight: a soft white glow inside the card that follows the pointer (penumbra.js sets --mx/--my); no edge line */
+/* card spotlight: a soft white glow inside the card that follows the pointer (landing.js sets --mx/--my); no edge line */
 .spot { position: relative; isolation: isolate; }
 .spot::before {
   content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; z-index: -1;
@@ -273,7 +273,7 @@ main, .footer { position: relative; z-index: 2; }
 .pn .note::before { display: none; }
 .pn .note.spot::before { display: block; }
 
-/* ---------- Read as you scroll (classes added by penumbra.js) ---------- */
+/* ---------- Read as you scroll (classes added by landing.js) ---------- */
 .w { transition: color 0.35s ease; }
 .w:not(.on) { color: var(--unread) !important; } /* color only, so un-reading fades as smoothly as reading */
 .prose .w.on, .read .w.on { color: var(--moon-2); } /* every body paragraph reads in the same moon gray; headings are the white */
@@ -436,7 +436,7 @@ main, .footer { position: relative; z-index: 2; }
   margin-block: 3rem;
   background: linear-gradient(180deg, rgba(3, 4, 6, 0) 0%, rgba(3, 4, 6, 0.75) 18%, rgba(3, 4, 6, 0.75) 82%, rgba(3, 4, 6, 0) 100%);
 }
-/* penumbra.js paints the layers once (warped fractal noise, low resolution so the upscale is soft); CSS drifts them
+/* landing.js paints the layers once (warped fractal noise, low resolution so the upscale is soft); CSS drifts them
    slowly, each on its own clock, and scroll pulls them apart at different depths (--nb) */
 .nebula {
   position: absolute; inset: 0; pointer-events: none; --nb: 0;
@@ -448,7 +448,7 @@ main, .footer { position: relative; z-index: 2; }
   opacity: 0; transition: opacity 1.6s ease;
 }
 .nebula canvas.is-ready { opacity: 1; }
-/* in a vacuum nothing travels and nothing fades: penumbra.js warps each painted layer in place by a slow, undulating
+/* in a vacuum nothing travels and nothing fades: landing.js warps each painted layer in place by a slow, undulating
    flow (zero on average, a different rhythm per layer), so the wisps sway and curl against one another. --o is each
    layer's opacity. */
 .nebula__gas { --o: 0.8; filter: blur(5px) saturate(1.15); translate: 0 calc(var(--nb) * -40px); }
@@ -491,7 +491,7 @@ main, .footer { position: relative; z-index: 2; }
 .assets__lede { margin: 0; max-width: 32rem; font-size: 1.1rem; color: var(--moon-2); }
 .assets__lede .w.on { color: var(--moon-2); }
 /* a large constellation beside the plan copy: a freeform figure of linked stars over a scatter of faint ones; the
-   stars twinkle and the lines draw themselves once in view (penumbra.js adds .is-drawn). No text, no cursor. */
+   stars twinkle and the lines draw themselves once in view (landing.js adds .is-drawn). No text, no cursor. */
 .cst { margin: -1rem calc(var(--gutter) * -0.5) -1rem 0; align-self: center; } /* bleeds toward the page edge: the sky doesn't stop at the column */
 .cst__svg { display: block; width: 100%; height: auto; overflow: visible; }
 .cst__line { stroke: rgba(236, 238, 242, 0.38); stroke-width: 1.1; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 0; } /* no non-scaling-stroke: with pathLength it turns the dash into 1px gaps */
