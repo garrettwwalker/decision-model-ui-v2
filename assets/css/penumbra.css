@@ -157,7 +157,7 @@ main, .footer { position: relative; z-index: 2; }
 }
 .eclipse {
   --D: 120vmin;
-  position: absolute; left: 60%; top: 64%;
+  position: absolute; left: 63%; top: 64%;
   width: var(--D); height: var(--D);
   translate: -50% -50%;
 }

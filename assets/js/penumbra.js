@@ -20,7 +20,7 @@
     copyEl.style.removeProperty("--hfs"); copyEl.style.removeProperty("--afs");
     if (window.innerWidth <= window.innerHeight) return; // portrait: the text sits above the sun
     var ecl = stage.querySelector(".eclipse").getBoundingClientRect(), R = ecl.width / 2, cx = ecl.left + R, cy = ecl.top + R;
-    var pad = Math.max(20, window.innerWidth * 0.015);
+    var pad = Math.max(8, window.innerWidth * 0.005); // the type can come right up to the sun
     function fit(block, prop, lift) {
       var lines = block.querySelectorAll(":scope > span"), fs = parseFloat(getComputedStyle(block).fontSize);
       for (var i = 0; i < 8; i++) {
