@@ -76,7 +76,8 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   sparkle button and sinks back via `drawer-in`/`drawer-out`, a bottom sheet on phones) is a scripted assistant: `answer()` matches intents by regex, computes replies from the live engine and offers actions.
 - `penumbra.html` + `assets/css/penumbra.css` + `assets/js/penumbra.js` is a **preview** of the landing page
   under the next name, Penumbra (added 2026-10-15; linked as "penumbra preview" at the end of the product tour tabs and
-  last in `nav.js`'s order). Same copy and section layout as `index.html` (ByNine swapped for Penumbra), but moon-dark
+  last in `nav.js`'s order). Same copy and section layout as `index.html` (ByNine swapped for Penumbra, the Daybreak engine renamed the
+  **Totality engine**, and dawn lines recast for the eclipse: "out of the shadow. let's talk."), but moon-dark
   ground with one warm accent, the light at an eclipse's edge: pink, rose, red, orange, amber, pale gold (`--a-*`,
   `--aurora`, and the conic `--mark`). The user rejected the logo JPEG's full rainbow on the page (the logo alone keeps it); keep the page
   off blues, greens and violets, and keep lines, bars and borders one color, not gradients. Protected money
