@@ -33,6 +33,10 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   the workbench's is navy sea `#122042`, slate land `#3a4763` with `#56658a` coasts, labels in moonlight on navy
   halos; the brief's is a warm paper chart as on the Daybreak brief (parchment sea `#dccdb8`, sand land `#c9ae8c`, ink
   labels, dimmed a step at the user's request, deeper loss and safe shades scoped to `.map__svg`). The user found black-on-gray maps unreadable. `.instrument` is only for code, a step darker than the panels.
+  Card states (audit 2026-10-16): off, unselected or muted cards keep the dark `--card` glass and dim their text
+  (`> * { opacity: 0.6 }`); never a white film (`rgba(236,238,242,.05)`) or a faded whole card, which the haze turns
+  milky. Selection is an accent tint (`--card-on`), hover `--card-hover`. Notes that sit on the sky (`.section__note`)
+  carry a dark halo; small analytic type goes in glass.
 - `assets/css/base.css` holds shared tokens (the Penumbra palette; the old dawn names such as `--dawn`, `--ember`,
   `--paper` are aliases onto it) and components, including the logo mark (`.logo`); `app.css` the product-page
   chrome, and `landing.css`, `brief.css`, `memo.css`, `team.css`, `bench.css` and `ask.css` are per page.

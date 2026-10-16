@@ -106,6 +106,7 @@
 /* ---------- Exposure: map + table ---------- */
 .exposure { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 1.25rem; align-items: start; }
 @media (max-width: 1080px) { .exposure { grid-template-columns: minmax(0, 1fr); } }
+@media (min-width: 1081px) { .exposure > .map { position: sticky; top: 5.5rem; } } /* the map rides beside the long PO table, so a hovered row's ship stays in view */
 
 .map { margin: 0; padding: 0.75rem; overflow: hidden; }
 /* the map is a warm paper chart, as on the Daybreak brief (the user found the dark map hard to read): parchment sea, sand
