@@ -443,12 +443,8 @@
       cv.classList.add("is-ready");
     }
 
-    // gray swans' nebula is warm (pink to orange, with a paler peach-to-rose layer); the closing one behind the
-    // contact form is green-blue, as the user asked
-    var close = box.classList.contains("nebula--close");
-    var WARM = close ? [[40, 200, 170], [50, 160, 230], [60, 215, 140], [90, 185, 255]] : [[255, 90, 160], [255, 70, 90], [255, 96, 64], [255, 150, 90]];
-    var COOL = close ? [[150, 230, 215], [110, 195, 240], [80, 215, 185]] : [[255, 176, 120], [255, 120, 140], [255, 86, 96]];
-    var GLINT = close ? ["rgba(214,244,255,0.6)", "rgba(110,200,230,0)"] : ["rgba(255,232,210,0.6)", "rgba(255,170,130,0)"];
+    var WARM = [[255, 90, 160], [255, 70, 90], [255, 96, 64], [255, 150, 90]];
+    var COOL = [[255, 176, 120], [255, 120, 140], [255, 86, 96]]; // the paler, peach-to-rose layer
     function render() {
       var b = box.getBoundingClientRect(), aspect = (b.height * 1.2) / Math.max(1, b.width * 1.2);
       var nA = makeNoise(11 + seed), nB = makeNoise(23 + seed), nC = makeNoise(37 + seed), nD = makeNoise(53 + seed);
@@ -494,7 +490,7 @@
       for (i = 0; i < 9; i++) {
         var bx = rnd() * sb.width, by = rnd() * sb.height, br = 6 + rnd() * 10;
         var gr = g.createRadialGradient(bx, by, 0, bx, by, br);
-        gr.addColorStop(0, "rgba(255,255,255,0.95)"); gr.addColorStop(0.12, GLINT[0]); gr.addColorStop(1, GLINT[1]);
+        gr.addColorStop(0, "rgba(255,255,255,0.95)"); gr.addColorStop(0.12, "rgba(255,232,210,0.6)"); gr.addColorStop(1, "rgba(255,170,130,0)");
         g.fillStyle = gr; g.beginPath(); g.arc(bx, by, br, 0, 6.283); g.fill();
       }
       specks.classList.add("is-ready");
