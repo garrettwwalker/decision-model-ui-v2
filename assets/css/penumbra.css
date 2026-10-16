@@ -327,16 +327,16 @@ main, .footer { position: relative; z-index: 2; }
   box-shadow: 0 0 12px rgba(255, 107, 129, 0.5);
   transition: width 0.9s cubic-bezier(.3,.7,.3,1);
 }
-.watch.is-up .watch__bar i { background: #fff; box-shadow: 0 0 12px rgba(255, 255, 255, 0.4); } /* upside reads white on this card */
+.watch.is-up .watch__bar i { background: var(--safe); box-shadow: 0 0 12px rgba(255, 213, 107, 0.5); }
 .watch__pct { font-size: 0.9rem; color: var(--moon-2); }
-.watch__pct b { font-size: 1.15rem; color: var(--loss); /* matches the money figure: rose-red at risk, white for upside */ font-variant-numeric: tabular-nums; }
-.watch.is-up .watch__pct b { color: #fff; }
+.watch__pct b { font-size: 1.15rem; color: var(--loss); /* matches the money figure: rose-red at risk, gold when protected */ font-variant-numeric: tabular-nums; }
+.watch.is-up .watch__pct b { color: var(--safe); }
 .watch__facts { margin: 0; display: grid; gap: 0.55rem; font-size: 0.9rem; }
 .watch__facts div { display: grid; grid-template-columns: 5.5rem 1fr; gap: 0.75rem; }
 .watch__facts dt { color: var(--moon-3); font-weight: 600; }
 .watch__facts dd { margin: 0; font-weight: 600; }
 .watch__value dd { font-size: 1.15rem; font-weight: 800; color: var(--loss); font-variant-numeric: tabular-nums; } /* the card's one accent */
-.watch.is-up .watch__value dd { color: #fff; }
+.watch.is-up .watch__value dd { color: var(--safe); }
 @media (max-width: 860px) {
   .thesis { grid-template-columns: minmax(0, 1fr); row-gap: 2.5rem; }
   .thesis .thesis__setup { margin-left: 0; }
