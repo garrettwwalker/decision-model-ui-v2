@@ -489,14 +489,12 @@ main, .footer { position: relative; z-index: 2; }
 }
 .swan h3 { margin: 0; font-size: 1.2rem; line-height: 1.2; letter-spacing: -0.02em; }
 .swan p { margin: 0; font-size: 0.92rem; color: var(--moon-2); }
-/* each card leads with its probability, set like the engine tiles' figures; the heading above already says these aren't on a watchlist */
-.swan .swan__p { margin: 0 0 0.35rem; display: grid; gap: 0.3rem; }
+/* what it is, why, then how likely and what it hits; the heading above already says these aren't on a watchlist */
+.swan__foot { margin-top: auto; padding-top: 0.9rem; border-top: 1px solid var(--line); display: grid; gap: 0.5rem; }
+.swan .swan__p { display: flex; align-items: baseline; gap: 0.6rem; }
 .swan__p b { color: var(--moon); font-size: 1.95rem; font-weight: 800; letter-spacing: -0.05em; line-height: 1; font-variant-numeric: tabular-nums; }
-.swan__p span { font-size: 0.8rem; color: var(--moon-3); }
-.swan__stats { margin: auto 0 0; padding-top: 0.75rem; border-top: 1px solid var(--line); display: grid; gap: 0.5rem; }
-.swan__stats div { display: flex; justify-content: space-between; gap: 1rem; font-size: 0.8rem; }
-.swan__stats dt { color: var(--moon-3); font-size: 0.8rem; }
-.swan__stats dd { margin: 0; font-weight: 700; text-align: right; }
+.swan__p span { font-size: 0.85rem; line-height: 1.3; color: var(--moon-2); }
+.swan .swan__hit { font-size: 0.85rem; color: var(--moon-3); }
 @media (max-width: 960px) {
   .swans__grid { grid-template-columns: minmax(0, 1fr); max-width: 34rem; }
 }
