@@ -613,7 +613,6 @@
       if (r.bottom < 0 || r.top > vh) return;
       box.style.setProperty("--nb", ((r.top + r.height / 2 - vh / 2) / vh).toFixed(3));
     }, { passive: true });
-
   });
 
   /* ---------- Contact form (mockup: no backend) ---------- */
