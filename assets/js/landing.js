@@ -1,4 +1,4 @@
-/* Penumbra landing: scroll reading, charts, the eclipse hero, starfield, nebulae and pointer glow. */
+/* Penumbra landing: scroll reading, watch card, charts, the eclipse hero, starfield, nebulae and pointer glow. */
 (function () {
   var clamp = function (v, a, b) { return Math.min(b, Math.max(a, v)); };
   var lerp = function (a, b, t) { return a + (b - a) * t; };
@@ -30,7 +30,7 @@
   var day = document.querySelector(".day");
   var BLOCKS = "p, h2, h3, li, dt, dd, label";
   var UNITS = ".chip";                       // inline widgets revealed whole, like a word
-  var TILES = ".sat, .note, .lune, .swan, .contact__form, .split__q, .part, .split__fused"; // revealed whole, text included
+  var TILES = ".note, .lune, .swan, .contact__form, .split__q, .part, .split__fused"; // revealed whole, text included
   var reads = [], tiles = [];
 
   function splitWords(root, units) {
@@ -109,6 +109,43 @@
       o.on = on;
     });
   }
+
+  /* ---------- Overnight watch card: cycles through flagged events ---------- */
+  (function () {
+    var card = document.querySelector(".watch");
+    if (!card) return;
+    var EVENTS = [
+      { event: "Hormuz closes for 7+ days", p: 27, when: "within 30 days", touches: "9 vessels and 312 purchase orders", move: "Bridge-buy resin from Singapore", vlabel: "Protects", value: "$11.7M" },
+      { event: "The Red Sea shuts to traffic", p: 34, when: "within 30 days", touches: "Resin for the Gebze plant, via Suez", move: "Pre-book Cape routing for 3 sailings", vlabel: "Protects", value: "$4.1M" },
+      { event: "New Section 232 tariffs", p: 62, when: "by the second quarter", touches: "14 SKUs from 3 suppliers", move: "Front-load first-quarter imports", vlabel: "Protects", value: "$2.8M" },
+      { event: "A ceasefire in Ukraine", p: 18, when: "within 6 months", touches: "Black Sea grain and steel lanes", move: "Keep spot contracts open", vlabel: "Upside", value: "+$1.2M", up: true },
+      { event: "Sanctions hit two of your feeders", p: 19, when: "within 60 days", touches: "The ME4 Gulf shuttle, 88 POs", move: "Line up replacement charters", vlabel: "Protects", value: "$1.9M" }
+    ];
+    var body = card.querySelector(".watch__body");
+    var count = card.querySelector("[data-watch-count]");
+    var bar = card.querySelector('[data-watch="bar"]');
+    var cur = 0;
+    function fill(e) {
+      ["event", "when", "touches", "move", "vlabel", "value"].forEach(function (k) {
+        card.querySelector('[data-watch="' + k + '"]').textContent = e[k];
+      });
+      card.querySelector('[data-watch="p"]').textContent = e.p + "%";
+      count.textContent = (cur + 1) + " of " + EVENTS.length;
+      card.classList.toggle("is-up", !!e.up);
+      bar.style.width = "0";
+      requestAnimationFrame(function () { requestAnimationFrame(function () { bar.style.width = e.p + "%"; }); });
+    }
+    function next() {
+      body.classList.add("is-out");
+      setTimeout(function () {
+        cur = (cur + 1) % EVENTS.length;
+        fill(EVENTS[cur]);
+        body.classList.remove("is-out");
+      }, 350);
+    }
+    fill(EVENTS[0]);
+    setInterval(next, 4500);
+  })();
 
   /* ---------- Here's the plan: the constellation's lines draw themselves the first time it comes into view ---------- */
   (function () {
@@ -196,7 +233,7 @@
   }
   window.addEventListener("scroll", onScroll, { passive: true });
   window.addEventListener("resize", onScroll);
-  // word positions shift whenever the layout does (resize, late fonts)
+  // word positions shift whenever the layout does (resize, late fonts, the watch card changing height)
   var remeasure = 0;
   function relayout() { cancelAnimationFrame(remeasure); remeasure = requestAnimationFrame(function () { measureReads(); readFrame(); }); }
   measureReads();
