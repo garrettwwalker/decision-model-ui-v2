@@ -520,8 +520,8 @@ main, .footer { position: relative; z-index: 2; }
 /* ---------- Assets: node-link model ---------- */
 .assets {
   padding: clamp(6rem, 14vh, 9rem) var(--gutter);
-  display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
-  gap: 3rem 5rem; align-items: start; max-width: 82rem;
+  display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.25fr);
+  gap: 3rem 4rem; align-items: start; max-width: 88rem;
 }
 .assets__copy { display: grid; gap: 1.25rem; align-content: start; }
 .assets__copy h2 { margin-bottom: 0.75rem; }
@@ -529,7 +529,7 @@ main, .footer { position: relative; z-index: 2; }
 .assets__lede .w.on { color: var(--moon-2); }
 /* a large constellation beside the plan copy: a freeform figure of linked stars over a scatter of faint ones; the
    stars twinkle and the lines draw themselves once in view (penumbra.js adds .is-drawn). No text, no cursor. */
-.cst { margin: 0; align-self: center; }
+.cst { margin: -2rem calc(var(--gutter) * -1) -2rem -1rem; align-self: center; } /* bleeds toward the page edge: the sky doesn't stop at the column */
 .cst__svg { display: block; width: 100%; height: auto; overflow: visible; }
 .cst__line { stroke: rgba(236, 238, 242, 0.24); stroke-width: 1; stroke-linecap: round; vector-effect: non-scaling-stroke; stroke-dasharray: 1; stroke-dashoffset: 0; }
 .cst.is-waiting .cst__line { stroke-dashoffset: 1; }
@@ -540,7 +540,7 @@ main, .footer { position: relative; z-index: 2; }
 .cst__dust { fill: #c9ccd3; opacity: 0.55; animation: cst-twinkle var(--tw, 5s) ease-in-out infinite; animation-delay: var(--td, 0s); }
 @keyframes cst-twinkle { 50% { opacity: 0.35; } }
 @media (prefers-reduced-motion: reduce) { .cst__star, .cst__dust { animation: none; } }
-@media (max-width: 900px) { .assets { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 900px) { .assets { grid-template-columns: minmax(0, 1fr); } .cst { margin: 0 calc(var(--gutter) * -1); } }
 
 /* ---------- Rigor ---------- */
 .rigor { padding: clamp(5rem, 12vh, 8rem) var(--gutter); }
