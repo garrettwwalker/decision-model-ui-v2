@@ -404,11 +404,11 @@
   }
   function heatColor(v, h) {
     // muted like the original panel: brightness follows the reading closely, so most cells sit dark and only a few
-    // glow. Each cell has its own random hue from the palette (pink → rose → red → orange → amber), but low readings
-    // lean toward dusky rose, as the original ramp did, because dim orange on the dark ground reads as brown
-    var SPEC = [[255, 122, 170], [255, 84, 120], [255, 68, 56], [255, 122, 60], [255, 170, 64]];
+    // glow. Each cell has its own random hue from the palette (teal, blue, violet, pink, coral, gold), but low readings
+    // lean toward dusky violet, because dim coral and gold on the dark ground read as brown
+    var SPEC = [[62, 240, 198], [58, 168, 255], [167, 123, 255], [255, 79, 168], [255, 138, 76], [255, 210, 90]];
     v = clamp(v, 0, 1);
-    var x = lerp(0.2, clamp(h || 0, 0, 1), Math.min(1, v / 0.5)) * (SPEC.length - 1);
+    var x = lerp(0.42, clamp(h || 0, 0, 1), Math.min(1, v / 0.5)) * (SPEC.length - 1);
     var i = Math.min(SPEC.length - 2, Math.floor(x)), t = x - i;
     var k = Math.min(1, 0.06 + v * 1.1), BASE = [24, 20, 27];
     var c = SPEC[i].map(function (a, n) { return Math.round(lerp(BASE[n], lerp(a, SPEC[i + 1][n], t), k)); });
@@ -419,15 +419,15 @@
   var aurora = document.querySelector(".aurora");
   function skyFrame() {
     var max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
-    // the background glows warm slightly as you read down the page: rose at the top, more orange by the end
-    aurora.style.filter = "hue-rotate(" + (22 * window.scrollY / max).toFixed(1) + "deg)";
+    // the background glows' hue drifts as you read down the page: teal-violet at the top, warmer by the end
+    aurora.style.filter = "hue-rotate(" + (-70 * window.scrollY / max).toFixed(1) + "deg)";
   }
 
   var canvas = document.querySelector(".stars");
   var ctx = canvas.getContext("2d");
   var stars = [], W = 0, H = 0, DPR = 1;
   var pointer = { x: 0.5, y: 0.5, tx: 0.5, ty: 0.5, seen: false };
-  var TINTS = ["255,255,255", "255,255,255", "255,255,255", "255,236,214", "255,224,190", "255,214,220"];
+  var TINTS = ["255,255,255", "255,255,255", "255,255,255", "214,236,255", "190,255,236", "255,214,236"];
   function seed() {
     DPR = Math.min(2, window.devicePixelRatio || 1);
     W = window.innerWidth; H = window.innerHeight;
@@ -545,8 +545,8 @@
       cv.classList.add("is-ready");
     }
 
-    var WARM = [[255, 90, 160], [255, 70, 90], [255, 96, 64], [255, 150, 90]];
-    var COOL = [[255, 176, 120], [255, 120, 140], [255, 86, 96]]; // the paler, peach-to-rose layer
+    var WARM = [[58, 168, 255], [167, 123, 255], [255, 79, 168], [255, 138, 76]];
+    var COOL = [[62, 240, 198], [58, 168, 255], [120, 110, 255]];
     function render() {
       var b = box.getBoundingClientRect(), aspect = (b.height * 1.2) / Math.max(1, b.width * 1.2);
       var nA = makeNoise(11 + seed), nB = makeNoise(23 + seed), nC = makeNoise(37 + seed), nD = makeNoise(53 + seed);
@@ -589,7 +589,7 @@
       for (i = 0; i < 9; i++) {
         var bx = rnd() * sb.width, by = rnd() * sb.height, br = 6 + rnd() * 10;
         var gr = g.createRadialGradient(bx, by, 0, bx, by, br);
-        gr.addColorStop(0, "rgba(255,255,255,0.95)"); gr.addColorStop(0.12, "rgba(255,232,210,0.6)"); gr.addColorStop(1, "rgba(255,170,130,0)");
+        gr.addColorStop(0, "rgba(255,255,255,0.95)"); gr.addColorStop(0.12, "rgba(255,230,245,0.6)"); gr.addColorStop(1, "rgba(255,180,230,0)");
         g.fillStyle = gr; g.beginPath(); g.arc(bx, by, br, 0, 6.283); g.fill();
       }
       specks.classList.add("is-ready");
