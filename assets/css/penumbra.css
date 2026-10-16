@@ -527,25 +527,19 @@ main, .footer { position: relative; z-index: 2; }
 .assets__copy h2 { margin-bottom: 0.75rem; }
 .assets__lede { margin: 0; max-width: 32rem; font-size: 1.1rem; color: var(--moon-2); }
 .assets__lede .w.on { color: var(--moon-2); }
-/* the plan as a constellation (drawn by penumbra.js): the plan the brightest star, the owners around it, their tasks
-   as fainter stars, joined by hairlines. Stars give way a little to the cursor and spring back; pointing at one lights
-   its lines and its group. No text: the copy beside it carries the meaning. */
-.net { margin: 0; position: relative; min-height: 22rem; }
-.net__svg { display: block; width: 100%; height: auto; overflow: visible; }
-.net__spoke, .net__twig { stroke-linecap: round; transition: stroke 0.25s ease, opacity 0.25s ease; }
-.net__spoke { stroke: rgba(236, 238, 242, 0.2); stroke-width: 1; }
-.net__twig { stroke: rgba(236, 238, 242, 0.11); stroke-width: 0.8; }
-.net__drawn .net__spoke, .net__drawn .net__twig { stroke-dasharray: 1; stroke-dashoffset: 1; animation: net-draw 0.8s cubic-bezier(.3,.7,.3,1) forwards; animation-delay: var(--d, 0s); }
-@keyframes net-draw { to { stroke-dashoffset: 0; } }
-.net__star { fill: #f4f5f8; transition: fill 0.25s ease; animation: net-twinkle var(--tw, 5s) ease-in-out infinite; animation-delay: var(--td, 0s); }
-.net__star--hub { fill: #fff; filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.9)) drop-shadow(0 0 18px rgba(255, 200, 150, 0.55)); animation: none; }
-.net__star--owner { filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.7)); }
-.net__star--task { fill: #c9ccd3; opacity: 0.8; }
-@keyframes net-twinkle { 50% { opacity: 0.55; } }
-.net.is-hovering .net__spoke, .net.is-hovering .net__twig { opacity: 0.4; }
-.net .is-on.net__spoke, .net .is-on.net__twig { stroke: var(--a-amber); opacity: 1; }
-.net .is-on.net__star { fill: #ffe2b0; opacity: 1; }
-@media (prefers-reduced-motion: reduce) { .net__star { animation: none; } }
+/* a large constellation beside the plan copy: a freeform figure of linked stars over a scatter of faint ones; the
+   stars twinkle and the lines draw themselves once in view (penumbra.js adds .is-drawn). No text, no cursor. */
+.cst { margin: 0; align-self: center; }
+.cst__svg { display: block; width: 100%; height: auto; overflow: visible; }
+.cst__line { stroke: rgba(236, 238, 242, 0.24); stroke-width: 1; stroke-linecap: round; vector-effect: non-scaling-stroke; stroke-dasharray: 1; stroke-dashoffset: 0; }
+.cst.is-waiting .cst__line { stroke-dashoffset: 1; }
+.cst.is-drawn .cst__line { stroke-dashoffset: 1; animation: cst-draw 0.9s cubic-bezier(.3,.7,.3,1) forwards; animation-delay: var(--d, 0s); }
+@keyframes cst-draw { to { stroke-dashoffset: 0; } }
+.cst__star { fill: #eef0f4; filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.65)); animation: cst-twinkle var(--tw, 5s) ease-in-out infinite; animation-delay: var(--td, 0s); }
+.cst__star--bright { fill: #fff; filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.9)) drop-shadow(0 0 14px rgba(255, 210, 160, 0.45)); }
+.cst__dust { fill: #c9ccd3; opacity: 0.55; animation: cst-twinkle var(--tw, 5s) ease-in-out infinite; animation-delay: var(--td, 0s); }
+@keyframes cst-twinkle { 50% { opacity: 0.35; } }
+@media (prefers-reduced-motion: reduce) { .cst__star, .cst__dust { animation: none; } }
 @media (max-width: 900px) { .assets { grid-template-columns: minmax(0, 1fr); } }
 
 /* ---------- Rigor ---------- */

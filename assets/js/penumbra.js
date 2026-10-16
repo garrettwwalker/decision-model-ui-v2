@@ -148,122 +148,15 @@
     setInterval(next, 4500);
   })();
 
-  /* ---------- Here's the plan: a constellation ----------
-     The plan as the brightest star, the seven owners who carry it out around it, their tasks as fainter stars further
-     out, joined by hairlines; placed off a perfect circle (seeded) so it reads as a star pattern, laid out in the
-     figure's own pixels. Stars give way a little to the cursor and spring back; pointing at a star lights its lines
-     and group (the centre lights everything). The lines draw themselves the first time the figure comes into view. */
+  /* ---------- Here's the plan: the constellation's lines draw themselves the first time it comes into view ---------- */
   (function () {
-    var fig = document.querySelector(".net");
-    if (!fig) return;
-    var svg = fig.querySelector(".net__svg"), NS = "http://www.w3.org/2000/svg";
-    var TASKS = [2, 2, 2, 2, 2, 2, 1]; // tasks per owner: GM, product, legal, cloud, sales, finance, comms
-    var still = reduceMotion, nodes = [], links = [], hub, W = 0, H = 0, drawn = false;
-    var el = function (tag, cls, parent) { var e = document.createElementNS(NS, tag); if (cls) e.setAttribute("class", cls); (parent || svg).appendChild(e); return e; };
-
-    function build() {
-      var rnd = DB_rng(17); rnd();
-      W = Math.max(280, fig.clientWidth); H = Math.round(W * (W < 520 ? 0.95 : 0.78));
-      svg.setAttribute("viewBox", "0 0 " + W + " " + H); svg.setAttribute("width", W); svg.setAttribute("height", H);
-      svg.textContent = ""; nodes = []; links = [];
-      var cx = W / 2, cy = H / 2, R1 = Math.min(W, H) * 0.29, R2 = Math.min(W, H) * 0.45, gLines = el("g"), gStars = el("g");
-      hub = { kind: "hub", rx: cx, ry: cy, x: cx, y: cy, vx: 0, vy: 0 };
-      TASKS.forEach(function (count, k) {
-        var a = -Math.PI / 2 + k / TASKS.length * Math.PI * 2 + (rnd() - 0.5) * 0.35, r1 = R1 * (0.82 + rnd() * 0.36);
-        var on = { kind: "owner", k: k, rx: cx + Math.cos(a) * r1, ry: cy + Math.sin(a) * r1, vx: 0, vy: 0 };
-        on.x = on.rx; on.y = on.ry; nodes.push(on);
-        links.push({ a: hub, b: on, owner: k, el: el("line", "net__spoke", gLines), d: k * 0.07 });
-        for (var j = 0; j < count; j++) {
-          var ta = a + (count > 1 ? (j - (count - 1) / 2) * (0.28 + rnd() * 0.16) : (rnd() - 0.5) * 0.2), r2 = R2 * (0.84 + rnd() * 0.24);
-          var tn = { kind: "task", k: k, rx: cx + Math.cos(ta) * r2, ry: cy + Math.sin(ta) * r2, vx: 0, vy: 0 };
-          tn.x = tn.rx; tn.y = tn.ry; nodes.push(tn);
-          links.push({ a: on, b: tn, owner: k, task: tn, el: el("line", "net__twig", gLines), d: 0.5 + k * 0.07 + j * 0.05 });
-        }
-      });
-      links.forEach(function (l) { l.el.setAttribute("pathLength", "1"); l.el.style.setProperty("--d", l.d + "s"); });
-      nodes.forEach(function (n) {
-        n.dot = el("circle", "net__star net__star--" + n.kind, gStars);
-        n.dot.setAttribute("r", n.kind === "owner" ? 2.6 + rnd() * 1.2 : 1.2 + rnd() * 0.9);
-        n.dot.style.setProperty("--tw", (3.5 + rnd() * 4).toFixed(2) + "s");
-        n.dot.style.setProperty("--td", (-rnd() * 6).toFixed(2) + "s");
-      });
-      hub.dot = el("circle", "net__star net__star--hub", gStars); hub.dot.setAttribute("r", 5.5);
-      if (drawn) svg.classList.remove("net__drawn");
-      place();
-    }
-    function place() {
-      hub.dot.setAttribute("cx", hub.x.toFixed(1)); hub.dot.setAttribute("cy", hub.y.toFixed(1));
-      nodes.forEach(function (n) { n.dot.setAttribute("cx", n.x.toFixed(1)); n.dot.setAttribute("cy", n.y.toFixed(1)); });
-      links.forEach(function (l) {
-        l.el.setAttribute("x1", l.a.x.toFixed(1)); l.el.setAttribute("y1", l.a.y.toFixed(1));
-        l.el.setAttribute("x2", l.b.x.toFixed(1)); l.el.setAttribute("y2", l.b.y.toFixed(1));
-      });
-    }
-
-    // pointing at a star lights its lines and its group
-    var ptr = null, active = null;
-    function light(target) {
-      if (target === active) return;
-      active = target;
-      fig.classList.toggle("is-hovering", !!target);
-      links.forEach(function (l) {
-        var on = !!target && (target === hub || (target.kind === "owner" && l.owner === target.k) ||
-                 (target.kind === "task" && (l.task === target || (l.owner === target.k && !l.task))));
-        l.el.classList.toggle("is-on", on);
-      });
-      nodes.forEach(function (n) {
-        var on = !!target && (target === hub || n.k === target.k && (target.kind === "owner" || n === target || n.kind === "owner"));
-        n.dot.classList.toggle("is-on", on);
-      });
-      hub.dot.classList.toggle("is-on", !!target);
-    }
-    function aim(e) {
-      var b = svg.getBoundingClientRect(), sc = W / b.width;
-      ptr = { x: (e.clientX - b.left) * sc, y: (e.clientY - b.top) * sc };
-      var best = null;
-      [hub].concat(nodes).forEach(function (n) {
-        var d = (n.x - ptr.x) * (n.x - ptr.x) + (n.y - ptr.y) * (n.y - ptr.y), r = n === hub ? 40 * 40 : 30 * 30;
-        if (d < r && (!best || d < best.d)) best = { n: n, d: d };
-      });
-      light(best ? best.n : null);
-      if (e.pointerType === "touch") ptr = null; // a tap selects; nothing to give way to afterwards
-      wake();
-    }
-    fig.addEventListener("pointermove", aim);
-    fig.addEventListener("pointerdown", aim);
-    fig.addEventListener("pointerleave", function (e) { if (e.pointerType === "touch") return; ptr = null; light(null); wake(); });
-
-    // give way to the cursor, spring back
-    var running = false, last = 0;
-    function wake() { if (!still && !running) { running = true; requestAnimationFrame(step); } }
-    function step(t) {
-      if (t - last < 16) { requestAnimationFrame(step); return; }
-      last = t;
-      var moving = false;
-      nodes.forEach(function (n) {
-        var fx = (n.rx - n.x) * 0.08, fy = (n.ry - n.y) * 0.08;
-        if (ptr) {
-          var dx = n.x - ptr.x, dy = n.y - ptr.y, d = Math.sqrt(dx * dx + dy * dy) || 1, R = 110;
-          if (d < R) { var f = (1 - d / R) * (1 - d / R) * 2.4; fx += dx / d * f; fy += dy / d * f; }
-        }
-        n.vx = (n.vx + fx) * 0.78; n.vy = (n.vy + fy) * 0.78;
-        n.x += n.vx; n.y += n.vy;
-        if (Math.abs(n.vx) + Math.abs(n.vy) > 0.02 || Math.abs(n.x - n.rx) + Math.abs(n.y - n.ry) > 0.3) moving = true;
-      });
-      place();
-      if (moving || ptr) requestAnimationFrame(step); else running = false;
-    }
-
-    build();
-    var lastW = fig.clientWidth;
-    window.addEventListener("resize", function () { if (Math.abs(fig.clientWidth - lastW) > 2) { lastW = fig.clientWidth; build(); } });
-    if (still) { drawn = true; return; }
-    svg.style.opacity = "0";
+    var fig = document.querySelector(".cst");
+    if (!fig || reduceMotion) return;
+    fig.classList.add("is-waiting");
     function check() {
-      if (drawn) return;
       var r = fig.getBoundingClientRect();
       if (r.top < window.innerHeight * 0.85 && r.bottom > 0) {
-        drawn = true; svg.style.opacity = ""; svg.classList.add("net__drawn");
+        fig.classList.remove("is-waiting"); fig.classList.add("is-drawn");
         window.removeEventListener("scroll", check);
       }
     }
