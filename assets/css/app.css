@@ -97,6 +97,9 @@ body.app { min-height: 100vh; }
   backdrop-filter: blur(14px);
 }
 .t-night .bar { background: rgba(7, 10, 20, 0.72); box-shadow: 0 1px 0 rgba(220, 230, 255, 0.08); }
+/* the daily brief's sky is warm (an amber nebula, space.js), so its ground is warm-black and its glass neutral */
+.t-night.sky-warm { --void: #0a0709; --space: #120c0d; --card: rgba(26, 23, 30, 0.7); --card-solid: #1d181d; --cream: #221c22; --mist: #1a1519; }
+.t-night.sky-warm .bar { background: rgba(10, 7, 9, 0.74); }
 .bar .wordmark { font-size: 1.3rem; }
 
 .tabs { display: flex; gap: 1.75rem; }

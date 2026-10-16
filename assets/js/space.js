@@ -7,9 +7,17 @@
    Usage: Space.stars() once the body exists. */
 (function () {
   var TINTS = ["255,255,255", "255,255,255", "255,255,255", "214,232,255", "200,220,255", "226,214,255", "206,255,240"];
-  // per page, chosen by rendering them: each spreads its color across the screen without one hue taking over
-  var SEEDS = { "briefing.html": 0, "memo.html": 13, "team.html": 66, "workbench.html": 90, "ask.html": 27 };
-  var HUES = [[74, 168, 255], [169, 139, 255], [62, 224, 184], [90, 140, 255]]; // blue, violet, teal, back to blue
+  // Each page has its own sky, all from the logo ring; every one was rendered against stand-in cards before it was
+  // chosen. seed: the cloud's shape; hues: the color ramp across it; a: peak opacity; gam: >1 keeps the thin haze
+  // dark and lets only the dense cores glow (the brief's orange turns brown when it's spread thin).
+  var SKIES = {
+    "briefing.html": { seed: 0, a: 0.7, gam: 1.35, hues: [[255, 105, 35], [255, 150, 50], [255, 85, 60], [255, 120, 40]] },  // warm: first light
+    "memo.html": { seed: 13, a: 0.55, gam: 1, hues: [[50, 110, 240], [62, 224, 184], [74, 168, 255], [40, 170, 200]] },      // deep blue and teal: for reading
+    "team.html": { seed: 66, a: 0.5, gam: 1, hues: [[62, 224, 184], [60, 190, 210], [255, 200, 90], [62, 224, 184]] },       // teal with a touch of gold: people
+    "workbench.html": { seed: 90, a: 0.55, gam: 1, hues: [[74, 168, 255], [80, 210, 255], [110, 140, 255], [74, 168, 255]] }, // blue and cyan: technical
+    "ask.html": { seed: 27, a: 0.45, gam: 1, hues: [[169, 139, 255], [90, 140, 255], [140, 120, 255], [110, 150, 255]] }     // violet and blue, the quietest
+  };
+  var HUES = SKIES["workbench.html"].hues;
   var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   function rng(s) { return function () { s = (s * 16807) % 2147483647; return (s - 1) / 2147483646; }; }
@@ -49,7 +57,8 @@
 
   function haze() {
     var page = location.pathname.split("/").pop() || "index.html";
-    var seed = SEEDS[page] != null ? SEEDS[page] : 0;
+    var sky = SKIES[page] || SKIES["workbench.html"], seed = sky.seed;
+    HUES = sky.hues;
     var cv = document.createElement("canvas");
     cv.className = "haze";
     cv.setAttribute("aria-hidden", "true");
@@ -69,7 +78,7 @@
       var lanes = band(warped(nD, u * 1.1, v * 1.1), 0.56, 0.7);          // dark dust across the glow
       var o = (y * W + x) * 4;
       d[o] = lerp(col[0], 255, hot); d[o + 1] = lerp(col[1], 255, hot); d[o + 2] = lerp(col[2], 255, hot);
-      d[o + 3] = 255 * 0.55 * Math.min(1, dens) * (1 - 0.75 * lanes);
+      d[o + 3] = 255 * sky.a * Math.pow(Math.min(1, dens), sky.gam) * (1 - 0.75 * lanes);
     }
     g.putImageData(img, 0, 0);
     cv.classList.add("is-ready");

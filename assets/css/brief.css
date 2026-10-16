@@ -108,14 +108,19 @@
 @media (max-width: 1080px) { .exposure { grid-template-columns: minmax(0, 1fr); } }
 
 .map { margin: 0; padding: 0.75rem; overflow: hidden; }
-.map__svg { width: 100%; height: auto; border-radius: 14px; }
+/* the map is a warm paper chart, as on the Daybreak brief (the user found the dark map hard to read): cream sea, sand
+   land, ink labels. Inside it the money colors take deeper shades so they hold on the light paper. */
+.map__svg {
+  width: 100%; height: auto; border-radius: 14px;
+  --ink: #2a1d14; --ink-2: #5a4636; --loss: #c43a52; --safe: #0e7d68;
+}
 @media (max-width: 600px) {
   .map { overflow-x: auto; }
   .map__svg { min-width: 540px; }
 }
-.map__sea { fill: #122042; }
-.map__coast { fill: #3a4763; stroke: #56658a; stroke-width: 0.6; stroke-linejoin: round; }
-.map__region { font: 600 9px var(--font); letter-spacing: 0.25em; fill: #a9b5cf; }
+.map__sea { fill: #fbf1e3; }
+.map__coast { fill: #efd6b8; stroke: #ddb994; stroke-width: 0.6; stroke-linejoin: round; }
+.map__region { font: 600 9px var(--font); letter-spacing: 0.25em; fill: #b58c69; }
 .map__risk-ring { fill: none; stroke: var(--loss); stroke-width: 1.5; stroke-dasharray: 3 3; }
 .map__risk-label { font: 700 10px var(--font); fill: var(--loss); }
 .map__risk-label--p { font: 500 9.5px var(--font); font-variant-numeric: tabular-nums; }
@@ -129,20 +134,20 @@
 .map.has-focus .route { opacity: 0.2; }
 .map.has-focus .route.is-on { opacity: 1; }
 .map.has-focus .route.is-on .route__sea { stroke-width: 3.5; }
-.port circle { stroke: #122042; stroke-width: 1.5; }
+.port circle { stroke: #fbf1e3; stroke-width: 1.5; }
 .port--in circle { fill: var(--loss); }
 .port--out circle { fill: var(--safe); }
-.port text { font: 600 9.5px var(--font); fill: var(--ink); paint-order: stroke; stroke: #122042; stroke-width: 3px; stroke-linejoin: round; }
-.vessel circle { stroke: #122042; stroke-width: 2; }
+.port text { font: 600 9.5px var(--font); fill: var(--ink); paint-order: stroke; stroke: #fbf1e3; stroke-width: 3px; stroke-linejoin: round; }
+.vessel circle { stroke: #fff; stroke-width: 2; }
 .vessel--in circle { fill: var(--loss); }
 .vessel--out circle { fill: var(--ink); }
-.vessel text { font: 700 9.5px var(--font); fill: var(--ink); paint-order: stroke; stroke: #122042; stroke-width: 3px; }
+.vessel text { font: 700 9.5px var(--font); fill: var(--ink); paint-order: stroke; stroke: #fbf1e3; stroke-width: 3px; }
 
 .map__key { display: flex; flex-wrap: wrap; gap: 0.4rem 1rem; padding: 0.75rem 0.4rem 0.15rem; font-size: 0.74rem; color: var(--fg-2); }
 .map__key span { display: inline-flex; align-items: center; gap: 0.4rem; }
 .k { display: inline-block; width: 10px; height: 10px; border-radius: 50%; }
 .k--in { background: var(--loss); }
-.k--out { background: var(--ink); }
+.k--out { background: #2a1d14; box-shadow: 0 0 0 1.5px var(--moon-3); } /* the map's ink vessel, ringed so it shows on the dark key */
 .k--route { width: 16px; height: 3px; border-radius: 2px; background: var(--safe); }
 .k--road { width: 16px; height: 0; border-top: 2px dotted var(--safe); border-radius: 0; }
 

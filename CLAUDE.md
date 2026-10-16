@@ -25,8 +25,9 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   Ground: deep blue-black (`#070a14`) under a nebula haze and stars (`space.js`), dark glass cards (`--card`,
   70% over a blur so the haze shows softly through), moonlight type with `--moon-3` a step lighter than the
   landing's so labels hold 4.5:1 over bright haze, solid hairlines, no pins, tilts, cargo tags or dashes. Maps:
-  navy sea `#122042`, slate land `#3a4763` with `#56658a` coasts, labels in moonlight on navy halos (the user found
-  black-on-gray maps unreadable). `.instrument` is only for code, a step darker than the panels.
+  the workbench's is navy sea `#122042`, slate land `#3a4763` with `#56658a` coasts, labels in moonlight on navy
+  halos; the brief's is a warm paper chart as on the Daybreak brief (cream sea `#fbf1e3`, sand land `#efd6b8`, ink
+  labels, deeper loss and safe shades scoped to `.map__svg`). The user found black-on-gray maps unreadable. `.instrument` is only for code, a step darker than the panels.
 - `assets/css/base.css` holds shared tokens (the Penumbra palette; the old dawn names such as `--dawn`, `--ember`,
   `--paper` are aliases onto it) and components, including the logo mark (`.logo`); `app.css` the product-page
   chrome, and `landing.css`, `brief.css`, `memo.css`, `team.css`, `bench.css` and `ask.css` are per page.
@@ -34,10 +35,14 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   ask page and workbench run it live. The brief's numbers are static but were computed from
   it, so if you change `BASE`, recompute and update `briefing.html`. Money is in $M.
 - `assets/js/space.js` draws the product pages' sky (`Space.stars()`): a nebula haze (`.haze`: the landing's
-  domain-warped fractal noise in blue, violet and teal with dark dust lanes, painted once at 200px wide, stretched
-  to 110vw x 150vh and blurred; a per-page seed in `SEEDS`, picked by rendering; it slides up a third of a screen
-  over the page's scroll) under a starfield that twinkles and drifts slightly (~15fps, paused when hidden). Both
-  still under reduced motion. It replaced the dawn site's drifting clouds (`sky.js`, removed).
+  domain-warped fractal noise with dark dust lanes, painted once at 200px wide, stretched to 110vw x 150vh and
+  blurred; it slides up a third of a screen over the page's scroll) under a starfield that twinkles and drifts
+  slightly (~15fps, paused when hidden). Both still under reduced motion. Each page has its own sky in `SKIES`
+  (seed, color ramp, peak opacity, gamma), every one rendered against stand-in cards before it was chosen: the brief
+  warm amber-orange (first light; gamma 1.35 so only dense cores glow, since thin orange reads brown), the memo deep
+  blue and teal, workflows teal with a touch of gold, the workbench blue and cyan, ask violet and blue and the
+  quietest. Only the sky changes per page; the data colors mean the same thing everywhere. The brief's body also
+  has `sky-warm`: warm-black ground and neutral glass. It replaced the dawn site's drifting clouds (`sky.js`).
 - `memo.html` + `assets/js/memo.js` is a sample strategic options memo, dated Wed 7 Oct, answering the CEO's
   "How should we respond to the potential of new sanctions by the Trump Administration?" Static HTML holds the bottom
   line (key judgments with confidence, 41% ±7 by 6 Dec on an estimative-words scale) and the drivers tug-of-war
