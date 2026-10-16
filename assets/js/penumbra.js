@@ -650,10 +650,17 @@
             var dx = x - px, dy = y - py, d2 = dx * dx + dy * dy;
             // push grows from nothing under the cursor to a peak ~0.7 radius out, then fades: the cloud parts without folding
             var f = Math.exp(-d2 / (rr * rr)) * m * 1.65 / rr;
-            var sxp = Math.round(x - dx * f), syp = Math.round(y - dy * f); // so this pixel shows what sat nearer it
-            if (sxp < 0 || syp < 0 || sxp >= w || syp >= h) continue;
-            var si = (syp * w + sxp) * 4, di = (y * w + x) * 4;
-            o[di] = base[si]; o[di + 1] = base[si + 1]; o[di + 2] = base[si + 2]; o[di + 3] = base[si + 3];
+            var fx = x - dx * f, fy = y - dy * f;                  // so this pixel shows what sat nearer the cursor
+            if (fx < 0 || fy < 0 || fx > w - 2 || fy > h - 2) continue;
+            // blended between the four nearest source pixels: the paintings are low resolution, so nearest-pixel
+            // sampling would step visibly
+            var ix = fx | 0, iy = fy | 0, tx = fx - ix, ty = fy - iy, di = (y * w + x) * 4;
+            var a00 = (iy * w + ix) * 4, a10 = a00 + 4, a01 = a00 + w * 4, a11 = a01 + 4;
+            for (var ch = 0; ch < 4; ch++) {
+              var top = base[a00 + ch] + (base[a10 + ch] - base[a00 + ch]) * tx;
+              var bot = base[a01 + ch] + (base[a11 + ch] - base[a01 + ch]) * tx;
+              o[di + ch] = top + (bot - top) * ty;
+            }
           }
         }
         g.putImageData(out, 0, 0);
