@@ -90,7 +90,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   `--logo-ring`, a full-spectrum conic gradient the user chose for the logo (the page's warm `--mark` drives the corona). Don't use the JPEG itself. Below the hero: fixed starfield canvas, drifting background glows
   whose hue shifts with scroll, a pointer glow, aurora-edged card spotlights (`.spot`, `--mx/--my`), headings revealed
   word by word, "so, what should i do?" as a moon chart (`.lunes`, heading styled like the other sections): the four responses,
-  best to worst, as a full, gibbous, half and crescent moon on an orbit line (lead with enterprise 265, best at 48%;
+  worst to best, waxing from crescent to half, gibbous and full moon on an orbit line (lead with enterprise 265, best at 48%;
   build hosting 260; launch all four 249, 172-320; delay 154, 148-160); the best glows. Phases are static SVG paths.
   a nebula behind gray swans (`.nebula`: two gas layers and dark dust lanes from domain-warped
   fractal noise, painted once at low resolution, plus specks; CSS drifts each layer and scroll parts them by depth),

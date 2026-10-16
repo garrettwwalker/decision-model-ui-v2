@@ -424,7 +424,7 @@ main, .footer { position: relative; z-index: 2; }
 @media (max-width: 960px) { .modes__grid { grid-template-columns: minmax(0, 1fr); max-width: 34rem; gap: 2.5rem; } }
 
 /* ---------- What should I do? A moon chart ----------
-   The four responses, best to worst, as a full, gibbous, half and crescent moon on one orbit line; the best glows.
+   The four responses waxing from crescent to full moon, worst to best, on one orbit line; the best glows.
    The heading and lede hang like the other sections'. */
 .decide { padding: 2rem var(--gutter) clamp(6rem, 14vh, 9rem); --moon-d: clamp(84px, 9vw, 120px); }
 .decide > .h2 { margin-left: clamp(0rem, 6vw, 6rem); }
