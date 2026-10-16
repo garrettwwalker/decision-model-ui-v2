@@ -84,8 +84,9 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   (`--safe`) is pale gold here, not green. Hero: one screen-sized eclipse. A white sun fills most of the viewport; scroll slides the
   moon over it from the lower left (`--cover`), the rim lights at totality (`--ring`, `--flash`) and then bursts
   into the page's spectrum (`--burst`: blurred corona, conic ray streamers, a sky-wide wash); the headline is "risk lies in shadow." as "look around the bend"
-  arrives. Before the burst the headline is a white copy in `mix-blend-mode: difference` (black on the sun, white on
-  space), crossfading to the real `h1`; `.hero__copy` has no z-index so the blend reaches the sun. The mark keeps the shape of `references/Penumbra Logo Color.jpeg` (ring with
+  arrives. The eclipse sits right and low so "risk lies" and "look around the bend." stay in clear sky; the word
+  "shadow." is written on the sun (`.hero__shadow`, placed by `penumbra.js` on its line or in the sun's upper part) and
+  goes into the moon's shadow letter by letter (two copies masked by the moon's circle, updated every frame). The mark keeps the shape of `references/Penumbra Logo Color.jpeg` (ring with
   a four-point spark at 45°) but not its colors, which clashed: it's inline SVG masks in `penumbra.css` filled with
   `--logo-ring`, a full-spectrum conic gradient the user chose for the logo (the page's warm `--mark` drives the corona). Don't use the JPEG itself. Below the hero: fixed starfield canvas, drifting background glows
   whose hue shifts with scroll, a pointer glow, aurora-edged card spotlights (`.spot`, `--mx/--my`), headings revealed

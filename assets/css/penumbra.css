@@ -166,8 +166,8 @@ main, .footer { position: relative; z-index: 2; }
   mask-image: linear-gradient(180deg, #000 90%, rgba(0, 0, 0, 0) 100%);
 }
 .eclipse {
-  --D: 120vmin;
-  position: absolute; left: 60%; top: 64%;
+  --D: 100vmin; /* placed right and low so "risk lies" and "look around the bend." stay in clear sky */
+  position: absolute; left: 70%; top: 72%;
   width: var(--D); height: var(--D);
   translate: -50% -50%;
 }
@@ -238,22 +238,32 @@ main, .footer { position: relative; z-index: 2; }
 }
 
 .hero__copy {
-  position: absolute; inset: 0; /* no z-index: the inverted headline has to blend with the sun beneath it */
+  position: absolute; inset: 0; /* positioned: "shadow." is placed against it */
   padding: calc(env(safe-area-inset-top, 0px) + 22vh) var(--gutter) 0;
   pointer-events: none;
 }
-.hero__head { position: relative; }
 .hero__title > span { display: block; }
-.hero__title { font-size: min(var(--fs-display), 19vh); }
-.hero__title { color: var(--moon); opacity: var(--burst); } /* the real headline, once the sky is dark and colored */
-.hero__title--ink { /* white set in difference: black over the sun, white over space and the moon */
-  position: absolute; inset: 0; margin: 0;
-  color: #fff; mix-blend-mode: difference;
-  opacity: calc(1 - var(--burst));
+.hero__title { font-size: min(var(--fs-display), 19vh); color: var(--moon); }
+/* "shadow." is written on the sun (penumbra.js places it: on its line where the sun reaches that far, else in the sun's
+   upper part). Two copies stack: dark ink on the sun, and a faint grey where the moon has passed over, each masked by
+   the moon's circle (--mx/--my/--mr, set every frame from the moon's position), so the word goes into shadow letter
+   by letter. */
+.hero__shadow { position: absolute; left: 0; top: 0; white-space: nowrap; visibility: hidden; --mx: -9999px; --my: -9999px; --mr: 0px; }
+.hero__shadow.is-placed { visibility: visible; }
+.hero__shadow-lit, .hero__shadow-dim { display: block; }
+.hero__shadow-lit {
+  color: #0b0c10;
+  -webkit-mask-image: radial-gradient(circle var(--mr) at var(--mx) var(--my), transparent calc(100% - 1px), #000 100%);
+  mask-image: radial-gradient(circle var(--mr) at var(--mx) var(--my), transparent calc(100% - 1px), #000 100%);
+}
+.hero__shadow-dim {
+  position: absolute; inset: 0; color: rgba(236, 238, 242, 0.2);
+  -webkit-mask-image: radial-gradient(circle var(--mr) at var(--mx) var(--my), #000 calc(100% - 1px), transparent 100%);
+  mask-image: radial-gradient(circle var(--mr) at var(--mx) var(--my), #000 calc(100% - 1px), transparent 100%);
 }
 .hero__after {
   position: absolute; left: var(--gutter); right: auto; bottom: 16%;
-  margin: 0; font-size: min(clamp(2.4rem, 7vw, 6rem), 11vh); /* capped by height so short screens keep it clear of the headline */
+  margin: 0; font-size: min(clamp(2.4rem, 6vw, 5rem), 9vh); /* sized to stay clear of the headline and of the sun */
   opacity: var(--after);
   transform: translateY(calc((1 - var(--after)) * 30px));
 }
@@ -273,7 +283,7 @@ main, .footer { position: relative; z-index: 2; }
   .hero__copy { padding-top: calc(env(safe-area-inset-top, 0px) + 12vh); }
   .hero__title { font-size: 16vw; }
   .hero__after { position: static; margin-top: 0.6em; font-size: 12.5vw; }
-  .eclipse { --D: 132vmin; left: 58%; top: 66%; }
+  .eclipse { --D: 132vmin; left: 58%; top: 74%; }
 }
 @media (min-width: 901px) and (max-height: 820px) {
   .hero__copy { padding-top: calc(env(safe-area-inset-top, 0px) + 15vh); }
