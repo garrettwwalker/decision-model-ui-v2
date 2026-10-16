@@ -1,33 +1,36 @@
+/* Penumbra landing: scroll reading, watch card, charts, the eclipse hero, starfield, nebulae and pointer glow. */
 (function () {
   var clamp = function (v, a, b) { return Math.min(b, Math.max(a, v)); };
   var lerp = function (a, b, t) { return a + (b - a) * t; };
 
-  Sky.all();
+  var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var smooth = function (t) { t = clamp(t, 0, 1); return t * t * (3 - 2 * t); };
 
-  /* ---------- Hero: clouds part, sun rises ---------- */
+  /* ---------- Hero: the moon slides across a screen-filling sun; at totality the rim lights, then bursts
+     outward into the page's colors as the second headline arrives ---------- */
   var hero = document.querySelector(".hero");
   var stage = document.querySelector(".hero__stage");
-  var RIM_NIGHT = [27, 40, 54];
-  var RIM_DAWN = [222, 122, 86];
 
   function heroFrame() {
     var r = hero.getBoundingClientRect();
     var span = hero.offsetHeight - window.innerHeight;
-    var p = clamp(-r.top / span, 0, 1);
-    var eased = 1 - Math.pow(1 - p, 2);
-    stage.style.setProperty("--p", eased.toFixed(4));
-    stage.style.setProperty("--after", clamp((p - 0.5) / 0.3, 0, 1).toFixed(3));
-    var rim = RIM_NIGHT.map(function (c, i) { return Math.round(lerp(c, RIM_DAWN[i], clamp(p * 1.3, 0, 1))); });
-    stage.style.setProperty("--rim", "rgb(" + rim.join(",") + ")");
+    var p = reduceMotion ? 1 : clamp(-r.top / span, 0, 1);
+    var cover = smooth(p / 0.52);
+    var b = clamp((p - 0.52) / 0.24, 0, 1);
+    stage.style.setProperty("--cover", cover.toFixed(4));
+    // nothing lights until the moon is dead center (cover hits 1 at p = 0.52), or the ring would cross the moon
+    stage.style.setProperty("--ring", clamp((p - 0.52) / 0.03, 0, 1).toFixed(3));
+    stage.style.setProperty("--burst", (1 - Math.pow(1 - b, 3)).toFixed(4)); // explosive: fast, then settling
+    stage.style.setProperty("--flash", Math.sin(Math.PI * clamp((p - 0.52) / 0.16, 0, 1)).toFixed(4));
+    stage.style.setProperty("--after", clamp((p - 0.62) / 0.24, 0, 1).toFixed(3));
   }
 
   /* ---------- Read-as-you-scroll: text darkens word by word, widgets fill in ----------
      The reference's signature move, applied to everything below the hero. */
-  var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var day = document.querySelector(".day");
   var BLOCKS = "p, h2, h3, li, dt, dd, label";
   var UNITS = ".chip";                       // inline widgets revealed whole, like a word
-  var TILES = ".note, .tag, .swan, .contact__form, .split__q, .part, .split__fused"; // revealed whole, text included
+  var TILES = ".note, .lune, .swan, .contact__form, .split__q, .part, .split__fused"; // revealed whole, text included
   var reads = [], tiles = [];
 
   function splitWords(root, units) {
@@ -55,7 +58,7 @@
 
   if (day && !reduceMotion) {
     day.querySelectorAll(BLOCKS).forEach(function (el) {
-      if (el.closest(".clouds") || el.querySelector(BLOCKS) || el.closest(TILES)) return; // innermost free-standing text only
+      if (el.querySelector(BLOCKS) || el.closest(TILES)) return; // innermost free-standing text only
       var units = [];
       splitWords(el, units);
       if (units.length) reads.push({ el: el, units: units, n: -1 });
@@ -144,97 +147,18 @@
     setInterval(next, 4500);
   })();
 
-  /* ---------- Node-link model: connectors draw themselves once, row by row, when the section arrives.
-     The nodes are tiles: all fade in once the diagram's top crosses 85% of the viewport, and back out
-     (lines dimmed too) when it drops below that line again. ---------- */
+  /* ---------- Here's the plan: the constellation's lines draw themselves the first time it comes into view ---------- */
   (function () {
-    var fig = document.querySelector(".graph");
-    if (!fig) return;
-    var svg = fig.querySelector(".graph__edges");
-    var NS = "http://www.w3.org/2000/svg";
-    var EDGES = [["driver", "asset"], ["asset", "road"], ["asset", "crew"], ["road", "exposure"], ["crew", "exposure"],
-                 ["exposure", "security"], ["exposure", "procurement"], ["exposure", "board"]];
-    var WAVES = [[0], [1, 2], [3, 4], [5, 6, 7]]; // edges in a wave draw together
-    var node = function (k) { return fig.querySelector('[data-node="' + k + '"]'); };
-    function paint() {
-      if (still) return;
-      var on = fig.getBoundingClientRect().top < window.innerHeight * 0.85;
-      fig.querySelectorAll(".gn").forEach(function (n) {
-        n.classList.toggle("on", on);
-      });
-      fig.classList.toggle("is-away", started && !on);
-    }
-    var edges = [], done = false, started = false;
-    function draw() {
-      var box = fig.getBoundingClientRect();
-      svg.setAttribute("viewBox", "0 0 " + box.width + " " + box.height);
-      svg.textContent = "";
-      var heads = {};
-      edges = EDGES.map(function (e) {
-        var a = node(e[0]).getBoundingClientRect(), b = node(e[1]).getBoundingClientRect();
-        var x1 = a.left + a.width / 2 - box.left, y1 = a.bottom - box.top;
-        var x2 = b.left + b.width / 2 - box.left, y2 = b.top - box.top - 3;
-        // rounded elbow: down, across, then straight down into the box, so every arrow lands vertically
-        var my = (y1 + y2) / 2, dx = x2 - x1, sx = dx > 0 ? 1 : -1;
-        var r = Math.min(10, Math.abs(dx) / 2, (y2 - y1) / 4);
-        var d = Math.abs(dx) < 1
-          ? "M" + x1 + " " + y1 + " V" + y2
-          : "M" + x1 + " " + y1 + " V" + (my - r) + " Q" + x1 + " " + my + " " + (x1 + sx * r) + " " + my +
-            " H" + (x2 - sx * r) + " Q" + x2 + " " + my + " " + x2 + " " + (my + r) + " V" + y2;
-        var p = document.createElementNS(NS, "path");
-        p.setAttribute("d", d);
-        svg.appendChild(p);
-        var len = p.getTotalLength();
-        // point the arrowhead along the line's direction over its last few pixels, not straight down
-        var tip = p.getPointAtLength(len), back = p.getPointAtLength(Math.max(0, len - 7));
-        var dx = tip.x - back.x, dy = tip.y - back.y, m = Math.hypot(dx, dy) || 1;
-        dx /= m; dy /= m;
-        var bx = tip.x - dx * 7, by = tip.y - dy * 7; // base of the arrowhead, 7px back along the line
-        var head = document.createElementNS(NS, "path");
-        head.setAttribute("class", "graph__head");
-        head.setAttribute("d", "M" + (bx - dy * 4) + " " + (by + dx * 4) + " L" + tip.x + " " + tip.y + " L" + (bx + dy * 4) + " " + (by - dx * 4));
-        var key = Math.round(tip.x) + "," + Math.round(tip.y);
-        if (heads[key]) head.setAttribute("visibility", "hidden"); else heads[key] = 1; // merging lines share one arrow
-        svg.appendChild(head);
-        p.style.strokeDasharray = len;
-        p.style.strokeDashoffset = done ? 0 : len;
-        head.style.opacity = done ? 1 : 0;
-        return { p: p, head: head, len: len };
-      });
-    }
-    function drawWave(idx, then) {
-      var t0 = Date.now(), D = 520;
-      (function step() {
-        var k = Math.min(1, (Date.now() - t0) / D);
-        var ease = 1 - Math.pow(1 - k, 3);
-        idx.forEach(function (i) { edges[i].p.style.strokeDashoffset = edges[i].len * (1 - ease); });
-        if (k < 1) return setTimeout(step, 16);
-        idx.forEach(function (i) { edges[i].head.style.opacity = 1; });
-        then();
-      })();
-    }
-    function play() {
-      started = true;
-      var w = 0;
-      (function next() {
-        if (w >= WAVES.length) { done = true; return; }
-        drawWave(WAVES[w++], function () { setTimeout(next, 90); });
-      })();
-    }
+    var fig = document.querySelector(".cst");
+    if (!fig || reduceMotion) return;
+    fig.classList.add("is-waiting");
     function check() {
       var r = fig.getBoundingClientRect();
-      if (!started && r.top < window.innerHeight * 0.85 && r.bottom > 0) play();
-      paint();
+      if (r.top < window.innerHeight * 0.85 && r.bottom > 0) {
+        fig.classList.remove("is-waiting"); fig.classList.add("is-drawn");
+        window.removeEventListener("scroll", check);
+      }
     }
-    var still = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (still) done = started = true;
-    else fig.querySelectorAll(".gn").forEach(function (n) { n.classList.add("tile"); });
-    draw();
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(draw);
-    window.addEventListener("resize", function () {
-      if (started) done = true;
-      draw(); paint();
-    });
     window.addEventListener("scroll", check, { passive: true });
     check();
   })();
@@ -286,16 +210,15 @@
 
   /* ---------- Nav theme follows the section under it ---------- */
   var nav = document.querySelector(".nav");
-  var themed = document.querySelectorAll("[data-nav]");
+  var lastY = window.scrollY;
   function navFrame() {
-    var y = nav.offsetHeight / 2;
-    var theme = hero.getBoundingClientRect().bottom > y ? "dark" : "light";
-    themed.forEach(function (s) {
-      var b = s.getBoundingClientRect();
-      if (b.top <= y && b.bottom > y) theme = s.getAttribute("data-nav");
-    });
-    nav.setAttribute("data-theme", theme);
-    nav.classList.toggle("is-scrolled", hero.getBoundingClientRect().bottom < window.innerHeight * 0.5);
+    var hb = hero.getBoundingClientRect().bottom, y = window.scrollY, dy = y - lastY;
+    nav.classList.toggle("is-scrolled", hb <= nav.offsetHeight); // frosted only once the hero has gone by underneath it
+    // hide on the way down, show on the way up; it stays put until the hero's bottom edge has passed it, and with the menu open
+    if (hb > nav.offsetHeight || nav.classList.contains("is-open")) nav.classList.remove("is-hidden");
+    else if (dy > 4) nav.classList.add("is-hidden");
+    else if (dy < -4) nav.classList.remove("is-hidden");
+    if (Math.abs(dy) > 4) lastY = y;
   }
 
   var ticking = false;
@@ -345,11 +268,13 @@
     var vals = [.12,.08,.31,.05,.62,.18,.09,.22, .41,.12,.08,.71,.15,.05,.33,.10,
                 .06,.44,.19,.09,.07,.28,.52,.14, .23,.05,.11,.36,.83,.17,.06,.09,
                 .14,.27,.06,.48,.21,.11,.39,.04];
+    var hue = DB_rng(29); hue(); // skip the first draw, which is tiny for a small seed
     var cells = vals.map(function (v) {
       var c = document.createElement("span");
-      c.style.background = heatColor(v);
+      var h = hue(); // each cell gets a hue at random from the palette (seeded, so it's the same every visit)
+      c.style.background = heatColor(v, h);
       heat.appendChild(c);
-      return { el: c, base: v };
+      return { el: c, base: v, h: h };
     });
     // a live panel: about three-quarters of the cells breathe slowly around their reading, each on its own
     // period and phase, staying on the same ramp. Computed continuously (no CSS transitions to interrupt),
@@ -367,7 +292,7 @@
         if (shown && !document.hidden && t - last > 50) {
           last = t;
           cells.forEach(function (c) {
-            if (c.amp) c.el.style.background = heatColor(c.base + c.amp * Math.sin(t / c.per * Math.PI * 2 + c.ph));
+            if (c.amp) c.el.style.background = heatColor(c.base + c.amp * Math.sin(t / c.per * Math.PI * 2 + c.ph), c.h);
           });
         }
         requestAnimationFrame(frame);
@@ -378,14 +303,266 @@
       requestAnimationFrame(frame);
     }
   }
-  function heatColor(v) {
-    // night → dusk rose → amber → ember: the same ramp as the sky
-    var stops = [[12, 36, 51], [154, 88, 104], [255, 181, 71], [242, 104, 60]];
-    var x = clamp(v, 0, 1) * (stops.length - 1);
-    var i = Math.min(stops.length - 2, Math.floor(x)), t = x - i;
-    var c = stops[i].map(function (a, k) { return Math.round(lerp(a, stops[i + 1][k], t)); });
+  function heatColor(v, h) {
+    // muted like the original panel: brightness follows the reading closely, so most cells sit dark and only a few
+    // glow. Each cell has its own random hue from the palette (pink → rose → red → orange → amber), but low readings
+    // lean toward dusky rose, as the original ramp did, because dim orange on the dark ground reads as brown
+    var SPEC = [[255, 122, 170], [255, 84, 120], [255, 68, 56], [255, 122, 60], [255, 170, 64]];
+    v = clamp(v, 0, 1);
+    var x = lerp(0.2, clamp(h || 0, 0, 1), Math.min(1, v / 0.5)) * (SPEC.length - 1);
+    var i = Math.min(SPEC.length - 2, Math.floor(x)), t = x - i;
+    var k = Math.min(1, 0.06 + v * 1.1), BASE = [24, 20, 27];
+    var c = SPEC[i].map(function (a, n) { return Math.round(lerp(BASE[n], lerp(a, SPEC[i + 1][n], t), k)); });
     return "rgb(" + c.join(",") + ")";
   }
+
+  /* ---------- Space: starfield, pointer glow, card spotlights ---------- */
+
+  var canvas = document.querySelector(".stars");
+  var ctx = canvas.getContext("2d");
+  var stars = [], W = 0, H = 0, DPR = 1;
+  var pointer = { x: 0.5, y: 0.5, tx: 0.5, ty: 0.5, seen: false };
+  var TINTS = ["255,255,255", "255,255,255", "255,255,255", "255,236,214", "255,224,190", "255,214,220"];
+  function seed() {
+    DPR = Math.min(2, window.devicePixelRatio || 1);
+    W = window.innerWidth; H = window.innerHeight;
+    canvas.width = Math.round(W * DPR); canvas.height = Math.round(H * DPR);
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    var n = Math.min(650, Math.round(W * H / 2600)), rnd = DB_rng(7);
+    stars = [];
+    for (var i = 0; i < n; i++) {
+      var depth = 0.15 + rnd() * 0.85;
+      stars.push({ x: rnd() * W, y: rnd() * H, r: 0.3 + depth * depth * 1.1, a: 0.25 + rnd() * 0.65,
+                   tw: 1500 + rnd() * 4000, ph: rnd() * 6.3, d: depth, c: TINTS[Math.floor(rnd() * TINTS.length)] });
+    }
+  }
+  function DB_rng(s) { return function () { s = (s * 16807) % 2147483647; return (s - 1) / 2147483646; }; }
+  function drawStars(t) {
+    ctx.clearRect(0, 0, W, H);
+    var sy = window.scrollY, ox = (pointer.x - 0.5) * 18, oy = (pointer.y - 0.5) * 12;
+    for (var i = 0; i < stars.length; i++) {
+      var s = stars[i];
+      var y = ((s.y - sy * s.d * 0.12 - oy * s.d) % H + H) % H;
+      var x = ((s.x - ox * s.d) % W + W) % W;
+      var a = reduceMotion ? s.a : s.a * (0.65 + 0.35 * Math.sin(t / s.tw * 6.283 + s.ph));
+      ctx.fillStyle = "rgba(" + s.c + "," + a.toFixed(3) + ")";
+      ctx.beginPath(); ctx.arc(x, y, s.r, 0, 6.283); ctx.fill();
+    }
+  }
+  seed();
+  window.addEventListener("resize", function () { seed(); drawStars(performance.now()); });
+
+  var glow = document.querySelector(".glow");
+  var spots = Array.prototype.slice.call(document.querySelectorAll(".note, .swan, .split__q, .part, .contact__form"));
+  spots.forEach(function (el) { el.classList.add("spot"); });
+  var lit = null;
+  window.addEventListener("pointermove", function (e) {
+    if (e.pointerType === "touch") return;
+    pointer.tx = e.clientX / window.innerWidth; pointer.ty = e.clientY / window.innerHeight;
+    if (!pointer.seen) { pointer.seen = true; pointer.x = pointer.tx; pointer.y = pointer.ty; glow.classList.add("is-on"); }
+    var hit = e.target.closest && e.target.closest(".spot");
+    if (lit && lit !== hit) lit.classList.remove("is-lit");
+    lit = hit;
+    if (hit) {
+      var b = hit.getBoundingClientRect();
+      hit.style.setProperty("--mx", (e.clientX - b.left) + "px");
+      hit.style.setProperty("--my", (e.clientY - b.top) + "px");
+      hit.classList.add("is-lit");
+    }
+  }, { passive: true });
+  document.addEventListener("pointerleave", function () { glow.classList.remove("is-on"); pointer.seen = false; if (lit) lit.classList.remove("is-lit"); lit = null; });
+
+  // one loop for everything that eases toward the pointer; ~30fps, paused when the tab is hidden
+  var lastSky = 0;
+  function loop(t) {
+    if (!document.hidden && t - lastSky > 32) {
+      lastSky = t;
+      pointer.x = lerp(pointer.x, pointer.tx, 0.08); pointer.y = lerp(pointer.y, pointer.ty, 0.08);
+      drawStars(t);
+      glow.style.transform = "translate(" + (pointer.x * window.innerWidth).toFixed(1) + "px," + (pointer.y * window.innerHeight).toFixed(1) + "px)";
+      stage.style.setProperty("--tx", ((pointer.x - 0.5) * -22).toFixed(2) + "px");
+      stage.style.setProperty("--ty", ((pointer.y - 0.5) * -16).toFixed(2) + "px");
+    }
+    requestAnimationFrame(loop);
+  }
+  if (reduceMotion) {
+    drawStars(0);
+    window.addEventListener("scroll", function () { requestAnimationFrame(function () { drawStars(0); }); }, { passive: true });
+  } else requestAnimationFrame(loop);
+
+  /* ---------- Nebulae: behind the gray swans, and the cloud the page closes on ----------
+     Two gas layers and a layer of dark dust lanes from domain-warped fractal noise (wispy rather than blobby),
+     painted once at low resolution when the section comes near, plus a full-resolution layer of specks.
+     Each nebula gets its own seeds, so no two look alike. */
+  document.querySelectorAll(".nebula").forEach(function (box, k) {
+    var seed = k * 140; // offsets picked by rendering them: 140 gives the closing cloud a full, wispy body
+    var gasA = box.querySelector(".nebula__gas:not(.nebula__gas--b)"), gasB = box.querySelector(".nebula__gas--b");
+    var dust = box.querySelector(".nebula__dust"), specks = box.querySelector(".nebula__specks");
+
+    function makeNoise(seed) {
+      var rnd = DB_rng(seed * 48271 + 1), perm = new Uint8Array(512), vals = new Float32Array(256), i;
+      for (i = 0; i < 256; i++) { perm[i] = i; vals[i] = rnd(); }
+      for (i = 255; i > 0; i--) { var j = Math.floor(rnd() * (i + 1)), t = perm[i]; perm[i] = perm[j]; perm[j] = t; }
+      for (i = 0; i < 256; i++) perm[i + 256] = perm[i];
+      return function (x, y) {
+        var xi = Math.floor(x), yi = Math.floor(y), xf = x - xi, yf = y - yi;
+        var u = xf * xf * (3 - 2 * xf), v = yf * yf * (3 - 2 * yf);
+        xi &= 255; yi &= 255;
+        var a = vals[perm[perm[xi] + yi]], b = vals[perm[perm[xi + 1] + yi]];
+        var c = vals[perm[perm[xi] + yi + 1]], d = vals[perm[perm[xi + 1] + yi + 1]];
+        return lerp(lerp(a, b, u), lerp(c, d, u), v);
+      };
+    }
+    function fbm(n, x, y, oct) {
+      var s = 0, a = 0.5, f = 1, norm = 0;
+      for (var o = 0; o < oct; o++) { s += a * n(x * f, y * f); norm += a; a *= 0.5; f *= 2.03; }
+      return s / norm;
+    }
+    function warped(n, x, y, t) { // fbm sampled through fbm: streaks and filaments; t evolves the warp (0.42 re-forms the wisps, not the cloud)
+      t = t || 0;
+      var q1 = fbm(n, x + 1.7 + t * 0.5, y + 9.2 - t * 0.3, 4), q2 = fbm(n, x + 8.3 - t * 0.4, y + 2.8 + t * 0.5, 4);
+      return fbm(n, x + 2.4 * q1, y + 2.4 * q2, 5);
+    }
+    function ramp(stops, t) {
+      t = clamp(t, 0, 1) * (stops.length - 1);
+      var i = Math.min(stops.length - 2, Math.floor(t)), k = t - i;
+      return [0, 1, 2].map(function (c) { return lerp(stops[i][c], stops[i + 1][c], k); });
+    }
+    var band = function (v, a, b) { return smooth((v - a) / (b - a)); };
+
+    function paint(cv, w, h, pixel) {
+      cv.width = w; cv.height = h;
+      var c = cv.getContext("2d"), img = c.createImageData(w, h), d = img.data;
+      for (var y = 0; y < h; y++) for (var x = 0; x < w; x++) {
+        var px = pixel(x / w * 3.4, y / w * 3.4), o = (y * w + x) * 4;
+        d[o] = px[0]; d[o + 1] = px[1]; d[o + 2] = px[2]; d[o + 3] = px[3];
+      }
+      c.putImageData(img, 0, 0);
+      cv._base = new Uint8ClampedArray(d); // the painting; the visible canvas is a slowly warped copy of it
+      cv._out = c.createImageData(w, h);
+      cv.classList.add("is-ready");
+    }
+
+    var WARM = [[255, 90, 160], [255, 70, 90], [255, 96, 64], [255, 150, 90]];
+    var COOL = [[255, 176, 120], [255, 120, 140], [255, 86, 96]]; // the paler, peach-to-rose layer
+    function render() {
+      var b = box.getBoundingClientRect(), aspect = (b.height * 1.2) / Math.max(1, b.width * 1.2);
+      var nA = makeNoise(11 + seed), nB = makeNoise(23 + seed), nC = makeNoise(37 + seed), nD = makeNoise(53 + seed);
+      var W = 300, H = Math.max(60, Math.round(W * aspect));
+      var steps = [];
+      var gasAt = function (t) { return function (x, y) {
+        var open = band(fbm(nB, x * 0.35, y * 0.35, 2), 0.3, 0.6);         // where the cloud is at all
+        var w = warped(nA, x, y, t);
+        var dens = band(w, 0.4, 0.76); dens = dens * dens * open + band(w, 0.3, 0.7) * 0.22 * (0.4 + 0.6 * open); // body + faint haze
+        var col = ramp(WARM, (fbm(nC, x * 0.6, y * 0.6, 3) - 0.3) / 0.4);
+        var hot = clamp((dens - 0.6) / 0.4, 0, 1) * 0.55;                  // hot cores go toward white
+        return [lerp(col[0], 255, hot), lerp(col[1], 245, hot), lerp(col[2], 250, hot), 255 * Math.min(1, dens * 1.1)];
+      }; };
+      var gasBt = function (t) { return function (x, y) {
+        var dens = band(warped(nB, x * 1.4 + 5, y * 1.4, t), 0.48, 0.74);
+        dens *= dens * band(fbm(nC, x * 0.4 + 3, y * 0.4, 2), 0.4, 0.62);
+        var col = ramp(COOL, fbm(nA, x * 0.8, y * 0.8, 2) * 1.6 - 0.4);
+        return [col[0], col[1], col[2], 200 * dens];
+      }; };
+      var DW = 440, DH = Math.max(80, Math.round(DW * aspect));
+      var dustT = function (t) { return function (x, y) {
+        var lanes = band(warped(nD, x * 1.1, y * 1.1, t), 0.56, 0.7);        // dark filaments across the glow
+        return [4, 5, 8, 225 * lanes];
+      }; };
+      steps.push(function () { paint(gasA, W, H, gasAt(0)); });
+      steps.push(function () { paint(gasB, W, H, gasBt(0)); });
+      steps.push(function () { paint(dust, DW, DH, dustT(0)); });
+      steps.push(drawSpecks);
+      (function next() { var f = steps.shift(); if (f) { f(); setTimeout(next, 30); } })();
+    }
+    function drawSpecks() {
+      // specks: fine dust and a few bright stars caught in the cloud
+      var sb = specks.getBoundingClientRect(), dpr = Math.min(2, window.devicePixelRatio || 1);
+      specks.width = Math.round(sb.width * dpr); specks.height = Math.round(sb.height * dpr);
+      var g = specks.getContext("2d"), rnd = DB_rng(91 + seed), n = Math.min(900, Math.round(sb.width * sb.height / 1800));
+      g.scale(dpr, dpr);
+      var TINT = ["255,255,255", "255,214,236", "214,200,255", "190,255,236"];
+      for (var i = 0; i < n; i++) {
+        var x = rnd() * sb.width, y = rnd() * sb.height, r = 0.25 + Math.pow(rnd(), 3) * 1.1;
+        g.fillStyle = "rgba(" + TINT[Math.floor(rnd() * TINT.length)] + "," + (0.2 + rnd() * 0.6).toFixed(2) + ")";
+        g.beginPath(); g.arc(x, y, r, 0, 6.283); g.fill();
+      }
+      for (i = 0; i < 9; i++) {
+        var bx = rnd() * sb.width, by = rnd() * sb.height, br = 6 + rnd() * 10;
+        var gr = g.createRadialGradient(bx, by, 0, bx, by, br);
+        gr.addColorStop(0, "rgba(255,255,255,0.95)"); gr.addColorStop(0.12, "rgba(255,232,210,0.6)"); gr.addColorStop(1, "rgba(255,170,130,0)");
+        g.fillStyle = gr; g.beginPath(); g.arc(bx, by, br, 0, 6.283); g.fill();
+      }
+      specks.classList.add("is-ready");
+    }
+
+    var done = false;
+    function go() { if (done) return; done = true; setTimeout(render, 0); }
+    if (window.IntersectionObserver) {
+      var io = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { io.disconnect(); go(); } }, { rootMargin: "800px 0px" });
+      io.observe(box);
+    } else go();
+    var lastW = 0;
+    window.addEventListener("resize", function () {
+      if (!done || Math.abs(window.innerWidth - lastW) < 120) return; // repaint only for a real change of shape
+      lastW = window.innerWidth; render();
+    });
+    lastW = window.innerWidth;
+    // depth on scroll: layers part as the band passes
+    window.addEventListener("scroll", function () {
+      var r = box.getBoundingClientRect(), vh = window.innerHeight;
+      if (r.bottom < 0 || r.top > vh) return;
+      box.style.setProperty("--nb", ((r.top + r.height / 2 - vh / 2) / vh).toFixed(3));
+    }, { passive: true });
+
+    // Slow flow: each layer is redrawn from its painting through a smooth displacement field that undulates over
+    // time (a few overlapping long waves, zero on average), each layer with its own wavelengths, speeds and phases,
+    // so the wisps sway and curl against each other while the cloud as a whole stays put. ~15 frames a second,
+    // only while on screen.
+    if (reduceMotion) return;
+    // a: sway in painting px (1px is ~6 screen px); w: rad/s, so a full sway takes ~20-35s. Slower and smaller than this
+    // was invisible on a soft, blurred cloud.
+    var FLOW = [{ cv: gasA, a: 6.5, f: [0.042, 0.031, 0.037, 0.028], w: [0.27, 0.2, 0.24, 0.18], p: [0.3, 2.1, 4.0, 5.2] },
+                { cv: gasB, a: 7.5, f: [0.036, 0.044, 0.029, 0.039], w: [0.21, 0.3, 0.19, 0.25], p: [1.7, 3.3, 0.6, 2.8] },
+                { cv: dust, a: 6.0, f: [0.033, 0.026, 0.041, 0.03], w: [0.18, 0.24, 0.15, 0.21], p: [2.5, 0.9, 3.6, 4.7] }];
+    var shown = false, lastF = 0, flowing = false;
+    if (window.IntersectionObserver) new IntersectionObserver(function (es) {
+      shown = es[0].isIntersecting;
+      if (shown && !flowing) { flowing = true; requestAnimationFrame(flow); } // one loop, however often this fires
+    }).observe(box);
+    function flow(t) {
+      if (!shown) { flowing = false; return; }
+      if (!document.hidden && t - lastF > 66) {
+        lastF = t; var ts = t / 1000;
+        FLOW.forEach(function (L) {
+          var cv = L.cv, base = cv._base;
+          if (!base) return;
+          var w = cv.width, h = cv.height, o = L.cv._out.data, sc = w / 300; // waves are set for a 300px-wide painting
+          var A = L.a * sc, f = L.f, wv = L.w, p = L.p, k, y, x;
+          // the field separates into row and column terms, so the trig runs per row and per column, not per pixel
+          var sy1 = new Float32Array(h), sy2 = new Float32Array(h), sx1 = new Float32Array(w), sx2 = new Float32Array(w);
+          for (y = 0; y < h; y++) { sy1[y] = Math.sin(y * f[0] / sc + ts * wv[0] + p[0]); sy2[y] = Math.sin(y * f[3] / sc + ts * wv[3] + p[3]); }
+          for (x = 0; x < w; x++) { sx1[x] = Math.sin(x * f[1] / sc - ts * wv[1] + p[1]); sx2[x] = Math.sin(x * f[2] / sc - ts * wv[2] + p[2]); }
+          for (y = 0; y < h; y++) {
+            for (x = 0; x < w; x++) {
+              var ox = A * (sy1[y] + 0.6 * sx1[x]) / 1.6, oy = A * (sx2[x] + 0.6 * sy2[y]) / 1.6;
+              var fx = x - ox, fy = y - oy, di = (y * w + x) * 4;
+              if (fx < 0) fx = 0; else if (fx > w - 1.001) fx = w - 1.001;
+              if (fy < 0) fy = 0; else if (fy > h - 1.001) fy = h - 1.001;
+              var ix = fx | 0, iy = fy | 0, ux = fx - ix, uy = fy - iy;
+              var a00 = (iy * w + ix) * 4, a10 = a00 + 4, a01 = a00 + w * 4, a11 = a01 + 4;
+              for (k = 0; k < 4; k++) {
+                var top = base[a00 + k] + (base[a10 + k] - base[a00 + k]) * ux;
+                o[di + k] = top + (base[a01 + k] + (base[a11 + k] - base[a01 + k]) * ux - top) * uy;
+              }
+            }
+          }
+          cv.getContext("2d").putImageData(L.cv._out, 0, 0);
+        });
+      }
+      requestAnimationFrame(flow);
+    }
+  });
 
   /* ---------- Contact form (mockup: no backend) ---------- */
   var form = document.querySelector(".contact__form");
