@@ -113,6 +113,7 @@
 .map__svg {
   width: 100%; height: auto; border-radius: 14px;
   --ink: #2a1d14; --ink-2: #5a4636; --loss: #c43a52; --safe: #0e7d68;
+  opacity: 0.85; /* lets the dark panel through a little, so the chart sits in the page */
 }
 @media (max-width: 600px) {
   .map { overflow-x: auto; }
