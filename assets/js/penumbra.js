@@ -474,7 +474,7 @@
      painted once at low resolution when the section comes near, plus a full-resolution layer of specks.
      Each nebula gets its own seeds, so no two look alike. */
   document.querySelectorAll(".nebula").forEach(function (box, k) {
-    var seed = k * 140; // offsets picked by rendering them: 140 gives the closing cloud a full, wispy body
+    var seed = k * 210; // offsets picked by rendering them: 210 spreads the closing cloud across the whole width
     var gasA = box.querySelector(".nebula__gas:not(.nebula__gas--b)"), gasB = box.querySelector(".nebula__gas--b");
     var dust = box.querySelector(".nebula__dust"), specks = box.querySelector(".nebula__specks");
     // each layer gets a twin painted from the same cloud a little further along in time; CSS crossfades the pair, so

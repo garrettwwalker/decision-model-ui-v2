@@ -620,6 +620,8 @@ main, .footer { position: relative; z-index: 2; }
 .contact__form input:focus-visible { border-color: var(--a-yellow); outline-offset: 1px; }
 .contact__form input[aria-invalid="true"] { border-color: var(--loss); }
 .contact__msg { margin: 0; font-size: 0.85rem; min-height: 1.2em; color: var(--moon-2); }
+.nebula--close .nebula__gas { --o: 0.9; filter: blur(5px) saturate(1.35); } /* a hair richer, to match the one above */
+.nebula--close .nebula__gas--b { --o: 0.62; }
 .nebula--close { /* rises out of the dark behind the form and thins away to black before the footer */
   -webkit-mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.05) 7%, rgba(0, 0, 0, 0.2) 15%, rgba(0, 0, 0, 0.48) 23%, rgba(0, 0, 0, 0.76) 31%, rgba(0, 0, 0, 0.93) 38%, #000 44%, #000 54%, rgba(0, 0, 0, 0.3) 76%, rgba(0, 0, 0, 0) 92%);
   mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.05) 7%, rgba(0, 0, 0, 0.2) 15%, rgba(0, 0, 0, 0.48) 23%, rgba(0, 0, 0, 0.76) 31%, rgba(0, 0, 0, 0.93) 38%, #000 44%, #000 54%, rgba(0, 0, 0, 0.3) 76%, rgba(0, 0, 0, 0) 92%);
