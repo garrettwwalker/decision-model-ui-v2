@@ -486,14 +486,16 @@ main, .footer { position: relative; z-index: 2; }
 .nebula__dust { --o: 1; filter: blur(1.5px); translate: 0 calc(var(--nb) * -80px); transform-origin: 40% 48%; }
 .nebula__specks { translate: 0 calc(var(--nb) * -120px); }
 .nebula .nebula__gas.is-ready, .nebula .nebula__dust.is-ready { opacity: var(--o); }
-.nebula .nebula__gas.is-ready:not(.is-twin) { animation: neb-out 17s ease-in-out infinite, neb-swell 61s ease-in-out infinite alternate; }
-.nebula .nebula__gas.is-ready.is-twin { animation: neb-in 17s ease-in-out infinite, neb-swell 61s ease-in-out infinite alternate; }
-.nebula .nebula__gas--b.is-ready:not(.is-twin) { animation: neb-out 23s ease-in-out infinite -9s, neb-swell 73s ease-in-out infinite alternate-reverse; }
-.nebula .nebula__gas--b.is-ready.is-twin { animation: neb-in 23s ease-in-out infinite -9s, neb-swell 73s ease-in-out infinite alternate-reverse; }
-.nebula .nebula__dust.is-ready:not(.is-twin) { animation: neb-out 28s ease-in-out infinite -17s; }
-.nebula .nebula__dust.is-ready.is-twin { animation: neb-in 28s ease-in-out infinite -17s; }
+.nebula:not(.is-live) .is-twin { opacity: 0; }
+/* the crossfades start together, once every layer and its twin are painted (penumbra.js adds .is-live) */
+.nebula.is-live .nebula__gas:not(.is-twin) { animation: neb-out 17s ease-in-out infinite, neb-swell 61s ease-in-out infinite alternate; }
+.nebula.is-live .nebula__gas.is-twin { animation: neb-in 17s ease-in-out infinite, neb-swell 61s ease-in-out infinite alternate; }
+.nebula.is-live .nebula__gas--b:not(.is-twin) { animation: neb-out 23s ease-in-out infinite -9s, neb-swell 73s ease-in-out infinite alternate-reverse; }
+.nebula.is-live .nebula__gas--b.is-twin { animation: neb-in 23s ease-in-out infinite -9s, neb-swell 73s ease-in-out infinite alternate-reverse; }
+.nebula.is-live .nebula__dust:not(.is-twin) { animation: neb-out 28s ease-in-out infinite -17s; }
+.nebula.is-live .nebula__dust.is-twin { animation: neb-in 28s ease-in-out infinite -17s; }
 @keyframes neb-in { 0%, 100% { opacity: 0; } 50% { opacity: var(--o); } }
-@keyframes neb-out { 0%, 100% { opacity: var(--o); } 50% { opacity: 0; } }
+@keyframes neb-out { 0%, 100% { opacity: var(--o); } 50% { opacity: calc(var(--o) * 0.35); } } /* never fully out: mid-fade, the cloud mustn't hollow */
 @keyframes neb-swell { from { transform: scale(1.02); } to { transform: scale(1.075); } }
 .swans__inner { position: relative; z-index: 1; max-width: 76rem; margin-inline: auto; }
 .swans__head { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 1.5rem 3rem; }
@@ -613,7 +615,7 @@ main, .footer { position: relative; z-index: 2; }
 
 @media (prefers-reduced-motion: reduce) {
   .aurora i, .nebula canvas, .eclipse__rays, .hero__arrow { animation: none; }
-  .nebula canvas.is-ready { animation: none !important; } /* the crossfade rules are more specific */
+  .nebula canvas { animation: none !important; } /* the crossfade rules are more specific */
   .nebula .is-twin { display: none; }
   .tile { translate: none; }
 }

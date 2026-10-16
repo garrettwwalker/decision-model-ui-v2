@@ -485,6 +485,7 @@
       steps.push(function () { paint(gasA2, W, H, gasAt(0.42)); });
       steps.push(function () { paint(gasB2, W, H, gasBt(0.42)); });
       steps.push(function () { paint(dust2, DW, DH, dustT(0.42)); });
+      steps.push(function () { box.classList.add("is-live"); });
       (function next() { var f = steps.shift(); if (f) { f(); setTimeout(next, 30); } })();
     }
     function drawSpecks() {
