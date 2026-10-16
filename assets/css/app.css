@@ -117,7 +117,7 @@ body.app { min-height: 100vh; }
 }
 .t-night.sky-plum { --void: #0a060c; --space: #120b14; --card: rgba(26, 22, 32, 0.7); --card-solid: #1c1722; --cream: #221b28; --mist: #19141e; }
 .t-night.sky-plum .bar { background: rgba(10, 6, 12, 0.74); }
-.t-night.sky-plum .tabs a[aria-current="page"]::after { background: #f052c8; box-shadow: 0 0 8px rgba(240, 82, 200, 0.8); } /* magenta, the red end of the page's violet-red sky */
+.t-night.sky-plum .tabs a[aria-current="page"]::after { background: #f04a72; box-shadow: 0 0 8px rgba(240, 74, 114, 0.8); } /* rose, the red in the page's violet-red nebula */
 .t-night.sky-green { /* sample memo: green sky; mint accent, pale mint good, coral alert. Good is much paler than alert,
                          so the pair still separates for red-green color blindness (and every figure is labelled) */
   --accent: #5fdc9a; --good: #bff2d6; --alert: #ff7f62; --alert-2: #ffb08f;
