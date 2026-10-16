@@ -615,7 +615,7 @@
     if (reduceMotion || !window.matchMedia("(hover: hover)").matches) return;
     var LAYERS = [{ cv: gasA, k: 1 }, { cv: gasA2, k: 1 }, { cv: gasB, k: 0.75 }, { cv: gasB2, k: 0.75 }, { cv: dust, k: 1.2 }, { cv: dust2, k: 1.2 }];
     var GW = 48, GH = 36, N = GW * GH, FX = new Float32Array(N), FY = new Float32Array(N), TH = new Float32Array(N);
-    var REACH = 170, SHOVE = 0.24, CURL = 0.09, PUSH = 0.5, THIN = 0.014, MAX = 34, RELAX = 0.96, THIN_RELAX = 0.95;
+    var REACH = 150, SHOVE = 0.13, CURL = 0.05, PUSH = 0.25, THIN = 0.007, MAX = 18, RELAX = 0.96, THIN_RELAX = 0.95;
     var ptr = { x: 0, y: 0, px: null, py: null, inside: false }, seen = false, last = 0, running = false;
     window.addEventListener("pointermove", function (e) {
       if (e.pointerType === "touch") return;
@@ -644,7 +644,7 @@
             var side = ux * vy - uy * vx > 0 ? 1 : -1;               // which side of the pointer's path this point is on
             fx += (vx * SHOVE + ux * PUSH - uy * Math.hypot(vx, vy) * CURL * side) * wgt;
             fy += (vy * SHOVE + uy * PUSH + ux * Math.hypot(vx, vy) * CURL * side) * wgt;
-            th = Math.min(0.32, th + THIN * wgt);
+            th = Math.min(0.16, th + THIN * wgt);
             var mag = Math.sqrt(fx * fx + fy * fy);
             if (mag > MAX) { fx *= MAX / mag; fy *= MAX / mag; }
           }
