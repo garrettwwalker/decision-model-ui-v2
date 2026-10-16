@@ -489,7 +489,6 @@ select.num-input, input.num-input { font-family: var(--font); background: rgba(7
 .hit__count { font-size: 0.8rem; font-weight: 500; color: var(--fg-2); margin-left: 0.4rem; }
 .hit__teams { display: flex; flex-wrap: wrap; gap: 0.3rem; }
 #hit td { vertical-align: middle; font-size: 0.84rem; }
-#hit tbody tr.is-hot td:first-child b { color: var(--loss); }
 
 /* ================= 4. Decide ================= */
 .options__team .ins-link { padding: 0; }

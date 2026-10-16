@@ -103,7 +103,7 @@
 .tug__bar--up b { left: calc(50% + var(--v) * var(--unit) + 0.45rem); }
 .tug__bar--down b { right: calc(50% + var(--v) * var(--unit) + 0.45rem); }
 .tug__sum { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; margin: 0; padding-top: 0.85rem; border-top: 1px solid var(--line); font-size: 0.84rem; color: var(--fg-2); }
-.tug__sum b { font-size: 1.35rem; font-weight: 800; letter-spacing: -0.03em; color: var(--loss); }
+.tug__sum b { font-size: 1.35rem; font-weight: 800; letter-spacing: -0.03em; color: var(--accent); } /* the answer is lit in the accent; the alert is for the drivers that push it up */
 @media (max-width: 560px) {
   .tug__rows li { grid-template-columns: minmax(0, 1fr); gap: 0.4rem; }
   .tug__bar { min-height: 22px; }
