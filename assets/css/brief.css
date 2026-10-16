@@ -240,10 +240,9 @@
 .fall b { text-align: right; font-size: 0.82rem; }
 
 .signs { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.7rem; font-size: 0.88rem; color: var(--fg-2); }
-.signs li { padding-left: 0.9rem; border-left: 3px solid; }
-.signs__up { border-color: var(--loss) !important; }
-.signs__down { border-color: var(--safe) !important; }
 .signs b { color: var(--fg); }
+.signs__up b { color: var(--loss); } /* the direction is in the lead words' color, not a stripe down the edge */
+.signs__down b { color: var(--safe); }
 .why__cal { margin: 1.1rem 0 0; padding-top: 0.85rem; border-top: 1px solid var(--panel-line); font-size: 0.72rem; color: var(--fg-2); }
 
 /* ---------- Horizon ---------- */

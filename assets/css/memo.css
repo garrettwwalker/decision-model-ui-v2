@@ -123,10 +123,9 @@
 @media (max-width: 420px) { .parts li { grid-template-columns: minmax(0, 1fr) auto; } .parts span { grid-column: 1 / -1; } }
 
 .signs { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.7rem; font-size: 0.88rem; color: var(--fg-2); }
-.signs li { padding-left: 0.9rem; border-left: 3px solid; }
-.signs__up { border-color: var(--loss) !important; }
-.signs__down { border-color: var(--safe) !important; }
 .signs b { color: var(--fg); }
+.signs__up b { color: var(--loss); } /* the direction is in the lead words' color, not a stripe down the edge */
+.signs__down b { color: var(--safe); }
 
 /* ---------- Trendlines ---------- */
 .trends { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; }
@@ -169,7 +168,7 @@
 @media (max-width: 480px) {
   .interests { grid-template-columns: minmax(0, 1fr); }
 }
-.pull { margin: 2.5rem 0 0 clamp(0rem, 8vw, 8rem); max-width: 40rem; padding-left: 1rem; border-left: 2px solid var(--line-strong); font-size: 1.05rem; color: var(--moon-2); line-height: 1.5; }
+.pull { margin: 1.1rem 0 0; max-width: 46rem; padding: 1.1rem 1.3rem; border-radius: var(--radius); background: var(--card); -webkit-backdrop-filter: var(--glass); backdrop-filter: var(--glass); font-size: 1.05rem; color: var(--moon-2); line-height: 1.5; } /* a glass note under the interests, on the grid's edge, not a ruled aside floating on the haze */
 
 /* ---------- Options ---------- */
 .options { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.1rem; align-items: start; }

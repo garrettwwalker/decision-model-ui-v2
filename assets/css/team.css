@@ -87,13 +87,11 @@
 .wday.is-today .wday__label { color: var(--a-amber); }
 .wday__none { margin: 0; font-size: 0.74rem; color: var(--fg-2); }
 .wday__items { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.15rem; }
-.witem { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0.5rem; align-items: baseline; font-size: 0.78rem; padding-left: 0.6rem; border-left: 2.5px solid var(--line-strong); }
+.witem { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0.5rem; align-items: baseline; font-size: 0.78rem; }
 .witem > :only-child { grid-column: 1 / -1; }
 .witem time { font-variant-numeric: tabular-nums; font-weight: 700; font-size: 0.72rem; color: var(--fg-2); }
-.witem.is-decision { border-left-color: var(--ember); }
-.witem.is-stuck { border-left-color: var(--loss); }
+.witem.is-decision time { color: var(--accent); }
 .witem.is-away, .witem.is-event { color: var(--fg-2); }
-.witem.is-event { border-left-color: var(--a-pink); }
 .witem__go { border: 0; background: none; padding: 0.15rem 0; font: inherit; color: inherit; text-align: left; cursor: pointer; text-decoration: underline; text-decoration-color: transparent; }
 .witem__go:hover { text-decoration-color: var(--ember); }
 .witem.is-stuck .witem__go { color: var(--loss); font-weight: 600; }
