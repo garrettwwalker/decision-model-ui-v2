@@ -528,6 +528,8 @@
         d[o] = px[0]; d[o + 1] = px[1]; d[o + 2] = px[2]; d[o + 3] = px[3];
       }
       c.putImageData(img, 0, 0);
+      cv._base = new Uint8ClampedArray(d); // the painting, kept so the cursor can disturb the visible copy and let it settle
+      cv._out = c.createImageData(w, h);
       cv.classList.add("is-ready");
     }
 
@@ -605,6 +607,87 @@
       if (r.bottom < 0 || r.top > vh) return;
       box.style.setProperty("--nb", ((r.top + r.height / 2 - vh / 2) / vh).toFixed(3));
     }, { passive: true });
+
+    // The cursor disturbs the gas. A coarse field holds, per point, an offset (screen px) and a thinning. The pointer's
+    // motion shoves gas along its path and curls it off to either side; lingering pushes gas outward and thins it, so
+    // a soft clearing opens under the pointer rather than the cloud magnifying. Everything relaxes back over a few
+    // seconds. Each painted layer (and its twin) is redrawn through the field, only where the field is non-zero.
+    if (reduceMotion || !window.matchMedia("(hover: hover)").matches) return;
+    var LAYERS = [{ cv: gasA, k: 1 }, { cv: gasA2, k: 1 }, { cv: gasB, k: 0.75 }, { cv: gasB2, k: 0.75 }, { cv: dust, k: 1.2 }, { cv: dust2, k: 1.2 }];
+    var GW = 48, GH = 36, N = GW * GH, FX = new Float32Array(N), FY = new Float32Array(N), TH = new Float32Array(N);
+    var REACH = 190, SHOVE = 0.45, CURL = 0.18, PUSH = 1.1, THIN = 0.035, MAX = 60, RELAX = 0.96, THIN_RELAX = 0.95;
+    var ptr = { x: 0, y: 0, px: null, py: null, inside: false }, seen = false, last = 0, running = false;
+    window.addEventListener("pointermove", function (e) {
+      if (e.pointerType === "touch") return;
+      var r = box.getBoundingClientRect();
+      ptr.x = e.clientX; ptr.y = e.clientY;
+      ptr.inside = e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom;
+      if (ptr.inside && seen && !running) { running = true; requestAnimationFrame(step); }
+    }, { passive: true });
+    document.addEventListener("pointerleave", function () { ptr.inside = false; });
+    if (window.IntersectionObserver) new IntersectionObserver(function (es) { seen = es[0].isIntersecting; }).observe(box);
+    function step(t) {
+      if (t - last < 32) { requestAnimationFrame(step); return; }
+      last = t;
+      // the layers cover the box plus 10% each side, so the field does too
+      var b = box.getBoundingClientRect(), W = b.width * 1.2, H = b.height * 1.2, L0 = b.left - b.width * 0.1, T0 = b.top - b.height * 0.1;
+      var vx = ptr.px === null || !ptr.inside ? 0 : ptr.x - ptr.px, vy = ptr.py === null || !ptr.inside ? 0 : ptr.y - ptr.py;
+      ptr.px = ptr.x; ptr.py = ptr.y;
+      var cw = W / (GW - 1), chh = H / (GH - 1), live = false, gx0 = GW, gx1 = -1, gy0 = GH, gy1 = -1;
+      for (var gy = 0; gy < GH; gy++) for (var gx = 0; gx < GW; gx++) {
+        var n = gy * GW + gx, fx = FX[n] * RELAX, fy = FY[n] * RELAX, th = TH[n] * THIN_RELAX;
+        if (ptr.inside) {
+          var dx = L0 + gx * cw - ptr.x, dy = T0 + gy * chh - ptr.y, d2 = dx * dx + dy * dy;
+          var wgt = Math.exp(-d2 / (REACH * REACH));
+          if (wgt > 0.01) {
+            var d = Math.sqrt(d2) || 1, ux = dx / d, uy = dy / d;
+            var side = ux * vy - uy * vx > 0 ? 1 : -1;               // which side of the pointer's path this point is on
+            fx += (vx * SHOVE + ux * PUSH - uy * Math.hypot(vx, vy) * CURL * side) * wgt;
+            fy += (vy * SHOVE + uy * PUSH + ux * Math.hypot(vx, vy) * CURL * side) * wgt;
+            th = Math.min(0.6, th + THIN * wgt);
+            var mag = Math.sqrt(fx * fx + fy * fy);
+            if (mag > MAX) { fx *= MAX / mag; fy *= MAX / mag; }
+          }
+        }
+        FX[n] = fx; FY[n] = fy; TH[n] = th;
+        if (Math.abs(fx) + Math.abs(fy) > 0.25 || th > 0.004) {
+          live = true; if (gx < gx0) gx0 = gx; if (gx > gx1) gx1 = gx; if (gy < gy0) gy0 = gy; if (gy > gy1) gy1 = gy;
+        }
+      }
+      LAYERS.forEach(function (Ly) {
+        var cv = Ly.cv, base = cv._base;
+        if (!base) return;
+        var w = cv.width, h = cv.height, out = cv._out, o = out.data;
+        o.set(base);
+        if (live) {
+          var sx = w / W, sy = h / H, k = Ly.k;
+          var x0 = Math.max(0, Math.floor((gx0 - 1) * cw * sx)), x1 = Math.min(w - 1, Math.ceil((gx1 + 1) * cw * sx));
+          var y0 = Math.max(0, Math.floor((gy0 - 1) * chh * sy)), y1 = Math.min(h - 1, Math.ceil((gy1 + 1) * chh * sy));
+          for (var y = y0; y <= y1; y++) {
+            var gyf = y / sy / chh, iy = Math.min(GH - 2, gyf | 0), ty = gyf - iy;
+            for (var x = x0; x <= x1; x++) {
+              var gxf = x / sx / cw, ix = Math.min(GW - 2, gxf | 0), tx = gxf - ix, n0 = iy * GW + ix;
+              var w00 = (1 - tx) * (1 - ty), w10 = tx * (1 - ty), w01 = (1 - tx) * ty, w11 = tx * ty;
+              var ox = FX[n0] * w00 + FX[n0 + 1] * w10 + FX[n0 + GW] * w01 + FX[n0 + GW + 1] * w11;
+              var oy = FY[n0] * w00 + FY[n0 + 1] * w10 + FY[n0 + GW] * w01 + FY[n0 + GW + 1] * w11;
+              var thin = TH[n0] * w00 + TH[n0 + 1] * w10 + TH[n0 + GW] * w01 + TH[n0 + GW + 1] * w11;
+              var fx2 = x - ox * sx * k, fy2 = y - oy * sy * k, di = (y * w + x) * 4; // this pixel shows the gas pushed here
+              if (fx2 < 0 || fy2 < 0 || fx2 > w - 2 || fy2 > h - 2) { o[di + 3] = 0; continue; }
+              var px0 = fx2 | 0, py0 = fy2 | 0, ux2 = fx2 - px0, uy2 = fy2 - py0;
+              var a00 = (py0 * w + px0) * 4, a10 = a00 + 4, a01 = a00 + w * 4, a11 = a01 + 4;
+              for (var c = 0; c < 4; c++) {
+                var top = base[a00 + c] + (base[a10 + c] - base[a00 + c]) * ux2;
+                o[di + c] = top + (base[a01 + c] + (base[a11 + c] - base[a01 + c]) * ux2 - top) * uy2;
+              }
+              o[di + 3] *= 1 - thin * k; // the gas thins where it's been pushed away
+            }
+          }
+        }
+        cv.getContext("2d").putImageData(out, 0, 0);
+      });
+      if (!live && !ptr.inside) { running = false; ptr.px = ptr.py = null; return; }
+      requestAnimationFrame(step);
+    }
   });
 
   /* ---------- Contact form (mockup: no backend) ---------- */
