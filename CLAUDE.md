@@ -26,8 +26,8 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   70% over a blur so the haze shows softly through), moonlight type with `--moon-3` a step lighter than the
   landing's so labels hold 4.5:1 over bright haze, solid hairlines, no pins, tilts, cargo tags or dashes. Maps:
   the workbench's is navy sea `#122042`, slate land `#3a4763` with `#56658a` coasts, labels in moonlight on navy
-  halos; the brief's is a warm paper chart as on the Daybreak brief (cream sea `#fbf1e3`, sand land `#efd6b8`, ink
-  labels, deeper loss and safe shades scoped to `.map__svg`). The user found black-on-gray maps unreadable. `.instrument` is only for code, a step darker than the panels.
+  halos; the brief's is a warm paper chart as on the Daybreak brief (parchment sea `#dccdb8`, sand land `#c9ae8c`, ink
+  labels, dimmed a step at the user's request, deeper loss and safe shades scoped to `.map__svg`). The user found black-on-gray maps unreadable. `.instrument` is only for code, a step darker than the panels.
 - `assets/css/base.css` holds shared tokens (the Penumbra palette; the old dawn names such as `--dawn`, `--ember`,
   `--paper` are aliases onto it) and components, including the logo mark (`.logo`); `app.css` the product-page
   chrome, and `landing.css`, `brief.css`, `memo.css`, `team.css`, `bench.css` and `ask.css` are per page.
@@ -40,7 +40,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   slightly (~15fps, paused when hidden). Both still under reduced motion. Each page has its own sky in `SKIES`
   (seed, color ramp, peak opacity, gamma), every one rendered against stand-in cards before it was chosen: the brief
   warm amber-orange (first light; gamma 1.35 so only dense cores glow, since thin orange reads brown), the memo deep
-  blue and teal, workflows teal with a touch of gold, the workbench blue and cyan, ask violet and blue and the
+  blue and teal, workflows violet with red running through it (`sky-plum`: plum-black ground), the workbench blue and cyan, ask violet and blue and the
   quietest. Only the sky changes per page; the data colors mean the same thing everywhere. The brief's body also
   has `sky-warm`: warm-black ground and neutral glass. It replaced the dawn site's drifting clouds (`sky.js`).
 - `memo.html` + `assets/js/memo.js` is a sample strategic options memo, dated Wed 7 Oct, answering the CEO's
