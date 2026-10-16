@@ -617,56 +617,76 @@
       box.style.setProperty("--nb", ((r.top + r.height / 2 - vh / 2) / vh).toFixed(3));
     }, { passive: true });
 
-    // the cursor pushes the cloud aside: within ~240px of the pointer each layer's pixels are warped outward by a soft
-    // falloff (strongest close in), everything else is copied straight from the painting. Layers give by different
-    // amounts, so it has depth; when the pointer leaves, the push eases off and the cloud settles back
+    // the cursor moves the cloud the way a hand moves through smoke: a coarse field of offsets (screen px) takes a shove
+    // from the pointer's motion near it, then relaxes back to nothing over a few seconds. A resting cursor moves
+    // nothing, and the cloud is only shifted aside, never stretched. Each layer is redrawn from its painting through the
+    // field (dust gives most, the pale gas least), only where the field is non-zero
     if (reduceMotion || !window.matchMedia("(hover: hover)").matches) return;
     var LAYERS = [{ cv: gasA, k: 1 }, { cv: gasB, k: 0.7 }, { cv: dust, k: 1.25 }];
-    var ptr = { x: 0, y: 0, inside: false }, amp = 0, seen = false, last = 0, running = false;
+    var GW = 48, GH = 36, FX = new Float32Array(GW * GH), FY = new Float32Array(GW * GH);
+    var ptr = { x: 0, y: 0, px: null, py: null, inside: false }, seen = false, last = 0, running = false, live = false;
+    var REACH = 200, GAIN = 0.55, MAX = 70, RELAX = 0.955; // screen px; RELAX per ~32ms frame
     window.addEventListener("pointermove", function (e) {
       if (e.pointerType === "touch") return;
       var r = box.getBoundingClientRect();
       ptr.x = e.clientX; ptr.y = e.clientY;
       ptr.inside = e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom;
-      if (ptr.inside && !running) { running = true; requestAnimationFrame(push); }
+      if (ptr.inside && !running && seen) { running = true; requestAnimationFrame(step); }
     }, { passive: true });
     if (window.IntersectionObserver) new IntersectionObserver(function (es) { seen = es[0].isIntersecting; }).observe(box);
-    var R = 240, PUSH = 40; // screen px (the peak push is ~0.7 of PUSH)
-    function push(t) {
-      if (t - last < 32) { requestAnimationFrame(push); return; }
+    function step(t) {
+      if (t - last < 32) { requestAnimationFrame(step); return; }
       last = t;
-      amp = lerp(amp, ptr.inside && seen ? 1 : 0, 0.07);
-      LAYERS.forEach(function (L) {
-        var cv = L.cv, base = cv._base;
+      // the layers fill the box plus 10% each side, so the field covers that area
+      var b = box.getBoundingClientRect(), W = b.width * 1.2, H = b.height * 1.2, L0 = b.left - b.width * 0.1, T0 = b.top - b.height * 0.1;
+      var vx = ptr.px === null ? 0 : ptr.x - ptr.px, vy = ptr.py === null ? 0 : ptr.y - ptr.py;
+      ptr.px = ptr.x; ptr.py = ptr.y;
+      if (!ptr.inside) vx = vy = 0;
+      var cw = W / (GW - 1), chh = H / (GH - 1), peak = 0, gx0 = GW, gx1 = -1, gy0 = GH, gy1 = -1;
+      for (var gy = 0; gy < GH; gy++) for (var gx = 0; gx < GW; gx++) {
+        var n = gy * GW + gx, fx = FX[n] * RELAX, fy = FY[n] * RELAX;
+        if (vx || vy) {
+          var dx = L0 + gx * cw - ptr.x, dy = T0 + gy * chh - ptr.y;
+          var wgt = Math.exp(-(dx * dx + dy * dy) / (REACH * REACH));
+          fx += vx * wgt * GAIN; fy += vy * wgt * GAIN;
+          var mag = Math.sqrt(fx * fx + fy * fy);
+          if (mag > MAX) { fx *= MAX / mag; fy *= MAX / mag; }
+        }
+        FX[n] = fx; FY[n] = fy;
+        var a = Math.abs(fx) + Math.abs(fy);
+        if (a > 0.25) { peak = Math.max(peak, a); if (gx < gx0) gx0 = gx; if (gx > gx1) gx1 = gx; if (gy < gy0) gy0 = gy; if (gy > gy1) gy1 = gy; }
+      }
+      LAYERS.forEach(function (Ly) {
+        var cv = Ly.cv, base = cv._base;
         if (!base) return;
-        var g = cv.getContext("2d"), out = cv._out, o = out.data, w = cv.width, h = cv.height;
+        var w = cv.width, h = cv.height, out = cv._out, o = out.data;
         o.set(base);
-        if (amp > 0.01) {
-          var b = cv.getBoundingClientRect(), sc = w / b.width; // screen px → canvas px
-          var px = (ptr.x - b.left) * sc, py = (ptr.y - b.top) * (h / b.height), rr = R * sc, m = PUSH * sc * L.k * amp;
-          var x0 = Math.max(0, Math.floor(px - rr * 1.7)), x1 = Math.min(w - 1, Math.ceil(px + rr * 1.7));
-          var y0 = Math.max(0, Math.floor(py - rr * 1.7)), y1 = Math.min(h - 1, Math.ceil(py + rr * 1.7));
-          for (var y = y0; y <= y1; y++) for (var x = x0; x <= x1; x++) {
-            var dx = x - px, dy = y - py, d2 = dx * dx + dy * dy;
-            // push grows from nothing under the cursor to a peak ~0.7 radius out, then fades: the cloud parts without folding
-            var f = Math.exp(-d2 / (rr * rr)) * m * 1.65 / rr;
-            var fx = x - dx * f, fy = y - dy * f;                  // so this pixel shows what sat nearer the cursor
-            if (fx < 0 || fy < 0 || fx > w - 2 || fy > h - 2) continue;
-            // blended between the four nearest source pixels: the paintings are low resolution, so nearest-pixel
-            // sampling would step visibly
-            var ix = fx | 0, iy = fy | 0, tx = fx - ix, ty = fy - iy, di = (y * w + x) * 4;
-            var a00 = (iy * w + ix) * 4, a10 = a00 + 4, a01 = a00 + w * 4, a11 = a01 + 4;
-            for (var ch = 0; ch < 4; ch++) {
-              var top = base[a00 + ch] + (base[a10 + ch] - base[a00 + ch]) * tx;
-              var bot = base[a01 + ch] + (base[a11 + ch] - base[a01 + ch]) * tx;
-              o[di + ch] = top + (bot - top) * ty;
+        if (peak > 0) {
+          var sx = w / W, sy = h / H, k = Ly.k;                  // screen px → canvas px
+          var x0 = Math.max(0, Math.floor((gx0 - 1) * cw * sx)), x1 = Math.min(w - 1, Math.ceil((gx1 + 1) * cw * sx));
+          var y0 = Math.max(0, Math.floor((gy0 - 1) * chh * sy)), y1 = Math.min(h - 1, Math.ceil((gy1 + 1) * chh * sy));
+          for (var y = y0; y <= y1; y++) {
+            var gyf = y / sy / chh, iy = Math.min(GH - 2, gyf | 0), ty = gyf - iy;
+            for (var x = x0; x <= x1; x++) {
+              var gxf = x / sx / cw, ix = Math.min(GW - 2, gxf | 0), tx = gxf - ix, n0 = iy * GW + ix;
+              // offset here, blended from the four nearest field points
+              var ox = (FX[n0] * (1 - tx) + FX[n0 + 1] * tx) * (1 - ty) + (FX[n0 + GW] * (1 - tx) + FX[n0 + GW + 1] * tx) * ty;
+              var oy = (FY[n0] * (1 - tx) + FY[n0 + 1] * tx) * (1 - ty) + (FY[n0 + GW] * (1 - tx) + FY[n0 + GW + 1] * tx) * ty;
+              var fx2 = x - ox * sx * k, fy2 = y - oy * sy * k;       // this pixel shows what was pushed here
+              if (fx2 < 0 || fy2 < 0 || fx2 > w - 2 || fy2 > h - 2) continue;
+              var px0 = fx2 | 0, py0 = fy2 | 0, ux = fx2 - px0, uy = fy2 - py0, di = (y * w + x) * 4;
+              var a00 = (py0 * w + px0) * 4, a10 = a00 + 4, a01 = a00 + w * 4, a11 = a01 + 4;
+              for (var c = 0; c < 4; c++) {
+                var top = base[a00 + c] + (base[a10 + c] - base[a00 + c]) * ux;
+                o[di + c] = top + (base[a01 + c] + (base[a11 + c] - base[a01 + c]) * ux - top) * uy;
+              }
             }
           }
         }
-        g.putImageData(out, 0, 0);
+        cv.getContext("2d").putImageData(out, 0, 0);
       });
-      if (amp < 0.01 && !ptr.inside) { running = false; return; }
-      requestAnimationFrame(push);
+      if (peak === 0 && !ptr.inside) { running = false; ptr.px = ptr.py = null; return; }
+      requestAnimationFrame(step);
     }
   });
 
