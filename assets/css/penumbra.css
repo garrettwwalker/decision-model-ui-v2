@@ -428,6 +428,7 @@ main, .footer { position: relative; z-index: 2; }
    The heading and lede hang like the other sections'. */
 .decide { padding: 2rem var(--gutter) clamp(6rem, 14vh, 9rem); --moon-d: clamp(84px, 9vw, 120px); }
 .decide > .h2 { margin-left: clamp(0rem, 6vw, 6rem); }
+.hang { display: inline-block; margin-left: -0.4em; } /* the opening quote hangs in the margin so the two w's align; penumbra.js trues it to the glyph */
 .decide__lede { margin: 2rem 0 0 calc(clamp(0rem, 6vw, 6rem) + 0.15rem); max-width: 36rem; font-size: 1.1rem; color: var(--moon-2); }
 .decide__lede .w.on { color: var(--moon-2); }
 .lunes {

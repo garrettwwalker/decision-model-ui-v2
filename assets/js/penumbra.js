@@ -111,6 +111,17 @@
     });
   }
 
+  /* ---------- Hanging punctuation: pull each .hang left by exactly its own width ---------- */
+  function hang() {
+    document.querySelectorAll(".hang").forEach(function (el) {
+      el.style.marginLeft = "0px";
+      el.style.marginLeft = -el.getBoundingClientRect().width + "px";
+    });
+  }
+  hang();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(hang);
+  window.addEventListener("resize", hang);
+
   /* ---------- Overnight watch card: cycles through flagged events ---------- */
   (function () {
     var card = document.querySelector(".watch");
