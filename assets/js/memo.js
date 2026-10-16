@@ -36,7 +36,7 @@
 
   var WEEKS = ["7 Oct", "12 Oct", "19 Oct", "26 Oct", "2 Nov", "9 Nov", "16 Nov", "23 Nov", "30 Nov", "7 Dec"];
 
-  // steps: [what, owner, start week, length in weeks]; marks: [week, label]; trips: [when, then]
+  // steps: [what, owner, start week, length in weeks]; marks: [week, label]; trips: [when, then], written to follow "If "
   var PLANS = {
     watch: {
       lead: "Risk office", hours: 60, first: "Thu 8 Oct",
@@ -47,7 +47,7 @@
         ["Keep non-Gulf resin samples on file", "Procurement", 2, 2]
       ],
       marks: [[4, "Exec review of the forecast"], [9, "Forecast horizon, 6 Dec"]],
-      trips: [["Senate bill passes the floor", "move to option 2 the same week"], ["Chance rises above 55%", "start option 3 at once"], ["Any counterparty is named", "stop shipments that day and send the drafted letters"]]
+      trips: [["the Senate bill passes the floor", "move to option 2 the same week"], ["the chance rises above 55%", "start option 3 at once"], ["any counterparty is named", "stop shipments that day and send the drafted letters"]]
     },
     tighten: {
       lead: "General Counsel", hours: 420, first: "Mon 12 Oct",
@@ -59,7 +59,7 @@
         ["Brief the banks and auditors on what changed", "Group Treasurer", 4, 1]
       ],
       marks: [[3, "Certificates due"], [5, "Audit committee"]],
-      trips: [["A trader refuses to certify", "pause it and offer its volume to the GCC key accounts"], ["Talks resume with a date", "keep the screening, lift the pauses"]]
+      trips: [["a trader refuses to certify", "pause it and offer its volume to the GCC key accounts"], ["talks resume with a date", "keep the screening, lift the pauses"]]
     },
     resin: {
       lead: "VP Procurement", hours: 680, first: "Fri 9 Oct",
@@ -71,7 +71,7 @@
         ["First non-Gulf deliveries reach Gebze", "VP Logistics", 7, 3]
       ],
       marks: [[1, "Samples land"], [7, "QA sign-off"], [9, "40% off the Gulf"]],
-      trips: [["A Gulf polymer maker is named", "lift the shift to 70% on spot cargoes"], ["Hormuz closes", "the brief's bridge-buy and this plan merge"]]
+      trips: [["a Gulf polymer maker is named", "lift the shift to 70% on spot cargoes"], ["Hormuz closes", "the brief's bridge-buy and this plan merge"]]
     },
     engage: {
       lead: "Group Treasurer", hours: 190, first: "Thu 8 Oct",
@@ -83,7 +83,7 @@
         ["Prepare investor questions and answers", "Investor relations", 3, 1]
       ],
       marks: [[3, "Letter sent"], [6, "Second account live"]],
-      trips: [["Guidance gives under 30 days", "start option 2 at once"], ["The Turkish lender is named", "move all Gebze payments to the new account"]]
+      trips: [["guidance gives under 30 days", "start option 2 at once"], ["the Turkish lender is named", "move all Gebze payments to the new account"]]
     }
   };
 
@@ -301,7 +301,7 @@
     var ul = el("ul", "trips__list");
     p.trips.forEach(function (x) {
       var li = el("li");
-      li.appendChild(el("b", null, "If " + x[0].charAt(0).toLowerCase() + x[0].slice(1)));
+      li.appendChild(el("b", null, "If " + x[0]));
       li.appendChild(el("span", null, x[1].charAt(0).toUpperCase() + x[1].slice(1) + "."));
       ul.appendChild(li);
     });

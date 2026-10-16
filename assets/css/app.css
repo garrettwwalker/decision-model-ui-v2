@@ -183,7 +183,7 @@ body.app { min-height: 100vh; }
   margin: 0; color: var(--tone, var(--fg));
   font-size: clamp(2.2rem, 4.6vw, 3.9rem); font-weight: 800; letter-spacing: -0.05em; line-height: 0.92;
 }
-.section__note { margin: 0 0 0.35rem; font-size: 0.92rem; color: var(--fg-2); max-width: 30rem; }
+.section__note { margin: 0 0 0.35rem; font-size: 0.92rem; color: var(--fg-2); max-width: 30rem; text-shadow: 0 0 3px var(--void), 0 0 14px var(--void); } /* a dark halo: these notes sit on the sky, and bright haze would wash them to 3:1 */
 @media (max-width: 760px) { .section__head { grid-template-columns: minmax(0, 1fr); } }
 
 /* ---------- Panels ---------- */
