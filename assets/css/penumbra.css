@@ -36,9 +36,12 @@
   --focus: var(--a-yellow);
   --line: rgba(236, 238, 242, 0.1);
   --line-strong: rgba(236, 238, 242, 0.2);
-  --shadow-card: 0 24px 50px -30px rgba(0, 0, 0, 0.9);
-  /* cards stand a step off the night on a solid, slightly lighter fill alone: no outline, no top highlight */
-  --card: #1a1d24;
+  --shadow-card: none; /* a black shadow on a black ground does nothing */
+  /* cards are dark glass: a lighter, part-clear fill over a blur, so stars and nebula show faintly through; no outline, no top highlight.
+     Over plain black it lands near the old solid #1a1d24 */
+  --card: rgba(30, 33, 42, 0.76);
+  --card-low: rgba(24, 27, 34, 0.72); /* the engine's sub-question tiles, a step below the question */
+  --glass: blur(14px);
   --card-rim: transparent; /* no outline (the user didn't like them); kept as a 1px border so the hover ring still sits on the edge */
 
   background: var(--void);
@@ -281,6 +284,7 @@ main, .footer { position: relative; z-index: 2; }
 .spot.is-lit::before { opacity: 1; }
 
 /* dark glass in place of white paper; no pins */
+.pn .note, .swan, .split__q, .part, .contact__form { -webkit-backdrop-filter: var(--glass); backdrop-filter: var(--glass); }
 .pn .note {
   background: var(--card);
   border: 1px solid var(--card-rim);
@@ -309,7 +313,7 @@ main, .footer { position: relative; z-index: 2; }
 .thesis__setup p + p { margin-top: 0.6em; }
 .thesis__setup .thesis__lull { font-weight: 400; }
 .watch { margin: 0; padding: 1.4rem 1.5rem 1.3rem; }
-.watch__head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1.5px dashed var(--line-strong); }
+.watch__head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--line); }
 .watch__title { font-size: var(--fs-small); font-weight: 700; }
 .watch__count { font-size: var(--fs-micro); font-weight: 600; color: var(--moon-3); font-variant-numeric: tabular-nums; }
 .watch__body { transition: opacity 0.35s ease; }
@@ -325,8 +329,7 @@ main, .footer { position: relative; z-index: 2; }
 }
 .watch.is-up .watch__bar i { background: var(--safe); box-shadow: 0 0 12px rgba(255, 213, 107, 0.5); }
 .watch__pct { font-size: 0.9rem; color: var(--moon-2); }
-.watch__pct b { font-size: 1.15rem; color: var(--loss); font-variant-numeric: tabular-nums; }
-.watch.is-up .watch__pct b { color: var(--safe); }
+.watch__pct b { font-size: 1.15rem; color: var(--moon); font-variant-numeric: tabular-nums; }
 .watch__facts { margin: 0; display: grid; gap: 0.55rem; font-size: 0.9rem; }
 .watch__facts div { display: grid; grid-template-columns: 5.5rem 1fr; gap: 0.75rem; }
 .watch__facts dt { color: var(--moon-3); font-weight: 600; }
@@ -362,7 +365,7 @@ main, .footer { position: relative; z-index: 2; }
 .split__q { background: var(--card); border: 1px solid var(--card-rim); box-shadow: var(--shadow-card); }
 .split__q strong { font-size: 1.15rem; line-height: 1.3; letter-spacing: -0.02em; }
 .split__parts { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.9rem; position: relative; }
-.part { background: #16191f; border: 1px solid var(--card-rim); display: grid; gap: 0.2rem; align-content: start; }
+.part { background: var(--card-low); border: 1px solid var(--card-rim); display: grid; gap: 0.2rem; align-content: start; }
 .part strong { font-size: 0.95rem; line-height: 1.3; letter-spacing: -0.01em; }
 .part__p { font-size: 1.95rem; font-weight: 800; letter-spacing: -0.05em; line-height: 1; margin-top: 0.4rem; font-variant-numeric: tabular-nums; }
 .split__fused { /* the one answer: ringed in amber light */
@@ -384,9 +387,7 @@ main, .footer { position: relative; z-index: 2; }
   gap: 1.5rem; margin-top: 3.5rem; max-width: 76rem; align-items: stretch; /* squared up: equal heights, no stagger */
 }
 .mode { display: flex; flex-direction: column; gap: 0.85rem; }
-.mode__for { margin: 0; color: var(--a-yellow); }
-.mode:nth-child(2) .mode__for { color: var(--a-rose); }
-.mode:nth-child(3) .mode__for { color: var(--a-pink); }
+.mode__for { margin: 0; color: var(--moon-3); } /* quiet: on this page only the answer is lit (the fused forecast, the best moon, the money a card protects) */
 .mode .h3 .w.on { color: var(--moon); }
 .mode__desc { margin: 0; color: var(--moon-2); font-size: 0.95rem; }
 .mode .btn { align-self: flex-start; margin-top: auto; } /* every card's button on one line */
@@ -404,7 +405,7 @@ main, .footer { position: relative; z-index: 2; }
 }
 .pv-fan { width: 100%; height: auto; margin-top: 0.3rem; }
 .pv-team__row { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 0.5rem; align-items: center; padding: 0.4rem 0; color: var(--moon-2); }
-.pv-team__row + .pv-team__row { border-top: 1px dashed var(--line-strong); }
+.pv-team__row + .pv-team__row { border-top: 1px solid var(--line); }
 .pv-team__row span:nth-child(2) { line-height: 1.3; } /* wraps rather than truncating in narrow cards */
 .pv-st { padding: 0.1rem 0.45rem; border-radius: 999px; font-size: 0.68rem; font-weight: 800; box-shadow: inset 0 0 0 1.5px var(--line-strong); color: var(--moon-2); }
 .pv-st--done { background: rgba(255, 213, 107, 0.14); color: var(--safe); box-shadow: none; }
@@ -488,7 +489,10 @@ main, .footer { position: relative; z-index: 2; }
 }
 .swan h3 { margin: 0; font-size: 1.2rem; line-height: 1.2; letter-spacing: -0.02em; }
 .swan p { margin: 0; font-size: 0.92rem; color: var(--moon-2); }
-.swan__flag { align-self: flex-start; color: var(--a-gold) !important; border: 1px solid rgba(255, 210, 90, 0.45); border-radius: 999px; padding: 0.2rem 0.6rem; }
+/* each card leads with its probability, set like the engine tiles' figures; the heading above already says these aren't on a watchlist */
+.swan .swan__p { margin: 0 0 0.35rem; display: grid; gap: 0.3rem; }
+.swan__p b { color: var(--moon); font-size: 1.95rem; font-weight: 800; letter-spacing: -0.05em; line-height: 1; font-variant-numeric: tabular-nums; }
+.swan__p span { font-size: 0.8rem; color: var(--moon-3); }
 .swan__stats { margin: auto 0 0; padding-top: 0.75rem; border-top: 1px solid var(--line); display: grid; gap: 0.5rem; }
 .swan__stats div { display: flex; justify-content: space-between; gap: 1rem; font-size: 0.8rem; }
 .swan__stats dt { color: var(--moon-3); font-size: 0.8rem; }
@@ -529,17 +533,17 @@ main, .footer { position: relative; z-index: 2; }
 .rigor__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; max-width: 76rem; align-items: stretch; }
 .rigor__grid .note { display: flex; flex-direction: column; gap: 0.75rem; }
 .rigor__h { font-size: 1.3rem; }
-.rigor__foot { margin: auto 0 0; padding-top: 0.75rem; border-top: 1px dashed var(--line-strong); font-size: 0.72rem; color: var(--moon-3); }
+.rigor__foot { margin: auto 0 0; padding-top: 0.75rem; border-top: 1px solid var(--line); font-size: 0.72rem; color: var(--moon-3); }
 .rigor__note { margin: 2.5rem 0 0; font-size: var(--fs-micro); color: var(--moon-3); }
 .rigor__note .w.on { color: var(--moon-3); }
 .calib { width: 100%; max-width: 260px; margin: 0.25rem auto; overflow: visible; }
 .calib .draw { filter: drop-shadow(0 0 5px rgba(255, 224, 122, 0.45)); }
 .horizon { width: 100%; max-width: 280px; margin: 0.25rem auto; overflow: visible; }
-.horizon__lab { font: 700 9px var(--font); }
-.horizon__ax { font: 500 8px var(--font); fill: var(--moon-3); }
+.horizon__lab { font: 700 10px var(--font); }
+.horizon__ax { font: 500 9px var(--font); fill: var(--moon-3); } /* about 11px on screen */
 .prov { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.55rem; font-size: 0.82rem; }
 .prov li { display: grid; grid-template-columns: 3rem 1fr; gap: 0.5rem; color: var(--moon-2); }
-.prov .mono { color: var(--a-yellow); font-size: 0.75rem; }
+.prov .mono { color: var(--moon-3); font-size: 0.75rem; }
 @media (max-width: 960px) {
   .rigor__grid { grid-template-columns: minmax(0, 1fr); max-width: 34rem; }
   .rigor__lede { margin-left: 0; }
