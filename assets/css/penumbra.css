@@ -620,7 +620,7 @@ main, .footer { position: relative; z-index: 2; }
 }
 
 /* ---------- Contact: closes in a nebula ---------- */
-.contact { position: relative; overflow: hidden; padding: clamp(6rem, 14vh, 9rem) var(--gutter) clamp(18rem, 46vh, 28rem); }
+.contact { position: relative; overflow: hidden; padding: clamp(6rem, 14vh, 9rem) var(--gutter) clamp(7rem, 16vh, 10rem); }
 .contact__inner { display: flex; flex-wrap: wrap; gap: 3rem 4rem; align-items: flex-end; position: relative; z-index: 1; }
 .contact__title { font-size: clamp(3rem, 10vw, 8.5rem); }
 .contact__side { display: grid; gap: 1.5rem; width: min(100%, 24rem); }
