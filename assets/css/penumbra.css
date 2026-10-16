@@ -148,7 +148,7 @@ main, .footer { position: relative; z-index: 2; }
 }
 
 /* ---------- Headings: moonlight, solid (the accent stays in the graphics) ---------- */
-.h2, .contact__title, .how__title { color: var(--moon); }
+.h2, .contact__title { color: var(--moon); }
 .hero__after { color: #fff; }
 .split__num { color: #fff; }
 
