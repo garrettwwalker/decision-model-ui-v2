@@ -72,8 +72,11 @@
         <figure class="sat" aria-hidden="true">
           <svg viewBox="0 0 440 340" class="sat__svg">
             <defs>
-              <linearGradient id="daybreak-foil" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stop-color="#ffd27a"/><stop offset="0.55" stop-color="#e8913f"/><stop offset="1" stop-color="#9c4f24"/>
+              <linearGradient id="daybreak-metal" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#262a34"/><stop offset="0.3" stop-color="#9aa1b0"/><stop offset="0.42" stop-color="#e6e9ef"/><stop offset="0.64" stop-color="#8b92a1"/><stop offset="1" stop-color="#22262f"/>
+              </linearGradient>
+              <linearGradient id="daybreak-foil" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#5a2a12"/><stop offset="0.28" stop-color="#d9893a"/><stop offset="0.4" stop-color="#ffe3a6"/><stop offset="0.62" stop-color="#c4712c"/><stop offset="1" stop-color="#4e2410"/>
               </linearGradient>
               <linearGradient id="daybreak-glint" x1="0" y1="0" x2="1" y2="0">
                 <stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset="0.5" stop-color="#ffe9c4" stop-opacity="0.55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/>
@@ -83,23 +86,23 @@
             <path class="sat__orbit" d="M-10 292C120 214 300 120 450 52"/>
             <g class="sat__float">
               <g transform="rotate(-18 220 172)">
-                <path class="sat__strut" d="M150 172H190M250 172H290"/>
+                <path class="sat__strut" d="M150 168H198M242 168H290"/>
                 <g class="sat__panel">
                   <rect x="40" y="146" width="110" height="52" rx="2"/>
                   <rect x="290" y="146" width="110" height="52" rx="2"/>
                   <path class="sat__grid" d="M67.5 146V198 M95.0 146V198 M122.5 146V198 M40 172H150 M317.5 146V198 M345.0 146V198 M372.5 146V198 M290 172H400"/>
                 </g>
                 <g clip-path="url(#daybreak-panels)"><rect class="sat__glint" x="-60" y="120" width="60" height="110" fill="url(#daybreak-glint)"/></g>
-                <path class="sat__dish-stem" d="M226 128V112"/>
-                <ellipse class="sat__dish" cx="226" cy="104" rx="22" ry="7"/>
-                <path class="sat__dish-stem" d="M226 104L226 92"/>
-                <polygon class="sat__top" points="190,140 202,128 262,128 250,140"/>
-                <polygon class="sat__side" points="250,140 262,128 262,192 250,204"/>
-                <rect class="sat__body" x="190" y="140" width="60" height="64" rx="2"/>
-                <path class="sat__seam" d="M190 161H250M190 183H250"/>
-                <path class="sat__rod" d="M200 204L194 236"/>
-                <circle class="sat__tip" cx="194" cy="237" r="2"/>
-                <circle class="sat__light" cx="262" cy="128" r="2.6"/>
+                <path class="sat__boom" d="M241 196L261 213M212 226L206 250"/>
+                <g transform="rotate(40 264 215)"><ellipse class="sat__dish" cx="264" cy="215" rx="19" ry="7.5"/><ellipse class="sat__bowl" cx="264.6" cy="213.8" rx="15" ry="5.2"/><path class="sat__boom" d="M264.6 213.8V204"/><circle class="sat__tip" cx="264.6" cy="203" r="1.8"/></g>
+                <circle class="sat__tip" cx="206" cy="251" r="2"/>
+                <path class="sat__bus" d="M198 112V222A22 6 0 0 0 242 222V112Z"/>
+                <path class="sat__foil" d="M198 178A22 6 0 0 0 242 178V208A22 6 0 0 1 198 208Z"/>
+                <path class="sat__crinkle" d="M203 188l4 3 3-2 5 4 4-1M222 184l3 4 4-1 2 5M207 199l5-2 3 3 6-1M226 197l4 2 3-3 4 2"/>
+                <path class="sat__ring" d="M198 136A22 6 0 0 0 242 136M198 158A22 6 0 0 0 242 158M198 178A22 6 0 0 0 242 178M198 208A22 6 0 0 0 242 208"/>
+                <ellipse class="sat__rim" cx="220" cy="112" rx="22" ry="6"/>
+                <ellipse class="sat__aperture" cx="220" cy="112" rx="16.5" ry="4.2"/>
+                <circle class="sat__light" cx="240" cy="111" r="2.4"/>
               </g>
             </g>
           </svg>

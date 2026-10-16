@@ -299,17 +299,20 @@ main, .footer { position: relative; z-index: 2; }
 .sat__orbit { fill: none; stroke: var(--moon); stroke-width: 1; opacity: 0.14; }
 .sat__float { transform-box: view-box; transform-origin: 220px 172px; animation: sat-float 11s ease-in-out infinite; filter: drop-shadow(0 0 18px rgba(255, 190, 120, 0.12)); }
 @keyframes sat-float { 0%, 100% { transform: translate(0, 0) rotate(0deg); } 50% { transform: translate(-4px, -9px) rotate(-1.5deg); } }
-.sat__strut, .sat__dish-stem, .sat__rod { fill: none; stroke: var(--moon-2); stroke-width: 2; stroke-linecap: round; }
+.sat__strut, .sat__boom { fill: none; stroke: var(--moon-2); stroke-width: 2; stroke-linecap: round; }
 .sat__panel rect { fill: #10131c; stroke: var(--moon-2); stroke-width: 1.4; }
 .sat__grid { fill: none; stroke: var(--moon-3); stroke-width: 0.9; opacity: 0.7; }
 .sat__glint { animation: sat-glint 7s ease-in-out infinite; }
 @keyframes sat-glint { 0%, 55% { transform: translateX(0); } 100% { transform: translateX(520px); } }
-.sat__dish { fill: #1a1d26; stroke: var(--moon-2); stroke-width: 1.4; }
-.sat__body { fill: url(#daybreak-foil); }
-.sat__top { fill: #ffe0a3; }
-.sat__side { fill: #7a3c1c; }
-.sat__seam { fill: none; stroke: #6b3418; stroke-width: 1; opacity: 0.6; }
+.sat__dish { fill: #c9ced8; }
+.sat__bowl { fill: #5d6472; } /* the dish's inner face, set off-centre so it reads concave */
 .sat__tip { fill: var(--moon); }
+.sat__bus { fill: url(#daybreak-metal); } /* a round, brushed-metal bus: shading across it and curved rings, so it reads as a cylinder */
+.sat__foil { fill: url(#daybreak-foil); }
+.sat__crinkle { fill: none; stroke: #fff1cf; stroke-width: 0.6; stroke-linejoin: round; opacity: 0.28; }
+.sat__ring { fill: none; stroke: #14171e; stroke-width: 1; opacity: 0.55; }
+.sat__rim { fill: #c9ced8; }
+.sat__aperture { fill: #06070b; }
 .sat__light { fill: var(--a-orange, #ff8a3d); animation: sat-blink 3.2s steps(1) infinite; }
 @keyframes sat-blink { 0%, 88% { opacity: 0.25; } 89%, 100% { opacity: 1; filter: drop-shadow(0 0 4px #ffb36b); } }
 @media (prefers-reduced-motion: reduce) { .sat__float, .sat__glint, .sat__light { animation: none; } }
