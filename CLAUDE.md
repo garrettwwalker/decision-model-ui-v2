@@ -20,7 +20,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   2026-10-16): `--accent` (controls, selection, the lit answer, anything good: protected money, done, healthy),
   `--good` (a paler accent for good beside the accent), `--alert` (money at risk, losses, overload, late),
   `--alert-2` (softer warnings), and moonlight for everything else ("yours", e.g. your plan in a chart, is plain
-  white). Brief `sky-warm`: amber / pale gold / coral. Memo `sky-deep`: sky blue / aqua / coral. Workflows
+  white). Brief `sky-warm`: amber / pale gold / coral. Memo `sky-green` (green nebula, green-black ground): mint / pale mint / coral. Workflows
   `sky-plum`: violet / lilac / red-rose. Workbench (the defaults): blue / pale cyan / orange-coral. Ask
   `sky-violet`: periwinkle / pale periwinkle / pink. The older names the page rules use (`--blue`, `--teal`,
   `--rose`, `--gold`, `--violet`, `--ember`, `--safe`, `--loss` ...) are aliases redefined on `.t-night`, and tints
@@ -43,8 +43,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   blurred; it slides up a third of a screen over the page's scroll) under a starfield that twinkles and drifts
   slightly (~15fps, paused when hidden). Both still under reduced motion. Each page has its own sky in `SKIES`
   (seed, color ramp, peak opacity, gamma), every one rendered against stand-in cards before it was chosen: the brief
-  warm amber-orange (first light; gamma 1.35 so only dense cores glow, since thin orange reads brown), the memo deep
-  blue and teal, workflows violet with red running through it (`sky-plum`: plum-black ground), the workbench blue and cyan, ask violet and blue and the
+  warm amber-orange (first light; gamma 1.35 so only dense cores glow, since thin orange reads brown), the memo green, workflows violet with red running through it (`sky-plum`: plum-black ground), the workbench blue and cyan, ask violet and blue and the
   quietest. Only the sky changes per page; the data colors mean the same thing everywhere. The brief's body also
   has `sky-warm`: warm-black ground and neutral glass. It replaced the dawn site's drifting clouds (`sky.js`).
 - `memo.html` + `assets/js/memo.js` is a sample strategic options memo, dated Wed 7 Oct, answering the CEO's

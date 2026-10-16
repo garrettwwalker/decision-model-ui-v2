@@ -12,7 +12,7 @@
   // dark and lets only the dense cores glow (the brief's orange turns brown when it's spread thin).
   var SKIES = {
     "briefing.html": { seed: 0, a: 0.7, gam: 1.35, hues: [[255, 105, 35], [255, 150, 50], [255, 85, 60], [255, 120, 40]] },  // warm: first light
-    "memo.html": { seed: 13, a: 0.55, gam: 1, hues: [[50, 110, 240], [62, 224, 184], [74, 168, 255], [40, 170, 200]] },      // deep blue and teal: for reading
+    "memo.html": { seed: 13, a: 0.58, gam: 1.15, hues: [[50, 200, 120], [90, 225, 170], [40, 160, 130], [140, 225, 110]] }, // green: for reading
     "team.html": { seed: 66, a: 0.65, gam: 1.25, hues: [[150, 70, 235], [240, 45, 85], [205, 55, 165], [255, 60, 70]] },     // violet with red running through it
     "workbench.html": { seed: 90, a: 0.55, gam: 1, hues: [[74, 168, 255], [80, 210, 255], [110, 140, 255], [74, 168, 255]] }, // blue and cyan: technical
     "ask.html": { seed: 27, a: 0.45, gam: 1, hues: [[169, 139, 255], [90, 140, 255], [140, 120, 255], [110, 150, 255]] }     // violet and blue, the quietest

@@ -117,9 +117,12 @@ body.app { min-height: 100vh; }
 }
 .t-night.sky-plum { --void: #0a060c; --space: #120b14; --card: rgba(26, 22, 32, 0.7); --card-solid: #1c1722; --cream: #221b28; --mist: #19141e; }
 .t-night.sky-plum .bar { background: rgba(10, 6, 12, 0.74); }
-.t-night.sky-deep { /* sample memo: deep blue and teal sky; sky-blue accent, aqua good, coral alert */
-  --accent: #5ab8ff; --good: #7fe0ea; --alert: #ff8a7a; --alert-2: #ffb09e;
+.t-night.sky-green { /* sample memo: green sky; mint accent, pale mint good, coral alert. Good is much paler than alert,
+                         so the pair still separates for red-green color blindness (and every figure is labelled) */
+  --accent: #5fdc9a; --good: #bff2d6; --alert: #ff7f62; --alert-2: #ffb08f;
+  --void: #060b0a; --space: #0b1412; --card: rgba(20, 27, 26, 0.7); --card-solid: #16201e; --cream: #1b2624; --mist: #141d1b;
 }
+.t-night.sky-green .bar { background: rgba(6, 11, 10, 0.74); }
 .t-night.sky-violet { /* ask: violet and blue sky; periwinkle accent, pale periwinkle good, pink alert */
   --accent: #9fb2ff; --good: #c8d2ff; --alert: #ff8fa8; --alert-2: #ffb6c6;
 }
