@@ -10,16 +10,58 @@ body.app { min-height: 100vh; }
 }
 .skip:focus { top: 1rem; }
 
-/* ---------- Night: the one ground every product page uses ---------- */
+/* ---------- Night: the one ground every product page uses ----------
+   The landing keeps its warm eclipse palette; the product tour takes its colors from the logo's ring instead, so
+   the data reads with more variety: blue for controls and selection, teal for money protected, rose for money at
+   risk, violet for what you changed or chose, gold only for warnings. Every alias the page rules use is redefined
+   here, because a var() inside a custom property resolves where it is declared. */
 .t-night {
-  --ctl: var(--a-amber);
-  --ctl-soft: rgba(255, 170, 64, 0.28);
-  --focus: var(--a-yellow);
+  --blue: #4aa8ff;
+  --teal: #3ee0b8;
+  --rose: #ff5f8f;
+  --violet: #a98bff;
+  --gold: #ffc85a;
+  --void: #070a14;       /* deep blue-black, under a nebula haze (space.js) */
+  --space: #0b1020;
+  --moon-2: #b3bccd;
+  --moon-3: #8f9ab0; /* a step lighter than the landing's: labels stay 4.5:1 even where bright haze shows through the glass */
+  --ink-2: var(--moon-2);
+  --ink-3: var(--moon-3);
+  --card: rgba(22, 28, 48, 0.7); /* the haze shows through, softened by the blur */
+  --paper: var(--card);
+  --card-solid: #131a2c;
+  --card-low: rgba(220, 230, 255, 0.045);
+  --cream: #182036;
+  --mist: #121a2e;
+  --loss: var(--rose);
+  --loss-tint: rgba(255, 95, 143, 0.15);
+  --safe: var(--teal);
+  --safe-tint: rgba(62, 224, 184, 0.14);
+  --warn: var(--gold);
+  --warn-tint: rgba(255, 200, 90, 0.14);
+  --ember: var(--blue);
+  --ember-deep: var(--violet);
+  --amber: var(--gold);
+  --dawn: var(--blue);
+  --dawn-deep: var(--violet);
+  --dawn-pale: rgba(74, 168, 255, 0.14);
+  --dawn-rose: var(--rose);
+  --a-amber: var(--blue);
+  --a-orange: var(--violet);
+  --a-gold: var(--gold);
+  --a-yellow: #8fc8ff;
+  --a-pink: var(--violet);
+  --a-rose: var(--rose);
+  --ctl: var(--blue);
+  --ctl-soft: rgba(74, 168, 255, 0.3);
+  --focus: var(--blue);
   --fg: var(--moon);
   --fg-2: var(--moon-2);
   --panel: var(--card);
   --panel-solid: var(--card-solid); /* diagrams that draw pre-blended colors sit on this */
-  --panel-line: rgba(236, 238, 242, 0.1);
+  --panel-line: rgba(220, 230, 255, 0.1);
+  --line: rgba(220, 230, 255, 0.1);
+  --line-strong: rgba(220, 230, 255, 0.2);
   --tone: var(--moon); /* section titles: solid moonlight, as on the landing */
   color: var(--fg);
   background: var(--void);
@@ -28,14 +70,14 @@ body.app { min-height: 100vh; }
 /* Instruments: code, logs and terminals, set a step darker than the panels */
 .instrument {
   --ctl: var(--a-amber);
-  --ctl-soft: rgba(255, 170, 64, 0.28);
+  --ctl-soft: rgba(74, 168, 255, 0.28);
   --fg: var(--moon);
   --fg-2: var(--moon-2);
-  --panel: #0b0c10;
-  --panel-solid: #0b0c10;
+  --panel: #0a0e1a;
+  --panel-solid: #0a0e1a;
   --panel-line: rgba(236, 238, 242, 0.08);
   color: var(--fg);
-  background: #0b0c10;
+  background: #0a0e1a;
   border: 1px solid rgba(236, 238, 242, 0.08);
   border-radius: var(--radius);
   padding: clamp(1rem, 2vw, 1.4rem);
@@ -54,7 +96,7 @@ body.app { min-height: 100vh; }
   -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(14px);
 }
-.t-night .bar { background: rgba(7, 8, 11, 0.72); box-shadow: 0 1px 0 rgba(236, 238, 242, 0.08); }
+.t-night .bar { background: rgba(7, 10, 20, 0.72); box-shadow: 0 1px 0 rgba(220, 230, 255, 0.08); }
 .bar .wordmark { font-size: 1.3rem; }
 
 .tabs { display: flex; gap: 1.75rem; }
@@ -71,7 +113,7 @@ body.app { min-height: 100vh; }
 .tabs a[aria-current="page"]::after { /* a small point of light under the current page */
   content: ""; position: absolute; left: 50%; bottom: 4px;
   width: 6px; height: 6px; border-radius: 50%; transform: translateX(-50%);
-  background: var(--a-gold); box-shadow: 0 0 8px rgba(255, 210, 90, 0.7);
+  background: var(--blue); box-shadow: 0 0 8px rgba(74, 168, 255, 0.8);
 }
 
 .bar__meta { margin: 0; display: grid; justify-items: end; line-height: 1.25; font-size: 0.8rem; }
@@ -119,7 +161,7 @@ body.app { min-height: 100vh; }
   border-radius: var(--radius);
   padding: clamp(1rem, 2vw, 1.5rem);
 }
-.panel.instrument { background: #0b0c10; }
+.panel.instrument { background: #0a0e1a; }
 
 .panel__title { margin: 0 0 0.9rem; font-size: 1.05rem; font-weight: 800; letter-spacing: -0.02em; }
 .panel__title .eyebrow { display: block; margin-bottom: 0.3rem; color: var(--fg-2); font-weight: 500; }
@@ -218,8 +260,8 @@ input[type="range"]:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 4px 
   border-radius: 8px; border: 1px solid var(--panel-line); background: rgba(255, 255, 255, 0.04);
   font-size: 0.875rem; font-variant-numeric: tabular-nums; color: var(--fg);
 }
-.num-input:focus-visible { outline: none; border-color: rgba(255, 210, 90, 0.6); box-shadow: 0 0 0 3px rgba(255, 210, 90, 0.1), 0 0 22px -4px rgba(255, 210, 90, 0.45); } /* the landing's gold focus glow */
-.num-input.is-changed { border-color: rgba(255, 170, 64, 0.7); background: rgba(255, 170, 64, 0.08); }
+.num-input:focus-visible { outline: none; border-color: rgba(74, 168, 255, 0.6); box-shadow: 0 0 0 3px rgba(74, 168, 255, 0.1), 0 0 22px -4px rgba(74, 168, 255, 0.45); } /* the landing's gold focus glow */
+.num-input.is-changed { border-color: rgba(74, 168, 255, 0.7); background: rgba(74, 168, 255, 0.08); }
 
 /* ---------- Toast ---------- */
 .toast {
@@ -240,7 +282,12 @@ input[type="range"]:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 4px 
 }
 .app-foot a { color: inherit; }
 
-/* ---------- Starfield: a fixed canvas drawn by space.js, kept faint so data stays the brightest thing ---------- */
+/* ---------- Sky: a nebula haze and a starfield, fixed canvases drawn by space.js ---------- */
 .stars { position: fixed; inset: 0; z-index: 0; width: 100%; height: 100%; pointer-events: none; }
+.haze { /* painted at 200px wide; the stretch and the blur make it soft. Taller than the screen so it can slide on scroll */
+  position: fixed; left: -5vw; top: -5vh; z-index: 0; width: 110vw; height: 150vh; pointer-events: none;
+  filter: blur(16px); opacity: 0; transition: opacity 1.2s ease; will-change: transform;
+}
+.haze.is-ready { opacity: 1; }
 .bar, .page, .app-foot, .ask { position: relative; z-index: 1; }
 .bar { position: sticky; z-index: 40; }

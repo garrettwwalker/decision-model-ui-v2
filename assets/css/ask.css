@@ -47,7 +47,7 @@
   content: ""; position: absolute; left: 0; top: 0.2rem;
   width: 1.5rem; height: 1.5rem; border-radius: 50%;
   background: var(--void);
-  box-shadow: 0 0 0 1.5px #ffd9a0, 0 0 14px rgba(255, 130, 80, 0.6);
+  box-shadow: 0 0 0 1.5px #cfe6ff, 0 0 14px rgba(74, 168, 255, 0.6);
 }
 .msg--model p { margin: 0; font-size: 1.02rem; }
 .msg--model p + p { margin-top: 0.6rem; }
@@ -67,12 +67,12 @@
 }
 .followup:hover { color: var(--fg); border-color: var(--line-strong); }
 .typing { display: flex; gap: 6px; padding: 0.55rem 0 0.55rem 2.6rem; position: relative; }
-.typing::before { content: ""; position: absolute; left: 0; top: 0.35rem; width: 1.5rem; height: 1.5rem; border-radius: 50%; background: var(--void); box-shadow: 0 0 0 1.5px #ffd9a0, 0 0 10px rgba(255, 130, 80, 0.45); animation: glow 1.2s ease-in-out infinite; }
+.typing::before { content: ""; position: absolute; left: 0; top: 0.35rem; width: 1.5rem; height: 1.5rem; border-radius: 50%; background: var(--void); box-shadow: 0 0 0 1.5px #cfe6ff, 0 0 10px rgba(74, 168, 255, 0.45); animation: glow 1.2s ease-in-out infinite; }
 .typing span { width: 7px; height: 7px; border-radius: 50%; background: var(--fg-2); animation: dot 1s infinite ease-in-out; }
 .typing span:nth-child(2) { animation-delay: 0.15s; }
 .typing span:nth-child(3) { animation-delay: 0.3s; }
 @keyframes dot { 0%, 80%, 100% { opacity: 0.25; } 40% { opacity: 1; } }
-@keyframes glow { 50% { box-shadow: 0 0 0 1.5px #ffe6b8, 0 0 24px rgba(255, 130, 80, 0.8); } }
+@keyframes glow { 50% { box-shadow: 0 0 0 1.5px #eef6ff, 0 0 24px rgba(74, 168, 255, 0.8); } }
 
 /* ---------- Assumptions ---------- */
 .ctx {
@@ -86,7 +86,7 @@
 .ctx__list { margin: 0; display: grid; gap: 0.8rem; }
 .ctx__list dt { font-size: var(--fs-small); color: var(--fg-2); }
 .ctx__list dd { margin: 0.1rem 0 0; font-weight: 700; }
-.ctx__list dd.is-changed { color: var(--a-gold); }
+.ctx__list dd.is-changed { color: var(--violet); }
 .ctx__note { margin: 1rem 0 0; font-size: var(--fs-small); color: var(--fg-2); }
 .ctx__actions { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
 
@@ -106,7 +106,7 @@
 .composer__input { border: 0; background: transparent; min-height: 44px; font-size: 1rem; color: var(--ink); min-width: 0; }
 .composer__input::placeholder { color: var(--moon-3); }
 .composer__input:focus-visible { outline: none; }
-.composer:has(.composer__input:focus) { border-color: rgba(255, 210, 90, 0.6); box-shadow: 0 0 0 3px rgba(255, 210, 90, 0.1), 0 0 22px -4px rgba(255, 210, 90, 0.45); } /* the landing's gold focus glow */
+.composer:has(.composer__input:focus) { border-color: rgba(74, 168, 255, 0.6); box-shadow: 0 0 0 3px rgba(74, 168, 255, 0.1), 0 0 22px -4px rgba(74, 168, 255, 0.45); } /* the landing's gold focus glow */
 .composer__send {
   width: 44px; height: 44px; border-radius: 50%; border: 0; cursor: pointer;
   display: grid; place-items: center; background: var(--ink); color: var(--on-ink);
@@ -154,7 +154,7 @@
   min-height: 38px; padding: 0.35rem 0.6rem; border: 0; border-radius: 10px; background: rgba(236, 238, 242, 0.06); color: var(--ink); font: 500 0.84rem var(--font);
 }
 .qopts textarea { width: 100%; resize: vertical; line-height: 1.45; }
-.qopts select:focus-visible, .qopts input:focus-visible, .qopts textarea:focus-visible { outline: none; border-color: rgba(255, 210, 90, 0.6); box-shadow: 0 0 0 3px rgba(255, 210, 90, 0.1), 0 0 22px -4px rgba(255, 210, 90, 0.45); }
+.qopts select:focus-visible, .qopts input:focus-visible, .qopts textarea:focus-visible { outline: none; border-color: rgba(74, 168, 255, 0.6); box-shadow: 0 0 0 3px rgba(74, 168, 255, 0.1), 0 0 22px -4px rgba(74, 168, 255, 0.45); }
 .qlink { justify-self: start; border: 0; background: none; padding: 0.15rem 0; min-height: 30px; cursor: pointer; font: 700 0.78rem var(--font); color: inherit; text-decoration: underline; text-decoration-color: rgba(236, 238, 242, 0.3); text-underline-offset: 3px; }
 .qfiles { display: flex; flex-wrap: wrap; gap: 0.3rem; }
 .qfiles:empty { display: none; }
@@ -168,7 +168,7 @@
 .qopt__hint { margin: 0; font-size: 0.72rem; color: var(--moon-3); }
 .qsources { display: grid; grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr)); gap: 0.3rem; }
 .qsrc { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0.5rem; align-items: center; padding: 0.4rem 0.6rem; border-radius: 10px; background: rgba(236, 238, 242, 0.04); cursor: pointer; }
-.qsrc.is-on { background: rgba(255, 170, 64, 0.1); }
+.qsrc.is-on { background: rgba(74, 168, 255, 0.1); }
 .qsrc input { width: 16px; height: 16px; accent-color: var(--a-amber); }
 .qsrc span { display: grid; }
 .qsrc b { font-size: 0.78rem; }
@@ -181,8 +181,8 @@
 /* ---------- What a question carried, and how the Totality engine will keep running it ---------- */
 .msg__tags { display: flex; flex-wrap: wrap; gap: 0.25rem; margin-top: 0.45rem; }
 .msg__tags span { padding: 0.1rem 0.5rem; border-radius: 999px; background: rgba(236, 238, 242, 0.08); font-size: 0.72rem; font-weight: 700; }
-.track { margin-top: 1rem; padding: 0.85rem 1rem; border-radius: 14px; background: rgba(255, 170, 64, 0.08); box-shadow: inset 0 0 0 1px rgba(255, 170, 64, 0.28); }
-.track__title { margin: 0 0 0.5rem !important; font-size: 0.82rem !important; font-weight: 800; color: var(--a-gold); }
+.track { margin-top: 1rem; padding: 0.85rem 1rem; border-radius: 14px; background: rgba(74, 168, 255, 0.08); box-shadow: inset 0 0 0 1px rgba(74, 168, 255, 0.28); }
+.track__title { margin: 0 0 0.5rem !important; font-size: 0.82rem !important; font-weight: 800; color: var(--a-yellow); }
 .track__rows { margin: 0; display: grid; gap: 0.45rem; }
 .track__rows div { display: grid; grid-template-columns: 7.5rem minmax(0, 1fr); gap: 0.75rem; font-size: 0.86rem; }
 .track__rows dt { color: var(--fg-2); }

@@ -15,22 +15,29 @@ no tests. To preview, open `index.html` in a browser; there's no server.
 - Pages: `index.html` (landing), `briefing.html` (daily brief), `memo.html` ("sample memo"), `team.html` ("workflows" in the nav; team workflows for middle
   managers), `workbench.html` (world-model editor for data/IT) and `ask.html` (chat). `wargame.html` is only a
   redirect to `team.html`; the wargame it used to hold was replaced.
-- Every page shares the Penumbra landing's vocabulary (`t-night` on product pages): moon-dark ground (`--void`) under a
-  quiet fixed starfield (`space.js`), dark glass cards and panels (`--paper`/`--card`, part-clear over `--glass` blur,
-  no shadow, no outline, no pins, no tilt), moonlight type (`--ink` is now the moonlight text color and the fill of
-  selected controls, with `--on-ink` for text on it), solid hairlines (no dashes), section titles in solid moonlight,
-  and one warm accent kept for the answer (the fused forecast, the best route, a running playbook, the chosen option
-  are lit with an amber ring and glow). Labels stay `--moon-3`. Focused fields take the landing's gold glow.
-  Maps are dark (`#10131a` sea, `#1e222b` land). `.instrument` is only for code, a step darker than the panels.
+- Product pages (`t-night`, defined in `app.css`) share the landing's structure but not its warm palette: the user
+  found red and yellow everywhere monotonous and chose the logo ring's spectrum for the tour (2026-10-16). Blue
+  (`--blue`) for controls, selection and the lit answer (a blue ring with a blue-teal glow on the fused forecast,
+  the best route, a running playbook), teal (`--teal`) for money protected and healthy status, rose (`--rose`) for
+  money at risk, violet (`--violet`) for what you changed or chose ("mine" in charts), gold (`--gold`) only for
+  warnings and deadlines. `.t-night` redefines every alias the page rules use (`--ember` is blue, `--ember-deep`
+  violet, `--safe` teal, `--a-amber` blue ...), because a var() in a custom property resolves where it's declared.
+  Ground: deep blue-black (`#070a14`) under a nebula haze and stars (`space.js`), dark glass cards (`--card`,
+  70% over a blur so the haze shows softly through), moonlight type with `--moon-3` a step lighter than the
+  landing's so labels hold 4.5:1 over bright haze, solid hairlines, no pins, tilts, cargo tags or dashes. Maps:
+  navy sea `#122042`, slate land `#3a4763` with `#56658a` coasts, labels in moonlight on navy halos (the user found
+  black-on-gray maps unreadable). `.instrument` is only for code, a step darker than the panels.
 - `assets/css/base.css` holds shared tokens (the Penumbra palette; the old dawn names such as `--dawn`, `--ember`,
   `--paper` are aliases onto it) and components, including the logo mark (`.logo`); `app.css` the product-page
   chrome, and `landing.css`, `brief.css`, `memo.css`, `team.css`, `bench.css` and `ask.css` are per page.
 - `assets/js/model.js` is the single source of truth for every loss figure. The
   ask page and workbench run it live. The brief's numbers are static but were computed from
   it, so if you change `BASE`, recompute and update `briefing.html`. Money is in $M.
-- `assets/js/space.js` gives product pages the landing's starfield, quieter: `Space.stars()` adds a fixed canvas of
-  faint stars that twinkle slowly and drift a little against the scroll (~15fps, paused when hidden, still under
-  reduced motion). It replaced the dawn site's drifting clouds (`sky.js`, removed).
+- `assets/js/space.js` draws the product pages' sky (`Space.stars()`): a nebula haze (`.haze`: the landing's
+  domain-warped fractal noise in blue, violet and teal with dark dust lanes, painted once at 200px wide, stretched
+  to 110vw x 150vh and blurred; a per-page seed in `SEEDS`, picked by rendering; it slides up a third of a screen
+  over the page's scroll) under a starfield that twinkles and drifts slightly (~15fps, paused when hidden). Both
+  still under reduced motion. It replaced the dawn site's drifting clouds (`sky.js`, removed).
 - `memo.html` + `assets/js/memo.js` is a sample strategic options memo, dated Wed 7 Oct, answering the CEO's
   "How should we respond to the potential of new sanctions by the Trump Administration?" Static HTML holds the bottom
   line (key judgments with confidence, 41% ±7 by 6 Dec on an estimative-words scale) and the drivers tug-of-war
@@ -110,10 +117,9 @@ no tests. To preview, open `index.html` in a browser; there's no server.
 - Landing page: `landing.js` splits every text block below the hero into words that darken, in reading order, as they cross the
   reading line (`.w` / `.w.on`). Tiles (cards, tags, chain rows, bubbles, the form) are never split: each
   fades in whole (`.tile.on`) once its top crosses 85% of the viewport. Unread text color comes from `--unread`.
-- Palette tokens (`base.css`): `--void`, `--moon`/`--moon-2`/`--moon-3`, the warm accents `--a-pink` to `--a-yellow`
-  (`--ember` is amber). Money at risk uses `--loss` (rose-red) and protected money uses `--safe` (pale gold); `--warn`
-  for things running late. Green appears only for "done"/healthy status (the team card's Done pill, the workbench's
-  source-OK dot), at the user's request.
+- Palette tokens: `base.css` holds the landing's (`--void`, `--moon`/`--moon-2`/`--moon-3`, warm accents `--a-pink`
+  to `--a-yellow`; money at risk `--loss` rose-red, protected `--safe` pale gold; the landing's Done pill is green at
+  the user's request). `app.css`'s `.t-night` swaps in the product tour's logo-spectrum set (see above).
 
 ## Product messaging
 
@@ -155,8 +161,8 @@ capture of convodesign101.xyz, a Framer site). Per §2 of the standards below, m
 direction. Open the image before any UI work; it is 1895×19466, so view it in vertical slices.
 
 **User override (2026-10-16): the Penumbra landing is now the design system for the whole site.** Every page
-follows it (see Architecture): moon-dark ground, stars, dark glass cards, moonlight type, one warm accent from an
-eclipse's edge, solid hairlines. The convodesign capture and the dawn override (2026-10-06) below are history:
+follows its structure (see Architecture): dark ground, stars, dark glass cards, moonlight type, solid hairlines. The
+landing keeps its warm eclipse palette; the product tour uses the logo ring's spectrum with a blue-violet-teal haze. The convodesign capture and the dawn override (2026-10-06) below are history:
 keep their composition habits (offset left-hung headlines, narrow reading columns, scroll-read copy on the landing),
 not their sky-blue or dawn palette, clouds, pinned paper, tilted notes, cargo tags or dashed dividers.
 
