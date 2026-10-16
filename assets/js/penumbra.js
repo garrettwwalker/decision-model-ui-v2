@@ -59,7 +59,7 @@
 
   if (day && !reduceMotion) {
     day.querySelectorAll(BLOCKS).forEach(function (el) {
-      if (el.querySelector(BLOCKS) || el.closest(TILES))) return; // innermost free-standing text only
+      if (el.querySelector(BLOCKS) || el.closest(TILES)) return; // innermost free-standing text only
       var units = [];
       splitWords(el, units);
       if (units.length) reads.push({ el: el, units: units, n: -1 });
