@@ -12,6 +12,26 @@
   var hero = document.querySelector(".hero");
   var stage = document.querySelector(".hero__stage");
 
+  /* ---------- Keep the sun clear of the headlines (landscape screens) ----------
+     Measure where each headline line ends and move the eclipse right just far enough that the sun's curve clears
+     every line, at the height where that line comes closest to it. Same size sun; it may run off the right edge. */
+  function clearSun() {
+    stage.style.removeProperty("--ex");
+    if (window.innerWidth <= window.innerHeight) return; // portrait: the text sits above the sun
+    var ecl = stage.querySelector(".eclipse").getBoundingClientRect(), st = stage.getBoundingClientRect();
+    var R = ecl.width / 2, cx = ecl.left + R, cy = ecl.top + R, need = cx, pad = Math.max(24, window.innerWidth * 0.02);
+    stage.querySelectorAll(".hero__title:not(.hero__title--ink) > span, .hero__after > span").forEach(function (ln) {
+      var r = ln.getBoundingClientRect(), inset = r.height * 0.1;
+      var y = Math.max(r.top + inset, Math.min(r.bottom - inset + 30, cy)); // +30: the second line rises 30px as it appears
+      var d = y - cy;
+      if (Math.abs(d) < R) need = Math.max(need, r.right + pad + Math.sqrt(R * R - d * d));
+    });
+    if (need > cx + 0.5) stage.style.setProperty("--ex", (need - st.left).toFixed(1) + "px");
+  }
+  clearSun();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(clearSun);
+  window.addEventListener("resize", clearSun);
+
   function heroFrame() {
     var r = hero.getBoundingClientRect();
     var span = hero.offsetHeight - window.innerHeight;
