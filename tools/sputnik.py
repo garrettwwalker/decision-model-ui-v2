@@ -7,7 +7,7 @@ import math, re, sys
 
 R = 33.0                      # sphere radius in px
 PX_PER_M = 2 * R / 0.58
-MOUNT_POLAR = 50.0            # mounts: degrees from the nose, on the front hemisphere
+MOUNT_POLAR = 60.0            # mounts: degrees from the nose; a rod swept back 35 degrees clears the hull only from 55 on
 SWEEP = 35.0                  # each antenna's angle to the backward axis
 ROLL = 30.0                   # roll about the axis, so no two antennas overlap in this view
 LENGTHS = [2.4, 2.9, 2.4, 2.9]  # opposite antennas pair up
@@ -100,6 +100,7 @@ svg = f'''          <svg viewBox="0 0 {VBW} {VBH}" class="spk__svg">
               <path class="spk__rim" d="M{f(r1x)} {f(r1y)}A{f(R - 1)} {f(R - 1)} 0 0 1 {f(r2x)} {f(r2y)}"/>
               <path class="spk__seam" d="{seam_d}"/>
               {bolts}
+              <path class="spk__ant spk__ant--case" d="{ant_d}"/>
               <path class="spk__ant" d="{ant_d}"/>
               {sockets}
             </g>
