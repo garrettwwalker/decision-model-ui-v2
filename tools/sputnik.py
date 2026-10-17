@@ -64,7 +64,10 @@ def runs(pts):
     if len(cur) > 1: out.append(cur)
     return " ".join(f"M{f(S(r[0])[0])} {f(S(r[0])[1])}L{f(S(r[-1])[0])} {f(S(r[-1])[1])}" for r in out)
 
-ant_d = " ".join(runs(pts) for _, pts in ants)
+# far antennas go under the ball, which hides them exactly at its edge; near ones go over it, clipped where hidden
+line = lambda pts: f"M{f(S(pts[0])[0])} {f(S(pts[0])[1])}L{f(S(pts[-1])[0])} {f(S(pts[-1])[1])}"
+back_d = " ".join(line(pts) for m, pts in ants if m[2] <= 0)
+front_d = " ".join(runs(pts) for m, pts in ants if m[2] > 0)
 sockets = "".join(f'<circle class="spk__socket" cx="{f(S(m)[0])}" cy="{f(S(m)[1])}" r="1.8"/>' for m, _ in ants if m[2] > 0)
 
 # the flange: a great circle at right angles to the flight axis, front half only; 36 bolts on it
@@ -87,7 +90,7 @@ rim = lambda deg: (cx + (R - 1) * math.cos(math.radians(deg)), cy + (R - 1) * ma
 svg = f'''          <svg viewBox="0 0 {VBW} {VBH}" class="spk__svg">
             <defs>
               <radialGradient id="daybreak-chrome" cx="0.34" cy="0.28" r="0.74">
-                <stop offset="0" stop-color="#ffffff"/><stop offset="0.08" stop-color="#f1f3f6"/><stop offset="0.34" stop-color="#a9afbb"/><stop offset="0.64" stop-color="#4a4f5b"/><stop offset="0.9" stop-color="#1b1d24"/><stop offset="1" stop-color="#101217"/>
+                <stop offset="0" stop-color="#ffffff"/><stop offset="0.08" stop-color="#f1f3f6"/><stop offset="0.34" stop-color="#a9afbb"/><stop offset="0.64" stop-color="#525865"/><stop offset="0.9" stop-color="#2c3039"/><stop offset="1" stop-color="#23262e"/>
               </radialGradient>
               <linearGradient id="daybreak-rimlight" gradientUnits="userSpaceOnUse" x1="{f(r1x)}" y1="{f(r1y)}" x2="{f(r2x)}" y2="{f(r2y)}">
                 <stop offset="0" stop-color="#ffb070" stop-opacity="0"/><stop offset="0.45" stop-color="#ffb070"/><stop offset="1" stop-color="#ffb070" stop-opacity="0"/>
@@ -96,12 +99,12 @@ svg = f'''          <svg viewBox="0 0 {VBW} {VBH}" class="spk__svg">
             <g class="spk__float" style="transform-origin: {f(cx)}px {f(cy)}px">
               <circle class="spk__pulse" cx="{f(cx)}" cy="{f(cy)}" r="{f(R)}"/>
               <circle class="spk__pulse spk__pulse--2" cx="{f(cx)}" cy="{f(cy)}" r="{f(R)}"/>
+              <path class="spk__ant" d="{back_d}"/>
               <circle class="spk__ball" cx="{f(cx)}" cy="{f(cy)}" r="{f(R)}"/>
               <path class="spk__rim" d="M{f(r1x)} {f(r1y)}A{f(R - 1)} {f(R - 1)} 0 0 1 {f(r2x)} {f(r2y)}"/>
               <path class="spk__seam" d="{seam_d}"/>
               {bolts}
-              <path class="spk__ant spk__ant--case" d="{ant_d}"/>
-              <path class="spk__ant" d="{ant_d}"/>
+              <path class="spk__ant" d="{front_d}"/>
               {sockets}
             </g>
           </svg>
