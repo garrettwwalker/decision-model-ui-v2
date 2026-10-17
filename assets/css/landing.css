@@ -292,34 +292,25 @@ main, .footer { position: relative; z-index: 2; }
 .thesis__setup p { margin: 0; line-height: 1.35; }
 .thesis__setup p + p { margin-top: 0.6em; }
 .thesis__setup .thesis__lull { font-weight: 400; }
-.watch { margin: 0; padding: 1.4rem 1.5rem 1.3rem; }
-.watch__head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--line); }
-.watch__title { font-size: var(--fs-small); font-weight: 700; }
-.watch__count { font-size: var(--fs-micro); font-weight: 600; color: var(--moon-3); font-variant-numeric: tabular-nums; }
-.watch__body { transition: opacity 0.35s ease; }
-.watch__body.is-out { opacity: 0; }
-.watch__event { margin: 0; font-size: 1.6rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1.15; min-height: 2.3em; }
-.watch__p { display: grid; gap: 0.45rem; margin: 0.9rem 0 1.1rem; }
-.watch__bar { height: 6px; border-radius: 6px; background: rgba(236, 238, 242, 0.08); overflow: hidden; }
-.watch__bar i {
-  display: block; height: 100%; width: 0; border-radius: 6px;
-  background: var(--loss);
-  box-shadow: 0 0 12px rgba(255, 107, 129, 0.5);
-  transition: width 0.9s cubic-bezier(.3,.7,.3,1);
-}
-.watch.is-up .watch__bar i { background: var(--safe); box-shadow: 0 0 12px rgba(255, 213, 107, 0.5); }
-.watch__pct { font-size: 0.9rem; color: var(--moon-2); }
-.watch__pct b { font-size: 1.15rem; color: var(--loss); /* matches the money figure: rose-red at risk, gold when protected */ font-variant-numeric: tabular-nums; }
-.watch.is-up .watch__pct b { color: var(--safe); }
-.watch__facts { margin: 0; display: grid; gap: 0.55rem; font-size: 0.9rem; }
-.watch__facts div { display: grid; grid-template-columns: 5.5rem 1fr; gap: 0.75rem; }
-.watch__facts dt { color: var(--moon-3); font-weight: 600; }
-.watch__facts dd { margin: 0; font-weight: 600; }
-.watch__value dd { font-size: 1.15rem; font-weight: 800; color: var(--loss); font-variant-numeric: tabular-nums; } /* the card's one accent */
-.watch.is-up .watch__value dd { color: var(--safe); }
+/* Sputnik keeping watch while the world sleeps: a polished sphere lit warm from below by the eclipse, four whip
+   antennas swept back, a slow drift and its radio beep as a ring that swells and fades; still under reduced motion */
+.spk { margin: 0 calc(var(--gutter) * -0.5) 0 0; }
+.spk__svg { display: block; width: 100%; height: auto; overflow: visible; }
+.spk__orbit { fill: none; stroke: var(--moon); stroke-width: 1; opacity: 0.14; }
+.spk__float { transform-box: view-box; transform-origin: 232px 150px; animation: spk-float 12s ease-in-out infinite; }
+@keyframes spk-float { 0%, 100% { transform: translate(0, 0) rotate(0deg); } 50% { transform: translate(-5px, -9px) rotate(-2deg); } }
+.spk__ant { fill: none; stroke: var(--moon-2); stroke-width: 1.6; stroke-linecap: round; }
+.spk__ball { fill: url(#daybreak-chrome); filter: drop-shadow(0 0 22px rgba(255, 200, 150, 0.14)); }
+.spk__rim { fill: none; stroke: url(#daybreak-rimlight); stroke-width: 3; opacity: 0.8; filter: blur(1px); } /* the eclipse's warm light catching the lower-left edge */
+.spk__seam { fill: none; stroke: #2a2d36; stroke-width: 1.2; opacity: 0.5; }
+.spk__pulse { fill: none; stroke: var(--a-amber, #ffb36b); stroke-width: 1.2; opacity: 0; transform-box: fill-box; transform-origin: center; animation: spk-beep 3.6s ease-out infinite; }
+.spk__pulse--2 { animation-delay: 0.45s; }
+@keyframes spk-beep { 0% { opacity: 0.45; transform: scale(1); } 70%, 100% { opacity: 0; transform: scale(1.9); } }
+@media (prefers-reduced-motion: reduce) { .spk__float, .spk__pulse { animation: none; } }
 @media (max-width: 860px) {
   .thesis { grid-template-columns: minmax(0, 1fr); row-gap: 2.5rem; }
   .thesis .thesis__setup { margin-left: 0; }
+  .spk { margin: 0 auto; max-width: 24rem; }
 }
 
 /* ---------- Engine ---------- */
