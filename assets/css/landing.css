@@ -296,10 +296,11 @@ main, .footer { position: relative; z-index: 2; }
    antennas swept back, a slow drift and its radio beep as a ring that swells and fades; still under reduced motion */
 .spk { margin: 0 calc(var(--gutter) * -0.5) 0 0; }
 .spk__svg { display: block; width: 100%; height: auto; overflow: visible; }
-.spk__orbit { fill: none; stroke: var(--moon); stroke-width: 1; opacity: 0.14; }
+.spk__orbit { fill: none; stroke: var(--moon); stroke-width: 1; opacity: 0.06; } /* barely there, so it never reads as a fifth antenna */
 .spk__float { transform-box: view-box; transform-origin: 232px 150px; animation: spk-float 12s ease-in-out infinite; }
 @keyframes spk-float { 0%, 100% { transform: translate(0, 0) rotate(0deg); } 50% { transform: translate(-5px, -9px) rotate(-2deg); } }
 .spk__ant { fill: none; stroke: var(--moon-2); stroke-width: 1.6; stroke-linecap: round; }
+.spk__socket { fill: #5d6370; stroke: #c9ced8; stroke-width: 0.8; } /* the two near mounts on the ring around the front; the far two are hidden by the ball */
 .spk__ball { fill: url(#daybreak-chrome); filter: drop-shadow(0 0 22px rgba(255, 200, 150, 0.14)); }
 .spk__rim { fill: none; stroke: url(#daybreak-rimlight); stroke-width: 3; opacity: 0.8; filter: blur(1px); } /* the eclipse's warm light catching the lower-left edge */
 .spk__seam { fill: none; stroke: #2a2d36; stroke-width: 1.2; opacity: 0.5; }
