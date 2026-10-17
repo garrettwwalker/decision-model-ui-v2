@@ -293,17 +293,17 @@ main, .footer { position: relative; z-index: 2; }
 .thesis__setup p + p { margin-top: 0.6em; }
 .thesis__setup .thesis__lull { font-weight: 400; }
 /* Sputnik keeping watch while the world sleeps: a polished sphere lit warm from below by the eclipse, four whip
-   antennas swept back, a slow drift and its radio beep as a ring that swells and fades; still under reduced motion */
+   antennas swept back 35 degrees (drawn by tools/sputnik.py from a 3D model), a slow drift and its radio beep as a ring that swells and fades; still under reduced motion */
 .spk { margin: 0 calc(var(--gutter) * -0.5) 0 0; }
 .spk__svg { display: block; width: 100%; height: auto; overflow: visible; }
-.spk__orbit { fill: none; stroke: var(--moon); stroke-width: 1; opacity: 0.06; } /* barely there, so it never reads as a fifth antenna */
-.spk__float { transform-box: view-box; transform-origin: 232px 150px; animation: spk-float 12s ease-in-out infinite; }
+.spk__float { transform-box: view-box; animation: spk-float 12s ease-in-out infinite; }
 @keyframes spk-float { 0%, 100% { transform: translate(0, 0) rotate(0deg); } 50% { transform: translate(-5px, -9px) rotate(-2deg); } }
-.spk__ant { fill: none; stroke: var(--moon-2); stroke-width: 1.6; stroke-linecap: round; }
-.spk__socket { fill: #5d6370; stroke: #c9ced8; stroke-width: 0.8; } /* the two near mounts on the ring around the front; the far two are hidden by the ball */
+.spk__ant { fill: none; stroke: var(--moon-2); stroke-width: 1.3; stroke-linecap: round; }
+.spk__socket { fill: #5d6370; stroke: #c9ced8; stroke-width: 0.8; } /* antenna mounts on the front hemisphere that face us */
 .spk__ball { fill: url(#daybreak-chrome); filter: drop-shadow(0 0 22px rgba(255, 200, 150, 0.14)); }
 .spk__rim { fill: none; stroke: url(#daybreak-rimlight); stroke-width: 3; opacity: 0.8; filter: blur(1px); } /* the eclipse's warm light catching the lower-left edge */
-.spk__seam { fill: none; stroke: #2a2d36; stroke-width: 1.2; opacity: 0.5; }
+.spk__seam { fill: none; stroke: #2a2d36; stroke-width: 0.9; opacity: 0.55; } /* the flange joining the hemispheres, square to the flight axis */
+.spk__bolt { fill: #23262e; opacity: 0.55; } /* 36 bolts on the flange; the front ones show */
 .spk__pulse { fill: none; stroke: var(--a-amber, #ffb36b); stroke-width: 1.2; opacity: 0; transform-box: fill-box; transform-origin: center; animation: spk-beep 3.6s ease-out infinite; }
 .spk__pulse--2 { animation-delay: 0.45s; }
 @keyframes spk-beep { 0% { opacity: 0.45; transform: scale(1); } 70%, 100% { opacity: 0; transform: scale(1.9); } }
