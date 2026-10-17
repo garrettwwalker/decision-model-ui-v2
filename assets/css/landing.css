@@ -294,7 +294,7 @@ main, .footer { position: relative; z-index: 2; }
 .thesis__setup .thesis__lull { font-weight: 400; }
 /* Sputnik keeping watch while the world sleeps: a polished sphere, four whip
    antennas swept back 35 degrees (drawn by tools/sputnik.py from a 3D model), a slow drift and its radio beep as a ring that swells and fades; still under reduced motion */
-.spk { order: -1; margin: 0 0 0 calc(var(--gutter) * -0.5); } /* on the left, its antennas trailing toward the page edge; stacked, it follows the text */
+.spk { order: -1; margin: 0 -1.5rem 0 calc(var(--gutter) * -0.5 + 1.5rem); } /* on the left, its antennas trailing toward the page edge; stacked, it follows the text */
 .spk__svg { display: block; width: 100%; height: auto; overflow: visible; }
 .spk__float { transform-box: view-box; animation: spk-float 12s ease-in-out infinite; }
 @keyframes spk-float { 0%, 100% { transform: translate(0, 0) rotate(0deg); } 50% { transform: translate(-5px, -9px) rotate(-2deg); } }
