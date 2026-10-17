@@ -284,7 +284,7 @@ main, .footer { position: relative; z-index: 2; }
 .thesis {
   padding: clamp(8rem, 20vh, 12rem) var(--gutter) clamp(6rem, 16vh, 10rem);
   display: grid; gap: clamp(2.5rem, 6vh, 4rem);
-  grid-template-columns: minmax(0, 1fr) minmax(0, 27rem);
+  grid-template-columns: minmax(0, 27rem) minmax(0, 1fr);
   align-items: center; column-gap: clamp(2rem, 6vw, 6rem);
   max-width: 82rem;
 }
@@ -294,7 +294,7 @@ main, .footer { position: relative; z-index: 2; }
 .thesis__setup .thesis__lull { font-weight: 400; }
 /* Sputnik keeping watch while the world sleeps: a polished sphere, four whip
    antennas swept back 35 degrees (drawn by tools/sputnik.py from a 3D model), a slow drift and its radio beep as a ring that swells and fades; still under reduced motion */
-.spk { margin: 0 calc(var(--gutter) * -0.5) 0 0; }
+.spk { order: -1; margin: 0 0 0 calc(var(--gutter) * -0.5); } /* on the left, its antennas trailing toward the page edge; stacked, it follows the text */
 .spk__svg { display: block; width: 100%; height: auto; overflow: visible; }
 .spk__float { transform-box: view-box; animation: spk-float 12s ease-in-out infinite; }
 @keyframes spk-float { 0%, 100% { transform: translate(0, 0) rotate(0deg); } 50% { transform: translate(-5px, -9px) rotate(-2deg); } }
@@ -310,7 +310,7 @@ main, .footer { position: relative; z-index: 2; }
 @media (max-width: 860px) {
   .thesis { grid-template-columns: minmax(0, 1fr); row-gap: 2.5rem; }
   .thesis .thesis__setup { margin-left: 0; }
-  .spk { margin: 0 auto; max-width: 24rem; }
+  .spk { order: 0; margin: 0 auto; max-width: 24rem; }
 }
 
 /* ---------- Engine ---------- */
