@@ -474,7 +474,7 @@ main, .footer { position: relative; z-index: 2; }
 /* ---------- Assets: node-link model ---------- */
 .assets {
   padding: clamp(6rem, 14vh, 9rem) var(--gutter);
-  display: grid; grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.1fr);
+  display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.95fr);
   gap: 3rem 4.5rem; align-items: start; max-width: 86rem;
 }
 .assets__copy { display: grid; gap: 1.25rem; align-content: start; }
@@ -483,7 +483,7 @@ main, .footer { position: relative; z-index: 2; }
 .assets__lede .w.on { color: var(--moon-2); }
 /* a large constellation beside the plan copy: a freeform figure of linked stars over a scatter of faint ones; the
    stars twinkle and the lines draw themselves once in view (landing.js adds .is-drawn). No text, no cursor. */
-.cst { margin: -1rem calc(var(--gutter) * -0.5) -1rem 0; align-self: center; } /* bleeds toward the page edge: the sky doesn't stop at the column */
+.cst { order: -1; margin: -1rem 0 -1rem calc(var(--gutter) * -0.5); align-self: center; } /* left of the copy, bleeding toward the page edge: the sky doesn't stop at the column; stacked, it follows the copy */
 .cst__svg { display: block; width: 100%; height: auto; overflow: visible; }
 .cst__line { stroke: rgba(236, 238, 242, 0.38); stroke-width: 1.1; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 0; } /* no non-scaling-stroke: with pathLength it turns the dash into 1px gaps */
 .cst.is-waiting .cst__line { stroke-dashoffset: 1; }
@@ -494,7 +494,7 @@ main, .footer { position: relative; z-index: 2; }
 .cst__dust { fill: #c9ccd3; opacity: 0.55; animation: cst-twinkle var(--tw, 5s) ease-in-out infinite; animation-delay: var(--td, 0s); }
 @keyframes cst-twinkle { 50% { opacity: 0.35; } }
 @media (prefers-reduced-motion: reduce) { .cst__star, .cst__dust { animation: none; } }
-@media (max-width: 900px) { .assets { grid-template-columns: minmax(0, 1fr); } .cst { margin: 0 calc(var(--gutter) * -1); } }
+@media (max-width: 900px) { .assets { grid-template-columns: minmax(0, 1fr); } .cst { order: 0; margin: 0 calc(var(--gutter) * -1); } }
 
 /* ---------- Rigor ---------- */
 .rigor { padding: clamp(5rem, 12vh, 8rem) var(--gutter); }
