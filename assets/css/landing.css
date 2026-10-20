@@ -180,8 +180,19 @@ main, .footer { position: relative; z-index: 2; }
   translate: calc(var(--tx) * 0.5) calc(var(--ty) * 0.5);
 }
 .eclipse__rays { /* streamers: two uneven ray patterns, brighter and dimmer by sector, colored by the same spectrum, fading outward */
-  inset: -60%; /* the sun's edge sits at 45.5% of this box's radius (36.7% once scaled up); the mask starts far
-     inside it, under the moon, so the rays always leave from the rim with no gap */
+  /* grows from 1.36x to 2.73x the eclipse with the burst. It is sized, not scaled: the spin is a compositor animation, which
+     rasters once at the scale it starts with, so a scale that grew afterwards stretched the rays into jagged steps.
+     The sun's edge sits at 36.7% of this box's radius once grown; the mask starts far inside it, under the moon, so
+     the rays always leave from the rim with no gap */
+  inset: calc((1 - 2.2 * (0.62 + var(--burst) * 0.62)) * 50%);
+  filter: blur(1.8px);
+  opacity: calc(var(--burst) * 0.9);
+  translate: var(--tx) var(--ty);
+  animation: spin 160s linear infinite;
+}
+.eclipse__rays::before { /* the masked rays sit a layer down so the blur above lands after the mask and softens
+     its edges (a filter on the same element runs before the mask, which left the thin rays stair-stepped) */
+  content: ""; position: absolute; inset: 0;
   background: var(--mark);
   -webkit-mask-image:
     radial-gradient(closest-side, transparent 18%, #000 22%, #000 40%, rgba(0, 0, 0, 0.5) 62%, transparent 94%),
@@ -195,11 +206,6 @@ main, .footer { position: relative; z-index: 2; }
     repeating-conic-gradient(#000 0deg 0.5deg, transparent 1.3deg 4.1deg),
     repeating-conic-gradient(from 1.7deg, rgba(0, 0, 0, 0.7) 0deg 1.1deg, transparent 2deg 7.3deg);
   mask-composite: intersect, intersect, add;
-  filter: blur(1.5px);
-  opacity: calc(var(--burst) * 0.9);
-  scale: calc(0.62 + var(--burst) * 0.62);
-  translate: var(--tx) var(--ty);
-  animation: spin 160s linear infinite;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 .eclipse__wash { /* the color reaching across the whole sky afterwards */
