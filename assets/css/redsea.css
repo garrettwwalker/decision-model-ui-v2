@@ -323,13 +323,13 @@
 .expo__v { text-align: right; font-weight: 700; color: var(--r-loss); }
 .expo__v span { font-weight: 500; color: var(--ink-3); }
 .expo__track { grid-column: 1 / -1; position: relative; height: 12px; border-radius: 3px; background: var(--paper-2); overflow: hidden; }
-.expo__track i { position: absolute; top: 0; bottom: 0; transition: left 0.3s ease, width 0.3s ease; }
+.expo__track i { position: absolute; top: 0; bottom: 0; }
 .expo__left { left: 0; background: var(--r-loss); }
 .expo__safe { background: var(--r-gold); }
 
 #l-plans .front { fill: none; stroke: var(--r-gold); stroke-width: 2; }
 #l-plans .pt { cursor: pointer; }
-#l-plans .pt circle { fill: #b9b1a1; stroke: var(--void); stroke-width: 1.5; transition: r 0.2s; }
+#l-plans .pt circle { fill: #b9b1a1; stroke: var(--void); stroke-width: 1.5; }
 #l-plans .pt.is-front circle { fill: var(--r-safe); }
 #l-plans .pt:hover circle, #l-plans .pt:focus-visible circle { fill: var(--r-accent); }
 #l-plans .pt:focus { outline: none; }
@@ -385,7 +385,30 @@
   .tug__track { grid-column: 1 / -1; grid-row: 2; }
   .tbl__bar { display: none; }
 }
-@media (prefers-reduced-motion: reduce) { .expo__track i { transition: none; } }
+/* entrances (redsea-report.js marks <html class="rs-anim"> and each figure .is-in as it scrolls into view):
+   lines draw themselves (pathLength 1), bars grow from their axis, the map's lanes draw one after another */
+.rs-anim #f-trend .line, .rs-anim #f-route .rt, .rs-anim .offc__sp polyline {
+  stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1.4s cubic-bezier(0.3, 0.6, 0.2, 1);
+}
+.rs-anim .is-in #f-trend .line, .rs-anim .is-in #f-route .rt, .rs-anim .is-in .offc__sp polyline { stroke-dashoffset: 0; }
+.rs-anim #f-route .rt--risk { transition-delay: 0.1s; }
+.rs-anim #f-route .rt--out { transition-delay: 0.6s; }
+.rs-anim #f-route .rt--cape { transition-delay: 1s; transition-duration: 1.8s; }
+.rs-anim #f-trend .area, .rs-anim #f-trend .dot, .rs-anim #f-trend .lab, .rs-anim #f-route .choke, .rs-anim #f-route .choke__c { opacity: 0; transition: opacity 0.6s ease 1s; }
+.rs-anim .is-in #f-trend .area, .rs-anim .is-in #f-trend .dot, .rs-anim .is-in #f-trend .lab, .rs-anim .is-in #f-route .choke, .rs-anim .is-in #f-route .choke__c { opacity: 1; }
+.rs-anim .tug__track i, .rs-anim .tbl__bar i { transform: scaleX(0); transition: transform 0.9s cubic-bezier(0.3, 0.6, 0.2, 1); }
+.rs-anim .tug__track i.up, .rs-anim .tbl__bar i { transform-origin: left; }
+.rs-anim .tug__track i.down { transform-origin: right; }
+.rs-anim .is-in .tug__track i, .rs-anim .is-in .tbl__bar i { transform: none; }
+.rs-anim .tug__row:nth-child(2) i, .rs-anim .tbl tbody tr:nth-child(2) i { transition-delay: 0.08s; }
+.rs-anim .tug__row:nth-child(3) i, .rs-anim .tbl tbody tr:nth-child(3) i { transition-delay: 0.16s; }
+.rs-anim .tug__row:nth-child(4) i, .rs-anim .tbl tbody tr:nth-child(4) i { transition-delay: 0.24s; }
+/* the lab: bars in and out of the plan fade, the selected dot grows */
+#f-gantt .gt rect, #f-gantt .gt text { transition: fill 0.35s ease; }
+#l-plans .pt circle { transition: r 0.25s ease, fill 0.25s ease, stroke-width 0.25s ease; }
+#l-plans .pt.is-cur circle { r: 7px; }
+.mv, .preset, .chooser button { transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease; }
+.mv__body { transition: opacity 0.2s ease; }
 
 /* ================= The tree: an outline opened branch by branch ================= */
 .tree { max-width: 88rem; }
@@ -519,3 +542,4 @@
   .dt__close { display: block; margin: -0.25rem 0 0.75rem auto; min-height: 44px; padding: 0 1rem; font: inherit; font-size: 0.85rem; color: var(--fg); background: transparent; border: 1px solid var(--line-strong); border-radius: 10px; cursor: pointer; }
 }
 @media (prefers-reduced-motion: reduce) { .detail, .r__chev { transition: none; } }
+@media (prefers-reduced-motion: reduce) { #f-gantt .gt rect, #f-gantt .gt text, #l-plans .pt circle, .mv, .preset, .chooser button, .mv__body { transition: none; } }

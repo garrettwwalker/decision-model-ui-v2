@@ -138,6 +138,48 @@
       "</span></span></label>";
   }).join(""));
 
+  // ---------- motion: every lab figure moves from what it shows to the new figures ----------
+  var REDUCE = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var ease = function (t) { return 1 - Math.pow(1 - t, 3); };
+  var TW = {};
+  // tween(key, target, draw): animates a list of numbers from the values on screen to `target`, drawing each frame
+  function tween(key, target, draw) {
+    var tw = TW[key] || (TW[key] = { cur: target.slice(), raf: 0 });
+    var from = tw.cur.length === target.length ? tw.cur.slice() : target.slice();
+    cancelAnimationFrame(tw.raf);
+    if (REDUCE) { tw.cur = target.slice(); draw(tw.cur); return; }
+    var t0 = performance.now();
+    (function step(now) {
+      var k = ease(Math.min(1, (now - t0) / 600));
+      tw.cur = from.map(function (v, i) { return v + (target[i] - v) * k; });
+      draw(tw.cur);
+      if (k < 1) tw.raf = requestAnimationFrame(step);
+    })(t0);
+  }
+
+  // the lab's lasting elements, built once so selection, focus and CSS transitions survive each redraw
+  $("#l-kpis").innerHTML = ["Expected loss", "Bad case, 1 in 20", "Plan costs", "Net of its cost"].map(function (k, i) {
+    return '<div class="kpi"><span class="kpi__k">' + k + '</span><b class="kpi__v num ' + ["kpi--loss", "kpi--loss", "", "kpi--safe"][i] + '"></b><span class="kpi__n"></span></div>';
+  }).join("");
+  $("#l-expo").innerHTML = RS.ASSETS.map(function (a) {
+    return '<div class="expo__row"><span class="expo__k">' + a.name + '</span><span class="expo__track"><i class="expo__left"></i><i class="expo__safe"></i></span><span class="expo__v num"></span></div>';
+  }).join("");
+  var GROWS = RS.TEAMS.slice().sort(function (a, b) { return a.days - b.days; });
+  (function () {
+    var X = function (d) { return 210 + d * 18.5; }, bot = 20 + GROWS.length * 34;
+    var s = '<g class="ax">' + [0, 7, 14, 21, 28, 35, 42].map(function (d) {
+      return '<line x1="' + X(d) + '" x2="' + X(d) + '" y1="10" y2="' + bot + '"/><text x="' + X(d) + '" y="' + (bot + 18) + '" text-anchor="middle">' + dayLabel(d) + "</text>";
+    }).join("") + "</g>";
+    GROWS.forEach(function (t, i) {
+      var y = 22 + i * 34;
+      s += '<g class="gt" data-t="' + t.id + '"><text class="gt__k" x="200" y="' + (y + 13) + '" text-anchor="end">' + t.name + "</text>" +
+        '<rect x="' + X(0) + '" y="' + y + '" width="' + (ready(t.days) * 18.5) + '" height="18" rx="4"/>' +
+        '<text class="gt__v" x="' + (X(ready(t.days)) + 8) + '" y="' + (y + 13) + '"></text></g>';
+    });
+    $("#f-gantt").innerHTML = s + '<g id="f-gantt-mark"></g>';
+    $("#f-gantt").setAttribute("viewBox", "0 0 1000 " + (bot + 30));
+  })();
+
   function update() {
     var p = { attacks: S.p }, base = RS.stats([], p), plan = RS.stats(S.plan, p);
     // controls
@@ -153,25 +195,29 @@
     $("#l-p-note").textContent = named || (S.p > 46 ? S.p - 46 + " points above Totality" : 46 - S.p + " points below Totality");
     $("#l-p-down").disabled = S.p <= 5; $("#l-p-up").disabled = S.p >= 95;
 
-    // headline numbers
+    // headline numbers count to their new values
     var saved = base.loss - plan.loss, net = saved - plan.cost;
-    $("#l-kpis").innerHTML = [
-      ["Expected loss", M(plan.loss), plan.cost ? "down from " + M(base.loss) : "if we do nothing", "loss"],
-      ["Bad case, 1 in 20", M(plan.bad), plan.cost ? "down from " + M(base.bad) : "", "loss"],
-      ["Plan costs", M(plan.cost), S.plan.length + (S.plan.length === 1 ? " move" : " moves"), ""],
-      ["Net of its cost", (net >= 0 ? "" : "-") + M(Math.abs(net)), plan.cost ? "each $1 saves $" + f1(saved / plan.cost) : "nothing spent", "safe"]
-    ].map(function (k) {
-      return '<div class="kpi"><span class="kpi__k">' + k[0] + '</span><b class="kpi__v num ' + (k[3] ? "kpi--" + k[3] : "") + '">' + k[1] + '</b><span class="kpi__n">' + k[2] + "</span></div>";
-    }).join("");
+    var notes = [plan.cost ? "down from " + M(base.loss) : "if we do nothing", plan.cost ? "down from " + M(base.bad) : "",
+      S.plan.length + (S.plan.length === 1 ? " move" : " moves"), plan.cost ? "each $1 saves $" + f1(saved / plan.cost) : "nothing spent"];
+    var kv = document.querySelectorAll("#l-kpis .kpi__v"), kn = document.querySelectorAll("#l-kpis .kpi__n");
+    notes.forEach(function (n, i) { kn[i].textContent = n; });
+    tween("kpi", [plan.loss, plan.bad, plan.cost, net], function (v) {
+      kv[0].textContent = M(v[0]); kv[1].textContent = M(v[1]); kv[2].textContent = M(v[2]);
+      kv[3].textContent = (v[3] < -0.005 ? "-" : "") + M(Math.abs(v[3]));
+    });
 
-    // exposure by asset
+    // exposure by asset: the split between still at risk and protected slides
     var max = Math.max.apply(null, RS.ASSETS.map(function (a) { return base.by[a.id].loss; }));
-    $("#l-expo").innerHTML = RS.ASSETS.map(function (a) {
-      var b = base.by[a.id].loss, l = plan.by[a.id].loss;
-      return '<div class="expo__row"><span class="expo__k">' + a.name + '</span><span class="expo__track"><i class="expo__left" style="width:' + (l / max * 100).toFixed(1) +
-        '%"></i><i class="expo__safe" style="left:' + (l / max * 100).toFixed(1) + "%;width:" + ((b - l) / max * 100).toFixed(1) + '%"></i></span><span class="expo__v num">' +
-        M(l) + (b - l > 0.005 ? ' <span>of ' + M(b) + "</span>" : "") + "</span></div>";
-    }).join("");
+    var rows = document.querySelectorAll("#l-expo .expo__row");
+    tween("expo", RS.ASSETS.map(function (a) { return plan.by[a.id].loss; }).concat(RS.ASSETS.map(function (a) { return base.by[a.id].loss; }), [max]), function (v) {
+      var n = RS.ASSETS.length, mx = v[2 * n];
+      RS.ASSETS.forEach(function (a, i) {
+        var l = v[i], b = v[n + i], r = rows[i];
+        r.querySelector(".expo__left").style.width = (l / mx * 100).toFixed(2) + "%";
+        var sf = r.querySelector(".expo__safe"); sf.style.left = (l / mx * 100).toFixed(2) + "%"; sf.style.width = (Math.max(0, b - l) / mx * 100).toFixed(2) + "%";
+        r.querySelector(".expo__v").innerHTML = M(l) + (b - l > 0.005 ? " <span>of " + M(b) + "</span>" : "");
+      });
+    });
 
     stock(); risk(base, plan); plans(p); gantt();
   }
@@ -188,106 +234,120 @@
     }
     return { s: out, stops: stops, start: start, gap: gap };
   }
+  // the run of empty days in a (possibly mid-tween) series, from day `from`
+  function emptyRun(sr, from) {
+    var a = -1, n = 0;
+    for (var d = Math.max(0, Math.floor(from)); d < sr.length; d++) { if (sr[d] < 0.05) { if (a < 0) a = d; n++; } else if (a >= 0) break; }
+    return { a: a, n: n };
+  }
   function stock() {
     var T = S.t, none = stockRun(false, false, T), mine = stockRun(has("procurement"), has("logistics"), T);
-    var X = function (d) { return 40 + d * 2.9; }, Y = function (v) { return 190 - v * 4.4; };
-    var path = function (r) { return r.s.map(function (v, d) { return (d ? "L" : "M") + X(d).toFixed(1) + " " + Y(v).toFixed(1); }).join(""); };
-    var s = '<g class="ax">' + [0, 10, 20, 30, 40].map(function (v) {
-      return '<line x1="40" x2="392" y1="' + Y(v) + '" y2="' + Y(v) + '"/><text x="36" y="' + (Y(v) + 4) + '" text-anchor="end">' + v + "</text>";
-    }).join("") + [0, 30, 61, 91, 121].map(function (d) { return '<text x="' + X(d) + '" y="212" text-anchor="middle">' + dayLabel(d) + "</text>"; }).join("") + "</g>";
-    // the stretch with no arrivals
-    s += '<rect class="gapband" x="' + X(mine.start) + '" y="' + Y(40) + '" width="' + (mine.gap * 2.9) + '" height="' + (Y(0) - Y(40)) + '"/>';
-    s += '<line class="mark" x1="' + X(T) + '" x2="' + X(T) + '" y1="' + Y(40) + '" y2="' + Y(0) + '"/>';
-    s += '<text class="lab" x="' + (X(T) + 5) + '" y="' + (Y(40) + 10) + '">attacks resume</text>';
-    s += '<path class="line line--none" d="' + path(none) + '"/>';
-    s += '<path class="line" d="' + path(mine) + '"/>';
-    var stopsBar = function (r, cls, y) {
-      if (!r.stops.length) return "";
-      return '<rect class="' + cls + '" x="' + X(r.stops[0]) + '" y="' + y + '" width="' + Math.max(3, r.stops.length * 2.9) + '" height="6" rx="2"/>';
-    };
-    s += stopsBar(none, "stopbar stopbar--none", Y(0) + 2) + stopsBar(mine, "stopbar", Y(0) + 2);
     var msg = mine.stops.length
       ? "Lines stop for " + mine.stops.length + " days from " + dayLabel(mine.stops[0])
       : "No line stop: the lowest point is " + Math.round(Math.min.apply(null, mine.s.slice(mine.start))) + " days of stock";
     var msgNone = none.stops.length ? "Doing nothing, they'd stop for " + none.stops.length + " days from " + dayLabel(none.stops[0]) : "";
-    $("#l-stock").innerHTML = s;
     $("#l-stock-msg").innerHTML = '<b class="' + (mine.stops.length ? "is-loss" : "is-safe") + '">' + msg + "</b>" + (msgNone && S.plan.length ? "<span>" + msgNone + "</span>" : "");
     $("#l-stock").setAttribute("aria-label", msg + ". " + msgNone);
-  }
-
-  // chance the total passes each amount, with and without the plan
-  function risk(base, plan) {
-    var maxX = 80, X = function (v) { return 40 + Math.min(v, maxX) / maxX * 352; }, Y = function (q) { return 190 - q * 170; };
-    var curve = function (o) {
-      var s = o.slice().sort(function (a, b) { return a.total - b.total; }), d = "M" + X(0) + " " + Y(1), left = 1, prevX = 0;
-      s.forEach(function (x) {
-        if (x.total > prevX) { d += "L" + X(x.total).toFixed(1) + " " + Y(left).toFixed(1); prevX = x.total; }
-        left -= x.pr; if (left < 0) left = 0;
-        d += "L" + X(x.total).toFixed(1) + " " + Y(left).toFixed(1);
+    var N = none.s.length;
+    tween("stock", none.s.concat(mine.s, [mine.start, mine.gap, T]), function (v) {
+      var ns = v.slice(0, N), ms = v.slice(N, 2 * N), st = v[2 * N], gp = v[2 * N + 1], t = v[2 * N + 2];
+      var X = function (d) { return 40 + d * 2.9; }, Y = function (x) { return 190 - x * 4.4; };
+      var path = function (sr) { return sr.map(function (x, d) { return (d ? "L" : "M") + X(d).toFixed(1) + " " + Y(x).toFixed(1); }).join(""); };
+      var s = '<g class="ax">' + [0, 10, 20, 30, 40].map(function (x) {
+        return '<line x1="40" x2="392" y1="' + Y(x) + '" y2="' + Y(x) + '"/><text x="36" y="' + (Y(x) + 4) + '" text-anchor="end">' + x + "</text>";
+      }).join("") + [0, 30, 61, 91, 121].map(function (d) { return '<text x="' + X(d) + '" y="212" text-anchor="middle">' + dayLabel(d) + "</text>"; }).join("") + "</g>";
+      s += '<rect class="gapband" x="' + X(st).toFixed(1) + '" y="' + Y(40) + '" width="' + (gp * 2.9).toFixed(1) + '" height="' + (Y(0) - Y(40)) + '"/>';
+      s += '<line class="mark" x1="' + X(t).toFixed(1) + '" x2="' + X(t).toFixed(1) + '" y1="' + Y(40) + '" y2="' + Y(0) + '"/>';
+      s += '<text class="lab" x="' + (X(t) + 5).toFixed(1) + '" y="' + (Y(40) + 10) + '">attacks resume</text>';
+      s += '<path class="line line--none" d="' + path(ns) + '"/><path class="line" d="' + path(ms) + '"/>';
+      [[ns, "stopbar stopbar--none"], [ms, "stopbar"]].forEach(function (x) {
+        var r = emptyRun(x[0], st); if (r.n) s += '<rect class="' + x[1] + '" x="' + X(r.a).toFixed(1) + '" y="' + (Y(0) + 2) + '" width="' + Math.max(3, r.n * 2.9).toFixed(1) + '" height="6" rx="2"/>';
       });
-      return d + "L" + X(maxX) + " " + Y(left);
-    };
-    var s = '<g class="ax">' + [0, 0.25, 0.5, 0.75, 1].map(function (q) {
-      return '<line x1="40" x2="392" y1="' + Y(q) + '" y2="' + Y(q) + '"/><text x="36" y="' + (Y(q) + 4) + '" text-anchor="end">' + Math.round(q * 100) + (q === 1 ? "%" : "") + "</text>";
-    }).join("") + [0, 20, 40, 60, 80].map(function (v) { return '<text x="' + X(v) + '" y="212" text-anchor="middle">$' + v + "M</text>"; }).join("") + "</g>";
-    s += '<line class="mark mark--soft" x1="40" x2="392" y1="' + Y(0.05) + '" y2="' + Y(0.05) + '"/><text class="lab lab--mute" x="392" y="' + (Y(0.05) - 5) + '" text-anchor="end">1 in 20</text>';
-    s += '<path class="line line--none" d="' + curve(base.outcomes) + '"/>';
-    s += '<path class="line" d="' + curve(plan.outcomes) + '"/>';
-    s += '<circle class="dot dot--loss" cx="' + X(plan.bad) + '" cy="' + Y(0.05) + '" r="4.5"/>';
-    s += '<text class="lab lab--loss" x="' + (X(plan.bad) + 8) + '" y="' + (Y(0.05) + 16) + '">' + M(plan.bad) + "</text>";
-    var some = 0; plan.outcomes.forEach(function (o) { if (o.total > 0.01) some += o.pr; });
-    s += '<text class="lab" x="' + X(2) + '" y="' + (Y(1) - 6) + '">' + Math.round((1 - some) * 100) + "% chance we lose nothing at all</text>";
-    $("#l-risk").innerHTML = s;
+      $("#l-stock").innerHTML = s;
+    });
   }
 
-  // every subset of the five moves: cost against expected loss left; the cheapest way to each level is the frontier
+  // chance the total passes each amount, with and without the plan, sampled on a fixed grid so the curves can morph
+  var GRID = []; for (var gx = 0; gx <= 80; gx += 0.5) GRID.push(gx);
+  function exceed(o) { return GRID.map(function (x) { var q = 0; o.forEach(function (r) { if (r.total > x + 1e-9) q += r.pr; }); return q; }); }
+  function risk(base, plan) {
+    var nothing = 0; plan.outcomes.forEach(function (o) { if (o.total <= 0.01) nothing += o.pr; });
+    var n = GRID.length;
+    tween("risk", exceed(base.outcomes).concat(exceed(plan.outcomes), [plan.bad, nothing]), function (v) {
+      var X = function (x) { return 40 + Math.min(x, 80) / 80 * 352; }, Y = function (q) { return 190 - q * 170; };
+      // a step curve: hold each level until the next grid point
+      var curve = function (qs) { return "M" + X(0) + " " + Y(1) + qs.map(function (q, i) { return "L" + X(GRID[i]).toFixed(1) + " " + Y(q).toFixed(1); }).join(""); };
+      var s = '<g class="ax">' + [0, 0.25, 0.5, 0.75, 1].map(function (q) {
+        return '<line x1="40" x2="392" y1="' + Y(q) + '" y2="' + Y(q) + '"/><text x="36" y="' + (Y(q) + 4) + '" text-anchor="end">' + Math.round(q * 100) + (q === 1 ? "%" : "") + "</text>";
+      }).join("") + [0, 20, 40, 60, 80].map(function (x) { return '<text x="' + X(x) + '" y="212" text-anchor="middle">$' + x + "M</text>"; }).join("") + "</g>";
+      s += '<line class="mark mark--soft" x1="40" x2="392" y1="' + Y(0.05) + '" y2="' + Y(0.05) + '"/><text class="lab lab--mute" x="392" y="' + (Y(0.05) - 5) + '" text-anchor="end">1 in 20</text>';
+      s += '<path class="line line--none" d="' + curve(v.slice(0, n)) + '"/><path class="line" d="' + curve(v.slice(n, 2 * n)) + '"/>';
+      s += '<circle class="dot dot--loss" cx="' + X(v[2 * n]).toFixed(1) + '" cy="' + Y(0.05) + '" r="4.5"/>';
+      s += '<text class="lab lab--loss" x="' + (X(v[2 * n]) + 8).toFixed(1) + '" y="' + (Y(0.05) + 16) + '">' + M(v[2 * n]) + "</text>";
+      s += '<text class="lab" x="' + X(2) + '" y="' + (Y(1) - 6) + '">' + Math.round(v[2 * n + 1] * 100) + "% chance we lose nothing at all</text>";
+      $("#l-risk").innerHTML = s;
+    });
+  }
+
+  // every subset of the five moves: cost against expected loss left; the cheapest way to each level is the frontier.
+  // The dots are built once and glide when the chance changes
+  var ALLP = [];
+  for (var m = 0; m < (1 << ORDER.length); m++) ALLP.push(ORDER.filter(function (x, k) { return m & (1 << k); }));
+  (function () {
+    var s = '<g class="ax" id="l-plans-ax"></g><polyline class="front" id="l-plans-front"/>';
+    ALLP.forEach(function (pl) {
+      var opt = RS.OPTIONS.filter(function (o) { return same(o.plan, pl); })[0];
+      var names = pl.length ? pl.map(function (t) { return RS.byId[t].name; }).join(", ") : "No moves";
+      s += '<g class="pt" data-plan="' + pl.join(" ") + '" tabindex="0" role="button" data-names="' + names + '"><circle r="4.5"/>' +
+        (opt ? "<text>" + opt.id + "</text>" : "") + "<title></title></g>";
+    });
+    $("#l-plans").innerHTML = s;
+  })();
   function plans(p) {
-    var all = [];
-    for (var m = 0; m < (1 << ORDER.length); m++) {
-      var pl = ORDER.filter(function (x, k) { return m & (1 << k); });
-      var st = RS.stats(pl, p);
-      all.push({ plan: pl, cost: st.cost, loss: st.loss });
-    }
-    var maxL = all[0].loss, X = function (c) { return 40 + c / 2.5 * 352; }, Y = function (l) { return 190 - l / Math.max(1, maxL) * 170; };
+    var all = ALLP.map(function (pl) { var st = RS.stats(pl, p); return { plan: pl, cost: st.cost, loss: st.loss }; });
     var front = all.slice().sort(function (a, b) { return a.cost - b.cost || a.loss - b.loss; }).filter(function (x, i, arr) {
       return !arr.some(function (y) { return y !== x && y.cost <= x.cost && y.loss < x.loss - 1e-9; });
     });
-    var s = '<g class="ax">' + [0, 0.5, 1, 1.5, 2, 2.5].map(function (c) {
-      return '<text x="' + X(c) + '" y="212" text-anchor="middle">$' + c + "M</text>";
-    }).join("") + [0, 0.5, 1].map(function (f) {
-      return '<line x1="40" x2="392" y1="' + Y(maxL * f) + '" y2="' + Y(maxL * f) + '"/><text x="36" y="' + (Y(maxL * f) + 4) + '" text-anchor="end">' + M(maxL * f).replace(".0M", "M") + "</text>";
-    }).join("") + '<text x="392" y="226" text-anchor="end">plan cost</text></g>';
-    s += '<polyline class="front" points="' + front.map(function (x) { return X(x.cost).toFixed(1) + "," + Y(x.loss).toFixed(1); }).join(" ") + '"/>';
-    all.forEach(function (x) {
-      var cur = same(x.plan, S.plan), opt = RS.OPTIONS.filter(function (o) { return same(o.plan, x.plan); })[0];
-      var names = x.plan.length ? x.plan.map(function (t) { return RS.byId[t].name; }).join(", ") : "No moves";
-      s += '<g class="pt' + (cur ? " is-cur" : "") + (front.indexOf(x) >= 0 ? " is-front" : "") + '" data-plan="' + x.plan.join(" ") + '" tabindex="0" role="button" aria-label="' +
-        names + ": costs " + M(x.cost) + ", leaves " + M(x.loss) + '"><circle cx="' + X(x.cost).toFixed(1) + '" cy="' + Y(x.loss).toFixed(1) + '" r="' + (cur ? 7 : 4.5) + '"/>' +
-        (opt ? '<text x="' + (X(x.cost) + (x.cost > 2.2 ? -10 : 10)).toFixed(1) + '" y="' + (Y(x.loss) - 9).toFixed(1) + '" text-anchor="' + (x.cost > 2.2 ? "end" : "start") + '">' + opt.id + "</text>" : "") +
-        "<title>" + names + ": " + M(x.cost) + ", leaves " + M(x.loss) + "</title></g>";
+    var g = document.querySelectorAll("#l-plans .pt");
+    all.forEach(function (x, i) {
+      var cur = same(x.plan, S.plan);
+      g[i].classList.toggle("is-cur", cur); g[i].classList.toggle("is-front", front.indexOf(x) >= 0);
+      var lab = g[i].dataset.names + ": costs " + M(x.cost) + ", leaves " + M(x.loss);
+      g[i].setAttribute("aria-label", lab); g[i].querySelector("title").textContent = lab;
     });
-    $("#l-plans").innerHTML = s;
+    var fi = front.map(function (x) { return all.indexOf(x); });
+    tween("plans", all.map(function (x) { return x.loss; }).concat([all[0].loss]), function (v) {
+      var maxL = v[v.length - 1], X = function (c) { return 40 + c / 2.5 * 352; }, Y = function (l) { return 190 - l / Math.max(1, maxL) * 170; };
+      $("#l-plans-ax").innerHTML = [0, 0.5, 1, 1.5, 2, 2.5].map(function (c) {
+        return '<text x="' + X(c) + '" y="212" text-anchor="middle">$' + c + "M</text>";
+      }).join("") + [0, 0.5, 1].map(function (f) {
+        return '<line x1="40" x2="392" y1="' + Y(maxL * f) + '" y2="' + Y(maxL * f) + '"/><text x="36" y="' + (Y(maxL * f) + 4) + '" text-anchor="end">' + M(maxL * f).replace(".0M", "M") + "</text>";
+      }).join("") + '<text x="392" y="226" text-anchor="end">plan cost</text>';
+      $("#l-plans-front").setAttribute("points", fi.map(function (i) { return X(all[i].cost).toFixed(1) + "," + Y(v[i]).toFixed(1); }).join(" "));
+      all.forEach(function (x, i) {
+        var c = g[i].querySelector("circle"), t = g[i].querySelector("text"), cx = X(x.cost), cy = Y(v[i]);
+        c.setAttribute("cx", cx.toFixed(1)); c.setAttribute("cy", cy.toFixed(1));
+        if (t) { t.setAttribute("x", (cx + (x.cost > 2.2 ? -10 : 10)).toFixed(1)); t.setAttribute("y", (cy - 9).toFixed(1)); t.setAttribute("text-anchor", x.cost > 2.2 ? "end" : "start"); }
+      });
+    });
   }
   $("#l-plans").addEventListener("click", function (e) { var g = e.target.closest(".pt"); if (g) { S.plan = g.dataset.plan ? g.dataset.plan.split(" ") : []; update(); } });
-  $("#l-plans").addEventListener("keydown", function (e) { if (e.key !== "Enter" && e.key !== " ") return; var g = e.target.closest(".pt"); if (g) { e.preventDefault(); S.plan = g.dataset.plan ? g.dataset.plan.split(" ") : []; update(); var n = document.querySelector('.pt[data-plan="' + g.dataset.plan + '"]'); if (n) n.focus(); } });
+  $("#l-plans").addEventListener("keydown", function (e) { if (e.key !== "Enter" && e.key !== " ") return; var g = e.target.closest(".pt"); if (g) { e.preventDefault(); S.plan = g.dataset.plan ? g.dataset.plan.split(" ") : []; update(); } });
 
-  // ---------- 4. the timeline ----------
+  // ---------- 4. the timeline: bars fade in and out of the plan, the attack marker slides ----------
   function gantt() {
-    var T = S.t, X = function (d) { return 210 + d * 18.5; }, rows = RS.TEAMS.slice().sort(function (a, b) { return a.days - b.days; });
-    var s = '<g class="ax">' + [0, 7, 14, 21, 28, 35, 42].map(function (d) {
-      return '<line x1="' + X(d) + '" x2="' + X(d) + '" y1="10" y2="' + (20 + rows.length * 34) + '"/><text x="' + X(d) + '" y="' + (38 + rows.length * 34) + '" text-anchor="middle">' + dayLabel(d) + "</text>";
-    }).join("") + "</g>";
-    rows.forEach(function (t, i) {
-      var y = 22 + i * 34, on = has(t.id);
-      s += '<g class="gt' + (on ? "" : " is-off") + '"><text class="gt__k" x="200" y="' + (y + 13) + '" text-anchor="end">' + t.name + "</text>" +
-        '<rect x="' + X(0) + '" y="' + y + '" width="' + (ready(t.days) * 18.5) + '" height="18" rx="4"/>' +
-        '<text class="gt__v" x="' + (X(ready(t.days)) + 8) + '" y="' + (y + 13) + '">' + (on ? "ready " + weekday(ready(t.days)) : "not in the plan") + "</text></g>";
+    document.querySelectorAll("#f-gantt .gt").forEach(function (el) {
+      var t = RS.byId[el.dataset.t], on = has(t.id);
+      el.classList.toggle("is-off", !on);
+      el.querySelector(".gt__v").textContent = on ? "ready " + weekday(ready(t.days)) : "not in the plan";
     });
-    var top = 10, bot = 20 + rows.length * 34;
-    if (T <= 42) s += '<line class="mark" x1="' + X(T) + '" x2="' + X(T) + '" y1="' + top + '" y2="' + bot + '"/><text class="lab lab--loss" x="' + (X(T) + 5) + '" y="' + (top + 8) + '">attacks resume, ' + dayLabel(T) + "</text>";
-    if (T + 5 <= 42) s += '<line class="mark mark--soft" x1="' + X(T + 5) + '" x2="' + X(T + 5) + '" y1="' + top + '" y2="' + bot + '"/>';
-    $("#f-gantt").innerHTML = s;
-    $("#f-gantt").setAttribute("viewBox", "0 0 1000 " + (bot + 30));
+    var bot = 20 + GROWS.length * 34;
+    tween("gantt", [S.t], function (v) {
+      var T = v[0], X = function (d) { return 210 + d * 18.5; }, s = "";
+      if (T <= 42) s += '<line class="mark" x1="' + X(T).toFixed(1) + '" x2="' + X(T).toFixed(1) + '" y1="10" y2="' + bot + '"/><text class="lab lab--loss" x="' + (X(T) + 5).toFixed(1) + '" y="18">attacks resume, ' + dayLabel(Math.round(T)) + "</text>";
+      if (T + 5 <= 42) s += '<line class="mark mark--soft" x1="' + X(T + 5).toFixed(1) + '" x2="' + X(T + 5).toFixed(1) + '" y1="10" y2="' + bot + '"/>';
+      $("#f-gantt-mark").innerHTML = s;
+    });
   }
 
   // ---------- controls ----------
@@ -315,6 +375,18 @@
       '<svg class="offc__sp" viewBox="0 0 ' + w + " " + ht + '" aria-hidden="true"><polyline points="' + pts + '"/></svg>' +
       '<span class="offc__n">' + e.name + '</span><span class="offc__t">' + e.plain + "</span></a>";
   }).join("");
+
+  // ---------- entrances: figures draw themselves in as they scroll into view ----------
+  (function () {
+    var els = document.querySelectorAll(".report .fig, .report .tbl, .report .off");
+    document.querySelectorAll("#f-trend .line, #f-route .rt, .offc__sp polyline").forEach(function (l) { l.setAttribute("pathLength", "1"); });
+    if (REDUCE || !("IntersectionObserver" in window)) { els.forEach(function (e) { e.classList.add("is-in"); }); return; }
+    document.documentElement.classList.add("rs-anim");
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("is-in"); io.unobserve(e.target); } });
+    }, { threshold: 0.25 });
+    els.forEach(function (e) { io.observe(e); });
+  })();
 
   update();
 })();

@@ -130,7 +130,9 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   unmapped schematic bizarre), and a plan lab
   (`assets/js/redsea-report.js`) where presets A/B/C or any mix of the five moves, the attack chance and the attack
   date redraw the headline numbers, exposure by asset, Gebze's compressor stock, the chance the loss passes each
-  amount, all 32 plans by cost and loss left (select a dot to load it) and the section 4 timeline; the user asked
+  amount, all 32 plans by cost and loss left (select a dot to load it) and the section 4 timeline; every change tweens (`tween()`: numbers count,
+  bars slide, curves morph, dots glide; the user asked for smooth shifts), and figures draw in as they scroll into view
+  (`.rs-anim`, `.is-in`), all off under reduced motion; the user asked
   for more visuals and to explore how each plan changes the landscape) and `redsea-tree.html`
   (the decomposition as an outline opened branch by branch, with a side panel for resolution criteria and
   cross-links; a bottom sheet on phones). The user disliked the reference's radial "sonar" style as vibe-coded but
