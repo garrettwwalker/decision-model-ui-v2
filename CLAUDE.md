@@ -167,7 +167,10 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   nav order; the new page slides in from that side (cross-document view transitions where supported, with the
   `.bar` held still; otherwise a CSS entrance on `main` and the footer, keyed on `html[data-slide]`). In the
   workbench, `slideTo()` slides stages, model views and the two modes in sequence order (`.slide-in`/`.slide-out`).
-  All of it is off under reduced motion.
+  All of it is off under reduced motion. Between the three Red Sea demo pages the moon crosses instead (2026-11-03, the user's
+  idea, "the black sphere is the moon"): a black disc wider than the screen with a faint warm eclipse rim (`.moon`, in
+  `redsea.css`) slides over the page from the side the next page lies on, the next page stays dark (`html[data-moon]`)
+  until the moon is over it, and the moon slides off the far side once the page has loaded; no view transition there.
 - `assets/js/app.js` holds the shared helpers (`DB.money`, `DB.toast`, `DB.rng`, range fills).
 - Type: Switzer (Fontshare), self-hosted in `assets/fonts/`, for everything, on a major-third scale; data uses
   tabular figures. JetBrains Mono appears only in the workbench's code, diff and log panels. Labels are sentence

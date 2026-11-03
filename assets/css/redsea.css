@@ -732,3 +732,25 @@ button.route__in:focus-visible { outline: 2px solid var(--accent); outline-offse
 .rs-lt-tree .r:hover { background: var(--card-low); }
 .rs-lt-tree .r.is-sel { background: #fff3e2; }
 @media (max-width: 960px) { .rs-lt-tree .detail { box-shadow: 0 -12px 40px rgba(16, 24, 40, 0.18); } }
+
+/* ================= The moon between the demo's pages (nav.js) =================
+   A black disc, wider than the screen's diagonal, with a faint warm rim like the landing's eclipse. It crosses from
+   the side the next page lies on, holds while that page loads (data-moon keeps the new page dark until it's in place)
+   and slides off the far side. */
+html[data-moon] { background: #000; }
+html[data-moon] body { visibility: hidden; }
+.moon { position: fixed; inset: 0; z-index: 9999; overflow: hidden; pointer-events: auto; }
+.moon[class*="moon--out"] { pointer-events: none; }
+.moon__disc {
+  position: absolute; left: 50%; top: 50%; width: 150vmax; height: 150vmax; margin: -75vmax 0 0 -75vmax;
+  border-radius: 50%; background: #050506;
+  box-shadow: 0 0 0 1px rgba(255, 196, 140, 0.45), 0 0 2.5vmax 0.4vmax rgba(255, 150, 80, 0.32), 0 0 10vmax 2vmax rgba(255, 186, 120, 0.16);
+}
+.moon--in-fwd .moon__disc { animation: moon-from-r 0.55s cubic-bezier(0.55, 0, 0.45, 1) both; }
+.moon--in-back .moon__disc { animation: moon-from-l 0.55s cubic-bezier(0.55, 0, 0.45, 1) both; }
+.moon--out-fwd .moon__disc { animation: moon-to-l 0.65s cubic-bezier(0.5, 0, 0.3, 1) both; }
+.moon--out-back .moon__disc { animation: moon-to-r 0.65s cubic-bezier(0.5, 0, 0.3, 1) both; }
+@keyframes moon-from-r { from { transform: translateX(calc(50vw + 90vmax)); } }
+@keyframes moon-from-l { from { transform: translateX(calc(-50vw - 90vmax)); } }
+@keyframes moon-to-l { to { transform: translateX(calc(-50vw - 90vmax)); } }
+@keyframes moon-to-r { to { transform: translateX(calc(50vw + 90vmax)); } }
