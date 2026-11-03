@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Red Sea tree · Penumbra</title>
+  <meta name="description" content="Penumbra's Red Sea demo, the tree: how the Totality engine split one question about Red Sea shipping into 2,561 smaller ones, forecast what it could and declined the rest.">
+  <link rel="preload" href="assets/fonts/switzer-800.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/switzer-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/app.css">
+  <link rel="stylesheet" href="assets/css/redsea.css">
+  <script src="assets/js/nav.js"></script>
+</head>
+<body class="app t-night rs rs-tree">
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="bar">
+    <a class="wordmark" href="index.html" aria-label="Penumbra home">
+      <span class="logo" aria-hidden="true"></span>
+      Penumbra
+    </a>
+    <nav class="tabs" aria-label="Product">
+      <a href="briefing.html">daily brief</a>
+      <a href="memo.html">sample memo</a>
+      <a href="team.html">workflows</a>
+      <a href="workbench.html">workbench</a>
+      <a href="ask.html">ask</a>
+      <span class="tabs__group">Red Sea demo</span>
+      <a href="redsea.html">at a glance</a>
+      <a href="redsea-report.html">report</a>
+      <a href="redsea-tree.html" aria-current="page">tree</a>
+    </nav>
+    <p class="bar__meta"><b>Halvorsen Group</b><span>as of 1 Apr 2026</span></p>
+  </header>
+
+  <main id="main" class="page tree">
+    <section class="tree__head">
+      <p class="tree__kicker">How Totality split the question</p>
+      <h1 class="tree__q" id="t-q">How could commercial shipping through the Red Sea be disrupted?</h1>
+      <p class="tree__lede">Totality breaks one hard question into smaller ones it can check against the record, forecasts each, and declines the ones it has no skill at this far out. Open any branch to follow it down.</p>
+      <dl class="tally" id="t-tally"></dl>
+    </section>
+
+    <div class="tree__tools">
+      <label class="find"><span class="sr-only">Find a question</span><input id="t-find" type="search" placeholder="Find a question, such as insurance or Maersk" autocomplete="off"></label>
+      <label class="tog"><input type="checkbox" id="t-declined" checked> Show declined</label>
+      <label class="tog"><input type="checkbox" id="t-aside"> Show set aside</label>
+      <button class="btn-quiet" type="button" id="t-collapse">Collapse all</button>
+      <p class="tree__found" id="t-found" aria-live="polite"></p>
+    </div>
+
+    <div class="tree__body">
+      <div class="outline" id="t-outline" role="tree" aria-label="The question's decomposition"></div>
+      <aside class="detail" id="t-detail" aria-live="polite"></aside>
+    </div>
+  </main>
+
+  <footer class="app-foot">
+    <span>A Penumbra mockup. Halvorsen Group is fictional and every figure is illustrative.</span>
+    <a href="index.html">back to the home page</a>
+  </footer>
+
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/space.js"></script>
+  <script>Space.stars();</script>
+  <script src="assets/js/redsea-lattice.js"></script>
+  <script src="assets/js/redsea-tree.js"></script>
+</body>
+</html>

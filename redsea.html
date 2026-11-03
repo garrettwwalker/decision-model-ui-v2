@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Red Sea at a glance · Penumbra</title>
+  <meta name="description" content="Penumbra's Red Sea demo, at a glance: what's changing in the Red Sea, what it hits at Halvorsen Group, and which teams can respond.">
+  <link rel="preload" href="assets/fonts/switzer-800.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/switzer-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/app.css">
+  <link rel="stylesheet" href="assets/css/redsea.css">
+  <script src="assets/js/nav.js"></script>
+</head>
+<body class="app t-night rs rs-glance">
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="bar">
+    <a class="wordmark" href="index.html" aria-label="Penumbra home">
+      <span class="logo" aria-hidden="true"></span>
+      Penumbra
+    </a>
+    <nav class="tabs" aria-label="Product">
+      <a href="briefing.html">daily brief</a>
+      <a href="memo.html">sample memo</a>
+      <a href="team.html">workflows</a>
+      <a href="workbench.html">workbench</a>
+      <a href="ask.html">ask</a>
+      <span class="tabs__group">Red Sea demo</span>
+      <a href="redsea.html" aria-current="page">at a glance</a>
+      <a href="redsea-report.html">report</a>
+      <a href="redsea-tree.html">tree</a>
+    </nav>
+    <p class="bar__meta"><b>Halvorsen Group</b><span>as of 1 Apr 2026</span></p>
+  </header>
+
+  <main id="main" class="page glance">
+    <section class="glance__head">
+      <p class="glance__kicker">The Red Sea, as of Wednesday 1 April 2026</p>
+      <h1 class="glance__title">attacks on shipping are likely to resume.</h1>
+      <p class="glance__lede">If they do, Gebze runs short of compressors in late May. Five teams can cover most of it, and every move is ready within nine days.</p>
+    </section>
+
+    <section class="facts" aria-label="The numbers that matter">
+      <div class="fact">
+        <p class="fact__big num">46<span>%</span></p>
+        <p class="fact__what">chance attacks resume at scale by 1 July</p>
+        <p class="fact__foot"><b class="up">+15 points</b> since last Wednesday</p>
+      </div>
+      <div class="fact">
+        <p class="fact__big num money--loss" id="f-loss">$14.2M</p>
+        <p class="fact__what">expected cost to Halvorsen by October if we do nothing</p>
+        <p class="fact__foot">If it goes badly, <b id="f-bad">$61M</b></p>
+      </div>
+      <div class="fact">
+        <p class="fact__big num money--safe" id="f-saves">$11.9M</p>
+        <p class="fact__what">of that protected by the five moves below</p>
+        <p class="fact__foot">They cost <b id="f-cost">$2.4M</b> together</p>
+      </div>
+    </section>
+
+    <section class="board" aria-label="From events to assets to teams">
+      <svg class="board__links" aria-hidden="true"></svg>
+      <div class="board__col">
+        <h2 class="board__title"><span>1</span>What's happening</h2>
+        <p class="board__note">On your watch list</p>
+        <div class="board__list" id="b-watch"></div>
+        <p class="board__note board__note--off">Outside your watch list <span>Totality flagged these because their odds moved</span></p>
+        <div class="board__list" id="b-off"></div>
+      </div>
+      <div class="board__col">
+        <h2 class="board__title"><span>2</span>What it hits</h2>
+        <p class="board__note">Expected cost by October if we do nothing</p>
+        <div class="board__list" id="b-assets"></div>
+      </div>
+      <div class="board__col">
+        <h2 class="board__title"><span>3</span>Who can respond</h2>
+        <p class="board__note">Cost, then what it protects</p>
+        <div class="board__list" id="b-teams"></div>
+      </div>
+    </section>
+    <p class="board__hint">Point at any card to trace it through.</p>
+
+    <section class="deeper" aria-label="Go deeper">
+      <a class="deeper__card" href="redsea-report.html">
+        <span class="deeper__k">The report</span>
+        <span class="deeper__t">Why the odds jumped, three ways to respond and what to watch</span>
+      </a>
+      <a class="deeper__card" href="redsea-tree.html">
+        <span class="deeper__k">The tree</span>
+        <span class="deeper__t">How Totality split the question into 2,561 smaller ones, and which it declined</span>
+      </a>
+    </section>
+  </main>
+
+  <footer class="app-foot">
+    <span>A Penumbra mockup. Halvorsen Group is fictional and every figure is illustrative.</span>
+    <a href="index.html">back to the home page</a>
+  </footer>
+
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/space.js"></script>
+  <script>Space.stars();</script>
+  <script src="assets/js/redsea.js"></script>
+  <script src="assets/js/redsea-glance.js"></script>
+</body>
+</html>

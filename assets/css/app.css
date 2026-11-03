@@ -141,6 +141,12 @@ body.app { min-height: 100vh; }
   opacity: 0.68;
 }
 .tabs a:hover { opacity: 1; }
+.tabs__group { /* the Red Sea demo's pages, set apart from the main tour by a hairline and a small label */
+  display: inline-flex; align-items: center; min-height: 44px; padding-left: 1.75rem;
+  border-left: 1px solid var(--line-strong); margin-left: -0.25rem;
+  font-size: 0.78rem; color: var(--fg-2); white-space: nowrap;
+}
+.tabs__group + a { margin-left: -0.75rem; }
 .tabs a[aria-current="page"] { opacity: 1; }
 .tabs a[aria-current="page"]::after { /* a small point of light under the current page */
   content: ""; position: absolute; left: 50%; bottom: 4px;
