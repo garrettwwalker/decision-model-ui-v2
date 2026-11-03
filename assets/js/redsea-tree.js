@@ -191,8 +191,10 @@
   function slide(el) {
     var d = depth[focus], dir = d > lastDepth ? "in-fwd" : d < lastDepth ? "in-back" : "";
     lastDepth = d;
+    // same level (a leaf selected, say): drop the last entrance so the rebuilt cards don't replay it
+    el.classList.remove("in-fwd", "in-back");
     if (!dir || REDUCE) return;
-    el.classList.remove("in-fwd", "in-back"); void el.offsetWidth; el.classList.add(dir);
+    void el.offsetWidth; el.classList.add(dir);
   }
 
   // Cards: the focus question as a header, its children as a grid
@@ -270,6 +272,8 @@
     // on phones the panel is a sheet over the cards, so opening a branch doesn't also raise it
     if (has && matchMedia("(max-width: 960px)").matches && i !== sel) { drawView(); return; }
     select(i, { focus: false, keep: true });
+    var again = e.currentTarget.querySelector('.cd[data-i="' + i + '"]:not(.cd--head)') || e.currentTarget.querySelector('.cd[data-i="' + i + '"]');
+    if (again && e.detail === 0) again.focus({ preventScroll: true });  // keyboard: keep focus on the card just rebuilt
   }
   cardsEl.addEventListener("click", onCard);
   branchEl.addEventListener("click", onCard);
