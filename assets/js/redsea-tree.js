@@ -122,12 +122,6 @@
     if (i in INSIDE) return INSIDE[i];
     return (INSIDE[i] = sorted(i).reduce(function (t, c) { return t + 1 + inside(c.i); }, 0));
   }
-  function mix(a, b, t) { return "rgb(" + a.map(function (v, k) { return Math.round(v + (b[k] - v) * t); }).join(",") + ")"; }
-  function heat(n) {
-    if (n.pr == null) return n.r === "withheld" ? "repeating-linear-gradient(45deg, rgba(236,238,242,0.3) 0 2px, rgba(236,238,242,0.06) 2px 5px)" : "rgba(236, 238, 242, 0.12)";
-    var t = Math.pow(n.pr / 100, 0.8);
-    return n.ease ? mix([70, 62, 40], [255, 213, 107], t) : mix([60, 44, 56], [255, 107, 129], t);
-  }
   function inView(i) {
     var n = byId[i]; if (!n) return false;
     if (view === "branches") return i === focus || n.p === focus || (active && n.p === active);
@@ -135,15 +129,22 @@
   }
 
   // one card, shared by both views
+  // the chance in plain words, on the estimative scale the memo uses
+  function words(p) {
+    return p < 5 ? "almost no chance" : p < 20 ? "very unlikely" : p < 45 ? "unlikely" : p <= 55 ? "about even" : p < 80 ? "likely" : p < 95 ? "very likely" : "almost certain";
+  }
   function card(n, o) {
     o = o || {};
     var ch = sorted(n.i), many = inside(n.i), role = ROLE[n.r];
     var tag = n.r === "withheld" ? "declined" : n.r === "rejected" ? "set aside" : n.r === "concept" ? "context" : n.ease ? "eases it" : "";
     var chance = n.pr != null
-      ? '<span class="cd__p num">' + n.pr + '<small>%</small></span><span class="cd__bar' + (n.ease ? " is-ease" : "") + '"><i style="width:' + n.pr + '%"></i></span>'
-      : '<span class="cd__p cd__p--none">' + (role ? role[0] : "") + '</span><span class="cd__bar is-none"></span>';
-    var strip = ch.length ? '<span class="cd__strip" aria-hidden="true">' + ch.slice(0, 24).map(function (c) { return '<i style="background:' + heat(c) + '"></i>'; }).join("") + "</span>" : "";
-    var foot = ch.length ? '<span class="cd__in">' + many + (many === 1 ? " question" : " questions") + " inside</span>" + strip : '<span class="cd__in">No questions beneath it</span>';
+      ? '<span class="cd__p num">' + n.pr + '<small>%</small></span><span class="cd__w">' + words(n.pr) + '</span><span class="cd__bar' + (n.ease ? " is-ease" : "") + '"><i style="width:' + n.pr + '%"></i></span>'
+      : '<span class="cd__p cd__p--none">' + (role ? role[0] : "") + '</span><span class="cd__w">' + (n.r === "withheld" ? "no forecast" : "") + '</span><span class="cd__bar is-none"></span>';
+    // what's inside, in words: how many, the likeliest, and how many were declined
+    var top = ch.reduce(function (m, c) { return c.pr != null && c.pr > m ? c.pr : m; }, -1);
+    var decl = ch.filter(function (c) { return c.r === "withheld"; }).length;
+    var foot = '<span class="cd__in">' + (ch.length ? many + (many === 1 ? " question" : " questions") + " inside" +
+      (top >= 0 ? ", the likeliest at " + top + "%" : "") + (decl ? ", " + decl + " declined" : "") : "No questions beneath it") + "</span>";
     var cls = "cd" + (o.cls ? " " + o.cls : "") + (n.i === sel ? " is-sel" : "") + (hits && hits[n.i] ? " is-hit" : "") + (n.pr == null ? " is-quiet" : "") + (ch.length ? " has-kids" : "");
     return '<button type="button" class="' + cls + '" data-i="' + n.i + '"' + (o.style ? ' style="' + o.style + '"' : "") + ">" +
       '<span class="cd__k">' + (n.k === "root" ? "The question" : kind(n)) + (tag ? ' <span class="cd__tag">' + tag + "</span>" : "") + "</span>" +
@@ -154,11 +155,14 @@
   function drawCrumbs() {
     var path = [], a = byId[focus];
     while (a) { path.unshift(a); a = byId[a.p]; }
-    crumbs.innerHTML = path.map(function (x, k) {
+    var up = path.length > 1 ? path[path.length - 2] : null;
+    crumbs.innerHTML = (up ? '<button type="button" class="crumbs__back" data-z="' + up.i + '"><span class="crumbs__chev" aria-hidden="true"></span>Back to ' +
+      esc(up.k === "root" ? "the question" : (label(up).length > 32 ? label(up).slice(0, 31) + "…" : label(up))) + "</button>" : "") +
+      '<span class="crumbs__trail">' + path.map(function (x, k) {
       var t = x.k === "root" ? "The question" : label(x);
       return k === path.length - 1 ? '<span aria-current="true">' + esc(t.length > 70 ? t.slice(0, 69) + "…" : t) + "</span>"
         : '<button type="button" data-z="' + x.i + '">' + esc(t.length > 40 ? t.slice(0, 39) + "…" : t) + "</button>";
-    }).join('<span class="crumbs__sep" aria-hidden="true">/</span>');
+    }).join('<span class="crumbs__sep" aria-hidden="true">/</span>') + "</span>";
   }
 
   // a fresh grid or tree slides in from the side it came from
@@ -174,7 +178,7 @@
   function drawCards() {
     var f = byId[focus], ch = sorted(focus);
     var head = focus === root.i ? "" :
-      '<div class="cards__head">' + card(f, { cls: "cd--head" }) + '<button type="button" class="cards__up" data-z="' + f.p + '">Up a level</button></div>';
+      '<div class="cards__head"><p class="cards__lab">Looking into</p>' + card(f, { cls: "cd--head" }) + "</div>";
     cardsEl.innerHTML = head + '<p class="cards__n">' + (ch.length ? (focus === root.i ? ch.length + " pathways and scenarios" : ch.length + " questions beneath this one") + ", most likely first" : "Nothing beneath this question") + "</p>" +
       '<div class="cards__grid">' + ch.map(function (c, k) { return card(c, { style: "--k:" + Math.min(k, 16) }); }).join("") + "</div>";
     slide(cardsEl);
@@ -195,7 +199,7 @@
         (rest ? '<button type="button" class="br__more" data-more="' + key + '">' + rest + " more</button>" : "") + "</div>";
     };
     branchEl.innerHTML = '<svg class="br__links" aria-hidden="true"></svg><div class="br__cols">' +
-      '<div class="br__col br__col--root">' + card(f, { cls: "cd--head" + (focus === root.i ? "" : " is-up") }) + (focus !== root.i ? '<p class="br__hint">Select to go up a level</p>' : "") + "</div>" +
+      '<div class="br__col br__col--root">' + card(f, { cls: "cd--head" }) + "</div>" +
       col(c1.list, focus, c1.rest, "br__col--kids") +
       (act ? col(c2.list, act.i, c2.rest, "br__col--grand") : '<div class="br__col br__col--grand br__col--empty"><p>Select a question to see what sits beneath it.</p></div>') +
       "</div>";
@@ -257,7 +261,8 @@
     document.querySelectorAll(".viewsw button").forEach(function (b) { b.setAttribute("aria-pressed", b.dataset.v === v); });
     $("#t-visual").hidden = v === "list"; cardsEl.hidden = v !== "cards"; branchEl.hidden = v !== "branches";
     outline.hidden = v !== "list"; $("#t-collapse").hidden = v !== "list";
-    if (sel && v !== "list" && !inView(sel)) { focus = byId[sel].p || root.i; active = view === "branches" && sorted(sel).length ? sel : null; }
+    if (sel && v !== "list" && !inView(sel)) focus = byId[sel].p || root.i;
+    if (v === "branches" && sel && byId[sel].p === focus && sorted(sel).length) active = sel;  // show what sits beneath the selection
     lastDepth = depth[focus];
     render();
   }
