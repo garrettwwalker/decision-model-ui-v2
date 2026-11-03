@@ -134,7 +134,10 @@
     return p < 5 ? "almost no chance" : p < 20 ? "very unlikely" : p < 45 ? "unlikely" : p <= 55 ? "about even" : p < 80 ? "likely" : p < 95 ? "very likely" : "almost certain";
   }
   // the color for a chance, from the same ramp as the key: soft yellow at low odds, orange, rose-red at high
-  var RAMP = [[0, [242, 208, 107]], [45, [255, 162, 76]], [80, [255, 95, 115]], [100, [255, 61, 110]]];
+  // on the light pages the ramp runs deeper (amber, orange, crimson) so a low chance still shows on white
+  var RAMP = document.body.classList.contains("rs-lt")
+    ? [[0, [222, 168, 30]], [45, [236, 120, 28]], [80, [222, 62, 80]], [100, [196, 22, 72]]]
+    : [[0, [242, 208, 107]], [45, [255, 162, 76]], [80, [255, 95, 115]], [100, [255, 61, 110]]];
   function ramp(p) {
     for (var k = 1; k < RAMP.length; k++) {
       if (p <= RAMP[k][0]) {

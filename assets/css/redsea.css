@@ -676,3 +676,59 @@ button.route__in:focus-visible { outline: 2px solid var(--accent); outline-offse
   .cards__grid { grid-template-columns: minmax(0, 1fr); }
 }
 @media (prefers-reduced-motion: reduce) { .cd { transition: none; } .cd:hover { transform: none; } }
+
+/* ================= Light versions of at a glance and the tree (no starfield) =================
+   Two takes, so the user can compare them with the report's warm paper:
+   - .rs-lt-glance  white gallery: pure white ground, warm light-gray cards without borders, ink type
+   - .rs-lt-tree    fog: a cool pale-gray ground with crisp white cards lifted on soft shadows
+   Both keep the demo's meanings: burnt orange for controls and the lit answer, deep rose for money at risk, deep
+   gold for money protected, and a black logo as on the report. */
+.t-night.rs.rs-lt {
+  --moon: #15161a; --moon-2: #4d5058; --moon-3: #6f727a; --fg: var(--moon); --fg-2: var(--moon-2); --on-ink: #fff;
+  --line: rgba(21, 22, 26, 0.1); --line-strong: rgba(21, 22, 26, 0.2); --panel-line: var(--line);
+  --accent: #c25e00; --good: #94650a; --alert: #c2304b; --alert-2: #c2304b;
+  --glass: none; --focus: var(--accent);
+}
+.t-night.rs.rs-lt .bar { background: color-mix(in srgb, var(--void) 88%, transparent); box-shadow: 0 1px 0 var(--line); }
+.rs-lt .logo { filter: none; }
+.rs-lt .logo::before { background: var(--fg); }
+.rs-lt .switch__ui { background: rgba(21, 22, 26, 0.18); }
+.rs-lt .switch__ui::after { box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); }
+.rs-lt .mv-day.is-up, .rs-lt .dt__day.is-up { color: #c2304b; }
+
+/* white gallery */
+.t-night.rs.rs-lt-glance {
+  --void: #ffffff; --space: #ffffff;
+  --card: #f5f4f0; --card-hover: #eeece6; --card-on: #fbefdd; --card-low: #e6e3dc; --card-solid: #f5f4f0;
+}
+.rs-lt-glance .card, .rs-lt-glance .deeper__card { box-shadow: none; }
+.rs-lt-glance .board__links path { stroke: rgba(21, 22, 26, 0.14); }
+.rs-lt-glance .board.is-tracing .card.is-on { box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--accent) 70%, transparent); background: #fffaf2; }
+.rs-lt-glance .facts { border-top-color: var(--fg); }
+.rs-lt-glance .tag { background: #fbe9d2; }
+.rs-lt-glance .spark polyline { stroke: var(--moon-3); }
+
+/* fog */
+.t-night.rs.rs-lt-tree {
+  --void: #eef0f3; --space: #eef0f3;
+  --card: #ffffff; --card-hover: #ffffff; --card-on: #fff6ea; --card-low: #f1f3f6; --card-solid: #ffffff;
+  --lift: 0 1px 2px rgba(16, 24, 40, 0.06), 0 0 0 1px rgba(16, 24, 40, 0.06);
+  --lift-hi: 0 6px 16px -4px rgba(16, 24, 40, 0.14), 0 0 0 1px rgba(16, 24, 40, 0.08);
+}
+.rs-lt-tree .tree { --ramp: linear-gradient(90deg, #dea81e 0%, #ec781c 45%, #de3e50 80%, #c41648 100%); }
+.rs-lt-tree .cd, .rs-lt-tree .outline, .rs-lt-tree .detail, .rs-lt-tree .viewsw, .rs-lt-tree .find input,
+.rs-lt-tree .route .crumbs__back { box-shadow: var(--lift); }
+.rs-lt-tree .cd:hover { box-shadow: var(--lift-hi); }
+.rs-lt-tree .cd.is-sel, .rs-lt-tree .br__col .cd.is-active { background: #fffaf3; box-shadow: 0 0 0 1.5px var(--accent), var(--lift-hi); }
+.rs-lt-tree .cd__tag { background: var(--card-low); }
+.rs-lt-tree .cd__bar.is-none, .rs-lt-tree .vkey__bar--none { background: repeating-linear-gradient(45deg, rgba(21, 22, 26, 0.3) 0 2px, rgba(21, 22, 26, 0.05) 2px 5px); }
+.rs-lt-tree .br__links path { stroke: rgba(21, 22, 26, 0.18); }
+.rs-lt-tree .br__links path.is-on { stroke: var(--accent); }
+.rs-lt-tree .br__more { background: transparent; box-shadow: inset 0 0 0 1px var(--line-strong); }
+.rs-lt-tree .find input { border-color: transparent; }
+.rs-lt-tree .viewsw button[aria-pressed="true"] { background: var(--fg); color: #fff; }
+.rs-lt-tree .route__dot::before { box-shadow: 0 0 0 3px var(--void); }
+.rs-lt-tree .tally div:last-child dt { color: var(--moon-3); }
+.rs-lt-tree .r:hover { background: var(--card-low); }
+.rs-lt-tree .r.is-sel { background: #fff3e2; }
+@media (max-width: 960px) { .rs-lt-tree .detail { box-shadow: 0 -12px 40px rgba(16, 24, 40, 0.18); } }
