@@ -1,7 +1,8 @@
-/* Red Sea demo, the tree: the question's decomposition (redsea-lattice.js) as an outline opened branch by branch.
-   Each row shows what kind of question it is and Totality's chance, or that it was declined; children sort by
-   chance. Selecting a row fills the side panel: where it sits, how it resolves, and the cross-links that tie it
-   to other branches. The URL hash holds the selected node, so the summary and report can link straight in. */
+/* Red Sea demo, the tree: the question's decomposition (redsea-lattice.js) in three views. Cards shows one level at a
+   time as a grid you drill into; Branches shows the question being looked into, its children and one child's
+   children, joined by curves; List is the outline opened branch by branch. Children sort by chance. Selecting a
+   question fills the side panel: where it sits, how it resolves, and the cross-links that tie it to other branches.
+   The URL hash holds the selected node, so the summary and report can link straight in. */
 (function () {
   var $ = function (s) { return document.querySelector(s); };
   var L = window.LATTICE, N = L.nodes;
@@ -109,139 +110,155 @@
     outline.innerHTML = ch.map(function (c, k) { return row(c, 0, k === ch.length - 1); }).join("");
   }
 
-  // ---------- the map: a zoomable icicle of the whole decomposition ----------
-  // Each question is a block; columns are levels, left to right; a block's height is how many questions end beneath
-  // it, and its color is Totality's chance (gold for branches that ease the disruption, hatched where declined).
-  // Blocks are kept per node and moved with CSS transitions, so zooming glides.
-  var view = "map", focus = root.i, Y0 = {}, Y1 = {}, LV = {}, EL = {};
-  var iceSvg = $("#t-ice-svg"), iceG = $("#t-ice-g"), crumbs = $("#t-crumbs");
-  var SVGNS = "http://www.w3.org/2000/svg";
-  function partition() {
-    Y0 = {}; Y1 = {}; LV = {};
-    (function leaves(i) { var ch = sorted(i); LV[i] = ch.length ? ch.reduce(function (t, c) { return t + leaves(c.i); }, 0) : 1; return LV[i]; })(root.i);
-    (function place(i, y0, y1) {
-      Y0[i] = y0; Y1[i] = y1;
-      var y = y0;
-      sorted(i).forEach(function (c) { var h = (y1 - y0) * LV[c.i] / LV[i]; place(c.i, y, y + h); y += h; });
-    })(root.i, 0, 1);
+  // ---------- two visual views over one zoom position: Cards and Branches ----------
+  // Both show the decomposition a level or two at a time with every question a full-size, readable card (the user
+  // found an icicle's slim blocks impossible to click with confidence). `focus` is the question being looked into;
+  // Branches also has an `active` child whose own children fill its third column.
+  var view = "cards", focus = root.i, active = null, INSIDE = {};
+  var cardsEl = $("#t-cards"), branchEl = $("#t-branches"), crumbs = $("#t-crumbs");
+  var REDUCE = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function partition() { INSIDE = {}; }  // filters changed: forget the counts
+  function inside(i) {  // visible questions beneath i
+    if (i in INSIDE) return INSIDE[i];
+    return (INSIDE[i] = sorted(i).reduce(function (t, c) { return t + 1 + inside(c.i); }, 0));
   }
   function mix(a, b, t) { return "rgb(" + a.map(function (v, k) { return Math.round(v + (b[k] - v) * t); }).join(",") + ")"; }
-  function fill(n) {
-    if (n.k === "root") return "#1b1e26";
-    if (n.pr == null) return n.r === "withheld" ? "url(#ice-hatch)" : "rgba(236, 238, 242, 0.07)";
+  function heat(n) {
+    if (n.pr == null) return n.r === "withheld" ? "repeating-linear-gradient(45deg, rgba(236,238,242,0.3) 0 2px, rgba(236,238,242,0.06) 2px 5px)" : "rgba(236, 238, 242, 0.12)";
     var t = Math.pow(n.pr / 100, 0.8);
-    return n.ease ? mix([52, 46, 30], [255, 213, 107], t) : mix([40, 32, 42], [255, 107, 129], t);
+    return n.ease ? mix([70, 62, 40], [255, 213, 107], t) : mix([60, 44, 56], [255, 107, 129], t);
   }
-  function colsNow() { var w = iceSvg.clientWidth || 800; return w < 560 ? 2 : w < 800 ? 3 : 4; }
-  function inWindow(i) {
-    if (!(i in Y0)) return false;
-    var a = byId[i];
-    while (a && a.i !== focus) a = byId[a.p];
-    return !!a && depth[i] - depth[focus] < colsNow();
+  function inView(i) {
+    var n = byId[i]; if (!n) return false;
+    if (view === "branches") return i === focus || n.p === focus || (active && n.p === active);
+    return n.p === focus;
   }
-  function drawMap() {
-    if (view !== "map") return;
-    var W = iceSvg.clientWidth || 800, H = Math.round(Math.max(420, Math.min(680, window.innerHeight - 230)));
-    iceSvg.setAttribute("viewBox", "0 0 " + W + " " + H); iceSvg.style.height = H + "px";
-    var cols = colsNow(), fd = depth[focus], c0 = Math.min(W * 0.2, 200), cw = (W - c0) / (cols - 1);
-    var ky = H / (Y1[focus] - Y0[focus]), want = {};
-    (function walk(i) {
-      var c = depth[i] - fd;
-      if (c >= cols) return;
-      var h = (Y1[i] - Y0[i]) * ky;
-      if (h < 0.75) return;
-      want[i] = { x: c ? c0 + (c - 1) * cw : 0, y: (Y0[i] - Y0[focus]) * ky, w: c ? cw : c0, h: h, c: c };
-      sorted(i).forEach(function (ch) { walk(ch.i); });
-    })(focus);
-    Object.keys(EL).forEach(function (i) {
-      if (want[i]) return;
-      var g = EL[i]; delete EL[i];
-      g.style.opacity = 0; g.style.pointerEvents = "none";
-      setTimeout(function () { if (g.parentNode) g.parentNode.removeChild(g); }, 450);
-    });
-    Object.keys(want).forEach(function (i) {
-      var n = byId[i], b = want[i], g = EL[i], fresh = !g;
-      if (fresh) {
-        g = document.createElementNS(SVGNS, "g"); g.setAttribute("class", "ib"); g.dataset.i = i;
-        g.innerHTML = "<rect rx='3'/><text class='ib__k' x='8'></text><text class='ib__t' x='8'></text><text class='ib__p' text-anchor='end'></text><title></title>";
-        g.style.opacity = 0;
-        // a new block grows out of where its parent sat, so zooming in reads as opening that block
-        var pb = n.p && EL[n.p] ? EL[n.p]._b : null;
-        g.style.transform = pb ? "translate(" + pb.x + "px," + pb.y + "px)" : "translate(" + b.x + "px," + b.y + "px)";
-        iceG.appendChild(g); EL[i] = g;
-        void g.getBoundingClientRect();
-      }
-      g._b = b;
-      var tall = b.h >= 17, roomy = b.h >= 36, t = n.pr == null ? 0 : n.pr / 100;
-      var dark = n.pr != null && Math.pow(t, 0.8) > 0.55;
-      g.setAttribute("class", "ib" + (dark ? " is-dark" : "") + (i === sel ? " is-sel" : "") + (i === focus && i !== root.i ? " is-focus" : "") +
-        (hits && hits[i] ? " is-hit" : "") + (n.r === "withheld" ? " is-decl" : ""));
-      g.style.opacity = 1; g.style.pointerEvents = "";
-      g.style.transform = "translate(" + b.x.toFixed(1) + "px," + b.y.toFixed(1) + "px)";
-      var r = g.querySelector("rect");
-      r.style.width = Math.max(0, b.w - 2).toFixed(1) + "px"; r.style.height = Math.max(0, b.h - 1).toFixed(1) + "px";
-      r.style.fill = fill(n);
-      var pct = n.pr != null && b.w > 110 ? n.pr + "%" : "", room = Math.floor((b.w - 18 - (pct ? 34 : 0)) / 6.4);
-      var name = n.k === "root" ? "The question" : label(n), cut = function (x, m) { return x.length > m ? x.slice(0, Math.max(0, m - 1)) + "…" : x; };
-      var tk = g.querySelector(".ib__k"), tt = g.querySelector(".ib__t"), tp = g.querySelector(".ib__p");
-      tk.textContent = roomy ? kind(n) + (n.r === "withheld" ? ", declined" : n.ease ? ", eases it" : "") : "";
-      tk.setAttribute("y", 15);
-      // tall blocks wrap the label onto as many lines as fit (up to three)
-      var lines = !tall ? [] : wrap(name, room, roomy ? Math.max(1, Math.min(3, Math.floor((b.h - 22) / 15))) : 1);
-      var ty = roomy ? 31 : Math.min(b.h - 4, 13);
-      tt.innerHTML = lines.map(function (ln, k) { return '<tspan x="8" y="' + (ty + k * 15) + '">' + esc(ln) + "</tspan>"; }).join("");
-      tp.textContent = tall ? pct : ""; tp.setAttribute("x", (b.w - 9).toFixed(1)); tp.setAttribute("y", roomy ? 31 : Math.min(b.h - 4, 13));
-      g.querySelector("title").textContent = name + (n.pr != null ? ", " + n.pr + "%" : n.r === "withheld" ? ", declined" : "") +
-        (sorted(i).length ? ". " + LV[i] + " questions end beneath it" : "");
-      if (tall) { g.setAttribute("tabindex", "0"); g.setAttribute("role", "button"); } else { g.removeAttribute("tabindex"); g.removeAttribute("role"); }
-    });
-    // where we are, as crumbs back up the tree
+
+  // one card, shared by both views
+  function card(n, o) {
+    o = o || {};
+    var ch = sorted(n.i), many = inside(n.i), role = ROLE[n.r];
+    var tag = n.r === "withheld" ? "declined" : n.r === "rejected" ? "set aside" : n.r === "concept" ? "context" : n.ease ? "eases it" : "";
+    var chance = n.pr != null
+      ? '<span class="cd__p num">' + n.pr + '<small>%</small></span><span class="cd__bar' + (n.ease ? " is-ease" : "") + '"><i style="width:' + n.pr + '%"></i></span>'
+      : '<span class="cd__p cd__p--none">' + (role ? role[0] : "") + '</span><span class="cd__bar is-none"></span>';
+    var strip = ch.length ? '<span class="cd__strip" aria-hidden="true">' + ch.slice(0, 24).map(function (c) { return '<i style="background:' + heat(c) + '"></i>'; }).join("") + "</span>" : "";
+    var foot = ch.length ? '<span class="cd__in">' + many + (many === 1 ? " question" : " questions") + " inside</span>" + strip : '<span class="cd__in">No questions beneath it</span>';
+    var cls = "cd" + (o.cls ? " " + o.cls : "") + (n.i === sel ? " is-sel" : "") + (hits && hits[n.i] ? " is-hit" : "") + (n.pr == null ? " is-quiet" : "") + (ch.length ? " has-kids" : "");
+    return '<button type="button" class="' + cls + '" data-i="' + n.i + '"' + (o.style ? ' style="' + o.style + '"' : "") + ">" +
+      '<span class="cd__k">' + (n.k === "root" ? "The question" : kind(n)) + (tag ? ' <span class="cd__tag">' + tag + "</span>" : "") + "</span>" +
+      '<span class="cd__t">' + esc(n.k === "root" ? L.meta.q.replace(/ over the next 12 months\?$/, "?") : label(n)) + "</span>" +
+      '<span class="cd__chance">' + chance + "</span>" + '<span class="cd__foot">' + foot + "</span></button>";
+  }
+
+  function drawCrumbs() {
     var path = [], a = byId[focus];
     while (a) { path.unshift(a); a = byId[a.p]; }
     crumbs.innerHTML = path.map(function (x, k) {
       var t = x.k === "root" ? "The question" : label(x);
-      return k === path.length - 1 ? '<span aria-current="true">' + esc(t.length > 60 ? t.slice(0, 59) + "…" : t) + "</span>"
-        : '<button type="button" data-z="' + x.i + '">' + esc(t.length > 36 ? t.slice(0, 35) + "…" : t) + "</button>";
-    }).join('<span class="ice__sep" aria-hidden="true">/</span>');
+      return k === path.length - 1 ? '<span aria-current="true">' + esc(t.length > 70 ? t.slice(0, 69) + "…" : t) + "</span>"
+        : '<button type="button" data-z="' + x.i + '">' + esc(t.length > 40 ? t.slice(0, 39) + "…" : t) + "</button>";
+    }).join('<span class="crumbs__sep" aria-hidden="true">/</span>');
   }
-  function zoom(i) { focus = i; drawMap(); }
-  // words onto lines of at most `room` characters; the last line takes an ellipsis if text is left over
-  function wrap(t, room, max) {
-    if (room < 4) return [];
-    var words = t.split(" "), out = [], cur = "";
-    for (var k = 0; k < words.length; k++) {
-      var nx = cur ? cur + " " + words[k] : words[k];
-      if (nx.length <= room) { cur = nx; continue; }
-      if (out.length === max - 1) { out.push((cur ? cur + " " : "") + words[k]); cur = ""; break; }
-      if (cur) out.push(cur);
-      cur = words[k];
-    }
-    if (cur && out.length < max) out.push(cur);
-    var last = out.length - 1, rest = out.join(" ").length < t.length;
-    if (last >= 0 && (rest || out[last].length > room)) out[last] = out[last].slice(0, room - 1).replace(/[\s,;:]+$/, "") + "…";
-    return out;
-  }
-  iceSvg.addEventListener("click", function (e) {
-    var g = e.target.closest(".ib"); if (!g) return;
-    var i = g.dataset.i;
-    if (i === focus) { if (i !== root.i) { zoom(byId[i].p); } return; }
-    if (sorted(i).length) focus = i;
-    select(i, { focus: false });
-  });
-  iceSvg.addEventListener("keydown", function (e) {
-    if (e.key !== "Enter" && e.key !== " ") return;
-    var g = e.target.closest(".ib"); if (!g) return;
-    e.preventDefault(); g.dispatchEvent(new MouseEvent("click", { bubbles: true }));
-    var n = EL[g.dataset.i]; if (n) n.focus();
-  });
-  crumbs.addEventListener("click", function (e) { var b = e.target.closest("[data-z]"); if (b) zoom(b.dataset.z); });
-  window.addEventListener("resize", function () { if (view === "map") drawMap(); });
 
-  function render() { renderList(); drawMap(); }
+  // a fresh grid or tree slides in from the side it came from
+  var lastDepth = 0;
+  function slide(el) {
+    var d = depth[focus], dir = d > lastDepth ? "in-fwd" : d < lastDepth ? "in-back" : "";
+    lastDepth = d;
+    if (!dir || REDUCE) return;
+    el.classList.remove("in-fwd", "in-back"); void el.offsetWidth; el.classList.add(dir);
+  }
+
+  // Cards: the focus question as a header, its children as a grid
+  function drawCards() {
+    var f = byId[focus], ch = sorted(focus);
+    var head = focus === root.i ? "" :
+      '<div class="cards__head">' + card(f, { cls: "cd--head" }) + '<button type="button" class="cards__up" data-z="' + f.p + '">Up a level</button></div>';
+    cardsEl.innerHTML = head + '<p class="cards__n">' + (ch.length ? (focus === root.i ? ch.length + " pathways and scenarios" : ch.length + " questions beneath this one") + ", most likely first" : "Nothing beneath this question") + "</p>" +
+      '<div class="cards__grid">' + ch.map(function (c, k) { return card(c, { style: "--k:" + Math.min(k, 16) }); }).join("") + "</div>";
+    slide(cardsEl);
+  }
+
+  // Branches: focus, its children, and the active child's children, joined by curves; long families fold
+  var SHOW = 7, more = {};
+  function drawBranches() {
+    var f = byId[focus], ch = sorted(focus);
+    if (!active || byId[active].p !== focus) active = null;
+    var cut = function (list, key) {
+      if (more[key] || list.length <= SHOW + 1) return { list: list, rest: 0 };
+      return { list: list.slice(0, SHOW), rest: list.length - SHOW };
+    };
+    var c1 = cut(ch, focus), act = active ? byId[active] : null, gc = act ? sorted(act.i) : [], c2 = act ? cut(gc, act.i) : null;
+    var col = function (items, key, rest, cls) {
+      return '<div class="br__col ' + cls + '">' + items.map(function (c) { return card(c, { cls: c.i === active ? "is-active" : "" }); }).join("") +
+        (rest ? '<button type="button" class="br__more" data-more="' + key + '">' + rest + " more</button>" : "") + "</div>";
+    };
+    branchEl.innerHTML = '<svg class="br__links" aria-hidden="true"></svg><div class="br__cols">' +
+      '<div class="br__col br__col--root">' + card(f, { cls: "cd--head" + (focus === root.i ? "" : " is-up") }) + (focus !== root.i ? '<p class="br__hint">Select to go up a level</p>' : "") + "</div>" +
+      col(c1.list, focus, c1.rest, "br__col--kids") +
+      (act ? col(c2.list, act.i, c2.rest, "br__col--grand") : '<div class="br__col br__col--grand br__col--empty"><p>Select a question to see what sits beneath it.</p></div>') +
+      "</div>";
+    slide(branchEl);
+    requestAnimationFrame(linkBranches);
+  }
+  function linkBranches() {
+    if (view !== "branches") return;
+    var svg = branchEl.querySelector(".br__links"); if (!svg) return;
+    var box = branchEl.getBoundingClientRect(), stacked = getComputedStyle(branchEl.querySelector(".br__cols")).gridTemplateColumns.split(" ").length < 3;
+    svg.setAttribute("viewBox", "0 0 " + box.width + " " + box.height);
+    if (stacked) { svg.innerHTML = ""; return; }
+    var curve = function (a, b, on) {
+      var r1 = a.getBoundingClientRect(), r2 = b.getBoundingClientRect();
+      var x1 = r1.right - box.left, y1 = r1.top + r1.height / 2 - box.top, x2 = r2.left - box.left, y2 = r2.top + Math.min(r2.height / 2, 28) - box.top, mx = (x1 + x2) / 2;
+      return '<path class="' + (on ? "is-on" : "") + '" d="M' + x1 + " " + y1 + "C" + mx + " " + y1 + " " + mx + " " + y2 + " " + x2 + " " + y2 + '"/>';
+    };
+    var rootCard = branchEl.querySelector(".br__col--root .cd"), s = "";
+    branchEl.querySelectorAll(".br__col--kids > *").forEach(function (k) { s += curve(rootCard, k, k.classList.contains("is-active")); });
+    var a = branchEl.querySelector(".br__col--kids .is-active");
+    if (a) branchEl.querySelectorAll(".br__col--grand > *").forEach(function (k) { s += curve(a, k, true); });
+    svg.innerHTML = s;
+  }
+
+  function drawView() {
+    drawCrumbs();
+    if (view === "cards") drawCards();
+    else if (view === "branches") drawBranches();
+  }
+  function zoom(i) { focus = i; active = null; drawView(); }
+
+  // clicks: a card selects; one with questions beneath it opens (Cards drills in; Branches makes it the active child,
+  // or shifts the tree along when it's already in the third column)
+  function onCard(e) {
+    var z = e.target.closest("[data-z]"); if (z) { zoom(z.dataset.z); return; }
+    var m = e.target.closest("[data-more]"); if (m) { more[m.dataset.more] = 1; drawBranches(); return; }
+    var c = e.target.closest(".cd"); if (!c) return;
+    var i = c.dataset.i, n = byId[i], has = sorted(i).length > 0;
+    if (view === "cards") {
+      if (i === focus) { if (n.p) zoom(n.p); return; }
+      if (has) { focus = i; }
+    } else {
+      if (i === focus) { if (n.p) { active = focus; focus = n.p; } }
+      else if (n.p === focus) { active = has ? i : null; }
+      else if (has) { focus = n.p; active = i; }
+    }
+    // on phones the panel is a sheet over the cards, so opening a branch doesn't also raise it
+    if (has && matchMedia("(max-width: 960px)").matches && i !== sel) { drawView(); return; }
+    select(i, { focus: false, keep: true });
+  }
+  cardsEl.addEventListener("click", onCard);
+  branchEl.addEventListener("click", onCard);
+  crumbs.addEventListener("click", function (e) { var b = e.target.closest("[data-z]"); if (b) zoom(b.dataset.z); });
+  window.addEventListener("resize", function () { if (view === "branches") linkBranches(); });
+
+  function render() { renderList(); drawView(); }
   function setView(v) {
     view = v;
     document.querySelectorAll(".viewsw button").forEach(function (b) { b.setAttribute("aria-pressed", b.dataset.v === v); });
-    $("#t-ice").hidden = v !== "map"; outline.hidden = v !== "list"; $("#t-collapse").hidden = v !== "list";
+    $("#t-visual").hidden = v === "list"; cardsEl.hidden = v !== "cards"; branchEl.hidden = v !== "branches";
+    outline.hidden = v !== "list"; $("#t-collapse").hidden = v !== "list";
+    if (sel && v !== "list" && !inView(sel)) { focus = byId[sel].p || root.i; active = view === "branches" && sorted(sel).length ? sel : null; }
+    lastDepth = depth[focus];
     render();
   }
   document.querySelector(".viewsw").addEventListener("click", function (e) { var b = e.target.closest("[data-v]"); if (b) setView(b.dataset.v); });
@@ -313,7 +330,10 @@
     opts = opts || {};
     if (i && !visible(byId[i])) { if (byId[i].r === "rejected") { showAside = true; $("#t-aside").checked = true; } else { showDeclined = true; $("#t-declined").checked = true; } partition(); }
     sel = i || null;
-    if (sel) { reveal(sel); if (opts.zoom || !inWindow(sel)) focus = byId[sel].p || root.i; }
+    if (sel) {
+      reveal(sel);
+      if (!opts.keep && (opts.zoom || !inView(sel))) { focus = byId[sel].p || root.i; active = view === "branches" && sorted(sel).length ? sel : null; }
+    }
     render(); showDetail();
     if (opts.hash !== false) { try { history.replaceState(null, "", sel ? "#" + sel : location.pathname); } catch (x) {} }
     var el = sel && document.getElementById("r-" + sel);
@@ -351,8 +371,8 @@
   });
 
   // ---------- tools ----------
-  $("#t-declined").addEventListener("change", function (e) { showDeclined = e.target.checked; partition(); if (!(focus in Y0)) focus = root.i; render(); });
-  $("#t-aside").addEventListener("change", function (e) { showAside = e.target.checked; partition(); if (!(focus in Y0)) focus = root.i; render(); });
+  $("#t-declined").addEventListener("change", function (e) { showDeclined = e.target.checked; partition(); if (!visible(byId[focus])) focus = root.i; render(); });
+  $("#t-aside").addEventListener("change", function (e) { showAside = e.target.checked; partition(); if (!visible(byId[focus])) focus = root.i; render(); });
   $("#t-collapse").addEventListener("click", function () { open = {}; open[root.i] = true; sel = null; render(); showDetail(); });
   var found = $("#t-found"), timer;
   $("#t-find").addEventListener("input", function (e) {
