@@ -21,7 +21,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   `--good` (a paler accent for good beside the accent), `--alert` (money at risk, losses, overload, late),
   `--alert-2` (softer warnings); alerts sit next to the sky's hue rather than opposite it (the user found
   orange-on-blue and red-on-green harsh), and moonlight for everything else ("yours", e.g. your plan in a chart, is plain
-  white). Brief `sky-warm`: amber / pale gold / coral. Memo `sky-green` (green nebula, green-black ground): mint / pale mint / honey-gold pastel (a warm gold: a greener gold read as chartreuse against the green sky). Agents `sky-teal`: teal / pale aqua / honey-gold. Workflows
+  white). Brief `sky-warm`: amber / pale gold / coral. Memo `sky-green` (green nebula, green-black ground): mint / pale mint / honey-gold pastel (a warm gold: a greener gold read as chartreuse against the green sky). Workflows
   `sky-plum`: violet / lilac / red-rose. Workbench (the defaults): blue / pale cyan / orchid. Ask
   `sky-violet`: periwinkle / pale periwinkle / pink. The older names the page rules use (`--blue`, `--teal`,
   `--rose`, `--gold`, `--violet`, `--ember`, `--safe`, `--loss` ...) are aliases redefined on `.t-night`, and tints
@@ -105,9 +105,11 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   was/now diffs, cost, approve or sign off, decline), steer the negotiation (the resin buyer's brief as choices with
   nudges and must-have switches, live odds of a deal, value protected, premium and net from `outcome()`, and its version
   history; sending your own brief makes a new version) and every agent (brief, last report, what it added, and a
-  per-agent "acts on its own" switch, off in manual). Sky `sky-teal`: teal / pale aqua / honey-gold. Now light, to try it
-  (`ag-light`, 2026-11-03): "mint paper", a pale teal-gray ground, white cards on soft shadows, deepened teal and gold,
-  sense in blue so it parts from steer's teal, the Totality hub kept as a dark disc (the moon), no sky (space.js removed).
+  per-agent "acts on its own" switch, off in manual). Designed light from the ground up (2026-11-03; the user
+  found dark remnants in a recolored version): body `ag-page`, no `.t-night` and no sky; its own tokens in agents.css
+  (paper ground `#f4f5f2`, white surfaces on soft shadows, sunken gray wells, ink type, teal accent; stages sense blue,
+  weigh ink, steer teal, act amber, each with a soft tint). Selection is a raised white segment or a tinted fill, never a
+  black block or an outline; primary buttons teal; the hub a white disc with stage arcs; the brief's history a timeline.
 - `index.html` + `assets/css/landing.css` + `assets/js/landing.js` is the landing, Penumbra (it was a preview at
   `penumbra.html` from 2026-10-15 until the switchover on 2026-10-16; `penumbra.html` now only redirects home). Same
   sections as the old ByNine landing, with the Daybreak engine renamed the **Totality engine** and dawn lines

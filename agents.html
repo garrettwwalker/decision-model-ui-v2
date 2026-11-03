@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="assets/css/agents.css">
   <script src="assets/js/nav.js"></script>
 </head>
-<body class="app t-night sky-teal ag-light">
+<body class="app ag-page">
   <a class="skip" href="#main">Skip to content</a>
 
   <header class="bar">
@@ -42,11 +42,11 @@
         <h1 class="display">the brain<br>and the edge.</h1>
         <p class="ag-head__lede">Your agents sense and act. The Totality engine weighs what they find, decides what's worth knowing next and how the plan should change. You sign off on what matters.</p>
       </div>
-      <div class="mode panel" id="mode">
+      <div class="mode" id="mode">
         <h2 class="mode__title">Who acts</h2>
         <div class="mode__seg" role="radiogroup" aria-label="Who acts">
-          <button type="button" role="radio" data-mode="manual" aria-checked="true"><b>Manual</b><small>every change waits for you</small></button>
-          <button type="button" role="radio" data-mode="auto" aria-checked="false"><b>Automatic for small decisions</b><small>under your limit, reversible</small></button>
+          <button type="button" role="radio" data-mode="manual" aria-checked="true"><i class="mode__dot" aria-hidden="true"></i><b>Manual</b><small>every change waits for you</small></button>
+          <button type="button" role="radio" data-mode="auto" aria-checked="false"><i class="mode__dot" aria-hidden="true"></i><b>Automatic for small decisions</b><small>under your limit, reversible</small></button>
         </div>
         <div class="mode__auto" id="mode-auto" hidden>
           <p class="mode__label">Limit per change</p>
@@ -62,7 +62,7 @@
         <h2 class="section__title" id="loop-title">the loop</h2>
         <p class="section__note">Replay the morning. Each turn of the loop sharpens the forecast, points the information agents at what matters most, and tightens the plan the workflow agents carry out.</p>
       </div>
-      <div class="loop panel" id="loop">
+      <div class="loop" id="loop">
         <div class="loop__board" id="loop-board">
           <svg class="loop__links" id="loop-links" aria-hidden="true"></svg>
           <div class="loop__col loop__col--sense">
@@ -72,6 +72,7 @@
           <div class="loop__hub">
             <svg class="hub" id="hub" viewBox="0 0 240 240" role="img" aria-labelledby="hub-label">
               <title id="hub-label">The Totality engine</title>
+              <circle class="hub__halo" cx="120" cy="120" r="80"/>
               <circle class="hub__disc" cx="120" cy="120" r="78"/>
               <g id="hub-arcs"></g>
               <text class="hub__p num" id="hub-p" x="120" y="124" text-anchor="middle">27%</text>
@@ -114,7 +115,7 @@
         <p class="section__note">The resin buyer is negotiating the 7,000 t bridge-buy from Singapore. Totality sets its brief; change any part and see what it does to the odds of a deal and the value it protects. Changes go to the agent when you send them.</p>
       </div>
       <div class="steer" id="steer">
-        <div class="steer__brief panel">
+        <div class="steer__brief">
           <div class="steer__top">
             <h3 class="panel__title">The resin buyer's brief</h3>
             <p class="steer__ver" id="st-ver"></p>
@@ -126,7 +127,7 @@
             <p class="steer__msg" id="st-msg" aria-live="polite"></p>
           </div>
         </div>
-        <div class="steer__out panel">
+        <div class="steer__out">
           <div class="kpis" id="st-kpis"></div>
           <h3 class="steer__h">How the brief has moved</h3>
           <ol class="vers" id="st-vers"></ol>
