@@ -137,7 +137,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   (the decomposition, with a side panel for resolution criteria and cross-links, a bottom sheet on phones; three views
   over one zoom position, for the user to compare: Cards, one level at a time as a grid of full-size cards you drill
   into (the chance as a number, a plain word and a bar in a warm ramp by probability, yellow to rose-red, the user
-  found gray bars dull; hatched where declined; easing shown by its tag, not color; how many questions inside, in
+  found gray bars dull; each bar is one solid color, not a gradient, its probability's point on the ramp; hatched where declined; easing shown by its tag, not color; how many questions inside, in
   words, no "likeliest"; a chevron and points where the chance moved since yesterday, on some cards only, from the
   generator's `dd`; a key above; a quiet lighter card for the selection and a "Back to ..." pill at the head of the
   crumbs: the user found a strip of tick marks, a yellow-and-white selection and an "Up a level" button unclear); Branches, the question, its

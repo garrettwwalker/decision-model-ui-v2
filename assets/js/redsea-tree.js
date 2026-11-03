@@ -88,7 +88,7 @@
     var ch = sorted(n.i), has = ch.length > 0, isOpen = !!open[n.i];
     var role = ROLE[n.r];
     var right = n.pr != null
-      ? '<span class="r__bar"><i style="--p:' + Math.max(1, n.pr) + ";width:" + n.pr + '%"></i></span><span class="r__p num">' + n.pr + "%</span>"
+      ? '<span class="r__bar"><i style="background:' + ramp(n.pr) + ";width:" + n.pr + '%"></i></span><span class="r__p num">' + n.pr + "%</span>"
       : role ? '<span class="r__role">' + role[0] + "</span>" : "";
     var cls = "r" + (n.i === sel ? " is-sel" : "") + (n.r === "withheld" || n.r === "rejected" || n.r === "concept" ? " is-quiet" : "") +
       (hits && hits[n.i] ? " is-hit" : "");
@@ -133,6 +133,17 @@
   function words(p) {
     return p < 5 ? "almost no chance" : p < 20 ? "very unlikely" : p < 45 ? "unlikely" : p <= 55 ? "about even" : p < 80 ? "likely" : p < 95 ? "very likely" : "almost certain";
   }
+  // the color for a chance, from the same ramp as the key: soft yellow at low odds, orange, rose-red at high
+  var RAMP = [[0, [242, 208, 107]], [45, [255, 162, 76]], [80, [255, 95, 115]], [100, [255, 61, 110]]];
+  function ramp(p) {
+    for (var k = 1; k < RAMP.length; k++) {
+      if (p <= RAMP[k][0]) {
+        var a = RAMP[k - 1], b = RAMP[k], t = (p - a[0]) / (b[0] - a[0]);
+        return "rgb(" + a[1].map(function (v, j) { return Math.round(v + (b[1][j] - v) * t); }).join(",") + ")";
+      }
+    }
+    return "rgb(" + RAMP[RAMP.length - 1][1].join(",") + ")";
+  }
   // a chevron and the points moved since yesterday, for the questions whose chance moved
   function moved(n) {
     if (!n.dd) return "";
@@ -145,7 +156,7 @@
     var ch = sorted(n.i), many = inside(n.i), role = ROLE[n.r];
     var tag = n.r === "withheld" ? "declined" : n.r === "rejected" ? "set aside" : n.r === "concept" ? "context" : n.ease ? "eases it" : "";
     var chance = n.pr != null
-      ? '<span class="cd__p num">' + n.pr + '<small>%</small></span><span class="cd__w">' + words(n.pr) + '</span><span class="cd__bar"><i style="--p:' + Math.max(1, n.pr) + ";width:" + n.pr + '%"></i></span>'
+      ? '<span class="cd__p num">' + n.pr + '<small>%</small></span><span class="cd__w">' + words(n.pr) + '</span><span class="cd__bar"><i style="background:' + ramp(n.pr) + ";width:" + n.pr + '%"></i></span>'
       : '<span class="cd__p cd__p--none">' + (role ? role[0] : "") + '</span><span class="cd__w">' + (n.r === "withheld" ? "no forecast" : "") + '</span><span class="cd__bar is-none"></span>';
     // what's inside, in words, and on the right, how far the chance moved since yesterday where it did
     var decl = ch.filter(function (c) { return c.r === "withheld"; }).length;

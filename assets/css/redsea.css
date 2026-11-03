@@ -595,10 +595,10 @@
 .cd__p small { font-size: 0.5em; letter-spacing: 0; }
 .cd__p--none { font-size: 0.95rem; font-weight: 700; letter-spacing: 0; color: var(--fg-2); }
 .cd__bar { height: 6px; border-radius: 3px; background: var(--card-low); overflow: hidden; }
-/* the chance as a warm ramp, soft yellow at low odds through orange to rose-red at high, stretched across the whole
-   track so each bar ends on its own probability's color */
+/* each bar is one solid color for its chance, taken from a warm ramp (ramp() in redsea-tree.js): soft yellow at low odds
+   through orange to rose-red at high; the key shows the whole ramp */
 .tree { --ramp: linear-gradient(90deg, #f2d06b 0%, #ffa24c 45%, #ff5f73 80%, #ff3d6e 100%); }
-.cd__bar i, .r__bar i { display: block; height: 100%; border-radius: 3px; background: var(--ramp); background-size: calc(10000% / var(--p, 100)) 100%; }
+.cd__bar i, .r__bar i { display: block; height: 100%; border-radius: 3px; }
 .cd__bar.is-none { background: repeating-linear-gradient(45deg, rgba(236, 238, 242, 0.22) 0 2px, rgba(236, 238, 242, 0.04) 2px 5px); }
 .cd.is-quiet .cd__t, .cd.is-quiet .cd__chance { opacity: 0.7; }
 .cd__foot { display: flex; align-items: center; justify-content: space-between; gap: 0.4rem 0.75rem; padding-top: 0.55rem; border-top: 1px solid var(--line); }
