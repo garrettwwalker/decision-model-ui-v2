@@ -136,7 +136,7 @@
   // the color for a chance, from the same ramp as the key: soft yellow at low odds, orange, rose-red at high
   // on the light pages the ramp runs deeper (amber, orange, crimson) so a low chance still shows on white
   var RAMP = document.body.classList.contains("rs-lt")
-    ? [[0, [222, 168, 30]], [45, [236, 120, 28]], [80, [222, 62, 80]], [100, [196, 22, 72]]]
+    ? [[0, [236, 196, 64]], [15, [240, 150, 30]], [35, [232, 96, 28]], [55, [214, 48, 48]], [78, [176, 20, 64]], [100, [120, 10, 52]]]
     : [[0, [242, 208, 107]], [45, [255, 162, 76]], [80, [255, 95, 115]], [100, [255, 61, 110]]];
   function ramp(p) {
     for (var k = 1; k < RAMP.length; k++) {

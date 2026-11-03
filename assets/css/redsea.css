@@ -717,7 +717,7 @@ button.route__in:focus-visible { outline: 2px solid var(--accent); outline-offse
   --lift: 0 1px 3px rgba(16, 24, 40, 0.07), 0 4px 12px -6px rgba(16, 24, 40, 0.1);
   --lift-hi: 0 2px 4px rgba(16, 24, 40, 0.05), 0 10px 22px -8px rgba(16, 24, 40, 0.2);
 }
-.rs-lt-tree .tree { --ramp: linear-gradient(90deg, #dea81e 0%, #ec781c 45%, #de3e50 80%, #c41648 100%); }
+.rs-lt-tree .tree { --ramp: linear-gradient(90deg, #ecc440 0%, #f0961e 15%, #e8601c 35%, #d63030 55%, #b01440 78%, #780a34 100%); }
 .rs-lt-tree .cd, .rs-lt-tree .outline, .rs-lt-tree .detail, .rs-lt-tree .viewsw, .rs-lt-tree .find input,
 .rs-lt-tree .route .crumbs__back { box-shadow: var(--lift); }
 .rs-lt-tree .cd:hover { box-shadow: var(--lift-hi); }
