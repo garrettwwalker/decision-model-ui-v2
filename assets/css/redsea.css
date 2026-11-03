@@ -552,12 +552,12 @@
 .crumbs { min-width: 0; flex: 1 1 32rem; }
 .crumbs.is-root { flex-basis: auto; }
 /* the route: stops on a thin line, one per level, the current one ringed */
-.route { display: flex; margin: 0; padding: 0; list-style: none; overflow-x: auto; scrollbar-width: none; }
+.route { display: flex; margin: -6px; padding: 6px; list-style: none; overflow-x: auto; scrollbar-width: none; } /* the padding keeps the dots' halos inside the scroll box */
 .route::-webkit-scrollbar { display: none; }
 .route__stop { position: relative; flex: 0 1 15rem; min-width: 8.5rem; }
 .route__stop:last-child { flex: 1 1 18rem; }
 .route__stop:not(:last-child)::after { /* the line from this stop's dot to the next stop's */
-  content: ""; position: absolute; top: 0.62rem; left: 0.4rem; right: -0.2rem; height: 2px; border-radius: 1px;
+  content: ""; position: absolute; top: 0.56rem; left: 0.62rem; right: 0; height: 2px; border-radius: 1px;
   background: color-mix(in srgb, var(--accent) 45%, var(--line-strong));
 }
 .route__stop:not(:last-child) .route__in { padding-right: 1rem; }
@@ -566,11 +566,13 @@
   font: inherit; color: inherit; background: none; border: 0;
 }
 button.route__in { cursor: pointer; }
-.route__dot {
-  width: 0.8rem; height: 0.8rem; margin: 0.22rem 0 0.4rem; border-radius: 50%; background: var(--accent);
-  box-shadow: 0 0 0 3px var(--void); transition: transform 0.2s ease;
+.route__dot { /* every dot sits centered in the same 1.25rem box, so the line meets each one and none pokes out */
+  position: relative; width: 1.25rem; height: 1.25rem; margin-bottom: 0.2rem; transition: transform 0.2s ease;
 }
-.route__stop.is-here .route__dot { width: 1.25rem; height: 1.25rem; margin: 0 0 0.2rem -0.22rem; background: var(--void); box-shadow: 0 0 0 3px var(--void), inset 0 0 0 3px var(--accent); }
+.route__dot::before {
+  content: ""; position: absolute; inset: 0.22rem; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 3px var(--void);
+}
+.route__stop.is-here .route__dot::before { inset: 0; background: var(--void); box-shadow: 0 0 0 3px var(--void), inset 0 0 0 3px var(--accent); }
 .route__k { font-size: 0.72rem; font-weight: 600; color: var(--moon-3); }
 .route__p { margin-left: 0.25rem; color: var(--fg-2); font-weight: 700; }
 .route__t {
