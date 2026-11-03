@@ -133,9 +133,9 @@
     return '<button type="button" class="preset" data-o="' + o.id + '"><b>' + o.id + "</b><span>" + o.name + "</span>" + (o.pick ? '<em>Recommended</em>' : "") + "</button>";
   }).join("");
   $("#l-moves").insertAdjacentHTML("beforeend", RS.TEAMS.map(function (t) {
-    return '<label class="mv"><input type="checkbox" value="' + t.id + '"><span class="mv__body"><span class="mv__name">' + t.name + '</span><span class="mv__what">' + t.move +
+    return '<label class="mv"><span class="mv__body"><span class="mv__name">' + t.name + '</span><span class="mv__what">' + t.move +
       '</span><span class="mv__meta"><span class="num">' + M(t.cost) + "</span> ready " + weekday(ready(t.days)) +
-      "</span></span></label>";
+      '</span></span><input type="checkbox" class="tgl" value="' + t.id + '"></label>';
   }).join(""));
 
   // ---------- motion: every lab figure moves from what it shows to the new figures ----------

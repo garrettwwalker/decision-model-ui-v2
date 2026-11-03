@@ -147,7 +147,9 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   `redsea.js`) and drops leakage flags, which stay private.
 - Checkboxes (2026-11-03): the user found the browser's default boxes dated, so `base.css` draws every
   `input[type="checkbox"]` as a rounded square that fills with the page's control color (`--cb-on`, default
-  `--ctl`) and draws a check (`--cb-mark`). On/off settings use the `.switch` toggle from `app.css` instead.
+  `--ctl`) and draws a check (`--cb-mark`). But the user prefers switches as a general rule: use the `.switch`
+  toggle from `app.css` for a labelled row, or `class="tgl"` on a lone checkbox (the report's moves, the workbench's
+  plan table, ask's sources), and keep a plain checkbox only where a switch would look awkward.
 - Motion between views: `assets/js/nav.js` (in every page's `<head>`) records which way the clicked page lies in the
   nav order; the new page slides in from that side (cross-document view transitions where supported, with the
   `.bar` held still; otherwise a CSS entrance on `main` and the footer, keyed on `html[data-slide]`). In the

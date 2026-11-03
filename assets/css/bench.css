@@ -123,7 +123,6 @@
 .op-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; }
 .table-panel { padding-top: 0.6rem; }
 .options td { vertical-align: middle; }
-.options input[type="checkbox"] { width: 1.25rem; height: 1.25rem; }
 .options__name { font-weight: 700; }
 .options__helps, .options__team { font-size: 0.8rem; color: var(--fg-2); }
 .options tr.is-in td { background: color-mix(in srgb, var(--teal) 8%, transparent); }
@@ -326,7 +325,6 @@ select.num-input, input.num-input { font-family: var(--font); background: rgba(7
 .tmid { stroke: var(--a-amber); stroke-width: 2; }
 
 /* execution */
-.team__ot { display: flex; align-items: center; gap: 0.45rem; font-size: 0.78rem; font-weight: 600; color: var(--fg-2); cursor: pointer; min-height: 32px; }
 .assign select.num-input { min-height: 36px; padding: 0.2rem 0.4rem; width: auto; max-width: 13rem; }
 
 @keyframes bump { 30% { transform: scale(1.08); } }

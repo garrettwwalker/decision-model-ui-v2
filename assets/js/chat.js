@@ -370,9 +370,9 @@
     srcBox.textContent = "";
     SOURCES.forEach(function (x) {
       var lab = el("label", "qsrc" + (opts.sources[x[0]] ? " is-on" : ""));
-      var cb = el("input"); cb.type = "checkbox"; cb.checked = !!opts.sources[x[0]];
+      var cb = el("input", "tgl"); cb.type = "checkbox"; cb.checked = !!opts.sources[x[0]];
       cb.addEventListener("change", function () { opts.sources[x[0]] = cb.checked; renderOpts(); });
-      lab.appendChild(cb); var t = el("span"); t.appendChild(el("b", null, x[1])); t.appendChild(el("small", null, x[2])); lab.appendChild(t);
+      var t = el("span"); t.appendChild(el("b", null, x[1])); t.appendChild(el("small", null, x[2])); lab.appendChild(t); lab.appendChild(cb);
       srcBox.appendChild(lab);
     });
     var n = changes(), badge = document.getElementById("qopts-n");

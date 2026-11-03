@@ -167,7 +167,7 @@
 .qattach:focus-within { outline: 2px solid var(--ink); outline-offset: 2px; }
 .qopt__hint { margin: 0; font-size: 0.72rem; color: var(--moon-3); }
 .qsources { display: grid; grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr)); gap: 0.3rem; }
-.qsrc { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0.5rem; align-items: center; padding: 0.4rem 0.6rem; border-radius: 10px; background: rgba(236, 238, 242, 0.04); cursor: pointer; }
+.qsrc { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0.5rem; align-items: center; padding: 0.4rem 0.6rem; border-radius: 10px; background: rgba(236, 238, 242, 0.04); cursor: pointer; }
 .qsrc.is-on { background: color-mix(in srgb, var(--blue) 10%, transparent); }
 .qsrc span { display: grid; }
 .qsrc b { font-size: 0.78rem; }

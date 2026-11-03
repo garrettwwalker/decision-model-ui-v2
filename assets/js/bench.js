@@ -1108,7 +1108,7 @@
       var a = row.a, c = row.c, ra = r.acts[a.id];
       var tr = el("tr", { class: (plan[a.id] ? "is-in" : "") + (row.relevant ? "" : " is-idle") });
       var td = el("td");
-      var cb = el("input", { type: "checkbox", "aria-label": "Include: " + a.name }); cb.checked = !!plan[a.id];
+      var cb = el("input", { type: "checkbox", class: "tgl", "aria-label": "Include: " + a.name }); cb.checked = !!plan[a.id];
       cb.addEventListener("change", function () { if (cb.checked) plan[a.id] = true; else delete plan[a.id]; changed((cb.checked ? "Added: " : "Removed: ") + a.name); });
       td.appendChild(cb); tr.appendChild(td);
       var nm = el("td", { class: "options__name" }, a.name);
