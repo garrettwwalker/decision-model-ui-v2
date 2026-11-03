@@ -169,7 +169,6 @@
 .qsources { display: grid; grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr)); gap: 0.3rem; }
 .qsrc { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0.5rem; align-items: center; padding: 0.4rem 0.6rem; border-radius: 10px; background: rgba(236, 238, 242, 0.04); cursor: pointer; }
 .qsrc.is-on { background: color-mix(in srgb, var(--blue) 10%, transparent); }
-.qsrc input { width: 16px; height: 16px; accent-color: var(--a-amber); }
 .qsrc span { display: grid; }
 .qsrc b { font-size: 0.78rem; }
 .qsrc small { font-size: 0.68rem; color: var(--moon-3); }

@@ -44,8 +44,8 @@
 
     <div class="tree__tools">
       <label class="find"><span class="sr-only">Find a question</span><input id="t-find" type="search" placeholder="Find a question, such as insurance or Maersk" autocomplete="off"></label>
-      <label class="tog"><input type="checkbox" id="t-declined" checked> Show declined</label>
-      <label class="tog"><input type="checkbox" id="t-aside"> Show set aside</label>
+      <label class="switch tog"><span class="switch__text">Show declined</span><input type="checkbox" id="t-declined" checked><span class="switch__ui" aria-hidden="true"></span></label>
+      <label class="switch tog"><span class="switch__text">Show set aside</span><input type="checkbox" id="t-aside"><span class="switch__ui" aria-hidden="true"></span></label>
       <button class="btn-quiet" type="button" id="t-collapse">Collapse all</button>
       <p class="tree__found" id="t-found" aria-live="polite"></p>
     </div>

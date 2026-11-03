@@ -141,6 +141,9 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   `tools/redsea-lattice.py` from `references/red-sea-lattice-v0.html`; the reference has no probabilities, so the
   script adds illustrative ones (hand-set for branches and for the nodes the summary cites, which must match
   `redsea.js`) and drops leakage flags, which stay private.
+- Checkboxes (2026-11-03): the user found the browser's default boxes dated, so `base.css` draws every
+  `input[type="checkbox"]` as a rounded square that fills with the page's control color (`--cb-on`, default
+  `--ctl`) and draws a check (`--cb-mark`). On/off settings use the `.switch` toggle from `app.css` instead.
 - Motion between views: `assets/js/nav.js` (in every page's `<head>`) records which way the clicked page lies in the
   nav order; the new page slides in from that side (cross-document view transitions where supported, with the
   `.bar` held still; otherwise a CSS entrance on `main` and the footer, keyed on `html[data-slide]`). In the
