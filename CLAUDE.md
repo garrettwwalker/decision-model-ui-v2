@@ -105,7 +105,9 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   was/now diffs, cost, approve or sign off, decline), steer the negotiation (the resin buyer's brief as choices with
   nudges and must-have switches, live odds of a deal, value protected, premium and net from `outcome()`, and its version
   history; sending your own brief makes a new version) and every agent (brief, last report, what it added, and a
-  per-agent "acts on its own" switch, off in manual). Sky `sky-teal`: teal / pale aqua / honey-gold.
+  per-agent "acts on its own" switch, off in manual). Sky `sky-teal`: teal / pale aqua / honey-gold. Now light, to try it
+  (`ag-light`, 2026-11-03): "mint paper", a pale teal-gray ground, white cards on soft shadows, deepened teal and gold,
+  sense in blue so it parts from steer's teal, the Totality hub kept as a dark disc (the moon), no sky (space.js removed).
 - `index.html` + `assets/css/landing.css` + `assets/js/landing.js` is the landing, Penumbra (it was a preview at
   `penumbra.html` from 2026-10-15 until the switchover on 2026-10-16; `penumbra.html` now only redirects home). Same
   sections as the old ByNine landing, with the Daybreak engine renamed the **Totality engine** and dawn lines

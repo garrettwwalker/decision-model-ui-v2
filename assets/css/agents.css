@@ -233,3 +233,51 @@
   .hub.is-weigh .hub__disc, .qc { animation: none; }
   .lag, .lk, .hub__arc { transition: none; }
 }
+
+/* ================= Light (body.ag-light, 2026-11-03: the user asked to try this page light) =================
+   "Mint paper": a pale teal-gray ground, crisp white cards on soft shadows (no outlines), ink type, and the Totality
+   hub kept as a dark disc, the moon at the centre of the loop. Teal and gold are deepened to read on white, and sense
+   turns a clear blue so it doesn't blur into steer's teal. No sky. */
+.t-night.ag-light {
+  --void: #f2f6f5; --space: #f2f6f5;
+  --moon: #12181a; --moon-2: #475356; --moon-3: #687477; --fg: var(--moon); --fg-2: var(--moon-2); --on-ink: #fff;
+  --card: #ffffff; --card-solid: #ffffff; --card-low: #ecf2f1; --card-hover: #f7faf9;
+  --card-on: color-mix(in srgb, #ffffff 84%, var(--accent) 16%);
+  --line: rgba(18, 24, 26, 0.1); --line-strong: rgba(18, 24, 26, 0.2); --panel-line: var(--line);
+  --accent: #0b8576; --good: #2b8f82; --alert: #a86510; --alert-2: #c08a2e;
+  --glass: none; --focus: var(--accent); --ctl: var(--accent);
+  --lift: 0 1px 2px rgba(16, 32, 30, 0.05), 0 8px 24px -14px rgba(16, 32, 30, 0.18);
+}
+.ag-light .ag { --sense: #2a72b0; }
+.t-night.ag-light .bar { background: color-mix(in srgb, var(--void) 88%, transparent); box-shadow: 0 1px 0 var(--line); }
+.ag-light .logo { filter: none; }
+.ag-light .logo::before { background: var(--fg); }
+.ag-light .section__note, .ag-light .rgroup__head p { text-shadow: none; }
+
+.ag-light .panel, .ag-light .qc, .ag-light .agent, .ag-light .done__list, .ag-light .queue__empty { box-shadow: var(--lift); }
+.ag-light .mode__seg, .ag-light .mode__limit, .ag-light .pick__seg { background: var(--card-low); }
+.ag-light .mode__seg button:hover, .ag-light .mode__limit button:hover, .ag-light .pick__seg button:hover { background: rgba(18, 24, 26, 0.06); }
+.ag-light .nudge button, .ag-light .tl__btn, .ag-light .btn-q { background: rgba(18, 24, 26, 0.07); }
+.ag-light .nudge button:hover:not(:disabled), .ag-light .tl__btn:hover:not(:disabled), .ag-light .btn-q:hover { background: rgba(18, 24, 26, 0.13); }
+.ag-light .tl__btn--play { background: var(--fg); color: #fff; }
+.ag-light .tl__btn--play:hover { background: #000; }
+.ag-light .btn--primary { background: var(--fg); color: #fff; }
+.ag-light .btn--primary:hover { background: #000; box-shadow: none; }
+.ag-light .switch__ui { background: rgba(18, 24, 26, 0.18); }
+.ag-light .switch__ui::after { box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); }
+.ag-light .qc--draft .qc__kind { background: rgba(18, 24, 26, 0.07); }
+
+/* the loop */
+.ag-light .lag { background: var(--card-low); }
+.ag-light .lk { stroke: rgba(18, 24, 26, 0.12); }
+.ag-light .hub__disc { fill: #0f1517; filter: drop-shadow(0 8px 22px rgba(11, 133, 118, 0.35)); }
+@keyframes hub-think-lt { 50% { filter: drop-shadow(0 8px 34px rgba(11, 133, 118, 0.7)); } }
+.ag-light .hub.is-weigh .hub__disc { animation-name: hub-think-lt; }
+.ag-light .hub__arc { stroke: rgba(18, 24, 26, 0.1); }
+.ag-light .hub__p { fill: #fff; }
+.ag-light .hub__q { fill: rgba(255, 255, 255, 0.7); }
+.ag-light .hub__name { fill: #5fdcc8; }
+.ag-light .tl__grid { stroke: rgba(18, 24, 26, 0.08); }
+.ag-light .tl__ver { stroke: rgba(18, 24, 26, 0.2); }
+.ag-light .tl__dot { stroke: #fff; }
+.ag-light .tl__pt.is-on .tl__dot { stroke: var(--fg); }
