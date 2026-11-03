@@ -88,7 +88,7 @@
     var ch = sorted(n.i), has = ch.length > 0, isOpen = !!open[n.i];
     var role = ROLE[n.r];
     var right = n.pr != null
-      ? '<span class="r__bar' + (n.ease ? " is-ease" : "") + '"><i style="width:' + n.pr + '%"></i></span><span class="r__p num">' + n.pr + "%</span>"
+      ? '<span class="r__bar"><i style="--p:' + Math.max(1, n.pr) + ";width:" + n.pr + '%"></i></span><span class="r__p num">' + n.pr + "%</span>"
       : role ? '<span class="r__role">' + role[0] + "</span>" : "";
     var cls = "r" + (n.i === sel ? " is-sel" : "") + (n.r === "withheld" || n.r === "rejected" || n.r === "concept" ? " is-quiet" : "") +
       (hits && hits[n.i] ? " is-hit" : "");
@@ -133,18 +133,24 @@
   function words(p) {
     return p < 5 ? "almost no chance" : p < 20 ? "very unlikely" : p < 45 ? "unlikely" : p <= 55 ? "about even" : p < 80 ? "likely" : p < 95 ? "very likely" : "almost certain";
   }
+  // a chevron and the points moved since yesterday, for the questions whose chance moved
+  function moved(n) {
+    if (!n.dd) return "";
+    var up = n.dd > 0;
+    return '<span class="mv-day ' + (up ? "is-up" : "is-down") + '" title="' + (up ? "Up " : "Down ") + Math.abs(n.dd) + (Math.abs(n.dd) === 1 ? " point" : " points") +
+      ' since yesterday"><span class="mv-day__chev" aria-hidden="true"></span>' + (up ? "+" : "-") + Math.abs(n.dd) + '<span class="mv-day__t"> since yesterday</span></span>';
+  }
   function card(n, o) {
     o = o || {};
     var ch = sorted(n.i), many = inside(n.i), role = ROLE[n.r];
     var tag = n.r === "withheld" ? "declined" : n.r === "rejected" ? "set aside" : n.r === "concept" ? "context" : n.ease ? "eases it" : "";
     var chance = n.pr != null
-      ? '<span class="cd__p num">' + n.pr + '<small>%</small></span><span class="cd__w">' + words(n.pr) + '</span><span class="cd__bar' + (n.ease ? " is-ease" : "") + '"><i style="width:' + n.pr + '%"></i></span>'
+      ? '<span class="cd__p num">' + n.pr + '<small>%</small></span><span class="cd__w">' + words(n.pr) + '</span><span class="cd__bar"><i style="--p:' + Math.max(1, n.pr) + ";width:" + n.pr + '%"></i></span>'
       : '<span class="cd__p cd__p--none">' + (role ? role[0] : "") + '</span><span class="cd__w">' + (n.r === "withheld" ? "no forecast" : "") + '</span><span class="cd__bar is-none"></span>';
-    // what's inside, in words: how many, the likeliest, and how many were declined
-    var top = ch.reduce(function (m, c) { return c.pr != null && c.pr > m ? c.pr : m; }, -1);
+    // what's inside, in words, and on the right, how far the chance moved since yesterday where it did
     var decl = ch.filter(function (c) { return c.r === "withheld"; }).length;
     var foot = '<span class="cd__in">' + (ch.length ? many + (many === 1 ? " question" : " questions") + " inside" +
-      (top >= 0 ? ", the likeliest at " + top + "%" : "") + (decl ? ", " + decl + " declined" : "") : "No questions beneath it") + "</span>";
+      (decl ? ", " + decl + " declined" : "") : "No questions beneath it") + "</span>" + moved(n);
     var cls = "cd" + (o.cls ? " " + o.cls : "") + (n.i === sel ? " is-sel" : "") + (hits && hits[n.i] ? " is-hit" : "") + (n.pr == null ? " is-quiet" : "") + (ch.length ? " has-kids" : "");
     return '<button type="button" class="' + cls + '" data-i="' + n.i + '"' + (o.style ? ' style="' + o.style + '"' : "") + ">" +
       '<span class="cd__k">' + (n.k === "root" ? "The question" : kind(n)) + (tag ? ' <span class="cd__tag">' + tag + "</span>" : "") + "</span>" +
@@ -303,7 +309,9 @@
     if (n.pr != null) {
       html += '<div class="dt__p"><span class="num">' + n.pr + '<small>%</small></span><span>chance' +
         (n.k === "consequence" ? ", if the driver above it happens" : n.c && n.c.dl ? " by " + fmtDate(n.c.dl) : " by " + fmtDate(L.meta.to)) +
-        '<br><span class="dt__band">likely between ' + Math.max(0, n.pr - n.bd) + " and " + Math.min(100, n.pr + n.bd) + "%</span></span></div>";
+        '<br><span class="dt__band">likely between ' + Math.max(0, n.pr - n.bd) + " and " + Math.min(100, n.pr + n.bd) + "%</span>" +
+        (n.dd ? '<br><span class="dt__day ' + (n.dd > 0 ? "is-up" : "is-down") + '">' + (n.dd > 0 ? "Up " : "Down ") + Math.abs(n.dd) + (Math.abs(n.dd) === 1 ? " point" : " points") + " since yesterday</span>" : "") +
+        "</span></div>";
     } else if (role) {
       html += '<p class="dt__role"><b>' + role[0] + "</b> " + role[1] + "</p>";
     }

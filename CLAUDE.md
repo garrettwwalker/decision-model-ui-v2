@@ -136,10 +136,11 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   for more visuals and to explore how each plan changes the landscape) and `redsea-tree.html`
   (the decomposition, with a side panel for resolution criteria and cross-links, a bottom sheet on phones; three views
   over one zoom position, for the user to compare: Cards, one level at a time as a grid of full-size cards you drill
-  into (the chance as a number, a plain word and a neutral bar; gold only where a branch would ease the disruption,
-  hatched where declined, with a key above; what's inside in words; a quiet lighter card for the selection and a
-  "Back to ..." pill at the head of the crumbs: the user found colored bars, a strip of tick marks, a yellow-and-white
-  selection and an "Up a level" button unclear); Branches, the question, its
+  into (the chance as a number, a plain word and a bar in a warm ramp by probability, yellow to rose-red, the user
+  found gray bars dull; hatched where declined; easing shown by its tag, not color; how many questions inside, in
+  words, no "likeliest"; a chevron and points where the chance moved since yesterday, on some cards only, from the
+  generator's `dd`; a key above; a quiet lighter card for the selection and a "Back to ..." pill at the head of the
+  crumbs: the user found a strip of tick marks, a yellow-and-white selection and an "Up a level" button unclear); Branches, the question, its
   children and one child's children joined by curves, long families folding into "N more"; and List, the outline. The
   user found the list alone boring, and rejected a zoomable icicle because its slim blocks were impossible to click). The user disliked the reference's radial "sonar" style as vibe-coded but
   said its information and connections are right. As of Wed 1 Apr 2026, horizon 1 Oct, matching the lattice.

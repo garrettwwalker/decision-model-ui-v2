@@ -478,8 +478,6 @@
 .r.is-quiet .r__main, .r.is-quiet .r__right { opacity: 0.6; }
 .r__right { display: grid; grid-template-columns: minmax(0, 1fr) 2.6rem; align-items: center; gap: 0.55rem; height: 1.7rem; }
 .r__bar { height: 6px; border-radius: 3px; background: var(--card-low); overflow: hidden; }
-.r__bar i { display: block; height: 100%; border-radius: 3px; background: var(--alert); }
-.r__bar.is-ease i { background: var(--good); }
 .r__p { font-size: 0.95rem; font-weight: 700; text-align: right; }
 .r__role { grid-column: 1 / -1; justify-self: end; font-size: 0.78rem; color: var(--fg-2); }
 
@@ -561,9 +559,9 @@
 .crumbs__back:hover { background: var(--card-hover); text-decoration: none !important; }
 .crumbs__chev { width: 0.45rem; height: 0.45rem; border-left: 1.8px solid currentColor; border-bottom: 1.8px solid currentColor; transform: rotate(45deg); margin-left: 0.15rem; }
 .vkey { display: flex; flex-wrap: wrap; align-items: center; gap: 0.3rem 0.45rem; margin: 0; font-size: 0.78rem; color: var(--fg-2); }
-.vkey__bar { width: 18px; height: 6px; border-radius: 3px; background: var(--moon-2); margin-left: 0.6rem; }
-.vkey__bar:first-child { margin-left: 0; }
-.vkey__bar--ease { background: var(--good); }
+.vkey__bar { width: 44px; height: 6px; border-radius: 3px; background: var(--ramp); }
+.vkey__bar--none { width: 18px; margin-left: 0.8rem; }
+.vkey .mv-day { margin-left: 0.8rem; }
 .vkey__bar--none { background: repeating-linear-gradient(45deg, rgba(236, 238, 242, 0.45) 0 2px, rgba(236, 238, 242, 0.08) 2px 4px); }
 .crumbs button { font: inherit; color: var(--accent); background: none; border: 0; padding: 0.2rem 0; cursor: pointer; }
 .crumbs button:hover { text-decoration: underline; text-underline-offset: 3px; }
@@ -597,11 +595,22 @@
 .cd__p small { font-size: 0.5em; letter-spacing: 0; }
 .cd__p--none { font-size: 0.95rem; font-weight: 700; letter-spacing: 0; color: var(--fg-2); }
 .cd__bar { height: 6px; border-radius: 3px; background: var(--card-low); overflow: hidden; }
-.cd__bar i { display: block; height: 100%; border-radius: 3px; background: var(--moon-2); }
-.cd__bar.is-ease i { background: var(--good); }
+/* the chance as a warm ramp, soft yellow at low odds through orange to rose-red at high, stretched across the whole
+   track so each bar ends on its own probability's color */
+.tree { --ramp: linear-gradient(90deg, #f2d06b 0%, #ffa24c 45%, #ff5f73 80%, #ff3d6e 100%); }
+.cd__bar i, .r__bar i { display: block; height: 100%; border-radius: 3px; background: var(--ramp); background-size: calc(10000% / var(--p, 100)) 100%; }
 .cd__bar.is-none { background: repeating-linear-gradient(45deg, rgba(236, 238, 242, 0.22) 0 2px, rgba(236, 238, 242, 0.04) 2px 5px); }
 .cd.is-quiet .cd__t, .cd.is-quiet .cd__chance { opacity: 0.7; }
-.cd__foot { padding-top: 0.55rem; border-top: 1px solid var(--line); }
+.cd__foot { display: flex; align-items: center; justify-content: space-between; gap: 0.4rem 0.75rem; padding-top: 0.55rem; border-top: 1px solid var(--line); }
+.mv-day { display: inline-flex; align-items: center; gap: 0.3rem; flex: none; font-size: 0.8rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.mv-day.is-up { color: #ff8a9b; }
+.mv-day.is-down { color: var(--moon-2); }
+.mv-day__chev { width: 0.5rem; height: 0.5rem; border-left: 2px solid currentColor; border-top: 2px solid currentColor; transform: translateY(0.12rem) rotate(45deg); }
+.mv-day.is-down .mv-day__chev { transform: translateY(-0.12rem) rotate(225deg); }
+.mv-day__t { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+.dt__day { font-weight: 700; }
+.dt__day.is-up { color: #ff8a9b; }
+.dt__day.is-down { color: var(--moon-2); }
 .cd__in { font-size: 0.8rem; line-height: 1.4; color: var(--fg-2); }
 
 .cd--head .cd__t { font-size: 1.15rem; -webkit-line-clamp: 4; }
