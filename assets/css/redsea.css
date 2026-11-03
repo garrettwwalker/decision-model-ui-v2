@@ -229,7 +229,6 @@
 .route .rt--out { stroke: var(--r-accent); stroke-width: 2; }
 .route .node { fill: var(--ink); stroke: #f7f4ee; stroke-width: 1.5; }
 .route .choke { fill: rgba(184, 48, 74, 0.24); transform-box: fill-box; transform-origin: center; animation: choke-pulse 2.4s ease-in-out infinite; }
-.route .choke--late { animation-delay: -1.2s; }  /* Suez breathes out of step with Bab el-Mandeb */
 @keyframes choke-pulse { 0%, 100% { transform: scale(0.75); fill-opacity: 1; } 50% { transform: scale(1.35); fill-opacity: 0.4; } }
 @media (prefers-reduced-motion: reduce) { .route .choke { animation: none; } }
 .route .choke__c { fill: var(--r-loss); }

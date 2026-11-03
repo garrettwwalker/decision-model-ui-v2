@@ -92,9 +92,9 @@
     s += '<path class="rt rt--out" d="' + line(beside(REDSEA.slice(0, 5).reverse()).concat(GULF.slice(1))) + '"/>';
     s += '<path class="rt rt--risk" d="' + line(ASIA.concat(REDSEA.slice(1), MED.slice(1))) + '"/><path class="rt rt--risk" d="' + line(KAOH) + '"/>';
     var dot = function (k, cls) { var q = P(PL[k]); return '<circle class="' + (cls || "node") + '" cx="' + q[0].toFixed(1) + '" cy="' + q[1].toFixed(1) + '" r="4.5"/>'; };
-    var ring = function (k, r, late) { var q = P(PL[k]); return '<circle class="choke' + (late ? " choke--late" : "") + '" cx="' + q[0].toFixed(1) + '" cy="' + q[1].toFixed(1) + '" r="' + r + '"/><circle class="choke__c" cx="' + q[0].toFixed(1) + '" cy="' + q[1].toFixed(1) + '" r="4"/>'; };
+    var ring = function (k, r) { var q = P(PL[k]); return '<circle class="choke" cx="' + q[0].toFixed(1) + '" cy="' + q[1].toFixed(1) + '" r="' + r + '"/><circle class="choke__c" cx="' + q[0].toFixed(1) + '" cy="' + q[1].toFixed(1) + '" r="4"/>'; };
     var text = function (k, t, dx, dy, anchor, cls) { var q = P(PL[k]); return '<text class="' + (cls || "pl") + '" x="' + (q[0] + dx).toFixed(1) + '" y="' + (q[1] + dy).toFixed(1) + '" text-anchor="' + (anchor || "start") + '">' + t + "</text>"; };
-    s += ring("bab", 15) + ring("suez", 12, true);
+    s += ring("bab", 15) + ring("suez", 12);
     ["busan", "kaoh", "gebze", "jed", "dam"].forEach(function (k) { s += dot(k); });
     s += text("busan", "Busan", -9, -6, "end") + text("kaoh", "Kaohsiung", 9, 4) + text("gebze", "Gebze plant", 0, -11, "middle", "pl pl--b") +
       text("jed", "Jeddah", -9, 4, "end") + text("dam", "Dammam", 8, -6);
