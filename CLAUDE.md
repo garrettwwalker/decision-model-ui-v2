@@ -98,7 +98,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   still unknown by how much it could change the decision, retasks them toward it, and rewrites the briefs of workflow
   agents (`ACT`: a resin negotiation, Khor Fakkan bookings, war-risk cover, customer letters). Same morning as the brief
   (Tue 6 Oct, Hormuz 27% at 06:00, rising to 33% by 07:30; the brief's three decisions and figures), so keep them in sync.
-  Sections: who acts (manual by default; automatic for small, reversible changes under a $1k/$10k/$50k limit, never
+  Sections: who acts (manual by default; automatic for small decisions (small, reversible changes) under a $1k/$10k/$50k limit, never
   signing, paying, sending or committing; done stays done, with Undo), the loop (agents either side of a hub whose ring
   is four stage arcs, sense, weigh, steer, act, each with one color page-wide; packets run along the lit links; a replay of
   `STEPS` with a step chart of the forecast and the brief's versions, auto-playing once in view), waiting for you (`QUEUE`:

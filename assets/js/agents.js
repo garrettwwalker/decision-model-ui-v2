@@ -137,7 +137,7 @@
     var wait = QUEUE.filter(function (q) { return q.state === "waiting"; }).length, auto = QUEUE.filter(function (q) { return q.state === "auto"; }).length;
     $("mode-now").textContent = S.mode === "manual"
       ? (wait ? wait + (wait === 1 ? " change is" : " changes are") + " waiting for you." : "Nothing is waiting for you.")
-      : auto + " small " + (auto === 1 ? "change" : "changes") + " went through on " + (auto === 1 ? "its" : "their") + " own; " + wait + " " + (wait === 1 ? "waits" : "wait") + " for you.";
+      : auto + " small " + (auto === 1 ? "decision" : "decisions") + " went through on " + (auto === 1 ? "its" : "their") + " own; " + wait + " " + (wait === 1 ? "waits" : "wait") + " for you.";
   }
 
   /* ---------- the loop ---------- */
@@ -517,38 +517,46 @@
   });
 
   /* ---------- the roster ---------- */
-  function drawRoster() {
-    var box = $("roster"); box.innerHTML = "";
+  // built once and updated in place, so the switches slide rather than being redrawn in their new position
+  var rosterSync = [];
+  (function buildRoster() {
+    var box = $("roster");
     [["Information agents", "They sense: Totality points them at whatever would most change the decision.", SENSE], ["Workflow agents", "They act: Totality writes their briefs, and you sign off before they commit.", ACT]].forEach(function (grp) {
       var g = el("div", { class: "rgroup" });
       var h = el("div", { class: "rgroup__head" }); h.appendChild(el("h3", null, grp[0])); h.appendChild(el("p", null, grp[1])); g.appendChild(h);
       var grid = el("div", { class: "rgrid" });
       grp[2].forEach(function (a) {
-        var waiting = QUEUE.some(function (q) { return q.agent === a.id && q.state === "waiting"; });
         var c = el("article", { class: "agent" });
         var top = el("div", { class: "agent__top" });
         var nm = el("div"); nm.appendChild(el("h4", null, a.name)); nm.appendChild(el("p", { class: "agent__what" }, a.what + (a.every ? ", " + a.every : "")));
         top.appendChild(nm);
-        top.appendChild(el("span", { class: "agent__st" + (waiting ? " is-wait" : "") }, waiting ? "Waiting for you" : "Working"));
+        var st = el("span", { class: "agent__st" }); top.appendChild(st);
         c.appendChild(top);
-        var dl = el("dl", { class: "agent__dl" });
-        [["Brief", a.brief], ["Last", a.last], ["Added", a.added]].forEach(function (r) { dl.appendChild(el("dt", null, r[0])); dl.appendChild(el("dd", null, r[1])); });
+        var dl = el("dl", { class: "agent__dl" }), dds = {};
+        [["Brief", "brief"], ["Last", "last"], ["Added", "added"]].forEach(function (r) { dl.appendChild(el("dt", null, r[0])); dds[r[1]] = dl.appendChild(el("dd")); });
         c.appendChild(dl);
         var sw = el("label", { class: "switch agent__auto" });
-        var tx = el("span", { class: "switch__text" }, "Acts on its own");
-        tx.appendChild(el("small", null, S.mode === "manual" ? "Off while you're in manual" : a.kind === "act" ? "Small, reversible steps only; never signs or sends" : "Within your " + LIMITS.filter(function (l) { return l[0] === S.limit; })[0][1] + " limit"));
+        var tx = el("span", { class: "switch__text" }, "Acts on its own"), sub = el("small"); tx.appendChild(sub);
         sw.appendChild(tx);
-        var cb = el("input", { type: "checkbox" }); cb.checked = S.mode === "auto" && a.auto; cb.disabled = S.mode === "manual";
-        cb.addEventListener("change", function () { a.auto = cb.checked; drawAll(); });
+        var cb = el("input", { type: "checkbox" });
+        cb.addEventListener("change", function () { a.auto = cb.checked; settle(); drawMode(); drawQueue(); drawSteer(); syncRoster(); });
         sw.appendChild(cb); sw.appendChild(el("span", { class: "switch__ui", "aria-hidden": "true" }));
         c.appendChild(sw);
         grid.appendChild(c);
+        rosterSync.push(function () {
+          var waiting = QUEUE.some(function (q) { return q.agent === a.id && q.state === "waiting"; });
+          st.className = "agent__st" + (waiting ? " is-wait" : ""); st.textContent = waiting ? "Waiting for you" : "Working";
+          Object.keys(dds).forEach(function (k) { dds[k].textContent = a[k]; });
+          sub.textContent = S.mode === "manual" ? "Off while you're in manual" : a.kind === "act" ? "Small, reversible steps only; never signs or sends" : "Within your " + LIMITS.filter(function (l) { return l[0] === S.limit; })[0][1] + " limit";
+          cb.checked = S.mode === "auto" && a.auto; cb.disabled = S.mode === "manual";
+        });
       });
       g.appendChild(grid); box.appendChild(g);
     });
-  }
+  })();
+  function syncRoster() { rosterSync.forEach(function (f) { f(); }); }
 
-  function drawAll() { settle(); drawMode(); drawQueue(); drawSteer(); drawRoster(); }
+  function drawAll() { settle(); drawMode(); drawQueue(); drawSteer(); syncRoster(); }
 
   drawAll(); go(0);
   requestAnimationFrame(linkLoop);
