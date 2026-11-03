@@ -19,18 +19,30 @@
   function idx(href) {
     try { return ORDER.indexOf(new URL(href, location.href).pathname.split("/").pop() || "index.html"); } catch (e) { return -1; }
   }
+  function eclipseLink(a) {
+    var to = idx(a.href), from = idx(location.href);
+    return !reduce && to !== from && ECLIPSE.indexOf(to) >= 0 && ECLIPSE.indexOf(from) >= 0;
+  }
+  // fetch the next demo page as soon as a pointer heads for its link, so it's ready by the time the moon covers
+  var fetched = {};
+  document.addEventListener("pointerover", function (e) {
+    var a = e.target.closest && e.target.closest("a[href]");
+    if (!a || fetched[a.href] || !eclipseLink(a)) return;
+    fetched[a.href] = 1;
+    var l = document.createElement("link"); l.rel = "prefetch"; l.href = a.href; document.head.appendChild(l);
+  });
   document.addEventListener("click", function (e) {
     var a = e.target.closest && e.target.closest("a[href]");
     if (!a || a.target === "_blank" || e.metaKey || e.ctrlKey || e.shiftKey) return;
     var to = idx(a.href), from = idx(location.href);
     if (to < 0 || from < 0 || to === from) return;
     var way = to > from ? "fwd" : "back";
-    if (!reduce && ECLIPSE.indexOf(to) >= 0 && ECLIPSE.indexOf(from) >= 0) {
+    if (eclipseLink(a)) {
       try { sessionStorage.setItem(MOON, way); } catch (x) { return; }
       e.preventDefault();
       var href = a.href, gone = false, go = function () { if (!gone) { gone = true; location.href = href; } };
       moon("moon--in-" + way).addEventListener("animationend", go);
-      setTimeout(go, 550);
+      setTimeout(go, 350);
       return;
     }
     try { sessionStorage.setItem(KEY, way); } catch (x) {}
@@ -54,11 +66,13 @@
         requestAnimationFrame(function () {
           m.className = "moon moon--out-" + eclipse;
           m.addEventListener("animationend", function () { m.remove(); });
-          setTimeout(function () { m.remove(); }, 800);
+          setTimeout(function () { m.remove(); }, 600);
         });
       };
-      if (document.readyState === "complete") leave(); else window.addEventListener("load", leave);
-      setTimeout(leave, 2500);
+      // off as soon as the page is drawn and its type has loaded; images can finish behind it
+      (document.fonts ? document.fonts.ready : Promise.resolve()).then(leave);
+      window.addEventListener("load", leave);
+      setTimeout(leave, 1500);
     });
     return;
   }
