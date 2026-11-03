@@ -60,37 +60,54 @@
     }).join("") + '<div class="tug__row tug__sum"><span class="tug__t">From 31% last week to 46% today</span><span class="tug__track tug__axis"><span>lowers it</span><span>raises it</span></span><b class="tug__v up">+15</b></div>';
   })();
 
-  // ---------- 2. the route schematic ----------
+  // ---------- 2. the lane map: Natural Earth land (redsea-map.js), lanes as sea waypoints in lon/lat ----------
   (function () {
-    var P = { busan: [880, 62], kaoh: [850, 128], sea: [690, 186], bab: [500, 186], jed: [452, 132], suez: [400, 70], gebze: [262, 42],
-      dam: [585, 112], cape: [455, 286], west: [150, 236], gib: [86, 104] };
-    var pt = function (k) { return P[k][0] + " " + P[k][1]; };
-    var s = "";
-    // the Cape: the way round
-    s += '<path class="rt rt--cape" d="M' + pt("sea") + " C 640 290, 560 292, " + pt("cape") + " C 330 280, 190 280, " + pt("west") + " C 110 200, 70 150, " + pt("gib") + " C 140 70, 200 40, " + pt("gebze") + '"/>';
-    // Asia to Gebze through the Red Sea
-    s += '<path class="rt rt--risk" d="M' + pt("busan") + " C 840 120, 770 170, " + pt("sea") + " L " + pt("bab") + " C 470 150, 430 110, " + pt("suez") + " C 360 50, 300 40, " + pt("gebze") + '"/>';
-    s += '<path class="rt rt--risk" d="M' + pt("kaoh") + ' C 800 150, 750 180, 690 186"/>';
-    // Gebze south to the Gulf
-    s += '<path class="rt rt--out" d="M' + (P.gebze[0] + 6) + " " + (P.gebze[1] + 12) + " C 300 70, 360 92, 396 86 C 420 104, 440 118, " + pt("jed") + '"/>';
-    s += '<path class="rt rt--out" d="M' + pt("jed") + " C 470 160, 490 178, 506 176 C 560 168, 600 150, " + pt("dam") + '"/>';
-    // chokepoints
-    s += '<g class="choke"><circle cx="' + P.bab[0] + '" cy="' + P.bab[1] + '" r="16"/><circle cx="' + P.bab[0] + '" cy="' + P.bab[1] + '" r="5" class="choke__c"/></g>';
-    s += '<g class="choke"><circle cx="' + P.suez[0] + '" cy="' + P.suez[1] + '" r="12"/><circle cx="' + P.suez[0] + '" cy="' + P.suez[1] + '" r="4" class="choke__c"/></g>';
-    var place = function (k, t, dx, dy, anchor, cls) {
-      return '<text class="' + (cls || "pl") + '" x="' + (P[k][0] + dx) + '" y="' + (P[k][1] + dy) + '" text-anchor="' + (anchor || "start") + '">' + t + "</text>";
+    var MAP = { lon0: -22, lat0: 50, k: 1000 / 157 };
+    var P = function (ll) { return [(ll[0] - MAP.lon0) * MAP.k, (MAP.lat0 - ll[1]) * MAP.k]; };
+    var line = function (pts) {
+      // a smooth curve through the waypoints (Catmull-Rom as cubic Béziers)
+      var q = pts.map(P), d = "M" + q[0][0].toFixed(1) + " " + q[0][1].toFixed(1);
+      for (var i = 0; i < q.length - 1; i++) {
+        var p0 = q[i - 1] || q[i], p1 = q[i], p2 = q[i + 1], p3 = q[i + 2] || p2;
+        d += "C" + (p1[0] + (p2[0] - p0[0]) / 6).toFixed(1) + " " + (p1[1] + (p2[1] - p0[1]) / 6).toFixed(1) + " " +
+          (p2[0] - (p3[0] - p1[0]) / 6).toFixed(1) + " " + (p2[1] - (p3[1] - p1[1]) / 6).toFixed(1) + " " + p2[0].toFixed(1) + " " + p2[1].toFixed(1);
+      }
+      return d;
     };
-    ["busan", "kaoh", "gebze", "jed", "dam"].forEach(function (k) { s += '<circle class="node" cx="' + P[k][0] + '" cy="' + P[k][1] + '" r="4.5"/>'; });
-    s += place("busan", "Busan", 12, 4) + place("kaoh", "Kaohsiung", 12, 4) + place("gebze", "Gebze plant", -12, -6, "end") +
-      place("jed", "Jeddah", -10, 4, "end") + place("dam", "Dammam", 10, -6);
-    s += place("bab", "Bab el-Mandeb", 0, 40, "middle", "pl pl--b") + place("bab", "attacks 46%", 0, 56, "middle", "pl pl--risk");
-    s += place("suez", "Suez Canal", 18, -8, "start", "pl pl--b") + place("suez", "pilots' strike 9%", 18, 8, "start", "pl pl--risk");
-    s += place("cape", "Cape of Good Hope", 0, -32, "middle", "pl pl--b") + place("cape", "about 42 days, 12 more", 0, -15, "middle", "pl pl--mute");
-    s += '<text class="pl pl--mute" x="595" y="210" text-anchor="middle">about 30 days to Gebze</text>';
-    s += '<g class="legend" transform="translate(700 252)"><line x1="0" x2="26" y1="0" y2="0" class="rt rt--risk"/><text x="34" y="4">parts in, through the Red Sea</text>' +
-      '<line x1="0" x2="26" y1="20" y2="20" class="rt rt--cape"/><text x="34" y="24">the way round</text>' +
-      '<line x1="0" x2="26" y1="40" y2="40" class="rt rt--out"/><text x="34" y="44">finished goods out to the Gulf</text></g>';
-    s += '<text class="pl pl--mute" x="16" y="290">Not to scale</text>';
+    var ASIA = [[129.04, 35.1], [128.2, 33.6], [124.5, 29.5], [121.6, 25.6], [120.0, 21.8], [116, 16], [110, 9], [105.5, 3.5], [103.6, 1.4],
+      [101.2, 2.8], [98.2, 5.4], [94, 6.4], [86, 5.9], [81, 5.4], [76, 7.2], [66, 11], [56, 13.3], [50, 12.6], [45, 12.3], [43.4, 12.6]];
+    var KAOH = [[120.28, 22.61], [119.2, 20.6], [116, 16]];
+    var REDSEA = [[43.4, 12.6], [41.5, 14.6], [39.4, 17.8], [37.6, 21.2], [35.9, 24.3], [34.4, 26.8], [33.4, 28.3], [32.55, 29.95], [32.35, 31.3]];
+    var MED = [[32.35, 31.3], [29.5, 32.6], [26.5, 34.1], [24.2, 35.1], [23.2, 36.4], [24.6, 37.6], [25.6, 39.3], [26.3, 40.05], [27.5, 40.6], [29.43, 40.8]];
+    var CAPE = [[81, 5.4], [74, 0], [62, -12], [50, -26], [38, -33.5], [26, -35.6], [18.4, -35.2], [12.5, -29], [10, -18], [4, -6], [-6, 2.8],
+      [-15.5, 9.5], [-19, 15.5], [-17.5, 24], [-13, 30.5], [-9.6, 35.2], [-5.6, 35.95], [0, 37.2], [8, 37.8], [11.6, 37.4], [15.5, 35.9], [20.5, 35.3], [24.2, 35.1]];
+    var GULF = [[43.4, 12.6], [47, 12.4], [52, 13], [57.4, 17.5], [59.6, 21.8], [58.6, 24.2], [56.8, 26.4], [55, 26.4], [52.5, 26.7], [50.6, 26.8], [50.1, 26.43]];
+    var PL = { busan: [129.04, 35.1], kaoh: [120.28, 22.61], gebze: [29.43, 40.8], jed: [39.17, 21.48], dam: [50.1, 26.43],
+      bab: [43.4, 12.6], suez: [32.55, 30.0], cape: [18.47, -34.36], sing: [103.82, 1.3] };
+    var s = '<rect class="sea" width="1000" height="573"/><path class="land" d="' + (window.RS_LAND || "") + '"/>';
+    s += '<path class="rt rt--cape" d="' + line(CAPE) + '"/>';
+    // outbound shares the inbound lane through the Med and the Red Sea, so it runs alongside, a little north and east
+    var beside = function (pts) { return pts.map(function (q) { return [q[0] + 0.8, q[1] + 0.7]; }); };
+    s += '<path class="rt rt--out" d="' + line(beside(MED.slice().reverse().concat(REDSEA.slice().reverse().slice(1, 5))).concat([PL.jed])) + '"/>';
+    s += '<path class="rt rt--out" d="' + line(beside(REDSEA.slice(0, 5).reverse()).concat(GULF.slice(1))) + '"/>';
+    s += '<path class="rt rt--risk" d="' + line(ASIA.concat(REDSEA.slice(1), MED.slice(1))) + '"/><path class="rt rt--risk" d="' + line(KAOH) + '"/>';
+    var dot = function (k, cls) { var q = P(PL[k]); return '<circle class="' + (cls || "node") + '" cx="' + q[0].toFixed(1) + '" cy="' + q[1].toFixed(1) + '" r="4.5"/>'; };
+    var ring = function (k, r) { var q = P(PL[k]); return '<circle class="choke" cx="' + q[0].toFixed(1) + '" cy="' + q[1].toFixed(1) + '" r="' + r + '"/><circle class="choke__c" cx="' + q[0].toFixed(1) + '" cy="' + q[1].toFixed(1) + '" r="4"/>'; };
+    var text = function (k, t, dx, dy, anchor, cls) { var q = P(PL[k]); return '<text class="' + (cls || "pl") + '" x="' + (q[0] + dx).toFixed(1) + '" y="' + (q[1] + dy).toFixed(1) + '" text-anchor="' + (anchor || "start") + '">' + t + "</text>"; };
+    s += ring("bab", 15) + ring("suez", 12);
+    ["busan", "kaoh", "gebze", "jed", "dam"].forEach(function (k) { s += dot(k); });
+    s += text("busan", "Busan", -9, -6, "end") + text("kaoh", "Kaohsiung", 9, 4) + text("gebze", "Gebze plant", 0, -11, "middle", "pl pl--b") +
+      text("jed", "Jeddah", -9, 4, "end") + text("dam", "Dammam", 8, -6);
+    s += text("bab", "Bab el-Mandeb", 16, 16, "start", "pl pl--b") + text("bab", "attacks 46%", 16, 31, "start", "pl pl--risk");
+    s += text("suez", "Suez Canal", -16, -2, "end", "pl pl--b") + text("suez", "pilots' strike 9%", -16, 13, "end", "pl pl--risk");
+    s += text("cape", "Cape of Good Hope", 16, 0, "start", "pl pl--b") + text("cape", "about 42 days to Gebze, 12 more", 16, 15, "start", "pl pl--mute");
+    s += text("sing", "about 30 days to Gebze through the Red Sea", 0, 34, "middle", "pl pl--mute");
+    s += '<text class="ocean" x="' + P([75, -18])[0] + '" y="' + P([75, -18])[1] + '" text-anchor="middle">Indian Ocean</text>';
+    s += '<text class="ocean" x="' + P([-12, -12])[0] + '" y="' + P([-12, -12])[1] + '" text-anchor="middle">Atlantic</text>';
+    s += '<g class="legend" transform="translate(735 470)"><rect x="-14" y="-18" width="262" height="86" rx="10"/>' +
+      '<line x1="0" x2="26" y1="0" y2="0" class="rt rt--risk"/><text x="36" y="4">parts in, through the Red Sea</text>' +
+      '<line x1="0" x2="26" y1="22" y2="22" class="rt rt--cape"/><text x="36" y="26">the way round, if it closes</text>' +
+      '<line x1="0" x2="26" y1="44" y2="44" class="rt rt--out"/><text x="36" y="48">finished goods out to the Gulf</text></g>';
     $("#f-route").innerHTML = s;
   })();
 

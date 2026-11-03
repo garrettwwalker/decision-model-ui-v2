@@ -220,18 +220,22 @@
 .tug__axis { height: auto; display: flex; justify-content: space-between; font-size: 0.75rem; font-weight: 500; color: var(--ink-3); }
 .tug__axis::before { display: none; }
 
-.route { width: 100%; height: auto; background: var(--paper-2); border-radius: var(--radius); font-family: inherit; }
-.route .rt { fill: none; stroke-width: 3.5; stroke-linecap: round; }
+.route { width: 100%; height: auto; border-radius: var(--radius); font-family: inherit; overflow: hidden; }
+.route .sea { fill: #e3ddd0; }
+.route .land { fill: #f7f4ee; stroke: #cfc6b4; stroke-width: 0.6; stroke-linejoin: round; }
+.route .rt { fill: none; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
 .route .rt--risk { stroke: var(--r-loss); }
-.route .rt--cape { stroke: #a9a395; stroke-width: 3; }
-.route .rt--out { stroke: var(--r-accent); stroke-width: 2.5; }
-.route .node { fill: var(--ink); }
-.route .choke circle { fill: rgba(184, 48, 74, 0.14); }
-.route .choke .choke__c { fill: var(--r-loss); }
-.route .pl { font-size: 14px; fill: var(--ink); font-weight: 600; }
+.route .rt--cape { stroke: #8f8877; stroke-width: 2.4; stroke-dasharray: none; }
+.route .rt--out { stroke: var(--r-accent); stroke-width: 2; }
+.route .node { fill: var(--ink); stroke: #f7f4ee; stroke-width: 1.5; }
+.route .choke { fill: rgba(184, 48, 74, 0.16); }
+.route .choke__c { fill: var(--r-loss); }
+.route .pl { font-size: 13px; fill: var(--ink); font-weight: 600; paint-order: stroke; stroke: #f7f4ee; stroke-width: 3.5px; stroke-linejoin: round; }
 .route .pl--b { font-weight: 800; }
-.route .pl--risk { fill: var(--r-loss); font-weight: 700; font-size: 13px; }
-.route .pl--mute { fill: var(--ink-3); font-weight: 500; font-size: 13px; }
+.route .pl--risk { fill: var(--r-loss); font-weight: 700; }
+.route .pl--mute { fill: var(--ink-2); font-weight: 500; stroke: #e3ddd0; }
+.route .ocean { font-size: 13px; font-style: italic; fill: #9a927f; letter-spacing: 0.08em; }
+.route .legend rect { fill: rgba(247, 244, 238, 0.92); }
 .route .legend text { font-size: 13px; fill: var(--ink-2); }
 
 .tbl { width: 100%; border-collapse: collapse; font-size: 0.98rem; }
