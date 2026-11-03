@@ -556,6 +556,32 @@
     return s;
   }
   function unitText(e, v) { return v + (e.unit.charAt(0) === "%" ? "" : " ") + e.unit; }
+  // in place of a slider: a few values that mean something (each with a plain label), and a nudge for anything between.
+  // o: { label, choices: [[value, word]], step, min, max, fmt, get, set }; returns the element, with .sync()
+  function picker(o) {
+    var box = el("div", { class: "pick" });
+    var seg = el("div", { class: "pick__seg", role: "group", "aria-label": o.label }); box.appendChild(seg);
+    var btns = o.choices.map(function (c) {
+      var b = el("button", { type: "button", "aria-pressed": "false" });
+      b.appendChild(el("b", null, o.fmt(c[0]))); b.appendChild(el("small", null, c[1]));
+      b.addEventListener("click", function () { o.set(c[0]); });
+      seg.appendChild(b); return [c[0], b];
+    });
+    var nudge = el("div", { class: "nudge", role: "group", "aria-label": o.label + ", in steps" }); box.appendChild(nudge);
+    var less = el("button", { type: "button", "aria-label": "Less" }, "\u2212"), val = el("output", { "aria-live": "polite" }), more = el("button", { type: "button", "aria-label": "More" }, "+");
+    nudge.appendChild(less); nudge.appendChild(val); nudge.appendChild(more);
+    var clamp = function (v) { return Math.max(o.min, Math.min(o.max, v)); };
+    var stepOf = function (v, d) { return typeof o.step === "function" ? o.step(v, d) : o.step; };
+    less.addEventListener("click", function () { var v = o.get(); o.set(clamp(v - stepOf(v, -1))); });
+    more.addEventListener("click", function () { var v = o.get(); o.set(clamp(v + stepOf(v, 1))); });
+    box.sync = function () {
+      var v = o.get();
+      btns.forEach(function (x) { x[1].setAttribute("aria-pressed", String(x[0] === v)); });
+      val.textContent = o.fmt(v); less.disabled = v <= o.min; more.disabled = v >= o.max;
+    };
+    box.sync();
+    return box;
+  }
   function buildForecast() {
     fcBox.textContent = "";
     events.forEach(function (e) {
@@ -585,25 +611,30 @@
       var pd = el("div", { class: "fcrow__p" });
       var big = el("b", { class: "fcrow__big" }); pd.appendChild(big);
       var sp = el("div", { class: "fcrow__spark" }); pd.appendChild(sp);
-      var pf = el("label", { class: "field fcrow__ovr" });
+      var pf = el("div", { class: "field fcrow__ovr" });
       var pt = el("span", { class: "field__top" }, "Your view"); var pv = el("span", { class: "field__val" }); pt.appendChild(pv); pf.appendChild(pt);
-      var pr = el("input", { type: "range", min: 1, max: 95, step: 1, value: Math.round(e.p * 100), "aria-label": "Your probability for " + e.name }); pf.appendChild(pr);
+      var mid = Math.round(e.base.p * 100);
+      // the ends of Totality's error band, its forecast, and a point at a time for anything else
+      var pr = picker({ label: "Your probability for " + e.name, step: 1, min: 1, max: 95,
+        choices: [[Math.max(1, mid - e.band), "low end"], [mid, "Totality"], [Math.min(95, mid + e.band), "high end"]],
+        fmt: function (v) { return v + "%"; }, get: function () { return Math.round(e.p * 100); },
+        set: function (v) { e.p = v / 100; markPreset(null); changed(); } });
+      pf.appendChild(pr);
       pd.appendChild(pf);
       var reset = el("button", { class: "event__reset", type: "button" }, "Back to Totality's forecast");
-      reset.addEventListener("click", function () { e.p = e.base.p; pr.value = Math.round(e.p * 100); DB.fillRanges(row); changed("Reset " + e.short + " to Totality's forecast"); });
+      reset.addEventListener("click", function () { e.p = e.base.p; changed("Reset " + e.short + " to Totality's forecast"); });
       pd.appendChild(reset);
       row.appendChild(pd);
       // how the Totality engine got there
       var hw = el("ol", { class: "fcrow__how" }); hw.hidden = true;
       row.appendChild(hw);
       how.addEventListener("click", function () { opened[e.id] = hw.hidden; sync(); });
-      pr.addEventListener("input", function () { e.p = pr.value / 100; markPreset(null); changed(); });
       function sync() {
         var p = pOf(e), moved = Math.round(e.p * 100) !== Math.round(e.base.p * 100);
         row.classList.toggle("is-off", !e.on); row.classList.toggle("is-focus", focus === e.id);
         det.textContent = e.detail + ". 30-day horizon." + (e.on ? "" : " Not included in this scenario.");
         big.textContent = Math.round(p * 100) + "%";
-        pv.textContent = moved ? "Your override" : "Totality's forecast";
+        pv.textContent = moved ? "Your override" : "Totality's forecast"; pr.sync();
         reset.hidden = !moved;
         // one scale for every row, just wide enough for the largest number on it
         var top = Math.max.apply(null, events.map(function (x) { return Math.max(pOf(x), x.base.p + x.band / 100, x.fused.Judgment, x.fused.Telemetry, x.fused.Procedure); }));
@@ -660,10 +691,17 @@
       card.appendChild(top);
       var body = el("div", { class: "event__body" });
       var pl = el("p", { class: "event__p" }); body.appendChild(pl);
-      var mf = el("label", { class: "field" });
-      var mt = el("span", { class: "field__top" }, e.unit === "days" ? "How long" : "How much");
+      var mf = el("div", { class: "field" }), days = e.unit === "days";
+      var mt = el("span", { class: "field__top" }, days ? "How long" : "How much");
       var mv = el("span", { class: "field__val" }); mt.appendChild(mv); mf.appendChild(mt);
-      var mr = el("input", { type: "range", min: e.min, max: e.max, step: 1, value: e.mag }); mf.appendChild(mr);
+      // half as long, as forecast, twice as long; nudged a day at a time under two weeks, else a week (or 5 points)
+      var b0 = e.base.mag;
+      var mr = picker({ label: (days ? "How long: " : "How much: ") + e.name, min: e.min, max: e.max,
+        step: function (v, d) { return !days ? 5 : (d < 0 ? v <= 14 : v < 14) ? 1 : 7; },
+        choices: [[Math.max(e.min, Math.round(b0 / 2)), days ? "shorter" : "milder"], [b0, "expected"], [Math.min(e.max, b0 * 2), days ? "longer" : "worse"]],
+        fmt: function (v) { return unitText(e, v); }, get: function () { return e.mag; },
+        set: function (v) { e.mag = v; markPreset(null); changed(); } });
+      mf.appendChild(mr);
       body.appendChild(mf);
       var hits = el("div", { class: "event__hits" });
       hits.appendChild(el("span", { class: "event__hitlab" }, "Hits first"));
@@ -678,7 +716,7 @@
       var fb = followBtn(e); body.appendChild(fb);
       card.appendChild(body);
       function sync() {
-        mv.textContent = unitText(e, e.mag);
+        mv.textContent = e.mag === e.base.mag ? "as forecast" : "your setting"; mr.sync();
         pl.textContent = "";
         pl.appendChild(el("b", null, Math.round(pOf(e) * 100) + "%"));
         pl.appendChild(document.createTextNode(" likely, from the forecast. "));
@@ -692,7 +730,6 @@
         fb.setAttribute("aria-pressed", String(focus === e.id)); fb.textContent = focus === e.id ? "Following" : "Follow this contingency";
       }
       cb.addEventListener("change", function () { e.on = cb.checked; if (!e.on && focus === e.id) focus = null; markPreset(null); changed((e.on ? "Included: " : "Excluded: ") + e.name); });
-      mr.addEventListener("input", function () { e.mag = +mr.value; markPreset(null); changed(); });
       e._esync = sync;
       evBox.appendChild(card);
     });
@@ -1744,14 +1781,18 @@
   });
   var sf = document.getElementById("signal-form"), evSel = sf.elements.event;
   EVENTS_BASE.forEach(function (e) { evSel.appendChild(el("option", { value: e.id }, e.name)); });
-  sf.elements.pts.addEventListener("input", function () { var v = +sf.elements.pts.value; $("sig-pts").textContent = (v > 0 ? "+" : "") + v + " pts"; });
+  var sigPts = 5, ptsPick = picker({ label: "How far it moves the forecast", step: 1, min: -15, max: 15,
+    choices: [[-5, "lowers it"], [5, "raises it"], [10, "raises it a lot"]],
+    fmt: function (v) { return (v > 0 ? "+" : v < 0 ? "\u2212" : "") + Math.abs(v) + " pts"; }, get: function () { return sigPts; },
+    set: function (v) { sigPts = v; ptsPick.sync(); } });
+  document.getElementById("sig-pts").appendChild(ptsPick);
   sf.addEventListener("submit", function (e) {
     e.preventDefault();
-    var s = { name: sf.elements.name.value.trim(), rule: sf.elements.rule.value.trim(), event: evSel.value, pts: +sf.elements.pts.value, on: true };
+    var s = { name: sf.elements.name.value.trim(), rule: sf.elements.rule.value.trim(), event: evSel.value, pts: sigPts, on: true };
     if (!s.name || !s.rule) return;
     var h = 0; for (var i = 0; i < s.name.length; i++) h = (h * 31 + s.name.charCodeAt(i)) >>> 0;
     s.brier = [0.124, 0.124 - (2 + h % 7) / 1000];
-    signals.push(s); sf.reset(); $("sig-pts").textContent = "+6 pts"; DB.fillRanges(sf);
+    signals.push(s); sf.reset(); sigPts = 5; ptsPick.sync();
     changed("Added signal: " + s.name);
   });
   function renderSignals() {

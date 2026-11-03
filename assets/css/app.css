@@ -277,6 +277,27 @@ input[type="range"]:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 4px 
 .seg input:checked + span { background: var(--fg); color: var(--on-ink); }
 .seg input:focus-visible + span { outline: 2px solid var(--ctl); outline-offset: 1px; }
 
+/* in place of sliders: a few meaningful values, each with a plain word, and a nudge for anything between (bench.js picker()) */
+.pick { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.75rem; }
+.pick__seg { flex: 1 1 12rem; display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 3px; padding: 3px; border-radius: 12px; background: rgba(255, 255, 255, 0.06); }
+.pick__seg button {
+  display: grid; gap: 0.05rem; place-items: center; min-height: 44px; padding: 0.3rem 0.35rem; border: 0; border-radius: 9px;
+  font: inherit; color: var(--fg-2); background: transparent; cursor: pointer; transition: background-color 0.15s ease, color 0.15s ease;
+}
+.pick__seg b { font-size: 0.86rem; font-weight: 700; font-variant-numeric: tabular-nums; line-height: 1.1; }
+.pick__seg small { font-size: 0.68rem; line-height: 1.1; }
+.pick__seg button:hover { background: rgba(255, 255, 255, 0.06); color: var(--fg); }
+.pick__seg button[aria-pressed="true"] { background: var(--fg); color: var(--on-ink); }
+.pick button:focus-visible { outline: 2px solid var(--ctl); outline-offset: 1px; }
+.nudge { display: flex; align-items: center; gap: 0.35rem; }
+.nudge button {
+  width: 44px; height: 44px; border: 0; border-radius: 50%; background: rgba(255, 255, 255, 0.08); color: var(--fg);
+  font: inherit; font-size: 1.1rem; font-weight: 700; line-height: 1; cursor: pointer; transition: background-color 0.15s ease;
+}
+.nudge button:hover:not(:disabled) { background: rgba(255, 255, 255, 0.16); }
+.nudge button:disabled { opacity: 0.35; cursor: default; }
+.nudge output { min-width: 4.2rem; text-align: center; font-size: 0.9rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+
 .switch { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 44px; cursor: pointer; }
 .switch__text { font-size: 0.84rem; font-weight: 700; }
 .switch__text small { display: block; font-weight: 500; font-size: 0.72rem; color: var(--fg-2); }

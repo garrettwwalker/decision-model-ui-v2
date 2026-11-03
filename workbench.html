@@ -293,7 +293,7 @@
               <label class="field"><span class="field__top">Name</span><input class="num-input" name="name" required placeholder="Jebel Ali dwell time"></label>
               <label class="field"><span class="field__top">Watches</span><input class="num-input" name="rule" required placeholder="Average container dwell above 60 hours"></label>
               <label class="field"><span class="field__top">Moves</span><select class="num-input" name="event"></select></label>
-              <label class="field"><span class="field__top">When it fires <span class="field__val" data-out="sig-pts">+6 pts</span></span><input type="range" name="pts" min="-15" max="15" step="1" value="6"></label>
+              <div class="field" id="sig-pts"><span class="field__top">When it fires, it moves the forecast</span></div>
               <button class="btn btn--primary btn--sm" type="submit">Add signal</button>
             </form>
             <ul class="signals" id="signals"></ul>
