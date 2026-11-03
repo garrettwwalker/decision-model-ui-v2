@@ -271,7 +271,15 @@
   cardsEl.addEventListener("click", onCard);
   branchEl.addEventListener("click", onCard);
   crumbs.addEventListener("click", function (e) { var b = e.target.closest("[data-z]"); if (b) zoom(b.dataset.z); });
-  window.addEventListener("resize", function () { if (view === "branches") linkBranches(); });
+  // the left card is sticky, so the curves are redrawn as the page scrolls to stay joined to it
+  var linkQueued = false;
+  function relink() {
+    if (view !== "branches" || linkQueued) return;
+    linkQueued = true;
+    requestAnimationFrame(function () { linkQueued = false; linkBranches(); });
+  }
+  window.addEventListener("resize", relink);
+  window.addEventListener("scroll", relink, { passive: true });
 
   function render() { renderList(); drawView(); }
   function setView(v) {
