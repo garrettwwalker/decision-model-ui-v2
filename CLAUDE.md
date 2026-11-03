@@ -166,6 +166,10 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   `--ctl`) and draws a check (`--cb-mark`). But the user prefers switches as a general rule: use the `.switch`
   toggle from `app.css` for a labelled row, or `class="tgl"` on a lone checkbox (the report's moves, the workbench's
   plan table, ask's sources), and keep a plain checkbox only where a switch would look awkward.
+- Sliders (2026-11-03): the user found the workbench's sliders not useful, so it has none. In their place `picker()` in
+  bench.js (`.pick` and `.nudge` in app.css): three values that mean something, each with a plain word (Totality's forecast
+  and the ends of its error band; shorter, expected, longer; how far a signal moves the forecast), and a −/+ nudge for
+  anything between. The report's plan lab uses the same idea (`.chooser` and `.step`). Prefer it to a slider elsewhere.
 - Motion between views: `assets/js/nav.js` (in every page's `<head>`) records which way the clicked page lies in the
   nav order; the new page slides in from that side (cross-document view transitions where supported, with the
   `.bar` held still; otherwise a CSS entrance on `main` and the footer, keyed on `html[data-slide]`). In the
