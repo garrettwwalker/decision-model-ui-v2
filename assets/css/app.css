@@ -278,8 +278,8 @@ input[type="range"]:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 4px 
 .seg input:focus-visible + span { outline: 2px solid var(--ctl); outline-offset: 1px; }
 
 /* in place of sliders: a few meaningful values, each with a plain word, and a nudge for anything between (bench.js picker()) */
-.pick { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.75rem; }
-.pick__seg { flex: 1 1 12rem; display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 3px; padding: 3px; border-radius: 12px; background: rgba(255, 255, 255, 0.06); }
+.pick { display: grid; gap: 0.5rem; }
+.pick__seg { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 3px; padding: 3px; border-radius: 12px; background: rgba(255, 255, 255, 0.06); }
 .pick__seg button {
   display: grid; gap: 0.05rem; place-items: center; min-height: 44px; padding: 0.3rem 0.35rem; border: 0; border-radius: 9px;
   font: inherit; color: var(--fg-2); background: transparent; cursor: pointer; transition: background-color 0.15s ease, color 0.15s ease;
@@ -289,10 +289,11 @@ input[type="range"]:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 4px 
 .pick__seg button:hover { background: rgba(255, 255, 255, 0.06); color: var(--fg); }
 .pick__seg button[aria-pressed="true"] { background: var(--fg); color: var(--on-ink); }
 .pick button:focus-visible { outline: 2px solid var(--ctl); outline-offset: 1px; }
-.nudge { display: flex; align-items: center; gap: 0.35rem; }
+.nudge { display: flex; align-items: center; justify-self: center; gap: 0.35rem; }
 .nudge button {
   width: 44px; height: 44px; border: 0; border-radius: 50%; background: rgba(255, 255, 255, 0.08); color: var(--fg);
   font: inherit; font-size: 1.1rem; font-weight: 700; line-height: 1; cursor: pointer; transition: background-color 0.15s ease;
+  touch-action: manipulation; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none;
 }
 .nudge button:hover:not(:disabled) { background: rgba(255, 255, 255, 0.16); }
 .nudge button:disabled { opacity: 0.35; cursor: default; }

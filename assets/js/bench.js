@@ -572,8 +572,23 @@
     nudge.appendChild(less); nudge.appendChild(val); nudge.appendChild(more);
     var clamp = function (v) { return Math.max(o.min, Math.min(o.max, v)); };
     var stepOf = function (v, d) { return typeof o.step === "function" ? o.step(v, d) : o.step; };
-    less.addEventListener("click", function () { var v = o.get(); o.set(clamp(v - stepOf(v, -1))); });
-    more.addEventListener("click", function () { var v = o.get(); o.set(clamp(v + stepOf(v, 1))); });
+    var nudgeBy = function (d) { var v = o.get(), n = clamp(v + d * stepOf(v, d)); if (n !== v) o.set(n); return n !== v; };
+    // hold to keep going: a pause, then repeats that speed up; a key press or a tap steps once
+    var timer = null;
+    var stop = function () { clearTimeout(timer); timer = null; };
+    [[less, -1], [more, 1]].forEach(function (x) {
+      var b = x[0], d = x[1];
+      b.addEventListener("pointerdown", function (e) {
+        if (e.button !== 0 || b.disabled) return;
+        e.preventDefault(); stop();
+        if (!nudgeBy(d)) return;
+        var n = 0, go = function () { if (!nudgeBy(d)) return stop(); n++; timer = setTimeout(go, n < 6 ? 110 : n < 20 ? 60 : 30); };
+        timer = setTimeout(go, 380);
+      });
+      ["pointerup", "pointerleave", "pointercancel", "blur"].forEach(function (t) { b.addEventListener(t, stop); });
+      b.addEventListener("click", function (e) { if (e.detail === 0) nudgeBy(d); });  // keyboard
+      b.addEventListener("contextmenu", function (e) { if (timer) e.preventDefault(); });
+    });
     box.sync = function () {
       var v = o.get();
       btns.forEach(function (x) { x[1].setAttribute("aria-pressed", String(x[0] === v)); });
