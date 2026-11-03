@@ -57,7 +57,7 @@
 }
 .board__title span {
   display: inline-grid; place-items: center; width: 1.6rem; height: 1.6rem; border-radius: 50%;
-  border: 1px solid var(--line-strong); font-size: 0.8rem; font-weight: 700; color: var(--fg-2); transform: translateY(-0.1rem);
+  background: var(--card); font-size: 0.8rem; font-weight: 700; color: var(--fg-2); transform: translateY(-0.1rem);
 }
 .board__note { margin: 0.1rem 0 0.15rem; font-size: 0.85rem; color: var(--fg-2); }
 .board__note--off { margin-top: 1rem; color: var(--fg); font-weight: 600; }
@@ -263,18 +263,18 @@
 .preset {
   display: grid; grid-template-columns: 1.6rem minmax(0, 1fr) auto; align-items: center; gap: 0.6rem; text-align: left;
   min-height: 44px; padding: 0.55rem 0.8rem; border-radius: 10px; cursor: pointer;
-  font: inherit; font-size: 0.92rem; color: var(--ink); background: var(--void); border: 1px solid var(--line-strong);
+  font: inherit; font-size: 0.92rem; color: var(--ink); background: var(--void); border: 0;
 }
 .preset b { font-weight: 800; }
 .preset em { font-style: normal; font-size: 0.7rem; font-weight: 700; padding: 0.1rem 0.5rem; border-radius: 999px; background: var(--r-amber); color: var(--ink); }
-.preset:hover { border-color: var(--ink-3); }
+.preset:hover { background: color-mix(in srgb, var(--void) 70%, var(--paper-3)); }
 .preset[aria-pressed="true"] { background: var(--ink); color: var(--void); border-color: var(--ink); }
 .moves { margin: 0; padding: 0; border: 0; display: grid; gap: 0.45rem; }
 .moves legend { padding: 0; margin-bottom: 0.4rem; font-size: 0.82rem; font-weight: 700; color: var(--ink-2); }
 .mv { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0.75rem; padding: 0.6rem 0.75rem; border-radius: 10px; background: var(--void); cursor: pointer; border: 1px solid transparent; }
 .mv input { margin-top: 0.1rem; }
 .mv:not(.is-on) .mv__body { opacity: 0.6; }
-.mv.is-on { border-color: var(--line-strong); }
+.mv.is-on { border-color: transparent; }
 .mv__body { display: grid; gap: 0.1rem; }
 .mv__name { font-weight: 700; font-size: 0.92rem; }
 .mv__what { font-size: 0.82rem; line-height: 1.4; color: var(--ink-2); }
@@ -294,10 +294,10 @@
 .chooser button[aria-pressed="true"] { background: var(--void); box-shadow: 0 1px 3px rgba(23, 24, 28, 0.18); color: var(--ink); }
 .step { display: flex; align-items: center; gap: 0.5rem; }
 .step button {
-  width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--line-strong); background: var(--void);
+  width: 36px; height: 36px; border-radius: 50%; border: 0; background: var(--void); box-shadow: 0 1px 2px rgba(23, 24, 28, 0.12);
   font: inherit; font-size: 1.1rem; font-weight: 700; line-height: 1; color: var(--ink); cursor: pointer;
 }
-.step button:hover:not(:disabled) { border-color: var(--ink-3); }
+.step button:hover:not(:disabled) { box-shadow: 0 2px 6px rgba(23, 24, 28, 0.2); }
 .step button:disabled { opacity: 0.35; cursor: default; }
 .step output { min-width: 3.2rem; text-align: center; font-size: 1.25rem; font-weight: 800; font-variant-numeric: tabular-nums; color: var(--r-accent); }
 .step__note { font-size: 0.8rem; color: var(--ink-3); }
@@ -712,8 +712,8 @@ button.route__in:focus-visible { outline: 2px solid var(--accent); outline-offse
 .t-night.rs.rs-lt-tree {
   --void: #eef0f3; --space: #eef0f3;
   --card: #ffffff; --card-hover: #ffffff; --card-on: #fff6ea; --card-low: #f1f3f6; --card-solid: #ffffff;
-  --lift: 0 1px 2px rgba(16, 24, 40, 0.06), 0 0 0 1px rgba(16, 24, 40, 0.06);
-  --lift-hi: 0 6px 16px -4px rgba(16, 24, 40, 0.14), 0 0 0 1px rgba(16, 24, 40, 0.08);
+  --lift: 0 1px 3px rgba(16, 24, 40, 0.07), 0 4px 12px -6px rgba(16, 24, 40, 0.1);
+  --lift-hi: 0 2px 4px rgba(16, 24, 40, 0.05), 0 10px 22px -8px rgba(16, 24, 40, 0.2);
 }
 .rs-lt-tree .tree { --ramp: linear-gradient(90deg, #dea81e 0%, #ec781c 45%, #de3e50 80%, #c41648 100%); }
 .rs-lt-tree .cd, .rs-lt-tree .outline, .rs-lt-tree .detail, .rs-lt-tree .viewsw, .rs-lt-tree .find input,
@@ -724,8 +724,8 @@ button.route__in:focus-visible { outline: 2px solid var(--accent); outline-offse
 .rs-lt-tree .cd__bar.is-none, .rs-lt-tree .vkey__bar--none { background: repeating-linear-gradient(45deg, rgba(21, 22, 26, 0.3) 0 2px, rgba(21, 22, 26, 0.05) 2px 5px); }
 .rs-lt-tree .br__links path { stroke: rgba(21, 22, 26, 0.18); }
 .rs-lt-tree .br__links path.is-on { stroke: var(--accent); }
-.rs-lt-tree .br__more { background: transparent; box-shadow: inset 0 0 0 1px var(--line-strong); }
-.rs-lt-tree .find input { border-color: transparent; }
+.rs-lt-tree .br__more { background: var(--card-low); box-shadow: none; }
+.rs-lt-tree .tree .find input { border-color: transparent; }
 .rs-lt-tree .viewsw button[aria-pressed="true"] { background: var(--fg); color: #fff; }
 .rs-lt-tree .route__dot::before { box-shadow: 0 0 0 3px var(--void); }
 .rs-lt-tree .tally div:last-child dt { color: var(--moon-3); }
