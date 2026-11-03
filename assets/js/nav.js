@@ -30,7 +30,7 @@
       e.preventDefault();
       var href = a.href, gone = false, go = function () { if (!gone) { gone = true; location.href = href; } };
       moon("moon--in-" + way).addEventListener("animationend", go);
-      setTimeout(go, 900);
+      setTimeout(go, 550);
       return;
     }
     try { sessionStorage.setItem(KEY, way); } catch (x) {}
@@ -54,7 +54,7 @@
         requestAnimationFrame(function () {
           m.className = "moon moon--out-" + eclipse;
           m.addEventListener("animationend", function () { m.remove(); });
-          setTimeout(function () { m.remove(); }, 1200);
+          setTimeout(function () { m.remove(); }, 800);
         });
       };
       if (document.readyState === "complete") leave(); else window.addEventListener("load", leave);
