@@ -5,8 +5,8 @@
    Between the Red Sea demo's pages the moon crosses instead: it slides over the page from the side the next page
    lies on, covers it while that page loads, and slides off the far side once it's ready. */
 (function () {
-  var ORDER = ["index.html", "briefing.html", "memo.html", "team.html", "workbench.html", "ask.html", "redsea.html", "redsea-report.html", "redsea-tree.html"];
-  var KEY = "daybreak.slide", MOON = "daybreak.moon", ECLIPSE = [6, 7, 8];
+  var ORDER = ["index.html", "briefing.html", "memo.html", "team.html", "workbench.html", "agents.html", "ask.html", "redsea.html", "redsea-report.html", "redsea-tree.html"];
+  var KEY = "daybreak.slide", MOON = "daybreak.moon", ECLIPSE = ["redsea.html", "redsea-report.html", "redsea-tree.html"].map(function (p) { return ORDER.indexOf(p); });
   var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
   var root = document.documentElement;
   function moon(cls) {
@@ -57,7 +57,11 @@
   if (eclipse && !reduce) {
     // dark until the moon is in place over the page, so nothing shows before it
     root.setAttribute("data-moon", "");
-    window.addEventListener("pagereveal", function (e) { if (e.viewTransition) e.viewTransition.skipTransition(); });
+    window.addEventListener("pagereveal", function (e) {
+      var vt = e.viewTransition; if (!vt) return;
+      [vt.ready, vt.finished, vt.updateCallbackDone].forEach(function (p) { if (p) p.catch(function () {}); });  // skipping rejects these; nothing to report
+      vt.skipTransition();
+    });
     document.addEventListener("DOMContentLoaded", function () {
       var m = moon("moon--on");
       root.removeAttribute("data-moon");

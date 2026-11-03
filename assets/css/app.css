@@ -129,6 +129,11 @@ body.app { min-height: 100vh; }
 .t-night.sky-violet { /* ask: violet and blue sky; periwinkle accent, pale periwinkle good, pink alert */
   --accent: #9fb2ff; --good: #c8d2ff; --alert: #ff8fa8; --alert-2: #ffb6c6;
 }
+.t-night.sky-teal { /* agents: teal sky; teal accent, pale aqua good, honey-gold alert (a warm neighbor, as on the memo's green) */
+  --accent: #45d6c0; --good: #b4efe5; --alert: #f2c27e; --alert-2: #f8dcb0;
+  --void: #050b0c; --space: #0a1415; --card: rgba(16, 27, 29, 0.74); --card-solid: #142123; --cream: #192729; --mist: #121d1f;
+}
+.t-night.sky-teal .bar { background: rgba(5, 11, 12, 0.74); }
 .bar .wordmark { font-size: 1.3rem; }
 
 .tabs { display: flex; gap: 1.75rem; }

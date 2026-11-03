@@ -15,6 +15,7 @@
     "memo.html": { seed: 13, a: 0.58, gam: 1.15, hues: [[50, 200, 120], [90, 225, 170], [40, 160, 130], [140, 225, 110]] }, // green: for reading
     "team.html": { seed: 66, a: 0.65, gam: 1.25, hues: [[150, 70, 235], [240, 45, 85], [205, 55, 165], [255, 60, 70]] },     // violet with red running through it
     "workbench.html": { seed: 90, a: 0.55, gam: 1, hues: [[74, 168, 255], [80, 210, 255], [110, 140, 255], [74, 168, 255]] }, // blue and cyan: technical
+    "agents.html": { seed: 41, a: 0.55, gam: 1.15, hues: [[40, 200, 185], [60, 170, 220], [30, 150, 150], [110, 225, 200]] }, // teal: the edge
     "ask.html": { seed: 27, a: 0.45, gam: 1, hues: [[169, 139, 255], [90, 140, 255], [140, 120, 255], [110, 150, 255]] },    // violet and blue, the quietest
     // the Red Sea demo: stars only, no haze, so nothing competes with the content
     "redsea.html": null, "redsea-report.html": null, "redsea-tree.html": null

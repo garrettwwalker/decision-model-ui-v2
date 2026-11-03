@@ -13,7 +13,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
 ## Architecture
 
 - Pages: `index.html` (landing), `briefing.html` (daily brief), `memo.html` ("sample memo"), `team.html` ("workflows" in the nav; team workflows for middle
-  managers), `workbench.html` (world-model editor for data/IT) and `ask.html` (chat). `wargame.html` is only a
+  managers), `workbench.html` (world-model editor for data/IT), `agents.html` (Penumbra steering a team's agents) and `ask.html` (chat). `wargame.html` is only a
   redirect to `team.html`; the wargame it used to hold was replaced.
 - Product pages (`t-night`, defined in `app.css`) share the landing's structure, but each page has its own small
   palette taken from its sky (the user found a tour-wide five-hue scheme incoherent and not very informative,
@@ -21,7 +21,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   `--good` (a paler accent for good beside the accent), `--alert` (money at risk, losses, overload, late),
   `--alert-2` (softer warnings); alerts sit next to the sky's hue rather than opposite it (the user found
   orange-on-blue and red-on-green harsh), and moonlight for everything else ("yours", e.g. your plan in a chart, is plain
-  white). Brief `sky-warm`: amber / pale gold / coral. Memo `sky-green` (green nebula, green-black ground): mint / pale mint / honey-gold pastel (a warm gold: a greener gold read as chartreuse against the green sky). Workflows
+  white). Brief `sky-warm`: amber / pale gold / coral. Memo `sky-green` (green nebula, green-black ground): mint / pale mint / honey-gold pastel (a warm gold: a greener gold read as chartreuse against the green sky). Agents `sky-teal`: teal / pale aqua / honey-gold. Workflows
   `sky-plum`: violet / lilac / red-rose. Workbench (the defaults): blue / pale cyan / orchid. Ask
   `sky-violet`: periwinkle / pale periwinkle / pink. The older names the page rules use (`--blue`, `--teal`,
   `--rose`, `--gold`, `--violet`, `--ember`, `--safe`, `--loss` ...) are aliases redefined on `.t-night`, and tints
@@ -92,6 +92,20 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   happens from the foot of Consequences. Hormuz/Red Sea losses come from `model.js`; other events are layered on in
   `lossOf()`. "Ask Penumbra" (`#askdrawer`, moved to `<body>` at init to clear `.page`'s stacking context; it rises from the
   sparkle button and sinks back via `drawer-in`/`drawer-out`, a bottom sheet on phones) is a scripted assistant: `answer()` matches intents by regex, computes replies from the live engine and offers actions.
+- `agents.html` + `assets/css/agents.css` + `assets/js/agents.js` ("agents" in the nav, between workbench and ask; 2026-11-03)
+  imagines Penumbra with a team's agents: the Totality engine as the brain, agents as the edge, in a positive feedback
+  loop overseen by the decision-maker. Information agents (`SENSE`) report in; Totality re-forecasts, values what's
+  still unknown by how much it could change the decision, retasks them toward it, and rewrites the briefs of workflow
+  agents (`ACT`: a resin negotiation, Khor Fakkan bookings, war-risk cover, customer letters). Same morning as the brief
+  (Tue 6 Oct, Hormuz 27% at 06:00, rising to 33% by 07:30; the brief's three decisions and figures), so keep them in sync.
+  Sections: who acts (manual by default; automatic for small, reversible changes under a $1k/$10k/$50k limit, never
+  signing, paying, sending or committing; done stays done, with Undo), the loop (agents either side of a hub whose ring
+  is four stage arcs, sense, weigh, steer, act, each with one color page-wide; packets run along the lit links; a replay of
+  `STEPS` with a step chart of the forecast and the brief's versions, auto-playing once in view), waiting for you (`QUEUE`:
+  was/now diffs, cost, approve or sign off, decline), steer the negotiation (the resin buyer's brief as choices with
+  nudges and must-have switches, live odds of a deal, value protected, premium and net from `outcome()`, and its version
+  history; sending your own brief makes a new version) and every agent (brief, last report, what it added, and a
+  per-agent "acts on its own" switch, off in manual). Sky `sky-teal`: teal / pale aqua / honey-gold.
 - `index.html` + `assets/css/landing.css` + `assets/js/landing.js` is the landing, Penumbra (it was a preview at
   `penumbra.html` from 2026-10-15 until the switchover on 2026-10-16; `penumbra.html` now only redirects home). Same
   sections as the old ByNine landing, with the Daybreak engine renamed the **Totality engine** and dawn lines
