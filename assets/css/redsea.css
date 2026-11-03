@@ -543,3 +543,41 @@
 }
 @media (prefers-reduced-motion: reduce) { .detail, .r__chev { transition: none; } }
 @media (prefers-reduced-motion: reduce) { #f-gantt .gt rect, #f-gantt .gt text, #l-plans .pt circle, .mv, .preset, .chooser button, .mv__body { transition: none; } }
+
+/* the tree's map view: a zoomable icicle */
+.viewsw { display: inline-grid; grid-auto-flow: column; gap: 3px; padding: 3px; border-radius: 12px; background: var(--card); box-shadow: inset 0 0 0 1px var(--line-strong); }
+.viewsw button { min-height: 38px; padding: 0 1rem; border: 0; border-radius: 9px; font: inherit; font-size: 0.9rem; font-weight: 600; color: var(--fg-2); background: transparent; cursor: pointer; transition: background 0.2s, color 0.2s; }
+.viewsw button[aria-pressed="true"] { background: var(--fg); color: var(--void); }
+.viewsw button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.ice { background: var(--card); border-radius: var(--radius); padding: 0.75rem; box-shadow: inset 0 0 0 1px rgba(236, 238, 242, 0.06); min-width: 0; }
+.ice__crumbs { display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 0.45rem; min-height: 2rem; padding: 0 0.25rem 0.6rem; font-size: 0.85rem; }
+.ice__crumbs button { font: inherit; color: var(--accent); background: none; border: 0; padding: 0.2rem 0; cursor: pointer; }
+.ice__crumbs button:hover { text-decoration: underline; text-underline-offset: 3px; }
+.ice__crumbs span[aria-current] { font-weight: 700; }
+.ice__sep { color: var(--moon-3); }
+.ice__svg { display: block; width: 100%; font-family: inherit; overflow: hidden; border-radius: 8px; }
+.ib { cursor: pointer; transition: transform 0.6s cubic-bezier(0.3, 0.6, 0.2, 1), opacity 0.35s ease; }
+.ib rect { transition: width 0.6s cubic-bezier(0.3, 0.6, 0.2, 1), height 0.6s cubic-bezier(0.3, 0.6, 0.2, 1), fill 0.3s ease; }
+.ib text { pointer-events: none; fill: var(--fg); }
+.ib .ib__k { font-size: 10.5px; font-weight: 600; fill: rgba(236, 238, 242, 0.62); }
+.ib .ib__t { font-size: 12.5px; font-weight: 700; }
+.ib .ib__p { font-size: 12.5px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.ib.is-dark text { fill: #1a0d12; }
+.ib.is-dark .ib__k { fill: rgba(26, 13, 18, 0.7); }
+.ib:hover rect { filter: brightness(1.18); }
+.ib.is-sel rect { stroke: #fff; stroke-width: 2; }
+.ib.is-hit rect { stroke: var(--accent); stroke-width: 2; }
+.ib.is-focus rect { fill: #1b1e26 !important; }
+.ib.is-focus text { fill: var(--fg); }
+.ib.is-focus .ib__k { fill: var(--moon-3); }
+.ib:focus { outline: none; }
+.ib:focus-visible rect { stroke: var(--accent); stroke-width: 2.5; }
+.ice__key { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.6rem; padding: 0.75rem 0.25rem 0.1rem; font-size: 0.8rem; color: var(--fg-2); }
+.ice__ramp { display: inline-grid; grid-template-columns: auto 1fr auto; gap: 0 0.4rem; align-items: center; margin-right: 0.6rem; }
+.ice__ramp i { grid-column: 1 / -1; width: 9rem; height: 8px; border-radius: 3px; background: linear-gradient(90deg, rgb(40, 32, 42), rgb(255, 107, 129)); }
+.ice__ramp span { font-size: 0.72rem; color: var(--moon-3); }
+.ice__sw { width: 14px; height: 10px; border-radius: 2px; margin-left: 0.5rem; }
+.ice__sw--ease { background: rgb(255, 213, 107); }
+.ice__sw--decl { background: repeating-linear-gradient(45deg, rgba(236, 238, 242, 0.25) 0 2px, rgba(236, 238, 242, 0.05) 2px 5px); }
+.ice__hint { flex-basis: 100%; color: var(--moon-3); }
+@media (prefers-reduced-motion: reduce) { .ib, .ib rect { transition: none; } }

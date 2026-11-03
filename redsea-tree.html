@@ -46,12 +46,29 @@
       <label class="find"><span class="sr-only">Find a question</span><input id="t-find" type="search" placeholder="Find a question, such as insurance or Maersk" autocomplete="off"></label>
       <label class="switch tog"><span class="switch__text">Show declined</span><input type="checkbox" id="t-declined" checked><span class="switch__ui" aria-hidden="true"></span></label>
       <label class="switch tog"><span class="switch__text">Show set aside</span><input type="checkbox" id="t-aside"><span class="switch__ui" aria-hidden="true"></span></label>
-      <button class="btn-quiet" type="button" id="t-collapse">Collapse all</button>
+      <div class="viewsw" role="group" aria-label="View">
+        <button type="button" data-v="map" aria-pressed="true">Map</button>
+        <button type="button" data-v="list" aria-pressed="false">List</button>
+      </div>
+      <button class="btn-quiet" type="button" id="t-collapse" hidden>Collapse all</button>
       <p class="tree__found" id="t-found" aria-live="polite"></p>
     </div>
 
     <div class="tree__body">
-      <div class="outline" id="t-outline" role="tree" aria-label="The question's decomposition"></div>
+      <div class="ice" id="t-ice">
+        <nav class="ice__crumbs" id="t-crumbs" aria-label="Zoomed into"></nav>
+        <svg class="ice__svg" id="t-ice-svg" role="group" aria-label="Map of the question's decomposition">
+          <defs><pattern id="ice-hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="rgba(236,238,242,0.05)"/><line x1="0" y1="0" x2="0" y2="6" stroke="rgba(236,238,242,0.22)" stroke-width="1.6"/></pattern></defs>
+          <g id="t-ice-g"></g>
+        </svg>
+        <div class="ice__key">
+          <span class="ice__ramp"><i></i><span>0%</span><span>chance</span><span>100%</span></span>
+          <span class="ice__sw ice__sw--ease"></span>eases the disruption
+          <span class="ice__sw ice__sw--decl"></span>declined
+          <span class="ice__hint">Taller blocks have more questions beneath them. Select a block to zoom in, the left column to zoom out.</span>
+        </div>
+      </div>
+      <div class="outline" id="t-outline" role="tree" aria-label="The question's decomposition" hidden></div>
       <aside class="detail" id="t-detail" aria-live="polite"></aside>
     </div>
   </main>
