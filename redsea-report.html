@@ -94,15 +94,29 @@
         <div class="lab__ctl">
           <div class="presets" role="group" aria-label="Options" id="l-presets"></div>
           <fieldset class="moves" id="l-moves"><legend>Moves</legend></fieldset>
-          <div class="knob">
-            <label for="l-p">Chance attacks resume <output id="l-p-out">46%</output></label>
-            <input type="range" id="l-p" min="5" max="95" step="1" value="46">
-            <p class="knob__note">Totality says 46%. <button type="button" class="knob__reset" id="l-p-reset">Reset</button></p>
+          <div class="knob" role="group" aria-labelledby="l-p-h">
+            <p class="knob__h" id="l-p-h">Chance attacks resume</p>
+            <div class="chooser" id="l-p-seg">
+              <button type="button" data-p="25"><b>25%</b><span>A truce holds</span></button>
+              <button type="button" data-p="46"><b>46%</b><span>Totality's forecast</span></button>
+              <button type="button" data-p="70"><b>70%</b><span>Talks collapse</span></button>
+            </div>
+            <div class="step">
+              <button type="button" id="l-p-down" aria-label="5 points lower">&minus;</button>
+              <output id="l-p-out" aria-live="polite">46%</output>
+              <button type="button" id="l-p-up" aria-label="5 points higher">+</button>
+              <span class="step__note" id="l-p-note">Totality's forecast</span>
+            </div>
           </div>
-          <div class="knob">
-            <label for="l-t">If they resume, starting <output id="l-t-out">3 May</output></label>
-            <input type="range" id="l-t" min="2" max="90" step="1" value="32">
-            <p class="knob__note">Moves the stock chart only.</p>
+          <div class="knob" role="group" aria-labelledby="l-t-h">
+            <p class="knob__h" id="l-t-h">If they resume, starting</p>
+            <div class="chooser chooser--4" id="l-t-seg">
+              <button type="button" data-t="14"><b>Mid-April</b><span>15 Apr</span></button>
+              <button type="button" data-t="32"><b>Early May</b><span>3 May</span></button>
+              <button type="button" data-t="61"><b>June</b><span>1 Jun</span></button>
+              <button type="button" data-t="91"><b>July</b><span>1 Jul</span></button>
+            </div>
+            <p class="knob__note">Changes the stock chart and the timeline below.</p>
           </div>
         </div>
         <div class="lab__out">

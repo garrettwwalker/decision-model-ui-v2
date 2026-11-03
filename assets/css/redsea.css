@@ -275,12 +275,29 @@
 .mv__name { font-weight: 700; font-size: 0.92rem; }
 .mv__what { font-size: 0.82rem; line-height: 1.4; color: var(--ink-2); }
 .mv__meta { font-size: 0.78rem; color: var(--ink-3); }
-.knob { display: grid; gap: 0.35rem; }
-.knob label { display: flex; justify-content: space-between; gap: 1rem; font-size: 0.88rem; font-weight: 700; }
-.knob output { font-variant-numeric: tabular-nums; color: var(--r-accent); }
-.knob input[type="range"] { width: 100%; accent-color: var(--r-accent); min-height: 28px; }
+.knob { display: grid; gap: 0.5rem; }
+.knob__h { margin: 0 !important; font-size: 0.82rem; font-weight: 700; color: var(--ink-2); }
+.chooser { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 3px; padding: 3px; border-radius: 12px; background: var(--paper-3); }
+.chooser--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.chooser button {
+  display: grid; gap: 0.05rem; align-content: center; justify-items: start; min-height: 52px; padding: 0.4rem 0.5rem; border: 0; border-radius: 9px;
+  font: inherit; text-align: left; color: var(--ink-2); background: transparent; cursor: pointer; transition: background 0.15s, color 0.15s;
+}
+.chooser button b { font-size: 0.95rem; font-weight: 800; color: var(--ink); font-variant-numeric: tabular-nums; }
+.chooser button b, .chooser button span { text-align: left; }
+.chooser button span { font-size: 0.72rem; line-height: 1.25; }
+.chooser button:hover { background: rgba(255, 255, 255, 0.45); }
+.chooser button[aria-pressed="true"] { background: var(--void); box-shadow: 0 1px 3px rgba(23, 24, 28, 0.18); color: var(--ink); }
+.step { display: flex; align-items: center; gap: 0.5rem; }
+.step button {
+  width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--line-strong); background: var(--void);
+  font: inherit; font-size: 1.1rem; font-weight: 700; line-height: 1; color: var(--ink); cursor: pointer;
+}
+.step button:hover:not(:disabled) { border-color: var(--ink-3); }
+.step button:disabled { opacity: 0.35; cursor: default; }
+.step output { min-width: 3.2rem; text-align: center; font-size: 1.25rem; font-weight: 800; font-variant-numeric: tabular-nums; color: var(--r-accent); }
+.step__note { font-size: 0.8rem; color: var(--ink-3); }
 .knob__note { margin: 0 !important; font-size: 0.78rem; color: var(--ink-3); }
-.knob__reset { font: inherit; font-size: 0.78rem; color: var(--r-accent); background: none; border: 0; padding: 0; text-decoration: underline; cursor: pointer; }
 
 .lab__out { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
 .lab__fig { background: var(--void); border-radius: var(--radius); padding: 1rem 1.1rem 0.9rem; }

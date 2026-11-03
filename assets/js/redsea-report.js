@@ -130,8 +130,11 @@
     });
     document.querySelectorAll(".mv input").forEach(function (c) { c.checked = has(c.value); c.closest(".mv").classList.toggle("is-on", c.checked); });
     $("#l-p-out").textContent = S.p + "%";
-    $("#l-t-out").textContent = dayLabel(S.t);
-    $("#l-p-reset").hidden = S.p === 46;
+    document.querySelectorAll("#l-p-seg button").forEach(function (b) { b.setAttribute("aria-pressed", +b.dataset.p === S.p); });
+    document.querySelectorAll("#l-t-seg button").forEach(function (b) { b.setAttribute("aria-pressed", +b.dataset.t === S.t); });
+    var named = { 25: "A truce holds", 46: "Totality's forecast", 70: "Talks collapse" }[S.p];
+    $("#l-p-note").textContent = named || (S.p > 46 ? S.p - 46 + " points above Totality" : 46 - S.p + " points below Totality");
+    $("#l-p-down").disabled = S.p <= 5; $("#l-p-up").disabled = S.p >= 95;
 
     // headline numbers
     var saved = base.loss - plan.loss, net = saved - plan.cost;
@@ -281,9 +284,10 @@
     S.plan.sort(function (a, b) { return ORDER.indexOf(a) - ORDER.indexOf(b); });
     update();
   });
-  $("#l-p").addEventListener("input", function (e) { S.p = +e.target.value; update(); });
-  $("#l-p-reset").addEventListener("click", function () { S.p = 46; $("#l-p").value = 46; update(); });
-  $("#l-t").addEventListener("input", function (e) { S.t = +e.target.value; update(); });
+  $("#l-p-seg").addEventListener("click", function (e) { var b = e.target.closest("button"); if (b) { S.p = +b.dataset.p; update(); } });
+  $("#l-p-down").addEventListener("click", function () { S.p = Math.max(5, S.p - 5); update(); });
+  $("#l-p-up").addEventListener("click", function () { S.p = Math.min(95, S.p + 5); update(); });
+  $("#l-t-seg").addEventListener("click", function (e) { var b = e.target.closest("button"); if (b) { S.t = +b.dataset.t; update(); } });
 
   // ---------- 6. outside the watch list ----------
   $("#f-off").innerHTML = RS.EVENTS.filter(function (e) { return !e.watch; }).map(function (e) {
