@@ -169,18 +169,18 @@
       '<span class="cd__chance">' + chance + "</span>" + '<span class="cd__foot">' + foot + "</span></button>";
   }
 
+  // where you are, as stops on a line: each level's kind, a short title and its chance; earlier stops jump back up
   function drawCrumbs() {
     var path = [], a = byId[focus];
     while (a) { path.unshift(a); a = byId[a.p]; }
-    var up = path.length > 1 ? path[path.length - 2] : null;
-    var upName = up ? (up.k === "root" ? "the question" : label(up)) : "";
-    crumbs.innerHTML = (up ? '<button type="button" class="crumbs__back" data-z="' + up.i + '" aria-label="Up to ' + esc(upName) + '" title="Up to ' + esc(upName) + '">' +
-      '<span class="crumbs__chev" aria-hidden="true"></span></button>' : "") +
-      '<span class="crumbs__trail">' + path.map(function (x, k) {
-      var t = x.k === "root" ? "The question" : label(x);
-      return k === path.length - 1 ? '<span aria-current="true">' + esc(t.length > 70 ? t.slice(0, 69) + "…" : t) + "</span>"
-        : '<button type="button" data-z="' + x.i + '">' + esc(t.length > 40 ? t.slice(0, 39) + "…" : t) + "</button>";
-    }).join('<span class="crumbs__sep" aria-hidden="true"></span>') + "</span>";
+    crumbs.classList.toggle("is-root", path.length === 1);
+    crumbs.innerHTML = '<ol class="route">' + path.map(function (x, k) {
+      var here = k === path.length - 1, t = x.k === "root" ? "The question" : label(x);
+      var inner = '<span class="route__dot" aria-hidden="true"></span><span class="route__k">' + (x.k === "root" ? "Question" : kind(x)) +
+        (x.pr != null ? ' <span class="route__p num">' + x.pr + "%</span>" : "") + '</span><span class="route__t">' + esc(t) + "</span>";
+      return '<li class="route__stop' + (here ? " is-here" : "") + '">' + (here ? '<span class="route__in" aria-current="true">' + inner + "</span>"
+        : '<button type="button" class="route__in" data-z="' + x.i + '" title="Up to ' + esc(t) + '">' + inner + "</button>") + "</li>";
+    }).join("") + "</ol>";
   }
 
   // a fresh grid or tree slides in from the side it came from

@@ -139,9 +139,10 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   into (the chance as a number, a plain word and a bar in a warm ramp by probability, yellow to rose-red, the user
   found gray bars dull; each bar is one solid color, not a gradient, its probability's point on the ramp; hatched where declined; easing shown by its tag, not color; how many questions inside, in
   words, no "likeliest"; a chevron and points where the chance moved since yesterday, on some cards only, from the
-  generator's `dd`; a key above; a quiet lighter card for the selection and a round back button (chevron, tooltip names where it goes) at the head of the
-  chevron-separated crumbs: the user found a strip of tick marks, a yellow-and-white selection, an "Up a level"
-  button and a "Back to ..." pill unclear or clumsy); Branches, the question, its
+  generator's `dd`; a key above; a quiet lighter card for the selection; where you are shown as a route line (`.route`): a stop per level with
+  its kind, chance and short title, the current one ringed, earlier ones clickable to go up. The user found a strip of
+  tick marks, a yellow-and-white selection, an "Up a level" button, a "Back to ..." pill and text crumbs unclear or
+  unappealing); Branches, the question, its
   children and one child's children joined by curves, long families folding into "N more"; and List, the outline. The
   user found the list alone boring, and rejected a zoomable icicle because its slim blocks were impossible to click). The user disliked the reference's radial "sonar" style as vibe-coded but
   said its information and connections are right. As of Wed 1 Apr 2026, horizon 1 Oct, matching the lattice.
