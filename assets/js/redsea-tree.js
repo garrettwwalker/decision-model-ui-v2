@@ -173,13 +173,14 @@
     var path = [], a = byId[focus];
     while (a) { path.unshift(a); a = byId[a.p]; }
     var up = path.length > 1 ? path[path.length - 2] : null;
-    crumbs.innerHTML = (up ? '<button type="button" class="crumbs__back" data-z="' + up.i + '"><span class="crumbs__chev" aria-hidden="true"></span>Back to ' +
-      esc(up.k === "root" ? "the question" : (label(up).length > 32 ? label(up).slice(0, 31) + "…" : label(up))) + "</button>" : "") +
+    var upName = up ? (up.k === "root" ? "the question" : label(up)) : "";
+    crumbs.innerHTML = (up ? '<button type="button" class="crumbs__back" data-z="' + up.i + '" aria-label="Up to ' + esc(upName) + '" title="Up to ' + esc(upName) + '">' +
+      '<span class="crumbs__chev" aria-hidden="true"></span></button>' : "") +
       '<span class="crumbs__trail">' + path.map(function (x, k) {
       var t = x.k === "root" ? "The question" : label(x);
       return k === path.length - 1 ? '<span aria-current="true">' + esc(t.length > 70 ? t.slice(0, 69) + "…" : t) + "</span>"
         : '<button type="button" data-z="' + x.i + '">' + esc(t.length > 40 ? t.slice(0, 39) + "…" : t) + "</button>";
-    }).join('<span class="crumbs__sep" aria-hidden="true">/</span>') + "</span>";
+    }).join('<span class="crumbs__sep" aria-hidden="true"></span>') + "</span>";
   }
 
   // a fresh grid or tree slides in from the side it came from

@@ -551,13 +551,13 @@
 .visual__top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.6rem 1.5rem; margin-bottom: 1rem; }
 .crumbs { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.9rem; min-height: 2.75rem; font-size: 0.9rem; }
 .crumbs__trail { display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 0.5rem; }
-.crumbs__back {
-  display: inline-flex; align-items: center; gap: 0.5rem; min-height: 40px; padding: 0 0.95rem 0 0.75rem; border-radius: 999px;
-  font: inherit; font-size: 0.88rem; font-weight: 600; color: var(--fg) !important; background: var(--card); cursor: pointer;
-  box-shadow: inset 0 0 0 1px var(--line-strong); transition: background 0.2s ease;
+.crumbs .crumbs__back { /* a round back button: up one level, named in its tooltip */
+  display: inline-grid; place-items: center; width: 40px; height: 40px; flex: none; border-radius: 50%; border: 0; cursor: pointer;
+  color: var(--fg); background: var(--card); box-shadow: inset 0 0 0 1px var(--line-strong); transition: background 0.2s ease;
 }
-.crumbs__back:hover { background: var(--card-hover); text-decoration: none !important; }
-.crumbs__chev { width: 0.45rem; height: 0.45rem; border-left: 1.8px solid currentColor; border-bottom: 1.8px solid currentColor; transform: rotate(45deg); margin-left: 0.15rem; }
+.crumbs__back:hover { background: var(--card-hover); }
+.crumbs__back:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.crumbs__chev { width: 0.5rem; height: 0.5rem; border-left: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: translateX(0.1rem) rotate(45deg); }
 .vkey { display: flex; flex-wrap: wrap; align-items: center; gap: 0.3rem 0.45rem; margin: 0; font-size: 0.78rem; color: var(--fg-2); }
 .vkey__bar { width: 44px; height: 6px; border-radius: 3px; background: var(--ramp); }
 .vkey__bar--none { width: 18px; margin-left: 0.8rem; }
@@ -566,7 +566,9 @@
 .crumbs button { font: inherit; color: var(--accent); background: none; border: 0; padding: 0.2rem 0; cursor: pointer; }
 .crumbs button:hover { text-decoration: underline; text-underline-offset: 3px; }
 .crumbs span[aria-current] { font-weight: 700; }
-.crumbs__sep { color: var(--moon-3); }
+.crumbs__sep { width: 0.35rem; height: 0.35rem; margin: 0 0.15rem; border-right: 1.5px solid var(--moon-3); border-top: 1.5px solid var(--moon-3); transform: rotate(45deg); }
+.crumbs__trail button { color: var(--fg-2); }
+.crumbs__trail button:hover { color: var(--fg); }
 
 .cd {
   position: relative; display: grid; gap: 0.5rem; align-content: start; width: 100%; text-align: left;
