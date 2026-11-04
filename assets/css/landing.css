@@ -409,9 +409,10 @@ main, .footer { position: relative; z-index: 2; }
 .pv-st--done { background: rgba(94, 214, 138, 0.15); color: #6fdc96; box-shadow: none; } /* green by the user's request: the page's one exception to keeping off greens */
 .pv-st--doing { background: rgba(255, 210, 90, 0.14); color: var(--a-gold); box-shadow: none; }
 /* the agents card: an eclipse that is also a system map. The moon sits in its corona and straight rays leave its rim,
-   long ones running off the edges of the card's dark inner box, with short streamers between. Only the glow moves, a slight pulse. No text, no nodes; each line one color. */
+   long ones fading out before the edges of the card's dark inner box, with short streamers between. Only the glow moves, a slight pulse. No text, no nodes; each line one color. */
 .pv-ecl { padding: 0; height: clamp(7.5rem, 10vw, 9.5rem); overflow: hidden; } /* the card's dark inner box, the rays running to its edges */
-.pv-ecl__svg { display: block; width: 100%; height: 100%; }
+.pv-ecl__svg { display: block; width: 100%; height: 100%; /* the rays fade out before they reach the box's edges; the box itself stays solid */
+  -webkit-mask-image: radial-gradient(closest-side, #000 35%, transparent 98%); mask-image: radial-gradient(closest-side, #000 35%, transparent 98%); }
 .pv-ecl__ray { fill: none; stroke: rgba(255, 210, 120, 0.3); stroke-width: 0.9; }
 .pv-ecl__str { fill: none; stroke: rgba(255, 195, 110, 0.26); stroke-width: 0.8; }
 .pv-ecl__corona { transform-box: fill-box; transform-origin: center; animation: ecl-breathe 5s ease-in-out infinite; }
