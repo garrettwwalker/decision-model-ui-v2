@@ -6,7 +6,7 @@
    panels inside; condensed serif capitals (DM Serif Display) for the page and view titles, the serif in title case for
    card titles and big figures, small gray Switzer for the rest; one tomato red for buttons, counts and what waits for
    you, amber for a problem, working neutral (no green: the user wants it warm); status as plain colored labels, no dots,
-   pills or halos; pills for tabs and filters, the chosen one solid ink; red buttons glow only on hover; who acts' chosen option is a lifted white card (a black one was rejected); the chosen
+   pills or halos; the view tabs as agents 2's sliding track with a white pill; filters as pills, the chosen one solid ink; red buttons glow only on hover; who acts' chosen option is a lifted white card (a black one was rejected); the chosen
    question lifts with no outline; the live map light, its agent tiles with rounded-square initial avatars (agents3.js).
    Built as agents2.css (renamed to .ag3, retokened) plus the layer at the end. */
 body.ag3 {
@@ -597,13 +597,13 @@ body:not(.has-drawer) .rt.is-sel { background: transparent; }
 .watch .btn-q { color: #fff; background: var(--accent); box-shadow: none; transition: background-color 0.15s ease, box-shadow 0.2s ease; }
 .watch .btn-q:hover { background: #c42a1c; box-shadow: 0 8px 18px -8px rgba(219, 51, 36, 0.7); }
 
-/* pills for the view tabs and the feed's filters, the chosen one solid ink */
-.vtabs__track { gap: 0.4rem; background: transparent; }
-.vtabs__thumb, .feed__f > .seg-thumb { background: var(--ink); box-shadow: none; }
-.vtab, .feed__f button { color: var(--ink); box-shadow: inset 0 0 0 1px rgba(22, 20, 18, 0.16); transition: color 0.2s ease, box-shadow 0.2s ease; }
-.vtab { font-weight: 600; }
-.vtab[aria-current="true"], .feed__f button[aria-pressed="true"] { color: #fff; box-shadow: none; }
-.vtab:hover:not([aria-current="true"]) { color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
+/* the view tabs as agents 2 has them: one track, a white pill sliding to the open view (the track a shade deeper
+   than agents 2's so it reads on the cream) */
+.vtabs__track { background: #ebe4d9; }
+/* the feed's filters as pills, the chosen one solid ink */
+.feed__f > .seg-thumb { background: var(--ink); box-shadow: none; }
+.feed__f button { color: var(--ink); box-shadow: inset 0 0 0 1px rgba(22, 20, 18, 0.16); transition: color 0.2s ease, box-shadow 0.2s ease; }
+.feed__f button[aria-pressed="true"] { color: #fff; box-shadow: none; }
 .feed__f { gap: 0.35rem; padding: 0; background: transparent; }
 .feed__f button { border-radius: 999px; font-weight: 600; }
 .feed__f.has-thumb > button:hover { background: transparent; box-shadow: inset 0 0 0 1px var(--ink); }

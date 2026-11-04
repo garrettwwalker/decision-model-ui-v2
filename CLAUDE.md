@@ -164,8 +164,9 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   ("Waiting for You"; capitals were rejected), in title case for card titles and big figures, small gray Switzer for the rest; tomato red `#db3324` for
   buttons ("New question" too), counts and what waits for you, amber for a problem, working, protected and fixed neutral (the user wants the palette warm, no green); status as
   plain labels in their color, with no dot, tinted pill or blinking (the user called dots and halos a vibe-code
-  giveaway), and no glow or pulse round Totality or the Live label; pills for
-  the view tabs and feed filters, the chosen one solid ink; red buttons glow only on hover (as the landing's used to); who acts' chosen
+  giveaway), and no glow or pulse round Totality or the Live label; the view tabs
+  as agents 2's sliding track (a white pill on a cream track; the user preferred it to outlined pills), the feed's
+  filters as pills with the chosen one solid ink; red buttons glow only on hover (as the landing's used to); who acts' chosen
   option a white card lifted off the cream with a red dot (the user found a black one, which flipped light on hover, bizarre); the chosen question lifts with its chance in red, no outline
   and no sliding highlight; the live map light on a white card, its agent tiles with rounded-square initial avatars
   (`agents3.js`, colored from the name), Totality a white disc ringed in red. The stylesheet is agents2.css (renamed to
