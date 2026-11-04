@@ -107,7 +107,9 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   reversible changes under a $1k/$10k/$50k limit, never signing, paying, sending or committing; done stays done, with
   Undo), right now (a working dashboard; the user rejected a replay with a play button: a status strip, a live map of
   agents either side of the Totality hub, a plain disc with the forecast that pulses when a report moves it (the user
-  rejected a sense/weigh/steer/act ring: the engine does all four at once), tiles with status (working, waiting for you,
+  rejected a sense/weigh/steer/act ring: the engine does all four at once), links that light up when information moves along them (a brighter copy
+  draws in the direction of travel, gold for reports, amber for briefs, then fades; the user disliked dots running along
+  the lines), tiles with status (working, waiting for you,
   problem, paused), latest report and age; a side panel for an agent (problem and fixes, surfacing, waiting changes,
   brief, also serving, stats, log, pause, autonomy) or for Totality (chart, what moved it, what it wants to know next); a
   filtered feed; needs attention, `PROBLEMS` with fixes; a simulated clock from 08:20, a minute every 5 s), waiting for you,

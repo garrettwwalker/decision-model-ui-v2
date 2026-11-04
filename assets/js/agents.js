@@ -427,7 +427,9 @@
     var box = board.getBoundingClientRect();
     var stacked = getComputedStyle(board).gridTemplateColumns.split(" ").length < 3;
     links.setAttribute("viewBox", "0 0 " + box.width + " " + box.height);
+    var keepLit = $("packets");
     links.innerHTML = ""; paths = {};
+    if (keepLit) links.appendChild(keepLit);
     if (stacked) return;
     // each link meets the hub's edge, spread over the side it comes in on
     var hb = hubSvg.getBoundingClientRect(), k = hb.width / 176, cx = hb.left + hb.width / 2 - box.left, cy = hb.top + hb.height / 2 - box.top, r = 80 * k;
@@ -440,19 +442,24 @@
                        : "M" + hx + " " + hy + "C" + mx + " " + hy + " " + mx + " " + y + " " + ex + " " + y;
       s += '<path id="lk-' + a.id + '" class="lk lk--' + a.kind + ' is-' + status(a) + '" d="' + d + '"/>';
     });
-    links.innerHTML = s + '<g id="packets"></g>';
+    // keep any links that are lit right now: a redraw mustn't cut them off mid-flash
+    var lit = $("packets");
+    links.innerHTML = s;
+    if (lit) links.appendChild(lit); else { lit = document.createElementNS(NS, "g"); lit.id = "packets"; links.appendChild(lit); }
     linked(Q).forEach(function (a) { paths[a.id] = $("lk-" + a.id); });
   }
-  // a dot runs along a link whenever information moves: an agent reporting in, or Totality sending out a brief
+  // when information moves, the link itself lights up: a brighter copy draws along it in the direction of travel
+  // (toward Totality for a report, away from it for a brief), holds a moment, then fades back
   function packet(id, inward, cls) {
     var p = paths[id], g = $("packets"); if (REDUCE || !p || !g || document.hidden) return;
-    var dot = document.createElementNS(NS, "circle"); dot.setAttribute("r", "3.5"); dot.setAttribute("class", ("pk " + (cls || "")).trim()); g.appendChild(dot);
-    var len = p.getTotalLength(), fwd = AGENTS[id].kind === "sense" ? inward : !inward, t0 = performance.now();
-    (function f(n) {
-      var u = Math.min(1, (n - t0) / 1300), at = p.getPointAtLength((fwd ? u : 1 - u) * len);
-      dot.setAttribute("cx", at.x.toFixed(1)); dot.setAttribute("cy", at.y.toFixed(1)); dot.setAttribute("opacity", Math.sin(u * Math.PI).toFixed(2));
-      if (u < 1) requestAnimationFrame(f); else dot.remove();
-    })(t0);
+    var hot = document.createElementNS(NS, "path");
+    hot.setAttribute("d", p.getAttribute("d")); hot.setAttribute("pathLength", "1");
+    hot.setAttribute("class", ("lk-hot " + (inward ? "lk-hot--in " : "lk-hot--out ") + (cls || "")).trim());
+    g.appendChild(hot);
+    var fwd = AGENTS[id].kind === "sense" ? inward : !inward, from = fwd ? 1 : -1;
+    var run = hot.animate([{ strokeDashoffset: from, opacity: 1 }, { strokeDashoffset: 0, opacity: 1, offset: 0.45 }, { strokeDashoffset: 0, opacity: 1, offset: 0.6 }, { strokeDashoffset: 0, opacity: 0 }],
+      { duration: cls === "pk--quiet" ? 2200 : 1900, easing: "ease-out" });
+    run.onfinish = function () { hot.remove(); };
   }
   // working agents check in now and then; ones with a problem or paused stay silent
   setInterval(function () {

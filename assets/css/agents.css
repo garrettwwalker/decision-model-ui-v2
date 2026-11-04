@@ -147,8 +147,11 @@ button.dk__i:hover { box-shadow: var(--lift), 0 0 0 1px transparent; transform: 
 .lk.is-ok, .lk.is-wait { stroke: color-mix(in srgb, var(--accent) 22%, var(--sunk-2)); }
 .lk.is-bad { stroke: color-mix(in srgb, var(--bad) 55%, transparent); stroke-width: 2; }
 .lk.is-off { stroke: var(--sunk); }
-.pk { fill: var(--accent); }
-.pk--quiet { opacity: 0.45; }
+/* a link lighting up as information moves along it (agents.js packet()): reports in gold, briefs in amber; check-ins faint */
+.lk-hot { fill: none; stroke-width: 2.4; stroke-linecap: round; stroke-dasharray: 1 1; }
+.lk-hot--in { stroke: var(--good); }
+.lk-hot--out { stroke: var(--accent); }
+.lk-hot.pk--quiet { stroke-width: 1.6; stroke-opacity: 0.45; }
 
 .loop__hub { position: relative; z-index: 1; display: block; padding: 0; border: 0; border-radius: 50%; background: none; cursor: pointer; }
 .hub { display: block; width: 100%; height: auto; overflow: visible; }
