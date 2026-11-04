@@ -709,6 +709,7 @@ button.route__in:focus-visible { outline: 2px solid var(--accent); outline-offse
 .rs-lt-glance .facts { border-top-color: var(--fg); }
 .rs-lt-glance .tag { background: #fbe9d2; }
 .rs-lt-glance .spark polyline { stroke: var(--moon-3); }
+.rs-lt-glance .fact__big.money--safe { color: #c08a0c; }
 
 /* fog */
 .t-night.rs.rs-lt-tree {
