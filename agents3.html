@@ -7,9 +7,6 @@
   <meta name="description" content="Penumbra with your agents: information agents sense, the Totality engine weighs what they find and steers them, and workflow agents act on the plan once you sign off.">
   <link rel="preload" href="assets/fonts/switzer-800.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/switzer-400.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap">
   <link rel="stylesheet" href="assets/css/base.css">
   <link rel="stylesheet" href="assets/css/app.css">
   <link rel="stylesheet" href="assets/css/agents3.css">
@@ -148,11 +145,17 @@
               </div>
               <button type="button" class="loop__hub" id="hub-btn" aria-label="Totality: the forecast and what it wants to know next">
                 <svg class="hub" id="hub" viewBox="32 32 176 176" aria-hidden="true">
+                  <defs>
+                    <linearGradient id="ag3-corona" x1="0" y1="0" x2="1" y2="1">
+                      <stop offset="0" stop-color="#ffd27a"/><stop offset="0.5" stop-color="#ff7a3d"/><stop offset="1" stop-color="#ff3d6e"/>
+                    </linearGradient>
+                    <filter id="ag3-glow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="5"/></filter>
+                  </defs>
                   <circle class="hub__halo" cx="120" cy="120" r="80"/>
-                  <circle class="hub__ring" cx="120" cy="120" r="80"/>
-                  <circle class="hub__disc" cx="120" cy="120" r="68"/>
-                  <text class="hub__name" x="120" y="92" text-anchor="middle">Totality</text>
-                  <text class="hub__p num" id="hub-p" x="120" y="126" text-anchor="middle">33%</text>
+                  <g class="hub__corona"><circle class="hub__glow" cx="120" cy="120" r="80" filter="url(#ag3-glow)"/><circle class="hub__ring" cx="120" cy="120" r="80"/></g>
+                  <circle class="hub__disc" cx="120" cy="120" r="78"/>
+                  <text class="hub__name" x="120" y="88" text-anchor="middle">Totality</text>
+                  <text class="hub__p num" id="hub-p" x="120" y="124" text-anchor="middle">33%</text>
                   <text class="hub__q" id="hub-q" x="120" y="148" text-anchor="middle">Hormuz closes</text>
                 </svg>
               </button>
