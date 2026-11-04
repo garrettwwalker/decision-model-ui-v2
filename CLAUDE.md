@@ -132,9 +132,10 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   history); a lifted-card variant of that was tried and reverted ("no, undo that"). The watchlist's questions are paper
   cards on the cream, the chosen one ringed in ink with no highlight sliding between them (the user found the slide
   awkward on separate cards; its `.seg-thumb` is hidden), and "New question" an espresso pill (the user found the earlier
-  track-and-tint version too hard to see). Picking a question decrypts its big figures into place (`assets/js/agents-decrypt.js`, this page
-  only: the status strip, Totality's disc and the panel's forecast cycle through random digits and letters and settle
-  left to right in about 0.4 s; off under reduced motion). The user plans to redesign most product pages in this warm paper scheme, and
+  track-and-tint version too hard to see). Picking a question counts its big figures up from zero (`assets/js/agents-count.js`, this page
+  only: the status strip, Totality's disc and the panel's forecast, each number running from 0 to its value in about
+  half a second, keeping decimals; dates are left alone; off under reduced motion). A decrypt effect was tried first and
+  replaced at the user's request. The user plans to redesign most product pages in this warm paper scheme, and
   it may diverge from the landing's palette, but fonts stay the landing's.
 - `agents2.html` + `assets/css/agents2.css` + `assets/js/agents2.js` ("agents 2" in the nav, after agents; 2026-11-04)
   is the same agents page, same content and the same `agents.js` (keep the element IDs in step with `agents.html`).
