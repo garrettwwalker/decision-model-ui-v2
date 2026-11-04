@@ -126,7 +126,8 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   (its tiles are cards, as on the glance's board), and the dashboard is two columns that stack on their own (map then
   feed; agent panel then needs attention), the feed stretching to meet the right column and scrolling inside.
   Colors never stack (the user saw teal buttons on a red tile clash): problems sit on a neutral card with a rose
-  marker, and selection is an ink ring.
+  marker, and selection is an ink ring. Tried and reverted the same day: open text under rules with only pressable
+  things as white cards on soft shadows (the user said "no, undo that"), so keep the flat gray cards.
 - `index.html` + `assets/css/landing.css` + `assets/js/landing.js` is the landing, Penumbra (it was a preview at
   `penumbra.html` from 2026-10-15 until the switchover on 2026-10-16; `penumbra.html` now only redirects home). Same
   sections as the old ByNine landing, with the Daybreak engine renamed the **Totality engine** and dawn lines
