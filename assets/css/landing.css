@@ -408,23 +408,17 @@ main, .footer { position: relative; z-index: 2; }
 .pv-st { padding: 0.1rem 0.45rem; border-radius: 999px; font-size: 0.68rem; font-weight: 800; box-shadow: inset 0 0 0 1.5px var(--line-strong); color: var(--moon-2); }
 .pv-st--done { background: rgba(94, 214, 138, 0.15); color: #6fdc96; box-shadow: none; } /* green by the user's request: the page's one exception to keeping off greens */
 .pv-st--doing { background: rgba(255, 210, 90, 0.14); color: var(--a-gold); box-shadow: none; }
-/* the agents card: Totality between its agents, one in trouble, dots moving in and out (unlike the workflows card's task rows) */
-.pv-orch__svg { display: block; width: 100%; height: auto; overflow: visible; font-family: inherit; }
-.pv-orch__lk { fill: none; stroke: rgba(236, 238, 242, 0.2); stroke-width: 1.2; }
-.pv-orch__lk--bad { stroke: rgba(255, 84, 120, 0.6); }
-.pv-orch__hub { fill: #0b0c10; stroke: var(--a-amber); stroke-width: 1.5; filter: drop-shadow(0 0 10px rgba(255, 170, 64, 0.35)); }
-.pv-orch__p { font-size: 15px; font-weight: 800; letter-spacing: -0.03em; fill: var(--moon); }
-.pv-orch__hl { font-size: 6.5px; font-weight: 700; fill: var(--a-amber); }
-.pv-orch__dot { fill: var(--a-gold); }
-.pv-orch__dot--wait { fill: var(--a-orange); }
-.pv-orch__dot--bad { fill: var(--a-rose); animation: orch-blink 1.6s ease-in-out infinite; }
-@keyframes orch-blink { 50% { opacity: 0.3; } }
-.pv-orch__t { font-size: 8px; font-weight: 600; fill: var(--moon-2); }
-.pv-orch__pk { fill: var(--a-yellow); offset-rotate: 0deg; animation: orch-run 2.6s ease-in-out infinite; }
-.pv-orch__pk--in { offset-path: path("M44 22 C80 22 80 46 92 52"); }
-.pv-orch__pk--out { offset-path: path("M148 52 C160 46 160 34 196 34"); animation-delay: 1.3s; }
-@keyframes orch-run { 0% { offset-distance: 0%; opacity: 0; } 15%, 85% { opacity: 1; } 100% { offset-distance: 100%; opacity: 0; } }
-@media (prefers-reduced-motion: reduce) { .pv-orch__pk { display: none; } .pv-orch__dot--bad { animation: none; } }
+/* the agents card: an abstract hub between its agents, no text; one slow dot comes in and another goes out
+   (deliberately quieter than a diagram, and unlike the workflows card's task rows) */
+.pv-orch__svg { display: block; width: 100%; height: auto; overflow: visible; }
+.pv-orch__lk { fill: none; stroke: rgba(236, 238, 242, 0.16); stroke-width: 1.1; }
+.pv-orch__hub { fill: #0b0c10; stroke: var(--a-amber); stroke-opacity: 0.7; stroke-width: 1.4; filter: drop-shadow(0 0 12px rgba(255, 170, 64, 0.25)); }
+.pv-orch__dot { fill: var(--moon-3); }
+.pv-orch__pk { fill: var(--a-gold); offset-rotate: 0deg; opacity: 0; animation: orch-run 4.8s ease-in-out infinite; }
+.pv-orch__pk--in { offset-path: path("M40 24 C78 24 80 48 94 54"); }
+.pv-orch__pk--out { offset-path: path("M146 64 C160 70 162 82 200 82"); animation-delay: 2.4s; }
+@keyframes orch-run { 0% { offset-distance: 0%; opacity: 0; } 20%, 70% { opacity: 0.85; } 90%, 100% { offset-distance: 100%; opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .pv-orch__pk { display: none; } }
 .pv-av { width: 1.5rem; height: 1.5rem; border-radius: 50%; display: grid; place-items: center; font-size: 0.6rem; font-weight: 800; background: rgba(236, 238, 242, 0.1); color: var(--moon); }
 .pv-heat { display: grid; grid-template-columns: repeat(8, 1fr); gap: 3px; }
 .pv-heat span { aspect-ratio: 1.6; border-radius: 3px; }

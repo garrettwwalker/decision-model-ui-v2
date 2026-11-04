@@ -135,8 +135,8 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   is a soft pastel of its source's warm color, no dots (the user found bright colors and dots too much): judgment peach,
   telemetry butter, procedure pink, the market coral. The horizon chart's judgment line is orange. The product section is "for
   whatever you need." with four cards (daily brief, team workflows, workbench, agentic orchestration; the brief's card
-  shows figures, not sliders; the agents card shows a small hub of agents round Totality, deliberately unlike the
-  workflows card's task rows, and no card has a button: the user removed them). Split screen (601-1100px): the hero lines scale with the width, and the
+  shows figures, not sliders; the agents card shows an abstract hub between five plain nodes, no text, one slow dot in
+  and one out (the user found a labelled diagram busy), deliberately unlike the workflows card's task rows, and no card has a button: the user removed them). Split screen (601-1100px): the hero lines scale with the width, and the
   stacked thesis text and Sputnik are larger. Below the hero: fixed starfield canvas (no coloured background glows: the user removed them as
   tints), a faint white pointer glow, aurora-edged card spotlights (`.spot`, `--mx/--my`), headings revealed
   word by word, "what should you do?" (after gray swans) as a moon chart (`.lunes`, heading styled like the other sections), introduced by
