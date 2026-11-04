@@ -128,13 +128,18 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   Colors never stack (the user saw teal buttons on a red tile clash): problems sit on a neutral card with a rose
   marker, and selection is an ink ring. Tried and reverted the same day: open text under rules with only pressable
   things as white cards on soft shadows (the user said "no, undo that"), so keep the flat gray cards.
-- `agents2.html` + `assets/css/agents2.css` ("agents 2" in the nav, after agents; 2026-11-04) is the same agents page,
-  same content and the same `agents.js` (keep the element IDs in step with `agents.html`), redesigned fresh for the user
-  to compare: white ground; cool neutrals (ink `#0b0d12`, mist wells `#f4f5f7`); white cards on a soft diffuse shadow;
-  monochrome ink controls (primary buttons, switches, the chosen "who acts" and watchlist card in ink); three status
-  colors, emerald working, corona orange `#ea580c` waiting for you, rose problem; the status strip one card split five
-  ways; the live map the one dark object, an instrument panel with Totality as an eclipse (black disc, a warm gradient
-  corona turning slowly, gradient and glow defs in the page's hub SVG), mint links for reports and orange for briefs.
+- `agents2.html` + `assets/css/agents2.css` + `assets/js/agents2.js` ("agents 2" in the nav, after agents; 2026-11-04)
+  is the same agents page, same content and the same `agents.js` (keep the element IDs in step with `agents.html`).
+  Redesigned the same day as click-through views because the one long page read as cluttered: a short intro, your
+  questions, then a sticky tab bar (overview: the status strip, needs attention, who acts; live map; activity; waiting
+  for you; negotiation, only for Hormuz; every agent) with counts on overview and waiting. One view shows at a time and
+  slides in from its tab's side; the hash keeps it, so Back works. Selecting an agent or Totality slides the side panel in
+  as a drawer (on wide screens the page makes room for it; on narrow ones it covers with a scrim). `agents2.js` does this
+  without touching agents.js: it takes over `scrollIntoView`, so agents.js's jumps switch views and its scroll to the
+  side panel opens the drawer, and it opens the drawer when a select click redraws `#d-side`. Look: white ground; cool
+  neutrals (ink `#0b0d12`, mist wells `#f4f5f7`); white cards on a soft diffuse shadow; monochrome ink controls; emerald
+  working, corona orange `#ea580c` waiting for you, rose problem; the live map the one dark object, an instrument panel
+  with Totality as an eclipse, mint links for reports and orange for briefs.
 - `agents3.html` + `assets/css/agents3.css` ("agents 3", 2026-11-04), same content and `agents.js` again. First a take
   after Lemonade's home page (`references/screencapture-lemonade-*.png`), then the same day, at the user's request, a blend
   of that take and agents 2, ties going to agents 2. From agents 2 the material and color (its stylesheet is the base):
