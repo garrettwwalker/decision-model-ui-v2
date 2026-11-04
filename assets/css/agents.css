@@ -107,7 +107,7 @@ button.dk__i:hover { box-shadow: var(--lift), 0 0 0 1px transparent; transform: 
 @keyframes dk-new { 0% { background: var(--good-soft); } 100% { background: var(--surface); } }
 
 /* ---------- the map and the side panel ---------- */
-.dash { display: grid; grid-template-columns: minmax(0, 1.75fr) minmax(19rem, 1fr); gap: 1rem; align-items: start; }
+.dgrid { display: grid; grid-template-columns: minmax(0, 1.75fr) minmax(19rem, 1fr); gap: 1rem; align-items: start; }
 .dash__map { display: grid; gap: 0.9rem; padding: clamp(1rem, 2vw, 1.4rem); border-radius: var(--radius-lg); background: var(--surface); box-shadow: var(--lift); }
 .loop__board { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) clamp(10.5rem, 15vw, 13rem) minmax(0, 1fr); gap: 1rem clamp(1.75rem, 3.5vw, 3.25rem); align-items: center; }
 .loop__links { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
@@ -363,7 +363,7 @@ button.dk__i:hover { box-shadow: var(--lift), 0 0 0 1px transparent; transform: 
 /* ---------- narrower screens ---------- */
 @media (max-width: 1240px) {
   .dk { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .dash, .dash2 { grid-template-columns: minmax(0, 1fr); }
+  .dgrid, .dash2 { grid-template-columns: minmax(0, 1fr); }
 }
 @media (max-width: 1000px) {
   .loop__board { grid-template-columns: minmax(0, 1fr); }
