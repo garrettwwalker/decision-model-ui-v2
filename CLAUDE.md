@@ -159,9 +159,10 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   on phones its links sit in the scrolling row).
 - `index-serif.html` + `assets/css/landing-serif.css` (2026-11-04) is a preview of the landing with a serif, after the user
   said they weren't sure they wanted only sans serif: a copy of `index.html` (keep it in step if the landing changes, or
-  drop it once decided) with Fraunces (Google Fonts; the largest optical size, regular weight, crisp rather than soft)
-  for headlines, card titles and big figures, and Switzer for body, labels, the wordmark and controls; the hero's
-  "in shadow." is italic. Nothing links to it.
+  drop it once decided). The headlines keep the heavy lowercase Switzer; the reading text (the statement lines, section
+  intros and card paragraphs) is Newsreader (Google Fonts), a text serif; labels, figures, card titles, buttons, the form
+  and the footer stay Switzer. A first version set the headlines in Fraunces instead (in git history); the user asked to
+  try serif body with sans headlines. Nothing links to it.
 - `index.html` + `assets/css/landing.css` + `assets/js/landing.js` is the landing, Penumbra (it was a preview at
   `penumbra.html` from 2026-10-15 until the switchover on 2026-10-16; `penumbra.html` now only redirects home). Same
   sections as the old ByNine landing, with the Daybreak engine renamed the **Totality engine** and dawn lines

@@ -1,20 +1,17 @@
-/* A serif preview of the landing (index-serif.html, 2026-11-04): the same page with Fraunces for headlines, card titles
-   and big figures, Switzer for everything else (body, labels, the wordmark, controls). Set for the dark eclipse page:
-   the largest optical size, a regular weight and crisp rather than soft shapes, lowercase as before, with the hero's
-   "in shadow." in italic. Only this preview loads it; the live landing is unchanged. */
-.serif {
-  --serif: "Fraunces", Georgia, "Times New Roman", serif;
-}
-.serif .display, .serif .h2, .serif .h3, .serif .engine__steps h3, .serif .swan h3,
-.serif .part__p, .serif .split__num, .serif .lune__ev, .serif .swan__p b {
+/* A serif preview of the landing (index-serif.html, 2026-11-04). The headlines keep the brand's heavy lowercase Switzer;
+   the reading text (the big statement lines, section intros and the paragraphs inside cards) is set in Newsreader, a
+   text serif made for reading on screens. Everything small or interactive stays Switzer: labels, figures, card titles,
+   buttons, the form, the footer. Only this preview loads it; the live landing is unchanged.
+   (Its first version tried Fraunces on the headlines instead; that is in git history.) */
+.serif { --serif: "Newsreader", Georgia, "Times New Roman", serif; }
+.serif .prose, .serif .assets__lede, .serif .decide__lede, .serif .swans__lede, .serif .rigor__lede, .serif .mode__desc,
+.serif .engine__steps p, .serif .swan > p:not([class]) {
   font-family: var(--serif);
   font-optical-sizing: auto;
-  font-variation-settings: "SOFT" 0, "WONK" 0;
-  font-variant-numeric: lining-nums tabular-nums;
+  letter-spacing: 0;
 }
-.serif .display { font-weight: 400; letter-spacing: -0.035em; line-height: 0.92; }
-.serif .h2 { font-weight: 400; letter-spacing: -0.03em; line-height: 0.96; }
-.serif .h3, .serif .engine__steps h3, .serif .swan h3 { font-weight: 500; letter-spacing: -0.015em; line-height: 1.12; }
-.serif .part__p, .serif .split__num, .serif .lune__ev, .serif .swan__p b { font-weight: 400; letter-spacing: -0.03em; }
-/* the hero's second line in italic, on both copies so the difference-blend twin lines up */
-.serif .hero__title > span:last-child { font-style: italic; font-variation-settings: "SOFT" 0, "WONK" 1; }
+/* the statement lines: large, so a regular-to-medium weight carries them; a serif reads a touch smaller, so up a step */
+.serif .prose { font-weight: 450; font-size: calc(var(--fs-prose) * 1.06); line-height: 1.28; letter-spacing: -0.01em; }
+/* intros and card paragraphs: plain reading text */
+.serif .assets__lede, .serif .decide__lede, .serif .swans__lede, .serif .rigor__lede { font-weight: 400; font-size: 1.12em; line-height: 1.5; }
+.serif .mode__desc, .serif .engine__steps p, .serif .swan > p:not([class]) { font-weight: 400; font-size: 1.06em; line-height: 1.5; }
