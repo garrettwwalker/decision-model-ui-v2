@@ -153,18 +153,22 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   neutrals (ink `#0b0d12`, mist wells `#f4f5f7`); white cards on a soft diffuse shadow; monochrome ink controls; emerald
   working, corona orange `#ea580c` waiting for you, rose problem; the live map the one dark object, an instrument panel
   with Totality as an eclipse, mint links for reports and orange for briefs.
-- `agents3.html` + `assets/css/agents3.css` ("agents 3", 2026-11-04): agents 2's click-through views (the same markup
-  pattern, `agents.js` and `agents2.js`; keep the IDs in step), restyled on the design principles of privy.io's agent
-  wallets page (`references/screencapture-privy-io-*.png`). Earlier the same day it was a Lemonade-inspired take, then a
-  blend of that with agents 2; both are in git history. Now: a calm white page, a centered intro with a regular-weight
-  headline, small eyebrows (sentence case, per the site rule, though Privy's are capitals), ink pill buttons beside
-  outlined pills ("New question", and "Open the live map", which uses `data-open` in agents2.js), centered view tabs with
-  an ink pill sliding to the open one, a stats row of separate pale cells, flat pale-gray cards with no shadows, a feature
-  row for who acts (text left, the control on a tile right), the feed as an FAQ-like list with pill filters, and the
-  signature move: working UI on frosted white cards over soft, grainy gradient tiles (`.tile--warm` coral-pink for the
-  questions and the live map, `.tile--cool` periwinkle-blue for who acts; Privy's lavender was left out to keep off
-  violet). The live map's links are white on the tile, lighting ink for reports and white for briefs; Totality is a white
-  disc. The stylesheet is agents2.css (renamed to `.ag3`, weights lightened) plus a Privy layer at its end.
+- `agents3.html` + `assets/css/agents3.css` + `assets/js/agents3.js` ("agents 3", 2026-11-04): agents 2's click-through
+  views (the same markup pattern, `agents.js` and `agents2.js`; keep the IDs in step), restyled on the design principles
+  of the Looo landing page (`references/loo snapshot.jpeg`, `references/looo closeup.png`). Earlier the same day it was
+  a Lemonade take, a blend with agents 2 and a Privy take, all in git history. Now: a warm off-white ground `#f4efe8`;
+  big condensed serif headlines in capitals (DM Serif Display, Google Fonts) over small gray Switzer; one tomato red
+  `#db3324` for pill buttons, eyebrows (sentence case, per the site rule, though Looo's are capitals), numbered steps
+  and a closing band; white cards on a very soft shadow with cream panels inside. The hero has a badge pill, the
+  headline, a red "New question" pill and an "or open the live map" link; the questions are white cards tilted a touch
+  on a red base, the chosen one standing straight and lifted (no outline); a gray band names the sources agents watch.
+  View tabs are pills, the open one solid ink. Overview: the figures as white cards, then "How it all comes together"
+  (01 agents sense, 02 Totality weighs, 03 you sign off) beside "Needs attention" in a mac-style window card (three
+  dots, a title bar), then who acts as a centered card. The live map and the activity feed sit in window cards, light,
+  with rounded-square initial avatars on agent tiles and feed rows (`agents3.js` marks them, colored from the agent's
+  name, Totality red) and the time on the right; Totality is a white disc ringed in red. A red "Ready to sign off?" band
+  opens the waiting view (`data-open`); the footer is near black. Waiting for you is red, a problem amber, working a
+  green dot. The stylesheet is agents2.css (renamed to `.ag3`, retokened) plus a Looo layer at its end.
   It's reached from a dropdown on "agents 2" in every page's nav (`.tabs__more` in app.css, the caret toggled in nav.js;
   on phones its links sit in the scrolling row).
 - `index.html` + `assets/css/landing.css` + `assets/js/landing.js` is the landing, Penumbra (it was a preview at

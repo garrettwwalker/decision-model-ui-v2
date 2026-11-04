@@ -747,7 +747,7 @@
     if (!wait.length) box.appendChild(el("p", { class: "queue__empty" }, Q.p == null ? "Nothing yet. Totality proposes changes once it has a forecast for this question." : "Nothing is waiting for you on this question. The agents carry on with their current briefs."));
     var big = wait.filter(function (x) { return !small(x); }).length;
     $("q-note").textContent = wait.length
-      ? "For " + Q.short.toLowerCase() + ". " + (S.mode === "manual" ? "Manual: every change waits here, including retasking an information agent. " : "Automatic: changes under your limit that can be undone go through; ") +
+      ? "For " + Q.short + ". " + (S.mode === "manual" ? "Manual: every change waits here, including retasking an information agent. " : "Automatic: changes under your limit that can be undone go through; ") +
         (big ? big + " of these sign or commit money, so they always need you." : "")
       : "All clear on " + Q.short.toLowerCase() + ".";
     var done = Q.queue.filter(function (x) { return x.state !== "waiting"; }), list = $("done-list");

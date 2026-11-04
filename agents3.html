@@ -9,6 +9,9 @@
   <link rel="preload" href="assets/fonts/switzer-400.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="assets/css/base.css">
   <link rel="stylesheet" href="assets/css/app.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap">
   <link rel="stylesheet" href="assets/css/agents3.css">
   <script src="assets/js/nav.js"></script>
 </head>
@@ -38,24 +41,18 @@
 
   <main id="main" class="page ag">
     <section class="intro" aria-labelledby="ag-title">
-      <p class="eyebrow3">Tuesday 6 October 2026, overseen by the COO</p>
-      <h1 class="intro__title" id="ag-title">agentic orchestration.</h1>
+      <p class="badge3"><i aria-hidden="true"></i>Live since 06:00 GST, overseen by the COO</p>
+      <h1 class="intro__title" id="ag-title">agentic<br>orchestration</h1>
       <p class="intro__lede">Your agents sense and act. The Totality engine weighs what they find and steers them. You sign off on what matters.</p>
-      <div class="intro__btns">
-        <button type="button" class="pill pill--ink" id="w-new">New question</button>
-        <button type="button" class="pill" data-open="live">Open the live map</button>
-      </div>
+      <button type="button" class="pill3" id="w-new">New question</button>
+      <button type="button" class="link3" data-open="live">or open the live map</button>
     </section>
 
-    <section class="watch tile tile--warm" aria-labelledby="w-title">
-      <div class="watch__card">
-        <div class="watch__head">
-          <h2 class="watch__title" id="w-title">Your questions</h2>
-          <p class="watch__hint">Pick one; everything below follows it.</p>
-        </div>
-        <div class="watch__list" id="w-list" role="tablist" aria-labelledby="w-title"></div>
-      </div>
+    <section class="watch" aria-labelledby="w-title">
+      <h2 class="sr-only" id="w-title">Your questions</h2>
+      <div class="watch__list" id="w-list" role="tablist" aria-labelledby="w-title"></div>
     </section>
+    <p class="strip3" aria-label="Some of the sources your agents watch"><span>Strait traffic</span><span>War-risk notices</span><span>Port agents' inboxes</span><span>Diplomatic wire</span><span>Resin suppliers</span><span>Freight and fuel</span><span>Red Sea transits</span><span>Union channels</span><span>Sanctions lists</span><span>Vessel registry</span><span>Customs filings</span><span>Weather and storms</span></p>
 
     <nav class="vtabs" id="vtabs" aria-label="Views of this question">
       <div class="vtabs__track">
@@ -72,44 +69,47 @@
 
     <div class="views" id="views">
       <section class="view" data-view="overview" aria-labelledby="ov-title">
-        <h2 class="sr-only" id="ov-title">Overview</h2>
-        <div class="dk" id="d-kpis"></div>
-        <div class="ov-attn">
-          <div class="vhead vhead--c">
-            <p class="eyebrow3">Needs attention</p>
-            <h3 class="vhead__title">Problems your agents have hit</h3>
-            <p class="vhead__note">Each comes with the fixes Totality suggests. Pick one, or open the agent to look closer.</p>
-          </div>
-          <div class="attn__list" id="attn"></div>
+        <div class="vhead">
+          <p class="eyebrow3">At a glance</p>
+          <h2 class="vhead__title" id="ov-title">Where things stand</h2>
         </div>
-        <div class="row">
-          <div class="row__text">
-            <p class="eyebrow3">Who acts</p>
-            <h3 class="row__title">Choose what waits for you</h3>
-            <p class="row__p">By default every change waits for your sign-off. Switch to automatic and small, reversible decisions under your limit go through on their own, with an undo.</p>
-            <ul class="row__list">
-              <li>Retask information agents</li>
-              <li>Change how often they look</li>
-              <li>Draft documents for you to send</li>
-              <li>Never sign, pay, send or commit above your limit</li>
-            </ul>
-          </div>
-          <div class="tile tile--cool row__art">
-            <div class="mode" id="mode">
-              <p class="mode__title">Who acts</p>
-              <div class="mode__seg" role="radiogroup" aria-label="Who acts">
-                <button type="button" role="radio" data-mode="manual" aria-checked="true"><i class="mode__dot" aria-hidden="true"></i><b>Manual</b><small>every change waits for you</small></button>
-                <button type="button" role="radio" data-mode="auto" aria-checked="false"><i class="mode__dot" aria-hidden="true"></i><b>Automatic for small decisions</b><small>under your limit, reversible</small></button>
-              </div>
-              <div class="mode__auto" id="mode-auto" inert>
-                <div class="mode__auto-in">
-                  <p class="mode__label">Limit per change</p>
-                  <div class="mode__limit" role="radiogroup" aria-label="Limit per change" id="mode-limit"></div>
-                  <p class="mode__rule">Above it, the change waits for you like any other.</p>
-                </div>
-              </div>
-              <p class="mode__now" id="mode-now" aria-live="polite"></p>
+        <div class="dk" id="d-kpis"></div>
+        <div class="how">
+          <div class="how__steps">
+            <div class="vhead">
+              <p class="eyebrow3">How it works</p>
+              <h3 class="vhead__title">How it all comes together</h3>
             </div>
+            <ol class="steps">
+              <li><span class="steps__n" aria-hidden="true">01</span><div><h4>Agents sense</h4><p>Information agents watch traffic, notices, wires and inboxes, and report what they find.</p></div></li>
+              <li><span class="steps__n" aria-hidden="true">02</span><div><h4>Totality weighs</h4><p>It re-forecasts, works out what it still needs to know, retasks the agents toward it and rewrites the workflow agents' briefs.</p></div></li>
+              <li><span class="steps__n" aria-hidden="true">03</span><div><h4>You sign off</h4><p>Changes wait for you, or small reversible ones go through on their own under your limit.</p></div></li>
+            </ol>
+          </div>
+          <div class="win attn">
+            <div class="win__bar" aria-hidden="true"><i></i><i></i><i></i><span>Needs attention</span></div>
+            <h3 class="sr-only">Needs attention</h3>
+            <div class="attn__list" id="attn"></div>
+          </div>
+        </div>
+        <div class="mode-wrap">
+          <div class="vhead">
+            <p class="eyebrow3">Who acts</p>
+            <h3 class="vhead__title">Choose what waits for you</h3>
+          </div>
+          <div class="mode" id="mode">
+            <div class="mode__seg" role="radiogroup" aria-label="Who acts">
+              <button type="button" role="radio" data-mode="manual" aria-checked="true"><i class="mode__dot" aria-hidden="true"></i><b>Manual</b><small>every change waits for you</small></button>
+              <button type="button" role="radio" data-mode="auto" aria-checked="false"><i class="mode__dot" aria-hidden="true"></i><b>Automatic for small decisions</b><small>under your limit, reversible</small></button>
+            </div>
+            <div class="mode__auto" id="mode-auto" inert>
+              <div class="mode__auto-in">
+                <p class="mode__label">Limit per change</p>
+                <div class="mode__limit" role="radiogroup" aria-label="Limit per change" id="mode-limit"></div>
+                <p class="mode__rule">On its own it may retask information agents, change how often they look and draft documents. It never signs, pays, sends or commits above your limit.</p>
+              </div>
+            </div>
+            <p class="mode__now" id="mode-now" aria-live="polite"></p>
           </div>
         </div>
       </section>
@@ -120,7 +120,9 @@
           <h2 class="vhead__title" id="now-title">Your agents, working</h2>
           <p class="vhead__note">Information agents report in on the left; Totality weighs it and briefs the workflow agents on the right. Select any of them to open it.</p>
         </div>
-        <div class="dash__map tile tile--warm">
+        <div class="win">
+        <div class="win__bar" aria-hidden="true"><i></i><i></i><i></i><span>Totality and its agents</span></div>
+        <div class="dash__map">
           <div class="loop__board" id="loop-board">
             <svg class="loop__links" id="loop-links" aria-hidden="true"></svg>
             <div class="loop__col loop__col--sense">
@@ -150,18 +152,17 @@
           </div>
           <p class="legend" aria-hidden="true"><span class="st st--ok">Working</span><span class="st st--wait">Waiting for you</span><span class="st st--bad">Problem</span><span class="st st--off">Paused</span></p>
         </div>
+        </div>
       </section>
 
       <section class="view" data-view="activity" aria-labelledby="fd-title" hidden>
-        <div class="feed">
-          <div class="feed__head">
-            <div class="vhead">
-              <p class="eyebrow3">Activity</p>
-              <h2 class="vhead__title" id="fd-title">What they're surfacing</h2>
-              <p class="vhead__note">What the agents are surfacing and what Totality changed, newest first. Select a line to open its agent.</p>
-            </div>
-            <div class="feed__f" role="group" aria-label="Show" id="feed-f"></div>
-          </div>
+        <div class="vhead">
+          <p class="eyebrow3">Activity</p>
+          <h2 class="vhead__title" id="fd-title">What they're surfacing</h2>
+          <p class="vhead__note">Reports from the agents and the changes Totality made, newest first. Select a line to open its agent.</p>
+        </div>
+        <div class="win feed">
+          <div class="win__bar"><i aria-hidden="true"></i><i aria-hidden="true"></i><i aria-hidden="true"></i><div class="feed__f" role="group" aria-label="Show" id="feed-f"></div></div>
           <ol class="feed__list" id="feed"></ol>
         </div>
       </section>
@@ -217,6 +218,12 @@
         <div class="roster" id="roster" role="table" aria-label="Every agent"></div>
       </section>
     </div>
+
+    <section class="cta3" aria-labelledby="cta-title">
+      <h2 id="cta-title">ready to sign off?</h2>
+      <p>The changes that commit money wait for you, each with what it costs and what it protects.</p>
+      <button type="button" class="pill3 pill3--white" data-open="waiting">See what's waiting</button>
+    </section>
   </main>
 
   <div class="drawer" id="drawer" inert>
@@ -261,5 +268,6 @@
   <script src="assets/js/app.js"></script>
   <script src="assets/js/agents.js"></script>
   <script src="assets/js/agents2.js"></script>
+  <script src="assets/js/agents3.js"></script>
 </body>
 </html>
