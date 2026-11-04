@@ -74,42 +74,44 @@
       </div>
       <div class="dk" id="d-kpis"></div>
       <div class="dgrid">
-        <div class="dash__map">
-          <div class="loop__board" id="loop-board">
-            <svg class="loop__links" id="loop-links" aria-hidden="true"></svg>
-            <div class="loop__col loop__col--sense">
-              <p class="loop__colhead">Information agents <span>sense</span></p>
-              <div class="loop__agents" id="loop-sense"></div>
+        <div class="dgrid__main">
+          <div class="dash__map">
+            <div class="loop__board" id="loop-board">
+              <svg class="loop__links" id="loop-links" aria-hidden="true"></svg>
+              <div class="loop__col loop__col--sense">
+                <p class="loop__colhead">Information agents <span>sense</span></p>
+                <div class="loop__agents" id="loop-sense"></div>
+              </div>
+              <button type="button" class="loop__hub" id="hub-btn" aria-label="Totality: the forecast and what it wants to know next">
+                <svg class="hub" id="hub" viewBox="32 32 176 176" aria-hidden="true">
+                  <circle class="hub__halo" cx="120" cy="120" r="80"/>
+                  <circle class="hub__disc" cx="120" cy="120" r="78"/>
+                  <text class="hub__name" x="120" y="88" text-anchor="middle">Totality</text>
+                  <text class="hub__p num" id="hub-p" x="120" y="124" text-anchor="middle">33%</text>
+                  <text class="hub__q" id="hub-q" x="120" y="148" text-anchor="middle">Hormuz closes</text>
+                </svg>
+              </button>
+              <div class="loop__col loop__col--act">
+                <p class="loop__colhead">Workflow agents <span>act</span></p>
+                <div class="loop__agents" id="loop-act"></div>
+              </div>
             </div>
-            <button type="button" class="loop__hub" id="hub-btn" aria-label="Totality: the forecast and what it wants to know next">
-              <svg class="hub" id="hub" viewBox="32 32 176 176" aria-hidden="true">
-                <circle class="hub__halo" cx="120" cy="120" r="80"/>
-                <circle class="hub__disc" cx="120" cy="120" r="78"/>
-                <text class="hub__name" x="120" y="88" text-anchor="middle">Totality</text>
-                <text class="hub__p num" id="hub-p" x="120" y="124" text-anchor="middle">33%</text>
-                <text class="hub__q" id="hub-q" x="120" y="148" text-anchor="middle">Hormuz closes</text>
-              </svg>
-            </button>
-            <div class="loop__col loop__col--act">
-              <p class="loop__colhead">Workflow agents <span>act</span></p>
-              <div class="loop__agents" id="loop-act"></div>
+            <p class="legend" aria-hidden="true"><span class="st st--ok">Working</span><span class="st st--wait">Waiting for you</span><span class="st st--bad">Problem</span><span class="st st--off">Paused</span></p>
+          </div>
+          <div class="feed">
+            <div class="feed__head">
+              <h3 class="feed__title">What they're surfacing</h3>
+              <div class="feed__f" role="group" aria-label="Show" id="feed-f"></div>
             </div>
+            <ol class="feed__list" id="feed"></ol>
           </div>
-          <p class="legend" aria-hidden="true"><span class="st st--ok">Working</span><span class="st st--wait">Waiting for you</span><span class="st st--bad">Problem</span><span class="st st--off">Paused</span></p>
         </div>
-        <aside class="dash__side" id="d-side" aria-live="polite"></aside>
-      </div>
-      <div class="dash2">
-        <div class="feed">
-          <div class="feed__head">
-            <h3 class="feed__title">What they're surfacing</h3>
-            <div class="feed__f" role="group" aria-label="Show" id="feed-f"></div>
+        <div class="dgrid__aside">
+          <aside class="dash__side" id="d-side" aria-live="polite"></aside>
+          <div class="attn">
+            <h3 class="feed__title">Needs attention</h3>
+            <div class="attn__list" id="attn"></div>
           </div>
-          <ol class="feed__list" id="feed"></ol>
-        </div>
-        <div class="attn">
-          <h3 class="feed__title">Needs attention</h3>
-          <div class="attn__list" id="attn"></div>
         </div>
       </div>
     </section>

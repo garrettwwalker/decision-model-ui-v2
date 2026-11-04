@@ -136,18 +136,18 @@
 }
 
 /* ================= The report: a light page with a plan lab ================= */
-/* The one demo page off the night: warm paper, ink type, rose-red for money at risk, deep gold for money protected,
-   burnt amber for controls. The top bar and footer follow it. */
+/* At a glance's colors (2026-11-04): white ground, warm-gray cards with white figures inside, ink type, rose-red for
+   money at risk, deep gold for money protected, burnt orange for controls. The top bar and footer follow it. */
 .rs-light {
-  --void: #f4f0e8; --paper-2: #ebe5d8; --paper-3: #e2dacb;
-  --ink: #17181c; --ink-2: #4a4d55; --ink-3: #6b6e76;
-  --fg: var(--ink); --fg-2: var(--ink-2); --moon: var(--ink); --on-ink: #f4f0e8;
-  --line: rgba(23, 24, 28, 0.12); --line-strong: rgba(23, 24, 28, 0.22); --panel-line: var(--line);
-  --r-loss: #b8304a; --r-safe: #8a5a00; --r-gold: #e2a72e; --r-accent: #a35200; --r-amber: #ffaa40;
-  --blue: var(--r-accent); --focus: var(--r-accent); --cb-on: var(--ink); --cb-mark: #f4f0e8;
+  --void: #ffffff; --paper-2: #f5f4f0; --paper-3: #e6e3dc;   /* at a glance's white ground, warm-gray cards and wells */
+  --ink: #15161a; --ink-2: #4d5058; --ink-3: #6f727a;
+  --fg: var(--ink); --fg-2: var(--ink-2); --moon: var(--ink); --on-ink: #fff;
+  --line: rgba(21, 22, 26, 0.1); --line-strong: rgba(21, 22, 26, 0.2); --panel-line: var(--line);
+  --r-loss: #c2304b; --r-safe: #94650a; --r-gold: #e2a72e; --r-accent: #c25e00; --r-amber: #ffaa40; --r-tag: #fbe9d2;
+  --blue: var(--r-accent); --focus: var(--r-accent); --cb-on: var(--ink); --cb-mark: #fff;
   color: var(--ink); background: var(--void);
 }
-.rs-light .bar { background: rgba(244, 240, 232, 0.88); box-shadow: 0 1px 0 var(--line); }
+.rs-light .bar { background: rgba(255, 255, 255, 0.88); box-shadow: 0 1px 0 var(--line); }
 .rs-light .logo { filter: none; }
 .rs-light .logo::before { background: var(--ink); } /* the mark in solid ink on paper, no spectrum or white spark */
 .rs-light :focus-visible { outline-color: var(--r-accent); }
@@ -181,7 +181,7 @@
 .key { display: inline-block; width: 12px; height: 8px; border-radius: 2px; margin: 0 0.25rem 0 0.6rem; vertical-align: 1px; }
 .key--left { background: var(--r-loss); }
 .key--safe { background: var(--r-gold); }
-.key--none { height: 2px; background: #a9a395; }
+.key--none { height: 2px; background: #a6a39b; }
 .key--plan { height: 2px; background: var(--ink); }
 
 /* charts share one vocabulary */
@@ -190,7 +190,7 @@
 .chart .ax text { font-size: 11px; fill: var(--ink-3); }
 .chart .area { fill: rgba(23, 24, 28, 0.06); }
 .chart .line { fill: none; stroke: var(--ink); stroke-width: 2.2; stroke-linejoin: round; stroke-linecap: round; }
-.chart .line--none { stroke: #a9a395; stroke-width: 1.8; }
+.chart .line--none { stroke: #a6a39b; stroke-width: 1.8; }
 .chart .dot--loss { fill: var(--r-loss); }
 .chart .lab { font-size: 12px; font-weight: 700; fill: var(--ink); }
 .chart .lab--loss { fill: var(--r-loss); }
@@ -221,23 +221,23 @@
 .tug__axis::before { display: none; }
 
 .route { width: 100%; height: auto; border-radius: var(--radius); font-family: inherit; overflow: hidden; }
-.route .sea { fill: #e3ddd0; }
-.route .land { fill: #f7f4ee; stroke: #cfc6b4; stroke-width: 0.6; stroke-linejoin: round; }
+.route .sea { fill: #ebe9e3; }
+.route .land { fill: #ffffff; stroke: #d3cfc6; stroke-width: 0.6; stroke-linejoin: round; }
 .route .rt { fill: none; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
 .route .rt--risk { stroke: var(--r-loss); }
-.route .rt--cape { stroke: #8f8877; stroke-width: 2.4; stroke-dasharray: none; }
+.route .rt--cape { stroke: #8d8a83; stroke-width: 2.4; stroke-dasharray: none; }
 .route .rt--out { stroke: var(--r-accent); stroke-width: 2; }
-.route .node { fill: var(--ink); stroke: #f7f4ee; stroke-width: 1.5; }
+.route .node { fill: var(--ink); stroke: #fff; stroke-width: 1.5; }
 .route .choke { fill: rgba(184, 48, 74, 0.24); transform-box: fill-box; transform-origin: center; animation: choke-pulse 2.4s ease-in-out infinite; }
 @keyframes choke-pulse { 0%, 100% { transform: scale(0.75); fill-opacity: 1; } 50% { transform: scale(1.35); fill-opacity: 0.4; } }
 @media (prefers-reduced-motion: reduce) { .route .choke { animation: none; } }
 .route .choke__c { fill: var(--r-loss); }
-.route .pl { font-size: 13px; fill: var(--ink); font-weight: 600; paint-order: stroke; stroke: #f7f4ee; stroke-width: 3.5px; stroke-linejoin: round; }
+.route .pl { font-size: 13px; fill: var(--ink); font-weight: 600; paint-order: stroke; stroke: #fff; stroke-width: 3.5px; stroke-linejoin: round; }
 .route .pl--b { font-weight: 800; }
 .route .pl--risk { fill: var(--r-loss); font-weight: 700; }
-.route .pl--mute { fill: var(--ink-2); font-weight: 500; stroke: #e3ddd0; }
-.route .ocean { font-size: 13px; font-style: italic; fill: #9a927f; letter-spacing: 0.08em; }
-.route .legend rect { fill: rgba(247, 244, 238, 0.92); }
+.route .pl--mute { fill: var(--ink-2); font-weight: 500; stroke: #ebe9e3; }
+.route .ocean { font-size: 13px; font-style: italic; fill: #9b978d; letter-spacing: 0.08em; }
+.route .legend rect { fill: rgba(255, 255, 255, 0.92); }
 .route .legend text { font-size: 13px; fill: var(--ink-2); }
 
 .tbl { width: 100%; border-collapse: collapse; font-size: 0.98rem; }
@@ -268,7 +268,7 @@
   font: inherit; font-size: 0.92rem; color: var(--ink); background: var(--void); border: 0;
 }
 .preset b { font-weight: 800; }
-.preset em { font-style: normal; font-size: 0.7rem; font-weight: 700; padding: 0.1rem 0.5rem; border-radius: 999px; background: var(--r-amber); color: var(--ink); }
+.preset em { font-style: normal; font-size: 0.7rem; font-weight: 700; padding: 0.1rem 0.5rem; border-radius: 999px; background: var(--r-tag); color: var(--r-accent); }
 .preset:hover { background: color-mix(in srgb, var(--void) 70%, var(--paper-3)); }
 .preset[aria-pressed="true"] { background: var(--ink); color: var(--void); border-color: var(--ink); }
 .moves { margin: 0; padding: 0; border: 0; display: grid; gap: 0.45rem; }
@@ -331,7 +331,7 @@
 
 #l-plans .front { fill: none; stroke: var(--r-gold); stroke-width: 2; }
 #l-plans .pt { cursor: pointer; }
-#l-plans .pt circle { fill: #b9b1a1; stroke: var(--void); stroke-width: 1.5; }
+#l-plans .pt circle { fill: #bdb9b0; stroke: var(--void); stroke-width: 1.5; }
 #l-plans .pt.is-front circle { fill: var(--r-safe); }
 #l-plans .pt:hover circle, #l-plans .pt:focus-visible circle { fill: var(--r-accent); }
 #l-plans .pt:focus { outline: none; }
@@ -682,7 +682,7 @@ button.route__in:focus-visible { outline: 2px solid var(--accent); outline-offse
 /* ================= Light versions of at a glance and the tree (no starfield) =================
    Two takes, so the user can compare them with the report's warm paper:
    - .rs-lt-glance  white gallery: pure white ground, warm light-gray cards without borders, ink type
-   - .rs-lt-tree    fog: a cool pale-gray ground with crisp white cards lifted on soft shadows
+   - .rs-lt-tree    the same white gallery (2026-11-04: the user asked for all three to match at a glance), flat cards
    Both keep the demo's meanings: burnt orange for controls and the lit answer, deep rose for money at risk, deep
    gold for money protected, and a black logo as on the report. */
 .t-night.rs.rs-lt {
@@ -711,18 +711,17 @@ button.route__in:focus-visible { outline: 2px solid var(--accent); outline-offse
 .rs-lt-glance .spark polyline { stroke: var(--moon-3); }
 .rs-lt-glance .fact__big.money--safe { color: #c08a0c; }
 
-/* fog */
+/* the tree, on at a glance's white */
 .t-night.rs.rs-lt-tree {
-  --void: #eef0f3; --space: #eef0f3;
-  --card: #ffffff; --card-hover: #ffffff; --card-on: #fff6ea; --card-low: #f1f3f6; --card-solid: #ffffff;
-  --lift: 0 1px 3px rgba(16, 24, 40, 0.07), 0 4px 12px -6px rgba(16, 24, 40, 0.1);
-  --lift-hi: 0 2px 4px rgba(16, 24, 40, 0.05), 0 10px 22px -8px rgba(16, 24, 40, 0.2);
+  --void: #ffffff; --space: #ffffff;
+  --card: #f5f4f0; --card-hover: #eeece6; --card-on: #fffaf2; --card-low: #e6e3dc; --card-solid: #f5f4f0;
+  --lift: none; --lift-hi: none;
 }
 .rs-lt-tree .tree { --ramp: linear-gradient(90deg, #ecc440 0%, #f0961e 15%, #e8601c 35%, #d63030 55%, #b01440 78%, #780a34 100%); }
 .rs-lt-tree .cd, .rs-lt-tree .outline, .rs-lt-tree .detail, .rs-lt-tree .viewsw, .rs-lt-tree .find input,
 .rs-lt-tree .route .crumbs__back { box-shadow: var(--lift); }
 .rs-lt-tree .cd:hover { box-shadow: var(--lift-hi); }
-.rs-lt-tree .cd.is-sel, .rs-lt-tree .br__col .cd.is-active { background: #fffaf3; box-shadow: 0 0 0 1.5px var(--accent), var(--lift-hi); }
+.rs-lt-tree .cd.is-sel, .rs-lt-tree .br__col .cd.is-active { background: #fffaf2; box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--accent) 70%, transparent); }
 .rs-lt-tree .cd__tag { background: var(--card-low); }
 .rs-lt-tree .cd__bar.is-none, .rs-lt-tree .vkey__bar--none { background: repeating-linear-gradient(45deg, rgba(21, 22, 26, 0.3) 0 2px, rgba(21, 22, 26, 0.05) 2px 5px); }
 .rs-lt-tree .br__links path { stroke: rgba(21, 22, 26, 0.18); }
