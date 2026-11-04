@@ -239,26 +239,10 @@
     $("hub-btn").setAttribute("aria-pressed", String(S.sel === "hub"));
     $("hub-p").textContent = S.p + "%";
   }
-  // the hub's ring: four arcs for the loop's stages, the latest one lit
-  (function () {
-    var arcs = $("hub-arcs"), R = 96, at = { weigh: -90, act: 0, steer: 90, sense: 180 }, NAMES = { sense: "Sense", weigh: "Weigh", steer: "Steer", act: "Act" };
-    Object.keys(at).forEach(function (k) {
-      var a0 = (at[k] - 38) * Math.PI / 180, a1 = (at[k] + 38) * Math.PI / 180;
-      var p = document.createElementNS(NS, "path");
-      p.setAttribute("d", "M" + (120 + R * Math.cos(a0)).toFixed(1) + " " + (120 + R * Math.sin(a0)).toFixed(1) + " A" + R + " " + R + " 0 0 1 " + (120 + R * Math.cos(a1)).toFixed(1) + " " + (120 + R * Math.sin(a1)).toFixed(1));
-      p.setAttribute("class", "hub__arc"); p.setAttribute("data-stage", k);
-      arcs.appendChild(p);
-      var t = document.createElementNS(NS, "text"), m = at[k] * Math.PI / 180, r2 = k === "weigh" || k === "steer" ? 112 : 104;
-      t.setAttribute("x", (120 + r2 * Math.cos(m)).toFixed(1)); t.setAttribute("y", (120 + r2 * Math.sin(m) + (k === "weigh" ? -2 : k === "steer" ? 9 : 3)).toFixed(1));
-      t.setAttribute("text-anchor", k === "sense" ? "end" : k === "act" ? "start" : "middle");
-      t.setAttribute("class", "hub__stage"); t.setAttribute("data-stage", k);
-      t.textContent = NAMES[k];
-      arcs.appendChild(t);
-    });
-  })();
-  function lightStage(stage) {
-    hubSvg.querySelectorAll("[data-stage]").forEach(function (x) { x.classList.toggle("is-on", x.getAttribute("data-stage") === stage); });
-    hubSvg.classList.toggle("is-weigh", stage === "weigh");
+  // the hub pulses when a report moves the forecast
+  function pulseHub() {
+    if (REDUCE) return;
+    hubSvg.classList.remove("is-pulse"); void hubSvg.getBoundingClientRect(); hubSvg.classList.add("is-pulse");
   }
   function linkMap() {
     var box = board.getBoundingClientRect();
@@ -266,8 +250,8 @@
     links.setAttribute("viewBox", "0 0 " + box.width + " " + box.height);
     links.innerHTML = ""; paths = {};
     if (stacked) return;
-    // each link meets the hub just outside its ring, spread over the side it comes in on
-    var hb = hubSvg.getBoundingClientRect(), k = hb.width / 240, cx = hb.left + hb.width / 2 - box.left, cy = hb.top + hb.height / 2 - box.top, r = 104 * k;
+    // each link meets the hub's edge, spread over the side it comes in on
+    var hb = hubSvg.getBoundingClientRect(), k = hb.width / 176, cx = hb.left + hb.width / 2 - box.left, cy = hb.top + hb.height / 2 - box.top, r = 80 * k;
     var s = "";
     ALL.forEach(function (a) {
       var c = tiles[a.id].c.getBoundingClientRect(), y = c.top + c.height / 2 - box.top, side = a.kind === "sense" ? -1 : 1;
@@ -283,7 +267,7 @@
   // a dot runs along a link whenever information moves: an agent reporting in, or Totality sending out a brief
   function packet(id, inward, cls) {
     var p = paths[id], g = $("packets"); if (REDUCE || !p || !g || document.hidden) return;
-    var dot = document.createElementNS(NS, "circle"); dot.setAttribute("r", "3.5"); dot.setAttribute("class", "pk " + cls); g.appendChild(dot);
+    var dot = document.createElementNS(NS, "circle"); dot.setAttribute("r", "3.5"); dot.setAttribute("class", ("pk " + cls).trim()); g.appendChild(dot);
     var len = p.getTotalLength(), fwd = AGENTS[id].kind === "sense" ? inward : !inward, t0 = performance.now();
     (function f(n) {
       var u = Math.min(1, (n - t0) / 1300), at = p.getPointAtLength((fwd ? u : 1 - u) * len);
@@ -294,7 +278,7 @@
   // working agents check in now and then; ones with a problem or paused stay silent
   setInterval(function () {
     var on = ALL.filter(function (a) { var s = status(a); return s === "ok" || s === "wait"; });
-    if (on.length) { var a = on[Math.floor(Math.random() * on.length)]; packet(a.id, a.kind === "sense", "pk--" + a.kind + " pk--quiet"); }
+    if (on.length) { var a = on[Math.floor(Math.random() * on.length)]; packet(a.id, a.kind === "sense", "pk--quiet"); }
   }, 1800);
 
   /* ---------- the side panel: an agent, or Totality ---------- */
@@ -429,7 +413,7 @@
     if (f[2]) S.extra += f[2];
     a.problem = null;
     log(a.id, "fix", f[1]);
-    packet(a.id, false, "pk--steer");
+    packet(a.id, false, "");
     DB.toast(a.name + ": " + lower(f[1]));
     drawAll();
   }
@@ -479,9 +463,8 @@
       f.fresh = true; FEED.push(f); arrived = true;
       if (f.dp) S.p += f.dp;
       a.checks++;
-      packet(f.agent, true, "pk--" + a.kind);
-      lightStage(f.dp ? "weigh" : "sense");
-      if (f.dp) setTimeout(function () { lightStage("steer"); }, 1800);
+      packet(f.agent, true, "");
+      if (f.dp) pulseHub();
     }
     if (arrived) drawAll();
     else { drawTiles(); drawSide(); drawAttn(); }
@@ -526,7 +509,7 @@
     if (how === "approved") {
       if (q.kind === "Retask") a.brief = q.title + ". " + a.brief;
       log(q.agent, "change", (q.rev ? "You approved: " : "You signed off: ") + lower(q.title) + ".");
-      packet(q.agent, false, "pk--steer");
+      packet(q.agent, false, "");
     } else log(q.agent, "change", "You declined: " + lower(q.title) + ".");
     DB.toast(how === "approved" ? (q.rev ? "Approved: " : "Signed off: ") + q.title : "Declined: " + q.title);
     drawAll();
@@ -707,7 +690,7 @@
     AGENTS.buyer.brief = "Brief " + n + " (yours): " + VERS[BRIEF.sent].text;
     if (q.state === "waiting") { q.state = "replaced"; q.when = S.t; }
     log("buyer", "change", "You sent brief " + n + ": " + VERS[BRIEF.sent].text);
-    packet("buyer", false, "pk--steer");
+    packet("buyer", false, "");
     $("st-msg").textContent = "Sent. The resin buyer is working to your " + n + "; Totality will flag it if the odds move.";
     DB.toast("Sent " + n + " to the resin buyer");
     drawAll();
@@ -758,7 +741,7 @@
   function relink() { linkMap(); drawTiles(); }
 
   $("d-clock").textContent = hhmm(S.t);
-  drawAll(); lightStage("steer");
+  drawAll();
   window.addEventListener("resize", relink);
   if (document.fonts) document.fonts.ready.then(relink);
 })();
