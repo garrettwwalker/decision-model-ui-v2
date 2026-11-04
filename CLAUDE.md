@@ -157,6 +157,11 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   disc. The stylesheet is agents2.css (renamed to `.ag3`, weights lightened) plus a Privy layer at its end.
   It's reached from a dropdown on "agents 2" in every page's nav (`.tabs__more` in app.css, the caret toggled in nav.js;
   on phones its links sit in the scrolling row).
+- `index-serif.html` + `assets/css/landing-serif.css` (2026-11-04) is a preview of the landing with a serif, after the user
+  said they weren't sure they wanted only sans serif: a copy of `index.html` (keep it in step if the landing changes, or
+  drop it once decided) with Fraunces (Google Fonts; the largest optical size, regular weight, crisp rather than soft)
+  for headlines, card titles and big figures, and Switzer for body, labels, the wordmark and controls; the hero's
+  "in shadow." is italic. Nothing links to it.
 - `index.html` + `assets/css/landing.css` + `assets/js/landing.js` is the landing, Penumbra (it was a preview at
   `penumbra.html` from 2026-10-15 until the switchover on 2026-10-16; `penumbra.html` now only redirects home). Same
   sections as the old ByNine landing, with the Daybreak engine renamed the **Totality engine** and dawn lines
