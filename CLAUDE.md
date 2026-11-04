@@ -159,8 +159,8 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   Looo take copied the page's set pieces (a giant hero, cards tilted on a red base, a band of names, numbered steps,
   window cards with mac dots, a red closing band) and was rejected, as were the earlier Lemonade, blend and Privy takes
   (all in git history). The style: a warm off-white ground `#f4efe8` with the top and tab bars in the same cream; white
-  cards on a very soft shadow, cream panels inside; DM Serif Display (Google Fonts) for the page's headline, in lowercase
-  at the user's request, and in capitals for the view titles, in title case for card titles and big figures, small gray Switzer for the rest; tomato red `#db3324` for
+  cards on a very soft shadow, cream panels inside; DM Serif Display (Google Fonts) for the page's headline, in title case
+  ("Agentic Orchestration", no period) at the user's request, and in capitals for the view titles, in title case for card titles and big figures, small gray Switzer for the rest; tomato red `#db3324` for
   buttons ("New question" too), counts and what waits for you, amber for a problem, a green dot for working; pills for
   the view tabs and feed filters, the chosen one solid ink; the chosen question lifts with its chance in red, no outline
   and no sliding highlight; the live map light on a white card, its agent tiles with rounded-square initial avatars

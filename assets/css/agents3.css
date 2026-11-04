@@ -575,7 +575,7 @@ body:not(.has-drawer) .rt.is-sel { background: transparent; }
 
 /* type: serif capitals for the page and view titles; the serif in title case for card titles and figures */
 .intro__title, .vhead__title { font-family: var(--display); font-weight: 400; text-transform: uppercase; letter-spacing: -0.015em; }
-.intro__title { font-size: clamp(2.6rem, 5.4vw, 4.2rem); line-height: 0.95; text-transform: none; letter-spacing: -0.02em; } /* the page's headline in lowercase, as the site's are; view titles stay in capitals */
+.intro__title { font-size: clamp(2.6rem, 5.4vw, 4.2rem); line-height: 0.95; text-transform: none; letter-spacing: -0.02em; } /* the page's headline in title case (the user asked for it over capitals and lowercase); view titles stay in capitals */
 .vhead__title { font-size: clamp(1.7rem, 2.8vw, 2.3rem); line-height: 1; }
 .ov__title, .side__name, .ag3 .panel__title, .done__title, .nq__title { font-family: var(--display); font-weight: 400; letter-spacing: 0; }
 .ov__title { font-size: 1.3rem; }
