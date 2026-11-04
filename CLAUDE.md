@@ -134,7 +134,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   ("Will the incumbent party lose next month's elections?", 31%) beside the three engines. The product section is "for
   whatever you need." with four cards (daily brief, team workflows, workbench, agentic orchestration; the brief's card
   shows figures, not sliders; the agents card shows a small hub of agents round Totality, deliberately unlike the
-  workflows card's task rows, and has no button). Split screen (601-1100px): the hero lines scale with the width, and the
+  workflows card's task rows, and no card has a button: the user removed them). Split screen (601-1100px): the hero lines scale with the width, and the
   stacked thesis text and Sputnik are larger. Below the hero: fixed starfield canvas (no coloured background glows: the user removed them as
   tints), a faint white pointer glow, aurora-edged card spotlights (`.spot`, `--mx/--my`), headings revealed
   word by word, "what should you do?" (after gray swans) as a moon chart (`.lunes`, heading styled like the other sections), introduced by

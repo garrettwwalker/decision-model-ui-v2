@@ -376,7 +376,7 @@ main, .footer { position: relative; z-index: 2; }
 .mode__for { margin: 0; color: var(--moon-3); } /* quiet: on this page only the answer is lit (the fused forecast, the best moon, the money a card protects) */
 .mode .h3 .w.on { color: var(--moon); }
 .mode__desc { margin: 0; color: var(--moon-2); font-size: 0.95rem; }
-.mode .btn { align-self: flex-start; margin-top: auto; } /* every card's button on one line */
+.mode .pv { margin-top: auto; } /* no buttons on the cards: each card's picture sits on one line at the foot */
 
 .pv { border-radius: 12px; padding: 0.85rem; background: rgba(7, 8, 11, 0.7); border: 1px solid var(--rim); font-size: 0.75rem; }
 .pv-slider { display: grid; gap: 0.3rem; margin-bottom: 0.6rem; font-weight: 600; color: var(--moon-2); }
