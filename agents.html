@@ -39,7 +39,7 @@
     <section class="page-head ag-head">
       <div>
         <p class="eyebrow page-head__kicker">Tuesday 6 October 2026, the Hormuz decision, overseen by the COO</p>
-        <h1 class="display">the brain<br>and the edge.</h1>
+        <h1 class="display">agentic<br>orchestration.</h1>
         <p class="ag-head__lede">Your agents sense and act. The Totality engine weighs what they find, decides what's worth knowing next and how the plan should change. You sign off on what matters.</p>
       </div>
       <div class="mode" id="mode">
@@ -57,42 +57,50 @@
       </div>
     </section>
 
-    <section class="section" aria-labelledby="loop-title">
+    <section class="section" aria-labelledby="now-title">
       <div class="section__head">
-        <h2 class="section__title" id="loop-title">the loop</h2>
-        <p class="section__note">Replay the morning. Each turn of the loop sharpens the forecast, points the information agents at what matters most, and tightens the plan the workflow agents carry out.</p>
+        <h2 class="section__title" id="now-title">right now</h2>
+        <p class="section__note">Live at <b class="num" id="d-clock">08:20</b> GST. Select an agent for what it's surfacing, its brief and any trouble, or Totality for the forecast and what it wants to know next.</p>
       </div>
-      <div class="loop" id="loop">
-        <div class="loop__board" id="loop-board">
-          <svg class="loop__links" id="loop-links" aria-hidden="true"></svg>
-          <div class="loop__col loop__col--sense">
-            <p class="loop__colhead">Information agents <span>sense</span></p>
-            <div class="loop__agents" id="loop-sense"></div>
+      <div class="dk" id="d-kpis"></div>
+      <div class="dash">
+        <div class="dash__map">
+          <div class="loop__board" id="loop-board">
+            <svg class="loop__links" id="loop-links" aria-hidden="true"></svg>
+            <div class="loop__col loop__col--sense">
+              <p class="loop__colhead">Information agents <span>sense</span></p>
+              <div class="loop__agents" id="loop-sense"></div>
+            </div>
+            <button type="button" class="loop__hub" id="hub-btn" aria-label="Totality: the forecast and what it wants to know next">
+              <svg class="hub" id="hub" viewBox="0 0 240 240" aria-hidden="true">
+                <circle class="hub__halo" cx="120" cy="120" r="80"/>
+                <circle class="hub__disc" cx="120" cy="120" r="78"/>
+                <g id="hub-arcs"></g>
+                <text class="hub__name" x="120" y="88" text-anchor="middle">Totality</text>
+                <text class="hub__p num" id="hub-p" x="120" y="124" text-anchor="middle">33%</text>
+                <text class="hub__q" x="120" y="148" text-anchor="middle">Hormuz closes</text>
+              </svg>
+            </button>
+            <div class="loop__col loop__col--act">
+              <p class="loop__colhead">Workflow agents <span>act</span></p>
+              <div class="loop__agents" id="loop-act"></div>
+            </div>
           </div>
-          <div class="loop__hub">
-            <svg class="hub" id="hub" viewBox="0 0 240 240" role="img" aria-labelledby="hub-label">
-              <title id="hub-label">The Totality engine</title>
-              <circle class="hub__halo" cx="120" cy="120" r="80"/>
-              <circle class="hub__disc" cx="120" cy="120" r="78"/>
-              <g id="hub-arcs"></g>
-              <text class="hub__p num" id="hub-p" x="120" y="124" text-anchor="middle">27%</text>
-              <text class="hub__q" x="120" y="148" text-anchor="middle">Hormuz closes</text>
-              <text class="hub__name" x="120" y="88" text-anchor="middle">Totality</text>
-            </svg>
-          </div>
-          <div class="loop__col loop__col--act">
-            <p class="loop__colhead">Workflow agents <span>act</span></p>
-            <div class="loop__agents" id="loop-act"></div>
-          </div>
+          <p class="legend" aria-hidden="true"><span class="st st--ok">Working</span><span class="st st--wait">Waiting for you</span><span class="st st--bad">Problem</span><span class="st st--off">Paused</span></p>
         </div>
-        <div class="loop__now" id="loop-now" aria-live="polite"></div>
-        <div class="tl">
-          <div class="tl__ctl">
-            <button type="button" class="tl__btn" id="tl-prev" aria-label="Previous step">&#8249;</button>
-            <button type="button" class="tl__btn tl__btn--play" id="tl-play" aria-label="Play the morning">Play</button>
-            <button type="button" class="tl__btn" id="tl-next" aria-label="Next step">&#8250;</button>
+        <aside class="dash__side" id="d-side" aria-live="polite"></aside>
+      </div>
+      <div class="dash2">
+        <div class="feed">
+          <div class="feed__head">
+            <h3 class="feed__title">What they're surfacing</h3>
+            <div class="feed__f" role="group" aria-label="Show" id="feed-f"></div>
           </div>
-          <svg class="tl__chart" id="tl-chart" viewBox="0 0 900 150" role="img" aria-label="The chance Hormuz closes this morning, from 27% at 06:00 to 33% by 08:12, with each step of the loop marked"></svg>
+          <ol class="feed__list" id="feed"></ol>
+        </div>
+        <div class="attn">
+          <h3 class="feed__title">Needs attention</h3>
+          <div class="attn__list" id="attn"></div>
         </div>
       </div>
     </section>
@@ -138,9 +146,9 @@
     <section class="section" aria-labelledby="ro-title">
       <div class="section__head">
         <h2 class="section__title" id="ro-title">every agent</h2>
-        <p class="section__note">What each one is doing, what Totality has asked of it, and what it has added. Switch one on to let it act by itself within your limit; the rest wait for you.</p>
+        <p class="section__note">Every agent at a glance. Select a row to open it above; switch one on to let it act by itself within your limit.</p>
       </div>
-      <div class="roster" id="roster"></div>
+      <div class="roster" id="roster" role="table" aria-label="Every agent"></div>
     </section>
   </main>
 
