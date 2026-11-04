@@ -48,10 +48,12 @@
           <button type="button" role="radio" data-mode="manual" aria-checked="true"><i class="mode__dot" aria-hidden="true"></i><b>Manual</b><small>every change waits for you</small></button>
           <button type="button" role="radio" data-mode="auto" aria-checked="false"><i class="mode__dot" aria-hidden="true"></i><b>Automatic for small decisions</b><small>under your limit, reversible</small></button>
         </div>
-        <div class="mode__auto" id="mode-auto" hidden>
-          <p class="mode__label">Limit per change</p>
-          <div class="mode__limit" role="radiogroup" aria-label="Limit per change" id="mode-limit"></div>
-          <p class="mode__rule">On its own it may retask information agents, change how often they look and draft documents. It never signs, pays, sends or commits above your limit.</p>
+        <div class="mode__auto" id="mode-auto" inert>
+          <div class="mode__auto-in">
+            <p class="mode__label">Limit per change</p>
+            <div class="mode__limit" role="radiogroup" aria-label="Limit per change" id="mode-limit"></div>
+            <p class="mode__rule">On its own it may retask information agents, change how often they look and draft documents. It never signs, pays, sends or commits above your limit.</p>
+          </div>
         </div>
         <p class="mode__now" id="mode-now" aria-live="polite"></p>
       </div>

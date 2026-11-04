@@ -68,7 +68,7 @@ body.ag-page {
 /* ---------- head: the thesis and who acts ---------- */
 .ag-head { align-items: end; }
 .ag-head__lede { margin: 1.4rem 0 0; max-width: 34rem; font-size: 1.08rem; line-height: 1.55; color: var(--ink-2); }
-.mode { display: grid; gap: 0.9rem; padding: 1.25rem; }
+.mode { display: grid; gap: 0.9rem; align-content: start; padding: 1.25rem; } /* rows don't stretch, so the shut limit takes no space */
 .mode__title { margin: 0; font-size: 1.05rem; font-weight: 800; letter-spacing: -0.02em; }
 .mode__seg { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
 .mode__seg button {
@@ -82,8 +82,12 @@ body.ag-page {
 .mode__dot { width: 18px; height: 18px; border-radius: 50%; background: var(--surface); box-shadow: inset 0 0 0 2px var(--sunk-2); transition: box-shadow 0.15s ease; }
 .mode__seg button[aria-checked="true"] { background: var(--accent-soft); }
 .mode__seg button[aria-checked="true"] .mode__dot { box-shadow: inset 0 0 0 5px var(--accent); }
-.mode__auto { display: grid; gap: 0.5rem; }
-.mode__auto[hidden] { display: none; }
+/* the limit drops down: its row grows from nothing and it fades in; shut, it also gives back the panel's gap above it */
+.mode__auto { display: grid; grid-template-rows: 0fr; margin-top: -0.9rem; opacity: 0; align-self: start; /* stretching would turn the negative margin into height */
+  transition: grid-template-rows 0.38s cubic-bezier(0.3, 0.7, 0.2, 1), margin-top 0.38s cubic-bezier(0.3, 0.7, 0.2, 1), opacity 0.28s ease; }
+.mode__auto.is-open { grid-template-rows: 1fr; margin-top: 0; opacity: 1; }
+.mode__auto-in { display: grid; gap: 0.5rem; min-height: 0; overflow: hidden; }
+@media (prefers-reduced-motion: reduce) { .mode__auto { transition: none; } }
 .mode__label { margin: 0; font-size: 0.82rem; font-weight: 700; }
 .mode__limit { display: grid; grid-template-columns: repeat(3, 1fr); }
 .mode__limit button { min-height: 40px; border: 0; font: inherit; font-size: 0.88rem; font-weight: 700; font-variant-numeric: tabular-nums; background: transparent; cursor: pointer; }
@@ -463,4 +467,6 @@ button.dk__i:hover { box-shadow: var(--lift), 0 0 0 1px transparent; transform: 
 .watch__list > .seg-thumb { border-radius: 14px; }
 /* the highlight carries the fill now, so the chosen button itself goes clear */
 .ag-page .has-thumb > button[aria-pressed="true"], .ag-page .has-thumb > button[aria-checked="true"], .ag-page .has-thumb > button[aria-selected="true"] { background: transparent; box-shadow: none; }
+/* a hovered option keeps its tint when clicked, so it doesn't blink while the highlight slides in under it */
+.ag-page .has-thumb > button:hover { background: rgba(255, 255, 255, 0.6); }
 @media (prefers-reduced-motion: reduce) { .seg-thumb { transition: none; } }

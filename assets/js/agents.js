@@ -305,7 +305,8 @@
   function drawMode() {
     modeBtns.forEach(function (b) { b.setAttribute("aria-checked", String(b.dataset.mode === S.mode)); });
     LIMITS.forEach(function (l) { l.btn.setAttribute("aria-checked", String(l[0] === S.limit)); });
-    $("mode-auto").hidden = S.mode !== "auto";
+    // the limit drops down in automatic mode and folds away in manual (CSS animates it; inert keeps it out of reach shut)
+    $("mode-auto").classList.toggle("is-open", S.mode === "auto"); $("mode-auto").inert = S.mode !== "auto";
     $("roster").classList.toggle("is-manual", S.mode === "manual");  // no "acts on its own" column in manual
     var all = [].concat.apply([], QUERIES.map(function (q) { return q.queue; }));
     var wait = all.filter(function (x) { return x.state === "waiting"; }).length, auto = all.filter(function (x) { return x.state === "auto"; }).length;
