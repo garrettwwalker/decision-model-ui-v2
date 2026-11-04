@@ -2,8 +2,8 @@
    IDs in step), restyled 2026-11-04 on the design principles of the Looo landing page (references/loo snapshot.jpeg and
    looo closeup.png): a warm off-white ground; big condensed high-contrast serif headlines in capitals (DM Serif Display)
    over small gray sans text; one tomato-red accent for pill buttons, eyebrows, numbered steps and a closing band; white
-   cards on a very soft shadow with cream panels inside; product UI in mac-style window cards (three dots and a title
-   bar) whose rows carry rounded-square initial avatars (agents3.js) with the time on the right; filter pills, the chosen
+   cards on a very soft shadow with cream panels inside; product UI in window cards with a title bar (no mac-style
+   dots: the user didn't want them) whose rows carry rounded-square initial avatars (agents3.js) with the time on the right; filter pills, the chosen
    one solid ink; a hero with a badge pill, the headline, a red pill and a quiet link; the questions as cards on a red
    base; a gray band of names; a numbered how-it-works beside a window card; a red band; a near-black footer.
    Departures: eyebrows stay sentence case (the site's rule), and the chosen card lifts rather than taking an outline.
@@ -668,10 +668,7 @@ button.dk__i:hover { background: #fff; transform: translateY(-2px); box-shadow: 
 /* the window card */
 .win { overflow: hidden; border-radius: 18px; background: #fff; box-shadow: 0 1px 2px rgba(22, 20, 18, 0.04), 0 30px 60px -30px rgba(22, 20, 18, 0.32); }
 .win__bar { display: flex; align-items: center; gap: 0.4rem; min-height: 50px; padding: 0.55rem 1.1rem; background: #faf8f5; box-shadow: 0 1px 0 var(--line); font-size: 0.82rem; font-weight: 600; color: var(--ink-2); }
-.win__bar > i { flex: none; width: 10px; height: 10px; border-radius: 50%; background: #ff5f57; }
-.win__bar > i:nth-of-type(2) { background: #febc2e; }
-.win__bar > i:nth-of-type(3) { background: #28c840; }
-.win__bar > span { margin-left: 0.7rem; }
+.win__bar > span { margin-left: 0.1rem; }
 .win .attn__list { padding: 1rem; }
 .prob { padding: 1.05rem 1.1rem; border-radius: 12px; background: #fbf7f2; }
 .attn__ok { margin: 1rem; }

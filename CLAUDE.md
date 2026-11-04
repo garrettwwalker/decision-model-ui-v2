@@ -163,8 +163,8 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   headline, a red "New question" pill and an "or open the live map" link; the questions are white cards tilted a touch
   on a red base, the chosen one standing straight and lifted (no outline); a gray band names the sources agents watch.
   View tabs are pills, the open one solid ink. Overview: the figures as white cards, then "How it all comes together"
-  (01 agents sense, 02 Totality weighs, 03 you sign off) beside "Needs attention" in a mac-style window card (three
-  dots, a title bar), then who acts as a centered card. The live map and the activity feed sit in window cards, light,
+  (01 agents sense, 02 Totality weighs, 03 you sign off) beside "Needs attention" in a window card with a title bar
+  (no mac-style dots; the user didn't want them), then who acts as a centered card. The live map and the activity feed sit in window cards, light,
   with rounded-square initial avatars on agent tiles and feed rows (`agents3.js` marks them, colored from the agent's
   name, Totality red) and the time on the right; Totality is a white disc ringed in red. A red "Ready to sign off?" band
   opens the waiting view (`data-open`); the footer is near black. Waiting for you is red, a problem amber, working a
