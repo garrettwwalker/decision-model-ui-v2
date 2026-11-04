@@ -128,9 +128,9 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   big figures under a heavy ink rule, the map stands on the page without a panel, and the dashboard is two columns that
   stack on their own (map then feed; agent panel then needs attention), the feed stretching to meet the right column.
   Colors never stack (the user saw teal buttons on a red tile clash): problems sit on a neutral card with an oxblood
-  marker, and selection is an ink ring. A design audit (2026-11-04) added: a low warm light at the ground's top right and left edges, like
-  sun at an eclipse's rim (radial gradients on the body, sized in rem since percentages would scale with the page's
-  height); a faint terracotta halo round Totality; "Who acts" selected with the ink ring too (it was a salmon fill); no
+  marker, and selection is an ink ring. A design audit (2026-11-04) added: a low warm blush at the ground's left edge (a radial gradient on the
+  body, sized in rem since percentages would scale with the page's height; a peach glow at the top right was removed,
+  the user disliked it); a faint terracotta halo round Totality; "Who acts" selected with the ink ring too (it was a salmon fill); no
   legend under the map (every tile's chip names its status); darker `-ink`/`-deep` shades for small type on tints so
   every label passes 4.5:1; the agent names in problem cards a 44px tap target. Before this it wore Red Sea at a glance's white and flat warm-gray cards (in git
   history); a lifted-card variant of that was tried and reverted ("no, undo that"). The watchlist's questions are paper
