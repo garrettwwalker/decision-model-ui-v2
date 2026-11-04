@@ -669,7 +669,8 @@ button.dk__i:hover { background: #fff; transform: translateY(-2px); box-shadow: 
 .win { overflow: hidden; border-radius: 18px; background: #fff; box-shadow: 0 1px 2px rgba(22, 20, 18, 0.04), 0 30px 60px -30px rgba(22, 20, 18, 0.32); }
 .win__bar { display: flex; align-items: center; gap: 0.4rem; min-height: 50px; padding: 0.55rem 1.1rem; background: #faf8f5; box-shadow: 0 1px 0 var(--line); font-size: 0.82rem; font-weight: 600; color: var(--ink-2); }
 .win__bar > span { margin-left: 0.1rem; }
-.win .attn__list { padding: 1rem; }
+.attn__title { margin: 0; padding: 1.2rem 1.25rem 0; font-size: 0.95rem; font-weight: 700; } /* a plain title: no bar or rule above the problems */
+.win .attn__list { padding: 0.85rem 1rem 1rem; }
 .prob { padding: 1.05rem 1.1rem; border-radius: 12px; background: #fbf7f2; }
 .attn__ok { margin: 1rem; }
 
