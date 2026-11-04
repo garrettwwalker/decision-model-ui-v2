@@ -120,15 +120,18 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   the chosen option (`slider()`); hub links meet the circle at evenly spaced points per side. Light from the ground up, body `ag-page`, no `.t-night` or sky, styles scoped to
   `.ag-page` so the dialog gets them. Palette (2026-11-04, the user asked for a light look unlike the other light pages, and warmer): warm paper. A cream
   ground `#f2e9d8` under a faint grain (`body::before`), lighter paper cards `#fcf8f0` with no outlines or shadows,
-  espresso ink `#2b2118`, Switzer throughout as on the landing (a Fraunces serif was tried; the user wants the
-  homepage's fonts); terracotta `#b4461d` for controls, ochre `#9a6508` for what waits for you, olive `#5c6d2b` for working, protected
+  espresso ink `#2b2118`; Instrument Serif (Google Fonts, crisp and high-contrast) for the headline, section titles and big
+  figures (the status strip, the watchlist, Totality's disc and panel, the negotiation's numbers), Switzer for everything
+  else (a soft Fraunces was tried first, then all-Switzer; the user wanted a serif back, different from Fraunces and
+  still on brand); terracotta `#b4461d` for controls, ochre `#9a6508` for what waits for you, olive `#5c6d2b` for working, protected
   and fixed, oxblood `#9b1f30` for problems; Totality a paper disc in a terracotta ring. The status strip is a ruled row of
   big figures under a heavy ink rule, the map stands on the page without a panel, and the dashboard is two columns that
   stack on their own (map then feed; agent panel then needs attention), the feed stretching to meet the right column.
   Colors never stack (the user saw teal buttons on a red tile clash): problems sit on a neutral card with an oxblood
   marker, and selection is an ink ring. Before this it wore Red Sea at a glance's white and flat warm-gray cards (in git
   history); a lifted-card variant of that was tried and reverted ("no, undo that"). The watchlist's questions are paper
-  cards on the cream, the chosen one ringed in ink, and "New question" an espresso pill (the user found the earlier
+  cards on the cream, the chosen one ringed in ink with no highlight sliding between them (the user found the slide
+  awkward on separate cards; its `.seg-thumb` is hidden), and "New question" an espresso pill (the user found the earlier
   track-and-tint version too hard to see). The user plans to redesign most product pages in this warm paper scheme, and
   it may diverge from the landing's palette, but fonts stay the landing's.
 - `agents2.html` + `assets/css/agents2.css` + `assets/js/agents2.js` ("agents 2" in the nav, after agents; 2026-11-04)
@@ -157,12 +160,6 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   disc. The stylesheet is agents2.css (renamed to `.ag3`, weights lightened) plus a Privy layer at its end.
   It's reached from a dropdown on "agents 2" in every page's nav (`.tabs__more` in app.css, the caret toggled in nav.js;
   on phones its links sit in the scrolling row).
-- `index-serif.html` + `assets/css/landing-serif.css` (2026-11-04) is a preview of the landing with a serif, after the user
-  said they weren't sure they wanted only sans serif: a copy of `index.html` (keep it in step if the landing changes, or
-  drop it once decided). The headlines keep the heavy lowercase Switzer; the reading text (the statement lines, section
-  intros and card paragraphs) is Newsreader (Google Fonts), a text serif; labels, figures, card titles, buttons, the form
-  and the footer stay Switzer. A first version set the headlines in Fraunces instead (in git history); the user asked to
-  try serif body with sans headlines. Nothing links to it.
 - `index.html` + `assets/css/landing.css` + `assets/js/landing.js` is the landing, Penumbra (it was a preview at
   `penumbra.html` from 2026-10-15 until the switchover on 2026-10-16; `penumbra.html` now only redirects home). Same
   sections as the old ByNine landing, with the Daybreak engine renamed the **Totality engine** and dawn lines

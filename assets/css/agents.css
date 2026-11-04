@@ -1,7 +1,8 @@
 /* Agents (agents.html): the Totality engine as the brain, a team's agents as the edge.
    Light from the ground up (2026-11-03): it doesn't use .t-night or a sky. Restyled 2026-11-04, when the user asked for a
    light look unlike the other light pages and warmer: warm paper. A cream ground with a faint grain, lighter paper cards
-   on it (no outlines, no shadows), espresso ink, Switzer throughout as on the landing, and an earthy set where each color means one thing: terracotta for controls,
+   on it (no outlines, no shadows), espresso ink, Instrument Serif for the headline, section titles and big figures with
+   Switzer for everything else, and an earthy set where each color means one thing: terracotta for controls,
    ochre for what waits for you, olive for working, protected and fixed, oxblood for an agent in trouble. Working agents
    read neutral with an olive dot. Selection is a raised segment or a tint; the selected agent and Totality take an ink
    ring. Colors never stack: no terracotta control on an oxblood fill. (Until that day it wore Red Sea at a glance's
@@ -431,7 +432,8 @@ button.dk__i:hover .dk__l { color: var(--ink); text-decoration: underline; text-
 }
 .ag-page .watch__list > .wq { background: var(--surface); }
 .ag-page .watch__list > .wq:not([aria-selected="true"]):hover { background: #fffdf8; }
-.wq[aria-selected="true"] { background: var(--surface); box-shadow: inset 0 0 0 2px var(--ink); }
+/* the chosen question carries its own ink ring; no highlight slides between these cards */
+.ag-page .watch__list > .wq[aria-selected="true"] { background: #fffdf8; box-shadow: inset 0 0 0 2px var(--ink), 0 6px 16px -10px rgba(43, 33, 24, 0.45); }
 .wq:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .wq__name { font-size: 0.86rem; font-weight: 800; }
 .wq__p { font-size: 1.6rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; }
@@ -485,14 +487,26 @@ button.dk__i:hover .dk__l { color: var(--ink); text-decoration: underline; text-
   position: absolute; left: 0; top: 0; z-index: 0; border-radius: 9px; background: var(--well); box-shadow: var(--lift-sm); pointer-events: none;
   transition: transform 0.32s cubic-bezier(0.3, 0.7, 0.2, 1), width 0.32s cubic-bezier(0.3, 0.7, 0.2, 1), height 0.32s ease, opacity 0.2s ease;
 }
-.watch__list > .seg-thumb { border-radius: 14px; background: #fffdf8; box-shadow: inset 0 0 0 2px var(--ink), 0 6px 16px -10px rgba(43, 33, 24, 0.45); }
+.watch__list > .seg-thumb { display: none; }
 /* the highlight carries the fill now, so the chosen button itself goes clear */
 .ag-page .has-thumb > button[aria-pressed="true"], .ag-page .has-thumb > button[aria-checked="true"], .ag-page .has-thumb > button[aria-selected="true"] { background: transparent; box-shadow: none; }
 /* a hovered option keeps its tint when clicked, so it doesn't blink while the highlight slides in under it */
 .ag-page .has-thumb > button:hover { background: rgba(255, 255, 255, 0.6); }
 @media (prefers-reduced-motion: reduce) { .seg-thumb { transition: none; } }
 
-/* ---------- warm paper: the grain and the sun ---------- */
+/* ---------- warm paper: the grain, the serif and the sun ---------- */
+/* Instrument Serif, a crisp high-contrast display serif, for the headline, section titles and big figures; Switzer for
+   everything else, as on the landing */
+.ag-page .display, .ag-page .section__title, .dk__v, .wq__p, .side__p b, .kpi__v, .hub__p {
+  font-family: "Instrument Serif", Georgia, "Times New Roman", serif; font-weight: 400; font-variant-numeric: lining-nums tabular-nums;
+}
+.ag-page .display { font-size: clamp(3.6rem, 8vw, 6.6rem); letter-spacing: -0.02em; line-height: 0.9; }
+.ag-page .section__title { font-size: clamp(2.8rem, 5.6vw, 4.8rem); letter-spacing: -0.015em; line-height: 0.95; }
+.dk__v { font-size: clamp(2.3rem, 3.6vw, 3.2rem); letter-spacing: -0.01em; line-height: 1; }
+.wq__p { font-size: 2rem; letter-spacing: -0.01em; line-height: 1; }
+.side__p b { font-size: 3.2rem; letter-spacing: -0.01em; }
+.kpi__v { letter-spacing: -0.01em; }
+.hub__p { font-size: 46px; letter-spacing: -0.01em; }
 body.ag-page::before { /* a faint grain on the ground; cards are clean sheets over it */
   content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .24 0 0 0 0 .14 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); opacity: 0.16;
 }
