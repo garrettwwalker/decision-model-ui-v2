@@ -128,12 +128,13 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   big figures under a heavy ink rule, the map stands on the page without a panel, and the dashboard is two columns that
   stack on their own (map then feed; agent panel then needs attention), the feed stretching to meet the right column.
   Colors never stack (the user saw teal buttons on a red tile clash): problems sit on a neutral card with an oxblood
-  marker, and selection is an ink ring. A design audit (2026-11-04) added: no glows on the ground (a peach light at the top right and a blush at the left edge were tried; the user
-  removed both); a faint terracotta halo round Totality; "Who acts" selected with the ink ring too (it was a salmon fill); no
+  marker, and selection is a lifted sheet: brighter paper `#fffdf8` on a warm shadow (`--raised`), with no outline (the
+  user disliked the ink ring on selected cards), Totality's terracotta ring thickening. A design audit (2026-11-04) added: no glows on the ground (a peach light at the top right and a blush at the left edge were tried; the user
+  removed both); a faint terracotta halo round Totality; "Who acts" selected like the rest (it was a salmon fill); no
   legend under the map (every tile's chip names its status); darker `-ink`/`-deep` shades for small type on tints so
   every label passes 4.5:1; the agent names in problem cards a 44px tap target. Before this it wore Red Sea at a glance's white and flat warm-gray cards (in git
   history); a lifted-card variant of that was tried and reverted ("no, undo that"). The watchlist's questions are paper
-  cards on the cream, the chosen one ringed in ink with no highlight sliding between them (the user found the slide
+  cards on the cream, the chosen one lifted with no highlight sliding between them (the user found the slide
   awkward on separate cards; its `.seg-thumb` is hidden), and "New question" an espresso pill (the user found the earlier
   track-and-tint version too hard to see). Picking a question counts its big figures up from zero (`assets/js/agents-count.js`, this page
   only: the status strip, Totality's disc and the panel's forecast, each number running from 0 to its value in about

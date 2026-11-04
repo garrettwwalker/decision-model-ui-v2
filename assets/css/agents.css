@@ -80,7 +80,7 @@ body.ag-page {
 .mode__seg button {
   display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0.1rem 0.6rem; align-items: center; text-align: left;
   min-height: 44px; padding: 0.75rem 0.85rem; border: 0; border-radius: 14px; font: inherit; color: var(--ink);
-  background: var(--well); cursor: pointer; transition: background-color 0.15s ease;
+  background: var(--well); cursor: pointer; transition: background-color 0.2s ease, box-shadow 0.25s ease;
 }
 .mode__seg button:hover { background: var(--well-hover); }
 .mode__seg b { font-size: 0.92rem; font-weight: 800; }
