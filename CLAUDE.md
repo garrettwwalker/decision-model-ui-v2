@@ -128,6 +128,13 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   Colors never stack (the user saw teal buttons on a red tile clash): problems sit on a neutral card with a rose
   marker, and selection is an ink ring. Tried and reverted the same day: open text under rules with only pressable
   things as white cards on soft shadows (the user said "no, undo that"), so keep the flat gray cards.
+- `agents2.html` + `assets/css/agents2.css` ("agents 2" in the nav, after agents; 2026-11-04) is the same agents page,
+  same content and the same `agents.js` (keep the element IDs in step with `agents.html`), redesigned fresh for the user
+  to compare: white ground; cool neutrals (ink `#0b0d12`, mist wells `#f4f5f7`); white cards on a soft diffuse shadow;
+  monochrome ink controls (primary buttons, switches, the chosen "who acts" and watchlist card in ink); three status
+  colors, emerald working, corona orange `#ea580c` waiting for you, rose problem; the status strip one card split five
+  ways; the live map the one dark object, an instrument panel with Totality as an eclipse (black disc, a warm gradient
+  corona turning slowly, gradient and glow defs in the page's hub SVG), mint links for reports and orange for briefs.
 - `index.html` + `assets/css/landing.css` + `assets/js/landing.js` is the landing, Penumbra (it was a preview at
   `penumbra.html` from 2026-10-15 until the switchover on 2026-10-16; `penumbra.html` now only redirects home). Same
   sections as the old ByNine landing, with the Daybreak engine renamed the **Totality engine** and dawn lines
