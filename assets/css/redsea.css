@@ -136,13 +136,10 @@
 }
 
 /* ================= The report: a light page with a plan lab ================= */
-/* At a glance's colors and the demo's one rule for surfaces (2026-11-04): white ground, figures and text open on the
-   page under thin rules, white cards lifted on a soft shadow only for what you press (presets, moves, links onward);
-   ink type, rose-red for money at risk, deep gold for money protected, burnt orange for controls. */
+/* At a glance's colors (2026-11-04): white ground, warm-gray cards with white figures inside, ink type, rose-red for
+   money at risk, deep gold for money protected, burnt orange for controls. The top bar and footer follow it. */
 .rs-light {
-  --void: #ffffff; --paper-2: #f5f4f0; --paper-3: #ebe9e3;   /* white ground; warm grays only for tracks */
-  --lift: 0 1px 2px rgba(21, 22, 26, 0.06), 0 4px 14px -6px rgba(21, 22, 26, 0.14);   /* only what you press lifts */
-  --lift-hi: 0 2px 4px rgba(21, 22, 26, 0.06), 0 12px 26px -10px rgba(21, 22, 26, 0.22);
+  --void: #ffffff; --paper-2: #f5f4f0; --paper-3: #e6e3dc;   /* at a glance's white ground, warm-gray cards and wells */
   --ink: #15161a; --ink-2: #4d5058; --ink-3: #6f727a;
   --fg: var(--ink); --fg-2: var(--ink-2); --moon: var(--ink); --on-ink: #fff;
   --line: rgba(21, 22, 26, 0.1); --line-strong: rgba(21, 22, 26, 0.2); --panel-line: var(--line);
@@ -256,8 +253,11 @@
 .tbl__bar i { display: block; height: 100%; border-radius: 3px; background: var(--r-loss); }
 .tbl tfoot th, .tbl tfoot td { font-weight: 800; border-bottom: 0; border-top: 2px solid var(--ink); }
 
-/* the plan lab: controls on the left as lifted cards, figures on the right open under rules */
-.lab { margin: clamp(1.5rem, 3vw, 2.5rem) 0; padding: clamp(1rem, 2vw, 1.5rem) 0 clamp(1.5rem, 3vw, 2.5rem); }
+/* the plan lab: a tinted band, controls on the left, figures on the right */
+.lab {
+  margin: clamp(1.5rem, 3vw, 2.5rem) 0; padding: clamp(1.5rem, 3vw, 2.5rem);
+  background: var(--paper-2); border-radius: var(--radius-lg);
+}
 .lab__head { max-width: 44rem; }
 .lab__grid { display: grid; grid-template-columns: minmax(17rem, 21rem) minmax(0, 1fr); gap: 1.5rem clamp(1.5rem, 3vw, 2.5rem); align-items: start; margin-top: 0.5rem; }
 .lab__ctl { position: sticky; top: 5.5rem; display: grid; gap: 1.25rem; }
@@ -265,16 +265,15 @@
 .preset {
   display: grid; grid-template-columns: 1.6rem minmax(0, 1fr) auto; align-items: center; gap: 0.6rem; text-align: left;
   min-height: 44px; padding: 0.55rem 0.8rem; border-radius: 10px; cursor: pointer;
-  font: inherit; font-size: 0.92rem; color: var(--ink); background: var(--void); border: 0; box-shadow: var(--lift);
+  font: inherit; font-size: 0.92rem; color: var(--ink); background: var(--void); border: 0;
 }
 .preset b { font-weight: 800; }
 .preset em { font-style: normal; font-size: 0.7rem; font-weight: 700; padding: 0.1rem 0.5rem; border-radius: 999px; background: var(--r-tag); color: var(--r-accent); }
-.preset:hover { box-shadow: var(--lift-hi); }
+.preset:hover { background: color-mix(in srgb, var(--void) 70%, var(--paper-3)); }
 .preset[aria-pressed="true"] { background: var(--ink); color: var(--void); border-color: var(--ink); }
 .moves { margin: 0; padding: 0; border: 0; display: grid; gap: 0.45rem; }
 .moves legend { padding: 0; margin-bottom: 0.4rem; font-size: 0.82rem; font-weight: 700; color: var(--ink-2); }
-.mv { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0.75rem; padding: 0.6rem 0.75rem; border-radius: 10px; background: var(--void); cursor: pointer; border: 1px solid transparent; box-shadow: var(--lift); }
-.mv:hover { box-shadow: var(--lift-hi); }
+.mv { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0.75rem; padding: 0.6rem 0.75rem; border-radius: 10px; background: var(--void); cursor: pointer; border: 1px solid transparent; }
 .mv input { margin-top: 0.1rem; }
 .mv:not(.is-on) .mv__body { opacity: 0.6; }
 .mv.is-on { border-color: transparent; }
@@ -307,11 +306,9 @@
 .knob__note { margin: 0 !important; font-size: 0.78rem; color: var(--ink-3); }
 
 .lab__out { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
-.lab__fig { padding: 0.9rem 0 0; border-top: 1px solid var(--ink); }
-/* the headline figures as a ruled row, like at a glance's */
-.kpis { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--ink); border-bottom: 1px solid var(--line); }
-.kpi { display: grid; gap: 0.1rem; padding: 0.9rem 1rem; border-left: 1px solid var(--line); }
-.kpi:first-child { padding-left: 0; border-left: 0; }
+.lab__fig { background: var(--void); border-radius: var(--radius); padding: 1rem 1.1rem 0.9rem; }
+.kpis { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.75rem; }
+.kpi { display: grid; gap: 0.1rem; padding: 0.9rem 1rem; border-radius: var(--radius); background: var(--void); }
 .kpi__k { font-size: 0.8rem; color: var(--ink-2); font-weight: 600; }
 .kpi__v { font-size: clamp(1.5rem, 2.4vw, 2rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; }
 .kpi--loss { color: var(--r-loss); }
@@ -327,7 +324,7 @@
 .expo__k { font-weight: 600; }
 .expo__v { text-align: right; font-weight: 700; color: var(--r-loss); }
 .expo__v span { font-weight: 500; color: var(--ink-3); }
-.expo__track { grid-column: 1 / -1; position: relative; height: 12px; border-radius: 3px; background: var(--paper-3); overflow: hidden; }
+.expo__track { grid-column: 1 / -1; position: relative; height: 12px; border-radius: 3px; background: var(--paper-2); overflow: hidden; }
 .expo__track i { position: absolute; top: 0; bottom: 0; }
 .expo__left { left: 0; background: var(--r-loss); }
 .expo__safe { background: var(--r-gold); }
@@ -354,8 +351,8 @@
 .trip dd::first-letter { text-transform: uppercase; }
 
 .off { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
-.offc { display: grid; gap: 0.35rem; align-content: start; padding: 1.1rem 1.2rem 1.2rem; border-radius: var(--radius); background: var(--void); box-shadow: var(--lift); text-decoration: none; transition: box-shadow 0.2s, transform 0.2s; }
-.offc:hover { box-shadow: var(--lift-hi); transform: translateY(-1px); }
+.offc { display: grid; gap: 0.35rem; align-content: start; padding: 1.1rem 1.2rem 1.2rem; border-radius: var(--radius); background: var(--paper-2); text-decoration: none; transition: background 0.2s; }
+.offc:hover { background: var(--paper-3); }
 .offc__p { font-size: 2.2rem; font-weight: 800; letter-spacing: -0.04em; line-height: 1; }
 .offc__d { font-size: 0.82rem; color: var(--r-loss); font-weight: 600; }
 .offc__sp { width: 100%; height: 56px; margin: 0.3rem 0; }
@@ -377,14 +374,13 @@
   .sec { grid-template-columns: minmax(0, 1fr); }
   .lab__out { grid-template-columns: minmax(0, 1fr); }
   .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .kpi:nth-child(odd) { padding-left: 0; border-left: 0; }
-  .kpi:nth-child(n+3) { border-top: 1px solid var(--line); }
   .off { grid-template-columns: minmax(0, 1fr); }
   .bl__list li { grid-template-columns: 1.6rem minmax(0, 1fr); }
   .conf { grid-column: 2; }
 }
 @media (max-width: 600px) {
   .report { font-size: 1rem; }
+  .lab { margin-left: calc(var(--gutter) * -1); margin-right: calc(var(--gutter) * -1); border-radius: 0; padding: 1.25rem var(--gutter); }
   .lab__ctl { grid-template-columns: minmax(0, 1fr); }
   .presets { grid-template-columns: minmax(0, 1fr); }
   .tug__row { grid-template-columns: minmax(0, 1fr) 2.6rem; }
@@ -684,19 +680,16 @@ button.route__in:focus-visible { outline: 2px solid var(--accent); outline-offse
 @media (prefers-reduced-motion: reduce) { .cd { transition: none; } .cd:hover { transform: none; } }
 
 /* ================= Light versions of at a glance and the tree (no starfield) =================
-   All the demo's light pages share one look (2026-11-04; the user asked the report, tree and agents pages to match at a
-   glance, then found flat gray cards heavy): a white ground; what you read stands on the page, set off by space and
-   thin rules; only what you can press is a card, white and lifted on a soft shadow that grows under the pointer.
-   Burnt orange for controls and the lit answer, rose-red for money at risk, deep gold for money protected, a black logo. */
+   Two takes, so the user can compare them with the report's warm paper:
+   - .rs-lt-glance  white gallery: pure white ground, warm light-gray cards without borders, ink type
+   - .rs-lt-tree    the same white gallery (2026-11-04: the user asked for all three to match at a glance), flat cards
+   Both keep the demo's meanings: burnt orange for controls and the lit answer, deep rose for money at risk, deep
+   gold for money protected, and a black logo as on the report. */
 .t-night.rs.rs-lt {
   --moon: #15161a; --moon-2: #4d5058; --moon-3: #6f727a; --fg: var(--moon); --fg-2: var(--moon-2); --on-ink: #fff;
   --line: rgba(21, 22, 26, 0.1); --line-strong: rgba(21, 22, 26, 0.2); --panel-line: var(--line);
   --accent: #c25e00; --good: #94650a; --alert: #c2304b; --alert-2: #c2304b;
   --glass: none; --focus: var(--accent);
-  --void: #ffffff; --space: #ffffff;
-  --card: #ffffff; --card-hover: #ffffff; --card-on: #fffaf2; --card-low: #efede8; --card-solid: #ffffff;
-  --lift: 0 1px 2px rgba(21, 22, 26, 0.06), 0 4px 14px -6px rgba(21, 22, 26, 0.14);
-  --lift-hi: 0 2px 4px rgba(21, 22, 26, 0.06), 0 12px 26px -10px rgba(21, 22, 26, 0.22);
 }
 .t-night.rs.rs-lt .bar { background: color-mix(in srgb, var(--void) 88%, transparent); box-shadow: 0 1px 0 var(--line); }
 .rs-lt .logo { filter: none; }
@@ -705,42 +698,42 @@ button.route__in:focus-visible { outline: 2px solid var(--accent); outline-offse
 .rs-lt .switch__ui::after { box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); }
 .rs-lt .mv-day.is-up, .rs-lt .dt__day.is-up { color: #c2304b; }
 
-/* at a glance: the board's cards and the two links onward are all pressable, so all lift */
-.rs-lt-glance .card, .rs-lt-glance .deeper__card { box-shadow: var(--lift); transition: box-shadow 0.2s, transform 0.2s; }
-.rs-lt-glance .card:hover, .rs-lt-glance .card:focus-visible, .rs-lt-glance .deeper__card:hover { box-shadow: var(--lift-hi); transform: translateY(-1px); }
+/* white gallery */
+.t-night.rs.rs-lt-glance {
+  --void: #ffffff; --space: #ffffff;
+  --card: #f5f4f0; --card-hover: #eeece6; --card-on: #fbefdd; --card-low: #e6e3dc; --card-solid: #f5f4f0;
+}
+.rs-lt-glance .card, .rs-lt-glance .deeper__card { box-shadow: none; }
 .rs-lt-glance .board__links path { stroke: rgba(21, 22, 26, 0.14); }
-.rs-lt-glance .board.is-tracing .card.is-on { box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--accent) 70%, transparent), var(--lift); background: var(--card-on); }
-.rs-lt-glance .board__title span { background: var(--card-low); }
+.rs-lt-glance .board.is-tracing .card.is-on { box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--accent) 70%, transparent); background: #fffaf2; }
 .rs-lt-glance .facts { border-top-color: var(--fg); }
 .rs-lt-glance .tag { background: #fbe9d2; }
 .rs-lt-glance .spark polyline { stroke: var(--moon-3); }
 .rs-lt-glance .fact__big.money--safe { color: #c08a0c; }
-@media (prefers-reduced-motion: reduce) { .rs-lt-glance .card:hover, .rs-lt-glance .deeper__card:hover { transform: none; } }
 
-/* the tree: question cards, the view switch, search and "N more" lift; the outline and the side panel are open text */
+/* the tree, on at a glance's white */
+.t-night.rs.rs-lt-tree {
+  --void: #ffffff; --space: #ffffff;
+  --card: #f5f4f0; --card-hover: #eeece6; --card-on: #fffaf2; --card-low: #e6e3dc; --card-solid: #f5f4f0;
+  --lift: none; --lift-hi: none;
+}
 .rs-lt-tree .tree { --ramp: linear-gradient(90deg, #ecc440 0%, #f0961e 15%, #e8601c 35%, #d63030 55%, #b01440 78%, #780a34 100%); }
-.rs-lt-tree .cd, .rs-lt-tree .viewsw, .rs-lt-tree .find input, .rs-lt-tree .route .crumbs__back { box-shadow: var(--lift); }
+.rs-lt-tree .cd, .rs-lt-tree .outline, .rs-lt-tree .detail, .rs-lt-tree .viewsw, .rs-lt-tree .find input,
+.rs-lt-tree .route .crumbs__back { box-shadow: var(--lift); }
 .rs-lt-tree .cd:hover { box-shadow: var(--lift-hi); }
-.rs-lt-tree .cd.is-sel, .rs-lt-tree .br__col .cd.is-active { background: var(--card-on); box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--accent) 70%, transparent), var(--lift); }
+.rs-lt-tree .cd.is-sel, .rs-lt-tree .br__col .cd.is-active { background: #fffaf2; box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--accent) 70%, transparent); }
 .rs-lt-tree .cd__tag { background: var(--card-low); }
 .rs-lt-tree .cd__bar.is-none, .rs-lt-tree .vkey__bar--none { background: repeating-linear-gradient(45deg, rgba(21, 22, 26, 0.3) 0 2px, rgba(21, 22, 26, 0.05) 2px 5px); }
 .rs-lt-tree .br__links path { stroke: rgba(21, 22, 26, 0.18); }
 .rs-lt-tree .br__links path.is-on { stroke: var(--accent); }
-.rs-lt-tree .br__more { background: var(--card); box-shadow: var(--lift); }
-.rs-lt-tree .br__more:hover { box-shadow: var(--lift-hi); }
+.rs-lt-tree .br__more { background: var(--card-low); box-shadow: none; }
 .rs-lt-tree .tree .find input { border-color: transparent; }
 .rs-lt-tree .viewsw button[aria-pressed="true"] { background: var(--fg); color: #fff; }
 .rs-lt-tree .route__dot::before { box-shadow: 0 0 0 3px var(--void); }
 .rs-lt-tree .tally div:last-child dt { color: var(--moon-3); }
-.rs-lt-tree .outline { padding: 0; border-radius: 0; background: none; box-shadow: none; border-top: 1px solid var(--fg); }
-.rs-lt-tree .r:hover { background: var(--card-on); }
+.rs-lt-tree .r:hover { background: var(--card-low); }
 .rs-lt-tree .r.is-sel { background: #fff3e2; }
-.rs-lt-tree .detail { padding: 1.1rem 0 0; border-radius: 0; background: none; box-shadow: none; border-top: 1px solid var(--fg); }
-.rs-lt-tree .dt__box { padding: 0.8rem 0; border-radius: 0; background: none; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-.rs-lt-tree .lk:hover { background: var(--card-on); }
-@media (max-width: 960px) { /* on phones the panel is a bottom sheet again, so it needs its own ground */
-  .rs-lt-tree .detail { padding: 1.1rem 1.25rem calc(env(safe-area-inset-bottom, 0px) + 1.4rem); border-top: 0; border-radius: var(--radius-lg) var(--radius-lg) 0 0; background: var(--void); box-shadow: 0 -12px 40px rgba(16, 24, 40, 0.18); }
-}
+@media (max-width: 960px) { .rs-lt-tree .detail { box-shadow: 0 -12px 40px rgba(16, 24, 40, 0.18); } }
 
 /* ================= The moon between the demo's pages (nav.js) =================
    A black disc, wider than the screen's diagonal, with a faint warm rim like the landing's eclipse. It crosses from
