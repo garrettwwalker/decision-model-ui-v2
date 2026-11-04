@@ -162,7 +162,8 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   cards on a very soft shadow, cream panels inside; DM Serif Display (Google Fonts) for the page's headline, in title case
   ("Agentic Orchestration", no period) at the user's request, and in capitals for the view titles, in title case for card titles and big figures, small gray Switzer for the rest; tomato red `#db3324` for
   buttons ("New question" too), counts and what waits for you, amber for a problem, a green dot for working; pills for
-  the view tabs and feed filters, the chosen one solid ink; the chosen question lifts with its chance in red, no outline
+  the view tabs and feed filters, the chosen one solid ink; red buttons glow only on hover (as the landing's used to); who acts' chosen
+  option a white card lifted off the cream with a red dot (the user found a black one, which flipped light on hover, bizarre); the chosen question lifts with its chance in red, no outline
   and no sliding highlight; the live map light on a white card, its agent tiles with rounded-square initial avatars
   (`agents3.js`, colored from the name), Totality a white disc ringed in red. The stylesheet is agents2.css (renamed to
   `.ag3`, retokened) plus a style layer at its end.

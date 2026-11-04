@@ -5,7 +5,7 @@
    The style: a warm off-white ground with the top bar in the same cream; white cards on a very soft shadow with cream
    panels inside; condensed serif capitals (DM Serif Display) for the page and view titles, the serif in title case for
    card titles and big figures, small gray Switzer for the rest; one tomato red for buttons, counts and what waits for
-   you, amber for a problem, a green dot for working; pills for tabs and filters, the chosen one solid ink; the chosen
+   you, amber for a problem, a green dot for working; pills for tabs and filters, the chosen one solid ink; red buttons glow only on hover; who acts' chosen option is a lifted white card (a black one was rejected); the chosen
    question lifts with no outline; the live map light, its agent tiles with rounded-square initial avatars (agents3.js).
    Built as agents2.css (renamed to .ag3, retokened) plus the layer at the end. */
 body.ag3 {
@@ -589,13 +589,13 @@ body:not(.has-drawer) .rt.is-sel { background: transparent; }
 .vtabs { background: rgba(244, 239, 232, 0.92); }
 .live { background: #fff; color: var(--ink); box-shadow: var(--shadow-sm); }
 
-/* buttons: red pills to act, white pills for the quieter choice */
-.ag3 .btn--primary { background: var(--accent); box-shadow: 0 8px 18px -10px rgba(219, 51, 36, 0.7); }
-.ag3 .btn--primary:hover { background: #c42a1c; }
+/* buttons: red pills to act, white pills for the quieter choice; a red pill glows only under the pointer */
+.ag3 .btn--primary { background: var(--accent); box-shadow: none; transition: background-color 0.15s ease, box-shadow 0.2s ease; }
+.ag3 .btn--primary:hover { background: #c42a1c; box-shadow: 0 8px 18px -8px rgba(219, 51, 36, 0.7); }
 .btn-q { background: #fff; box-shadow: inset 0 0 0 1px rgba(22, 20, 18, 0.14); }
 .btn-q:hover { background: var(--mist); }
-.watch .btn-q, .watch .btn-q:hover { color: #fff; background: var(--accent); box-shadow: 0 8px 18px -10px rgba(219, 51, 36, 0.7); }
-.watch .btn-q:hover { background: #c42a1c; }
+.watch .btn-q { color: #fff; background: var(--accent); box-shadow: none; transition: background-color 0.15s ease, box-shadow 0.2s ease; }
+.watch .btn-q:hover { background: #c42a1c; box-shadow: 0 8px 18px -8px rgba(219, 51, 36, 0.7); }
 
 /* pills for the view tabs and the feed's filters, the chosen one solid ink */
 .vtabs__track { gap: 0.4rem; background: transparent; }
@@ -624,9 +624,12 @@ body:not(.has-drawer) .rt.is-sel { background: transparent; }
 /* overview: the figures in serif; the cards white with cream panels; who acts chosen in ink with a red dot */
 .dk__v { font-size: clamp(1.9rem, 2.8vw, 2.5rem); }
 .prob { background: var(--mist); }
-.mode__seg button { background: var(--mist); }
-.mode__seg button:hover { background: var(--mist-2); }
-.mode__seg button[aria-checked="true"] .mode__dot { box-shadow: inset 0 0 0 5px var(--accent); }
+/* who acts: the chosen option is a white card lifted off the cream, its dot red; only the other one answers the pointer */
+.mode__seg button { background: var(--mist); transition: background-color 0.2s ease, box-shadow 0.25s ease; }
+.mode__seg button:not([aria-checked="true"]):hover { background: var(--mist-2); }
+.mode__seg button[aria-checked="true"], .mode__seg button[aria-checked="true"]:hover { color: var(--ink); background: #fff; box-shadow: var(--shadow-up); }
+.mode__seg button[aria-checked="true"] small { color: var(--ink-2); }
+.mode__seg button[aria-checked="true"] .mode__dot { background: #fff; box-shadow: inset 0 0 0 5px var(--accent); }
 
 /* the live map, light, on a white card: white tiles with initial avatars round a white Totality ringed in red */
 .dash__map { color: var(--ink); background: #fff; box-shadow: var(--shadow); }
