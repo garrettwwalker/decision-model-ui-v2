@@ -347,13 +347,13 @@ main, .footer { position: relative; z-index: 2; }
 
 .split { margin: 0; display: grid; gap: 1.6rem; position: relative; }
 .split__label { display: block; font-size: var(--fs-small); font-weight: 600; color: var(--moon-3); margin-bottom: 0.35rem; }
-/* each source's label in a soft pastel of its warm color (judgment peach, telemetry butter, procedure pink, the
+/* each source's label in a soft but clear tint of its warm color (judgment peach, telemetry butter, procedure pink, the
    prediction market, not an engine, coral); no dots, and the tile itself stays dark */
 .part .split__label { font-weight: 700; color: var(--src); }
-.split__label--judgment { --src: #f5c4a6; }
-.split__label--telemetry { --src: #f1e1a8; }
-.split__label--procedure { --src: #f2bccd; }
-.split__label--market { --src: #eeb2a8; }
+.split__label--judgment { --src: #fba878; }
+.split__label--telemetry { --src: #f8dc8c; }
+.split__label--procedure { --src: #f895b5; }
+.split__label--market { --src: #f68a7c; }
 .split__q, .part, .split__fused { position: relative; border-radius: var(--radius); padding: 1rem 1.15rem; }
 .split__q { background: var(--card); border: 1px solid var(--card-rim); box-shadow: var(--shadow-card); }
 .split__q strong { font-size: 1.15rem; line-height: 1.3; letter-spacing: -0.02em; }
