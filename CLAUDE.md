@@ -118,16 +118,16 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   down when automatic is picked (grid-row 0fr to 1fr) rather than appearing. Segmented
   controls (limit, feed filters, watchlist, the negotiation's choices, the new question's horizon) slide a highlight behind
   the chosen option (`slider()`); hub links meet the circle at evenly spaced points per side. Light from the ground up, body `ag-page`, no `.t-night` or sky, styles scoped to
-  `.ag-page` so the dialog gets them. Palette: Red Sea at a glance's (2026-11-04, the user asked the report, tree and
-  agents pages to match it, with the same background): white ground, flat warm-gray cards `#f5f4f0` with no shadows,
-  white wells inside cards, `#e6e3dc` tracks and chips, ink; burnt orange `#c25e00` for controls and what needs you, deep
-  gold `#94650a` for working, protected and fixed, rose `#c2304b` for problems; working agents neutral with a gold dot.
-  The status strip is a ruled row of big figures like the glance's facts, the map stands on the page without a panel
-  (its tiles are cards, as on the glance's board), and the dashboard is two columns that stack on their own (map then
-  feed; agent panel then needs attention), the feed stretching to meet the right column and scrolling inside.
-  Colors never stack (the user saw teal buttons on a red tile clash): problems sit on a neutral card with a rose
-  marker, and selection is an ink ring. Tried and reverted the same day: open text under rules with only pressable
-  things as white cards on soft shadows (the user said "no, undo that"), so keep the flat gray cards.
+  `.ag-page` so the dialog gets them. Palette (2026-11-04, the user asked for a light look unlike the other light pages, and warmer): warm paper. A cream
+  ground `#f2e9d8` under a faint grain (`body::before`), lighter paper cards `#fcf8f0` with no outlines or shadows,
+  espresso ink `#2b2118`, Fraunces (Google Fonts) for the headline, italic section titles and big figures, Switzer for the
+  rest; terracotta `#b4461d` for controls, ochre `#9a6508` for what waits for you, olive `#5c6d2b` for working, protected
+  and fixed, oxblood `#9b1f30` for problems; Totality a paper disc in a terracotta ring. The status strip is a ruled row of
+  big figures under a heavy ink rule, the map stands on the page without a panel, and the dashboard is two columns that
+  stack on their own (map then feed; agent panel then needs attention), the feed stretching to meet the right column.
+  Colors never stack (the user saw teal buttons on a red tile clash): problems sit on a neutral card with an oxblood
+  marker, and selection is an ink ring. Before this it wore Red Sea at a glance's white and flat warm-gray cards (in git
+  history); a lifted-card variant of that was tried and reverted ("no, undo that").
 - `agents2.html` + `assets/css/agents2.css` + `assets/js/agents2.js` ("agents 2" in the nav, after agents; 2026-11-04)
   is the same agents page, same content and the same `agents.js` (keep the element IDs in step with `agents.html`).
   Redesigned the same day as click-through views because the one long page read as cluttered: a short intro, your

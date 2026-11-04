@@ -1,28 +1,30 @@
 /* Agents (agents.html): the Totality engine as the brain, a team's agents as the edge.
-   Light from the ground up (2026-11-03): it doesn't use .t-night or a sky. Its palette is the Red Sea at a glance page's
-   (2026-11-04, the user asked the demo's light pages to match it): a white ground, flat warm-gray cards with no shadows,
-   white wells inside them, the status strip as a ruled row of big figures, ink type, and
-   three warm colors that sit together, each for one thing: burnt amber for controls and what needs you, deep gold for
-   working, protected and fixed, rose for an agent in trouble. Working agents read neutral with a gold dot, so working
-   and waiting don't blur. Selection is a raised segment or a tint, never a black block; the selected agent and
-   Totality take an ink ring. Colors never stack: no amber control on a rose fill.
+   Light from the ground up (2026-11-03): it doesn't use .t-night or a sky. Restyled 2026-11-04, when the user asked for a
+   light look unlike the other light pages and warmer: warm paper. A cream ground with a faint grain, lighter paper cards
+   on it (no outlines, no shadows), espresso ink, a soft serif (Fraunces) for headlines, section titles in its italic and
+   big figures, Switzer for everything else, and an earthy set where each color means one thing: terracotta for controls,
+   ochre for what waits for you, olive for working, protected and fixed, oxblood for an agent in trouble. Working agents
+   read neutral with an olive dot. Selection is a raised segment or a tint; the selected agent and Totality take an ink
+   ring. Colors never stack: no terracotta control on an oxblood fill. (Until that day it wore Red Sea at a glance's
+   white and warm gray; that version is in git history.)
    */
 body.ag-page {
-  --void: #ffffff;        /* at a glance's white */
-  --surface: #f5f4f0;     /* its warm-gray cards */
-  --surface-2: #eeece6;   /* a card under the pointer */
-  --well: #ffffff;        /* a well inside a card */
-  --well-hover: #fffaf2;
-  --sunk: #e6e3dc;        /* tracks, chips and buttons inside a card */
-  --sunk-2: #dbd7ce;
-  --ink: #15161a; --ink-2: #4d5058; --ink-3: #6f727a;
-  --line: rgba(21, 22, 26, 0.1); --line-strong: rgba(21, 22, 26, 0.2);
-  --accent: #c25e00; --accent-soft: #fbe9d2; --accent-deep: #9a4a00;   /* burnt orange: controls, and what needs you */
-  --good: #94650a; --good-soft: #f3ead6;                               /* deep gold: working, protected, fixed */
-  --wait: var(--accent); --wait-soft: var(--accent-soft);
-  --bad: #c2304b; --bad-soft: #fbe6e9;                                 /* rose: an agent in trouble */
+  --void: #f2e9d8;        /* cream paper */
+  --surface: #fcf8f0;     /* a lighter sheet: the cards */
+  --surface-2: #f8f1e3;   /* a card under the pointer */
+  --well: #f4ecdd;        /* a well inside a card */
+  --well-hover: #efe4d1;
+  --sunk: #ebe0cc;        /* tracks, chips and buttons inside a card */
+  --sunk-2: #e1d3bb;
+  --ink: #2b2118; --ink-2: #5a4a3b; --ink-3: #75624f;
+  --line: rgba(43, 33, 24, 0.12); --line-strong: rgba(43, 33, 24, 0.24);
+  --accent: #b4461d; --accent-soft: #f5dccb; --accent-deep: #8c3413;  /* terracotta: controls */
+  --good: #5c6d2b; --good-soft: #e5e8cf;                               /* olive: working, protected, fixed */
+  --wait: #9a6508; --wait-soft: #f4e5c2;                               /* ochre: what waits for you */
+  --bad: #9b1f30; --bad-soft: #f5dcdc;                                 /* oxblood: an agent in trouble */
   --lift: none;
-  --lift-sm: 0 1px 2px rgba(21, 22, 26, 0.12);                         /* only a sliding highlight stands up */
+  --lift-sm: 0 1px 2px rgba(43, 33, 24, 0.14);                         /* only a sliding highlight stands up */
+  --serif: "Fraunces", Georgia, "Times New Roman", serif;
   /* the shared components read these names */
   --moon: var(--ink); --moon-2: var(--ink-2); --moon-3: var(--ink-3); --fg: var(--ink); --fg-2: var(--ink-2);
   --on-ink: #fff; --card: var(--surface); --card-low: var(--sunk); --panel: var(--surface); --panel-line: var(--line);
@@ -488,3 +490,30 @@ button.dk__i:hover .dk__l { color: var(--ink); text-decoration: underline; text-
 /* a hovered option keeps its tint when clicked, so it doesn't blink while the highlight slides in under it */
 .ag-page .has-thumb > button:hover { background: rgba(255, 255, 255, 0.6); }
 @media (prefers-reduced-motion: reduce) { .seg-thumb { transition: none; } }
+
+/* ---------- warm paper: the grain, the serif, the sun ---------- */
+body.ag-page::before { /* a faint grain on the ground; cards are clean sheets over it */
+  content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .24 0 0 0 0 .14 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); opacity: 0.16;
+}
+.ag-page .display, .ag-page .section__title, .dk__v, .side__name, .side__p b, .qc__title, .mode__title, .feed__title, .wq__p,
+.kpi__v, .ag-page .panel__title, .nq__title, .prob__title, .steer__h, .done__title {
+  font-family: var(--serif); font-optical-sizing: auto; font-variation-settings: "SOFT" 50; letter-spacing: -0.01em;
+}
+.ag-page .display { font-weight: 500; letter-spacing: -0.035em; line-height: 0.95; }
+.ag-page .section__title { font-style: italic; font-weight: 400; letter-spacing: -0.03em; line-height: 1; }
+.dk__v, .wq__p, .side__p b, .kpi__v { font-weight: 400; letter-spacing: -0.03em; font-variant-numeric: lining-nums tabular-nums; }
+.side__name, .qc__title, .mode__title, .feed__title, .ag-page .panel__title, .nq__title, .prob__title, .steer__h, .done__title { font-weight: 600; letter-spacing: -0.015em; }
+.ag-page .page-head__kicker { color: var(--ink-3); }
+.dk { border-top: 2px solid var(--ink); }
+/* Totality as a sun: a paper disc in a terracotta ring */
+.hub__disc { fill: var(--surface); stroke: var(--accent); stroke-width: 2; }
+.loop__hub:hover .hub__disc { fill: #fffdf8; }
+.loop__hub.is-sel .hub__disc { stroke: var(--ink); stroke-width: 3; }
+.hub__p { font-family: var(--serif); font-weight: 400; font-size: 44px; letter-spacing: -0.03em; }
+.hub__name { font-family: var(--serif); font-style: italic; font-weight: 500; font-size: 13px; }
+.lk { stroke: rgba(90, 60, 30, 0.2); }
+.lk.is-ok, .lk.is-wait { stroke: rgba(180, 70, 29, 0.32); }
+.lk-hot--in { stroke: var(--good); }
+.lk-hot--out { stroke: var(--accent); }
+.ag-page .switch__ui::after { background: #fffdf8; }
+.ag-page .bar { background: color-mix(in srgb, var(--void) 90%, transparent); }
