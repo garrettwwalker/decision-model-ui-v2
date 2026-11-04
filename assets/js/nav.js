@@ -5,10 +5,25 @@
    Between the Red Sea demo's pages the moon crosses instead: it slides over the page from the side the next page
    lies on, covers it while that page loads, and slides off the far side once it's ready. */
 (function () {
-  var ORDER = ["index.html", "briefing.html", "memo.html", "team.html", "workbench.html", "agents.html", "agents2.html", "ask.html", "redsea.html", "redsea-report.html", "redsea-tree.html"];
+  var ORDER = ["index.html", "briefing.html", "memo.html", "team.html", "workbench.html", "agents.html", "agents2.html", "agents3.html", "ask.html", "redsea.html", "redsea-report.html", "redsea-tree.html"];
   var KEY = "daybreak.slide", MOON = "daybreak.moon", ECLIPSE = ["redsea.html", "redsea-report.html", "redsea-tree.html"].map(function (p) { return ORDER.indexOf(p); });
   var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
   var root = document.documentElement;
+  // "agents 2" carries a small menu of its other versions: it opens on hover (CSS) or with its caret, and shuts on
+  // a click elsewhere or Escape
+  function shut(except) {
+    document.querySelectorAll(".tabs__more.is-open").forEach(function (m) {
+      if (m === except) return;
+      m.classList.remove("is-open"); m.querySelector(".tabs__caret").setAttribute("aria-expanded", "false");
+    });
+  }
+  document.addEventListener("click", function (e) {
+    var c = e.target.closest && e.target.closest(".tabs__caret");
+    if (!c) { shut(); return; }
+    var m = c.parentNode, open = !m.classList.contains("is-open");
+    shut(m); m.classList.toggle("is-open", open); c.setAttribute("aria-expanded", String(open));
+  });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") shut(); });
   function moon(cls) {
     var m = document.createElement("div");
     m.className = "moon " + cls; m.setAttribute("aria-hidden", "true");

@@ -135,6 +135,14 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   colors, emerald working, corona orange `#ea580c` waiting for you, rose problem; the status strip one card split five
   ways; the live map the one dark object, an instrument panel with Totality as an eclipse (black disc, a warm gradient
   corona turning slowly, gradient and glow defs in the page's hub SVG), mint links for reports and orange for briefs.
+- `agents3.html` + `assets/css/agents3.css` ("agents 3", 2026-11-04) is a third take on the same page and script, after
+  Lemonade's home page (`references/screencapture-lemonade-*.png`, rough inspiration): full-width bands alternating white
+  and `#f6f6f6`, centered headings with a line under each, a Merriweather (Google Fonts) serif hero between gray line-art
+  drawings (inline SVG, one pink thing in each), "New question" as the hero's pink button, product cards with a check in
+  the corner for the watchlist and who acts, the status strip as white bubbles, tweet-like agent cards with a line icon
+  per kind (`--ic` data URIs by tile id), a pink Totality disc, a near-black footer. Hot pink `#ff0083` for what you press
+  and what waits for you; working is a green dot, a problem amber. It's reached from a dropdown on "agents 2" in every
+  page's nav (`.tabs__more` in app.css, the caret toggled in nav.js; on phones its links sit in the scrolling row).
 - `index.html` + `assets/css/landing.css` + `assets/js/landing.js` is the landing, Penumbra (it was a preview at
   `penumbra.html` from 2026-10-15 until the switchover on 2026-10-16; `penumbra.html` now only redirects home). Same
   sections as the old ByNine landing, with the Daybreak engine renamed the **Totality engine** and dawn lines

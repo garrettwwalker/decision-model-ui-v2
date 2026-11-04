@@ -153,6 +153,42 @@ body.app { min-height: 100vh; }
   width: 6px; height: 6px; border-radius: 50%; transform: translateX(-50%);
   background: var(--blue); box-shadow: 0 0 8px color-mix(in srgb, var(--blue) 80%, transparent);
 }
+/* a tab with a small menu of other versions ("agents 2" > "agents 3"): opens on hover, focus or its caret (nav.js) */
+.tabs__more { position: relative; display: inline-flex; align-items: center; }
+.tabs__more:has(.tabs__menu [aria-current]) > a { opacity: 1; }
+.tabs__more:has(.tabs__menu [aria-current]) > a::after {
+  content: ""; position: absolute; left: 50%; bottom: 4px;
+  width: 6px; height: 6px; border-radius: 50%; transform: translateX(-50%);
+  background: var(--blue); box-shadow: 0 0 8px color-mix(in srgb, var(--blue) 80%, transparent);
+}
+.tabs__caret {
+  display: inline-grid; place-items: center; width: 22px; min-height: 44px; margin-left: 0.1rem; padding: 0; border: 0;
+  background: none; color: inherit; opacity: 0.6; cursor: pointer;
+}
+.tabs__caret::before { content: ""; width: 6px; height: 6px; border: solid currentColor; border-width: 0 1.5px 1.5px 0; transform: translateY(-2px) rotate(45deg); transition: transform 0.2s ease; }
+.tabs__more:hover .tabs__caret, .tabs__more.is-open .tabs__caret { opacity: 1; }
+.tabs__more:hover .tabs__caret::before, .tabs__more.is-open .tabs__caret::before { transform: translateY(1px) rotate(225deg); }
+.tabs__menu {
+  position: absolute; left: -0.75rem; top: calc(100% - 4px); z-index: 50; display: grid; min-width: 8.5rem; padding: 0.3rem;
+  border-radius: 10px; background: var(--void, #070a14); box-shadow: 0 14px 34px -10px rgba(0, 0, 0, 0.45), 0 0 0 1px color-mix(in srgb, currentColor 10%, transparent);
+  opacity: 0; visibility: hidden; transform: translateY(-4px); transition: opacity 0.15s ease, transform 0.15s ease, visibility 0s 0.15s;
+}
+.tabs__menu::before { content: ""; position: absolute; left: 0; right: 0; top: -10px; height: 10px; } /* a bridge, so the pointer can cross */
+.tabs__more:hover .tabs__menu, .tabs__more:focus-within .tabs__menu, .tabs__more.is-open .tabs__menu { opacity: 1; visibility: visible; transform: none; transition: opacity 0.15s ease, transform 0.15s ease; }
+.tabs__menu a { min-height: 40px; padding: 0 0.7rem; border-radius: 7px; }
+.tabs__menu a:hover { background: color-mix(in srgb, currentColor 8%, transparent); }
+.tabs__menu a[aria-current="page"]::after { left: auto; right: 0.7rem; bottom: 50%; transform: translateY(50%); }
+.tabs__menu a[aria-current="page"] { padding-right: 1.6rem; }
+@media (max-width: 760px) { /* the tabs scroll sideways on phones, so the menu's links sit in the row instead */
+  .tabs__more, .tabs__menu { display: contents; }
+  .tabs__caret { display: none; }
+  .tabs__menu { visibility: visible; opacity: 1; transform: none; }
+  .tabs__more:has(.tabs__menu [aria-current]) > a::after { display: none; }
+  .tabs__menu a { padding: 0; }
+  .tabs__menu a:hover { background: none; }
+  .tabs__menu a[aria-current="page"] { padding-right: 0; }
+  .tabs__menu a[aria-current="page"]::after { left: 50%; right: auto; bottom: 4px; transform: translateX(-50%); }
+}
 
 .bar__meta { margin: 0; display: grid; justify-items: end; line-height: 1.25; font-size: 0.8rem; }
 .bar__meta b { font-weight: 700; }
