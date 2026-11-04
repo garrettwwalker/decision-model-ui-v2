@@ -299,21 +299,45 @@
             <p class="eyebrow mode__for">for operations leaders</p>
             <h3 class="h3">agentic orchestration</h3>
             <p class="mode__desc">A live view of every agent working on your questions: what each one is surfacing, which are stuck, and what's waiting for your sign-off.</p>
-            <div class="pv pv-orch" aria-hidden="true">
-              <svg viewBox="0 0 240 118" class="pv-orch__svg">
-                <path class="pv-orch__lk" d="M40 24 C78 24 80 48 94 54"/>
-                <path class="pv-orch__lk" d="M40 59 C70 59 80 59 92 59"/>
-                <path class="pv-orch__lk" d="M40 94 C78 94 80 70 94 64"/>
-                <path class="pv-orch__lk" d="M146 54 C160 48 162 36 200 36"/>
-                <path class="pv-orch__lk" d="M146 64 C160 70 162 82 200 82"/>
-                <circle class="pv-orch__pk pv-orch__pk--in" r="2.4"/>
-                <circle class="pv-orch__pk pv-orch__pk--out" r="2.4"/>
-                <circle class="pv-orch__hub" cx="120" cy="59" r="26"/>
-                <circle class="pv-orch__dot" cx="36" cy="24" r="3.5"/>
-                <circle class="pv-orch__dot" cx="36" cy="59" r="3.5"/>
-                <circle class="pv-orch__dot" cx="36" cy="94" r="3.5"/>
-                <circle class="pv-orch__dot" cx="204" cy="36" r="3.5"/>
-                <circle class="pv-orch__dot" cx="204" cy="82" r="3.5"/>
+            <div class="pv pv-ecl" aria-hidden="true">
+              <svg viewBox="0 0 240 118" class="pv-ecl__svg">
+                <defs>
+                  <radialGradient id="daybreak-ecl-corona">
+                    <stop offset="0.45" stop-color="#ffd25a" stop-opacity="0.55"/>
+                    <stop offset="0.62" stop-color="#ffaa40" stop-opacity="0.22"/>
+                    <stop offset="1" stop-color="#ff5478" stop-opacity="0"/>
+                  </radialGradient>
+                </defs>
+                <path class="pv-ecl__ray" d="M100.1 52.2 L30.0 28.0"/>
+                <path class="pv-ecl__ray" d="M99.7 64.4 L26.0 84.0"/>
+                <path class="pv-ecl__ray" d="M104.4 44.9 L66.0 10.0"/>
+                <path class="pv-ecl__ray" d="M105.6 74.3 L76.0 106.0"/>
+                <path class="pv-ecl__ray" d="M136.1 45.5 L176.0 12.0"/>
+                <path class="pv-ecl__ray" d="M140.7 55.5 L208.0 44.0"/>
+                <path class="pv-ecl__ray" d="M139.2 67.4 L200.0 94.0"/>
+                <path class="pv-ecl__ray" d="M132.9 75.6 L158.0 108.0"/>
+                <path class="pv-ecl__str" d="M100.7 53.8 L77.5 47.6"/>
+                <path class="pv-ecl__str" d="M110.0 41.7 L102.0 27.8"/>
+                <path class="pv-ecl__str" d="M130.0 41.7 L140.0 24.4"/>
+                <path class="pv-ecl__str" d="M139.3 53.8 L164.4 47.1"/>
+                <path class="pv-ecl__str" d="M139.3 64.2 L154.8 68.3"/>
+                <path class="pv-ecl__str" d="M126.8 77.8 L133.0 94.7"/>
+                <path class="pv-ecl__str" d="M110.0 76.3 L99.0 95.4"/>
+                <path class="pv-ecl__str" d="M100.7 64.2 L85.2 68.3"/>
+                <path class="pv-ecl__str" d="M118.3 39.1 L117.2 27.1"/>
+                <path class="pv-ecl__str" d="M118.3 78.9 L117.2 90.9"/>
+                <circle class="pv-ecl__corona" cx="120" cy="59" r="34" fill="url(#daybreak-ecl-corona)"/>
+                <circle class="pv-ecl__moon" cx="120" cy="59" r="16"/>
+                <circle class="pv-ecl__node" cx="30" cy="28" r="2.8"/>
+                <circle class="pv-ecl__node" cx="26" cy="84" r="2.8"/>
+                <circle class="pv-ecl__node" cx="66" cy="10" r="2.8"/>
+                <circle class="pv-ecl__node" cx="76" cy="106" r="2.8"/>
+                <circle class="pv-ecl__node" cx="176" cy="12" r="2.8"/>
+                <circle class="pv-ecl__node" cx="208" cy="44" r="2.8"/>
+                <circle class="pv-ecl__node" cx="200" cy="94" r="2.8"/>
+                <circle class="pv-ecl__node" cx="158" cy="108" r="2.8"/>
+                <circle class="pv-ecl__pk pv-ecl__pk--out" r="2.2"/>
+                <circle class="pv-ecl__pk pv-ecl__pk--in" r="2.2"/>
               </svg>
             </div>
           </article>

@@ -408,17 +408,21 @@ main, .footer { position: relative; z-index: 2; }
 .pv-st { padding: 0.1rem 0.45rem; border-radius: 999px; font-size: 0.68rem; font-weight: 800; box-shadow: inset 0 0 0 1.5px var(--line-strong); color: var(--moon-2); }
 .pv-st--done { background: rgba(94, 214, 138, 0.15); color: #6fdc96; box-shadow: none; } /* green by the user's request: the page's one exception to keeping off greens */
 .pv-st--doing { background: rgba(255, 210, 90, 0.14); color: var(--a-gold); box-shadow: none; }
-/* the agents card: an abstract hub between its agents, no text; one slow dot comes in and another goes out
-   (deliberately quieter than a diagram, and unlike the workflows card's task rows) */
-.pv-orch__svg { display: block; width: 100%; height: auto; overflow: visible; }
-.pv-orch__lk { fill: none; stroke: rgba(236, 238, 242, 0.16); stroke-width: 1.1; }
-.pv-orch__hub { fill: #0b0c10; stroke: var(--a-amber); stroke-opacity: 0.7; stroke-width: 1.4; filter: drop-shadow(0 0 12px rgba(255, 170, 64, 0.25)); }
-.pv-orch__dot { fill: var(--moon-3); }
-.pv-orch__pk { fill: var(--a-gold); offset-rotate: 0deg; opacity: 0; animation: orch-run 4.8s ease-in-out infinite; }
-.pv-orch__pk--in { offset-path: path("M40 24 C78 24 80 48 94 54"); }
-.pv-orch__pk--out { offset-path: path("M146 64 C160 70 162 82 200 82"); animation-delay: 2.4s; }
-@keyframes orch-run { 0% { offset-distance: 0%; opacity: 0; } 20%, 70% { opacity: 0.85; } 90%, 100% { offset-distance: 100%; opacity: 0; } }
-@media (prefers-reduced-motion: reduce) { .pv-orch__pk { display: none; } }
+/* the agents card: an eclipse that is also a system map. The moon sits in its corona; straight rays run from the rim,
+   the long ones out to the agents (small nodes), short streamers between them for the rest of the corona. The corona
+   breathes, one dot runs out along a ray and another comes in. No text. Lines are one color each, no gradients. */
+.pv-ecl__svg { display: block; width: 100%; height: auto; overflow: visible; }
+.pv-ecl__ray { fill: none; stroke: rgba(255, 210, 120, 0.32); stroke-width: 1; stroke-linecap: round; }
+.pv-ecl__str { fill: none; stroke: rgba(255, 190, 100, 0.22); stroke-width: 0.9; stroke-linecap: round; }
+.pv-ecl__corona { transform-box: fill-box; transform-origin: center; animation: ecl-breathe 6s ease-in-out infinite; }
+@keyframes ecl-breathe { 0%, 100% { opacity: 0.85; transform: scale(1); } 50% { opacity: 1; transform: scale(1.08); } }
+.pv-ecl__moon { fill: #07080b; stroke: #ffe3a0; stroke-width: 1.2; filter: drop-shadow(0 0 3px rgba(255, 225, 150, 0.9)); }
+.pv-ecl__node { fill: var(--moon-3); }
+.pv-ecl__pk { fill: #ffe07a; offset-rotate: 0deg; opacity: 0; animation: ecl-run 5s ease-in-out infinite; }
+.pv-ecl__pk--out { offset-path: path("M140.7 55.5 L208.0 44.0"); }
+.pv-ecl__pk--in { offset-path: path("M26.0 84.0 L99.7 64.4"); animation-delay: 2.5s; }
+@keyframes ecl-run { 0% { offset-distance: 0%; opacity: 0; } 20%, 70% { opacity: 0.9; } 90%, 100% { offset-distance: 100%; opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .pv-ecl__corona { animation: none; } .pv-ecl__pk { display: none; } }
 .pv-av { width: 1.5rem; height: 1.5rem; border-radius: 50%; display: grid; place-items: center; font-size: 0.6rem; font-weight: 800; background: rgba(236, 238, 242, 0.1); color: var(--moon); }
 .pv-heat { display: grid; grid-template-columns: repeat(8, 1fr); gap: 3px; }
 .pv-heat span { aspect-ratio: 1.6; border-radius: 3px; }
