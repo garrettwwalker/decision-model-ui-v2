@@ -321,9 +321,10 @@ main, .footer { position: relative; z-index: 2; }
 @media (max-width: 860px) {
   .thesis { grid-template-columns: minmax(0, 1fr); row-gap: 2.5rem; }
   .thesis .thesis__setup { margin-left: 0; }
-  .spk { order: 0; margin: 0 auto; width: min(100%, 36rem); max-width: none; }
+  .spk { order: 0; margin: 0 auto; width: min(100%, 29rem); max-width: none; }
   .thesis .thesis__setup { max-width: 40rem; }
   .thesis__setup p { font-size: clamp(1.45rem, 4.6vw, 2.1rem); }
+  .thesis__setup p + p { margin-top: 1em; }
 }
 
 /* ---------- Engine ---------- */
