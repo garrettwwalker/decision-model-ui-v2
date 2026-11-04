@@ -246,6 +246,11 @@ main, .footer { position: relative; z-index: 2; }
 @media (max-width: 900px) {
   .hero__copy { padding-top: calc(env(safe-area-inset-top, 0px) + 16vh); }
 }
+/* split screen and tablets: the desktop scale runs small here, so the lines grow to fill the width (still capped by height) */
+@media (min-width: 601px) and (max-width: 1100px) {
+  .hero__title { font-size: min(14.5vw, 19vh); }
+  .hero__after { font-size: min(10vw, 12vh); }
+}
 @media (max-width: 600px) { /* phones: headline on top, the sun filling the lower two-thirds */
   .hero__copy { padding-top: calc(env(safe-area-inset-top, 0px) + 12vh); }
   .hero__title { font-size: 16vw; }
@@ -316,7 +321,9 @@ main, .footer { position: relative; z-index: 2; }
 @media (max-width: 860px) {
   .thesis { grid-template-columns: minmax(0, 1fr); row-gap: 2.5rem; }
   .thesis .thesis__setup { margin-left: 0; }
-  .spk { order: 0; margin: 0 auto; max-width: 24rem; }
+  .spk { order: 0; margin: 0 auto; width: min(100%, 36rem); max-width: none; }
+  .thesis .thesis__setup { max-width: 40rem; }
+  .thesis__setup p { font-size: clamp(1.45rem, 4.6vw, 2.1rem); }
 }
 
 /* ---------- Engine ---------- */
@@ -393,8 +400,23 @@ main, .footer { position: relative; z-index: 2; }
 .pv-st { padding: 0.1rem 0.45rem; border-radius: 999px; font-size: 0.68rem; font-weight: 800; box-shadow: inset 0 0 0 1.5px var(--line-strong); color: var(--moon-2); }
 .pv-st--done { background: rgba(94, 214, 138, 0.15); color: #6fdc96; box-shadow: none; } /* green by the user's request: the page's one exception to keeping off greens */
 .pv-st--doing { background: rgba(255, 210, 90, 0.14); color: var(--a-gold); box-shadow: none; }
-.pv-st--bad { background: rgba(255, 84, 120, 0.15); color: var(--a-rose); box-shadow: none; }
-.pv-val { font-size: 0.68rem; font-weight: 800; color: var(--moon); white-space: nowrap; font-variant-numeric: tabular-nums; }
+/* the agents card: Totality between its agents, one in trouble, dots moving in and out (unlike the workflows card's task rows) */
+.pv-orch__svg { display: block; width: 100%; height: auto; overflow: visible; font-family: inherit; }
+.pv-orch__lk { fill: none; stroke: rgba(236, 238, 242, 0.2); stroke-width: 1.2; }
+.pv-orch__lk--bad { stroke: rgba(255, 84, 120, 0.6); }
+.pv-orch__hub { fill: #0b0c10; stroke: var(--a-amber); stroke-width: 1.5; filter: drop-shadow(0 0 10px rgba(255, 170, 64, 0.35)); }
+.pv-orch__p { font-size: 15px; font-weight: 800; letter-spacing: -0.03em; fill: var(--moon); }
+.pv-orch__hl { font-size: 6.5px; font-weight: 700; fill: var(--a-amber); }
+.pv-orch__dot { fill: var(--a-gold); }
+.pv-orch__dot--wait { fill: var(--a-orange); }
+.pv-orch__dot--bad { fill: var(--a-rose); animation: orch-blink 1.6s ease-in-out infinite; }
+@keyframes orch-blink { 50% { opacity: 0.3; } }
+.pv-orch__t { font-size: 8px; font-weight: 600; fill: var(--moon-2); }
+.pv-orch__pk { fill: var(--a-yellow); offset-rotate: 0deg; animation: orch-run 2.6s ease-in-out infinite; }
+.pv-orch__pk--in { offset-path: path("M44 22 C80 22 80 46 92 52"); }
+.pv-orch__pk--out { offset-path: path("M148 52 C160 46 160 34 196 34"); animation-delay: 1.3s; }
+@keyframes orch-run { 0% { offset-distance: 0%; opacity: 0; } 15%, 85% { opacity: 1; } 100% { offset-distance: 100%; opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .pv-orch__pk { display: none; } .pv-orch__dot--bad { animation: none; } }
 .pv-av { width: 1.5rem; height: 1.5rem; border-radius: 50%; display: grid; place-items: center; font-size: 0.6rem; font-weight: 800; background: rgba(236, 238, 242, 0.1); color: var(--moon); }
 .pv-heat { display: grid; grid-template-columns: repeat(8, 1fr); gap: 3px; }
 .pv-heat span { aspect-ratio: 1.6; border-radius: 3px; }
@@ -495,7 +517,6 @@ main, .footer { position: relative; z-index: 2; }
 .assets__copy h2 { margin-bottom: 0.75rem; }
 .assets__lede { margin: 0; max-width: 32rem; font-size: 1.1rem; color: var(--moon-2); }
 .assets__lede .w.on { color: var(--moon-2); }
-.assets__btn { justify-self: start; margin-top: 0.5rem; }
 /* a large constellation beside the plan copy: a freeform figure of linked stars over a scatter of faint ones; the
    stars twinkle and the lines draw themselves once in view (landing.js adds .is-drawn). No text, no cursor. */
 .cst { order: -1; margin: -1rem 0 -1rem calc(var(--gutter) * -0.5); align-self: center; } /* left of the copy, bleeding toward the page edge: the sky doesn't stop at the column; stacked, it follows the copy */
