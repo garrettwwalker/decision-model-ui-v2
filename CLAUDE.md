@@ -114,7 +114,8 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   found dark remnants in a recolored version): body `ag-page`, no `.t-night` and no sky; its own tokens in agents.css
   (paper ground `#f4f5f2`, white surfaces on soft shadows, sunken gray wells, ink type). Color is three meanings only,
   each for one thing (the user found more hues didn't complement each other): teal working, good and controls; amber needs
-  you; red an agent in trouble. Agent kinds and report impacts are ink and gray, not colored. Selection is a raised white segment or a tinted fill, never a
+  you; red an agent in trouble. Agent kinds and report impacts are ink and gray, not colored. Colors never stack (the user saw teal buttons on a red tile
+  clash): problems sit on gray with a red marker, and selection is an ink ring. Selection is a raised white segment or a tinted fill, never a
   black block or an outline; primary buttons teal; the hub a white disc with stage arcs; the brief's history a timeline.
 - `index.html` + `assets/css/landing.css` + `assets/js/landing.js` is the landing, Penumbra (it was a preview at
   `penumbra.html` from 2026-10-15 until the switchover on 2026-10-16; `penumbra.html` now only redirects home). Same

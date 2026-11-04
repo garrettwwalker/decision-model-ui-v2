@@ -395,7 +395,10 @@
   function problemCard(a, inSide) {
     var pr = a.problem, c = el("div", { class: "prob" + (inSide ? " prob--side" : "") });
     var h = el("p", { class: "prob__h" });
-    if (!inSide) { var who = el("button", { type: "button", class: "prob__who" }, a.name); who.addEventListener("click", function () { select(a.id); }); h.appendChild(who); }
+    var tag = el("span", { class: "prob__tag" });
+    if (!inSide) { var who = el("button", { type: "button", class: "prob__who" }, a.name); who.addEventListener("click", function () { select(a.id); }); tag.appendChild(who); }
+    if (!inSide) tag.appendChild(el("span", { class: "st st--bad" }, "Problem"));  // the panel's header already says so
+    h.appendChild(tag);
     h.appendChild(el("span", { class: "num prob__t" }, "Since " + hhmm(pr.at) + ", " + ago(pr.at)));
     c.appendChild(h);
     c.appendChild(el("p", { class: "prob__title" }, pr.title));
