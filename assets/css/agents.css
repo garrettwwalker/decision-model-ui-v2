@@ -461,7 +461,6 @@ button.dk__i:hover { box-shadow: var(--lift), 0 0 0 1px transparent; transform: 
   transition: transform 0.32s cubic-bezier(0.3, 0.7, 0.2, 1), width 0.32s cubic-bezier(0.3, 0.7, 0.2, 1), height 0.32s ease, opacity 0.2s ease;
 }
 .watch__list > .seg-thumb { border-radius: 14px; }
-.no-slide > .seg-thumb { transition: none; }
 /* the highlight carries the fill now, so the chosen button itself goes clear */
 .ag-page .has-thumb > button[aria-pressed="true"], .ag-page .has-thumb > button[aria-checked="true"], .ag-page .has-thumb > button[aria-selected="true"] { background: transparent; box-shadow: none; }
 @media (prefers-reduced-motion: reduce) { .seg-thumb { transition: none; } }

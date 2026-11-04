@@ -1068,9 +1068,20 @@
       thumb.style.width = on.offsetWidth + "px"; thumb.style.height = on.offsetHeight + "px";
       thumb.style.transform = "translate(" + on.offsetLeft + "px, " + on.offsetTop + "px)";
     };
+    // move as soon as an option is pressed, before the page redraws, so the slide starts at the click; the observer
+    // below corrects it if the press doesn't select anything
+    track.addEventListener("click", function (e) {
+      var b = e.target.closest("button"); if (!b || b.parentNode !== track) return;
+      thumb.style.opacity = "1"; thumb.style.width = b.offsetWidth + "px"; thumb.style.height = b.offsetHeight + "px";
+      thumb.style.transform = "translate(" + b.offsetLeft + "px, " + b.offsetTop + "px)";
+      void thumb.getBoundingClientRect();
+    }, true);
     new MutationObserver(place).observe(track, { attributes: true, subtree: true, childList: true, attributeFilter: ["aria-pressed", "aria-checked", "aria-selected"] });
-    if (window.ResizeObserver) new ResizeObserver(function () { track.classList.add("no-slide"); place(); requestAnimationFrame(function () { track.classList.remove("no-slide"); }); }).observe(track);
-    track.classList.add("no-slide"); place(); requestAnimationFrame(function () { requestAnimationFrame(function () { track.classList.remove("no-slide"); }); });
+    // on first draw or a resize (a control appearing, the window changing) it jumps into place rather than sliding;
+    // transitions come straight back on, without waiting for a frame that a hidden control may never get
+    var snap = function () { thumb.style.transition = "none"; place(); void thumb.offsetWidth; thumb.style.transition = ""; };
+    if (window.ResizeObserver) new ResizeObserver(snap).observe(track);
+    snap();
   }
 
   function drawAll() {
