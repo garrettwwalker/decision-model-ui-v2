@@ -744,15 +744,15 @@ html[data-moon] body { visibility: hidden; }
 .moon { position: fixed; inset: 0; z-index: 9999; overflow: hidden; pointer-events: auto; }
 .moon[class*="moon--out"] { pointer-events: none; }
 .moon__disc {
-  position: absolute; left: 50%; top: 50%; width: 150vmax; height: 150vmax; margin: -75vmax 0 0 -75vmax;
+  position: absolute; left: 50%; top: 50%; width: 144vmax; height: 144vmax; margin: -72vmax 0 0 -72vmax; /* just wider than the screen's diagonal */
   border-radius: 50%; background: #050506;
   box-shadow: 0 0 0 1px rgba(255, 196, 140, 0.45), 0 0 2.5vmax 0.4vmax rgba(255, 150, 80, 0.32), 0 0 10vmax 2vmax rgba(255, 186, 120, 0.16);
 }
 .moon--in-fwd .moon__disc { animation: moon-from-r 0.2s cubic-bezier(0.55, 0, 0.45, 1) both; }
 .moon--in-back .moon__disc { animation: moon-from-l 0.2s cubic-bezier(0.55, 0, 0.45, 1) both; }
-.moon--out-fwd .moon__disc { animation: moon-to-l 0.26s cubic-bezier(0.5, 0, 0.3, 1) both; }
-.moon--out-back .moon__disc { animation: moon-to-r 0.26s cubic-bezier(0.5, 0, 0.3, 1) both; }
-@keyframes moon-from-r { from { transform: translateX(calc(50vw + 90vmax)); } }
-@keyframes moon-from-l { from { transform: translateX(calc(-50vw - 90vmax)); } }
-@keyframes moon-to-l { to { transform: translateX(calc(-50vw - 90vmax)); } }
-@keyframes moon-to-r { to { transform: translateX(calc(50vw + 90vmax)); } }
+.moon--out-fwd .moon__disc { animation: moon-to-l 0.3s cubic-bezier(0.25, 0.6, 0.3, 1) both; } /* starts fast, so the page shows at once */
+.moon--out-back .moon__disc { animation: moon-to-r 0.3s cubic-bezier(0.25, 0.6, 0.3, 1) both; }
+@keyframes moon-from-r { from { transform: translateX(calc(50vw + 86vmax)); } }
+@keyframes moon-from-l { from { transform: translateX(calc(-50vw - 86vmax)); } }
+@keyframes moon-to-l { to { transform: translateX(calc(-50vw - 86vmax)); } }
+@keyframes moon-to-r { to { transform: translateX(calc(50vw + 86vmax)); } }

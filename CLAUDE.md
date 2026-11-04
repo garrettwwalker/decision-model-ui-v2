@@ -222,7 +222,8 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   All of it is off under reduced motion. Between the three Red Sea demo pages the moon crosses instead (2026-11-03, the user's
   idea, "the black sphere is the moon"): a black disc wider than the screen with a faint warm eclipse rim (`.moon`, in
   `redsea.css`) slides over the page from the side the next page lies on, the next page stays dark (`html[data-moon]`)
-  until the moon is over it, and the moon slides off the far side as soon as the page is drawn and its fonts are in (not waiting for images);
+  until the moon is over it, and the moon slides off the far side as soon as the page is drawn, giving the fonts at most 120ms (the user found it
+  lingered), on an exit that starts fast so the page shows at once;
   the next page is prefetched when a pointer goes over its link. The user asked for it fast: 0.2s over, 0.26s off.
   No view transition there.
 - `assets/js/app.js` holds the shared helpers (`DB.money`, `DB.toast`, `DB.rng`, range fills).

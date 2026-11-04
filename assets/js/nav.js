@@ -73,10 +73,9 @@
           setTimeout(function () { m.remove(); }, 600);
         });
       };
-      // off as soon as the page is drawn and its type has loaded; images can finish behind it
+      // off as soon as the page is drawn: the fonts get a moment to land, but never hold the moon (they swap in if late)
       (document.fonts ? document.fonts.ready : Promise.resolve()).then(leave);
-      window.addEventListener("load", leave);
-      setTimeout(leave, 1500);
+      setTimeout(leave, 120);
     });
     return;
   }
