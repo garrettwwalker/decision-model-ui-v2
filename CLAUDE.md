@@ -160,7 +160,8 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   window cards with mac dots, a red closing band) and was rejected, as were the earlier Lemonade, blend and Privy takes
   (all in git history). The style: a warm off-white ground `#f4efe8` with the top and tab bars in the same cream; white
   cards on a very soft shadow, cream panels inside; DM Serif Display (Google Fonts) for the page's headline, in title case
-  ("Agentic Orchestration", no period) at the user's request, and in capitals for the view titles, in title case for card titles and big figures, small gray Switzer for the rest; tomato red `#db3324` for
+  ("Agentic Orchestration", no period) at the user's request, and for the view titles, also title case
+  ("Waiting for You"; capitals were rejected), in title case for card titles and big figures, small gray Switzer for the rest; tomato red `#db3324` for
   buttons ("New question" too), counts and what waits for you, amber for a problem, working, protected and fixed neutral (the user wants the palette warm, no green); status as
   plain labels in their color, with no dot, tinted pill or blinking (the user called dots and halos a vibe-code
   giveaway), and no glow or pulse round Totality or the Live label; pills for
