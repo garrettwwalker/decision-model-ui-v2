@@ -37,199 +37,195 @@
   </header>
 
   <main id="main" class="page ag">
-    <section class="hero3" aria-labelledby="hero-title">
-      <svg class="hero3__art hero3__art--l" viewBox="0 0 340 240" aria-hidden="true">
-        <!-- what the information agents watch: a listening dish and the ships in the strait -->
-        <path class="ln sh" d="M248 52a14 14 0 0 1 27-5 11 11 0 0 1 14 11h-41z"/>
-        <path class="ln sh" d="M20 44a10 10 0 0 1 19-4 8 8 0 0 1 10 8H20z"/>
-        <path class="ln" d="M52 228l18-104 18 104M58 194h24M62 168h16M66 146h8M58 194l20-26M82 194l-20-26"/>
-        <ellipse class="ln wh" cx="70" cy="104" rx="36" ry="15" transform="rotate(-24 70 104)"/>
-        <path class="ln" d="M70 104l22-26"/>
-        <circle class="ln wh" cx="94" cy="76" r="3.5"/>
-        <path class="pk-ln" d="M106 62a20 20 0 0 1 10 14M112 50a34 34 0 0 1 16 26M118 38a48 48 0 0 1 22 38"/>
-        <path class="ln sh" d="M136 224l12-28h176l-14 28z"/>
-        <path class="ln wh" d="M148 196h176"/>
-        <path class="ln wh" d="M160 172h26v24h-26zM186 172h26v24h-26zM212 172h26v24h-26zM173 150h26v22h-26zM199 150h26v22h-26z"/>
-        <path class="ln wh" d="M262 150h30v46h-30z"/>
-        <path class="ln" d="M268 160h18M268 170h18"/>
-        <path class="ln wh" d="M272 150v-18h12v18"/>
-        <path class="ln" d="M110 232c10-5 20-5 30 0s20 5 30 0 20-5 30 0 20 5 30 0 20-5 30 0 20 5 30 0 20-5 30 0"/>
-      </svg>
-      <div class="hero3__copy">
-        <p class="hero3__kicker">Tuesday 6 October 2026, overseen by the COO</p>
-        <h1 class="hero3__title" id="hero-title">agentic orchestration.</h1>
-        <p class="hero3__lede">Your agents sense and act. The Totality engine weighs what they find, decides what's worth knowing next and how the plan should change. You sign off on what matters.</p>
-        <button type="button" class="cta" id="w-new">Ask a new question</button>
+    <section class="intro" aria-labelledby="ag-title">
+      <p class="eyebrow3">Tuesday 6 October 2026, overseen by the COO</p>
+      <h1 class="intro__title" id="ag-title">agentic orchestration.</h1>
+      <p class="intro__lede">Your agents sense and act. The Totality engine weighs what they find and steers them. You sign off on what matters.</p>
+      <div class="intro__btns">
+        <button type="button" class="pill pill--ink" id="w-new">New question</button>
+        <button type="button" class="pill" data-open="live">Open the live map</button>
       </div>
-      <svg class="hero3__art hero3__art--r" viewBox="0 0 340 240" aria-hidden="true">
-        <!-- what the workflow agents move: a warehouse, a crane lifting a container and a truck -->
-        <path class="ln sh" d="M268 40a12 12 0 0 1 23-4 9 9 0 0 1 12 9h-35z"/>
-        <path class="ln wh" d="M14 228v-80l58-30 58 30v80"/>
-        <path class="ln sh" d="M40 228v-52h64v52"/>
-        <path class="ln" d="M40 188h64M40 200h64M40 212h64M60 140h24v14H60z"/>
-        <path class="ln" d="M176 228V64M190 228V64M176 64h14M176 90l14 14M190 90l-14 14M176 130l14 14M190 130l-14 14M176 170l14 14M190 170l-14 14"/>
-        <path class="ln wh" d="M150 64h178v12H150z"/>
-        <path class="ln" d="M162 64l21-22 21 22M183 42v22"/>
-        <path class="ln" d="M282 76v40M266 116h32"/>
-        <path class="pk" d="M258 116h48v26h-48z"/>
-        <path class="ln-w" d="M268 120v18M278 120v18M288 120v18M298 120v18"/>
-        <path class="ln wh" d="M200 186h92v32h-92z"/>
-        <path class="ln wh" d="M292 196h22l12 12v10h-34z"/>
-        <path class="ln" d="M298 200h12l6 8h-18z"/>
-        <circle class="ln wh" cx="222" cy="222" r="7"/><circle class="ln wh" cx="270" cy="222" r="7"/><circle class="ln wh" cx="314" cy="222" r="7"/>
-        <path class="ln" d="M0 228h340"/>
-      </svg>
     </section>
 
-    <section class="band band--mist watch" aria-labelledby="w-title">
-      <div class="band__head">
-        <h2 class="band__title" id="w-title">your watchlist</h2>
-        <p class="band__sub">The questions your agents are working on. Pick one to see its agents, its forecast and what waits for you.</p>
+    <section class="watch tile tile--warm" aria-labelledby="w-title">
+      <div class="watch__card">
+        <div class="watch__head">
+          <h2 class="watch__title" id="w-title">Your questions</h2>
+          <p class="watch__hint">Pick one; everything below follows it.</p>
+        </div>
+        <div class="watch__list" id="w-list" role="tablist" aria-labelledby="w-title"></div>
       </div>
-      <div class="watch__list" id="w-list" role="tablist" aria-labelledby="w-title"></div>
     </section>
 
-    <section class="band" aria-labelledby="mode-title">
-      <div class="mode" id="mode">
-        <div class="band__head">
-          <h2 class="band__title" id="mode-title">who acts</h2>
-          <p class="band__sub">Every change can wait for you, or small reversible ones can go through on their own.</p>
+    <nav class="vtabs" id="vtabs" aria-label="Views of this question">
+      <div class="vtabs__track">
+        <span class="vtabs__thumb" aria-hidden="true"></span>
+        <a class="vtab" href="#overview" data-go="overview">Overview<span class="vtab__n vtab__n--bad" id="n-attn" hidden></span></a>
+        <a class="vtab" href="#live" data-go="live">Live map</a>
+        <a class="vtab" href="#activity" data-go="activity">Activity</a>
+        <a class="vtab" href="#waiting" data-go="waiting">Waiting for you<span class="vtab__n" id="n-wait" hidden></span></a>
+        <a class="vtab" href="#negotiation" data-go="negotiation" id="tab-neg">Negotiation</a>
+        <a class="vtab" href="#agents" data-go="agents">Every agent</a>
+      </div>
+      <p class="vtabs__live"><span class="live">Live</span> <b class="num" id="d-clock">08:20</b> GST</p>
+    </nav>
+
+    <div class="views" id="views">
+      <section class="view" data-view="overview" aria-labelledby="ov-title">
+        <h2 class="sr-only" id="ov-title">Overview</h2>
+        <div class="dk" id="d-kpis"></div>
+        <div class="ov-attn">
+          <div class="vhead vhead--c">
+            <p class="eyebrow3">Needs attention</p>
+            <h3 class="vhead__title">Problems your agents have hit</h3>
+            <p class="vhead__note">Each comes with the fixes Totality suggests. Pick one, or open the agent to look closer.</p>
+          </div>
+          <div class="attn__list" id="attn"></div>
         </div>
-        <div class="mode__seg" role="radiogroup" aria-label="Who acts">
-          <button type="button" role="radio" data-mode="manual" aria-checked="true">
-            <i class="mode__dot" aria-hidden="true"></i>
-            <svg class="mode__art" viewBox="0 0 160 96" aria-hidden="true">
-              <path class="ln sh" d="M52 14h56v74H52z"/>
-              <path class="ln wh" d="M66 10h28v10H66z"/>
-              <path class="ln" d="M62 36l4 4 7-8M80 36h18M62 54l4 4 7-8M80 54h18M62 72h36"/>
-              <path class="pk-ln" d="M64 74c4-6 8 4 12-2s6 2 10-1"/>
-              <path class="ln wh" d="M104 82l4-14 26-30 8 7-26 30z"/>
-              <path class="ln" d="M130 42l8 7"/>
-            </svg>
-            <b>Manual</b><small>every change waits for you</small>
-          </button>
-          <button type="button" role="radio" data-mode="auto" aria-checked="false">
-            <i class="mode__dot" aria-hidden="true"></i>
-            <svg class="mode__art" viewBox="0 0 160 96" aria-hidden="true">
-              <circle class="gear" cx="66" cy="46" r="24"/><circle class="ln wh" cx="66" cy="46" r="20"/><circle class="ln sh" cx="66" cy="46" r="7"/>
-              <circle class="gear gear--s" cx="104" cy="62" r="15"/><circle class="ln wh" cx="104" cy="62" r="12"/><circle class="pk" cx="104" cy="62" r="4.5"/>
-            </svg>
-            <b>Automatic for small decisions</b><small>under your limit, reversible</small>
-          </button>
-        </div>
-        <div class="mode__auto" id="mode-auto" inert>
-          <div class="mode__auto-in">
-            <p class="mode__label">Limit per change</p>
-            <div class="mode__limit" role="radiogroup" aria-label="Limit per change" id="mode-limit"></div>
-            <p class="mode__rule">On its own it may retask information agents, change how often they look and draft documents. It never signs, pays, sends or commits above your limit.</p>
+        <div class="row">
+          <div class="row__text">
+            <p class="eyebrow3">Who acts</p>
+            <h3 class="row__title">Choose what waits for you</h3>
+            <p class="row__p">By default every change waits for your sign-off. Switch to automatic and small, reversible decisions under your limit go through on their own, with an undo.</p>
+            <ul class="row__list">
+              <li>Retask information agents</li>
+              <li>Change how often they look</li>
+              <li>Draft documents for you to send</li>
+              <li>Never sign, pay, send or commit above your limit</li>
+            </ul>
+          </div>
+          <div class="tile tile--cool row__art">
+            <div class="mode" id="mode">
+              <p class="mode__title">Who acts</p>
+              <div class="mode__seg" role="radiogroup" aria-label="Who acts">
+                <button type="button" role="radio" data-mode="manual" aria-checked="true"><i class="mode__dot" aria-hidden="true"></i><b>Manual</b><small>every change waits for you</small></button>
+                <button type="button" role="radio" data-mode="auto" aria-checked="false"><i class="mode__dot" aria-hidden="true"></i><b>Automatic for small decisions</b><small>under your limit, reversible</small></button>
+              </div>
+              <div class="mode__auto" id="mode-auto" inert>
+                <div class="mode__auto-in">
+                  <p class="mode__label">Limit per change</p>
+                  <div class="mode__limit" role="radiogroup" aria-label="Limit per change" id="mode-limit"></div>
+                  <p class="mode__rule">Above it, the change waits for you like any other.</p>
+                </div>
+              </div>
+              <p class="mode__now" id="mode-now" aria-live="polite"></p>
+            </div>
           </div>
         </div>
-        <p class="mode__now" id="mode-now" aria-live="polite"></p>
-      </div>
-    </section>
+      </section>
 
-    <section class="band band--mist" aria-labelledby="now-title">
-      <div class="band__head">
-        <h2 class="band__title" id="now-title">right now</h2>
-        <p class="band__sub"><span class="live">Live</span> at <b class="num" id="d-clock">08:20</b> GST. Select an agent for what it's surfacing, its brief and any trouble, or Totality for the forecast and what it wants to know next.</p>
-      </div>
-      <div class="dk" id="d-kpis"></div>
-      <div class="dgrid">
-        <div class="dgrid__main">
-          <div class="dash__map">
-            <div class="loop__board" id="loop-board">
-              <svg class="loop__links" id="loop-links" aria-hidden="true"></svg>
-              <div class="loop__col loop__col--sense">
-                <p class="loop__colhead">Information agents <span>sense</span></p>
-                <div class="loop__agents" id="loop-sense"></div>
+      <section class="view" data-view="live" aria-labelledby="now-title" hidden>
+        <div class="vhead">
+          <p class="eyebrow3">Live map</p>
+          <h2 class="vhead__title" id="now-title">Your agents, working</h2>
+          <p class="vhead__note">Information agents report in on the left; Totality weighs it and briefs the workflow agents on the right. Select any of them to open it.</p>
+        </div>
+        <div class="dash__map tile tile--warm">
+          <div class="loop__board" id="loop-board">
+            <svg class="loop__links" id="loop-links" aria-hidden="true"></svg>
+            <div class="loop__col loop__col--sense">
+              <p class="loop__colhead">Information agents <span>sense</span></p>
+              <div class="loop__agents" id="loop-sense"></div>
+            </div>
+            <button type="button" class="loop__hub" id="hub-btn" aria-label="Totality: the forecast and what it wants to know next">
+              <svg class="hub" id="hub" viewBox="32 32 176 176" aria-hidden="true">
+                <defs>
+                  <linearGradient id="ag2-corona" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0" stop-color="#ffd27a"/><stop offset="0.5" stop-color="#ff7a3d"/><stop offset="1" stop-color="#ff3d6e"/>
+                  </linearGradient>
+                  <filter id="ag2-glow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="5"/></filter>
+                </defs>
+                <circle class="hub__halo" cx="120" cy="120" r="80"/>
+                <g class="hub__corona"><circle class="hub__glow" cx="120" cy="120" r="80" filter="url(#ag2-glow)"/><circle class="hub__ring" cx="120" cy="120" r="80"/></g>
+                <circle class="hub__disc" cx="120" cy="120" r="78"/>
+                <text class="hub__name" x="120" y="88" text-anchor="middle">Totality</text>
+                <text class="hub__p num" id="hub-p" x="120" y="124" text-anchor="middle">33%</text>
+                <text class="hub__q" id="hub-q" x="120" y="148" text-anchor="middle">Hormuz closes</text>
+              </svg>
+            </button>
+            <div class="loop__col loop__col--act">
+              <p class="loop__colhead">Workflow agents <span>act</span></p>
+              <div class="loop__agents" id="loop-act"></div>
+            </div>
+          </div>
+          <p class="legend" aria-hidden="true"><span class="st st--ok">Working</span><span class="st st--wait">Waiting for you</span><span class="st st--bad">Problem</span><span class="st st--off">Paused</span></p>
+        </div>
+      </section>
+
+      <section class="view" data-view="activity" aria-labelledby="fd-title" hidden>
+        <div class="feed">
+          <div class="feed__head">
+            <div class="vhead">
+              <p class="eyebrow3">Activity</p>
+              <h2 class="vhead__title" id="fd-title">What they're surfacing</h2>
+              <p class="vhead__note">What the agents are surfacing and what Totality changed, newest first. Select a line to open its agent.</p>
+            </div>
+            <div class="feed__f" role="group" aria-label="Show" id="feed-f"></div>
+          </div>
+          <ol class="feed__list" id="feed"></ol>
+        </div>
+      </section>
+
+      <section class="view" data-view="waiting" aria-labelledby="q-title" hidden>
+        <div class="vhead">
+          <p class="eyebrow3">Your sign-off</p>
+          <h2 class="vhead__title" id="q-title">Waiting for you</h2>
+          <p class="vhead__note" id="q-note"></p>
+        </div>
+        <div class="queue" id="queue"></div>
+        <div class="done" id="done" hidden>
+          <h3 class="done__title">Done on its own</h3>
+          <ul class="done__list" id="done-list"></ul>
+        </div>
+      </section>
+
+      <section class="view" data-view="negotiation" aria-labelledby="st-title" hidden>
+        <div id="st-section">
+          <div class="vhead">
+          <p class="eyebrow3">Negotiation</p>
+            <h2 class="vhead__title" id="st-title">Steer the negotiation</h2>
+            <p class="vhead__note">The resin buyer is negotiating the 7,000 t bridge-buy from Singapore. Change any part of its brief and see what it does to the odds of a deal and the value it protects. Changes go to the agent when you send them.</p>
+          </div>
+          <div class="steer" id="steer">
+            <div class="steer__brief">
+              <div class="steer__top">
+                <h3 class="panel__title">The resin buyer's brief</h3>
+                <p class="steer__ver" id="st-ver"></p>
               </div>
-              <button type="button" class="loop__hub" id="hub-btn" aria-label="Totality: the forecast and what it wants to know next">
-                <svg class="hub" id="hub" viewBox="32 32 176 176" aria-hidden="true">
-                  <defs>
-                    <linearGradient id="ag3-corona" x1="0" y1="0" x2="1" y2="1">
-                      <stop offset="0" stop-color="#ffd27a"/><stop offset="0.5" stop-color="#ff7a3d"/><stop offset="1" stop-color="#ff3d6e"/>
-                    </linearGradient>
-                    <filter id="ag3-glow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="5"/></filter>
-                  </defs>
-                  <circle class="hub__halo" cx="120" cy="120" r="80"/>
-                  <g class="hub__corona"><circle class="hub__glow" cx="120" cy="120" r="80" filter="url(#ag3-glow)"/><circle class="hub__ring" cx="120" cy="120" r="80"/></g>
-                  <circle class="hub__disc" cx="120" cy="120" r="78"/>
-                  <text class="hub__name" x="120" y="88" text-anchor="middle">Totality</text>
-                  <text class="hub__p num" id="hub-p" x="120" y="124" text-anchor="middle">33%</text>
-                  <text class="hub__q" id="hub-q" x="120" y="148" text-anchor="middle">Hormuz closes</text>
-                </svg>
-              </button>
-              <div class="loop__col loop__col--act">
-                <p class="loop__colhead">Workflow agents <span>act</span></p>
-                <div class="loop__agents" id="loop-act"></div>
+              <div class="steer__fields" id="st-fields"></div>
+              <div class="steer__foot">
+                <button type="button" class="btn btn--primary btn--sm" id="st-send">Send to the agent</button>
+                <button type="button" class="btn-q" id="st-reset">Back to Totality's brief</button>
+                <p class="steer__msg" id="st-msg" aria-live="polite"></p>
               </div>
             </div>
-            <p class="legend" aria-hidden="true"><span class="st st--ok">Working</span><span class="st st--wait">Waiting for you</span><span class="st st--bad">Problem</span><span class="st st--off">Paused</span></p>
-          </div>
-          <div class="feed">
-            <div class="feed__head">
-              <h3 class="feed__title">What they're surfacing</h3>
-              <div class="feed__f" role="group" aria-label="Show" id="feed-f"></div>
+            <div class="steer__out">
+              <div class="kpis" id="st-kpis"></div>
+              <h3 class="steer__h">How the brief has moved</h3>
+              <ol class="vers" id="st-vers"></ol>
             </div>
-            <ol class="feed__list" id="feed"></ol>
           </div>
         </div>
-        <div class="dgrid__aside">
-          <aside class="dash__side" id="d-side" aria-live="polite"></aside>
-          <div class="attn">
-            <h3 class="feed__title">Needs attention</h3>
-            <div class="attn__list" id="attn"></div>
-          </div>
-        </div>
-      </div>
-    </section>
+      </section>
 
-    <section class="band" aria-labelledby="q-title">
-      <div class="band__head">
-        <h2 class="band__title" id="q-title">waiting for you</h2>
-        <p class="band__sub" id="q-note"></p>
-      </div>
-      <div class="queue" id="queue"></div>
-      <div class="done" id="done" hidden>
-        <h3 class="done__title">Done on its own</h3>
-        <ul class="done__list" id="done-list"></ul>
-      </div>
-    </section>
-
-    <section class="band band--mist" aria-labelledby="st-title" id="st-section">
-      <div class="band__head">
-        <h2 class="band__title" id="st-title">steer the negotiation</h2>
-        <p class="band__sub">The resin buyer is negotiating the 7,000 t bridge-buy from Singapore. Totality sets its brief; change any part and see what it does to the odds of a deal and the value it protects. Changes go to the agent when you send them.</p>
-      </div>
-      <div class="steer" id="steer">
-        <div class="steer__brief">
-          <div class="steer__top">
-            <h3 class="panel__title">The resin buyer's brief</h3>
-            <p class="steer__ver" id="st-ver"></p>
-          </div>
-          <div class="steer__fields" id="st-fields"></div>
-          <div class="steer__foot">
-            <button type="button" class="btn btn--primary btn--sm" id="st-send">Send to the agent</button>
-            <button type="button" class="btn-q" id="st-reset">Back to Totality's brief</button>
-            <p class="steer__msg" id="st-msg" aria-live="polite"></p>
-          </div>
+      <section class="view" data-view="agents" aria-labelledby="ro-title" hidden>
+        <div class="vhead">
+          <p class="eyebrow3">The roster</p>
+          <h2 class="vhead__title" id="ro-title">Every agent</h2>
+          <p class="vhead__note">Select a row to open the agent; switch one on to let it act by itself within your limit.</p>
         </div>
-        <div class="steer__out">
-          <div class="kpis" id="st-kpis"></div>
-          <h3 class="steer__h">How the brief has moved</h3>
-          <ol class="vers" id="st-vers"></ol>
-        </div>
-      </div>
-    </section>
-
-    <section class="band" aria-labelledby="ro-title">
-      <div class="band__head">
-        <h2 class="band__title" id="ro-title">every agent</h2>
-        <p class="band__sub">Every agent at a glance. Select a row to open it above; switch one on to let it act by itself within your limit.</p>
-      </div>
-      <div class="roster" id="roster" role="table" aria-label="Every agent"></div>
-    </section>
+        <div class="roster" id="roster" role="table" aria-label="Every agent"></div>
+      </section>
+    </div>
   </main>
+
+  <div class="drawer" id="drawer" inert>
+    <div class="drawer__scrim" data-close></div>
+    <div class="drawer__panel" id="drawer-panel" role="region" aria-label="Details" tabindex="-1">
+      <button type="button" class="drawer__x" data-close aria-label="Close the panel"></button>
+      <aside class="dash__side" id="d-side" aria-live="polite"></aside>
+    </div>
+  </div>
 
   <dialog class="nq" id="nq" aria-labelledby="nq-title">
     <form class="nq__form" id="nq-form" method="dialog">
@@ -264,5 +260,6 @@
 
   <script src="assets/js/app.js"></script>
   <script src="assets/js/agents.js"></script>
+  <script src="assets/js/agents2.js"></script>
 </body>
 </html>

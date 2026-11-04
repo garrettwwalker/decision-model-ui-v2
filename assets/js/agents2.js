@@ -1,4 +1,4 @@
-/* Agents 2: the agents page as click-through views (2026-11-04), on top of the shared agents.js, which still draws
+/* Agents 2 and 3: the agents page as click-through views (2026-11-04), on top of the shared agents.js, which still draws
    everything. One view shows at a time under a tab bar (overview, live map, activity, waiting for you, negotiation,
    every agent); the side panel for an agent or Totality slides in as a drawer when you select one. agents.js moves
    around the page by scrolling elements into view, so scrollIntoView is taken over here: scrolling to something in
@@ -51,6 +51,14 @@
   function stickyTop() { return parseFloat(getComputedStyle(nav).top) || 0; }
   Object.keys(tabs).forEach(function (k) {
     tabs[k].addEventListener("click", function (e) { e.preventDefault(); show(k, { push: true }); if (narrow()) shut(); });
+  });
+  // other buttons can open a view too (agents 3's hero): the view opens and the page comes down to it
+  document.querySelectorAll("[data-open]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var top = nav.getBoundingClientRect().top + scrollY - stickyTop();
+      show(b.dataset.open, { push: true });
+      requestAnimationFrame(function () { scrollTo({ top: top, behavior: REDUCE ? "auto" : "smooth" }); });
+    });
   });
   window.addEventListener("popstate", function () { show(location.hash.slice(1) || "overview"); });
   window.addEventListener("resize", function () { placeThumb(true); });
