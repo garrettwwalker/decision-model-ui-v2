@@ -454,13 +454,15 @@
     links.innerHTML = s;
     if (lit) links.appendChild(lit); else { lit = document.createElementNS(NS, "g"); lit.id = "packets"; links.appendChild(lit); }
     linked(Q).forEach(function (a) { paths[a.id] = $("lk-" + a.id); });
+    // and any still lit follow their link to its new course, so a flash never runs beside the line it lights
+    [].forEach.call(lit.querySelectorAll(".lk-hot"), function (h) { var p = paths[h.dataset.agent]; if (p) h.setAttribute("d", p.getAttribute("d")); });
   }
   // when information moves, the link itself lights up: a brighter copy draws along it in the direction of travel
   // (toward Totality for a report, away from it for a brief), holds a moment, then fades back
   function packet(id, inward, cls) {
     var p = paths[id], g = $("packets"); if (REDUCE || !p || !g || document.hidden) return;
     var hot = document.createElementNS(NS, "path");
-    hot.setAttribute("d", p.getAttribute("d")); hot.setAttribute("pathLength", "1");
+    hot.setAttribute("d", p.getAttribute("d")); hot.setAttribute("pathLength", "1"); hot.dataset.agent = id;
     hot.setAttribute("class", ("lk-hot " + (inward ? "lk-hot--in " : "lk-hot--out ") + (cls || "")).trim());
     g.appendChild(hot);
     var fwd = AGENTS[id].kind === "sense" ? inward : !inward, from = fwd ? 1 : -1;
@@ -691,7 +693,7 @@
     });
     drawWatch();
     if (here) drawAll();
-    else { drawStrip(); drawTiles(); drawSide(); drawAttn(); }
+    else { drawStrip(); drawTiles(); drawSide(); drawAttn(); requestAnimationFrame(relink); }  // tiles change height as their ages tick
   }
   setInterval(tick, 5000);
 
