@@ -2,7 +2,7 @@
    (2026-11-04; the activity feed had them too, until the user found its rows too much like chat). agents.js redraws the
    tiles freely, so a watcher marks each as it appears: its initial in data-ini, and a color picked from its name. */
 (function () {
-  var COLORS = ["#7a1f2b", "#161412", "#c2410c", "#3f6b4e", "#2d4a7a", "#a16207"];
+  var COLORS = ["#7a1f2b", "#161412", "#c2410c", "#8a5a2b", "#a33a2a", "#a16207"];  // warm only: wine, espresso, rust, umber, brick, ochre
   function color(name) {
     var h = 0;
     for (var i = 0; i < name.length; i++) h = (h * 31 + name.charCodeAt(i)) >>> 0;

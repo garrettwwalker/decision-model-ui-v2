@@ -161,7 +161,9 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   (all in git history). The style: a warm off-white ground `#f4efe8` with the top and tab bars in the same cream; white
   cards on a very soft shadow, cream panels inside; DM Serif Display (Google Fonts) for the page's headline, in title case
   ("Agentic Orchestration", no period) at the user's request, and in capitals for the view titles, in title case for card titles and big figures, small gray Switzer for the rest; tomato red `#db3324` for
-  buttons ("New question" too), counts and what waits for you, amber for a problem, a green dot for working; pills for
+  buttons ("New question" too), counts and what waits for you, amber for a problem, working, protected and fixed neutral (the user wants the palette warm, no green); status as
+  plain labels in their color, with no dot, tinted pill or blinking (the user called dots and halos a vibe-code
+  giveaway), and no glow or pulse round Totality or the Live label; pills for
   the view tabs and feed filters, the chosen one solid ink; red buttons glow only on hover (as the landing's used to); who acts' chosen
   option a white card lifted off the cream with a red dot (the user found a black one, which flipped light on hover, bizarre); the chosen question lifts with its chance in red, no outline
   and no sliding highlight; the live map light on a white card, its agent tiles with rounded-square initial avatars
