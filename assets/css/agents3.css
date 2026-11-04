@@ -3,7 +3,7 @@
    looo closeup.png): a warm off-white ground; big condensed high-contrast serif headlines in capitals (DM Serif Display)
    over small gray sans text; one tomato-red accent for pill buttons, eyebrows, numbered steps and a closing band; white
    cards on a very soft shadow with cream panels inside; product UI in window cards with a title bar (no mac-style
-   dots: the user didn't want them) whose rows carry rounded-square initial avatars (agents3.js) with the time on the right; filter pills, the chosen
+   dots: the user didn't want them) whose agent tiles carry rounded-square initial avatars (agents3.js); filter pills, the chosen
    one solid ink; a hero with a badge pill, the headline, a red pill and a quiet link; the questions as cards on a red
    base; a gray band of names; a numbered how-it-works beside a window card; a red band; a near-black footer.
    Departures: eyebrows stay sentence case (the site's rule), and the chosen card lifts rather than taking an outline.
@@ -33,7 +33,7 @@ body.ag3 {
 .ag3 ::selection { background: var(--accent-soft); }
 
 /* ---------- chrome ---------- */
-.ag3 .bar { background: rgba(255, 255, 255, 0.86); box-shadow: 0 1px 0 var(--line); }
+.ag3 .bar { background: rgba(244, 239, 232, 0.92); box-shadow: 0 1px 0 var(--line); } /* the page's own cream, not white */
 .ag3 .logo { filter: none; }
 .ag3 .logo::before { background: var(--ink); }
 .ag3 .tabs a { color: var(--ink-2); opacity: 1; }
@@ -688,7 +688,7 @@ button.dk__i:hover { background: #fff; transform: translateY(-2px); box-shadow: 
   grid-template-columns: 2.1rem minmax(0, 1fr); column-gap: 0.7rem; align-items: start; border-radius: 12px; color: var(--ink); background: #fff;
   box-shadow: 0 1px 2px rgba(22, 20, 18, 0.06), 0 6px 16px -10px rgba(22, 20, 18, 0.28); transform: none;
 }
-.lag::before, .fd button::before {
+.lag::before {
   content: attr(data-ini); display: grid; place-items: center; width: 2.1rem; height: 2.1rem; border-radius: 9px;
   background: var(--av, var(--ink)); color: #fff; font-size: 0.8rem; font-weight: 700;
 }
@@ -726,7 +726,7 @@ body:not(.has-drawer) .loop__hub.is-sel .hub__glow { opacity: 0.18; }
 .hub__name { fill: var(--accent); }
 .loop__hub:focus-visible { outline-color: var(--accent); }
 
-/* activity: notification rows in a window, avatar, then the text, then the time on the right */
+/* activity: agents 2's rows (time on the left, who and what, any impact on the right) in a window card */
 .feed.win { display: block; max-width: 56rem; margin: 0 auto; padding: 0; }
 .win .feed__f { margin-left: auto; gap: 0.35rem; padding: 0; background: transparent; }
 .feed__f button { min-height: 32px; padding: 0 0.85rem; border-radius: 999px; font-weight: 600; color: var(--ink); box-shadow: inset 0 0 0 1px rgba(22, 20, 18, 0.16); }
@@ -734,11 +734,6 @@ body:not(.has-drawer) .loop__hub.is-sel .hub__glow { opacity: 0.18; }
 .feed__f button[aria-pressed="true"] { color: #fff; }
 .feed__f > .seg-thumb { border-radius: 999px; background: var(--ink); box-shadow: none; }
 .win .feed__list { padding: 0.4rem 0.9rem 0.7rem; }
-.fd button { grid-template-columns: 2.1rem minmax(0, 1fr) auto auto; gap: 0.85rem; align-items: center; padding: 0.85rem 0.4rem; }
-.fd button::before { grid-column: 1; grid-row: 1; }
-.fd__body { grid-column: 2; grid-row: 1; }
-.fd button > .imp { grid-column: 3; grid-row: 1; }
-.fd__t { grid-column: 4; grid-row: 1; padding: 0; text-align: right; font-weight: 500; }
 
 /* the drawer */
 .drawer__panel { background: #fff; }
@@ -761,9 +756,6 @@ body:not(.has-drawer) .loop__hub.is-sel .hub__glow { opacity: 0.18; }
   .vtabs { grid-template-columns: minmax(0, 1fr); }
   .strip3 { justify-content: flex-start; gap: 1.75rem; }
   .watch::before { left: 0.25rem; right: 0.25rem; height: 55%; }
-  .fd button { grid-template-columns: 2.1rem minmax(0, 1fr) auto; }
-  .fd button > .imp { grid-column: 2; grid-row: 2; justify-self: start; }
-  .fd__t { grid-column: 3; }
   .feed .win__bar { flex-wrap: wrap; }
   .win .feed__f { width: 100%; margin: 0.4rem 0 0; overflow-x: auto; }
 }

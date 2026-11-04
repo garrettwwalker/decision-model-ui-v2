@@ -165,9 +165,9 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   View tabs are pills, the open one solid ink. Overview: the figures as white cards, then "How it all comes together"
   (01 agents sense, 02 Totality weighs, 03 you sign off) beside "Needs attention" in a window card with a title bar
   (no mac-style dots; the user didn't want them), then who acts as a centered card. The live map and the activity feed sit in window cards, light,
-  with rounded-square initial avatars on agent tiles and feed rows (`agents3.js` marks them, colored from the agent's
-  name, Totality red) and the time on the right; Totality is a white disc ringed in red. A red "Ready to sign off?" band
-  opens the waiting view (`data-open`); the footer is near black. Waiting for you is red, a problem amber, working a
+  with rounded-square initial avatars on the agent tiles (`agents3.js` marks them, colored from the agent's name);
+  the feed keeps agents 2's rows (time on the left; the user found avatar rows too much like chat); Totality is a white disc ringed in red. A red "Ready to sign off?" band
+  opens the waiting view (`data-open`); the footer is near black. The top bar is the page's cream, not white (the user saw the white bar clash). Waiting for you is red, a problem amber, working a
   green dot. The stylesheet is agents2.css (renamed to `.ag3`, retokened) plus a Looo layer at its end.
   It's reached from a dropdown on "agents 2" in every page's nav (`.tabs__more` in app.css, the caret toggled in nav.js;
   on phones its links sit in the scrolling row).
