@@ -1,11 +1,11 @@
 /* Agents page: when a watchlist question is picked, its big figures count up from zero (2026-11-04). agents.js has
    already redrawn them by the time the click reaches the list, so each figure's new text is the target: every number
-   in it runs from 0 to its value in about 0.7 s, easing out, keeping its decimals ("$1.3k", "7 of 10", "33%").
+   in it runs from 0 to its value in about 0.9 s, easing out, keeping its decimals ("$1.3k", "7 of 10", "33%").
    Dates and times are left alone, since a deadline counting up from day 0 would read as nonsense. If anything else
    rewrites a figure mid-way (the clock ticking), that one stops. Off under reduced motion. */
 (function () {
   if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  var DURATION = 700, NUM = /\d+(?:\.\d+)?/g, DATE = /\b(Mon|Tue|Wed|Thu|Fri|Sat|Sun)\b|\d:\d/;
+  var DURATION = 900, NUM = /\d+(?:\.\d+)?/g, DATE = /\b(Mon|Tue|Wed|Thu|Fri|Sat|Sun)\b|\d:\d/;
   function count(el) {
     var target = el.textContent;
     if (!/\d/.test(target) || DATE.test(target)) return;

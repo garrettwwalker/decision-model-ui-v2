@@ -134,7 +134,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   awkward on separate cards; its `.seg-thumb` is hidden), and "New question" an espresso pill (the user found the earlier
   track-and-tint version too hard to see). Picking a question counts its big figures up from zero (`assets/js/agents-count.js`, this page
   only: the status strip, Totality's disc and the panel's forecast, each number running from 0 to its value in about
-  0.7 s, keeping decimals; dates are left alone; off under reduced motion). A decrypt effect was tried first and
+  0.9 s, keeping decimals; dates are left alone; off under reduced motion). A decrypt effect was tried first and
   replaced at the user's request. The user plans to redesign most product pages in this warm paper scheme, and
   it may diverge from the landing's palette, but fonts stay the landing's.
 - `agents2.html` + `assets/css/agents2.css` + `assets/js/agents2.js` ("agents 2" in the nav, after agents; 2026-11-04)
