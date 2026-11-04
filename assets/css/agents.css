@@ -4,8 +4,8 @@
    on it (no outlines, no shadows), espresso ink, Instrument Serif for the headline, section titles and big figures with
    Switzer for everything else, and an earthy set where each color means one thing: terracotta for controls,
    ochre for what waits for you, olive for working, protected and fixed, oxblood for an agent in trouble. Working agents
-   read neutral with an olive dot. Selection is a raised segment or a tint; the selected agent and Totality take an ink
-   ring. Colors never stack: no terracotta control on an oxblood fill. (Until that day it wore Red Sea at a glance's
+   read neutral with an olive dot. Selection is a lifted sheet: brighter paper on a warm shadow (no outline; the user disliked
+   the ink ring), Totality's ring thickening. Colors never stack: no terracotta control on an oxblood fill. (Until that day it wore Red Sea at a glance's
    white and warm gray; that version is in git history.)
    */
 body.ag-page {
@@ -24,6 +24,7 @@ body.ag-page {
   --bad: #9b1f30; --bad-soft: #f5dcdc;                                 /* oxblood: an agent in trouble */
   --lift: none;
   --lift-sm: 0 1px 2px rgba(43, 33, 24, 0.14);                         /* only a sliding highlight stands up */
+  --raised: 0 1px 2px rgba(90, 52, 22, 0.08), 0 14px 30px -14px rgba(90, 52, 22, 0.42);  /* the selected sheet, lifted off the paper */
   /* the shared components read these names */
   --moon: var(--ink); --moon-2: var(--ink-2); --moon-3: var(--ink-3); --fg: var(--ink); --fg-2: var(--ink-2);
   --on-ink: #fff; --card: var(--surface); --card-low: var(--sunk); --panel: var(--surface); --panel-line: var(--line);
@@ -85,7 +86,7 @@ body.ag-page {
 .mode__seg b { font-size: 0.92rem; font-weight: 800; }
 .mode__seg small { grid-column: 2; font-size: 0.75rem; color: var(--ink-2); }
 .mode__dot { width: 18px; height: 18px; border-radius: 50%; background: var(--well); box-shadow: inset 0 0 0 2px var(--sunk-2); transition: box-shadow 0.15s ease; }
-.mode__seg button[aria-checked="true"] { background: #fffdf8; box-shadow: inset 0 0 0 2px var(--ink); }
+.mode__seg button[aria-checked="true"] { background: #fffdf8; box-shadow: var(--raised); }
 .mode__seg button[aria-checked="true"] .mode__dot { box-shadow: inset 0 0 0 5px var(--accent); }
 /* the limit drops down: its row grows from nothing and it fades in; shut, it also gives back the panel's gap above it */
 .mode__auto { display: grid; grid-template-rows: 0fr; margin-top: -0.9rem; opacity: 0; align-self: start; /* stretching would turn the negative margin into height */
@@ -147,7 +148,7 @@ button.dk__i:hover .dk__l { color: var(--ink); text-decoration: underline; text-
 .lag.is-bad .lag__line { color: var(--bad); font-weight: 700; }
 .lag.is-off > * { opacity: 0.55; }
 /* selected: an ink ring, which sits on any status tint without clashing */
-.lag.is-sel { background: var(--well-hover); box-shadow: inset 0 0 0 2px var(--ink); }
+.lag.is-sel { background: #fffdf8; box-shadow: var(--raised); }
 
 /* status: a dot and a word, the same everywhere */
 .st { display: inline-flex; align-items: center; gap: 0.3rem; flex: none; padding: 0.1rem 0.45rem; border-radius: 999px; font-size: 0.66rem; font-weight: 800; white-space: nowrap; }
@@ -174,7 +175,7 @@ button.dk__i:hover .dk__l { color: var(--ink); text-decoration: underline; text-
 .hub { display: block; width: 100%; height: auto; overflow: visible; }
 .hub__disc { fill: var(--surface); transition: fill 0.2s ease; }
 .loop__hub:hover .hub__disc { fill: var(--surface-2); }
-.loop__hub.is-sel .hub__disc { stroke: var(--ink); stroke-width: 2.5; }
+.loop__hub.is-sel .hub__disc { fill: #fffdf8; stroke-width: 3.5; }
 .loop__hub:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 .hub__halo { fill: var(--accent-soft); opacity: 0; transform-box: fill-box; transform-origin: center; }
 .hub.is-pulse .hub__halo { animation: hub-think 1.8s ease-out 2; }
@@ -424,15 +425,15 @@ button.dk__i:hover .dk__l { color: var(--ink); text-decoration: underline; text-
 .watch .btn-q { background: var(--ink); color: #fdf8ef; }
 .watch .btn-q:hover { background: #45362a; }
 .watch__title { margin: 0; font-size: 1.05rem; font-weight: 800; letter-spacing: -0.02em; }
-.watch__list { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(13rem, 1fr); gap: 0.6rem; padding: 2px; margin: -2px; overflow-x: auto; scrollbar-width: thin; }
+.watch__list { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(13rem, 1fr); gap: 0.6rem; padding: 4px 4px 22px; margin: -4px -4px -22px; overflow-x: auto; scrollbar-width: thin; }
 .wq {
   display: grid; gap: 0.15rem; align-content: start; text-align: left; padding: 0.75rem 0.9rem; border: 0; border-radius: 14px;
-  font: inherit; color: var(--ink); background: transparent; cursor: pointer; transition: background-color 0.15s ease, box-shadow 0.15s ease;
+  font: inherit; color: var(--ink); background: transparent; cursor: pointer; transition: background-color 0.2s ease, box-shadow 0.25s ease, transform 0.25s ease;
 }
 .ag-page .watch__list > .wq { background: var(--surface); }
 .ag-page .watch__list > .wq:not([aria-selected="true"]):hover { background: #fffdf8; }
 /* the chosen question carries its own ink ring; no highlight slides between these cards */
-.ag-page .watch__list > .wq[aria-selected="true"] { background: #fffdf8; box-shadow: inset 0 0 0 2px var(--ink), 0 6px 16px -10px rgba(43, 33, 24, 0.45); }
+.ag-page .watch__list > .wq[aria-selected="true"] { background: #fffdf8; box-shadow: var(--raised); transform: translateY(-2px); }
 .wq:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .wq__name { font-size: 0.86rem; font-weight: 800; }
 .wq__p { font-size: 1.6rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; }
@@ -515,7 +516,6 @@ body.ag-page::before { /* a faint grain on the ground; cards are clean sheets ov
 .hub__disc { fill: var(--surface); stroke: var(--accent); stroke-width: 2; }
 .hub { filter: drop-shadow(0 0 22px rgba(196, 96, 40, 0.22)); }
 .loop__hub:hover .hub__disc { fill: #fffdf8; }
-.loop__hub.is-sel .hub__disc { stroke: var(--ink); stroke-width: 3; }
 .lk { stroke: rgba(90, 60, 30, 0.2); }
 .lk.is-ok, .lk.is-wait { stroke: rgba(180, 70, 29, 0.32); }
 .lk-hot--in { stroke: var(--good); }
