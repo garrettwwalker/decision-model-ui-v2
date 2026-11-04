@@ -361,8 +361,8 @@ main, .footer { position: relative; z-index: 2; }
 .modes { padding: 2rem var(--gutter) clamp(6rem, 14vh, 9rem); }
 .modes__head { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 1.5rem 3rem; margin-left: clamp(0rem, 6vw, 6rem); }
 .modes__grid {
-  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1.5rem; margin-top: 3.5rem; max-width: 76rem; align-items: stretch; /* squared up: equal heights, no stagger */
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.5rem; margin-top: 3.5rem; max-width: 86rem; align-items: stretch; /* squared up: equal heights, no stagger */
 }
 .mode { display: flex; flex-direction: column; gap: 0.85rem; }
 .mode__for { margin: 0; color: var(--moon-3); } /* quiet: on this page only the answer is lit (the fused forecast, the best moon, the money a card protects) */
@@ -381,6 +381,11 @@ main, .footer { position: relative; z-index: 2; }
   width: 12px; height: 12px; border-radius: 50%; background: #fff;
   transform: translate(-50%, -50%); box-shadow: 0 0 10px rgba(255, 84, 120, 0.8);
 }
+/* the brief's card: the forecast and what the moves protect, as figures (the user retired sliders site-wide) */
+.pv-stat { display: flex; align-items: baseline; justify-content: space-between; gap: 0.75rem; padding: 0.3rem 0; font-weight: 600; color: var(--moon-2); }
+.pv-stat + .pv-stat { border-top: 1px solid var(--line); }
+.pv-stat b { font-size: 1.15rem; font-weight: 800; letter-spacing: -0.02em; color: var(--moon); font-variant-numeric: tabular-nums; }
+.pv-stat + .pv-stat b { color: var(--safe); }
 .pv-fan { width: 100%; height: auto; margin-top: 0.3rem; }
 .pv-team__row { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 0.5rem; align-items: center; padding: 0.4rem 0; color: var(--moon-2); }
 .pv-team__row + .pv-team__row { border-top: 1px solid var(--line); }
@@ -388,10 +393,13 @@ main, .footer { position: relative; z-index: 2; }
 .pv-st { padding: 0.1rem 0.45rem; border-radius: 999px; font-size: 0.68rem; font-weight: 800; box-shadow: inset 0 0 0 1.5px var(--line-strong); color: var(--moon-2); }
 .pv-st--done { background: rgba(94, 214, 138, 0.15); color: #6fdc96; box-shadow: none; } /* green by the user's request: the page's one exception to keeping off greens */
 .pv-st--doing { background: rgba(255, 210, 90, 0.14); color: var(--a-gold); box-shadow: none; }
+.pv-st--bad { background: rgba(255, 84, 120, 0.15); color: var(--a-rose); box-shadow: none; }
+.pv-val { font-size: 0.68rem; font-weight: 800; color: var(--moon); white-space: nowrap; font-variant-numeric: tabular-nums; }
 .pv-av { width: 1.5rem; height: 1.5rem; border-radius: 50%; display: grid; place-items: center; font-size: 0.6rem; font-weight: 800; background: rgba(236, 238, 242, 0.1); color: var(--moon); }
 .pv-heat { display: grid; grid-template-columns: repeat(8, 1fr); gap: 3px; }
 .pv-heat span { aspect-ratio: 1.6; border-radius: 3px; }
-@media (max-width: 960px) { .modes__grid { grid-template-columns: minmax(0, 1fr); max-width: 34rem; gap: 2.5rem; } }
+@media (max-width: 1240px) { .modes__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 60rem; } }
+@media (max-width: 760px) { .modes__grid { grid-template-columns: minmax(0, 1fr); max-width: 34rem; gap: 2.5rem; } }
 
 /* ---------- What should I do? A moon chart ----------
    The four responses waxing from crescent to full moon, worst to best, on one orbit line; the best glows.
@@ -487,6 +495,7 @@ main, .footer { position: relative; z-index: 2; }
 .assets__copy h2 { margin-bottom: 0.75rem; }
 .assets__lede { margin: 0; max-width: 32rem; font-size: 1.1rem; color: var(--moon-2); }
 .assets__lede .w.on { color: var(--moon-2); }
+.assets__btn { justify-self: start; margin-top: 0.5rem; }
 /* a large constellation beside the plan copy: a freeform figure of linked stars over a scatter of faint ones; the
    stars twinkle and the lines draw themselves once in view (landing.js adds .is-drawn). No text, no cursor. */
 .cst { order: -1; margin: -1rem 0 -1rem calc(var(--gutter) * -0.5); align-self: center; } /* left of the copy, bleeding toward the page edge: the sky doesn't stop at the column; stacked, it follows the copy */
