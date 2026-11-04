@@ -448,3 +448,20 @@ button.dk__i:hover { box-shadow: var(--lift), 0 0 0 1px transparent; transform: 
 .nq__foot { position: sticky; bottom: 0; display: flex; justify-content: flex-end; gap: 0.5rem; margin: 0 calc(-1 * clamp(1.1rem, 3vw, 1.6rem)) calc(-1 * clamp(1.1rem, 3vw, 1.6rem)); padding: 0.85rem clamp(1.1rem, 3vw, 1.6rem); background: var(--surface); box-shadow: 0 -1px 0 var(--line); }
 @media (max-width: 640px) { .watch__list { grid-auto-columns: minmax(11.5rem, 78%); } }
 @media (prefers-reduced-motion: reduce) { .nq[open] { animation: none; } }
+
+/* "acts on its own" only exists in automatic mode: the table drops its column in manual */
+.roster.is-manual .rt { grid-template-columns: minmax(11rem, 1.1fr) 9rem minmax(0, 2fr) 9rem; }
+.roster.is-manual .rt > :nth-child(5) { display: none; }
+
+/* the sliding highlight behind a segmented control's chosen option (agents.js slider()) */
+.has-thumb { position: relative; isolation: isolate; }
+.has-thumb > :not(.seg-thumb) { position: relative; z-index: 1; }
+.seg-thumb {
+  position: absolute; left: 0; top: 0; z-index: 0; border-radius: 9px; background: var(--surface); box-shadow: var(--lift-sm); pointer-events: none;
+  transition: transform 0.32s cubic-bezier(0.3, 0.7, 0.2, 1), width 0.32s cubic-bezier(0.3, 0.7, 0.2, 1), height 0.32s ease, opacity 0.2s ease;
+}
+.watch__list > .seg-thumb { border-radius: 14px; }
+.no-slide > .seg-thumb { transition: none; }
+/* the highlight carries the fill now, so the chosen button itself goes clear */
+.ag-page .has-thumb > button[aria-pressed="true"], .ag-page .has-thumb > button[aria-checked="true"], .ag-page .has-thumb > button[aria-selected="true"] { background: transparent; box-shadow: none; }
+@media (prefers-reduced-motion: reduce) { .seg-thumb { transition: none; } }

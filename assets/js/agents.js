@@ -306,6 +306,7 @@
     modeBtns.forEach(function (b) { b.setAttribute("aria-checked", String(b.dataset.mode === S.mode)); });
     LIMITS.forEach(function (l) { l.btn.setAttribute("aria-checked", String(l[0] === S.limit)); });
     $("mode-auto").hidden = S.mode !== "auto";
+    $("roster").classList.toggle("is-manual", S.mode === "manual");  // no "acts on its own" column in manual
     var all = [].concat.apply([], QUERIES.map(function (q) { return q.queue; }));
     var wait = all.filter(function (x) { return x.state === "waiting"; }).length, auto = all.filter(function (x) { return x.state === "auto"; }).length;
     $("mode-now").textContent = S.mode === "manual"
@@ -431,12 +432,17 @@
     links.innerHTML = ""; paths = {};
     if (keepLit) links.appendChild(keepLit);
     if (stacked) return;
-    // each link meets the hub's edge, spread over the side it comes in on
     var hb = hubSvg.getBoundingClientRect(), k = hb.width / 176, cx = hb.left + hb.width / 2 - box.left, cy = hb.top + hb.height / 2 - box.top, r = 80 * k;
-    var s = "";
+    // each side's links meet the hub at evenly spaced points on its arc, in the order of their tiles, so none share one
+    var s = "", at = {};
+    ["sense", "act"].forEach(function (kind) {
+      var list = linked(Q).filter(function (a) { return a.kind === kind; }).sort(function (a, b) { return tiles[a.id].c.getBoundingClientRect().top - tiles[b.id].c.getBoundingClientRect().top; });
+      var n = list.length, span = Math.min(100, 24 * (n - 1));
+      list.forEach(function (a, i) { at[a.id] = (n === 1 ? 0 : -span / 2 + span * i / (n - 1)) * Math.PI / 180; });
+    });
     linked(Q).forEach(function (a) {
       var c = tiles[a.id].c.getBoundingClientRect(), y = c.top + c.height / 2 - box.top, side = a.kind === "sense" ? -1 : 1;
-      var hy = cy + Math.max(-0.6 * r, Math.min(0.6 * r, (y - cy) * 0.4)), hx = cx + side * Math.sqrt(r * r - (hy - cy) * (hy - cy));
+      var hy = cy + r * Math.sin(at[a.id]), hx = cx + side * r * Math.cos(at[a.id]);
       var ex = side < 0 ? c.right - box.left : c.left - box.left, mx = (ex + hx) / 2;
       var d = side < 0 ? "M" + ex + " " + y + "C" + mx + " " + y + " " + mx + " " + hy + " " + hx + " " + hy
                        : "M" + hx + " " + hy + "C" + mx + " " + hy + " " + mx + " " + y + " " + ex + " " + y;
@@ -523,12 +529,15 @@
     var pz = el("button", { type: "button", class: "btn-q" }, a.paused ? "Resume" : "Pause");
     pz.addEventListener("click", function () { a.paused = !a.paused; queries(a).forEach(function (q) { log(q, a.id, "change", (a.paused ? "Paused" : "Resumed") + " by you."); }); drawAll(); });
     ctl.appendChild(pz);
+    // whether an agent may act alone only matters in automatic mode, so the switch is shown only then
+    if (S.mode === "auto") {
     var sw = el("label", { class: "switch side__auto" });
     var tx = el("span", { class: "switch__text" }, "Acts on its own"); tx.appendChild(el("small", null, autoNote(a))); sw.appendChild(tx);
     var cb = el("input", { type: "checkbox" }); cb.checked = S.mode === "auto" && a.auto; cb.disabled = S.mode === "manual";
     cb.addEventListener("change", function () { a.auto = cb.checked; drawAll(); });
     sw.appendChild(cb); sw.appendChild(el("span", { class: "switch__ui", "aria-hidden": "true" }));
     ctl.appendChild(sw);
+    }
     box.appendChild(ctl);
   }
   function autoNote(a) {
@@ -1046,6 +1055,24 @@
     $("now-title").scrollIntoView({ behavior: REDUCE ? "auto" : "smooth", block: "start" });
   }
 
+  /* a highlight that slides behind the chosen option of a segmented control instead of jumping: it follows whichever
+     child is pressed, checked or selected, and hides when none is (a nudged value between the choices) */
+  function slider(track) {
+    if (!track || track.querySelector(":scope > .seg-thumb")) return;
+    var thumb = el("span", { class: "seg-thumb", "aria-hidden": "true" });
+    track.insertBefore(thumb, track.firstChild); track.classList.add("has-thumb");
+    var place = function () {
+      var on = track.querySelector(':scope > [aria-pressed="true"], :scope > [aria-checked="true"], :scope > [aria-selected="true"]');
+      if (!on || !on.offsetWidth) { thumb.style.opacity = "0"; return; }
+      thumb.style.opacity = "1";
+      thumb.style.width = on.offsetWidth + "px"; thumb.style.height = on.offsetHeight + "px";
+      thumb.style.transform = "translate(" + on.offsetLeft + "px, " + on.offsetTop + "px)";
+    };
+    new MutationObserver(place).observe(track, { attributes: true, subtree: true, childList: true, attributeFilter: ["aria-pressed", "aria-checked", "aria-selected"] });
+    if (window.ResizeObserver) new ResizeObserver(function () { track.classList.add("no-slide"); place(); requestAnimationFrame(function () { track.classList.remove("no-slide"); }); }).observe(track);
+    track.classList.add("no-slide"); place(); requestAnimationFrame(function () { requestAnimationFrame(function () { track.classList.remove("no-slide"); }); });
+  }
+
   function drawAll() {
     settle(); drawMode(); drawWatch(); drawStrip(); drawTiles(); drawSide(); drawFeed(); drawAttn(); drawQueue(); drawSteer(); drawRoster();
     requestAnimationFrame(relink);  // tiles change height as their text changes, so the links are redrawn
@@ -1054,6 +1081,7 @@
 
   $("d-clock").textContent = hhmm(S.t);
   buildMap(); buildRoster(); drawAll();
+  [$("mode-limit"), $("feed-f"), $("w-list"), $("nq-by")].concat([].slice.call(document.querySelectorAll("#st-fields .pick__seg"))).forEach(slider);
   window.addEventListener("resize", relink);
   if (document.fonts) document.fonts.ready.then(relink);
 })();

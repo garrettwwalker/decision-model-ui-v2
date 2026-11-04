@@ -114,7 +114,9 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   brief, also serving, stats, log, pause, autonomy) or for Totality (chart, what moved it, what it wants to know next); a
   filtered feed; needs attention, `PROBLEMS` with fixes; a simulated clock from 08:20, a minute every 5 s), waiting for you,
   steer the negotiation (Hormuz only; the resin buyer's brief, its numbers following the live Hormuz forecast; version
-  history) and every agent (a table). Light from the ground up, body `ag-page`, no `.t-night` or sky, styles scoped to
+  history) and every agent (a table). "Acts on its own" appears only in automatic mode (panel and table column). Segmented
+  controls (limit, feed filters, watchlist, the negotiation's choices, the new question's horizon) slide a highlight behind
+  the chosen option (`slider()`); hub links meet the circle at evenly spaced points per side. Light from the ground up, body `ag-page`, no `.t-night` or sky, styles scoped to
   `.ag-page` so the dialog gets them. Palette: the Red Sea report's (the user asked to match it): warm paper `#f4f0e8`,
   warm-white surfaces on soft shadows, sand wells, ink; burnt amber `#a35200` for controls and what needs you, deep gold
   `#8a5a00` for working, protected and fixed, rose `#b8304a` for problems; working agents neutral with a gold dot.
