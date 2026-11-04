@@ -1,8 +1,7 @@
 /* Agents (agents.html): the Totality engine as the brain, a team's agents as the edge.
    Light from the ground up (2026-11-03): it doesn't use .t-night or a sky. Restyled 2026-11-04, when the user asked for a
    light look unlike the other light pages and warmer: warm paper. A cream ground with a faint grain, lighter paper cards
-   on it (no outlines, no shadows), espresso ink, a soft serif (Fraunces) for headlines, section titles in its italic and
-   big figures, Switzer for everything else, and an earthy set where each color means one thing: terracotta for controls,
+   on it (no outlines, no shadows), espresso ink, Switzer throughout as on the landing, and an earthy set where each color means one thing: terracotta for controls,
    ochre for what waits for you, olive for working, protected and fixed, oxblood for an agent in trouble. Working agents
    read neutral with an olive dot. Selection is a raised segment or a tint; the selected agent and Totality take an ink
    ring. Colors never stack: no terracotta control on an oxblood fill. (Until that day it wore Red Sea at a glance's
@@ -24,7 +23,6 @@ body.ag-page {
   --bad: #9b1f30; --bad-soft: #f5dcdc;                                 /* oxblood: an agent in trouble */
   --lift: none;
   --lift-sm: 0 1px 2px rgba(43, 33, 24, 0.14);                         /* only a sliding highlight stands up */
-  --serif: "Fraunces", Georgia, "Times New Roman", serif;
   /* the shared components read these names */
   --moon: var(--ink); --moon-2: var(--ink-2); --moon-3: var(--ink-3); --fg: var(--ink); --fg-2: var(--ink-2);
   --on-ink: #fff; --card: var(--surface); --card-low: var(--sunk); --panel: var(--surface); --panel-line: var(--line);
@@ -423,14 +421,17 @@ button.dk__i:hover .dk__l { color: var(--ink); text-decoration: underline; text-
 /* ---------- the watchlist ---------- */
 .watch { display: grid; gap: 0.75rem; margin-top: clamp(1.5rem, 4vh, 2.5rem); }
 .watch__head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.watch .btn-q { background: var(--ink); color: #fdf8ef; }
+.watch .btn-q:hover { background: #45362a; }
 .watch__title { margin: 0; font-size: 1.05rem; font-weight: 800; letter-spacing: -0.02em; }
-.watch__list { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(13rem, 1fr); gap: 4px; padding: 4px; border-radius: 18px; background: var(--sunk); overflow-x: auto; scrollbar-width: thin; }
+.watch__list { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(13rem, 1fr); gap: 0.6rem; padding: 2px; margin: -2px; overflow-x: auto; scrollbar-width: thin; }
 .wq {
   display: grid; gap: 0.15rem; align-content: start; text-align: left; padding: 0.75rem 0.9rem; border: 0; border-radius: 14px;
   font: inherit; color: var(--ink); background: transparent; cursor: pointer; transition: background-color 0.15s ease, box-shadow 0.15s ease;
 }
-.wq:hover { background: rgba(255, 255, 255, 0.5); }
-.wq[aria-selected="true"] { background: var(--well); box-shadow: var(--lift-sm); }
+.ag-page .watch__list > .wq { background: var(--surface); }
+.ag-page .watch__list > .wq:not([aria-selected="true"]):hover { background: #fffdf8; }
+.wq[aria-selected="true"] { background: var(--surface); box-shadow: inset 0 0 0 2px var(--ink); }
 .wq:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .wq__name { font-size: 0.86rem; font-weight: 800; }
 .wq__p { font-size: 1.6rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; }
@@ -484,33 +485,23 @@ button.dk__i:hover .dk__l { color: var(--ink); text-decoration: underline; text-
   position: absolute; left: 0; top: 0; z-index: 0; border-radius: 9px; background: var(--well); box-shadow: var(--lift-sm); pointer-events: none;
   transition: transform 0.32s cubic-bezier(0.3, 0.7, 0.2, 1), width 0.32s cubic-bezier(0.3, 0.7, 0.2, 1), height 0.32s ease, opacity 0.2s ease;
 }
-.watch__list > .seg-thumb { border-radius: 14px; }
+.watch__list > .seg-thumb { border-radius: 14px; background: #fffdf8; box-shadow: inset 0 0 0 2px var(--ink), 0 6px 16px -10px rgba(43, 33, 24, 0.45); }
 /* the highlight carries the fill now, so the chosen button itself goes clear */
 .ag-page .has-thumb > button[aria-pressed="true"], .ag-page .has-thumb > button[aria-checked="true"], .ag-page .has-thumb > button[aria-selected="true"] { background: transparent; box-shadow: none; }
 /* a hovered option keeps its tint when clicked, so it doesn't blink while the highlight slides in under it */
 .ag-page .has-thumb > button:hover { background: rgba(255, 255, 255, 0.6); }
 @media (prefers-reduced-motion: reduce) { .seg-thumb { transition: none; } }
 
-/* ---------- warm paper: the grain, the serif, the sun ---------- */
+/* ---------- warm paper: the grain and the sun ---------- */
 body.ag-page::before { /* a faint grain on the ground; cards are clean sheets over it */
   content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .24 0 0 0 0 .14 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); opacity: 0.16;
 }
-.ag-page .display, .ag-page .section__title, .dk__v, .side__name, .side__p b, .qc__title, .mode__title, .feed__title, .wq__p,
-.kpi__v, .ag-page .panel__title, .nq__title, .prob__title, .steer__h, .done__title {
-  font-family: var(--serif); font-optical-sizing: auto; font-variation-settings: "SOFT" 50; letter-spacing: -0.01em;
-}
-.ag-page .display { font-weight: 500; letter-spacing: -0.035em; line-height: 0.95; }
-.ag-page .section__title { font-style: italic; font-weight: 400; letter-spacing: -0.03em; line-height: 1; }
-.dk__v, .wq__p, .side__p b, .kpi__v { font-weight: 400; letter-spacing: -0.03em; font-variant-numeric: lining-nums tabular-nums; }
-.side__name, .qc__title, .mode__title, .feed__title, .ag-page .panel__title, .nq__title, .prob__title, .steer__h, .done__title { font-weight: 600; letter-spacing: -0.015em; }
 .ag-page .page-head__kicker { color: var(--ink-3); }
 .dk { border-top: 2px solid var(--ink); }
 /* Totality as a sun: a paper disc in a terracotta ring */
 .hub__disc { fill: var(--surface); stroke: var(--accent); stroke-width: 2; }
 .loop__hub:hover .hub__disc { fill: #fffdf8; }
 .loop__hub.is-sel .hub__disc { stroke: var(--ink); stroke-width: 3; }
-.hub__p { font-family: var(--serif); font-weight: 400; font-size: 44px; letter-spacing: -0.03em; }
-.hub__name { font-family: var(--serif); font-style: italic; font-weight: 500; font-size: 13px; }
 .lk { stroke: rgba(90, 60, 30, 0.2); }
 .lk.is-ok, .lk.is-wait { stroke: rgba(180, 70, 29, 0.32); }
 .lk-hot--in { stroke: var(--good); }
