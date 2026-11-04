@@ -138,8 +138,9 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   whatever you need.", placed after "here's the plan" and before "showing our work" (the agents card read out of place
   first), with four cards (daily brief, team workflows, workbench, agentic orchestration; the brief's card
   shows figures, not sliders; the agents card describes the screen, not the loop ("A live view of every agent working on your questions..."), so it
-  doesn't repeat "here's the plan", which alone explains the loop, and "what should you do?" is only about choosing; it shows an eclipse that doubles as a system map: the moon in its corona, straight rays from the rim, the long
-  ones out to small agent nodes and short streamers between, the corona breathing and one dot out, one in; no text (the user
+  doesn't repeat "here's the plan", which alone explains the loop, and "what should you do?" is only about choosing; it shows an eclipse that doubles as a system map: the moon in its corona, straight rays from its rim, long ones
+  running off the card (the picture fills the card's foot edge to edge) and short streamers between, only the glow pulsing
+  slightly; no text, nodes or moving dots (the user
   found a labelled diagram busy), deliberately unlike the workflows card's task rows, and no card has a button: the user removed them). Split screen (601-1100px): the hero lines scale with the width, and the
   stacked thesis text and Sputnik are larger. Below the hero: fixed starfield canvas (no coloured background glows: the user removed them as
   tints), a faint white pointer glow, aurora-edged card spotlights (`.spot`, `--mx/--my`), headings revealed

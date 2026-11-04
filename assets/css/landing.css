@@ -384,6 +384,7 @@ main, .footer { position: relative; z-index: 2; }
 .mode .h3 .w.on { color: var(--moon); }
 .mode__desc { margin: 0; color: var(--moon-2); font-size: 0.95rem; }
 .mode .pv { margin-top: auto; } /* no buttons on the cards: each card's picture sits on one line at the foot */
+.mode .pv-ecl { margin-top: auto; }
 
 .pv { border-radius: 12px; padding: 0.85rem; background: rgba(7, 8, 11, 0.7); border: 1px solid var(--rim); font-size: 0.75rem; }
 .pv-slider { display: grid; gap: 0.3rem; margin-bottom: 0.6rem; font-weight: 600; color: var(--moon-2); }
@@ -408,21 +409,22 @@ main, .footer { position: relative; z-index: 2; }
 .pv-st { padding: 0.1rem 0.45rem; border-radius: 999px; font-size: 0.68rem; font-weight: 800; box-shadow: inset 0 0 0 1.5px var(--line-strong); color: var(--moon-2); }
 .pv-st--done { background: rgba(94, 214, 138, 0.15); color: #6fdc96; box-shadow: none; } /* green by the user's request: the page's one exception to keeping off greens */
 .pv-st--doing { background: rgba(255, 210, 90, 0.14); color: var(--a-gold); box-shadow: none; }
-/* the agents card: an eclipse that is also a system map. The moon sits in its corona; straight rays run from the rim,
-   the long ones out to the agents (small nodes), short streamers between them for the rest of the corona. The corona
-   breathes, one dot runs out along a ray and another comes in. No text. Lines are one color each, no gradients. */
-.pv-ecl__svg { display: block; width: 100%; height: auto; overflow: visible; }
-.pv-ecl__ray { fill: none; stroke: rgba(255, 210, 120, 0.32); stroke-width: 1; stroke-linecap: round; }
-.pv-ecl__str { fill: none; stroke: rgba(255, 190, 100, 0.22); stroke-width: 0.9; stroke-linecap: round; }
-.pv-ecl__corona { transform-box: fill-box; transform-origin: center; animation: ecl-breathe 6s ease-in-out infinite; }
-@keyframes ecl-breathe { 0%, 100% { opacity: 0.85; transform: scale(1); } 50% { opacity: 1; transform: scale(1.08); } }
+/* the agents card: an eclipse that is also a system map. The moon sits in its corona and straight rays leave its rim,
+   long ones running off the card (the picture fills the card's foot, edge to edge, and the card clips them) with short
+   streamers between. Only the glow moves, a slight pulse. No text, no nodes; each line one color. */
+.pv-ecl {
+  margin: auto -1.25rem -1.35rem; padding: 0; height: clamp(8.5rem, 11vw, 10.5rem);
+  background: none; border: 0; border-radius: 0 0 var(--radius) var(--radius); overflow: hidden;
+  /* the rays climbing toward the text fade out rather than stopping at a hard edge */
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 45%); mask-image: linear-gradient(to bottom, transparent, #000 45%);
+}
+.pv-ecl__svg { display: block; width: 100%; height: 100%; }
+.pv-ecl__ray { fill: none; stroke: rgba(255, 210, 120, 0.3); stroke-width: 0.9; }
+.pv-ecl__str { fill: none; stroke: rgba(255, 195, 110, 0.26); stroke-width: 0.8; }
+.pv-ecl__corona { transform-box: fill-box; transform-origin: center; animation: ecl-breathe 5s ease-in-out infinite; }
+@keyframes ecl-breathe { 0%, 100% { opacity: 0.88; transform: scale(1); } 50% { opacity: 1; transform: scale(1.04); } }
 .pv-ecl__moon { fill: #07080b; stroke: #ffe3a0; stroke-width: 1.2; filter: drop-shadow(0 0 3px rgba(255, 225, 150, 0.9)); }
-.pv-ecl__node { fill: var(--moon-3); }
-.pv-ecl__pk { fill: #ffe07a; offset-rotate: 0deg; opacity: 0; animation: ecl-run 5s ease-in-out infinite; }
-.pv-ecl__pk--out { offset-path: path("M140.7 55.5 L208.0 44.0"); }
-.pv-ecl__pk--in { offset-path: path("M26.0 84.0 L99.7 64.4"); animation-delay: 2.5s; }
-@keyframes ecl-run { 0% { offset-distance: 0%; opacity: 0; } 20%, 70% { opacity: 0.9; } 90%, 100% { offset-distance: 100%; opacity: 0; } }
-@media (prefers-reduced-motion: reduce) { .pv-ecl__corona { animation: none; } .pv-ecl__pk { display: none; } }
+@media (prefers-reduced-motion: reduce) { .pv-ecl__corona { animation: none; } }
 .pv-av { width: 1.5rem; height: 1.5rem; border-radius: 50%; display: grid; place-items: center; font-size: 0.6rem; font-weight: 800; background: rgba(236, 238, 242, 0.1); color: var(--moon); }
 .pv-heat { display: grid; grid-template-columns: repeat(8, 1fr); gap: 3px; }
 .pv-heat span { aspect-ratio: 1.6; border-radius: 3px; }
