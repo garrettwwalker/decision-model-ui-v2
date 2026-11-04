@@ -94,29 +94,30 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   sparkle button and sinks back via `drawer-in`/`drawer-out`, a bottom sheet on phones) is a scripted assistant: `answer()` matches intents by regex, computes replies from the live engine and offers actions.
 - `agents.html` + `assets/css/agents.css` + `assets/js/agents.js` ("agents" in the nav, between workbench and ask; 2026-11-03)
   imagines Penumbra with a team's agents: the Totality engine as the brain, agents as the edge, in a positive feedback
-  loop overseen by the decision-maker. Information agents (`SENSE`) report in; Totality re-forecasts, values what's
-  still unknown by how much it could change the decision, retasks them toward it, and rewrites the briefs of workflow
-  agents (`ACT`: a resin negotiation, Khor Fakkan bookings, war-risk cover, customer letters). Same morning as the brief
-  (Tue 6 Oct, Hormuz 27% at 06:00, rising to 33% by 07:30; the brief's three decisions and figures), so keep them in sync.
-  Headline "agentic orchestration." Sections: who acts (manual by default; automatic for small decisions (small,
-  reversible changes) under a $1k/$10k/$50k limit, never signing, paying, sending or committing; done stays done, with
-  Undo), right now (a working dashboard; the user rejected a replay with a play button as not useful to a decision-maker:
-  a status strip (forecast, agents working, waiting for you, agent spend, next deadline), a live map of agents either
-  side of the Totality hub, each tile with its status (working, waiting for you, problem, paused), latest report and age,
-  links colored by status and dots when information moves; the hub is a plain white disc with the forecast, pulsing when
-  a report moves it (the user rejected a sense/weigh/steer/act ring: the engine does all four at once); a side panel for the selected agent (problem and fixes,
-  what it's surfacing, waiting changes, brief, stats, today's log, pause, autonomy) or for Totality (forecast chart,
-  what moved it, what it wants to know next by decision value); a feed filtered by reports, problems and changes; and
-  needs attention, `PROBLEMS` with fixes. A simulated clock runs from 08:20, a minute every 5 s, and `COMING` reports
-  arrive on time, moving the forecast), waiting for you (`QUEUE`), steer the negotiation (the resin buyer's brief; its
-  numbers follow the live forecast; version history; sending your own brief makes a new version) and every agent (a table: status, latest, today's reports and
-  cost, and a per-agent "acts on its own" switch, off in manual). Designed light from the ground up (2026-11-03; the user
-  found dark remnants in a recolored version): body `ag-page`, no `.t-night` and no sky; its own tokens in agents.css
-  (paper ground `#f4f5f2`, white surfaces on soft shadows, sunken gray wells, ink type). Color is three meanings only,
-  each for one thing (the user found more hues didn't complement each other): teal working, good and controls; amber needs
-  you; red an agent in trouble. Agent kinds and report impacts are ink and gray, not colored. Colors never stack (the user saw teal buttons on a red tile
-  clash): problems sit on gray with a red marker, and selection is an ink ring. Selection is a raised white segment or a tinted fill, never a
-  black block or an outline; primary buttons teal; the hub a white disc with stage arcs; the brief's history a timeline.
+  loop overseen by the decision-maker. Headline "agentic orchestration." Information agents report in; Totality
+  re-forecasts, values what's still unknown by how much it could change the decision, retasks them toward it, and
+  rewrites the briefs of workflow agents. A watchlist strip picks the question (`QUERIES`: Hormuz closes, as on the brief,
+  Tue 6 Oct, 27% at 06:00 and 33% by 07:30 with its three decisions, so keep them in sync; Red Sea shuts, Gebze strike and
+  feeder sanctions, as on the workbench); each question has its linked agents, feed, `coming` reports, asks, queue,
+  deadline and per-question briefs. Agents are the organization's (`POOL`), can serve several questions (a problem shows
+  on each, with "Also affects"), and some aren't linked yet. "New question" opens a dialog: the question, a resolve-by
+  horizon, and the pool with switches; Totality suggests agents by matching `tags` to the wording (suggested ones float up
+  and link themselves until the user changes one); the new question splits, its agents report a baseline, and a first
+  forecast arrives a few ticks later. Sections: who acts (manual by default; automatic for small decisions, small
+  reversible changes under a $1k/$10k/$50k limit, never signing, paying, sending or committing; done stays done, with
+  Undo), right now (a working dashboard; the user rejected a replay with a play button: a status strip, a live map of
+  agents either side of the Totality hub, a plain disc with the forecast that pulses when a report moves it (the user
+  rejected a sense/weigh/steer/act ring: the engine does all four at once), tiles with status (working, waiting for you,
+  problem, paused), latest report and age; a side panel for an agent (problem and fixes, surfacing, waiting changes,
+  brief, also serving, stats, log, pause, autonomy) or for Totality (chart, what moved it, what it wants to know next); a
+  filtered feed; needs attention, `PROBLEMS` with fixes; a simulated clock from 08:20, a minute every 5 s), waiting for you,
+  steer the negotiation (Hormuz only; the resin buyer's brief, its numbers following the live Hormuz forecast; version
+  history) and every agent (a table). Light from the ground up, body `ag-page`, no `.t-night` or sky, styles scoped to
+  `.ag-page` so the dialog gets them. Palette: the Red Sea report's (the user asked to match it): warm paper `#f4f0e8`,
+  warm-white surfaces on soft shadows, sand wells, ink; burnt amber `#a35200` for controls and what needs you, deep gold
+  `#8a5a00` for working, protected and fixed, rose `#b8304a` for problems; working agents neutral with a gold dot.
+  Colors never stack (the user saw teal buttons on a red tile clash): problems sit on sand with a rose marker, and
+  selection is an ink ring.
 - `index.html` + `assets/css/landing.css` + `assets/js/landing.js` is the landing, Penumbra (it was a preview at
   `penumbra.html` from 2026-10-15 until the switchover on 2026-10-16; `penumbra.html` now only redirects home). Same
   sections as the old ByNine landing, with the Daybreak engine renamed the **Totality engine** and dawn lines

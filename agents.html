@@ -38,7 +38,7 @@
   <main id="main" class="page ag">
     <section class="page-head ag-head">
       <div>
-        <p class="eyebrow page-head__kicker">Tuesday 6 October 2026, the Hormuz decision, overseen by the COO</p>
+        <p class="eyebrow page-head__kicker">Tuesday 6 October 2026, overseen by the COO</p>
         <h1 class="display">agentic<br>orchestration.</h1>
         <p class="ag-head__lede">Your agents sense and act. The Totality engine weighs what they find, decides what's worth knowing next and how the plan should change. You sign off on what matters.</p>
       </div>
@@ -55,6 +55,14 @@
         </div>
         <p class="mode__now" id="mode-now" aria-live="polite"></p>
       </div>
+    </section>
+
+    <section class="watch" aria-labelledby="w-title">
+      <div class="watch__head">
+        <h2 class="watch__title" id="w-title">Your watchlist</h2>
+        <button type="button" class="btn-q" id="w-new">New question</button>
+      </div>
+      <div class="watch__list" id="w-list" role="tablist" aria-labelledby="w-title"></div>
     </section>
 
     <section class="section" aria-labelledby="now-title">
@@ -77,7 +85,7 @@
                 <circle class="hub__disc" cx="120" cy="120" r="78"/>
                 <text class="hub__name" x="120" y="88" text-anchor="middle">Totality</text>
                 <text class="hub__p num" id="hub-p" x="120" y="124" text-anchor="middle">33%</text>
-                <text class="hub__q" x="120" y="148" text-anchor="middle">Hormuz closes</text>
+                <text class="hub__q" id="hub-q" x="120" y="148" text-anchor="middle">Hormuz closes</text>
               </svg>
             </button>
             <div class="loop__col loop__col--act">
@@ -116,7 +124,7 @@
       </div>
     </section>
 
-    <section class="section" aria-labelledby="st-title">
+    <section class="section" aria-labelledby="st-title" id="st-section">
       <div class="section__head">
         <h2 class="section__title" id="st-title">steer the negotiation</h2>
         <p class="section__note">The resin buyer is negotiating the 7,000 t bridge-buy from Singapore. Totality sets its brief; change any part and see what it does to the odds of a deal and the value it protects. Changes go to the agent when you send them.</p>
@@ -150,6 +158,32 @@
       <div class="roster" id="roster" role="table" aria-label="Every agent"></div>
     </section>
   </main>
+
+  <dialog class="nq" id="nq" aria-labelledby="nq-title">
+    <form class="nq__form" id="nq-form" method="dialog">
+      <div class="nq__head">
+        <h2 class="nq__title" id="nq-title">New question</h2>
+        <p class="nq__lede">Ask what you need to know. Totality splits it into smaller questions it can forecast, and your agents gather what it needs.</p>
+      </div>
+      <label class="nq__f">
+        <span class="nq__l">The question</span>
+        <input class="nq__in" id="nq-q" type="text" required autocomplete="off" placeholder="Will Saudi ports restrict container traffic before December?">
+      </label>
+      <div class="nq__f">
+        <span class="nq__l">Resolve by</span>
+        <div class="pick__seg nq__by" id="nq-by" role="radiogroup" aria-label="Resolve by"></div>
+      </div>
+      <div class="nq__f">
+        <span class="nq__l">Link your agents <small id="nq-count"></small></span>
+        <p class="nq__hint">Totality suggests the agents that look relevant to the question. Linked agents keep their other work; you can change the links later.</p>
+        <div class="nq__agents" id="nq-agents"></div>
+      </div>
+      <div class="nq__foot">
+        <button type="button" class="btn-q" id="nq-cancel">Cancel</button>
+        <button type="submit" class="btn btn--primary btn--sm" id="nq-make">Start watching</button>
+      </div>
+    </form>
+  </dialog>
 
   <footer class="app-foot">
     <span>A Penumbra mockup. Halvorsen Group is fictional and every figure is illustrative.</span>
