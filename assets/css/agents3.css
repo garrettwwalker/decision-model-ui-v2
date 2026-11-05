@@ -661,13 +661,13 @@ body:not(.has-drawer) .rt.is-sel { background: transparent; }
 .hub__name { fill: var(--accent); }
 .loop__hub:focus-visible { outline-color: var(--accent); }
 
-/* status as a soft pill with a halo: a pale wash of its color, a hairline ring of it, and a wider, fainter ring
-   outside that, like light round the label (no dot and nothing blinking; plain colored text read as bland) */
+/* status as a soft pill: a pale wash of its color inside a hairline ring of it (no dot, nothing blinking and no
+   second ring outside; plain colored text read as bland) */
 .st, .dash__map .st, .wq .st, .wq[aria-selected="true"] .st {
   --st: var(--ink-3); --st-ink: var(--ink-2); --st-wash: var(--mist-2);
   gap: 0; padding: 0.16rem 0.55rem; border-radius: 999px; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.005em;
   color: var(--st-ink); background: var(--st-wash);
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--st) 22%, transparent), 0 0 0 3px color-mix(in srgb, var(--st) 7%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--st) 22%, transparent);
 }
 .st::before { display: none; }
 .st--ok, .dash__map .st--ok, .wq .st--ok { --st: var(--ink-2); --st-ink: var(--ink-2); --st-wash: #fff; }
