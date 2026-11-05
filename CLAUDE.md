@@ -248,7 +248,10 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   recommendation red); the timeline's bars red on pale tracks like the loss bars (black read as bland, per-team colors out of
   step); its axis runs six weeks or stretches to keep a June or July attack and the first turned-round ships (the gray
   line, attack + 5 days, now labelled) on the chart; the stepper centered under its choices with no note beside it;
-  the off-list sparklines red; serif titles in title case, the headline split into a title and a one-line lede, the step's plus black) and the
+  the off-list sparklines red; once the lab's four figure tiles pass under the top bar they fold into a strip beneath it (`#kbar`, built in
+  redsea-report.js, the cream of the agents page's sticky tab bar; each label and figure glides from its tile, FLIP), kept
+  in step with the tiles until the lab ends, so choices further down show their effect; the signposts in "What Would
+  Change Our Minds" numbered in italic DM Serif roman numerals (the report loads the italic); serif titles in title case, the headline split into a title and a one-line lede, the step's plus black) and the
   tree (`.rs-lt .rs-lt-tree`: the same flat warm-gray cards, the selection a pale tint with an accent ring as on the
   glance's traced chain, a starker chance ramp in `ramp()`, gold, amber, orange, red, crimson to deep wine, with stops packed into the low range where
   most questions sit, so neighbouring odds read apart on white); all with the black logo. No thin gray outlines ("pencil outlines")

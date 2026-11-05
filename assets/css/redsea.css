@@ -842,6 +842,41 @@ button.route__in:focus-visible { outline: 2px solid var(--accent); outline-offse
 .house.rs-report #f-gantt .gt.is-off .gt__bar { fill: var(--mist-3); }
 .house.rs-report #f-gantt .gt__v { fill: var(--ink-2); font-weight: 600; }
 
+/* the lab's figures, folded into a strip under the top bar once their tiles scroll away (redsea-report.js), in the cream
+   of the agents page's sticky tab bar; the controls' sticky column moves down to clear it */
+.kbar {
+  position: fixed; left: 0; right: 0; top: var(--bar-b, 73px); z-index: 39; pointer-events: none;
+  background: rgba(244, 239, 232, 0.92); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); box-shadow: 0 1px 0 var(--line);
+  opacity: 0; visibility: hidden; transform: translateY(-6px);
+  transition: opacity 0.2s ease, transform 0.3s cubic-bezier(0.3, 0.7, 0.2, 1), visibility 0s linear 0.3s;
+}
+.kbar.is-on { opacity: 1; visibility: visible; transform: none; transition: opacity 0.2s ease, transform 0.3s cubic-bezier(0.3, 0.7, 0.2, 1); }
+.kbar__in { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; max-width: 78rem; margin: 0 auto; padding: 0.55rem var(--gutter) 0.6rem; }
+.kbar__i { display: flex; align-items: baseline; gap: 0.6rem; min-width: 0; }
+.kbar__k, .kbar__v { transform-origin: left top; }
+.kbar__k { font-size: 0.78rem; font-weight: 600; color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.kbar__v { font-family: var(--display); font-weight: 400; font-size: 1.5rem; line-height: 1.15; letter-spacing: -0.01em; font-variant-numeric: lining-nums tabular-nums; white-space: nowrap; }
+.kbar__v.kpi--loss { color: var(--r-loss); }
+.kbar-on .lab__ctl { top: calc(var(--kbar-b, 7rem) + 1rem); }
+@media (max-width: 700px) {
+  .kbar__in { gap: 0.5rem; }
+  .kbar__i { flex-direction: column; gap: 0; }
+  .kbar__k { font-size: 0.66rem; }
+  .kbar__v { font-size: 1.15rem; }
+}
+@media (prefers-reduced-motion: reduce) { .kbar, .kbar.is-on { transition: none; transform: none; } }
+
+/* what would change our minds: each signpost numbered in italic serif roman numerals in the margin, a hairline between */
+.house.rs-report .trip { gap: 0; counter-reset: trip; }
+.house.rs-report .trip > div { grid-template-columns: 2.75rem minmax(0, 1fr); column-gap: 0.25rem; padding: 1rem 0; counter-increment: trip; }
+.house.rs-report .trip > div + div { border-top: 1px solid var(--line); }
+.house.rs-report .trip > div::before {
+  content: counter(trip, lower-roman) "."; grid-row: 1 / span 2; font-family: var(--display); font-style: italic; font-size: 1.7rem;
+  line-height: 1; color: var(--accent-ink);
+}
+.house.rs-report .trip dt, .house.rs-report .trip dd { grid-column: 2; }
+.house.rs-report .trip dt { font-size: 1.05rem; }
+
 /* outside the watch list: white cards that lift */
 .house.rs-report .offc { background: #fff; box-shadow: var(--shadow); transition: transform 0.25s ease, box-shadow 0.25s ease; }
 .house.rs-report .offc:hover { background: #fff; box-shadow: var(--shadow-up); transform: translateY(-2px); }

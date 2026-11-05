@@ -161,6 +161,14 @@
   $("#l-kpis").innerHTML = ["Expected loss", "Bad case, 1 in 20", "Plan costs", "Net of its cost"].map(function (k, i) {
     return '<div class="kpi"><span class="kpi__k">' + k + '</span><b class="kpi__v num ' + ["kpi--loss", "kpi--loss", "", "kpi--safe"][i] + '"></b><span class="kpi__n"></span></div>';
   }).join("");
+  // the strip the figures fold into once they scroll away (a copy for the eye; the tiles keep the live region)
+  var kbar = document.createElement("div");
+  kbar.className = "kbar"; kbar.id = "kbar"; kbar.setAttribute("aria-hidden", "true");
+  kbar.innerHTML = '<div class="kbar__in">' + ["Expected loss", "Bad case, 1 in 20", "Plan costs", "Net of its cost"].map(function (k, i) {
+    return '<span class="kbar__i"><span class="kbar__k">' + k + '</span><b class="kbar__v num ' + ["kpi--loss", "kpi--loss", "", "kpi--safe"][i] + '"></b></span>';
+  }).join("") + "</div>";
+  document.body.appendChild(kbar);
+  var KB = [].slice.call(kbar.querySelectorAll(".kbar__v"));
   $("#l-expo").innerHTML = RS.ASSETS.map(function (a) {
     return '<div class="expo__row"><span class="expo__k">' + a.name + '</span><span class="expo__track"><i class="expo__left"></i><i class="expo__safe"></i></span><span class="expo__v num"></span></div>';
   }).join("");
@@ -204,6 +212,7 @@
     tween("kpi", [plan.loss, plan.bad, plan.cost, net], function (v) {
       kv[0].textContent = M(v[0]); kv[1].textContent = M(v[1]); kv[2].textContent = M(v[2]);
       kv[3].textContent = (v[3] < -0.005 ? "-" : "") + M(Math.abs(v[3]));
+      KB.forEach(function (b, i) { b.textContent = kv[i].textContent; });
     });
 
     // exposure by asset: the split between still at risk and protected slides
@@ -386,6 +395,35 @@
       '<svg class="offc__sp" viewBox="0 0 ' + w + " " + ht + '" aria-hidden="true"><polyline points="' + pts + '"/></svg>' +
       '<span class="offc__n">' + e.name + '</span><span class="offc__t">' + e.plain + "</span></a>";
   }).join("");
+
+  // ---------- the lab's figures follow you down: once the tiles pass under the top bar they fold into a strip beneath it
+  // (as the agents page holds its view tabs there), each label and figure gliding from its tile into place, until the
+  // lab ends ----------
+  (function () {
+    var bar = document.querySelector(".bar"), lab = $("#lab"), tiles = $("#l-kpis"), kbar = $("#kbar"), on = false, raf = 0;
+    function place() {
+      raf = 0;
+      var top = bar.getBoundingClientRect().bottom, h = kbar.offsetHeight;
+      document.body.style.setProperty("--bar-b", top + "px");
+      document.body.style.setProperty("--kbar-b", top + h + "px");
+      var show = tiles.getBoundingClientRect().bottom < top && lab.getBoundingClientRect().bottom > top + h + 160;
+      if (show === on) return;
+      on = show;
+      kbar.classList.toggle("is-on", on);
+      document.body.classList.toggle("kbar-on", on);
+      if (!on || REDUCE || !kbar.animate) return;
+      var from = tiles.querySelectorAll(".kpi__k, .kpi__v"), to = kbar.querySelectorAll(".kbar__k, .kbar__v");
+      to.forEach(function (el, i) {
+        var a = from[i].getBoundingClientRect(), b = el.getBoundingClientRect(), k = a.height / b.height;
+        el.animate([{ transform: "translate(" + (a.left - b.left) + "px," + (a.top - b.top) + "px) scale(" + k + ")" }, { transform: "none" }],
+          { duration: 460, easing: "cubic-bezier(0.3, 0.7, 0.2, 1)" });
+      });
+    }
+    function ask() { if (!raf) raf = requestAnimationFrame(place); }
+    window.addEventListener("scroll", ask, { passive: true });
+    window.addEventListener("resize", ask);
+    place();
+  })();
 
   // ---------- entrances: figures draw themselves in as they scroll into view ----------
   (function () {
