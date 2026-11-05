@@ -51,3 +51,16 @@
   addEventListener("scroll", place, { passive: true });
   sync(); place();
 })();
+
+/* Totality's disc as a gauge (2026-11-04): its red arc runs round the ring as far as the chance in #hub-p, which
+   agents.js rewrites; a question with no forecast yet shows an empty track. */
+(function () {
+  var p = document.getElementById("hub-p"), arc = document.getElementById("hub-arc");
+  function draw() {
+    var m = /(\d+(?:\.\d+)?)\s*%/.exec(p.textContent), v = m ? Math.min(100, parseFloat(m[1])) : 0;
+    arc.style.strokeDasharray = v + " " + (100 - v + 1);
+    arc.style.opacity = v ? "1" : "0";
+  }
+  new MutationObserver(draw).observe(p, { childList: true, characterData: true, subtree: true });
+  draw();
+})();

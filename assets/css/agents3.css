@@ -657,8 +657,10 @@ body:not(.has-drawer) .rt.is-sel { background: transparent; }
 .lk-hot--in { stroke: var(--ink); filter: none; }
 .lk-hot--out { stroke: var(--accent); filter: drop-shadow(0 0 3px rgba(219, 51, 36, 0.45)); }
 .hub__disc { fill: #fff; }
-.hub__ring { stroke: var(--accent); stroke-width: 2.5; }
-.hub__p { fill: var(--ink); font-size: 50px; }
+/* with no name in it, the disc is a gauge: a pale track with a red arc as long as the chance, a larger figure and the question */
+.hub__ring { stroke: var(--mist-3); stroke-width: 5; }
+.hub__arc { fill: none; stroke: var(--accent); stroke-width: 5; stroke-linecap: round; stroke-dasharray: 0 100; transition: stroke-dasharray 0.9s cubic-bezier(0.3, 0.7, 0.2, 1), stroke-width 0.3s ease; }
+.hub__p { fill: var(--ink); font-size: 60px; }
 .hub__q { fill: var(--ink-2); }
 .hub__name { fill: var(--accent); }
 .loop__hub:focus-visible { outline-color: var(--accent); }
@@ -682,8 +684,10 @@ body:not(.has-drawer) .rt.is-sel { background: transparent; }
 
 /* Totality: a clean red ring, with no glow round it and no pulse when a report lands */
 .hub__glow, .hub__halo { display: none; }
-.loop__hub.is-sel .hub__ring { stroke-width: 3.5; }
-body:not(.has-drawer) .loop__hub.is-sel .hub__ring { stroke-width: 2.5; }
+.loop__hub.is-sel .hub__ring, .loop__hub.is-sel .hub__arc { stroke-width: 7; }
+body:not(.has-drawer) .loop__hub.is-sel .hub__ring, body:not(.has-drawer) .loop__hub.is-sel .hub__arc { stroke-width: 5; }
+.loop__hub:hover .hub__arc { stroke: var(--accent-ink); }
+@media (prefers-reduced-motion: reduce) { .hub__arc { transition: none; } }
 
 @media (prefers-reduced-motion: reduce) { .wq, .lag { transition: none; } }
 
