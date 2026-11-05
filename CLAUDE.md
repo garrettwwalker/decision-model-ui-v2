@@ -163,7 +163,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   ("Agentic Orchestration", no period) at the user's request, and for the view titles, also title case
   ("Waiting for You"; capitals were rejected), in title case for card titles and big figures, small gray Switzer for the rest; tomato red `#db3324` for
   buttons ("New question" too), counts and what waits for you, amber for a problem, working, protected and fixed neutral (the user wants the palette warm, no green); status as
-  soft pills (a pale wash of the color in a hairline ring of it; working white; the user disliked a second, fainter ring outside),
+  soft pills, a pale wash of the color with no ring (working cream; the user disliked a halo ring, then tried it without the hairline),
   with no dot or blinking (the user called dots a vibe-code giveaway, then found plain colored labels bland), and no
   glow or pulse round Totality or the Live label (plain red text, which the user likes); the view tabs
   as agents 2's sliding track (a white pill on a cream track; the user preferred it to outlined pills), the feed's
