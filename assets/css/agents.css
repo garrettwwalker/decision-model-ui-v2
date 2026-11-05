@@ -104,7 +104,9 @@ body.ag-page {
 
 .ag-page .pick__seg, .ag-page .mode__limit, .feed__f { background: var(--mist); border-radius: 12px; padding: 3px; gap: 3px; }
 .ag-page .pick__seg button, .ag-page .mode__limit button, .feed__f button { color: var(--ink-2); border-radius: 9px; }
-.ag-page .pick__seg button:hover, .ag-page .mode__limit button:hover, .feed__f button:hover { background: rgba(255, 255, 255, 0.7); color: var(--ink); }
+.ag-page .pick__seg button, .ag-page .mode__limit button { transition: color 0.2s ease; }
+/* hover only darkens the label, as on the view tabs and the feed filters; the white is kept for the chosen one */
+.ag-page .pick__seg button:hover, .ag-page .mode__limit button:hover, .feed__f button:hover { background: transparent; color: var(--ink); }
 .ag-page .pick__seg button[aria-pressed="true"], .ag-page .mode__limit button[aria-checked="true"], .feed__f button[aria-pressed="true"] { background: #fff; color: var(--ink); box-shadow: var(--shadow-sm); }
 .ag-page .pick__seg button[aria-pressed="true"] small { color: var(--accent-ink); }
 .ag-page .nudge button { background: var(--mist); color: var(--ink); }
@@ -522,9 +524,8 @@ body:not(.has-drawer) .rt.is-sel { background: transparent; }
   position: absolute; left: 0; top: 0; z-index: 0; border-radius: 9px; background: #fff; box-shadow: var(--shadow-sm); pointer-events: none;
   transition: transform 0.34s cubic-bezier(0.3, 0.7, 0.2, 1), width 0.34s cubic-bezier(0.3, 0.7, 0.2, 1), height 0.34s ease, opacity 0.2s ease;
 }
-/* the highlight carries the fill, so the chosen button itself goes clear; a hovered one keeps its tint through a click */
+/* the highlight carries the fill, so the chosen button itself goes clear */
 .ag-page .has-thumb > button[aria-pressed="true"], .ag-page .has-thumb > button[aria-checked="true"], .ag-page .has-thumb > button[aria-selected="true"] { background: transparent; box-shadow: none; }
-.ag-page .pick__seg.has-thumb > button:hover, .ag-page .mode__limit.has-thumb > button:hover, .feed__f.has-thumb > button:hover { background: rgba(255, 255, 255, 0.7); }
 
 /* ---------- narrower screens ---------- */
 @media (max-width: 1240px) {
