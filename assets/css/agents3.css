@@ -232,7 +232,6 @@ button.dk__i:hover::before, button.dk__i:hover + .dk__i::before { opacity: 0; }
 .dash__map .st--bad { background: rgba(244, 63, 94, 0.16); color: #ff8da1; }
 .dash__map .st--bad::before { background: #fb5c78; }
 .dash__map .st--off { background: rgba(255, 255, 255, 0.07); color: var(--night-ink-3); }
-.legend { display: flex; flex-wrap: wrap; gap: 0.45rem; margin: 0; padding-top: 0.9rem; border-top: 1px solid rgba(255, 255, 255, 0.08); }
 
 .lk { fill: none; stroke: rgba(255, 255, 255, 0.12); stroke-width: 1.4; transition: stroke 0.3s ease; }
 .lk.is-ok, .lk.is-wait { stroke: rgba(255, 255, 255, 0.2); }
@@ -651,7 +650,6 @@ body:not(.has-drawer) .rt.is-sel { background: transparent; }
 .lag__line { color: var(--ink-2); }
 .lag__when { color: var(--ink-3); }
 .lag.is-bad .lag__line { color: var(--bad-ink); }
-.legend { border-top-color: var(--line); }
 .lk { stroke: #ddd4c7; }
 .lk.is-ok, .lk.is-wait { stroke: #d2c7b8; }
 .lk.is-bad { stroke: rgba(224, 134, 26, 0.6); }
@@ -679,7 +677,6 @@ body:not(.has-drawer) .rt.is-sel { background: transparent; }
 .st--bad, .dash__map .st--bad, .wq .st--bad, .wq[aria-selected="true"] .st--bad { --st: var(--bad); --st-ink: var(--bad-ink); --st-wash: var(--bad-soft); }
 .st--off, .dash__map .st--off, .wq .st--off { --st: var(--off); --st-ink: var(--ink-3); --st-wash: var(--mist-2); font-weight: 600; }
 .wq__meta { gap: 0.4rem 0.45rem; }
-.legend { gap: 1.25rem; }
 .live { padding: 0; background: none; box-shadow: none; color: var(--accent-ink); font-weight: 700; }
 .live::before { display: none; }
 

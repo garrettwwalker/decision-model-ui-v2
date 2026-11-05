@@ -173,7 +173,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   asked), and the user disliked a dropdown there; at 1000px and under the tabs sit left and the pill alone slips in before them), the feed's
   filters a smaller copy of that track (the user found ink pills out of step with the page); red buttons glow only on hover (as the landing's used to); secondary buttons (Decline, Edit the brief, Cancel) a soft cream fill with no outline, deepening on hover, white on cream cards (the user disliked a thin ring); who acts' chosen
   option a white card lifted off the cream with a red dot (the user found a black one, which flipped light on hover, bizarre); the chosen question lifts with its chance in red, no outline
-  and no sliding highlight; the live map light on a white card, its agent tiles with rounded-square initial avatars
+  and no sliding highlight; the live map light on a white card with no key under it (removed at the user's request; each tile names its status), its agent tiles with rounded-square initial avatars
   (`agents3.js`, colored from the name), Totality a white disc ringed in red. The stylesheet is agents2.css (renamed to
   `.ag3`, retokened) plus a style layer at its end.
   It's reached from a dropdown on "agents 2" in every page's nav (`.tabs__more` in app.css, the caret toggled in nav.js;
