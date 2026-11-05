@@ -595,10 +595,10 @@ body:not(.has-drawer) .rt.is-sel { background: transparent; }
 .ag3 .btn--primary:disabled:hover { background: var(--mist-3); box-shadow: none; }  /* not ready yet: stays gray, a shade deeper on hover */
 /* secondary buttons as a soft cream fill with no outline, a shade deeper on hover (the user disliked the thin ring);
    on a cream card they turn white so they still show */
-.btn-q { background: var(--mist-2); box-shadow: none; transition: background-color 0.15s ease, box-shadow 0.2s ease; }
-.btn-q:hover { background: var(--mist-3); }
+.btn-q { background: var(--mist-2); box-shadow: none; transition: background-color 0.15s ease, box-shadow 0.2s ease, transform 0.2s ease; }
+.btn-q:hover { background: var(--mist-3); transform: translateY(-1px); box-shadow: 0 6px 14px -8px rgba(22, 20, 18, 0.35); }  /* lifts as the red buttons do */
 .prob .btn-q, .prob__fix .btn-q { background: #fff; box-shadow: none; }
-.prob .btn-q:hover, .prob__fix .btn-q:hover { background: #fff; box-shadow: var(--shadow-sm); }
+.prob .btn-q:hover, .prob__fix .btn-q:hover { background: #fff; box-shadow: 0 6px 14px -8px rgba(22, 20, 18, 0.35); }
 .watch .btn-q { color: #fff; background: var(--accent); box-shadow: none; transition: background-color 0.15s ease, box-shadow 0.2s ease; }
 .watch .btn-q:hover { background: #c42a1c; box-shadow: 0 8px 18px -8px rgba(219, 51, 36, 0.7); }
 
@@ -715,4 +715,4 @@ body:not(.has-drawer) .loop__hub.is-sel .hub__ring { stroke-width: 2.5; }
   .vtabs__track { justify-self: start; max-width: 100%; }
   .vtabs__live { margin-left: 0.75rem; }
 }
-@media (prefers-reduced-motion: reduce) { .vq { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .vq { transition: none; } .btn-q:hover { transform: none; } }
