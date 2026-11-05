@@ -885,9 +885,8 @@ button.route__in:focus-visible { outline: 2px solid var(--accent); outline-offse
 .kbar__k { font-size: 0.78rem; font-weight: 600; color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .kbar__v { font-family: var(--display); font-weight: 400; font-size: 1.5rem; line-height: 1.15; letter-spacing: -0.01em; font-variant-numeric: lining-nums tabular-nums; white-space: nowrap; }
 .kbar__v.kpi--loss { color: var(--r-loss); }
-/* the current plan, as the agents page's question pill: a gray label and a white pill that scrolls back up to the options */
+/* Current Plan, a white pill as the agents page's question pill, scrolls back up to the options */
 .kbar__plan { display: flex; align-items: center; gap: 0.55rem; white-space: nowrap; }
-.kbar__pk { font-size: 0.82rem; font-weight: 600; color: var(--ink-3); }
 .kbar__name {
   min-height: 36px; padding: 0 0.95rem; border: 0; border-radius: 999px; background: #fff; box-shadow: var(--shadow-sm);
   font: inherit; font-size: 0.85rem; font-weight: 700; color: var(--ink); cursor: pointer; transition: box-shadow 0.2s ease, transform 0.2s ease;

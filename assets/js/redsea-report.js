@@ -164,8 +164,8 @@
   // the strip the figures fold into once they scroll away (a copy for the eye; the tiles keep the live region)
   var kbar = document.createElement("div");
   kbar.className = "kbar"; kbar.id = "kbar"; kbar.setAttribute("aria-hidden", "true");
-  kbar.innerHTML = '<div class="kbar__in"><span class="kbar__plan"><span class="kbar__pk">Current plan</span>' +
-    '<button type="button" class="kbar__name" id="kbar-name" tabindex="-1" title="Back up to the options"></button></span>' + ["Expected loss", "Bad case, 1 in 20", "Plan costs", "Net of its cost"].map(function (k, i) {
+  kbar.innerHTML = '<div class="kbar__in"><span class="kbar__plan">' +
+    '<button type="button" class="kbar__name" id="kbar-name" tabindex="-1" title="Back up to the options">Current Plan</button></span>' + ["Expected loss", "Bad case, 1 in 20", "Plan costs", "Net of its cost"].map(function (k, i) {
     return '<span class="kbar__i"><span class="kbar__k">' + k + '</span><b class="kbar__v num ' + ["kpi--loss", "kpi--loss", "", "kpi--safe"][i] + '"></b></span>';
   }).join("") + "</div>";
   document.body.appendChild(kbar);
@@ -198,8 +198,6 @@
       var o = RS.OPTIONS.filter(function (x) { return x.id === b.dataset.o; })[0];
       b.setAttribute("aria-pressed", same(o.plan, S.plan));
     });
-    var pick = RS.OPTIONS.filter(function (o) { return same(o.plan, S.plan); })[0];
-    $("#kbar-name").textContent = pick ? "Option " + pick.id : "Your mix, " + S.plan.length + (S.plan.length === 1 ? " move" : " moves");
     document.querySelectorAll(".mv input").forEach(function (c) { c.checked = has(c.value); c.closest(".mv").classList.toggle("is-on", c.checked); });
     $("#l-p-out").textContent = S.p + "%";
     document.querySelectorAll("#l-p-seg button").forEach(function (b) { b.setAttribute("aria-pressed", +b.dataset.p === S.p); });
@@ -401,7 +399,7 @@
 
   // ---------- the lab's figures follow you down: once the tiles pass under the top bar they fold into a strip beneath it
   // (as the agents page holds its view tabs there), each label and figure gliding from its tile into place, and stay to
-  // the foot of the page; the current plan's pill there scrolls back up to the options ----------
+  // the foot of the page; its Current Plan button scrolls back up to the options ----------
   (function () {
     var bar = document.querySelector(".bar"), lab = $("#lab"), tiles = $("#l-kpis"), kbar = $("#kbar"), on = false, raf = 0;
     function place() {

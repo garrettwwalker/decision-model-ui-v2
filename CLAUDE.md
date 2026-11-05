@@ -250,7 +250,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   line, attack + 5 days, now labelled) on the chart; the stepper centered under its choices with no note beside it;
   the off-list sparklines red; once the lab's four figure tiles pass under the top bar they fold into a strip beneath it (`#kbar`, built in
   redsea-report.js, the cream of the agents page's sticky tab bar; each label and figure glides from its tile, FLIP), kept
-  in step with the tiles to the foot of the page, with a "Current plan" pill (Option A/B/C or "Your mix, N moves") that
+  in step with the tiles to the foot of the page, with a "Current Plan" button (just that, at the user's request) that
   scrolls back up to the lab, as the agents page's question pill does; the presets styled as the agents page's question
   cards (white, the chosen lifted, the others' text faded to 55%); the signposts in "What Would
   Change Our Minds" numbered in italic DM Serif roman numerals (the report loads the italic); the attack start picked on a
