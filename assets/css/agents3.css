@@ -592,6 +592,8 @@ body:not(.has-drawer) .rt.is-sel { background: transparent; }
 /* buttons: red pills to act, white pills for the quieter choice; a red pill glows only under the pointer */
 .ag3 .btn--primary { background: var(--accent); box-shadow: none; transition: background-color 0.15s ease, box-shadow 0.2s ease; }
 .ag3 .btn--primary:hover { background: #c42a1c; box-shadow: 0 8px 18px -8px rgba(219, 51, 36, 0.7); }
+.ag3 .btn--primary:disabled { background: var(--mist-2); color: var(--ink-3); box-shadow: none; }
+.ag3 .btn--primary:disabled:hover { background: var(--mist-3); box-shadow: none; }  /* not ready yet: stays gray, a shade deeper on hover */
 .btn-q { background: #fff; box-shadow: inset 0 0 0 1px rgba(22, 20, 18, 0.14); }
 .btn-q:hover { background: var(--mist); }
 .watch .btn-q { color: #fff; background: var(--accent); box-shadow: none; transition: background-color 0.15s ease, box-shadow 0.2s ease; }
