@@ -55,7 +55,9 @@ body.ag-page {
   margin: clamp(1.5rem, 4vh, 2.25rem) calc(-1 * var(--gutter)) 0; padding: 0.6rem var(--gutter);
   background: rgba(255, 255, 255, 0.88); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); box-shadow: 0 1px 0 var(--line);
 }
-.vtabs__track { position: relative; display: inline-flex; gap: 0.15rem; min-width: 0; padding: 4px; border-radius: 999px; background: var(--mist); overflow-x: auto; scrollbar-width: none; }
+.vtabs__track { position: relative; display: inline-flex; gap: 0.15rem; min-width: 0; padding: 4px; border-radius: 999px; background: var(--mist); overflow-x: auto; scrollbar-width: none;
+  /* its own layer from the start: Chrome otherwise promotes the scroller on the first hover and the labels shift a hair */
+  will-change: transform; }
 .vtabs__track::-webkit-scrollbar { display: none; }
 .vtabs__thumb {
   position: absolute; left: 0; top: 4px; bottom: 4px; border-radius: 999px; background: #fff; box-shadow: var(--shadow-sm); pointer-events: none;
