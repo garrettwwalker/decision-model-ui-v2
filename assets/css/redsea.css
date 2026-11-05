@@ -842,6 +842,30 @@ button.route__in:focus-visible { outline: 2px solid var(--accent); outline-offse
 .house.rs-report #f-gantt .gt.is-off .gt__bar { fill: var(--mist-3); }
 .house.rs-report #f-gantt .gt__v { fill: var(--ink-2); font-weight: 600; }
 
+/* links to the tree as soft buttons under their paragraph, not inline (the user dislikes inline links) */
+.house.rs-report .rp-more { margin: 0.25rem 0 0 !important; }
+
+/* when attacks resume: four stops on a line, earliest to latest, the chosen one a red dot (a 2x2 grid on gray read
+   poorly) */
+.when { position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.when::before { content: ""; position: absolute; left: 12.5%; right: 12.5%; top: 21px; height: 2px; border-radius: 1px; background: var(--mist-3); }
+.when button {
+  position: relative; display: grid; justify-items: center; align-content: start; gap: 0.1rem; min-height: 64px; padding: 14px 0.2rem 0.3rem;
+  border: 0; background: none; font: inherit; color: var(--ink-2); cursor: pointer; text-align: center;
+}
+.when button::before {
+  content: ""; width: 12px; height: 12px; margin-bottom: 0.45rem; border-radius: 50%; background: var(--mist-3);
+  box-shadow: 0 0 0 4px var(--void); transition: background-color 0.2s ease, transform 0.25s cubic-bezier(0.3, 0.7, 0.2, 1);
+}
+.when button b { font-size: 0.88rem; font-weight: 700; color: var(--ink-2); transition: color 0.2s ease; }
+.when button span { font-size: 0.72rem; color: var(--ink-3); }
+.when button:hover b { color: var(--ink); }
+.when button:hover::before { background: #cfc5b7; }
+.when button[aria-pressed="true"]::before { background: var(--accent); transform: scale(1.35); }
+.when button[aria-pressed="true"] b { color: var(--ink); }
+.when button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; border-radius: 10px; }
+@media (prefers-reduced-motion: reduce) { .when button::before { transition: none; } }
+
 /* the lab's figures, folded into a strip under the top bar once their tiles scroll away (redsea-report.js), in the cream
    of the agents page's sticky tab bar; the controls' sticky column moves down to clear it */
 .kbar {
