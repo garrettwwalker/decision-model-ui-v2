@@ -241,9 +241,12 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   (since 2026-11-05 in the house style instead: body `app house rs rs-glance`, its layer `.house.rs-glance` in
   redsea.css; the facts one white strip, serif titles in title case, tracing lifts the chain's cards and lights its curves red), the report
   (since 2026-11-05 in the house style too: body `app house rs rs-light rs-report`, its layer `.house.rs-report` in
-  redsea.css retokens the `--r-*` colors: loss red, protected neutral ink with taupe `#b8a68c` bars, no gold; the bottom
-  line, figures, table, plan lab and off-list cards white cards, cream panels in the lab, serif titles in title case, the
-  headline split into a title and a one-line lede, the step's plus black) and the
+  redsea.css retokens the `--r-*` colors: loss red, protected pale red `#f2b3ab` bars (the user disliked tan; no gold);
+  the bottom line, figures, table and off-list cards white cards, the map with no card; the plan lab on the page like
+  the other sections (not a card) with its presets, moves, KPIs and figures as white cards; section numbers in the left
+  margin from 1100px so title and text share an edge; confidence pills color coded (high deeper gray, moderate amber,
+  recommendation red); the timeline's bars rounded, each team in the agents avatars' warm colors over a pale track (black
+  read as bland); serif titles in title case, the headline split into a title and a one-line lede, the step's plus black) and the
   tree (`.rs-lt .rs-lt-tree`: the same flat warm-gray cards, the selection a pale tint with an accent ring as on the
   glance's traced chain, a starker chance ramp in `ramp()`, gold, amber, orange, red, crimson to deep wine, with stops packed into the low range where
   most questions sit, so neighbouring odds read apart on white); all with the black logo. No thin gray outlines ("pencil outlines")

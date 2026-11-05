@@ -757,10 +757,11 @@ button.route__in:focus-visible { outline: 2px solid var(--accent); outline-offse
 
 /* the report in the house style (2026-11-05, after at a glance): same sections and plan lab, on the cream ground; the
    bottom line, figures and the lab as white cards on a soft shadow with cream panels inside, serif titles and big
-   figures in title case; money at risk red, protected a warm neutral (no gold), controls ink, the chosen preset a
-   white card lifted off the cream */
+   figures in title case; money at risk red, protected a pale red (the user disliked tan, and gold is out), controls
+   ink, the chosen preset a white card lifted off the cream. Section numbers hang in the margin so the title and the
+   text under it share one edge; the plan lab sits on the page like the other sections, its tiles white cards */
 .house.rs-report {
-  --r-loss: var(--accent-ink); --r-safe: var(--ink); --r-gold: #b8a68c; --r-accent: var(--accent-ink); --r-amber: var(--accent); --r-tag: var(--accent-soft);
+  --r-loss: var(--accent-ink); --r-safe: var(--ink); --r-gold: #f2b3ab; --r-accent: var(--accent-ink); --r-amber: var(--accent); --r-tag: var(--accent-soft);
   --paper-2: #fff; --paper-3: var(--mist-2); --blue: var(--accent-ink); --focus: var(--accent);
 }
 .house.rs-light .bar { background: rgba(244, 239, 232, 0.92); }
@@ -775,12 +776,19 @@ button.route__in:focus-visible { outline: 2px solid var(--accent); outline-offse
 .house.rs-report .bl__h { font-size: 1.45rem; }
 .house.rs-report .bl__list li::before { font-family: var(--display); font-weight: 400; font-size: 1.25rem; }
 .house.rs-report .conf { padding: 0.16rem 0.55rem; border-radius: 999px; font-size: 0.68rem; font-weight: 700; color: var(--ink-2); background: var(--mist-2); justify-self: end; align-self: start; }
-.house.rs-report .sec__h { font-size: clamp(1.7rem, 2.8vw, 2.3rem); align-items: center; }
-.house.rs-report .sec__h span { display: inline-grid; place-items: center; width: 1.6rem; height: 1.6rem; border-radius: 50%; font-family: var(--font); font-size: 0.72rem; font-weight: 700; color: var(--ink-2); background: var(--track); }
+.house.rs-report .conf--high { color: var(--ink); background: var(--mist-3); }
+.house.rs-report .conf--mod { color: var(--bad-ink); background: var(--bad-soft); }
+.house.rs-report .conf--rec { color: var(--accent-ink); background: var(--accent-soft); }
+.house.rs-report .sec__h { position: relative; display: block; font-size: clamp(1.7rem, 2.8vw, 2.3rem); }
+.house.rs-report .sec__h span { display: grid; width: fit-content; margin-bottom: 0.6rem; place-items: center; width: 1.6rem; height: 1.6rem; border-radius: 50%; font-family: var(--font); font-size: 0.72rem; font-weight: 700; color: var(--ink-2); background: var(--track); }
 .house.rs-report .sec { border-bottom-color: var(--line); }
+@media (min-width: 1100px) {
+  .house.rs-report .sec__h span { position: absolute; right: calc(100% + 0.9rem); top: 0.42rem; margin: 0; }
+}
 
 /* figures on white cards */
 .house.rs-report .sec .fig { padding: 1.1rem 1.2rem 1rem; border-radius: var(--r); background: #fff; box-shadow: var(--shadow); }
+.house.rs-report .sec .fig--map { padding: 0; background: none; box-shadow: none; }
 .house.rs-report .fig__cap { font-size: 0.82rem; color: var(--ink-3); }
 .house.rs-report .tbl { background: #fff; border-radius: var(--r); box-shadow: var(--shadow); }
 .house.rs-report .tbl caption { padding: 0 0 0.6rem; }
@@ -788,6 +796,8 @@ button.route__in:focus-visible { outline: 2px solid var(--accent); outline-offse
 .house.rs-report .tbl th:last-child, .house.rs-report .tbl td:last-child { padding-right: 1.2rem; }
 .house.rs-report .tbl tfoot th, .house.rs-report .tbl tfoot td { border-top: 1px solid var(--line-strong); }
 .house.rs-report .tbl__bar span { background: var(--mist-2); }
+.house.rs-report .tug__track i.down { background: var(--ink-3); }
+.house.rs-report .tug__v.down { color: var(--ink-2); }
 .house.rs-report .tbl__bar i, .house.rs-report .expo__left, .house.rs-report .tug__track i.up, .house.rs-report .key--left, .house.rs-report .chart .stopbar { background: var(--accent); fill: var(--accent); }
 .house.rs-report .chart .stopbar--none { fill: rgba(219, 51, 36, 0.3); }
 .house.rs-report .chart .gapband { fill: rgba(219, 51, 36, 0.07); }
@@ -803,36 +813,40 @@ button.route__in:focus-visible { outline: 2px solid var(--accent); outline-offse
 .house.rs-report .route .pl--mute { stroke: #ece5da; }
 .house.rs-report .route .ocean { fill: #a2988a; }
 
-/* the plan lab: a white card with cream panels; the chosen preset lifts, the segmented choices slide as elsewhere */
-.house.rs-report .lab { background: #fff; border-radius: var(--r); box-shadow: var(--shadow); }
-.house.rs-report .preset { background: var(--mist); transition: background-color 0.2s ease, box-shadow 0.25s ease, transform 0.25s ease; }
-.house.rs-report .preset:hover { background: var(--mist-2); }
+/* the plan lab on the page like the other sections; its tiles white cards on the cream, the chosen preset lifted */
+.house.rs-report .lab { margin: 0; padding: clamp(2rem, 4vw, 3rem) 0; background: none; border-radius: 0; border-bottom: 1px solid var(--line); }
+.house.rs-report .preset { background: var(--mist-2); transition: background-color 0.2s ease, box-shadow 0.25s ease, transform 0.25s ease; }
+.house.rs-report .preset:hover { background: var(--mist-3); }
 .house.rs-report .preset[aria-pressed="true"], .house.rs-report .preset[aria-pressed="true"]:hover { color: var(--ink); background: #fff; box-shadow: var(--shadow-up); transform: translateY(-1px); }
 .house.rs-report .preset em { color: var(--accent-ink); background: var(--accent-soft); }
-.house.rs-report .mv { background: var(--mist); }
+.house.rs-report .mv { background: #fff; box-shadow: var(--shadow); }
 .house.rs-report .chooser { background: var(--track); }
 .house.rs-report .chooser button { transition: color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease; }
 .house.rs-report .chooser button:hover { background: transparent; color: var(--ink); }
 .house.rs-report .chooser button[aria-pressed="true"] { background: #fff; box-shadow: var(--shadow-sm); }
-.house.rs-report .step button { background: var(--mist-2); box-shadow: none; transition: background-color 0.15s ease, box-shadow 0.2s ease; }
-.house.rs-report .step button:hover:not(:disabled) { background: var(--mist-3); box-shadow: none; }
+.house.rs-report .step button { background: var(--mist-3); box-shadow: none; transition: background-color 0.15s ease, box-shadow 0.2s ease; }
+.house.rs-report .step button:hover:not(:disabled) { background: #d6cec2; box-shadow: none; }
 .house.rs-report .step button[id$="-up"] { background: var(--ink); color: #fff; }  /* the plus in black, as on the agents page */
 .house.rs-report .step button[id$="-up"]:hover:not(:disabled) { background: #2f2a26; box-shadow: 0 8px 18px -8px rgba(22, 20, 18, 0.6); }
 .house.rs-report .step output { font-family: var(--display); font-weight: 400; font-size: 1.5rem; color: var(--ink); }
-.house.rs-report .lab__fig, .house.rs-report .kpi { background: var(--mist); }
+.house.rs-report .lab__fig, .house.rs-report .kpi { background: #fff; box-shadow: var(--shadow); }
 .house.rs-report .kpi__v, .house.rs-report .offc__p { font-family: var(--display); font-weight: 400; letter-spacing: -0.01em; font-variant-numeric: lining-nums tabular-nums; }
 .house.rs-report .kpi__v { font-size: clamp(1.7rem, 2.6vw, 2.2rem); }
-.house.rs-report .expo__track { background: #fff; }
-.house.rs-report #l-plans .pt circle { fill: #cfc5b7; stroke: var(--mist); }
+.house.rs-report .expo__track { background: var(--mist-2); }
+.house.rs-report #l-plans .pt circle { fill: #cfc5b7; stroke: #fff; }
 .house.rs-report #l-plans .pt.is-cur circle { fill: var(--accent); stroke: #fff; stroke-width: 2.5; }
-.house.rs-report #f-gantt .gt.is-off rect { fill: var(--mist-3); }
+/* the timeline: each team's bar in its own warm color over a pale track to the end of the window */
+.house.rs-report #f-gantt .gt__track { fill: var(--mist-2); }
+.house.rs-report #f-gantt .gt__bar { fill: var(--gt); }
+.house.rs-report #f-gantt .gt.is-off .gt__bar { fill: var(--mist-3); }
+.house.rs-report #f-gantt .gt__v { fill: var(--ink-2); font-weight: 600; }
 
 /* outside the watch list: white cards that lift */
 .house.rs-report .offc { background: #fff; box-shadow: var(--shadow); transition: transform 0.25s ease, box-shadow 0.25s ease; }
 .house.rs-report .offc:hover { background: #fff; box-shadow: var(--shadow-up); transform: translateY(-2px); }
 .house.rs-report .offc__p { font-size: 2.4rem; }
 .house.rs-report .rp-foot { border-top: 1px solid var(--line-strong); }
-@media (max-width: 600px) { .house.rs-report .lab { border-radius: 0; box-shadow: none; } }
+@media (max-width: 600px) { .house.rs-report .lab { margin: 0; padding: 2rem 0; } }
 @media (prefers-reduced-motion: reduce) { .house.rs-report .preset, .house.rs-report .offc { transition: none; transform: none !important; } }
 
 /* the tree, on at a glance's white */

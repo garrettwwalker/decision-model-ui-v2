@@ -165,6 +165,8 @@
     return '<div class="expo__row"><span class="expo__k">' + a.name + '</span><span class="expo__track"><i class="expo__left"></i><i class="expo__safe"></i></span><span class="expo__v num"></span></div>';
   }).join("");
   var GROWS = RS.TEAMS.slice().sort(function (a, b) { return a.days - b.days; });
+  // each team its own warm color on the timeline, as the agents page colors its agents' avatars (wine, rust, brick, umber, ochre)
+  var TEAM_C = ["#7a1f2b", "#c2410c", "#a33a2a", "#8a5a2b", "#a16207"];
   (function () {
     var X = function (d) { return 210 + d * 18.5; }, bot = 20 + GROWS.length * 34;
     var s = '<g class="ax">' + [0, 7, 14, 21, 28, 35, 42].map(function (d) {
@@ -173,7 +175,8 @@
     GROWS.forEach(function (t, i) {
       var y = 22 + i * 34;
       s += '<g class="gt" data-t="' + t.id + '"><text class="gt__k" x="200" y="' + (y + 13) + '" text-anchor="end">' + t.name + "</text>" +
-        '<rect x="' + X(0) + '" y="' + y + '" width="' + (ready(t.days) * 18.5) + '" height="18" rx="4"/>' +
+        '<rect class="gt__track" x="' + X(0) + '" y="' + y + '" width="' + (42 * 18.5) + '" height="18" rx="9"/>' +
+        '<rect class="gt__bar" style="--gt:' + TEAM_C[i % TEAM_C.length] + '" x="' + X(0) + '" y="' + y + '" width="' + (ready(t.days) * 18.5) + '" height="18" rx="9"/>' +
         '<text class="gt__v" x="' + (X(ready(t.days)) + 8) + '" y="' + (y + 13) + '"></text></g>';
     });
     $("#f-gantt").innerHTML = s + '<g id="f-gantt-mark"></g>';
