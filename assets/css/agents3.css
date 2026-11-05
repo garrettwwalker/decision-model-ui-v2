@@ -719,4 +719,13 @@ body:not(.has-drawer) .loop__hub.is-sel .hub__ring, body:not(.has-drawer) .loop_
   .vtabs__track { justify-self: start; max-width: 100%; }
   .vtabs__live { margin-left: 0.75rem; }
 }
+@media (min-width: 1001px) {
+  /* the side panel takes room from the bar: the tabs sit left, and the question shows as its pill alone */
+  body.has-drawer .vtabs { grid-template-columns: auto minmax(0, 1fr) auto; gap: 0; }
+  body.has-drawer .vq { max-width: 0; overflow: hidden; }
+  body.has-drawer .vq.is-on { max-width: 11rem; margin-right: 0.6rem; }
+  body.has-drawer .vq__k { display: none; }
+  body.has-drawer .vtabs__track { justify-self: start; max-width: 100%; }
+  body.has-drawer .vtabs__live { margin-left: 0.75rem; }
+}
 @media (prefers-reduced-motion: reduce) { .vq { transition: none; } .btn-q:hover { transform: none; } }
