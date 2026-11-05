@@ -112,8 +112,6 @@ body.ag-page {
 .ag-page .nudge button { background: var(--mist); color: var(--ink); }
 .ag-page .nudge button:hover:not(:disabled) { background: var(--mist-2); }
 .ag-page .nudge output { color: var(--ink); }
-.ag-page .nudge button[aria-label="More"] { background: var(--accent); color: #fff; transition: background-color 0.15s ease, box-shadow 0.2s ease; }
-.ag-page .nudge button[aria-label="More"]:hover:not(:disabled) { background: #c42a1c; box-shadow: 0 8px 18px -8px rgba(219, 51, 36, 0.7); }  /* glows on hover, as the red buttons do */
 .ag-page .switch__ui { background: var(--mist-3); }
 .ag-page .switch__ui::after { background: #fff; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.22); }
 .ag-page .switch input:checked + .switch__ui { background: var(--ink); }
