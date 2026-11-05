@@ -815,9 +815,13 @@ button.route__in:focus-visible { outline: 2px solid var(--accent); outline-offse
 
 /* the plan lab on the page like the other sections; its tiles white cards on the cream, the chosen preset lifted */
 .house.rs-report .lab { margin: 0; padding: clamp(2rem, 4vw, 3rem) 0; background: none; border-radius: 0; border-bottom: 1px solid var(--line); }
-.house.rs-report .preset { background: var(--mist-2); transition: background-color 0.2s ease, box-shadow 0.25s ease, transform 0.25s ease; }
-.house.rs-report .preset:hover { background: var(--mist-3); }
-.house.rs-report .preset[aria-pressed="true"], .house.rs-report .preset[aria-pressed="true"]:hover { color: var(--ink); background: #fff; box-shadow: var(--shadow-up); transform: translateY(-1px); }
+/* the presets as the agents page's question cards: white, the chosen one lifted, the others' text faded back until pointed at */
+.house.rs-report .preset { background: #fff; box-shadow: var(--shadow); transition: box-shadow 0.25s ease, transform 0.25s ease; }
+.house.rs-report .preset > * { transition: opacity 0.25s ease; }
+.house.rs-report .preset:not([aria-pressed="true"]) > * { opacity: 0.55; }
+.house.rs-report .preset:hover > *, .house.rs-report .preset:focus-visible > * { opacity: 1; }
+.house.rs-report .preset:not([aria-pressed="true"]):hover { transform: translateY(-1px); }
+.house.rs-report .preset[aria-pressed="true"], .house.rs-report .preset[aria-pressed="true"]:hover { color: var(--ink); background: #fff; box-shadow: var(--shadow-up); transform: translateY(-3px); }
 .house.rs-report .preset em { color: var(--accent-ink); background: var(--accent-soft); }
 .house.rs-report .mv { background: #fff; box-shadow: var(--shadow); }
 .house.rs-report .chooser { background: var(--track); }
@@ -875,15 +879,26 @@ button.route__in:focus-visible { outline: 2px solid var(--accent); outline-offse
   transition: opacity 0.2s ease, transform 0.3s cubic-bezier(0.3, 0.7, 0.2, 1), visibility 0s linear 0.3s;
 }
 .kbar.is-on { opacity: 1; visibility: visible; transform: none; transition: opacity 0.2s ease, transform 0.3s cubic-bezier(0.3, 0.7, 0.2, 1); }
-.kbar__in { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; max-width: 78rem; margin: 0 auto; padding: 0.55rem var(--gutter) 0.6rem; }
+.kbar__in { display: grid; grid-template-columns: auto repeat(4, minmax(0, 1fr)); align-items: center; gap: 1rem 1.5rem; max-width: 78rem; margin: 0 auto; padding: 0.55rem var(--gutter) 0.6rem; }
 .kbar__i { display: flex; align-items: baseline; gap: 0.6rem; min-width: 0; }
 .kbar__k, .kbar__v { transform-origin: left top; }
 .kbar__k { font-size: 0.78rem; font-weight: 600; color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .kbar__v { font-family: var(--display); font-weight: 400; font-size: 1.5rem; line-height: 1.15; letter-spacing: -0.01em; font-variant-numeric: lining-nums tabular-nums; white-space: nowrap; }
 .kbar__v.kpi--loss { color: var(--r-loss); }
+/* the current plan, as the agents page's question pill: a gray label and a white pill that scrolls back up to the options */
+.kbar__plan { display: flex; align-items: center; gap: 0.55rem; white-space: nowrap; }
+.kbar__pk { font-size: 0.82rem; font-weight: 600; color: var(--ink-3); }
+.kbar__name {
+  min-height: 36px; padding: 0 0.95rem; border: 0; border-radius: 999px; background: #fff; box-shadow: var(--shadow-sm);
+  font: inherit; font-size: 0.85rem; font-weight: 700; color: var(--ink); cursor: pointer; transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+.kbar.is-on .kbar__name { pointer-events: auto; }
+.kbar__name:hover { box-shadow: var(--shadow); transform: translateY(-1px); }
 .kbar-on .lab__ctl { top: calc(var(--kbar-b, 7rem) + 1rem); }
 @media (max-width: 700px) {
-  .kbar__in { gap: 0.5rem; }
+  .kbar__in { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.4rem 0.5rem; }
+  .kbar__plan { grid-column: 1 / -1; }
+  .kbar__name { min-height: 32px; font-size: 0.8rem; }
   .kbar__i { flex-direction: column; gap: 0; }
   .kbar__k { font-size: 0.66rem; }
   .kbar__v { font-size: 1.15rem; }
