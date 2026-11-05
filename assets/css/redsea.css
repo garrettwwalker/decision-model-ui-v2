@@ -828,6 +828,7 @@ button.route__in:focus-visible { outline: 2px solid var(--accent); outline-offse
 .house.rs-report .step button:hover:not(:disabled) { background: #d6cec2; box-shadow: none; }
 .house.rs-report .step button[id$="-up"] { background: var(--ink); color: #fff; }  /* the plus in black, as on the agents page */
 .house.rs-report .step button[id$="-up"]:hover:not(:disabled) { background: #2f2a26; box-shadow: 0 8px 18px -8px rgba(22, 20, 18, 0.6); }
+.house.rs-report .step { justify-content: center; }  /* centered under the choices, as on the agents page */
 .house.rs-report .step output { font-family: var(--display); font-weight: 400; font-size: 1.5rem; color: var(--ink); }
 .house.rs-report .lab__fig, .house.rs-report .kpi { background: #fff; box-shadow: var(--shadow); }
 .house.rs-report .kpi__v, .house.rs-report .offc__p { font-family: var(--display); font-weight: 400; letter-spacing: -0.01em; font-variant-numeric: lining-nums tabular-nums; }
@@ -835,9 +836,9 @@ button.route__in:focus-visible { outline: 2px solid var(--accent); outline-offse
 .house.rs-report .expo__track { background: var(--mist-2); }
 .house.rs-report #l-plans .pt circle { fill: #cfc5b7; stroke: #fff; }
 .house.rs-report #l-plans .pt.is-cur circle { fill: var(--accent); stroke: #fff; stroke-width: 2.5; }
-/* the timeline: each team's bar in its own warm color over a pale track to the end of the window */
+/* the timeline: red bars on pale tracks, as the loss bars above (the user found per-team colors and black out of step) */
 .house.rs-report #f-gantt .gt__track { fill: var(--mist-2); }
-.house.rs-report #f-gantt .gt__bar { fill: var(--gt); }
+.house.rs-report #f-gantt .gt__bar { fill: var(--accent); }
 .house.rs-report #f-gantt .gt.is-off .gt__bar { fill: var(--mist-3); }
 .house.rs-report #f-gantt .gt__v { fill: var(--ink-2); font-weight: 600; }
 
@@ -845,6 +846,7 @@ button.route__in:focus-visible { outline: 2px solid var(--accent); outline-offse
 .house.rs-report .offc { background: #fff; box-shadow: var(--shadow); transition: transform 0.25s ease, box-shadow 0.25s ease; }
 .house.rs-report .offc:hover { background: #fff; box-shadow: var(--shadow-up); transform: translateY(-2px); }
 .house.rs-report .offc__p { font-size: 2.4rem; }
+.house.rs-report .offc__sp polyline { stroke: var(--accent); }
 .house.rs-report .rp-foot { border-top: 1px solid var(--line-strong); }
 @media (max-width: 600px) { .house.rs-report .lab { margin: 0; padding: 2rem 0; } }
 @media (prefers-reduced-motion: reduce) { .house.rs-report .preset, .house.rs-report .offc { transition: none; transform: none !important; } }

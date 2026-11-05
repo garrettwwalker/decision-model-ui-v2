@@ -245,8 +245,10 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   the bottom line, figures, table and off-list cards white cards, the map with no card; the plan lab on the page like
   the other sections (not a card) with its presets, moves, KPIs and figures as white cards; section numbers in the left
   margin from 1100px so title and text share an edge; confidence pills color coded (high deeper gray, moderate amber,
-  recommendation red); the timeline's bars rounded, each team in the agents avatars' warm colors over a pale track (black
-  read as bland); serif titles in title case, the headline split into a title and a one-line lede, the step's plus black) and the
+  recommendation red); the timeline's bars red on pale tracks like the loss bars (black read as bland, per-team colors out of
+  step); its axis runs six weeks or stretches to keep a June or July attack and the first turned-round ships (the gray
+  line, attack + 5 days, now labelled) on the chart; the stepper centered under its choices with no note beside it;
+  the off-list sparklines red; serif titles in title case, the headline split into a title and a one-line lede, the step's plus black) and the
   tree (`.rs-lt .rs-lt-tree`: the same flat warm-gray cards, the selection a pale tint with an accent ring as on the
   glance's traced chain, a starker chance ramp in `ramp()`, gold, amber, orange, red, crimson to deep wine, with stops packed into the low range where
   most questions sit, so neighbouring odds read apart on white); all with the black logo. No thin gray outlines ("pencil outlines")

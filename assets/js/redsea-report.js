@@ -165,22 +165,21 @@
     return '<div class="expo__row"><span class="expo__k">' + a.name + '</span><span class="expo__track"><i class="expo__left"></i><i class="expo__safe"></i></span><span class="expo__v num"></span></div>';
   }).join("");
   var GROWS = RS.TEAMS.slice().sort(function (a, b) { return a.days - b.days; });
-  // each team its own warm color on the timeline, as the agents page colors its agents' avatars (wine, rust, brick, umber, ochre)
-  var TEAM_C = ["#7a1f2b", "#c2410c", "#a33a2a", "#8a5a2b", "#a16207"];
+  // the timeline: a row per team, its bar on a pale track; the axis runs six weeks, or further when attacks would come
+  // later, so the attack marker and the first turned-round ships always stay on the chart (gantt() sets the geometry)
+  var GT = { L: 210, W: 777, top: 46, row: 34 };
+  GT.bot = GT.top - 2 + GROWS.length * GT.row;
   (function () {
-    var X = function (d) { return 210 + d * 18.5; }, bot = 20 + GROWS.length * 34;
-    var s = '<g class="ax">' + [0, 7, 14, 21, 28, 35, 42].map(function (d) {
-      return '<line x1="' + X(d) + '" x2="' + X(d) + '" y1="10" y2="' + bot + '"/><text x="' + X(d) + '" y="' + (bot + 18) + '" text-anchor="middle">' + dayLabel(d) + "</text>";
-    }).join("") + "</g>";
+    var s = '<g class="ax" id="f-gantt-ax"></g>';
     GROWS.forEach(function (t, i) {
-      var y = 22 + i * 34;
-      s += '<g class="gt" data-t="' + t.id + '"><text class="gt__k" x="200" y="' + (y + 13) + '" text-anchor="end">' + t.name + "</text>" +
-        '<rect class="gt__track" x="' + X(0) + '" y="' + y + '" width="' + (42 * 18.5) + '" height="18" rx="9"/>' +
-        '<rect class="gt__bar" style="--gt:' + TEAM_C[i % TEAM_C.length] + '" x="' + X(0) + '" y="' + y + '" width="' + (ready(t.days) * 18.5) + '" height="18" rx="9"/>' +
-        '<text class="gt__v" x="' + (X(ready(t.days)) + 8) + '" y="' + (y + 13) + '"></text></g>';
+      var y = GT.top + i * GT.row;
+      s += '<g class="gt" data-t="' + t.id + '"><text class="gt__k" x="200" y="' + (y + 12) + '" text-anchor="end">' + t.name + "</text>" +
+        '<rect class="gt__track" x="' + GT.L + '" y="' + (y + 2) + '" width="' + GT.W + '" height="14" rx="3"/>' +
+        '<rect class="gt__bar" x="' + GT.L + '" y="' + (y + 2) + '" width="0" height="14" rx="3"/>' +
+        '<text class="gt__v" x="' + GT.L + '" y="' + (y + 13) + '"></text></g>';
     });
     $("#f-gantt").innerHTML = s + '<g id="f-gantt-mark"></g>';
-    $("#f-gantt").setAttribute("viewBox", "0 0 1000 " + (bot + 30));
+    $("#f-gantt").setAttribute("viewBox", "0 0 1000 " + (GT.bot + 30));
   })();
 
   function update() {
@@ -194,8 +193,6 @@
     $("#l-p-out").textContent = S.p + "%";
     document.querySelectorAll("#l-p-seg button").forEach(function (b) { b.setAttribute("aria-pressed", +b.dataset.p === S.p); });
     document.querySelectorAll("#l-t-seg button").forEach(function (b) { b.setAttribute("aria-pressed", +b.dataset.t === S.t); });
-    var named = { 25: "A truce holds", 46: "Totality's forecast", 70: "Talks collapse" }[S.p];
-    $("#l-p-note").textContent = named || (S.p > 46 ? S.p - 46 + " points above Totality" : 46 - S.p + " points below Totality");
     $("#l-p-down").disabled = S.p <= 5; $("#l-p-up").disabled = S.p >= 95;
 
     // headline numbers count to their new values
@@ -337,19 +334,30 @@
   $("#l-plans").addEventListener("click", function (e) { var g = e.target.closest(".pt"); if (g) { S.plan = g.dataset.plan ? g.dataset.plan.split(" ") : []; update(); } });
   $("#l-plans").addEventListener("keydown", function (e) { if (e.key !== "Enter" && e.key !== " ") return; var g = e.target.closest(".pt"); if (g) { e.preventDefault(); S.plan = g.dataset.plan ? g.dataset.plan.split(" ") : []; update(); } });
 
-  // ---------- 4. the timeline: bars fade in and out of the plan, the attack marker slides ----------
+  // ---------- 4. the timeline: bars fade in and out of the plan; the attack marker slides, and the axis stretches with it ----------
   function gantt() {
     document.querySelectorAll("#f-gantt .gt").forEach(function (el) {
       var t = RS.byId[el.dataset.t], on = has(t.id);
       el.classList.toggle("is-off", !on);
       el.querySelector(".gt__v").textContent = on ? "ready " + weekday(ready(t.days)) : "not in the plan";
     });
-    var bot = 20 + GROWS.length * 34;
     tween("gantt", [S.t], function (v) {
-      var T = v[0], X = function (d) { return 210 + d * 18.5; }, s = "";
-      if (T <= 42) s += '<line class="mark" x1="' + X(T).toFixed(1) + '" x2="' + X(T).toFixed(1) + '" y1="10" y2="' + bot + '"/><text class="lab lab--loss" x="' + (X(T) + 5).toFixed(1) + '" y="18">attacks resume, ' + dayLabel(Math.round(T)) + "</text>";
-      if (T + 5 <= 42) s += '<line class="mark mark--soft" x1="' + X(T + 5).toFixed(1) + '" x2="' + X(T + 5).toFixed(1) + '" y1="10" y2="' + bot + '"/>';
-      $("#f-gantt-mark").innerHTML = s;
+      var T = v[0], D = Math.max(42, T + 12), X = function (d) { return GT.L + d * GT.W / D; }, step = D <= 56 ? 7 : 14, s = "";
+      for (var d = 0; d <= D + 0.01; d += step) s += '<line x1="' + X(d).toFixed(1) + '" x2="' + X(d).toFixed(1) + '" y1="' + (GT.top - 6) + '" y2="' + GT.bot + '"/><text x="' + X(d).toFixed(1) + '" y="' + (GT.bot + 18) + '" text-anchor="middle">' + dayLabel(d) + "</text>";
+      $("#f-gantt-ax").innerHTML = s;
+      document.querySelectorAll("#f-gantt .gt").forEach(function (el) {
+        var w = ready(RS.byId[el.dataset.t].days) * GT.W / D;
+        el.querySelector(".gt__bar").setAttribute("width", w.toFixed(1));
+        el.querySelector(".gt__v").setAttribute("x", (GT.L + w + 8).toFixed(1));
+      });
+      // each marker's label on its own row above the bars (both lines start below them), on whichever side of its line has room
+      var mark = function (cls, at, y, text) {
+        var x = X(at), end = x > 700;
+        return '<line class="' + cls + '" x1="' + x.toFixed(1) + '" x2="' + x.toFixed(1) + '" y1="' + (GT.top - 8) + '" y2="' + GT.bot + '"/>' +
+          '<text class="lab' + (cls === "mark" ? " lab--loss" : " lab--mute") + '" x="' + (end ? x - 6 : x + 6).toFixed(1) + '" y="' + y + '" text-anchor="' + (end ? "end" : "start") + '">' + text + "</text>";
+      };
+      $("#f-gantt-mark").innerHTML = mark("mark mark--soft", T + 5, 30, "first ships turned round, " + dayLabel(Math.round(T + 5))) +
+        mark("mark", T, 14, "attacks resume, " + dayLabel(Math.round(T)));
     });
   }
 
