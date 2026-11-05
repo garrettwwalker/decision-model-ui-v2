@@ -169,8 +169,8 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   as agents 2's sliding track (a white pill on a cream track; the user preferred it to outlined pills; `placeThumb()` in
   agents2.js skips a snap when the pill is already headed to its tab, else show()'s relayout cut the slide short), the tabs
   centered in the bar, and once the question cards scroll away the chosen question fades into the empty space on their
-  left and leaves when they return (`#vq`, in agents3.js: name and chance as a plain label; the user disliked a dropdown
-  there; at 1000px and under the tabs sit left and the chance alone slips in before them), the feed's
+  left and leaves when they return (`#vq`, in agents3.js: its name in a white pill after a gray "Question"; no chance (the user
+  asked), and the user disliked a dropdown there; at 1000px and under the tabs sit left and the pill alone slips in before them), the feed's
   filters as pills with the chosen one solid ink; red buttons glow only on hover (as the landing's used to); who acts' chosen
   option a white card lifted off the cream with a red dot (the user found a black one, which flipped light on hover, bizarre); the chosen question lifts with its chance in red, no outline
   and no sliding highlight; the live map light on a white card, its agent tiles with rounded-square initial avatars

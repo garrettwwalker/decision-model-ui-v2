@@ -23,16 +23,15 @@
   decorate();
 })();
 
-/* The chosen question rides in the tab bar once the question cards have scrolled away (2026-11-04): its name and
-   chance fill the space left of the centered tabs, and leave again when the cards come back. A label only (the user
-   disliked a dropdown there). */
+/* The chosen question rides in the tab bar once the question cards have scrolled away (2026-11-04): its name, in a
+   pill under a "Question" label, fills the space left of the centered tabs, and leave again when the cards come back. A label only (the user
+   disliked a dropdown there, and wanted no chance in it). */
 (function () {
   var $ = function (id) { return document.getElementById(id); };
   var box = $("vq"), list = $("w-list"), nav = $("vtabs");
   function sync() {
     var on = list.querySelector('.wq[aria-selected="true"]'); if (!on) return;
     $("vq-name").textContent = on.querySelector(".wq__name").textContent;
-    $("vq-p").textContent = on.querySelector(".wq__p").textContent;
   }
   function place() {
     // the cards have gone once their bottom edge is above the foot of the stuck tab bar

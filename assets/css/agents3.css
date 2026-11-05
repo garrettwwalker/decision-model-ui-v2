@@ -691,19 +691,22 @@ body:not(.has-drawer) .loop__hub.is-sel .hub__ring { stroke-width: 2.5; }
 .vtabs { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); }
 .vtabs__live { justify-self: end; }
 .vq {
-  justify-self: start; display: flex; align-items: baseline; gap: 0.55rem; min-width: 0; margin: 0; white-space: nowrap;
-  font-size: 0.95rem; font-weight: 700; color: var(--ink); opacity: 0; transform: translateY(6px); pointer-events: none;
+  justify-self: start; display: flex; align-items: center; gap: 0.55rem; min-width: 0; margin: 0; white-space: nowrap;
+  opacity: 0; transform: translateY(6px); pointer-events: none;
   transition: opacity 0.3s ease, transform 0.36s cubic-bezier(0.3, 0.7, 0.2, 1);
 }
 .vq.is-on { opacity: 1; transform: none; }
-.vq__name { overflow: hidden; text-overflow: ellipsis; }
-.vq__p { font-family: var(--display); font-size: 1.35rem; font-weight: 400; color: var(--accent); }
+.vq__k { flex: none; font-size: 0.82rem; font-weight: 600; color: var(--ink-3); }
+.vq__name {
+  min-width: 0; overflow: hidden; text-overflow: ellipsis; padding: 0.5rem 0.95rem; border-radius: 999px; background: #fff;
+  box-shadow: var(--shadow-sm); font-size: 0.875rem; font-weight: 700; color: var(--ink);
+}
 @media (max-width: 1000px) {
-  /* no room to center: the tabs sit left and the chance alone slips in before them */
+  /* no room to center: the tabs sit left and the question's pill slips in before them */
   .vtabs { grid-template-columns: auto minmax(0, 1fr) auto; gap: 0; }
-  .vq { gap: 0; max-width: 0; overflow: hidden; transition: opacity 0.3s ease, transform 0.36s cubic-bezier(0.3, 0.7, 0.2, 1), max-width 0.36s cubic-bezier(0.3, 0.7, 0.2, 1), margin 0.36s cubic-bezier(0.3, 0.7, 0.2, 1); }
-  .vq.is-on { max-width: 5rem; margin-right: 0.75rem; }
-  .vq__name { display: none; }
+  .vq { max-width: 0; overflow: hidden; transition: opacity 0.3s ease, transform 0.36s cubic-bezier(0.3, 0.7, 0.2, 1), max-width 0.36s cubic-bezier(0.3, 0.7, 0.2, 1), margin 0.36s cubic-bezier(0.3, 0.7, 0.2, 1); }
+  .vq.is-on { max-width: 9rem; margin-right: 0.6rem; }
+  .vq__k { display: none; }
   .vtabs__track { justify-self: start; max-width: 100%; }
   .vtabs__live { margin-left: 0.75rem; }
 }
