@@ -22,8 +22,11 @@
   function available(name) { return views[name] && !(name === "negotiation" && $("st-section").hidden); }
   function placeThumb(snap) {
     var t = tabs[cur]; if (!t) return;
+    var w = t.offsetWidth + "px", x = "translateX(" + t.offsetLeft + "px)";
+    // already headed there: leave it be, since snapping would cut short the slide (show() relays out straight away)
+    if (thumb.style.width === w && thumb.style.transform === x) return;
     if (snap) thumb.style.transition = "none";
-    thumb.style.width = t.offsetWidth + "px"; thumb.style.transform = "translateX(" + t.offsetLeft + "px)";
+    thumb.style.width = w; thumb.style.transform = x;
     if (snap) { void thumb.offsetWidth; thumb.style.transition = ""; }
   }
   function show(name, how) {

@@ -57,6 +57,10 @@
     </section>
 
     <nav class="vtabs" id="vtabs" aria-label="Views of this question">
+      <div class="vq" id="vq">
+        <button type="button" class="vq__btn" id="vq-btn" aria-haspopup="true" aria-expanded="false" tabindex="-1"><span class="vq__name" id="vq-name"></span> <b class="vq__p num" id="vq-p"></b></button>
+        <div class="vq__menu" id="vq-menu" role="menu" hidden></div>
+      </div>
       <div class="vtabs__track">
         <span class="vtabs__thumb" aria-hidden="true"></span>
         <a class="vtab" href="#overview" data-go="overview">Overview<span class="vtab__n vtab__n--bad" id="n-attn" hidden></span></a>
