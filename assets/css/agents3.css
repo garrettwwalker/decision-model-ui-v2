@@ -612,7 +612,7 @@ body:not(.has-drawer) .rt.is-sel { background: transparent; }
 .wq { background: #fff; box-shadow: var(--shadow); transition: transform 0.25s ease, box-shadow 0.25s ease; }
 .ag3 .watch__list > button.wq:not([aria-selected="true"]):hover { background: #fff; transform: translateY(-2px); }
 .ag3 .watch__list > .wq[aria-selected="true"] { background: #fff; box-shadow: var(--shadow-up); transform: translateY(-4px); }
-.watch__list { padding: 8px 4px 20px; margin: -8px -4px -20px; }
+.watch__list { padding: 10px 16px 46px; margin: -10px -16px -46px; }  /* room for the lifted card's shadow, which the scroller would otherwise clip */
 .watch__list > .seg-thumb { display: none; }
 .wq[aria-selected="true"] { color: var(--ink); }
 .wq[aria-selected="true"] .wq__p { color: var(--accent); }

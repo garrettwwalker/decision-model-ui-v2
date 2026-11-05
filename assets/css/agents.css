@@ -425,7 +425,7 @@ button.dk__i:hover .dk__l { color: var(--ink); text-decoration: underline; text-
 .watch .btn-q { background: var(--ink); color: #fdf8ef; }
 .watch .btn-q:hover { background: #45362a; }
 .watch__title { margin: 0; font-size: 1.05rem; font-weight: 800; letter-spacing: -0.02em; }
-.watch__list { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(13rem, 1fr); gap: 0.6rem; padding: 4px 4px 22px; margin: -4px -4px -22px; overflow-x: auto; scrollbar-width: thin; }
+.watch__list { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(13rem, 1fr); gap: 0.6rem; padding: 8px 16px 36px; margin: -8px -16px -36px; overflow-x: auto; scrollbar-width: thin; }
 .wq {
   display: grid; gap: 0.15rem; align-content: start; text-align: left; padding: 0.75rem 0.9rem; border: 0; border-radius: 14px;
   font: inherit; color: var(--ink); background: transparent; cursor: pointer; transition: background-color 0.2s ease, box-shadow 0.25s ease, transform 0.25s ease;
