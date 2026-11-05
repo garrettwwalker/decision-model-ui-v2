@@ -5,11 +5,11 @@
    Between the Red Sea demo's pages the moon crosses instead: it slides over the page from the side the next page
    lies on, covers it while that page loads, and slides off the far side once it's ready. */
 (function () {
-  var ORDER = ["index.html", "briefing.html", "memo.html", "team.html", "workbench.html", "agents.html", "agents2.html", "agents3.html", "ask.html", "redsea.html", "redsea-report.html", "redsea-tree.html"];
+  var ORDER = ["index.html", "briefing.html", "memo.html", "team.html", "workbench.html", "agents.html", "agents2.html", "ask.html", "redsea.html", "redsea-report.html", "redsea-tree.html"];
   var KEY = "daybreak.slide", MOON = "daybreak.moon", ECLIPSE = ["redsea.html", "redsea-report.html", "redsea-tree.html"].map(function (p) { return ORDER.indexOf(p); });
   var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
   var root = document.documentElement;
-  // "agents 2" carries a small menu of its other versions: it opens on hover (CSS) or with its caret, and shuts on
+  // "agents" carries a small menu of its other versions (agents 2): it opens on hover (CSS) or with its caret, and shuts on
   // a click elsewhere or Escape
   function shut(except) {
     document.querySelectorAll(".tabs__more.is-open").forEach(function (m) {

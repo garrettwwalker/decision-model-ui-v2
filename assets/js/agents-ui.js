@@ -1,4 +1,4 @@
-/* Agents 3: rounded-square initial avatars, as on Looo's notification rows, for the live map's agent tiles
+/* Agents: rounded-square initial avatars, as on Looo's notification rows, for the live map's agent tiles
    (2026-11-04; the activity feed had them too, until the user found its rows too much like chat). agents.js redraws the
    tiles freely, so a watcher marks each as it appears: its initial in data-ini, and a color picked from its name. */
 (function () {

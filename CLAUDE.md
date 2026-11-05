@@ -13,7 +13,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
 ## Architecture
 
 - Pages: `index.html` (landing), `briefing.html` (daily brief), `memo.html` ("sample memo"), `team.html` ("workflows" in the nav; team workflows for middle
-  managers), `workbench.html` (world-model editor for data/IT), `agents.html` (Penumbra steering a team's agents) and `ask.html` (chat). `wargame.html` is only a
+  managers), `workbench.html` (world-model editor for data/IT), `agents.html` (Penumbra steering a team's agents; `agents2.html` the same in sans) and `ask.html` (chat). `wargame.html` is only a
   redirect to `team.html`; the wargame it used to hold was replaced.
 - Product pages (`t-night`, defined in `app.css`) share the landing's structure, but each page has its own small
   palette taken from its sky (the user found a tour-wide five-hue scheme incoherent and not very informative,
@@ -92,92 +92,66 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   happens from the foot of Consequences. Hormuz/Red Sea losses come from `model.js`; other events are layered on in
   `lossOf()`. "Ask Penumbra" (`#askdrawer`, moved to `<body>` at init to clear `.page`'s stacking context; it rises from the
   sparkle button and sinks back via `drawer-in`/`drawer-out`, a bottom sheet on phones) is a scripted assistant: `answer()` matches intents by regex, computes replies from the live engine and offers actions.
-- `agents.html` + `assets/css/agents.css` + `assets/js/agents.js` ("agents" in the nav, between workbench and ask; 2026-11-03)
-  imagines Penumbra with a team's agents: the Totality engine as the brain, agents as the edge, in a positive feedback
-  loop overseen by the decision-maker. Headline "agentic orchestration." Information agents report in; Totality
-  re-forecasts, values what's still unknown by how much it could change the decision, retasks them toward it, and
-  rewrites the briefs of workflow agents. A watchlist strip picks the question (`QUERIES`: Hormuz closes, as on the brief,
-  Tue 6 Oct, 27% at 06:00 and 33% by 07:30 with its three decisions, so keep them in sync; Red Sea shuts, Gebze strike and
-  feeder sanctions, as on the workbench); each question has its linked agents, feed, `coming` reports, asks, queue,
-  deadline and per-question briefs. Agents are the organization's (`POOL`), can serve several questions (a problem shows
-  on each, with "Also affects"), and some aren't linked yet. "New question" opens a dialog: the question, a resolve-by
-  horizon, and the pool with switches; Totality suggests agents by matching `tags` to the wording (suggested ones float up
-  and link themselves until the user changes one); the new question splits, its agents report a baseline, and a first
-  forecast arrives a few ticks later. Sections: who acts (manual by default; automatic for small decisions, small
-  reversible changes under a $1k/$10k/$50k limit, never signing, paying, sending or committing; done stays done, with
-  Undo), right now (a working dashboard; the user rejected a replay with a play button: a status strip, a live map of
-  agents either side of the Totality hub, a plain disc with the forecast that pulses when a report moves it (the user
-  rejected a sense/weigh/steer/act ring: the engine does all four at once), links that light up when information moves along them (a brighter copy
-  draws in the direction of travel, gold for reports, amber for briefs, then fades; the user disliked dots running along
-  the lines), tiles with status (working, waiting for you,
-  problem, paused), latest report and age; a side panel for an agent (problem and fixes, surfacing, waiting changes,
-  brief, also serving, stats, log, pause, autonomy) or for Totality (chart, what moved it, what it wants to know next); a
-  filtered feed; needs attention, `PROBLEMS` with fixes; a simulated clock from 08:20, a minute every 5 s), waiting for you,
-  steer the negotiation (Hormuz only; the resin buyer's brief, its numbers following the live Hormuz forecast; version
-  history) and every agent (a table). "Acts on its own" appears only in automatic mode (panel and table column), and the limit drops
-  down when automatic is picked (grid-row 0fr to 1fr) rather than appearing. Segmented
-  controls (limit, feed filters, watchlist, the negotiation's choices, the new question's horizon) slide a highlight behind
-  the chosen option (`slider()`); hub links meet the circle at evenly spaced points per side. Light from the ground up, body `ag-page`, no `.t-night` or sky, styles scoped to
-  `.ag-page` so the dialog gets them. Palette (2026-11-04, the user asked for a light look unlike the other light pages, and warmer): warm paper. A cream
-  ground `#f2e9d8` under a faint grain (`body::before`), lighter paper cards `#fcf8f0` with no outlines or shadows,
-  espresso ink `#2b2118`; Instrument Serif (Google Fonts, crisp and high-contrast) for the headline, section titles and big
-  figures (the status strip, the watchlist, Totality's disc and panel, the negotiation's numbers), Switzer for everything
-  else (a soft Fraunces was tried first, then all-Switzer; the user wanted a serif back, different from Fraunces and
-  still on brand); terracotta `#b4461d` for controls, ochre `#9a6508` for what waits for you, olive `#5c6d2b` for working, protected
-  and fixed, oxblood `#9b1f30` for problems; Totality a paper disc in a terracotta ring. The status strip is a ruled row of
-  big figures under a heavy ink rule, the map stands on the page without a panel, and the dashboard is two columns that
-  stack on their own (map then feed; agent panel then needs attention), the feed stretching to meet the right column.
-  Colors never stack (the user saw teal buttons on a red tile clash): problems sit on a neutral card with an oxblood
-  marker, and selection is a lifted sheet: brighter paper `#fffdf8` on a warm shadow (`--raised`), with no outline (the
-  user disliked the ink ring on selected cards), Totality's terracotta ring thickening. A design audit (2026-11-04) added: no glows on the ground (a peach light at the top right and a blush at the left edge were tried; the user
-  removed both); a faint terracotta halo round Totality; "Who acts" selected like the rest (it was a salmon fill); no
-  legend under the map (every tile's chip names its status); darker `-ink`/`-deep` shades for small type on tints so
-  every label passes 4.5:1; the agent names in problem cards a 44px tap target. Before this it wore Red Sea at a glance's white and flat warm-gray cards (in git
-  history); a lifted-card variant of that was tried and reverted ("no, undo that"). The watchlist's questions are paper
-  cards on the cream, the chosen one lifted with no highlight sliding between them (the user found the slide
-  awkward on separate cards; its `.seg-thumb` is hidden), and "New question" an espresso pill (the user found the earlier
-  track-and-tint version too hard to see). Picking a question counts its big figures up from zero (`assets/js/agents-count.js`, this page
-  only: the status strip, Totality's disc and the panel's forecast, each number running from 0 to its value in about
-  0.9 s, keeping decimals; dates are left alone; off under reduced motion). A decrypt effect was tried first and
-  replaced at the user's request. The user plans to redesign most product pages in this warm paper scheme, and
-  it may diverge from the landing's palette, but fonts stay the landing's.
-- `agents2.html` + `assets/css/agents2.css` + `assets/js/agents2.js` ("agents 2" in the nav, after agents; 2026-11-04)
-  is the same agents page, same content and the same `agents.js` (keep the element IDs in step with `agents.html`).
-  Redesigned the same day as click-through views because the one long page read as cluttered: a short intro, your
-  questions, then a sticky tab bar (overview: the status strip, needs attention, who acts; live map; activity; waiting
-  for you; negotiation, only for Hormuz; every agent) with counts on overview and waiting. One view shows at a time and
-  slides in from its tab's side; the hash keeps it, so Back works. Selecting an agent or Totality slides the side panel in
-  as a drawer (on wide screens the page makes room for it; on narrow ones it covers with a scrim). `agents2.js` does this
-  without touching agents.js: it takes over `scrollIntoView`, so agents.js's jumps switch views and its scroll to the
-  side panel opens the drawer, and it opens the drawer when a select click redraws `#d-side`. Look: white ground; cool
-  neutrals (ink `#0b0d12`, mist wells `#f4f5f7`); white cards on a soft diffuse shadow; monochrome ink controls; emerald
-  working, corona orange `#ea580c` waiting for you, rose problem; the live map the one dark object, an instrument panel
-  with Totality as an eclipse, mint links for reports and orange for briefs.
-- `agents3.html` + `assets/css/agents3.css` + `assets/js/agents3.js` ("agents 3", 2026-11-04): agents 2 exactly as laid
-  out (the same markup, `agents.js` and `agents2.js`; keep the IDs in step) in a style taken from the Looo landing page
-  (`references/loo snapshot.jpeg`, `references/looo closeup.png`). The user wanted the general design format only: a first
-  Looo take copied the page's set pieces (a giant hero, cards tilted on a red base, a band of names, numbered steps,
-  window cards with mac dots, a red closing band) and was rejected, as were the earlier Lemonade, blend and Privy takes
-  (all in git history). The style: a warm off-white ground `#f4efe8` with the top and tab bars in the same cream; white
-  cards on a very soft shadow, cream panels inside; DM Serif Display (Google Fonts) for the page's headline, in title case
-  ("Agentic Orchestration", no period) at the user's request, and for the view titles, also title case
-  ("Waiting for You"; capitals were rejected), in title case for card titles and big figures, small gray Switzer for the rest; tomato red `#db3324` for
-  buttons ("New question" too), counts and what waits for you, amber for a problem, working, protected and fixed neutral (the user wants the palette warm, no green); status as
-  soft pills, a pale wash of the color with no ring (working cream; the user disliked a halo ring, then tried it without the hairline),
-  with no dot or blinking (the user called dots a vibe-code giveaway, then found plain colored labels bland), and no
-  glow or pulse round Totality or the Live label (plain red text, which the user likes); the view tabs
-  as agents 2's sliding track (a white pill on a cream track; the user preferred it to outlined pills; `placeThumb()` in
-  agents2.js skips a snap when the pill is already headed to its tab, else show()'s relayout cut the slide short), the tabs
-  centered in the bar, and once the question cards scroll away the chosen question fades into the empty space on their
-  left and leaves when they return (`#vq`, in agents3.js: its name in a white pill after a gray "Question" that scrolls back up to the cards; no chance (the user
-  asked), and the user disliked a dropdown there; at 1000px and under the tabs sit left and the pill alone slips in before them), the feed's
-  filters a smaller copy of that track (the user found ink pills out of step with the page); red buttons glow only on hover (as the landing's used to); secondary buttons (Decline, Edit the brief, Cancel) a soft cream fill with no outline, deepening and lifting on hover like the red ones, white on cream cards (the user disliked a thin ring); who acts' chosen
-  option a white card lifted off the cream with a red dot (the user found a black one, which flipped light on hover, bizarre); the chosen question lifts with its chance in red, no outline
-  and no sliding highlight; the live map light on a white card with no key under it (removed at the user's request; each tile names its status), its agent tiles with rounded-square initial avatars
-  (`agents3.js`, colored from the name), Totality a white disc that reads as a gauge, a pale track with a red arc as long as the chance (`#hub-arc`, set in agents3.js from `#hub-p`), holding only a larger chance and the question (no "Totality" label, and no "sense"/"act" beside the column heads, at the user's request). The stylesheet is agents2.css (renamed to
-  `.ag3`, retokened) plus a style layer at its end.
-  It's reached from a dropdown on "agents 2" in every page's nav (`.tabs__more` in app.css, the caret toggled in nav.js;
-  on phones its links sit in the scrolling row).
+- `agents.html` + `assets/css/agents.css` + `assets/js/agents.js`, `agents-views.js` and `agents-ui.js` ("agents" in the
+  nav, between workbench and ask; 2026-11-03, settled 2026-11-04) imagines Penumbra with a team's agents: the Totality
+  engine as the brain, agents as the edge, in a positive feedback loop overseen by the decision-maker. Headline "Agentic
+  Orchestration" (title case, no period, at the user's request). Information agents report in; Totality re-forecasts,
+  values what's still unknown by how much it could change the decision, retasks them toward it, and rewrites the briefs
+  of workflow agents. "Your questions" picks the question (`QUERIES`: Hormuz closes, as on the brief, Tue 6 Oct, 27% at
+  06:00 and 33% by 07:30 with its three decisions, so keep them in sync; Red Sea shuts, Gebze strike and feeder
+  sanctions, as on the workbench); each question has its linked agents, feed, `coming` reports, asks, queue, deadline and
+  per-question briefs. Agents are the organization's (`POOL`), can serve several questions (a problem shows on each, with
+  "Also affects"), and some aren't linked yet. "New question" opens a dialog: the question, a resolve-by horizon, and the
+  pool with switches; Totality suggests agents by matching `tags` to the wording (suggested ones float up and link
+  themselves until the user changes one; `drawNq()` moves only rows out of place, since moving a row cut its switch's
+  slide short); the new question splits, its agents report a baseline, and a first forecast arrives a few ticks later.
+  Who acts: manual by default; automatic for small decisions, small reversible changes under a $1k/$10k/$50k limit,
+  never signing, paying, sending or committing; done stays done, with Undo; "Acts on its own" appears only in automatic
+  mode and the limit drops down (grid-row 0fr to 1fr). A simulated clock from 08:20, a minute every 5 s (the user
+  rejected a replay with a play button). Segmented controls slide a highlight behind the chosen option (`slider()`).
+  Views (`agents-views.js`, 2026-11-04, because one long page read as cluttered): a short intro, your questions, then a
+  sticky tab bar (overview: the status strip, needs attention with `PROBLEMS` and fixes, who acts; live map; activity, a
+  filtered feed; waiting for you; negotiation, Hormuz only, the resin buyer's brief following the live forecast, with
+  version history; every agent, a table) with counts on overview and waiting. One view shows at a time and slides in
+  from its tab's side; the hash keeps it, so Back works. Selecting an agent or Totality slides the side panel in as a
+  drawer (agent: problem and fixes, surfacing, waiting changes, brief, also serving, stats, log, pause, autonomy;
+  Totality: chart, what moved it, what it wants to know next; on wide screens the page makes room, on narrow ones a
+  scrim covers). It works without touching agents.js: it takes over `scrollIntoView`, so agents.js's jumps switch views
+  and its scroll to the side panel opens the drawer, and it opens the drawer when a select click redraws `#d-side`.
+  The live map: agents either side of the Totality hub, links meeting the circle at evenly spaced points per side and
+  lighting when information moves along them (a brighter copy draws in the direction of travel, then fades; the user
+  disliked dots running along the lines, and a sense/weigh/steer/act ring).
+  Style, from the Looo landing page (`references/loo snapshot.jpeg`, `references/looo closeup.png`): the user wanted its
+  general design format only; a take that copied its set pieces (a giant hero, cards tilted on a red base, a band of
+  names, numbered steps, window cards with mac dots, a red closing band) was rejected, as were Lemonade, blend and Privy
+  takes, a warm-paper version with Instrument Serif and a white click-through version (all in git history). A warm
+  off-white ground `#f4efe8` with the top and tab bars in the same cream; white cards on a very soft shadow, cream panels
+  inside; DM Serif Display (Google Fonts) for the headline, the view titles (title case, "Waiting for You"; capitals were
+  rejected), card titles and big figures, small gray Switzer for the rest; tomato red `#db3324` for buttons ("New
+  question" too), counts and what waits for you, amber for a problem, working, protected and fixed neutral (the user
+  wants it warm, no green). Status as soft pills, a pale wash of the color with no ring, dot or blinking (the user
+  called dots a vibe-code giveaway, found plain colored labels bland, then disliked a halo ring and a hairline); no glow
+  or pulse round Totality or the Live label (plain red text, which the user likes). The view tabs a cream track with a
+  sliding white pill, centered (`placeThumb()` skips a snap when the pill is already headed to its tab, else show()'s
+  relayout cut the slide short); once the question cards scroll away the chosen question fades into the empty space on
+  their left (`#vq` in agents-ui.js: its name in a white pill after a gray "Question", which scrolls back up to the
+  cards; no chance, and no dropdown, which the user disliked; at 1000px and under, or with the drawer open, the tabs sit
+  left and the pill alone slips in before them). The feed's filters a smaller copy of that track (ink pills were out of
+  step). Red buttons glow only on hover (as the landing's used to); secondary buttons (Decline, Edit the brief, Cancel)
+  a soft cream fill with no outline, deepening and lifting on hover, white on cream cards (the user disliked a thin
+  ring); a disabled red button stays gray, a shade darker on hover. Who acts' chosen option a white card lifted off the
+  cream with a red dot (a black one that flipped light on hover was bizarre). The chosen question lifts with its chance
+  in red, no outline and no sliding highlight; the scroller is padded so its shadow isn't clipped. The live map light on a
+  white card with no key under it, its tiles with rounded-square initial avatars (agents-ui.js, colored from the name),
+  Totality a white disc that reads as a gauge: a pale track with a red arc as long as the chance (`#hub-arc`, set in
+  agents-ui.js from `#hub-p`), a larger chance and the question, no "Totality" label and no "sense"/"act" beside the
+  column heads (the disc is drawn under the ring so the two thicken alike when selected). Body `ag-page`, no `.t-night`
+  or sky, styles scoped to `.ag-page` so the dialog gets them.
+- `agents2.html` ("agents 2", 2026-11-04): the agents page with every serif swapped for Switzer, set as the landing sets
+  it, heavy and tightly tracked for titles and big figures (body `ag-page ag-sans`, the `.ag-sans` layer at the end of
+  agents.css; no DM Serif loaded). Same markup and scripts as agents.html, so keep the two in step. It's reached from a
+  dropdown on "agents" in every page's nav (`.tabs__more` in app.css, the caret toggled in nav.js; on phones its link
+  sits in the scrolling row). The older agents, agents 2 and agents 3 pages were deleted on 2026-11-04 (in git history).
 - `index.html` + `assets/css/landing.css` + `assets/js/landing.js` is the landing, Penumbra (it was a preview at
   `penumbra.html` from 2026-10-15 until the switchover on 2026-10-16; `penumbra.html` now only redirects home). Same
   sections as the old ByNine landing, with the Daybreak engine renamed the **Totality engine** and dawn lines

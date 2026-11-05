@@ -1,15 +1,13 @@
-/* Agents 3 (agents3.html): agents 2 exactly as laid out (the same markup, agents.js and agents2.js; keep the IDs in
-   step), in a style taken from the Looo landing page (references/loo snapshot.jpeg and looo closeup.png) without its
-   landing-page set pieces (2026-11-04: the user wanted the general design format, not the page's elements; a first take
-   with a giant hero, tilted cards, a name band, numbered steps, window cards and a red closing band is in git history).
-   The style: a warm off-white ground with the top bar in the same cream; white cards on a very soft shadow with cream
-   panels inside; condensed serif capitals (DM Serif Display) for the page and view titles, the serif in title case for
-   card titles and big figures, small gray Switzer for the rest; one tomato red for buttons, counts and what waits for
-   you, amber for a problem, working neutral (no green: the user wants it warm); status as plain colored labels, no dots,
-   pills or halos; the view tabs as agents 2's sliding track with a white pill; filters as pills, the chosen one solid ink; red buttons glow only on hover; who acts' chosen option is a lifted white card (a black one was rejected); the chosen
-   question lifts with no outline; the live map light, its agent tiles with rounded-square initial avatars (agents3.js).
-   Built as agents2.css (renamed to .ag3, retokened) plus the layer at the end. */
-body.ag3 {
+/* Agents (agents.html, and agents2.html in sans): Penumbra steering a team's agents as click-through views (the markup,
+   agents.js, agents-views.js and agents-ui.js), in a style taken from the Looo landing page (references/loo snapshot.jpeg
+   and looo closeup.png) without its landing-page set pieces (2026-11-04). A warm off-white ground with the bars in the
+   same cream; white cards on a very soft shadow with cream panels inside; DM Serif Display for titles and big figures
+   (Switzer in their place on agents 2, `.ag-sans`, at the end), small gray Switzer for the rest; one tomato red for
+   buttons, counts and what waits for you, amber for a problem, working neutral (no green); status as soft pills with no
+   ring or dot; the view tabs and the feed's filters as a cream track with a sliding white pill; red buttons glow only on
+   hover; who acts' chosen option a lifted white card; the live map light, its tiles with initial avatars, Totality a
+   gauge. Built on the earlier agents 2 stylesheet (retokened) plus the layer at the end; history in git. */
+body.ag-page {
   --void: #f4efe8;
   --ink: #161412; --ink-2: #57524c; --ink-3: #6a655e;
   --mist: #f8f4ee; --mist-2: #efe9e0; --mist-3: #e2dbd0;
@@ -31,18 +29,18 @@ body.ag3 {
   --ctl: var(--ink); --blue: var(--accent); --focus: var(--accent); --glass: none; --tone: var(--ink);
   color: var(--ink); background: var(--void);
 }
-.ag3 ::selection { background: var(--accent-soft); }
+.ag-page ::selection { background: var(--accent-soft); }
 
 /* ---------- chrome ---------- */
-.ag3 .bar { background: rgba(244, 239, 232, 0.92); box-shadow: 0 1px 0 var(--line); } /* the page's own cream, not white */
-.ag3 .logo { filter: none; }
-.ag3 .logo::before { background: var(--ink); }
-.ag3 .tabs a { color: var(--ink-2); opacity: 1; }
-.ag3 .tabs a:hover, .ag3 .tabs a[aria-current="page"] { color: var(--ink); }
-.ag3 .tabs a[aria-current="page"]::after { background: var(--accent); box-shadow: 0 0 8px rgba(234, 88, 12, 0.5); }
-.ag3 .app-foot { color: var(--ink-3); border-top: 1px solid var(--line); }
-.ag3 .toast { background: var(--ink); color: #fff; box-shadow: var(--shadow); }
-.ag3 button:focus-visible, .ag3 [tabindex]:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.ag-page .bar { background: rgba(244, 239, 232, 0.92); box-shadow: 0 1px 0 var(--line); } /* the page's own cream, not white */
+.ag-page .logo { filter: none; }
+.ag-page .logo::before { background: var(--ink); }
+.ag-page .tabs a { color: var(--ink-2); opacity: 1; }
+.ag-page .tabs a:hover, .ag-page .tabs a[aria-current="page"] { color: var(--ink); }
+.ag-page .tabs a[aria-current="page"]::after { background: var(--accent); box-shadow: 0 0 8px rgba(234, 88, 12, 0.5); }
+.ag-page .app-foot { color: var(--ink-3); border-top: 1px solid var(--line); }
+.ag-page .toast { background: var(--ink); color: #fff; box-shadow: var(--shadow); }
+.ag-page button:focus-visible, .ag-page [tabindex]:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 
 /* ---------- the intro: short, so the page starts on your questions ---------- */
@@ -92,9 +90,9 @@ body.ag3 {
 }
 
 /* buttons and controls: ink, or mist */
-.ag3 .btn--primary { background: var(--ink); color: #fff; border: 0; }
-.ag3 .btn--primary:hover { background: #262a33; box-shadow: none; }
-.ag3 .btn--primary:disabled { background: var(--mist-2); color: var(--ink-3); cursor: default; transform: none; }
+.ag-page .btn--primary { background: var(--ink); color: #fff; border: 0; }
+.ag-page .btn--primary:hover { background: #262a33; box-shadow: none; }
+.ag-page .btn--primary:disabled { background: var(--mist-2); color: var(--ink-3); cursor: default; transform: none; }
 .btn-q {
   display: inline-flex; align-items: center; min-height: 36px; padding: 0.35rem 0.9rem; border: 0; border-radius: 999px;
   font: inherit; font-size: 0.8125rem; font-weight: 700; color: var(--ink); background: var(--mist); cursor: pointer; transition: background-color 0.15s ease;
@@ -102,19 +100,19 @@ body.ag3 {
 .btn-q:hover { background: var(--mist-2); }
 .btn-q--sm { min-height: 32px; padding: 0.2rem 0.75rem; font-size: 0.75rem; }
 
-.ag3 .pick__seg, .ag3 .mode__limit, .feed__f { background: var(--mist); border-radius: 12px; padding: 3px; gap: 3px; }
-.ag3 .pick__seg button, .ag3 .mode__limit button, .feed__f button { color: var(--ink-2); border-radius: 9px; }
-.ag3 .pick__seg button:hover, .ag3 .mode__limit button:hover, .feed__f button:hover { background: rgba(255, 255, 255, 0.7); color: var(--ink); }
-.ag3 .pick__seg button[aria-pressed="true"], .ag3 .mode__limit button[aria-checked="true"], .feed__f button[aria-pressed="true"] { background: #fff; color: var(--ink); box-shadow: var(--shadow-sm); }
-.ag3 .pick__seg button[aria-pressed="true"] small { color: var(--accent-ink); }
-.ag3 .nudge button { background: var(--mist); color: var(--ink); }
-.ag3 .nudge button:hover:not(:disabled) { background: var(--mist-2); }
-.ag3 .nudge output { color: var(--ink); }
-.ag3 .switch__ui { background: var(--mist-3); }
-.ag3 .switch__ui::after { background: #fff; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.22); }
-.ag3 .switch input:checked + .switch__ui { background: var(--ink); }
-.ag3 .switch input:disabled + .switch__ui { opacity: 0.45; }
-.ag3 .field__val { color: var(--ink-3); }
+.ag-page .pick__seg, .ag-page .mode__limit, .feed__f { background: var(--mist); border-radius: 12px; padding: 3px; gap: 3px; }
+.ag-page .pick__seg button, .ag-page .mode__limit button, .feed__f button { color: var(--ink-2); border-radius: 9px; }
+.ag-page .pick__seg button:hover, .ag-page .mode__limit button:hover, .feed__f button:hover { background: rgba(255, 255, 255, 0.7); color: var(--ink); }
+.ag-page .pick__seg button[aria-pressed="true"], .ag-page .mode__limit button[aria-checked="true"], .feed__f button[aria-pressed="true"] { background: #fff; color: var(--ink); box-shadow: var(--shadow-sm); }
+.ag-page .pick__seg button[aria-pressed="true"] small { color: var(--accent-ink); }
+.ag-page .nudge button { background: var(--mist); color: var(--ink); }
+.ag-page .nudge button:hover:not(:disabled) { background: var(--mist-2); }
+.ag-page .nudge output { color: var(--ink); }
+.ag-page .switch__ui { background: var(--mist-3); }
+.ag-page .switch__ui::after { background: #fff; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.22); }
+.ag-page .switch input:checked + .switch__ui { background: var(--ink); }
+.ag-page .switch input:disabled + .switch__ui { opacity: 0.45; }
+.ag-page .field__val { color: var(--ink-3); }
 
 /* ---------- overview: the status strip, then what needs attention beside who acts ---------- */
 .ov { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 1rem; align-items: start; margin-top: 1rem; }
@@ -158,7 +156,7 @@ body.ag3 {
   display: grid; gap: 0.2rem; align-content: start; text-align: left; padding: 0.95rem 1.05rem; border: 0; border-radius: 18px;
   font: inherit; color: var(--ink); background: var(--mist); cursor: pointer; transition: background-color 0.2s ease, color 0.2s ease;
 }
-.ag3 .watch__list > button.wq:not([aria-selected="true"]):hover { background: var(--mist-2); }
+.ag-page .watch__list > button.wq:not([aria-selected="true"]):hover { background: var(--mist-2); }
 .wq__name { font-size: 0.84rem; font-weight: 700; }
 .wq__p { font-size: 2rem; font-weight: 800; letter-spacing: -0.045em; line-height: 1.05; }
 .wq__meta { display: flex; flex-wrap: wrap; align-items: center; gap: 0.3rem 0.4rem; margin-top: 0.25rem; }
@@ -273,7 +271,7 @@ button.dk__i:hover::before, button.dk__i:hover + .dk__i::before { opacity: 0; }
   box-shadow: -1px 0 0 var(--line), -30px 0 60px -30px rgba(11, 13, 18, 0.3);
   transform: translateX(104%); transition: transform 0.36s cubic-bezier(0.3, 0.7, 0.2, 1), visibility 0s 0.36s; visibility: hidden;
 }
-.ag3 .drawer__panel:focus-visible { outline: none; } /* focus moves here to carry keyboard users along; it isn't a control */
+.ag-page .drawer__panel:focus-visible { outline: none; } /* focus moves here to carry keyboard users along; it isn't a control */
 .drawer.is-open .drawer__panel { transform: none; visibility: visible; transition: transform 0.36s cubic-bezier(0.3, 0.7, 0.2, 1); }
 .drawer__scrim { display: none; }
 .drawer__x {
@@ -523,8 +521,8 @@ body:not(.has-drawer) .rt.is-sel { background: transparent; }
   transition: transform 0.34s cubic-bezier(0.3, 0.7, 0.2, 1), width 0.34s cubic-bezier(0.3, 0.7, 0.2, 1), height 0.34s ease, opacity 0.2s ease;
 }
 /* the highlight carries the fill, so the chosen button itself goes clear; a hovered one keeps its tint through a click */
-.ag3 .has-thumb > button[aria-pressed="true"], .ag3 .has-thumb > button[aria-checked="true"], .ag3 .has-thumb > button[aria-selected="true"] { background: transparent; box-shadow: none; }
-.ag3 .pick__seg.has-thumb > button:hover, .ag3 .mode__limit.has-thumb > button:hover, .feed__f.has-thumb > button:hover { background: rgba(255, 255, 255, 0.7); }
+.ag-page .has-thumb > button[aria-pressed="true"], .ag-page .has-thumb > button[aria-checked="true"], .ag-page .has-thumb > button[aria-selected="true"] { background: transparent; box-shadow: none; }
+.ag-page .pick__seg.has-thumb > button:hover, .ag-page .mode__limit.has-thumb > button:hover, .feed__f.has-thumb > button:hover { background: rgba(255, 255, 255, 0.7); }
 
 /* ---------- narrower screens ---------- */
 @media (max-width: 1240px) {
@@ -577,22 +575,22 @@ body:not(.has-drawer) .rt.is-sel { background: transparent; }
 .intro__title, .vhead__title { font-family: var(--display); font-weight: 400; letter-spacing: -0.015em; } /* title case, set in the markup */
 .intro__title { font-size: clamp(2.6rem, 5.4vw, 4.2rem); line-height: 0.95; text-transform: none; letter-spacing: -0.02em; } /* the page's headline in title case (the user asked for it over capitals and lowercase), as are the view titles */
 .vhead__title { font-size: clamp(1.7rem, 2.8vw, 2.3rem); line-height: 1; }
-.ov__title, .side__name, .ag3 .panel__title, .done__title, .nq__title { font-family: var(--display); font-weight: 400; letter-spacing: 0; }
+.ov__title, .side__name, .ag-page .panel__title, .done__title, .nq__title { font-family: var(--display); font-weight: 400; letter-spacing: 0; }
 .ov__title { font-size: 1.3rem; }
 .side__name { font-size: 1.6rem; }
-.ag3 .steer__top .panel__title { font-size: 1.3rem; }
+.ag-page .steer__top .panel__title { font-size: 1.3rem; }
 .dk__v, .wq__p, .hub__p, .side__p b, .kpi__v { font-family: var(--display); font-weight: 400; letter-spacing: -0.01em; font-variant-numeric: lining-nums tabular-nums; }
 .intro__kicker { font-weight: 600; color: var(--accent-ink); }
 
 /* chrome: the top bar in the page's cream; the tab bar too */
-.ag3 .bar { background: rgba(244, 239, 232, 0.92); }
+.ag-page .bar { background: rgba(244, 239, 232, 0.92); }
 .vtabs { background: rgba(244, 239, 232, 0.92); }
 
 /* buttons: red pills to act, white pills for the quieter choice; a red pill glows only under the pointer */
-.ag3 .btn--primary { background: var(--accent); box-shadow: none; transition: background-color 0.15s ease, box-shadow 0.2s ease; }
-.ag3 .btn--primary:hover { background: #c42a1c; box-shadow: 0 8px 18px -8px rgba(219, 51, 36, 0.7); }
-.ag3 .btn--primary:disabled { background: var(--mist-2); color: var(--ink-3); box-shadow: none; }
-.ag3 .btn--primary:disabled:hover { background: var(--mist-3); box-shadow: none; }  /* not ready yet: stays gray, a shade deeper on hover */
+.ag-page .btn--primary { background: var(--accent); box-shadow: none; transition: background-color 0.15s ease, box-shadow 0.2s ease; }
+.ag-page .btn--primary:hover { background: #c42a1c; box-shadow: 0 8px 18px -8px rgba(219, 51, 36, 0.7); }
+.ag-page .btn--primary:disabled { background: var(--mist-2); color: var(--ink-3); box-shadow: none; }
+.ag-page .btn--primary:disabled:hover { background: var(--mist-3); box-shadow: none; }  /* not ready yet: stays gray, a shade deeper on hover */
 /* secondary buttons as a soft cream fill with no outline, a shade deeper on hover (the user disliked the thin ring);
    on a cream card they turn white so they still show */
 .btn-q { background: var(--mist-2); box-shadow: none; transition: background-color 0.15s ease, box-shadow 0.2s ease, transform 0.2s ease; }
@@ -613,8 +611,8 @@ body:not(.has-drawer) .rt.is-sel { background: transparent; }
 
 /* the questions: white cards; the chosen one lifts, its chance in red, with no outline and nothing sliding */
 .wq { background: #fff; box-shadow: var(--shadow); transition: transform 0.25s ease, box-shadow 0.25s ease; }
-.ag3 .watch__list > button.wq:not([aria-selected="true"]):hover { background: #fff; transform: translateY(-2px); }
-.ag3 .watch__list > .wq[aria-selected="true"] { background: #fff; box-shadow: var(--shadow-up); transform: translateY(-4px); }
+.ag-page .watch__list > button.wq:not([aria-selected="true"]):hover { background: #fff; transform: translateY(-2px); }
+.ag-page .watch__list > .wq[aria-selected="true"] { background: #fff; box-shadow: var(--shadow-up); transform: translateY(-4px); }
 .watch__list { padding: 10px 16px 46px; margin: -10px -16px -46px; }  /* room for the lifted card's shadow, which the scroller would otherwise clip */
 .watch__list > .seg-thumb { display: none; }
 .wq[aria-selected="true"] { color: var(--ink); }
@@ -729,3 +727,12 @@ body:not(.has-drawer) .loop__hub.is-sel .hub__ring, body:not(.has-drawer) .loop_
   body.has-drawer .vtabs__live { margin-left: 0.75rem; }
 }
 @media (prefers-reduced-motion: reduce) { .vq { transition: none; } .btn-q:hover { transform: none; } }
+
+/* ---------- agents 2: the same page in sans (2026-11-04) ----------
+   Every serif swapped for Switzer, set as the landing sets it: heavy and tightly tracked for titles and big figures. */
+body.ag-page.ag-sans { --display: "Switzer", ui-sans-serif, system-ui, sans-serif; }
+.ag-sans .intro__title { font-weight: 800; letter-spacing: -0.05em; }
+.ag-sans .vhead__title { font-weight: 800; letter-spacing: -0.04em; }
+.ag-sans .ov__title, .ag-sans .side__name, .ag-sans .panel__title, .ag-sans .done__title, .ag-sans .nq__title { font-weight: 800; letter-spacing: -0.03em; }
+.ag-sans .dk__v, .ag-sans .wq__p, .ag-sans .side__p b, .ag-sans .kpi__v { font-weight: 800; letter-spacing: -0.045em; }
+.ag-sans .hub__p { font-weight: 800; letter-spacing: -0.05em; font-size: 54px; }
