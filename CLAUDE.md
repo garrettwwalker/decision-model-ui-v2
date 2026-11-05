@@ -161,7 +161,8 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   `.btn-q`, soft `.pill`/`.pill--red`/`.pill--amber`). Its rules: cream ground, white cards on a soft shadow, serif
   titles in title case with no period, one tomato red (money at risk is red; protected neutral ink), amber for a
   problem, no green, gold or blue, no outline rings (a lit or chosen card lifts), no status dots or glows. agents.css
-  keeps its own copy (body `ag-page`) and is the reference; the other existing pages keep their own styles unless asked.
+  keeps its own copy (body `ag-page`) and is the reference; at a glance and the report use house.css; the other existing
+  pages keep their own styles unless asked.
 - `index.html` + `assets/css/landing.css` + `assets/js/landing.js` is the landing, Penumbra (it was a preview at
   `penumbra.html` from 2026-10-15 until the switchover on 2026-10-16; `penumbra.html` now only redirects home). Same
   sections as the old ByNine landing, with the Daybreak engine renamed the **Totality engine** and dawn lines
@@ -239,7 +240,10 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   all set to at a glance's white gallery at the user's request (same white ground, broadly the same colors): at a glance
   (since 2026-11-05 in the house style instead: body `app house rs rs-glance`, its layer `.house.rs-glance` in
   redsea.css; the facts one white strip, serif titles in title case, tracing lifts the chain's cards and lights its curves red), the report
-  (`.rs-light`: white, the plan lab a warm-gray band with white figures, the map's sea warm gray and land white) and the
+  (since 2026-11-05 in the house style too: body `app house rs rs-light rs-report`, its layer `.house.rs-report` in
+  redsea.css retokens the `--r-*` colors: loss red, protected neutral ink with taupe `#b8a68c` bars, no gold; the bottom
+  line, figures, table, plan lab and off-list cards white cards, cream panels in the lab, serif titles in title case, the
+  headline split into a title and a one-line lede, the step's plus black) and the
   tree (`.rs-lt .rs-lt-tree`: the same flat warm-gray cards, the selection a pale tint with an accent ring as on the
   glance's traced chain, a starker chance ramp in `ramp()`, gold, amber, orange, red, crimson to deep wine, with stops packed into the low range where
   most questions sit, so neighbouring odds read apart on white); all with the black logo. No thin gray outlines ("pencil outlines")
