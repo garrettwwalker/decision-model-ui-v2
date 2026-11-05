@@ -143,7 +143,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   a soft cream fill with no outline, deepening and lifting on hover, white on cream cards (the user disliked a thin
   ring); a disabled red button stays gray, a shade darker on hover. Who acts' chosen option a white card lifted off the
   cream with a red dot (a black one that flipped light on hover was bizarre). The chosen question lifts with its chance
-  in red, no outline and no sliding highlight; the scroller is padded so its shadow isn't clipped. The live map light on a
+  in red, no outline and no sliding highlight, the others' text faded to 55% (full under the pointer); the scroller is padded so its shadow isn't clipped. The live map light on a
   white card with no key under it, its tiles with rounded-square initial avatars (agents-ui.js, colored from the name),
   Totality a white disc that reads as a gauge: a pale track with a red arc as long as the chance (`#hub-arc`, set in
   agents-ui.js from `#hub-p`), a larger chance and the question, no "Totality" label and no "sense"/"act" beside the
