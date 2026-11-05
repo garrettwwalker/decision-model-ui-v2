@@ -251,10 +251,9 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   the off-list sparklines red; once the lab's four figure tiles pass under the top bar they fold into a strip beneath it (`#kbar`, built in
   redsea-report.js, the cream of the agents page's sticky tab bar; each label and figure glides from its tile, FLIP), kept
   in step with the tiles to the foot of the page, with a "Current Plan" button (just that, at the user's request) that
-  scrolls back up to the lab, as the agents page's question pill does; the lab's controls kept few and flat (a column of
-  near-identical white cards that lifted when chosen read as crowded): "Our options" A/B/C as one cream track with a
-  white pill on the chosen (serif letter, short name, "Recommended" in red text), the five moves as one white list with
-  hairlines and switches; the signposts in "What Would
+  scrolls back up to the lab, as the agents page's question pill does; the presets styled as the agents page's question
+  cards (white, the chosen lifted, the others' text faded to 55%; a cream track for them was tried and undone); the five
+  moves as one white list with hairlines and switches (five more cards read as crowded); the signposts in "What Would
   Change Our Minds" numbered in italic DM Serif roman numerals (the report loads the italic); the attack start picked on a
   four-stop line (`.when`, the chosen stop a red dot; a 2x2 grid on gray read poorly); links to the tree as soft `.btn-q`
   buttons under their paragraph (the user dislikes inline links); serif titles in title case, the headline split into a title and a one-line lede, the step's plus black) and the
