@@ -154,6 +154,14 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   agents.css; no DM Serif loaded). Same markup and scripts as agents.html, so keep the two in step. It's reached from a
   dropdown on "agents" in every page's nav (`.tabs__more` in app.css, the caret toggled in nav.js; on phones its link
   sits in the scrolling row). The older agents, agents 2 and agents 3 pages were deleted on 2026-11-04 (in git history).
+- **House style (2026-11-05): the agents page's look is the default for new pages.** The user likes it and asked for
+  it on new pages and on at a glance. `assets/css/house.css` holds it for any page: `body class="app house"`, DM Serif
+  Display from Google Fonts, then house.css after app.css (tokens, the cream bar, black logo, red current-tab mark,
+  `.h-display`/`.h-kicker`/`.h-fig` type, `.h-card`/`.h-panel`, red `.btn--primary` that glows only on hover, the cream
+  `.btn-q`, soft `.pill`/`.pill--red`/`.pill--amber`). Its rules: cream ground, white cards on a soft shadow, serif
+  titles in title case with no period, one tomato red (money at risk is red; protected neutral ink), amber for a
+  problem, no green, gold or blue, no outline rings (a lit or chosen card lifts), no status dots or glows. agents.css
+  keeps its own copy (body `ag-page`) and is the reference; the other existing pages keep their own styles unless asked.
 - `index.html` + `assets/css/landing.css` + `assets/js/landing.js` is the landing, Penumbra (it was a preview at
   `penumbra.html` from 2026-10-15 until the switchover on 2026-10-16; `penumbra.html` now only redirects home). Same
   sections as the old ByNine landing, with the Daybreak engine renamed the **Totality engine** and dawn lines
@@ -229,7 +237,8 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   paper version) and no nebula (space.js skips the haze for these pages). All three are now light, each a different
   take at first (2026-11-03, "don't include the landing page background", so no starfield either), then on 2026-11-04
   all set to at a glance's white gallery at the user's request (same white ground, broadly the same colors): at a glance
-  (`.rs-lt .rs-lt-glance`: pure white, warm light-gray cards `#f5f4f0`, no borders or shadows), the report
+  (since 2026-11-05 in the house style instead: body `app house rs rs-glance`, its layer `.house.rs-glance` in
+  redsea.css; the facts one white strip, serif titles in title case, tracing lifts the chain's cards and lights its curves red), the report
   (`.rs-light`: white, the plan lab a warm-gray band with white figures, the map's sea warm gray and land white) and the
   tree (`.rs-lt .rs-lt-tree`: the same flat warm-gray cards, the selection a pale tint with an accent ring as on the
   glance's traced chain, a starker chance ramp in `ramp()`, gold, amber, orange, red, crimson to deep wine, with stops packed into the low range where

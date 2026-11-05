@@ -680,8 +680,7 @@ button.route__in:focus-visible { outline: 2px solid var(--accent); outline-offse
 @media (prefers-reduced-motion: reduce) { .cd { transition: none; } .cd:hover { transform: none; } }
 
 /* ================= Light versions of at a glance and the tree (no starfield) =================
-   Two takes, so the user can compare them with the report's warm paper:
-   - .rs-lt-glance  white gallery: pure white ground, warm light-gray cards without borders, ink type
+   (at a glance has since moved to the house style, below)
    - .rs-lt-tree    the same white gallery (2026-11-04: the user asked for all three to match at a glance), flat cards
    Both keep the demo's meanings: burnt orange for controls and the lit answer, deep rose for money at risk, deep
    gold for money protected, and a black logo as on the report. */
@@ -698,18 +697,63 @@ button.route__in:focus-visible { outline: 2px solid var(--accent); outline-offse
 .rs-lt .switch__ui::after { box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); }
 .rs-lt .mv-day.is-up, .rs-lt .dt__day.is-up { color: #c2304b; }
 
-/* white gallery */
-.t-night.rs.rs-lt-glance {
-  --void: #ffffff; --space: #ffffff;
-  --card: #f5f4f0; --card-hover: #eeece6; --card-on: #fbefdd; --card-low: #e6e3dc; --card-solid: #f5f4f0;
+/* at a glance in the house style (house.css, 2026-11-05: the user asked for the agents page's look here and on new
+   pages): cream ground, the facts as one white strip with serif figures, white cards on a soft shadow, serif titles
+   in title case; tracing a chain lifts its cards rather than ringing them, and lights its curves red */
+.house.rs-glance .glance__head { max-width: 50rem; padding: clamp(2rem, 5vh, 3.25rem) 0 clamp(1.5rem, 3vh, 2rem); }
+.house.rs-glance .glance__kicker { margin: 0 0 0.6rem; font-size: 0.82rem; font-weight: 600; color: var(--accent-ink); }
+.house.rs-glance .glance__title { font-family: var(--display); font-weight: 400; font-size: clamp(2.6rem, 5.4vw, 4.2rem); letter-spacing: -0.02em; line-height: 0.98; }
+.house.rs-glance .glance__lede { margin-top: 0.9rem; font-size: 1.05rem; line-height: 1.55; color: var(--ink-2); }
+
+.house.rs-glance .facts { gap: 0; border: 0; border-radius: var(--r); background: #fff; box-shadow: var(--shadow); }
+.house.rs-glance .fact { position: relative; padding: 1.35rem 1.5rem 1.4rem; }
+.house.rs-glance .fact + .fact { padding-left: 1.5rem; border-left: 0; }
+.house.rs-glance .fact + .fact::before { content: ""; position: absolute; left: 0; top: 1.1rem; bottom: 1.1rem; width: 1px; background: var(--line); }
+.house.rs-glance .fact__big { font-family: var(--display); font-weight: 400; letter-spacing: -0.01em; font-size: clamp(2.5rem, 4.2vw, 3.4rem); font-variant-numeric: lining-nums tabular-nums; }
+.house.rs-glance .fact__big span { font-size: 0.6em; }
+.house.rs-glance .fact__what { font-size: 0.92rem; color: var(--ink-2); }
+.house.rs-glance .fact__foot { font-size: 0.8rem; color: var(--ink-3); }
+.house.rs-glance .fact__foot b { color: var(--ink); }
+.house.rs-glance .up, .house.rs-glance .fact__foot b.up { color: var(--accent-ink); }
+.house.rs-glance .down { color: var(--ink-2); }
+
+.house.rs-glance .board__title { font-family: var(--display); font-weight: 400; font-size: 1.45rem; letter-spacing: -0.005em; align-items: center; }
+.house.rs-glance .board__title span { font-family: var(--font, inherit); font-size: 0.72rem; font-weight: 700; color: var(--ink-2); background: var(--track); transform: none; }
+.house.rs-glance .board__note { font-size: 0.8rem; color: var(--ink-3); }
+.house.rs-glance .board__note--off { color: var(--ink); font-weight: 700; font-size: 0.85rem; }
+.house.rs-glance .board__note--off span { font-weight: 400; color: var(--ink-3); }
+.house.rs-glance .board__hint { color: var(--ink-3); font-size: 0.8rem; }
+.house.rs-glance .board__links path { stroke: #ddd4c7; stroke-width: 1.3; }
+.house.rs-glance .board.is-tracing .board__links path { opacity: 0.35; }
+.house.rs-glance .board.is-tracing .board__links path.is-on { opacity: 1; stroke: var(--accent); stroke-width: 1.6; }
+
+.house.rs-glance .card { background: #fff; box-shadow: var(--shadow); transition: transform 0.25s ease, box-shadow 0.25s ease; }
+.house.rs-glance .card:hover, .house.rs-glance .card:focus-visible { background: #fff; }
+.house.rs-glance .board.is-tracing .card.is-on { background: #fff; box-shadow: var(--shadow-up); transform: translateY(-2px); }
+.house.rs-glance .board.is-tracing .card:not(.is-on) > * { opacity: 0.4; }
+.house.rs-glance .card__name { font-size: 0.95rem; }
+.house.rs-glance .card__line, .house.rs-glance .as__short, .house.rs-glance .tm__move { color: var(--ink-2); font-size: 0.86rem; }
+.house.rs-glance .card__where, .house.rs-glance .card__hits, .house.rs-glance .tm__days, .house.rs-glance .tm__to { color: var(--ink-3); }
+.house.rs-glance .ev__p { font-family: var(--display); font-weight: 400; letter-spacing: -0.01em; font-size: 2.2rem; font-variant-numeric: lining-nums tabular-nums; }
+.house.rs-glance .spark polyline { stroke: var(--ink-3); }
+.house.rs-glance .spark circle { fill: var(--ink); }
+.house.rs-glance .tag { padding: 0.16rem 0.55rem; font-size: 0.68rem; font-weight: 700; color: var(--ink-2); background: var(--mist-2); }
+.house.rs-glance .tag--jump { color: var(--accent-ink); background: var(--accent-soft); }
+.house.rs-glance .tag--swan { color: var(--bad-ink); background: var(--bad-soft); }
+.house.rs-glance .as__money b, .house.rs-glance .tm__foot b { font-family: var(--display); font-weight: 400; letter-spacing: -0.005em; font-size: 1.45rem; font-variant-numeric: lining-nums tabular-nums; }
+.house.rs-glance .as__bar { background: var(--mist-2); }
+.house.rs-glance .as__bar i { background: var(--accent); }
+
+.house.rs-glance .deeper__card { background: #fff; box-shadow: var(--shadow); transition: transform 0.25s ease, box-shadow 0.25s ease; }
+.house.rs-glance .deeper__card:hover, .house.rs-glance .deeper__card:focus-visible { background: #fff; box-shadow: var(--shadow-up); transform: translateY(-2px); }
+.house.rs-glance .deeper__k { font-family: var(--display); font-weight: 400; font-size: 1.4rem; letter-spacing: -0.005em; color: var(--ink); }
+.house.rs-glance .deeper__t { color: var(--ink-2); font-size: 0.92rem; }
+@media (max-width: 720px) {
+  .house.rs-glance .fact, .house.rs-glance .fact + .fact { padding: 1.1rem 1.25rem; }
+  .house.rs-glance .fact + .fact::before { left: 1.25rem; right: 1.25rem; top: 0; bottom: auto; width: auto; height: 1px; }
+  .house.rs-glance .fact + .fact { border-top: 0; }
 }
-.rs-lt-glance .card, .rs-lt-glance .deeper__card { box-shadow: none; }
-.rs-lt-glance .board__links path { stroke: rgba(21, 22, 26, 0.14); }
-.rs-lt-glance .board.is-tracing .card.is-on { box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--accent) 70%, transparent); background: #fffaf2; }
-.rs-lt-glance .facts { border-top-color: var(--fg); }
-.rs-lt-glance .tag { background: #fbe9d2; }
-.rs-lt-glance .spark polyline { stroke: var(--moon-3); }
-.rs-lt-glance .fact__big.money--safe { color: #c08a0c; }
+@media (prefers-reduced-motion: reduce) { .house.rs-glance .card, .house.rs-glance .deeper__card { transition: none; transform: none !important; } }
 
 /* the tree, on at a glance's white */
 .t-night.rs.rs-lt-tree {

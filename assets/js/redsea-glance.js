@@ -26,7 +26,7 @@
 
   function eventCard(e) {
     var d = e.p - e.was;
-    var tag = e.swan ? '<span class="tag">Gray swan</span>' : e.spike ? '<span class="tag">Odds jumped</span>' : "";
+    var tag = e.swan ? '<span class="tag tag--swan">Gray swan</span>' : e.spike ? '<span class="tag tag--jump">Odds jumped</span>' : "";
     return '<a class="ev card" href="redsea-tree.html#' + e.node + '" data-id="' + e.id + '">' +
       '<span class="ev__p num">' + e.p + "<small>%</small></span>" +
       '<span class="ev__body"><span class="card__name">' + e.name + "</span>" +

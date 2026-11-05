@@ -1,0 +1,75 @@
+/* The house style (2026-11-05): the agents page's look, drawn out so any page can start from it. A page opts in with
+   `body class="app house"`, loads DM Serif Display from Google Fonts and this file after app.css, then adds its own
+   layout on top. The agents page (agents.css, body.ag-page) is the reference and keeps its own full copy.
+   - ground: warm off-white #f4efe8, the top bar in the same cream, white cards on a very soft shadow, cream panels inside
+   - type: DM Serif Display for headlines, section and card titles and big figures (title case, no period); small gray
+     Switzer for everything else
+   - color: one tomato red for actions, counts, money at risk and what waits for you; amber for a problem; working,
+     protected and done are neutral ink (warm only: no green, gold or blue)
+   - status and kinds as soft pills: a pale wash of the color, no ring, dot or blinking
+   - red buttons glow only on hover; secondary buttons a cream fill that deepens and lifts, no outline
+   - a lit or chosen card lifts on a deeper shadow; never an outline ring
+   - segmented controls a cream track with a white pill; hover only darkens the label */
+body.house {
+  --void: #f4efe8;
+  --ink: #161412; --ink-2: #57524c; --ink-3: #6a655e;
+  --mist: #f8f4ee; --mist-2: #efe9e0; --mist-3: #e2dbd0; --track: #ebe4d9;
+  --line: rgba(22, 20, 18, 0.08); --line-strong: rgba(22, 20, 18, 0.16);
+  --accent: #db3324; --accent-ink: #b3241a; --accent-soft: #fdebe8; --accent-hover: #c42a1c;
+  --bad: #e0861a; --bad-ink: #8f5208; --bad-soft: #fcf0dc;
+  --off: #a39d94;
+  --shadow: 0 1px 2px rgba(22, 20, 18, 0.04), 0 12px 32px -18px rgba(22, 20, 18, 0.22);
+  --shadow-sm: 0 1px 2px rgba(22, 20, 18, 0.08), 0 3px 10px -4px rgba(22, 20, 18, 0.12);
+  --shadow-up: 0 2px 4px rgba(22, 20, 18, 0.05), 0 24px 44px -20px rgba(22, 20, 18, 0.38);
+  --display: "DM Serif Display", Georgia, "Times New Roman", serif;
+  --r: 16px; --r-sm: 10px;
+  /* the shared components read these names */
+  --moon: var(--ink); --moon-2: var(--ink-2); --moon-3: var(--ink-3); --fg: var(--ink); --fg-2: var(--ink-2);
+  --on-ink: #fff; --card: #fff; --card-hover: #fff; --card-low: var(--mist); --panel: #fff; --panel-line: var(--line);
+  --loss: var(--accent-ink); --safe: var(--ink); --good: var(--ink-2); --alert: var(--accent-ink); --alert-2: var(--accent-ink);
+  --ctl: var(--ink); --focus: var(--accent); --glass: none; --radius: var(--r);
+  color: var(--ink); background: var(--void);
+}
+.house ::selection { background: var(--accent-soft); }
+
+/* ---------- chrome ---------- */
+.house .bar { background: rgba(244, 239, 232, 0.92); box-shadow: 0 1px 0 var(--line); }
+.house .logo { filter: none; }
+.house .logo::before { background: var(--ink); }
+.house .tabs a { color: var(--ink-2); opacity: 1; }
+.house .tabs a:hover, .house .tabs a[aria-current="page"] { color: var(--ink); }
+.house .tabs a[aria-current="page"]::after { background: var(--accent); box-shadow: none; }
+.house .app-foot { color: var(--ink-3); border-top: 1px solid var(--line); }
+.house .toast { background: var(--ink); color: #fff; box-shadow: var(--shadow); }
+.house a:focus-visible, .house button:focus-visible, .house [tabindex]:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ---------- type ---------- */
+.house .h-display { font-family: var(--display); font-weight: 400; letter-spacing: -0.015em; }
+.house .h-kicker { margin: 0 0 0.6rem; font-size: 0.82rem; font-weight: 600; color: var(--accent-ink); }
+.house .h-fig { font-family: var(--display); font-weight: 400; letter-spacing: -0.01em; font-variant-numeric: lining-nums tabular-nums; }
+
+/* ---------- surfaces ---------- */
+.house .h-card { background: #fff; border-radius: var(--r); box-shadow: var(--shadow); }
+.house .h-panel { background: var(--mist); border-radius: var(--r-sm); }
+
+/* ---------- buttons ---------- */
+.house .btn--primary { background: var(--accent); color: #fff; border: 0; box-shadow: none; transition: background-color 0.15s ease, box-shadow 0.2s ease, transform 0.15s ease; }
+.house .btn--primary:hover { background: var(--accent-hover); box-shadow: 0 8px 18px -8px rgba(219, 51, 36, 0.7); }
+.house .btn--primary:disabled { background: var(--mist-2); color: var(--ink-3); box-shadow: none; transform: none; cursor: default; }
+.house .btn--primary:disabled:hover { background: var(--mist-3); }
+.house .btn-q {
+  display: inline-flex; align-items: center; min-height: 36px; padding: 0.35rem 0.9rem; border: 0; border-radius: 999px;
+  font: inherit; font-size: 0.8125rem; font-weight: 700; color: var(--ink); background: var(--mist-2); cursor: pointer; text-decoration: none;
+  transition: background-color 0.15s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+.house .btn-q:hover { background: var(--mist-3); transform: translateY(-1px); box-shadow: 0 6px 14px -8px rgba(22, 20, 18, 0.35); }
+
+/* ---------- soft pills: neutral, red (waits for you, what matters) and amber (a problem) ---------- */
+.house .pill { display: inline-flex; align-items: center; padding: 0.16rem 0.55rem; border-radius: 999px; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.005em; color: var(--ink-2); background: var(--mist-2); white-space: nowrap; }
+.house .pill--red { color: var(--accent-ink); background: var(--accent-soft); }
+.house .pill--amber { color: var(--bad-ink); background: var(--bad-soft); }
+
+@media (prefers-reduced-motion: reduce) {
+  .house .btn--primary, .house .btn-q { transition: none; }
+  .house .btn-q:hover { transform: none; }
+}
