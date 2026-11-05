@@ -708,25 +708,29 @@ body:not(.has-drawer) .loop__hub.is-sel .hub__ring, body:not(.has-drawer) .loop_
 .vq.is-on { pointer-events: auto; }
 .vq__name:hover { box-shadow: var(--shadow); transform: translateY(-1px); }
 .vq__name:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+/* where the bar has no room to center (a narrow window, or the side panel open), the tabs sit left and the question's
+   pill alone opens a space before them: the tabs slide right to make room, then the pill fades in; leaving, it fades
+   and then the tabs slide back. --vq-w is the pill's own width, measured in agents-ui.js */
+.vtabs { --vq-ease: cubic-bezier(0.3, 0.7, 0.2, 1); }
 @media (max-width: 1000px) {
-  /* no room to center: the tabs sit left and the question's pill slips in before them */
   .vtabs { grid-template-columns: auto minmax(0, 1fr) auto; gap: 0; }
-  .vq { max-width: 0; overflow: hidden; transition: opacity 0.3s ease, transform 0.36s cubic-bezier(0.3, 0.7, 0.2, 1), max-width 0.36s cubic-bezier(0.3, 0.7, 0.2, 1), margin 0.36s cubic-bezier(0.3, 0.7, 0.2, 1); }
-  .vq.is-on { max-width: 9rem; margin-right: 0.6rem; }
+  .vq { max-width: 0; margin-right: 0; padding-block: 6px; margin-block: -6px; overflow: hidden; transition: max-width 0.42s var(--vq-ease) 0.1s, margin-right 0.42s var(--vq-ease) 0.1s, opacity 0.18s ease, transform 0.3s var(--vq-ease); }
+  .vq.is-on { max-width: var(--vq-w, 11rem); margin-right: 0.6rem; transition: max-width 0.42s var(--vq-ease), margin-right 0.42s var(--vq-ease), opacity 0.25s ease 0.2s, transform 0.3s var(--vq-ease) 0.2s; }
+  .vq__name { flex: none; max-width: 11rem; }
   .vq__k { display: none; }
   .vtabs__track { justify-self: start; max-width: 100%; }
   .vtabs__live { margin-left: 0.75rem; }
 }
 @media (min-width: 1001px) {
-  /* the side panel takes room from the bar: the tabs sit left, and the question shows as its pill alone */
   body.has-drawer .vtabs { grid-template-columns: auto minmax(0, 1fr) auto; gap: 0; }
-  body.has-drawer .vq { max-width: 0; overflow: hidden; }
-  body.has-drawer .vq.is-on { max-width: 11rem; margin-right: 0.6rem; }
+  body.has-drawer .vq { max-width: 0; margin-right: 0; padding-block: 6px; margin-block: -6px; overflow: hidden; transition: max-width 0.42s var(--vq-ease) 0.1s, margin-right 0.42s var(--vq-ease) 0.1s, opacity 0.18s ease, transform 0.3s var(--vq-ease); }
+  body.has-drawer .vq.is-on { max-width: var(--vq-w, 11rem); margin-right: 0.6rem; transition: max-width 0.42s var(--vq-ease), margin-right 0.42s var(--vq-ease), opacity 0.25s ease 0.2s, transform 0.3s var(--vq-ease) 0.2s; }
+  body.has-drawer .vq__name { flex: none; max-width: 11rem; }
   body.has-drawer .vq__k { display: none; }
   body.has-drawer .vtabs__track { justify-self: start; max-width: 100%; }
   body.has-drawer .vtabs__live { margin-left: 0.75rem; }
 }
-@media (prefers-reduced-motion: reduce) { .vq { transition: none; } .btn-q:hover { transform: none; } }
+@media (prefers-reduced-motion: reduce) { .vq, .vq.is-on, body.has-drawer .vq, body.has-drawer .vq.is-on { transition: none; } .btn-q:hover { transform: none; } }
 
 /* the activity feed's kinds as the same soft pills as the status labels: a report neutral, a problem amber, a fix
    neutral, a change by Totality red */

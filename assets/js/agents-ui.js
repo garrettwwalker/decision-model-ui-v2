@@ -32,6 +32,8 @@
   function sync() {
     var on = list.querySelector('.wq[aria-selected="true"]'); if (!on) return;
     $("vq-name").textContent = on.querySelector(".wq__name").textContent;
+    // where the pill opens a space for itself, the space is exactly as wide as the pill (capped in CSS)
+    box.style.setProperty("--vq-w", Math.ceil($("vq-name").scrollWidth) + "px");
   }
   function place() {
     // the cards have gone once their bottom edge is above the foot of the stuck tab bar
@@ -49,6 +51,21 @@
   });
   new MutationObserver(sync).observe(list, { subtree: true, childList: true, characterData: true, attributes: true, attributeFilter: ["aria-selected"] });
   addEventListener("scroll", place, { passive: true });
+  if (document.fonts) document.fonts.ready.then(sync);
+
+  // opening or shutting the side panel switches the bar between centered tabs and tabs at the left: rather than jump,
+  // the tabs glide from where they were (measured with the old layout put back for a moment)
+  var track = nav.querySelector(".vtabs__track"), body = document.body, was = body.classList.contains("has-drawer");
+  var glide = new MutationObserver(function () {
+    var now = body.classList.contains("has-drawer");
+    if (now === was) return;
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) { was = now; return; }
+    body.classList.toggle("has-drawer", was); var from = track.getBoundingClientRect().left;
+    body.classList.toggle("has-drawer", now); var to = track.getBoundingClientRect().left;
+    was = now; glide.takeRecords();  // the two toggles above aren't changes of their own
+    if (Math.abs(from - to) > 1) track.animate([{ transform: "translateX(" + (from - to) + "px)" }, { transform: "none" }], { duration: 420, easing: "cubic-bezier(0.3, 0.7, 0.2, 1)" });
+  });
+  glide.observe(body, { attributes: true, attributeFilter: ["class"] });
   sync(); place();
 })();
 

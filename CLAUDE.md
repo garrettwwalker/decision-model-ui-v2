@@ -136,7 +136,8 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   relayout cut the slide short); once the question cards scroll away the chosen question fades into the empty space on
   their left (`#vq` in agents-ui.js: its name in a white pill after a gray "Question", which scrolls back up to the
   cards; no chance, and no dropdown, which the user disliked; at 1000px and under, or with the drawer open, the tabs sit
-  left and the pill alone slips in before them). The feed's filters a smaller copy of that track (ink pills were out of
+  left and the pill alone opens a space before them: the tabs slide right to its measured width `--vq-w`, then it fades in,
+  and the reverse on leaving; opening or shutting the drawer glides the tabs between centered and left with a FLIP). The feed's filters a smaller copy of that track (ink pills were out of
   step). The feed's kinds (Report, Problem, Fixed, Change) are the same soft pills as status (Change red, Problem amber). Red buttons glow only on hover (as the landing's used to); secondary buttons (Decline, Edit the brief, Cancel)
   a soft cream fill with no outline, deepening and lifting on hover, white on cream cards (the user disliked a thin
   ring); a disabled red button stays gray, a shade darker on hover. Who acts' chosen option a white card lifted off the
