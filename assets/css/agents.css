@@ -728,6 +728,16 @@ body:not(.has-drawer) .loop__hub.is-sel .hub__ring, body:not(.has-drawer) .loop_
 }
 @media (prefers-reduced-motion: reduce) { .vq { transition: none; } .btn-q:hover { transform: none; } }
 
+/* the activity feed's kinds as the same soft pills as the status labels: a report neutral, a problem amber, a fix
+   neutral, a change by Totality red */
+.fd__kind { padding: 0.12rem 0.5rem; border-radius: 999px; font-size: 0.68rem; font-weight: 700; color: var(--ink-2); background: var(--mist-2); }
+.fd.is-prob .fd__kind { color: var(--bad-ink); background: var(--bad-soft); }
+.fd.is-fix .fd__kind { color: var(--ink); background: var(--mist-2); }
+.fd.is-change .fd__kind { color: var(--accent-ink); background: var(--accent-soft); }
+.fd button:hover .fd__kind { background: #fff; }
+.fd.is-prob button:hover .fd__kind { background: var(--bad-soft); }
+.fd.is-change button:hover .fd__kind { background: var(--accent-soft); }
+
 /* ---------- agents 2: the same page in sans (2026-11-04) ----------
    Every serif swapped for Switzer, set as the landing sets it: heavy and tightly tracked for titles and big figures. */
 body.ag-page.ag-sans { --display: "Switzer", ui-sans-serif, system-ui, sans-serif; }

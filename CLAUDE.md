@@ -137,7 +137,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   their left (`#vq` in agents-ui.js: its name in a white pill after a gray "Question", which scrolls back up to the
   cards; no chance, and no dropdown, which the user disliked; at 1000px and under, or with the drawer open, the tabs sit
   left and the pill alone slips in before them). The feed's filters a smaller copy of that track (ink pills were out of
-  step). Red buttons glow only on hover (as the landing's used to); secondary buttons (Decline, Edit the brief, Cancel)
+  step). The feed's kinds (Report, Problem, Fixed, Change) are the same soft pills as status (Change red, Problem amber). Red buttons glow only on hover (as the landing's used to); secondary buttons (Decline, Edit the brief, Cancel)
   a soft cream fill with no outline, deepening and lifting on hover, white on cream cards (the user disliked a thin
   ring); a disabled red button stays gray, a shade darker on hover. Who acts' chosen option a white card lifted off the
   cream with a red dot (a black one that flipped light on hover was bizarre). The chosen question lifts with its chance
