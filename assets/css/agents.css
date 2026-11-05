@@ -623,6 +623,10 @@ body:not(.has-drawer) .rt.is-sel { background: transparent; }
 .wq[aria-selected="true"] { color: var(--ink); }
 .wq[aria-selected="true"] .wq__p { color: var(--accent); }
 .wq[aria-selected="true"] .wq__n { color: var(--ink-3); }
+/* the questions not picked fade back a little (their text, not the card, so the white holds); the pointer brings one up */
+.watch__list > .wq > * { transition: opacity 0.25s ease; }
+.watch__list > .wq:not([aria-selected="true"]) > * { opacity: 0.55; }
+.watch__list > .wq:not([aria-selected="true"]):hover > *, .watch__list > .wq:focus-visible > * { opacity: 1; }
 
 /* overview: the figures in serif; the cards white with cream panels; who acts chosen in ink with a red dot */
 .dk__v { font-size: clamp(1.9rem, 2.8vw, 2.5rem); }
