@@ -132,11 +132,11 @@
   $("#l-presets").innerHTML = RS.OPTIONS.map(function (o) {
     return '<button type="button" class="preset" data-o="' + o.id + '"><b>' + o.id + "</b><span>" + o.name + "</span>" + (o.pick ? '<em>Recommended</em>' : "") + "</button>";
   }).join("");
-  $("#l-moves").insertAdjacentHTML("beforeend", RS.TEAMS.map(function (t) {
+  $("#l-moves").insertAdjacentHTML("beforeend", '<div class="mv-list">' + RS.TEAMS.map(function (t) {
     return '<label class="mv"><span class="mv__body"><span class="mv__name">' + t.name + '</span><span class="mv__what">' + t.move +
       '</span><span class="mv__meta"><span class="num">' + M(t.cost) + "</span> ready " + weekday(ready(t.days)) +
       '</span></span><input type="checkbox" class="tgl" value="' + t.id + '"></label>';
-  }).join(""));
+  }).join("") + "</div>");
 
   // ---------- motion: every lab figure moves from what it shows to the new figures ----------
   var REDUCE = matchMedia("(prefers-reduced-motion: reduce)").matches;

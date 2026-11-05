@@ -815,15 +815,25 @@ button.route__in:focus-visible { outline: 2px solid var(--accent); outline-offse
 
 /* the plan lab on the page like the other sections; its tiles white cards on the cream, the chosen preset lifted */
 .house.rs-report .lab { margin: 0; padding: clamp(2rem, 4vw, 3rem) 0; background: none; border-radius: 0; border-bottom: 1px solid var(--line); }
-/* the presets as the agents page's question cards: white, the chosen one lifted, the others' text faded back until pointed at */
-.house.rs-report .preset { background: #fff; box-shadow: var(--shadow); transition: box-shadow 0.25s ease, transform 0.25s ease; }
-.house.rs-report .preset > * { transition: opacity 0.25s ease; }
-.house.rs-report .preset:not([aria-pressed="true"]) > * { opacity: 0.55; }
-.house.rs-report .preset:hover > *, .house.rs-report .preset:focus-visible > * { opacity: 1; }
-.house.rs-report .preset:not([aria-pressed="true"]):hover { transform: translateY(-1px); }
-.house.rs-report .preset[aria-pressed="true"], .house.rs-report .preset[aria-pressed="true"]:hover { color: var(--ink); background: #fff; box-shadow: var(--shadow-up); transform: translateY(-3px); }
-.house.rs-report .preset em { color: var(--accent-ink); background: var(--accent-soft); }
-.house.rs-report .mv { background: #fff; box-shadow: var(--shadow); }
+/* the controls kept few and flat (2026-11-05: a column of near-identical white cards that lifted when chosen read as
+   crowded): the options as one track with a white pill on the chosen, like the other choosers; the moves as one white
+   list with hairlines, the switches doing the choosing */
+.house.rs-report .presets { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 3px; padding: 4px; border-radius: 14px; background: var(--track); }
+.house.rs-report .preset {
+  grid-template-columns: none; align-content: start; justify-items: start; gap: 0.1rem; min-height: 0; padding: 0.55rem 0.65rem 0.6rem;
+  border-radius: 10px; background: transparent; box-shadow: none; color: var(--ink-2); transition: background-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
+}
+.house.rs-report .preset b { font-family: var(--display); font-weight: 400; font-size: 1.5rem; line-height: 1; }
+.house.rs-report .preset span { font-size: 0.76rem; line-height: 1.3; }
+.house.rs-report .preset em { margin-top: 0.25rem; padding: 0; background: none; font-size: 0.68rem; color: var(--accent-ink); }
+.house.rs-report .preset:hover { background: transparent; color: var(--ink); }
+.house.rs-report .preset[aria-pressed="true"], .house.rs-report .preset[aria-pressed="true"]:hover { color: var(--ink); background: #fff; box-shadow: var(--shadow-sm); }
+.house.rs-report .moves { display: block; }
+.house.rs-report .moves legend, .house.rs-report .knob__h { margin-bottom: 0.5rem; font-size: 0.82rem; font-weight: 700; color: var(--ink-2); }
+.house.rs-report .mv-list { padding: 0 1rem; border-radius: var(--r); background: #fff; box-shadow: var(--shadow); }
+.house.rs-report .mv { padding: 0.8rem 0; border-radius: 0; background: none; box-shadow: none; }
+.house.rs-report .mv + .mv { border-top: 1px solid var(--line); }
+.house.rs-report .mv:not(.is-on) .mv__body { opacity: 0.5; }
 .house.rs-report .chooser { background: var(--track); }
 .house.rs-report .chooser button { transition: color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease; }
 .house.rs-report .chooser button:hover { background: transparent; color: var(--ink); }
@@ -923,6 +933,7 @@ button.route__in:focus-visible { outline: 2px solid var(--accent); outline-offse
 .house.rs-report .rp-foot { border-top: 1px solid var(--line-strong); }
 @media (max-width: 600px) { .house.rs-report .lab { margin: 0; padding: 2rem 0; } }
 @media (prefers-reduced-motion: reduce) { .house.rs-report .preset, .house.rs-report .offc { transition: none; transform: none !important; } }
+@media (max-width: 1100px) { .house.rs-report .presets { grid-column: auto; } .house.rs-report .lab__ctl > .knob:first-child, .house.rs-report .moves { grid-column: 1 / -1; } }
 
 /* the tree, on at a glance's white */
 .t-night.rs.rs-lt-tree {
