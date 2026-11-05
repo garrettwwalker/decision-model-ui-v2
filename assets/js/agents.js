@@ -1006,8 +1006,13 @@
       r.sub.textContent = a.what + (serving.length ? ". Serving " + serving.map(function (q) { return q.short; }).join(", ") : ". Not serving any question yet");
       if (r.cb.checked) n++;
     });
-    // suggested agents float to the top of each group
-    POOL.slice().sort(function (x, y) { return (sug.indexOf(y.id) >= 0) - (sug.indexOf(x.id) >= 0); }).forEach(function (a) { nqLists[a.kind].appendChild(nqRows[a.id].lab); });
+    // suggested agents float to the top of each group; only rows out of place are moved, since moving a row cuts
+    // short its switch's slide
+    var at = { sense: 0, act: 0 };
+    POOL.slice().sort(function (x, y) { return (sug.indexOf(y.id) >= 0) - (sug.indexOf(x.id) >= 0); }).forEach(function (a) {
+      var list = nqLists[a.kind], lab = nqRows[a.id].lab, here = list.children[at[a.kind]++];
+      if (here !== lab) list.insertBefore(lab, here || null);
+    });
     $("nq-count").textContent = n ? n + " linked" : "";
     $("nq-make").disabled = !nqQ.value.trim() || !n;
   }
