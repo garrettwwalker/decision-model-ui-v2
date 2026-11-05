@@ -112,6 +112,7 @@ body.ag-page {
 .ag-page .nudge button { background: var(--mist); color: var(--ink); }
 .ag-page .nudge button:hover:not(:disabled) { background: var(--mist-2); }
 .ag-page .nudge output { color: var(--ink); }
+.ag-page .nudge button[aria-label="More"] { color: var(--accent); }
 .ag-page .switch__ui { background: var(--mist-3); }
 .ag-page .switch__ui::after { background: #fff; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.22); }
 .ag-page .switch input:checked + .switch__ui { background: var(--ink); }
