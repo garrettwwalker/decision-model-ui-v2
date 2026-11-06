@@ -621,3 +621,10 @@ main, .footer { position: relative; z-index: 2; }
   .nebula canvas, .eclipse__rays, .hero__arrow { animation: none; }
   .tile { translate: none; }
 }
+
+/* the landing opts out of the cross-document view transition (2026-11-06): its nav isn't the product pages' .bar, so
+   the old bar's snapshot faded out over it and the top of the page looked smeared for a moment on the way home. Without
+   the transition, nav.js's CSS entrance slides main and the footer in, and the fixed nav simply appears in place. */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: none; }
+}

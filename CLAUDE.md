@@ -290,7 +290,9 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   anything between, centred under the choices; holding − or + repeats, faster the longer it's held. The report's plan lab uses the same idea (`.chooser` and `.step`). Prefer it to a slider elsewhere.
 - Motion between views: `assets/js/nav.js` (in every page's `<head>`) records which way the clicked page lies in the
   nav order; the new page slides in from that side (cross-document view transitions where supported, with the
-  `.bar` held still; otherwise a CSS entrance on `main` and the footer, keyed on `html[data-slide]`). In the
+  `.bar` held still; otherwise a CSS entrance on `main` and the footer, keyed on `html[data-slide]`). The landing opts out of the view transition
+  (`@view-transition { navigation: none }` in landing.css): its nav isn't a `.bar`, so the product bar's snapshot smeared
+  over it on the way home; it gets the CSS entrance instead. In the
   workbench, `slideTo()` slides stages, model views and the two modes in sequence order (`.slide-in`/`.slide-out`).
   All of it is off under reduced motion. Between the three Red Sea demo pages the moon crosses instead (2026-11-03, the user's
   idea, "the black sphere is the moon"): a plain black disc wider than the screen (`.moon`, in `redsea.css`; its warm rim glow was
