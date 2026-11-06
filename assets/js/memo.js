@@ -256,6 +256,8 @@
     placeThumb(!user);
     panel.setAttribute("aria-labelledby", "tab-" + id);
     panel.innerHTML = "";
+    // the card stays put; only what's in it fades in, so switching plans doesn't jolt
+    if (user) { panel.classList.remove("is-swap"); void panel.offsetWidth; panel.classList.add("is-swap"); }
 
     var top = el("div", "plan__top");
     var meta = el("dl", "plan__meta");
