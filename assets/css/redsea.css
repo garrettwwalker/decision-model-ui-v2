@@ -773,8 +773,6 @@ button.route__in:focus-visible { outline: 2px solid var(--accent); outline-offse
   .house.rs-glance .fact + .fact { border-top: 0; }
 }
 @media (prefers-reduced-motion: reduce) { .house.rs-glance .card, .house.rs-glance .deeper__card { transition: none; transform: none !important; } }
-/* sharp corners on this page's tiles (2026-11-06, the user's try): the facts strip, the board's cards and the two at the foot */
-.house.rs-glance .facts, .house.rs-glance .card, .house.rs-glance .deeper__card { border-radius: 0; }
 /* the board's entrance (reveal.js marks .board .is-in): sparklines and the curves draw, the cost bars grow from the left */
 .rv .rs-glance .spark polyline, .rv .rs-glance .board__links path { stroke-dasharray: 1; transition: stroke-dashoffset 1.3s cubic-bezier(0.3, 0.6, 0.2, 1), stroke 0.2s, opacity 0.2s; }
 .rv .rs-glance .board__links path { transition-delay: 0.35s, 0s, 0s; }
