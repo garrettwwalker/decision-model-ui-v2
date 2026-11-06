@@ -256,7 +256,6 @@
     placeThumb(!user);
     panel.setAttribute("aria-labelledby", "tab-" + id);
     panel.innerHTML = "";
-    if (user) { panel.classList.remove("is-in"); void panel.offsetWidth; panel.classList.add("is-in"); }
 
     var top = el("div", "plan__top");
     var meta = el("dl", "plan__meta");
