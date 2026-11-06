@@ -981,7 +981,7 @@ button.route__in:focus-visible { outline: 2px solid var(--accent); outline-offse
 @media (max-width: 960px) { .rs-lt-tree .detail { box-shadow: 0 -12px 40px rgba(16, 24, 40, 0.18); } }
 
 /* ================= The moon between the demo's pages (nav.js) =================
-   A black disc, wider than the screen's diagonal, with a faint warm rim like the landing's eclipse. It crosses from
+   A plain black disc, wider than the screen's diagonal (no rim glow: the crossing is too quick to see one). It crosses from
    the side the next page lies on, holds while that page loads (data-moon keeps the new page dark until it's in place)
    and slides off the far side. */
 html[data-moon] { background: #000; }
@@ -991,7 +991,6 @@ html[data-moon] body { visibility: hidden; }
 .moon__disc {
   position: absolute; left: 50%; top: 50%; width: 144vmax; height: 144vmax; margin: -72vmax 0 0 -72vmax; /* just wider than the screen's diagonal */
   border-radius: 50%; background: #050506;
-  box-shadow: 0 0 0 1px rgba(255, 196, 140, 0.45), 0 0 2.5vmax 0.4vmax rgba(255, 150, 80, 0.32), 0 0 10vmax 2vmax rgba(255, 186, 120, 0.16);
 }
 .moon--in-fwd .moon__disc { animation: moon-from-r 0.2s cubic-bezier(0.55, 0, 0.45, 1) both; }
 .moon--in-back .moon__disc { animation: moon-from-l 0.2s cubic-bezier(0.55, 0, 0.45, 1) both; }
