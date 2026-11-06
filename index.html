@@ -401,10 +401,10 @@
           <h2 class="display contact__title" id="contact-title">out of the shadow.<br>let's talk.</h2>
           <div class="contact__side">
             <form class="contact__form" novalidate>
-              <label>Name<input type="text" name="name" autocomplete="name" required placeholder="Your name"></label>
-              <label>Email<input type="email" name="email" autocomplete="email" required placeholder="you@organization.com"></label>
-              <label>Organization<input type="text" name="organization" autocomplete="organization" required placeholder="Organization name"></label>
-              <label class="contact__wide"><span>Message <span class="contact__opt">Optional</span></span><textarea name="message" rows="2" maxlength="2000" placeholder="What would you like to talk about?"></textarea></label>
+              <label><span class="sr-only">Name</span><input type="text" name="name" autocomplete="name" required placeholder="Name"></label>
+              <label><span class="sr-only">Email</span><input type="email" name="email" autocomplete="email" required placeholder="Email"></label>
+              <label><span class="sr-only">Organization</span><input type="text" name="organization" autocomplete="organization" required placeholder="Organization"></label>
+              <label><span class="sr-only">Message, optional</span><textarea name="message" rows="3" maxlength="2000" placeholder="Message (optional)"></textarea></label>
               <button class="btn btn--primary contact__send" type="submit">Request a briefing</button>
               <p class="contact__msg" role="status" aria-live="polite"></p>
             </form>
