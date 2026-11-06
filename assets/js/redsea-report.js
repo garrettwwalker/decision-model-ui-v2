@@ -171,7 +171,7 @@
   document.body.appendChild(kbar);
   var KB = [].slice.call(kbar.querySelectorAll(".kbar__v"));
   $("#l-expo").innerHTML = RS.ASSETS.map(function (a) {
-    return '<div class="expo__row"><span class="expo__k">' + a.name + '</span><span class="expo__track"><i class="expo__left"></i><i class="expo__safe"></i></span><span class="expo__v num"></span></div>';
+    return '<div class="expo__row"><span class="expo__k">' + a.name + '</span><span class="expo__track"><span class="expo__fill"><i class="expo__left"></i><i class="expo__safe"></i></span></span><span class="expo__v num"></span></div>';
   }).join("");
   var GROWS = RS.TEAMS.slice().sort(function (a, b) { return a.days - b.days; });
   // the timeline: a row per team, its bar on a pale track; the axis runs six weeks, or further when attacks would come

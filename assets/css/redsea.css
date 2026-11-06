@@ -399,22 +399,24 @@
 .rs-anim #f-trend .area, .rs-anim #f-trend .dot, .rs-anim #f-trend .lab, .rs-anim #f-route .choke, .rs-anim #f-route .choke__c { opacity: 0; transition: opacity 0.6s ease 1s; }
 .rs-anim .is-in #f-trend .area, .rs-anim .is-in #f-trend .dot, .rs-anim .is-in #f-trend .lab, .rs-anim .is-in #f-route .choke, .rs-anim .is-in #f-route .choke__c { opacity: 1; }
 /* bars grow from their axis: the drivers from the centre line, the loss table's and the lab's exposure bars from the left */
-.rs-anim .fig .tug__track i, .rs-anim .tbl .tbl__bar i, .rs-anim .fig .expo__track i { transition: transform 0.9s cubic-bezier(0.3, 0.7, 0.2, 1); }
-.rs-anim .fig .tug__track i.up, .rs-anim .tbl .tbl__bar i, .rs-anim .fig .expo__track i { transform-origin: left center; }
+.rs-anim .fig .tug__track i, .rs-anim .tbl .tbl__bar i { transition: transform 0.9s cubic-bezier(0.3, 0.7, 0.2, 1); }
+.rs-anim .fig .tug__track i.up, .rs-anim .tbl .tbl__bar i { transform-origin: left center; }
 .rs-anim .fig .tug__track i.down { transform-origin: right center; }
-.rs-anim .fig:not(.is-in) .tug__track i, .rs-anim .tbl:not(.is-in) .tbl__bar i, .rs-anim .fig:not(.is-in) .expo__track i { transform: scaleX(0); }
-.rs-anim .fig .tug__row:nth-child(2) i, .rs-anim .tbl tbody tr:nth-child(2) .tbl__bar i, .rs-anim .fig .expo__row:nth-child(2) i { transition-delay: 0.08s; }
-.rs-anim .fig .tug__row:nth-child(3) i, .rs-anim .tbl tbody tr:nth-child(3) .tbl__bar i, .rs-anim .fig .expo__row:nth-child(3) i { transition-delay: 0.16s; }
-.rs-anim .fig .tug__row:nth-child(4) i, .rs-anim .tbl tbody tr:nth-child(4) .tbl__bar i, .rs-anim .fig .expo__row:nth-child(4) i { transition-delay: 0.24s; }
-/* in the exposure bars the red grows first and the pink carries on from its end, so no gap opens between them */
-.rs-anim .fig .expo__track i.expo__left { transition-duration: 0.6s; }
-.rs-anim .fig .expo__track i.expo__safe { transition-duration: 0.5s; transition-delay: 0.55s; }
-.rs-anim .fig .expo__row:nth-child(2) i.expo__safe { transition-delay: 0.63s; }
-.rs-anim .fig .expo__row:nth-child(3) i.expo__safe { transition-delay: 0.71s; }
-.rs-anim .fig .expo__row:nth-child(4) i.expo__safe { transition-delay: 0.79s; }
+.rs-anim .fig:not(.is-in) .tug__track i, .rs-anim .tbl:not(.is-in) .tbl__bar i { transform: scaleX(0); }
+.rs-anim .fig .tug__row:nth-child(2) i, .rs-anim .tbl tbody tr:nth-child(2) .tbl__bar i { transition-delay: 0.08s; }
+.rs-anim .fig .tug__row:nth-child(3) i, .rs-anim .tbl tbody tr:nth-child(3) .tbl__bar i { transition-delay: 0.16s; }
+.rs-anim .fig .tug__row:nth-child(4) i, .rs-anim .tbl tbody tr:nth-child(4) .tbl__bar i { transition-delay: 0.24s; }
+/* the exposure bars: red and pink sit in one fill that sweeps in from the left on a single curve, so the growth runs on
+   from red into pink without a gap or a pause */
+.expo__fill { position: absolute; inset: 0; }
+.rs-anim .fig .expo__fill { clip-path: inset(0 0 0 0); transition: clip-path 1.1s cubic-bezier(0.3, 0.6, 0.2, 1); }
+.rs-anim .fig:not(.is-in) .expo__fill { clip-path: inset(0 100% 0 0); }
+.rs-anim .fig .expo__row:nth-child(2) .expo__fill { transition-delay: 0.08s; }
+.rs-anim .fig .expo__row:nth-child(3) .expo__fill { transition-delay: 0.16s; }
+.rs-anim .fig .expo__row:nth-child(4) .expo__fill { transition-delay: 0.24s; }
 /* the lab's charts and the timeline are redrawn on every change, so they wipe in from the left instead */
-.rs-anim #l-stock, .rs-anim #l-risk, .rs-anim #l-plans, .rs-anim #f-gantt { transition: clip-path 1.2s cubic-bezier(0.3, 0.6, 0.2, 1); }
-.rs-anim .fig:not(.is-in) #l-stock, .rs-anim .fig:not(.is-in) #l-risk, .rs-anim .fig:not(.is-in) #l-plans, .rs-anim .fig:not(.is-in) #f-gantt { clip-path: inset(0 100% 0 0); }
+.rs-anim #l-stock, .rs-anim #l-risk, .rs-anim #l-plans, .rs-anim #f-gantt { clip-path: inset(-30px -30px -30px -30px); transition: clip-path 1.2s cubic-bezier(0.3, 0.6, 0.2, 1); }  /* an explicit end (not none) so the wipe can run, set wide so labels that overflow the chart still show */
+.rs-anim .fig:not(.is-in) #l-stock, .rs-anim .fig:not(.is-in) #l-risk, .rs-anim .fig:not(.is-in) #l-plans, .rs-anim .fig:not(.is-in) #f-gantt { clip-path: inset(-30px 100% -30px -30px); }
 .rs-anim .tug__track i, .rs-anim .tbl__bar i { transform: scaleX(0); transition: transform 0.9s cubic-bezier(0.3, 0.6, 0.2, 1); }
 .rs-anim .tug__track i.up, .rs-anim .tbl__bar i { transform-origin: left; }
 .rs-anim .tug__track i.down { transform-origin: right; }
