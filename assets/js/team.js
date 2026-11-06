@@ -117,7 +117,7 @@
         { id: "saturday", q: "Run Line 2 on Saturday to build dishwasher stock?", due: [2, "16:00"],
           context: "The metalworkers' contract expires 1 November and the strike risk is 18%. Leadership asked for a strike contingency.",
           opts: [{ t: "Run Saturday", sub: "$38k overtime; about 1,100 units ahead", add: { text: "Staff Line 2 for Saturday", who: "zeynep", day: 3, hours: 3 } }, { t: "Half shift on Sunday", sub: "$19k; about 550 units" }, { t: "Don't run", sub: "No stock ahead" }],
-          pick: 0, why: "Each Saturday now is a day of dishwashers in the bank if talks fail, and it still uses resin before any Gulf disruption makes it scarce." },
+          pick: 0, why: "Each Saturday worked now banks a day of dishwasher output in case talks fail, and uses resin before any Gulf disruption makes it scarce." },
         { id: "maint", q: "Move Line 1's planned maintenance?", due: [3, "12:00"],
           context: "Maintenance is set for Friday. Resin cover is thinnest around 15 Oct, when the line may idle anyway.",
           opts: [{ t: "Move to Thu 15 Oct", sub: "Maintain while waiting for resin", add: { text: "Re-book Line 1's maintenance crew for Thu 15 Oct", who: "derya", day: 2, hours: 2 } }, { t: "Keep Friday", sub: "Lose a full production day now" }],
@@ -666,7 +666,7 @@
       acts.appendChild(el("p", { class: "play__running" }, "Running: the steps are in your task list under “from leadership”."));
       acts.appendChild(button("See the tasks", "btn btn--ghost btn--sm", function () { flash("dir-play-" + w.id); }));
     } else {
-      acts.appendChild(button(w.kind === "threat" ? "It's happening: run the playbook" : "Act on it now", "btn btn--primary btn--sm", function () {
+      acts.appendChild(button(w.kind === "threat" ? "This has happened: run the playbook" : "Act on it now", "btn btn--primary btn--sm", function () {
         st.active[w.id] = w.steps.map(function (step, i) { return addTask(step[0], step[1], i < 2 ? 0 : 1, step[2], []); });
         DB.toast((w.kind === "threat" ? "Playbook running. " : "On it. ") + plural(w.steps.length, "task") + " handed out.");
         changed("Ran the playbook for " + w.title);

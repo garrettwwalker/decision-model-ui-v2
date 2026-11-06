@@ -39,7 +39,7 @@
     <section class="page-head">
       <div>
         <p class="eyebrow page-head__kicker">Tuesday 6 October 2026, prepared for the COO</p>
-        <h1 class="display">one decision<br>this week: <span class="brief__accent">hormuz.</span></h1>
+        <h1 class="display">one risk<br>this week: <span class="brief__accent">hormuz.</span></h1>
       </div>
     </section>
 
@@ -60,7 +60,7 @@
       <article class="stake stake--loss">
         <p class="eyebrow">if we do nothing</p>
         <p class="stake__big money money--loss">$38.0M</p>
-        <p class="stake__what">expected loss, probability-weighted. If it does close, the bad case (P95) is <b class="money--loss">$343M</b>.</p>
+        <p class="stake__what">expected loss, weighted by the 27% chance. If the strait does close, a bad case (1 in 20) is <b class="money--loss">$343M</b>.</p>
         <div class="stack" role="img" aria-label="Expected loss breakdown: plant line-stops 16.9 million, Middle East stock-outs 9.8 million, war-risk and bunker 6.7 million, trapped cargo and demurrage 4.5 million">
           <span style="--w:16.9"></span><span style="--w:9.8"></span><span style="--w:6.7"></span><span style="--w:4.5"></span>
         </div>
@@ -88,7 +88,7 @@
     <section class="section" id="decisions" aria-labelledby="dec-title">
       <div class="section__head">
         <h2 class="section__title" id="dec-title">three decisions, ranked by value protected</h2>
-        <p class="section__note">Each one names an owner and a deadline. After the deadline the option disappears or gets more expensive.</p>
+        <p class="section__note">Each decision has an owner and a deadline. After the deadline the option is gone or costs more.</p>
       </div>
       <ol class="decisions note">
         <li class="decision" data-decision>
@@ -111,7 +111,7 @@
           <span class="decision__n" aria-hidden="true">2</span>
           <div class="decision__body">
             <h3 class="decision__title">Divert four Jebel Ali sailings to Khor Fakkan and truck the boxes to the Dubai DC</h3>
-            <p class="decision__why">Khor Fakkan sits outside the strait on the UAE's east coast, 140 km by road from the DC. It adds a day and a half, and 600 TEU/week of berth space is open now.</p>
+            <p class="decision__why">Khor Fakkan sits outside the strait on the UAE's east coast, 140 km by road from the DC. The detour adds a day and a half, and 600 TEU a week of berth space is open now.</p>
             <p class="decision__meta"><span class="decision__owner">Owner: VP Logistics</span><span class="pill pill--loss">booking cutoff Thu 8 Oct 14:00</span></p>
           </div>
           <dl class="decision__nums">
@@ -235,13 +235,13 @@
           </div>
           <div class="table-wrap" data-view="sku" hidden>
             <table class="table">
-              <thead><tr><th scope="col">SKU</th><th scope="col">market</th><th scope="col">stock-out p</th><th scope="col" class="r">revenue at risk</th></tr></thead>
+              <thead><tr><th scope="col">SKU</th><th scope="col">market</th><th scope="col">chance of stock-out</th><th scope="col" class="r">revenue at risk</th></tr></thead>
               <tbody>
-                <tr><td><span class="mono">HV-WM8</span><span class="table__sub">Front-load washer, built in Gebze</span></td><td>EU, MENA</td><td><span class="pill pill--loss">0.58</span></td><td class="r"><div class="lossbar"><b class="money money--loss">$7.3M</b><i style="--v:1"></i></div></td></tr>
-                <tr><td><span class="mono">HV-FR90</span><span class="table__sub">French-door fridge, built in Pune</span></td><td>India, MENA</td><td><span class="pill pill--loss">0.52</span></td><td class="r"><div class="lossbar"><b class="money money--loss">$6.1M</b><i style="--v:.84"></i></div></td></tr>
-                <tr><td><span class="mono">HV-OLED55</span><span class="table__sub">55″ OLED TV, Ningbo</span></td><td>MENA</td><td><span class="pill pill--loss">0.41</span></td><td class="r"><div class="lossbar"><b class="money money--loss">$3.8M</b><i style="--v:.52"></i></div></td></tr>
-                <tr><td><span class="mono">HV-DW45</span><span class="table__sub">Dishwasher, built in Gebze</span></td><td>EU</td><td><span class="pill pill--warn">0.33</span></td><td class="r"><div class="lossbar"><b class="money money--loss">$2.9M</b><i style="--v:.4"></i></div></td></tr>
-                <tr><td><span class="mono">HV-AC24</span><span class="table__sub">Split AC, built in Pune</span></td><td>India, MENA</td><td><span class="pill pill--warn">0.29</span></td><td class="r"><div class="lossbar"><b class="money money--loss">$2.4M</b><i style="--v:.33"></i></div></td></tr>
+                <tr><td><span class="mono">HV-WM8</span><span class="table__sub">Front-load washer, built in Gebze</span></td><td>EU, MENA</td><td><span class="pill pill--loss">58%</span></td><td class="r"><div class="lossbar"><b class="money money--loss">$7.3M</b><i style="--v:1"></i></div></td></tr>
+                <tr><td><span class="mono">HV-FR90</span><span class="table__sub">French-door fridge, built in Pune</span></td><td>India, MENA</td><td><span class="pill pill--loss">52%</span></td><td class="r"><div class="lossbar"><b class="money money--loss">$6.1M</b><i style="--v:.84"></i></div></td></tr>
+                <tr><td><span class="mono">HV-OLED55</span><span class="table__sub">55″ OLED TV, Ningbo</span></td><td>MENA</td><td><span class="pill pill--loss">41%</span></td><td class="r"><div class="lossbar"><b class="money money--loss">$3.8M</b><i style="--v:.52"></i></div></td></tr>
+                <tr><td><span class="mono">HV-DW45</span><span class="table__sub">Dishwasher, built in Gebze</span></td><td>EU</td><td><span class="pill pill--warn">33%</span></td><td class="r"><div class="lossbar"><b class="money money--loss">$2.9M</b><i style="--v:.4"></i></div></td></tr>
+                <tr><td><span class="mono">HV-AC24</span><span class="table__sub">Split AC, built in Pune</span></td><td>India, MENA</td><td><span class="pill pill--warn">29%</span></td><td class="r"><div class="lossbar"><b class="money money--loss">$2.4M</b><i style="--v:.33"></i></div></td></tr>
               </tbody>
             </table>
           </div>
@@ -288,7 +288,7 @@
           <dl>
             <div><dt>delay</dt><dd>+4 d</dd></div>
             <div><dt>cost</dt><dd class="money">+$1.6M</dd></div>
-            <div><dt>why not</dt><dd>runs through the Red Sea (p 0.34)</dd></div>
+            <div><dt>why not</dt><dd>it runs through the Red Sea, which has a 34% chance of closing</dd></div>
             <div><dt>protects</dt><dd class="money">$1.9M</dd></div>
           </dl>
         </li>
@@ -310,29 +310,29 @@
       </ol>
       <div class="why__grid">
         <div class="why__col">
-          <h3 class="panel__title">What moved it since 1 September</h3>
+          <h3 class="panel__title">What moved the chance since 1 September</h3>
           <ol class="fall" aria-label="How each driver moved the chance of a closure within 30 days, from 9% on 1 September to 27% today">
             <li class="fall__axis" aria-hidden="true"><span>Chance of a closure within 30 days</span><i><em style="--v:0">0%</em><em style="--v:.1">10%</em><em style="--v:.2">20%</em><em style="--v:.3">30%</em></i><b></b></li>
             <li style="--a:.09;--d:0"><span>Baseline, 1 Sep</span><i></i><b class="num">9%</b></li>
-            <li style="--a:.09;--d:.07"><span>Naval boardings in the Gulf of Oman: 3 in 10 days</span><i></i><b class="num">+7%</b></li>
-            <li style="--a:.16;--d:.06"><span>Sanctions talks collapse, 29 Sep</span><i></i><b class="num">+6%</b></li>
-            <li style="--a:.22;--d:.04"><span>Tanker-seizure pattern matches 2019 run-up</span><i></i><b class="num">+4%</b></li>
-            <li style="--a:.26;--d:.03"><span>Listed war-risk area widened; premiums ×3</span><i></i><b class="num">+3%</b></li>
-            <li style="--a:.29;--d:.01"><span>AIS dark-transit cluster near Bandar Abbas</span><i></i><b class="num">+1%</b></li>
-            <li class="fall__neg" style="--a:.27;--d:.03"><span>Omani back-channel resumes</span><i></i><b class="num">−3%</b></li>
+            <li style="--a:.09;--d:.07"><span>Naval boardings in the Gulf of Oman: 3 in 10 days</span><i></i><b class="num">+7 pts</b></li>
+            <li style="--a:.16;--d:.06"><span>Sanctions talks collapse, 29 Sep</span><i></i><b class="num">+6 pts</b></li>
+            <li style="--a:.22;--d:.04"><span>Tanker-seizure pattern matches 2019 run-up</span><i></i><b class="num">+4 pts</b></li>
+            <li style="--a:.26;--d:.03"><span>Listed war-risk area widened; premiums ×3</span><i></i><b class="num">+3 pts</b></li>
+            <li style="--a:.29;--d:.01"><span>AIS dark-transit cluster near Bandar Abbas</span><i></i><b class="num">+1 pt</b></li>
+            <li class="fall__neg" style="--a:.27;--d:.03"><span>Omani back-channel resumes</span><i></i><b class="num">−3 pts</b></li>
             <li class="fall__total" style="--a:0;--d:.27"><span>Today</span><i></i><b class="num">27%</b></li>
           </ol>
-          <p class="fall__note">Each bar starts where the one above it ends. Coral bars pushed the chance up, gold pulled it down; the figure on the right is how much each one added or took away.</p>
+          <p class="fall__note">Each bar starts where the one above it ends. Coral bars raised the chance and gold bars lowered it; the number beside each bar is the change in percentage points.</p>
         </div>
         <div class="why__col">
           <h3 class="panel__title">What would change our mind</h3>
           <ul class="signs">
-            <li class="signs__up"><b>↑ to ~45%</b> if a naval exercise is announced in the strait shipping lanes, or a second Western-flagged tanker is seized.</li>
-            <li class="signs__up"><b>↑ to ~35%</b> if war-risk underwriters suspend cover for Gulf calls outright.</li>
-            <li class="signs__down"><b>↓ to ~15%</b> if the Muscat talks set a date for a second round.</li>
-            <li class="signs__down"><b>↓ to ~10%</b> if 10 days pass with no boardings and AIS traffic recovers.</li>
+            <li class="signs__up"><b>Up to about 45%</b> if a naval exercise is announced in the strait shipping lanes, or a second Western-flagged tanker is seized.</li>
+            <li class="signs__up"><b>Up to about 35%</b> if war-risk underwriters suspend cover for Gulf calls outright.</li>
+            <li class="signs__down"><b>Down to about 15%</b> if the Muscat talks set a date for a second round.</li>
+            <li class="signs__down"><b>Down to about 10%</b> if 10 days pass with no boardings and AIS traffic recovers.</li>
           </ul>
-          <p class="why__cal mono">Three engines, fused, ±5 points. Our 20–30% forecasts have resolved true 26% of the time (n = 212), declined questions included.</p>
+          <p class="why__cal mono">Of the 212 questions we've put at 20 to 30%, 26% came true, so a forecast in that range can be taken at face value.</p>
         </div>
       </div>
     </section>
@@ -346,21 +346,21 @@
       <div class="horizon__grid">
         <article class="note hz">
           <p class="eyebrow hz__tag">gray swan, not on your watchlist</p>
-          <h3>GNSS spoofing cluster off Port Said</h3>
-          <p>41 vessels logged position jumps near the canal approaches in 72 hours. Similar clusters preceded multi-day queues twice since 2021.</p>
-          <p class="hz__nums"><span class="num">11% within 14 days</span><span class="money money--loss">$2.6M at risk</span></p>
+          <h3>False GPS signals off Port Said</h3>
+          <p>41 ships showed false position jumps near the canal approaches in three days. Twice since 2021, a cluster like this came before queues lasting several days.</p>
+          <p class="hz__nums"><span class="num">11% chance within 14 days</span><span class="money money--loss">$2.6M at risk</span></p>
         </article>
         <article class="note hz">
           <p class="eyebrow hz__tag">gray swan, not on your watchlist</p>
-          <h3>Registry purge could strand two Gulf feeders</h3>
-          <p>An open registry signals mass deregistration of sanctions-adjacent tonnage. Two feeders on your ME4 shuttle share a technical manager with listed vessels.</p>
-          <p class="hz__nums"><span class="num">19% within 60 days</span><span class="money money--loss">$1.9M at risk</span></p>
+          <h3>Two Gulf feeder ships could lose their flag</h3>
+          <p>A flag registry plans to drop ships linked to sanctioned owners. Two feeders on your ME4 shuttle share a technical manager with ships already on sanctions lists.</p>
+          <p class="hz__nums"><span class="num">19% chance within 60 days</span><span class="money money--loss">$1.9M at risk</span></p>
         </article>
         <article class="note hz hz--opp">
           <p class="eyebrow hz__tag">opportunity</p>
-          <h3>Competitors are single-threaded through Jebel Ali</h3>
-          <p>Two regional rivals route over 60% of MENA stock through the strait and hold no east-coast contracts. If it closes, expect shelf gaps in weeks 3–6. Pre-positioning 30,000 units at Sohar now could take that demand.</p>
-          <p class="hz__nums"><span class="num">27% within 30 days</span><span class="money money--safe">+$6.4M margin</span></p>
+          <h3>Two competitors depend on Jebel Ali</h3>
+          <p>Two regional rivals route over 60% of their MENA stock through the strait and have no contracts on the UAE's east coast. If the strait closes, expect gaps on their shelves in weeks 3 to 6. Pre-positioning 30,000 units at Sohar now could take that demand.</p>
+          <p class="hz__nums"><span class="num">27% chance the strait closes</span><span class="money money--safe">+$6.4M margin</span></p>
         </article>
       </div>
     </section>

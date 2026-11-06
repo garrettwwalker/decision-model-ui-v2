@@ -265,7 +265,7 @@
       };
     }
     return {
-      text: ["27% that the Strait of Hormuz closes to commercial traffic for 7+ days in the next 30. I split the question into three parts, sent each to the engine built for it, and fused the answers."],
+      text: ["There's a 27% chance that the Strait of Hormuz closes to commercial traffic for 7+ days in the next 30. I split the question into three parts, sent each to the engine built for it, and fused the answers."],
       facts: [
         ["Judgment: will the standoff escalate to a blockade?", "33%"],
         ["Telemetry: will transits fall below 40% of normal?", "26%"],
@@ -286,7 +286,7 @@
         ["A naval exercise in the shipping lanes, or a second tanker seized", "up to ~45%", "loss"],
         ["Underwriters suspend cover for Gulf calls", "up to ~35%", "loss"],
         ["The Muscat talks set a date for round two", "down to ~15%", "safe"],
-        ["Ten quiet days and AIS traffic recovers", "down to ~10%", "safe"]
+        ["Ten days with no boardings, and AIS traffic recovering", "down to ~10%", "safe"]
       ],
       route: "The Totality engine watches for each of these and re-runs the engines when one fires."
     };

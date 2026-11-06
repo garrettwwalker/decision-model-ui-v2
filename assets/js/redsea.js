@@ -45,7 +45,7 @@ window.RS = (function () {
     { id: "freight", tag: "freight costs", name: "Freight and insurance", where: "Every lane through the Red Sea",
       short: "Higher freight and war-risk bills" },
     { id: "systems", tag: "Gulf systems", name: "Gulf order systems", where: "Dubai and Dammam warehouses",
-      short: "Orders crawl if the cables go" }
+      short: "Orders slow down if the cables are cut" }
   ];
   // what each asset loses if an event happens ($M)
   var LOSS = {

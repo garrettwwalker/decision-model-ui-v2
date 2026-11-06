@@ -253,9 +253,9 @@
   function stock() {
     var T = S.t, none = stockRun(false, false, T), mine = stockRun(has("procurement"), has("logistics"), T);
     var msg = mine.stops.length
-      ? "Lines stop for " + mine.stops.length + " days from " + dayLabel(mine.stops[0])
+      ? "Gebze's lines stop for " + mine.stops.length + " days from " + dayLabel(mine.stops[0])
       : "No line stop: the lowest point is " + Math.round(Math.min.apply(null, mine.s.slice(mine.start))) + " days of stock";
-    var msgNone = none.stops.length ? "Doing nothing, they'd stop for " + none.stops.length + " days from " + dayLabel(none.stops[0]) : "";
+    var msgNone = none.stops.length ? "With no plan, Gebze's lines would stop for " + none.stops.length + " days from " + dayLabel(none.stops[0]) : "";
     $("#l-stock-msg").innerHTML = '<b class="' + (mine.stops.length ? "is-loss" : "is-safe") + '">' + msg + "</b>" + (msgNone && S.plan.length ? "<span>" + msgNone + "</span>" : "");
     $("#l-stock").setAttribute("aria-label", msg + ". " + msgNone);
     var N = none.s.length;

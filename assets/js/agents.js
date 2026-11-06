@@ -144,7 +144,7 @@
       queue: [
         { id: "q-supply", kind: "Retask", agent: "supply", cost: 0.0024, rev: true,
           title: "Watch resin suppliers hourly, not daily",
-          why: "A force-majeure notice from Jubail would make the last 3,000 t urgent. Hearing about it a day sooner is worth $0.6M of decision value.",
+          why: "A force-majeure notice from Jubail would make the last 3,000 t urgent. Learning of it a day earlier would be worth about $0.6M, because the last 3,000 t could be bought sooner.",
           diff: [["How often", "Daily", "Hourly"], ["Sources", "2 producers", "2 producers and 3 traders"]], costText: "$2,400 for a month of the traders' feed" },
         { id: "q-rates", kind: "Retask", agent: "rates", cost: 0.000015, rev: true,
           title: "Check Fujairah bunker every 30 minutes until the hedge is bound",
@@ -160,7 +160,7 @@
           diff: [["Ceiling", "$1,240/t", "$1,215/t now, $1,260/t for the rest"], ["Volume now", "7,000 t", "4,000 t"], ["Delivery", "By 30 Oct", "4,000 t by 20 Oct"]], costText: "$0.62M premium, signs a contract" },
         { id: "q-booking", kind: "Strategy", agent: "booking", cost: 0.9, rev: false,
           title: "Firm up all four Khor Fakkan slots",
-          why: "With carriers cancelling Thursday calls at Jebel Ali, the slots will go before the 14:00 cutoff. Booking now protects $7.6M at 27%, $9.3M at 33%.",
+          why: "With carriers cancelling Thursday calls at Jebel Ali, the slots will go before the 14:00 cutoff. Booking now protects $7.6M at this morning's 27% chance of closure, or $9.3M at the current 33%.",
           diff: [["Slots", "4 on option", "4 booked"], ["Cutoff", "Thu 14:00", "Booked today"]], costText: "$0.90M, commits the bookings" },
         { id: "q-cover", kind: "Strategy", agent: "cover", cost: 1.36, rev: false,
           title: "Bind war-risk cover before Thursday's listing",
@@ -1045,7 +1045,7 @@
       deadline: null, briefs: {}, queue: [], asks: [], coming: [],
       feed: [{ at: S.t, agent: "hub", kind: "change", text: "You started watching this question and linked " + ids.length + (ids.length === 1 ? " agent." : " agents.") }] };
     var parts = 6 + h % 7, first = 8 + h % 27;
-    q.coming.push({ at: S.t + 1, agent: "hub", kind: "change", text: "Split the question into " + parts + " smaller ones; declined 1 it has no skill at this far out." });
+    q.coming.push({ at: S.t + 1, agent: "hub", kind: "change", text: "Split the question into " + parts + " smaller ones, and declined one that can't be forecast this far out." });
     q.sense.forEach(function (id, k) {
       var a = AGENTS[id];
       q.briefs[id] = a.brief === "Not linked to any question yet." ? "Watch for anything bearing on this question. Sources: " + a.what + "." : "For this question too. " + a.brief;
