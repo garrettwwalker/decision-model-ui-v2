@@ -54,7 +54,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
 - `memo.html` + `assets/js/memo.js` (since 2026-11-06 in the house style like the Red Sea report: body `app house memo-page`,
   no sky, the house layer at the end of memo.css; serif title-case headings with section numbers in the margin and the note
   beneath, white cards with cream panels, red for risk and what pushes the odds up, amber for where interests pull apart,
-  confidence pills color coded, the declined part hatched, the plan picker a track with a white pill that slides between plans, red Gantt bars)
+  confidence pills color coded, the odds' error band breathing (wider and stronger, then back, at the user's request), the declined part hatched, the plan picker a track with a white pill that slides between plans, red Gantt bars)
   is a sample strategic options memo, dated Wed 7 Oct, answering the CEO's
   "How should we respond to the potential of new sanctions by the Trump Administration?" Static HTML holds the bottom
   line (key judgments with confidence, 41% ±7 by 6 Dec on an estimative-words scale) and the drivers tug-of-war
