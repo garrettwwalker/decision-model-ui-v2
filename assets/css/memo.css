@@ -320,8 +320,8 @@
 .memo-page .words__bar span { background: var(--mist-3); }
 .memo-page .words__bar span:nth-child(3) { background: #f6cdc7; }
 .memo-page .words__err { border: 0; border-radius: 4px; background: rgba(219, 51, 36, 0.22); animation: err-breathe 2.6s ease-in-out infinite; }
-/* the error band breathes, a little wider and stronger then back, as the range the 41% could really sit in */
-@keyframes err-breathe { 0%, 100% { opacity: 0.75; transform: scaleX(0.94); } 50% { opacity: 1; transform: scaleX(1.06); } }
+/* the error band pulses in color, paler then deeper red, holding its size (a pulse in width was undone) */
+@keyframes err-breathe { 0%, 100% { background-color: rgba(219, 51, 36, 0.14); } 50% { background-color: rgba(219, 51, 36, 0.38); } }
 @media (prefers-reduced-motion: reduce) { .memo-page .words__err { animation: none; } }
 .memo-page .words__pin { background: var(--accent); box-shadow: 0 0 0 2px var(--mist); }
 .memo-page .words__labels { color: var(--ink-3); }
