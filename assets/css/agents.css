@@ -1,8 +1,8 @@
-/* Agents (agents.html, and agents2.html in sans): Penumbra steering a team's agents as click-through views (the markup,
+/* Agents (agents.html): Penumbra steering a team's agents as click-through views (the markup,
    agents.js, agents-views.js and agents-ui.js), in a style taken from the Looo landing page (references/loo snapshot.jpeg
    and looo closeup.png) without its landing-page set pieces (2026-11-04). A warm off-white ground with the bars in the
-   same cream; white cards on a very soft shadow with cream panels inside; DM Serif Display for titles and big figures
-   (Switzer in their place on agents 2, `.ag-sans`, at the end), small gray Switzer for the rest; one tomato red for
+   same cream; white cards on a very soft shadow with cream panels inside; DM Serif Display for titles and big figures,
+   small gray Switzer for the rest; one tomato red for
    buttons, counts and what waits for you, amber for a problem, working neutral (no green); status as soft pills with no
    ring or dot; the view tabs and the feed's filters as a cream track with a sliding white pill; red buttons glow only on
    hover; who acts' chosen option a lifted white card; the live map light, its tiles with initial avatars, Totality a
@@ -605,8 +605,7 @@ body:not(.has-drawer) .rt.is-sel { background: transparent; }
 .watch .btn-q { color: #fff; background: var(--accent); box-shadow: none; transition: background-color 0.15s ease, box-shadow 0.2s ease; }
 .watch .btn-q:hover { background: #c42a1c; box-shadow: 0 8px 18px -8px rgba(219, 51, 36, 0.7); }
 
-/* the view tabs as agents 2 has them: one track, a white pill sliding to the open view (the track a shade deeper
-   than agents 2's so it reads on the cream) */
+/* the view tabs: one track, a white pill sliding to the open view (the track a shade deeper so it reads on the cream) */
 .vtabs__track { background: #ebe4d9; }
 /* the feed's filters as a smaller copy of the view tabs: a cream track, a white pill sliding to the chosen one */
 .feed__f { gap: 0.15rem; padding: 4px; border-radius: 999px; background: #ebe4d9; }
@@ -751,11 +750,3 @@ body:not(.has-drawer) .loop__hub.is-sel .hub__ring, body:not(.has-drawer) .loop_
 .fd.is-prob button:hover .fd__kind { background: var(--bad-soft); }
 .fd.is-change button:hover .fd__kind { background: var(--accent-soft); }
 
-/* ---------- agents 2: the same page in sans (2026-11-04) ----------
-   Every serif swapped for Switzer, set as the landing sets it: heavy and tightly tracked for titles and big figures. */
-body.ag-page.ag-sans { --display: "Switzer", ui-sans-serif, system-ui, sans-serif; }
-.ag-sans .intro__title { font-weight: 800; letter-spacing: -0.05em; }
-.ag-sans .vhead__title { font-weight: 800; letter-spacing: -0.04em; }
-.ag-sans .ov__title, .ag-sans .side__name, .ag-sans .panel__title, .ag-sans .done__title, .ag-sans .nq__title { font-weight: 800; letter-spacing: -0.03em; }
-.ag-sans .dk__v, .ag-sans .wq__p, .ag-sans .side__p b, .ag-sans .kpi__v { font-weight: 800; letter-spacing: -0.045em; }
-.ag-sans .hub__p { font-weight: 800; letter-spacing: -0.05em; font-size: 54px; }

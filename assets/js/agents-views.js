@@ -1,4 +1,4 @@
-/* Agents (and agents 2): the page as click-through views (2026-11-04), on top of the shared agents.js, which still draws
+/* Agents: the page as click-through views (2026-11-04), on top of the shared agents.js, which still draws
    everything. One view shows at a time under a tab bar (overview, live map, activity, waiting for you, negotiation,
    every agent); the side panel for an agent or Totality slides in as a drawer when you select one. agents.js moves
    around the page by scrolling elements into view, so scrollIntoView is taken over here: scrolling to something in

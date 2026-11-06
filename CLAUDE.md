@@ -13,7 +13,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
 ## Architecture
 
 - Pages: `index.html` (landing), `briefing.html` (daily brief), `memo.html` ("sample memo"), `team.html` ("workflows" in the nav; team workflows for middle
-  managers), `workbench.html` (world-model editor for data/IT), `agents.html` (Penumbra steering a team's agents; `agents2.html` the same in sans) and `ask.html` (chat). `wargame.html` is only a
+  managers), `workbench.html` (world-model editor for data/IT), `agents.html` (Penumbra steering a team's agents) and `ask.html` (chat). `wargame.html` is only a
   redirect to `team.html`; the wargame it used to hold was replaced.
 - Product pages (`t-night`, defined in `app.css`) share the landing's structure, but each page has its own small
   palette taken from its sky (the user found a tour-wide five-hue scheme incoherent and not very informative,
@@ -160,11 +160,8 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   agents-ui.js from `#hub-p`), a larger chance and the question, no "Totality" label and no "sense"/"act" beside the
   column heads (the disc is drawn under the ring so the two thicken alike when selected). Body `ag-page`, no `.t-night`
   or sky, styles scoped to `.ag-page` so the dialog gets them.
-- `agents2.html` ("agents 2", 2026-11-04): the agents page with every serif swapped for Switzer, set as the landing sets
-  it, heavy and tightly tracked for titles and big figures (body `ag-page ag-sans`, the `.ag-sans` layer at the end of
-  agents.css; no DM Serif loaded). Same markup and scripts as agents.html, so keep the two in step. It's reached from a
-  dropdown on "agents" in every page's nav (`.tabs__more` in app.css, the caret toggled in nav.js; on phones its link
-  sits in the scrolling row). The older agents, agents 2 and agents 3 pages were deleted on 2026-11-04 (in git history).
+- agents 2 (the agents page in sans, reached from a dropdown on "agents") was removed with its dropdown on 2026-11-06 (in
+  git history).
 - **House style (2026-11-05): the agents page's look is the default for new pages.** The user likes it and asked for
   it on new pages and on at a glance. `assets/css/house.css` holds it for any page: `body class="app house"`, DM Serif
   Display from Google Fonts, then house.css after app.css (tokens, the cream bar, black logo, red current-tab mark,
