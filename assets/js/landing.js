@@ -534,13 +534,13 @@
     e.preventDefault();
     var msg = form.querySelector(".contact__msg");
     var bad = null;
-    form.querySelectorAll("input").forEach(function (i) {
+    form.querySelectorAll("input[required]").forEach(function (i) {
       var ok = i.checkValidity() && i.value.trim() !== "";
       i.setAttribute("aria-invalid", ok ? "false" : "true");
       if (!ok && !bad) bad = i;
     });
     if (bad) {
-      msg.textContent = "Add a work email and company so we know whose network to model.";
+      msg.textContent = "Add your name, email, and organization so we know who to get back to.";
       bad.focus();
       return;
     }

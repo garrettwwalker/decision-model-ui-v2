@@ -581,15 +581,17 @@ main, .footer { position: relative; z-index: 2; }
   box-shadow: var(--shadow-card);
 }
 .contact__form label { display: grid; gap: 0.45rem; font-size: 0.85rem; font-weight: 600; color: var(--moon-2); }
-.contact__form input {
+.contact__form input, .contact__form textarea {
   min-height: 44px; padding: 0.55rem 0.8rem;
   border: 1px solid var(--line-strong); border-radius: 10px; background: rgba(7, 8, 11, 0.7);
   font-weight: 500; color: var(--moon);
   transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
-.contact__form input::placeholder { color: var(--moon-3); }
+.contact__form input::placeholder, .contact__form textarea::placeholder { color: var(--moon-3); }
+.contact__form textarea { min-height: 7rem; resize: vertical; font: inherit; font-weight: 500; line-height: 1.5; }
+.contact__opt { margin-left: 0.35rem; font-weight: 500; color: var(--moon-3); }
 /* focus: the soft gold light the page uses for good news (the protected bar, the best moon), not a hard ring */
-.contact__form input:focus, .contact__form input:focus-visible {
+.contact__form input:focus, .contact__form input:focus-visible, .contact__form textarea:focus, .contact__form textarea:focus-visible {
   outline: none; border-color: rgba(255, 210, 90, 0.6);
   box-shadow: 0 0 0 3px rgba(255, 210, 90, 0.1), 0 0 22px -4px rgba(255, 210, 90, 0.45);
 }
