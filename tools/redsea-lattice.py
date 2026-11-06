@@ -11,7 +11,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(ROOT, "references", "red-sea-lattice-v0.html")
 OUT = os.path.join(ROOT, "assets", "js", "redsea-lattice.js")
 
-# the branches under the question: short label, chance by 1 Oct, and whether it eases the disruption
+# the branches under the question: short label, chance by Oct 1, and whether it eases the disruption
 BRANCH = {
     "n1": ("Attacks escalate and spread", 44, 0), "n2": ("Cape rerouting becomes entrenched", 58, 0),
     "n3": ("A ceasefire cools the attacks", 16, 1), "n4": ("Naval escorts restore confidence", 17, 1),
@@ -33,7 +33,7 @@ CITED = {"n21": 46, "n76": 41, "n79": 64, "n2569": 18, "n138": 21, "n27": 9, "n1
 # how much the cited nodes moved since yesterday, in points (others get a stable pseudo-random move, about one in seven)
 CITED_DAY = {"n21": 4, "n76": 2, "n79": 1, "n138": 3, "n27": 2, "n2569": -1}
 # and their short labels, worded as the summary words them
-CITED_LABEL = {"n21": "Eight or more attacks or near-misses on merchant ships in a month, by 1 July",
+CITED_LABEL = {"n21": "Eight or more attacks or near-misses on merchant ships in a month, by July 1",
                "n76": "War-risk insurance tops 1% of a ship's value per Red Sea transit",
                "n79": "MSC keeps every Asia-Europe service on the Cape route for two weeks or more",
                "n2569": "A Gaza truce brings Houthi attacks down within a month",

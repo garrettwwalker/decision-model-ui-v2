@@ -35,7 +35,7 @@
       fused: { Judgment: 0.38, Telemetry: 0.31, Procedure: 0.30 }, hist: [0.22, 0.25, 0.31],
       subs: [["Judgment", "Will attacks on merchant ships in the southern Red Sea resume?"], ["Telemetry", "Will Bab el-Mandeb transits fall below half of normal?"], ["Procedure", "Will the three largest carriers suspend Suez routings?"]],
       declined: "Whether a ceasefire is signed this month", hits: ["c-bab", "c-suez", "l-resin-eu", "p-ambarli"] },
-    { id: "strike", short: "Gebze strike", name: "Strike at the Gebze plant", detail: "Metalworkers' contract expires 1 November", p: 0.18, band: 7, mag: 10, unit: "days", min: 2, max: 45, on: false,
+    { id: "strike", short: "Gebze strike", name: "Strike at the Gebze plant", detail: "Metalworkers' contract expires November 1", p: 0.18, band: 7, mag: 10, unit: "days", min: 2, max: 45, on: false,
       fused: { Judgment: 0.24, Telemetry: 0.12, Procedure: 0.19 }, hist: [0.05, 0.08, 0.14],
       subs: [["Judgment", "Will members reject the final offer?"], ["Telemetry", "Will overtime refusals at Gebze pass 20%?"], ["Procedure", "Will the federation file a legal strike notice?"]],
       declined: null, hits: ["f-gebze", "k-union", "s-bursa"] },
@@ -185,14 +185,14 @@
     { id: "l-resin-in", type: "Lane", name: "Resin to Pune", where: "Mesaieed → Nhava Sheva", owner: "log", node: "pune", events: ["hormuz"], key: "Weekly", deps: ["c-hormuz"], attrs: [] },
     { id: "l-eu", type: "Lane", name: "Finished goods to Europe", where: "Ambarlı → Rotterdam", owner: "log", node: null, events: [], key: "Twice weekly", deps: [], attrs: [] },
     // Vessels
-    { id: "v-asterion", type: "Vessel", name: "Asterion Dawn", where: "Loading at Jubail", owner: "log", node: "jubail", events: ["hormuz"], key: "4,200 t PP resin", deps: ["c-hormuz"], attrs: [["PO", "7731-044"], ["ETA Ambarlı", "29 Oct"]] },
+    { id: "v-asterion", type: "Vessel", name: "Asterion Dawn", where: "Loading at Jubail", owner: "log", node: "jubail", events: ["hormuz"], key: "4,200 t PP resin", deps: ["c-hormuz"], attrs: [["PO", "7731-044"], ["ETA Ambarlı", "Oct 29"]] },
     { id: "v-kestrel", type: "Vessel", name: "Kestrel Bay", where: "At anchor, Mesaieed", owner: "log", node: "mesaieed", events: ["hormuz"], key: "2,800 t HDPE", deps: ["c-hormuz"], attrs: [["PO", "7731-051"]] },
     { id: "v-sable", type: "Vessel", name: "Sable Orchid", where: "Inbound, central Gulf", owner: "log", node: "hormuz", events: ["hormuz"], key: "2,150 fridges", deps: ["c-hormuz"], attrs: [["PO", "4471-240"]] },
     { id: "v-corvane", type: "Vessel", name: "Corvane Tessaly", where: "Gulf of Oman, can divert", owner: "log", node: "khor", events: ["hormuz"], key: "1,920 TVs", deps: ["c-hormuz"], attrs: [["PO", "4471-208"], ["Voyage", "041W"]] },
     { id: "v-lumen", type: "Vessel", name: "Lumen Strait", where: "Arabian Sea, can divert", owner: "log", node: "sing", events: ["hormuz"], key: "3,400 washers", deps: ["c-hormuz"], attrs: [["PO", "4471-233"]] },
     // Plants
     { id: "f-gebze", type: "Plant", name: "Gebze plant", where: "Türkiye", owner: "gebze", node: "gebze", loss: "gebze", events: ["strike", "redsea", "hormuz"], key: "3 lines, 1,840 staff", deps: ["s-jubail", "l-resin-eu", "s-bursa"], props: ["plants.0.cover", "plants.0.rate"],
-      attrs: [["Lines", "Washers, dishwashers, dryers"], ["Output", "6,200 units / day"], ["Labour contract", "Expires 1 November"]] },
+      attrs: [["Lines", "Washers, dishwashers, dryers"], ["Output", "6,200 units / day"], ["Labour contract", "Expires November 1"]] },
     { id: "f-pune", type: "Plant", name: "Pune plant", where: "India", owner: "pune", node: "pune", loss: "pune", events: ["hormuz"], key: "2 lines, 1,210 staff", deps: ["s-mesaieed", "l-resin-in", "s-busan"], props: ["plants.1.cover", "plants.1.rate"],
       attrs: [["Lines", "Fridges, split AC"], ["Output", "4,100 units / day"], ["Spare capacity", "18%"]] },
     // Distribution centres
@@ -207,7 +207,7 @@
     // Contracts
     { id: "k-warrisk", type: "Contract", name: "Gulf war-risk cover", where: "Lloyd's syndicate", owner: "tre", node: "hormuz", events: ["hormuz"], key: "$620M insured", deps: [], attrs: [["Premium", "0.45% of hull value"], ["Quote expires", "Wednesday"]] },
     { id: "k-bunker", type: "Contract", name: "Bunker hedge", where: "Fujairah VLSFO swaps", owner: "tre", node: null, events: ["bunker"], key: "40% of Q4 hedged", deps: [], attrs: [["Strike", "$690 / t"]] },
-    { id: "k-union", type: "Contract", name: "Metalworkers' agreement", where: "Gebze", owner: "gebze", node: "gebze", events: ["strike"], key: "Expires 1 November", deps: [], attrs: [["Last offer", "+11% over 2 years"], ["Union ask", "+19%"]] },
+    { id: "k-union", type: "Contract", name: "Metalworkers' agreement", where: "Gebze", owner: "gebze", node: "gebze", events: ["strike"], key: "Expires November 1", deps: [], attrs: [["Last offer", "+11% over 2 years"], ["Union ask", "+19%"]] },
     { id: "k-freight", type: "Contract", name: "AE7 freight contract", where: "Carrier, 2-year term", owner: "log", node: "sing", events: ["hormuz", "bunker"], key: "$38M / year", deps: [], attrs: [["Bunker adjustment", "Pass-through, quarterly"]] }
   ];
   var PROPS = {
@@ -1951,7 +1951,7 @@
   paintReset();
   function commitScenario() {
     var c = countChanges();
-    if (!c) { DB.toast("Nothing to commit yet. Change a contingency, the model or the plan first."); return; }
+    if (!c) { DB.toast("Nothing to commit yet. Change a contingency, the model, or the plan first."); return; }
     log("Committed scenario halvorsen/v14.2+" + c);
     DB.toast(planList(plan).length ? "Committed as a scenario. Each person on the plan has their action, with a deadline." : "Committed as a scenario.");
   }
@@ -2136,7 +2136,7 @@
     }
     if (/depend|relies|rely|upstream|downstream|feeds/.test(q)) {
       var as = findAsset(q);
-      if (!as) return { text: ["Which asset? Try a port, plant or supplier, like Jebel Ali or the Gebze plant."] };
+      if (!as) return { text: ["Which asset? Try a port, plant, or supplier, like Jebel Ali or the Gebze plant."] };
       var users = allAssets().filter(function (b) { return (b.deps || []).indexOf(as.id) > -1; }), deps = (as.deps || []).map(assetById).filter(Boolean);
       return { text: [users.length + (users.length === 1 ? " asset relies" : " assets rely") + " on " + as.name + ", and " + as.name + " relies on " + deps.length + "."],
         facts: users.slice(0, 6).map(function (u) { return [u.name, u.type]; }).concat(deps.length ? [["It relies on", deps.map(function (d) { return d.name; }).join(", ")]] : []),

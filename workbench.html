@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Workbench · Penumbra</title>
-  <meta name="description" content="Penumbra workbench: follow one decision from the forecast, through the contingencies and their impact on your organization, to the plan, who delivers it and what it changes.">
+  <meta name="description" content="Penumbra workbench: follow one decision from the forecast, through the contingencies and their impact on your organization, to the plan, who delivers it, and what it changes.">
   <link rel="preload" href="assets/fonts/switzer-800.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/switzer-400.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -98,14 +98,14 @@
       <section class="step" data-panel="impact" role="tabpanel" aria-labelledby="im-title" hidden>
         <div class="step__head">
           <h2 class="step__title" id="im-title">the impact on your organization</h2>
-          <p class="step__note">How the contingencies you've included spread through your network, and the sites, people, customers and commitments they reach beyond the money. Averages weight each combination of contingencies by its probability.</p>
+          <p class="step__note">How the contingencies you've included spread through your network, and the sites, people, customers, and commitments they reach beyond the money. Averages weight each combination of contingencies by its probability.</p>
         </div>
         <div class="dims" id="dims" role="tablist" aria-label="Kinds of impact"></div>
         <div class="panel dimdetail" id="dimdetail" aria-live="polite"></div>
         <div class="impact">
           <figure class="panel imap">
             <div class="imap__scroll">
-              <svg class="imap__svg" id="imap" viewBox="0 0 1000 500" role="img" aria-label="Map from Türkiye to Korea showing Halvorsen's plants, ports, chokepoints and shipping lanes, with an enlarged inset of the Gulf. Places hit by the contingencies you've included are ringed; select one to see its impact."></svg>
+              <svg class="imap__svg" id="imap" viewBox="0 0 1000 500" role="img" aria-label="Map from Türkiye to Korea showing Halvorsen's plants, ports, chokepoints, and shipping lanes, with an enlarged inset of the Gulf. Places hit by the contingencies you've included are ringed; select one to see its impact."></svg>
             </div>
             <figcaption class="imap__key"><span><i class="k k--loss"></i>Expected loss</span><span><i class="k k--ring"></i>Hit directly</span><span><i class="k k--lane"></i>Shipping lane</span><span><i class="k k--alt"></i>Alternate route</span><span><i class="k k--trace"></i>Path of the selection</span></figcaption>
           </figure>
@@ -158,7 +158,7 @@
       <section class="step" data-panel="deliver" role="tabpanel" aria-labelledby="dl-title" hidden>
         <div class="step__head">
           <h2 class="step__title" id="dl-title">who does the work</h2>
-          <p class="step__note">Open a team to see its people, then choose how each action is done, who works on it and when it starts. An overstretched crew finishes late, and a late or scaled-back action protects less.</p>
+          <p class="step__note">Open a team to see its people, then choose how each action is done, who works on it, and when it starts. An overstretched crew finishes late, and a late or scaled-back action protects less.</p>
         </div>
         <div class="board" id="board" role="tablist" aria-label="Teams"></div>
         <div class="panel teamws" id="teamws" role="tabpanel" aria-live="polite"></div>
@@ -206,7 +206,7 @@
     <!-- ================= Your model and data: what every scenario runs on ================= -->
     <div class="mode" data-mode="model" hidden>
       <div class="modelbar">
-        <p>This is the model every scenario runs on: your assets, how they depend on each other, your teams and your data. Edits here flow into every stage of the scenario. <b data-out="model-edits"></b></p>
+        <p>This is the model every scenario runs on: your assets, how they depend on each other, your teams, and your data. Edits here flow into every stage of the scenario. <b data-out="model-edits"></b></p>
       </div>
       <div class="viewbar">
         <div class="seg seg--light" role="tablist" aria-label="Model view">
@@ -223,7 +223,7 @@
         <div class="world__view">
           <div data-view="network">
             <div class="panel graph">
-              <svg class="graph__svg" id="graph" viewBox="0 0 760 420" role="img" aria-label="Network graph of Halvorsen's suppliers, ports, plants, distribution centres and chokepoints. Select a node to inspect it and trace its dependencies."></svg>
+              <svg class="graph__svg" id="graph" viewBox="0 0 760 420" role="img" aria-label="Network graph of Halvorsen's suppliers, ports, plants, distribution centres, and chokepoints. Select a node to inspect it and trace its dependencies."></svg>
               <p class="graph__legend"><i class="gl gl--hot"></i>Expected loss <i class="gl gl--ring"></i>Hit by an included contingency <i class="gl gl--alt"></i>Alternate route <i class="gl gl--trace"></i>Dependency of the selection</p>
             </div>
           </div>

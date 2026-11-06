@@ -1,6 +1,6 @@
 /* The Red Sea demo's one source of truth: what's happening, what it hits at Halvorsen, who can respond, and the
    small loss model all three pages compute from (at a glance, the report and its plan lab, the tree), as of
-   Wednesday 1 April 2026 with a horizon to 1 October. `node` points into the decomposition (redsea-lattice.js);
+   Wednesday, April 1, 2026 with a horizon to October 1. `node` points into the decomposition (redsea-lattice.js);
    keep each event's `p` equal to that node's chance in tools/redsea-lattice.py (CITED). Money is in $M over the six
    months; every figure is illustrative.
 
@@ -11,7 +11,7 @@ window.RS = (function () {
   var EVENTS = [
     { id: "attacks", node: "n21", watch: true, p: 46, was: 31,
       name: "Houthi attacks resume at scale",
-      plain: "Eight or more attacks or near-misses on merchant ships in a month, by 1 July",
+      plain: "Eight or more attacks or near-misses on merchant ships in a month, by July 1",
       hist: [22, 24, 23, 25, 27, 29, 31, 46], hits: ["inbound", "outbound", "freight"] },
     { id: "premium", node: "n76", watch: true, p: 41, was: 35,
       name: "War-risk insurance tops 1% of hull value",
@@ -145,5 +145,5 @@ window.RS = (function () {
 
   return { EVENTS: EVENTS, EASE: EASE, ASSETS: ASSETS, TEAMS: TEAMS, LOSS: LOSS, OPTIONS: OPTIONS, TOTAL: TOTAL,
            ALL: ALL, byId: byId, stats: stats, money: money,
-           asOf: "Wednesday 1 April 2026", horizon: "1 October 2026" };
+           asOf: "Wednesday, April 1, 2026", horizon: "October 1, 2026" };
 })();

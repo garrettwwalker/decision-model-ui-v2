@@ -6,7 +6,7 @@
    one shows on every question it serves); a new question links existing agents, and Totality builds its first
    forecast as they report. A simulated clock runs from 08:20 and reports arrive as it does.
    Manual by default: every change waits in the queue; in automatic mode, small reversible changes under the user's
-   limit go through on their own. The morning follows the daily brief (Tuesday 6 October, Hormuz at 27% at 06:00) and
+   limit go through on their own. The morning follows the daily brief (Tuesday, October 6, Hormuz at 27% at 06:00) and
    the workbench's other events (Red Sea 34%, Gebze strike 18%, feeder sanctions 19%).
    Times are minutes after 06:00; money in $M unless noted; every figure is illustrative. */
 (function () {
@@ -43,19 +43,19 @@
       brief: "Track Gulf spot rates and Fujairah VLSFO until the cover and hedge are bound.", tags: ["freight", "rate", "fuel", "bunker", "shipping", "container", "cost", "price"] },
     { id: "redtraffic", kind: "sense", name: "Red Sea transits", what: "AIS transits through Bab el-Mandeb", every: "Hourly", checks: 3, cost: 0.1, auto: true,
       brief: "Count transits through Bab el-Mandeb; flag diversions south of Socotra.", tags: ["red sea", "suez", "bab el-mandeb", "shipping", "transit", "yemen"] },
-    { id: "houthi", kind: "sense", name: "Houthi statements", what: "Spokesmen, channels and claimed attacks", every: "Every 30 minutes", checks: 5, cost: 0.14, auto: true,
+    { id: "houthi", kind: "sense", name: "Houthi statements", what: "Spokesmen, channels, and claimed attacks", every: "Every 30 minutes", checks: 5, cost: 0.14, auto: true,
       brief: "Watch for threats naming merchant ships or carriers, and any claimed strike.", tags: ["houthi", "yemen", "red sea", "attack", "missile", "drone"] },
     { id: "union", kind: "sense", name: "Union channels", what: "Metalworkers' union statements and votes", every: "Hourly", checks: 2, cost: 0.03, auto: true,
-      brief: "Watch for a strike vote, a rejected offer or a call to walk out at Gebze.", tags: ["strike", "union", "labour", "labor", "metalworkers", "gebze", "wage", "plant"] },
+      brief: "Watch for a strike vote, a rejected offer, or a call to walk out at Gebze.", tags: ["strike", "union", "labour", "labor", "metalworkers", "gebze", "wage", "plant"] },
     { id: "press", kind: "sense", name: "Local press", what: "Turkish business and regional papers", every: "Twice a day", checks: 2, cost: 0.02, auto: true,
       brief: "Summarize coverage of the national metalworkers' talks and anything on Gebze.", tags: ["turkey", "turkish", "gebze", "strike", "press", "news", "election"] },
-    { id: "sanc", kind: "sense", name: "Sanctions lists", what: "US, EU and UK designations", every: "Every 30 minutes", checks: 6, cost: 0.08, auto: true,
-      brief: "Screen the two ME4 feeders, their managers and owners against every new designation.", tags: ["sanction", "ofac", "designation", "list", "feeder", "vessel", "export control"] },
+    { id: "sanc", kind: "sense", name: "Sanctions lists", what: "US, EU, and UK designations", every: "Every 30 minutes", checks: 6, cost: 0.08, auto: true,
+      brief: "Screen the two ME4 feeders, their managers, and owners against every new designation.", tags: ["sanction", "ofac", "designation", "list", "feeder", "vessel", "export control"] },
     { id: "registry", kind: "sense", name: "Vessel registry", what: "Flag registries and class societies", every: "Daily", checks: 1, cost: 0.02, auto: true,
       brief: "Watch both feeders' flag and class status for reviews or withdrawals.", tags: ["registry", "flag", "vessel", "feeder", "ship", "class"] },
-    { id: "risk", kind: "sense", name: "Supplier risk monitor", what: "Credit, ownership and adverse news on suppliers", every: "Daily", checks: 0, cost: 0, auto: true,
+    { id: "risk", kind: "sense", name: "Supplier risk monitor", what: "Credit, ownership, and adverse news on suppliers", every: "Daily", checks: 0, cost: 0, auto: true,
       brief: "Not linked to any question yet.", tags: ["supplier", "supply", "credit", "bankrupt", "ownership", "vendor", "procurement"] },
-    { id: "digest", kind: "sense", name: "News digest", what: "Reuters, FT and regional wires", every: "Hourly", checks: 0, cost: 0, auto: true,
+    { id: "digest", kind: "sense", name: "News digest", what: "Reuters, FT, and regional wires", every: "Hourly", checks: 0, cost: 0, auto: true,
       brief: "Not linked to any question yet.", tags: ["news", "election", "government", "policy", "tariff", "trade", "port", "saudi", "turkey", "china"] },
     { id: "customs", kind: "sense", name: "Customs filings", what: "Import and export declarations for Halvorsen's lanes", every: "Daily", checks: 0, cost: 0, auto: true,
       brief: "Not linked to any question yet.", tags: ["customs", "tariff", "import", "export", "border", "trade", "duty"] },
@@ -71,7 +71,7 @@
     { id: "letters", kind: "act", name: "Customer letters", what: "The five largest GCC accounts", owner: "Layla, GCC key accounts", checks: 0, cost: 0, auto: true,
       brief: "Draft delay notices as bookings change; never send without Layla.", tags: ["customer", "gcc", "saudi", "delay", "letter", "account"] },
     { id: "caperoute", kind: "act", name: "Cape routing", what: "Asia–Europe parts rerouted round Africa", owner: "VP Logistics", checks: 2, cost: 0.05, auto: false,
-      brief: "Hold Cape space for Gebze's compressor parts on the 14 October sailing.", tags: ["cape", "red sea", "suez", "routing", "shipping", "logistics"] },
+      brief: "Hold Cape space for Gebze's compressor parts on the October 14 sailing.", tags: ["cape", "red sea", "suez", "routing", "shipping", "logistics"] },
     { id: "labour", kind: "act", name: "Labour relations", what: "Offers and talking points for the Gebze talks", owner: "HR director, Gebze", checks: 1, cost: 0.02, auto: true,
       brief: "Prepare a revised offer and talking points; never send without the HR director.", tags: ["strike", "union", "labour", "labor", "wage", "gebze"] },
     { id: "stock", kind: "act", name: "Stock planner", what: "Finished-goods buffer at Gebze", owner: "Elif, Gebze production", checks: 1, cost: 0.01, auto: false,
@@ -110,7 +110,7 @@
     { id: "hormuz", short: "Hormuz closes", p0: 27, steer: true,
       about: "The chance the Strait of Hormuz is closed for 7+ days in the next 30, refreshed as the agents report.",
       sense: ["traffic", "notices", "ports", "wire", "supply", "rates"], act: ["buyer", "booking", "cover", "letters"],
-      deadline: ["Wed 7 Oct", "The best war-risk quote expires", "cover"],
+      deadline: ["Wed Oct 7", "The best war-risk quote expires", "cover"],
       feed: [
         { at: 0, agent: "hub", kind: "change", text: "Morning run at 27%. Briefs v1 sent to the four workflow agents." },
         { at: 42, agent: "traffic", kind: "find", text: "Transits at 61% of normal overnight; three tankers turned back at the entrance.", dp: 3 },
@@ -118,10 +118,10 @@
         { at: 70, agent: "rates", kind: "find", text: "Fujairah bunker up 4% since Monday.", impact: "Hedge repriced" },
         { at: 90, agent: "notices", kind: "find", text: "Two brokers circulate a draft listing the whole strait from Thursday.", dp: 3 },
         { at: 90, agent: "ports", kind: "find", text: "Two carriers cancel Thursday calls at Jebel Ali.", impact: "Booking case firmer" },
-        { at: 96, agent: "hub", kind: "change", text: "Brief v2 to the resin buyer, booking agent and cover broker; the big moves wait for you." },
+        { at: 96, agent: "hub", kind: "change", text: "Brief v2 to the resin buyer, booking agent, and cover broker; the big moves wait for you." },
         { at: 112, agent: "ports", kind: "prob", text: "Khor Fakkan's agent stopped answering; berth counts going stale." },
         { at: 118, agent: "wire", kind: "prob", text: "Two of five sources went behind a paywall." },
-        { at: 130, agent: "buyer", kind: "find", text: "Counter-offer: 4,000 t at $1,215/t by 20 October; the other 3,000 t at $1,260/t in November.", impact: "Protects up to $8.6M" },
+        { at: 130, agent: "buyer", kind: "find", text: "Counter-offer: 4,000 t at $1,215/t by October 20; the other 3,000 t at $1,260/t in November.", impact: "Protects up to $8.6M" },
         { at: 132, agent: "hub", kind: "change", text: "Proposed brief v3 for the resin buyer and an hourly watch on resin suppliers." },
         { at: 140, agent: "cover", kind: "prob", text: "The broker hasn't replied since 06:15; the best quote expires Wednesday." }
       ],
@@ -156,8 +156,8 @@
           diff: [["Letters", "None", "5 drafts, not sent"]], costText: "No cost; nothing is sent" },
         { id: "q-buyer", kind: "Strategy", agent: "buyer", cost: 0.62, rev: false, edit: true,
           title: "Take 4,000 t at $1,215/t now; keep 3,000 t open below $1,260/t",
-          why: "The counter-offer covers both plants through 20 October at less than brief v2 allowed. The last 3,000 t matter only if the strait closes for more than three weeks.",
-          diff: [["Ceiling", "$1,240/t", "$1,215/t now, $1,260/t for the rest"], ["Volume now", "7,000 t", "4,000 t"], ["Delivery", "By 30 Oct", "4,000 t by 20 Oct"]], costText: "$0.62M premium, signs a contract" },
+          why: "The counter-offer covers both plants through October 20 at less than brief v2 allowed. The last 3,000 t matter only if the strait closes for more than three weeks.",
+          diff: [["Ceiling", "$1,240/t", "$1,215/t now, $1,260/t for the rest"], ["Volume now", "7,000 t", "4,000 t"], ["Delivery", "By Oct 30", "4,000 t by Oct 20"]], costText: "$0.62M premium, signs a contract" },
         { id: "q-booking", kind: "Strategy", agent: "booking", cost: 0.9, rev: false,
           title: "Firm up all four Khor Fakkan slots",
           why: "With carriers cancelling Thursday calls at Jebel Ali, the slots will go before the 14:00 cutoff. Booking now protects $7.6M at this morning's 27% chance of closure, or $9.3M at the current 33%.",
@@ -170,7 +170,7 @@
     { id: "redsea", short: "Red Sea shuts", p0: 31,
       about: "The chance the Red Sea is shut to commercial traffic in the next 30 days, Suez lost and Asia–Europe round the Cape.",
       sense: ["redtraffic", "houthi", "rates"], act: ["caperoute", "letters"],
-      deadline: ["Fri 9 Oct", "The Cape space hold expires", "caperoute"],
+      deadline: ["Fri Oct 9", "The Cape space hold expires", "caperoute"],
       briefs: { rates: "Track Asia–Europe spot rates via Suez and via the Cape.", letters: "Draft delay notices for Jeddah-bound orders if Suez routings stop; never send without Layla." },
       feed: [
         { at: 0, agent: "hub", kind: "change", text: "Morning run at 31%." },
@@ -178,11 +178,11 @@
         { at: 80, agent: "houthi", kind: "find", text: "A spokesman threatens ships 'linked to the blockade'.", dp: 1 },
         { at: 100, agent: "rates", kind: "find", text: "Asia–Europe spot via the Cape up 9%.", impact: "Cape routing dearer" },
         { at: 125, agent: "houthi", kind: "prob", text: "A channel it reads was taken down; one of three sources lost." },
-        { at: 128, agent: "caperoute", kind: "find", text: "Cape space for Gebze's compressor parts: 6 FEU open on the 14 October sailing.", impact: "Option open" }
+        { at: 128, agent: "caperoute", kind: "find", text: "Cape space for Gebze's compressor parts: 6 FEU open on the October 14 sailing.", impact: "Option open" }
       ],
       coming: [
         { at: 150, agent: "redtraffic", kind: "find", text: "Two container ships divert south of Socotra.", dp: 1 },
-        { at: 160, agent: "caperoute", kind: "find", text: "The carrier holds the 14 October space until Friday.", impact: "Deadline Friday" },
+        { at: 160, agent: "caperoute", kind: "find", text: "The carrier holds the October 14 space until Friday.", impact: "Deadline Friday" },
         { at: 171, agent: "rates", kind: "find", text: "Suez transit insurance quotes up a third.", impact: "Suez dearer" }
       ],
       asks: [
@@ -193,20 +193,20 @@
       queue: [
         { id: "q-cape", kind: "Strategy", agent: "caperoute", cost: 0.4, rev: false,
           title: "Pre-book Cape space for Gebze's compressor parts",
-          why: "If Suez routings stop, Gebze runs short of compressors in late November. Six FEU on the 14 October sailing cover the gap.",
-          diff: [["Space", "None", "6 FEU, 14 Oct sailing"], ["Route", "Suez", "Cape of Good Hope"]], costText: "$0.40M, commits the space" },
+          why: "If Suez routings stop, Gebze runs short of compressors in late November. Six FEU on the October 14 sailing cover the gap.",
+          diff: [["Space", "None", "6 FEU, Oct 14 sailing"], ["Route", "Suez", "Cape of Good Hope"]], costText: "$0.40M, commits the space" },
         { id: "q-redwatch", kind: "Retask", agent: "redtraffic", cost: 0.00002, rev: true,
           title: "Count Bab el-Mandeb transits every 30 minutes",
           why: "Diversions show up in the transit count a day before carriers announce them.",
           diff: [["How often", "Hourly", "Every 30 minutes"]], costText: "$20 of compute a day" }
       ] },
     { id: "strike", short: "Gebze strike", p0: 16,
-      about: "The chance metalworkers strike at the Gebze plant before their contract expires on 1 November.",
+      about: "The chance metalworkers strike at the Gebze plant before their contract expires on November 1.",
       sense: ["union", "press"], act: ["labour", "stock"],
-      deadline: ["Tue 20 Oct", "The union's strike vote", "union"],
+      deadline: ["Tue Oct 20", "The union's strike vote", "union"],
       feed: [
         { at: 0, agent: "hub", kind: "change", text: "Morning run at 16%." },
-        { at: 50, agent: "union", kind: "find", text: "The union calls a members' vote for 20 October.", dp: 2 },
+        { at: 50, agent: "union", kind: "find", text: "The union calls a members' vote for October 20.", dp: 2 },
         { at: 95, agent: "press", kind: "find", text: "Local press: talks 'constructive' after Monday's session.", impact: "No change" },
         { at: 120, agent: "stock", kind: "find", text: "Finished goods at Gebze cover 9 days of shipments.", impact: "Thin buffer" }
       ],
@@ -215,7 +215,7 @@
         { at: 172, agent: "labour", kind: "find", text: "A revised offer is drafted: 8% over two years.", impact: "Draft ready" }
       ],
       asks: [
-        { q: "Will members vote to strike on 20 October?", v: 0.9, agent: "union" },
+        { q: "Will members vote to strike on October 20?", v: 0.9, agent: "union" },
         { q: "Will the national metalworkers' deal settle first?", v: 0.5, agent: "press" }
       ],
       queue: [
@@ -231,7 +231,7 @@
     { id: "feeders", short: "Feeder sanctions", p0: 15,
       about: "The chance sanctions hit the two ME4 feeders Halvorsen uses into Jebel Ali this month.",
       sense: ["sanc", "registry", "ports"], act: ["feedbook"],
-      deadline: ["Thu 8 Oct", "The flag registry's review", "registry"],
+      deadline: ["Thu Oct 8", "The flag registry's review", "registry"],
       briefs: { ports: "Confirm which Jebel Ali boxes sail on the two ME4 feeders this week and next." },
       feed: [
         { at: 0, agent: "hub", kind: "change", text: "Morning run at 15%." },
@@ -771,11 +771,11 @@
   var HZ = QUERIES[0], LOSS = 11.7 / 0.27, BASE_PRICE = 1060;  // the loss the full 7,000 t avoids if Hormuz closes; the normal contract price
   var VERS = [
     { n: "v1", t: "06:00", why: "From the brief, at 27%", v: { ceil: 1180, vol: 7000, pri: "balanced", fm: false, dl: false, pay: false },
-      text: "Up to $1,180/t for all 7,000 t, delivered by 30 October." },
+      text: "Up to $1,180/t for all 7,000 t, delivered by October 30." },
     { n: "v2", t: "07:36", why: "The draft war-risk listing; 33%", v: { ceil: 1240, vol: 7000, pri: "fast", fm: true, dl: true, pay: false },
-      text: "Up to $1,240/t; split the order to get the first lot by 20 October; ask for a force-majeure carve-out." },
+      text: "Up to $1,240/t; split the order to get the first lot by October 20; ask for a force-majeure carve-out." },
     { n: "v3", t: "08:12", why: "The supplier's counter-offer", v: { ceil: 1215, vol: 4000, pri: "balanced", fm: true, dl: true, pay: false },
-      text: "Take 4,000 t at $1,215/t by 20 October; keep the other 3,000 t open below $1,260/t." }
+      text: "Take 4,000 t at $1,215/t by October 20; keep the other 3,000 t open below $1,260/t." }
   ];
   var BRIEF = { cur: 2, sent: 1 };  // v3 is Totality's proposal; v2 is what the agent works to until you sign off
   var form = Object.assign({}, VERS[2].v);
@@ -791,13 +791,13 @@
     { key: "ceil", label: "Ceiling for this lot", step: 5, min: 1150, max: 1300, fmt: function (v) { return "$" + v.toLocaleString("en-US") + "/t"; },
       choices: [[1180, "Singapore spot"], [1215, "their offer"], [1260, "walk-away"]] },
     { key: "vol", label: "Volume to close now", step: 500, min: 1000, max: 7000, fmt: function (v) { return v.toLocaleString("en-US") + " t"; },
-      choices: [[3000, "bare cover"], [4000, "to 20 Oct"], [7000, "all of it"]] },
+      choices: [[3000, "bare cover"], [4000, "to Oct 20"], [7000, "all of it"]] },
     { key: "pri", label: "What the agent pushes for", choices: [["price", "pays less, slower"], ["balanced", "price and speed"], ["fast", "closes this week"]],
       fmt: function (v) { return { price: "Price", balanced: "Balance", fast: "Speed" }[v]; } }
   ];
   var MUST = [
     { key: "fm", text: "Force-majeure carve-out for a Gulf closure", sub: "The supplier can't walk away if the strait shuts" },
-    { key: "dl", text: "First lot delivered by 20 October", sub: "Before both plants run out of cover" },
+    { key: "dl", text: "First lot delivered by October 20", sub: "Before both plants run out of cover" },
     { key: "pay", text: "60-day payment terms", sub: "Eases cash, but costs leverage" }
   ];
   function holdable(btn, fn) {

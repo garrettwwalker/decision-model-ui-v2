@@ -7,7 +7,7 @@
   var RS = window.RS, M = RS.money;
   var f1 = function (v) { return v.toFixed(1); };
   var MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-  function dayLabel(d) { var x = new Date(Date.UTC(2026, 3, 1 + d)); return x.getUTCDate() + " " + MONTHS[x.getUTCMonth()]; }
+  function dayLabel(d) { var x = new Date(Date.UTC(2026, 3, 1 + d)); return MONTHS[x.getUTCMonth()] + " " + x.getUTCDate(); }
   function weekday(d) { var x = new Date(Date.UTC(2026, 3, 1 + d)); return ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][x.getUTCDay()] + " " + dayLabel(d); }
   // a move due on a weekend is ready the Monday after
   function ready(days) { var w = new Date(Date.UTC(2026, 3, 1 + days)).getUTCDay(); return days + (w === 6 ? 2 : w === 0 ? 1 : 0); }
@@ -20,7 +20,7 @@
   // ---------- 1. the trend, with a readout under the pointer ----------
   (function () {
     var svg = $("#f-trend"), E = RS.byId.attacks, h = E.hist;
-    var weeks = ["11 Feb", "18 Feb", "25 Feb", "4 Mar", "11 Mar", "18 Mar", "25 Mar", "1 Apr"];
+    var weeks = ["Feb 11", "Feb 18", "Feb 25", "Mar 4", "Mar 11", "Mar 18", "Mar 25", "Apr 1"];
     var X = function (i) { return 40 + i * 62; }, Y = function (v) { return 170 - v * 2.5; };
     var pts = h.map(function (v, i) { return X(i) + "," + Y(v); }).join(" ");
     var s = '<g class="ax">' + [0, 20, 40, 60].map(function (v) {
@@ -48,9 +48,9 @@
   // what moved it: a tug of war in points
   (function () {
     var D = [[7, "Iranian missile parts bound for Yemen intercepted twice in March"],
-             [5, "Houthi statements on 26 and 29 March name commercial shipping again"],
-             [4, "Lloyd's insurers widened the Red Sea listed area on 24 March"],
-             [-1, "Gaza truce talks restart on 7 April"]];
+             [5, "Houthi statements on 26 and March 29 name commercial shipping again"],
+             [4, "Lloyd's insurers widened the Red Sea listed area on March 24"],
+             [-1, "Gaza truce talks restart on April 7"]];
     var max = 8;
     $("#f-tug").innerHTML = D.map(function (d) {
       var w = Math.abs(d[0]) / max * 50;
@@ -232,7 +232,7 @@
     stock(); risk(base, plan); plans(p); gantt();
   }
 
-  // Gebze's compressor stock, day by day from 1 April: a reroute cuts arrivals for a stretch; stock covers it or the lines stop
+  // Gebze's compressor stock, day by day from April 1: a reroute cuts arrivals for a stretch; stock covers it or the lines stop
   function stockRun(withP, withL, T) {
     var start = T + 5, gap = withL && T >= 5 ? 12 : 24, out = [], s = 18, stops = [];
     var target = function (d) { return withP && T > 9 ? (d < 9 ? 18 : Math.min(35, 18 + (d - 9) * 17 / 21)) : 18; };

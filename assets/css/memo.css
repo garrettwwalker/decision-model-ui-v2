@@ -372,7 +372,7 @@
 /* options: white cards; the one you choose lifts, its number red, with no ring or glow */
 .memo-page .option { transition: transform 0.25s ease, box-shadow 0.25s ease; }
 .memo-page .option.is-chosen { box-shadow: var(--shadow-up); transform: translateY(-4px); }
-.memo-page .option__n { font-family: var(--display); font-weight: 400; font-size: 1.15rem; background: var(--ink); color: #fff; }
+.memo-page .option__n { flex: none; font-family: var(--display); font-weight: 400; font-size: 1.15rem; background: var(--ink); color: #fff; }
 .memo-page .option.is-chosen .option__n { background: var(--accent); }
 .memo-page .option__title { font-family: var(--display); font-weight: 400; font-size: 1.3rem; letter-spacing: -0.005em; }
 .memo-page .option__nums dd { font-family: var(--display); font-weight: 400; font-size: 1.35rem; letter-spacing: -0.01em; }

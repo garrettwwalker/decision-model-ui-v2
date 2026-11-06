@@ -1,9 +1,9 @@
 /* Team: Penumbra for the people who carry decisions out. One manager's week: the calls that are
    theirs to make, leadership's directives broken into their team's tasks, who has room, what to
    watch and how the team adapts, and the update that goes back up. Three managers to view as.
-   Today is Tue 6 Oct, the morning of the brief; day 0 below is today. Every figure is illustrative. */
+   Today is Tue Oct 6, the morning of the brief; day 0 below is today. Every figure is illustrative. */
 (function () {
-  var DAYS = ["Tue 6 Oct", "Wed 7 Oct", "Thu 8 Oct", "Fri 9 Oct", "Sat 10 Oct", "Sun 11 Oct", "Mon 12 Oct"];
+  var DAYS = ["Tue Oct 6", "Wed Oct 7", "Thu Oct 8", "Fri Oct 9", "Sat Oct 10", "Sun Oct 11", "Mon Oct 12"];
   var SHORT = ["Today", "Tomorrow", "Thu", "Fri", "Sat", "Sun", "Mon"];
 
   // tasks: [id, text, who, day, hours, status, blocker]; decisions' options can finish a task (done) or add one (add)
@@ -22,7 +22,7 @@
         ["joel", "Joel Fernandes", "Documentation lead", "Days", "Jebel Ali", 38, 45, ["Customs filings", "Bills of lading"], null, null],
         ["sanjay", "Sanjay Pillai", "Trucking coordinator", "Days", "Khor Fakkan", 26, 45, ["Haulier contracts", "Road permits"], null, null],
         ["aisha", "Aisha Karim", "Lead reach-stacker operator", "Nights", "Jebel Ali", 36, 45, ["Reach-stacker certified", "Hazmat"], null, "tariq"],
-        ["tariq", "Tariq Nasser", "Reach-stacker operator", "Nights", "Jebel Ali", 0, 45, ["Reach-stacker certified"], "On leave until Sun 11 Oct", "aisha"],
+        ["tariq", "Tariq Nasser", "Reach-stacker operator", "Nights", "Jebel Ali", 0, 45, ["Reach-stacker certified"], "On leave until Sun Oct 11", "aisha"],
         ["meilin", "Mei Lin Tan", "Operations analyst", "Days, part time", "Remote", 14, 22, ["TMS", "Reporting"], null, null]
       ]),
       gaps: [
@@ -101,7 +101,7 @@
         ["zeynep", "Zeynep Kaya", "Line 2 supervisor, dishwashers", "Days", "Gebze", 34, 45, ["Dishwasher line", "Changeovers"], null, "kemal"],
         ["ozan", "Ozan Çelik", "Line 3 supervisor, dryers", "Nights", "Gebze", 38, 45, ["Dryer line"], null, null],
         ["selma", "Selma Arslan", "Materials planner", "Days", "Gebze", 37, 45, ["Resin planning", "MRP"], null, null],
-        ["hakan", "Hakan Doğan", "Quality engineer", "Days", "Supplier audit, Bursa", 30, 45, ["Resin qualification", "Moulding trials"], "At a supplier audit until Thu 8 Oct", null],
+        ["hakan", "Hakan Doğan", "Quality engineer", "Days", "Supplier audit, Bursa", 30, 45, ["Resin qualification", "Moulding trials"], "At a supplier audit until Thu Oct 8", null],
         ["derya", "Derya Polat", "Maintenance planner", "Days", "Gebze", 28, 45, ["Planned maintenance", "Moulds"], null, null],
         ["burak", "Burak Aydın", "Labour relations", "Days", "Gebze", 20, 30, ["Union liaison"], null, null]
       ]),
@@ -115,12 +115,12 @@
           opts: [{ t: "Accept for Line 3 only", sub: "Dryers run it; washers wait for the next lot", add: { text: "Route the 40 t lot to Line 3's silo", who: "selma", day: 1, hours: 2 } }, { t: "Reject and wait", sub: "Next lot in 9 days" }, { t: "Accept for every line", sub: "Higher scrap risk on washer tubs" }],
           pick: 0, why: "Dryer drums tolerate the higher melt index, so Line 3 uses the lot safely and saves the in-spec resin for washers." },
         { id: "saturday", q: "Run Line 2 on Saturday to build dishwasher stock?", due: [2, "16:00"],
-          context: "The metalworkers' contract expires 1 November and the strike risk is 18%. Leadership asked for a strike contingency.",
+          context: "The metalworkers' contract expires November 1 and the strike risk is 18%. Leadership asked for a strike contingency.",
           opts: [{ t: "Run Saturday", sub: "$38k overtime; about 1,100 units ahead", add: { text: "Staff Line 2 for Saturday", who: "zeynep", day: 3, hours: 3 } }, { t: "Half shift on Sunday", sub: "$19k; about 550 units" }, { t: "Don't run", sub: "No stock ahead" }],
           pick: 0, why: "Each Saturday worked now banks a day of dishwasher output in case talks fail, and uses resin before any Gulf disruption makes it scarce." },
         { id: "maint", q: "Move Line 1's planned maintenance?", due: [3, "12:00"],
-          context: "Maintenance is set for Friday. Resin cover is thinnest around 15 Oct, when the line may idle anyway.",
-          opts: [{ t: "Move to Thu 15 Oct", sub: "Maintain while waiting for resin", add: { text: "Re-book Line 1's maintenance crew for Thu 15 Oct", who: "derya", day: 2, hours: 2 } }, { t: "Keep Friday", sub: "Lose a full production day now" }],
+          context: "Maintenance is set for Friday. Resin cover is thinnest around Oct 15, when the line may idle anyway.",
+          opts: [{ t: "Move to Thu Oct 15", sub: "Maintain while waiting for resin", add: { text: "Re-book Line 1's maintenance crew for Thu Oct 15", who: "derya", day: 2, hours: 2 } }, { t: "Keep Friday", sub: "Lose a full production day now" }],
           pick: 0, why: "If Line 1 is going to wait for resin around the 15th, doing maintenance then costs no output at all." }
       ],
       directives: [
@@ -132,11 +132,11 @@
             ["e-silo", "Agree silo space for 4,200 t arriving from Ambarlı", "selma", 1, 2, "doing"],
             ["e-cover", "Report resin days of cover to Murat every morning", "selma", 0, 1, "done"]
           ]) },
-        { id: "strike", title: "Prepare a strike contingency for 1 November", by: "Murat Kaya, Plant director", approved: "asked of every plant manager this week",
-          part: "Know exactly which work continues, which stops and in what order, before the contract expires.", due: 3,
+        { id: "strike", title: "Prepare a strike contingency for November 1", by: "Murat Kaya, Plant director", approved: "asked of every plant manager this week",
+          part: "Know exactly which work continues, which stops, and in what order, before the contract expires.", due: 3,
           tasks: tasks([
             ["e-roles", "List the roles that keep running during a legal strike", "burak", 3, 4],
-            ["e-ahead", "Build two days of washer stock by 30 October", "kemal", 6, 10],
+            ["e-ahead", "Build two days of washer stock by October 30", "kemal", 6, 10],
             ["e-shut", "Write a safe shutdown sequence for each line", "derya", 3, 6],
             ["e-brief", "Brief supervisors on what they can say about the talks", "burak", 2, 2]
           ]) }
@@ -146,7 +146,7 @@
           impact: "Jubail resin stops. With 11 days of cover, all three lines stop in week two unless the Singapore resin is qualified and flowing.",
           signal: { text: "Resin days of cover", now: 11, at: 8, unit: " days", dir: "below" },
           steps: [["Switch every line to the Singapore grade", "selma", 4], ["Cut to two shifts on Lines 1 and 2", "elif", 2], ["Pull planned maintenance into the idle days", "derya", 3]] },
-        { id: "strike-w", kind: "threat", title: "Strike at the Gebze plant", p: "18% before 1 November", trend: [5, 8, 14, 18],
+        { id: "strike-w", kind: "threat", title: "Strike at the Gebze plant", p: "18% before November 1", trend: [5, 8, 14, 18],
           impact: "Lines stop for the length of the walkout. Every day out costs about 6,200 units, and the EU washer launch slips after five days.",
           signal: { text: "Overtime refusals", now: 12, at: 20, unit: "%", dir: "above" },
           steps: [["Run the shutdown sequence line by line", "derya", 4], ["Keep the agreed essential roles staffed", "burak", 2], ["Shift EU washer orders to Pune", "elif", 3]] },
@@ -514,7 +514,7 @@
         cls: "dir--play", stop: function () { st.active[w.id].forEach(removeTask); delete st.active[w.id]; changed(); }
       }));
     });
-    if (st.own.length) box.appendChild(directiveCard({ id: "own", title: "Tasks you've added", by: "From your decisions, gaps and preparations", taskIds: st.own }, { cls: "dir--own" }));
+    if (st.own.length) box.appendChild(directiveCard({ id: "own", title: "Tasks you've added", by: "From your decisions, gaps, and preparations", taskIds: st.own }, { cls: "dir--own" }));
   }
 
   /* ================= Your team ================= */

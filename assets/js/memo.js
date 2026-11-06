@@ -1,5 +1,5 @@
 /* Sample memo: a strategic options memo answering "How should we respond to the potential of new
-   sanctions by the Trump Administration?" Written on Wed 7 Oct, the day after the brief.
+   sanctions by the Trump Administration?" Written on Wed Oct 7, the day after the brief.
    Money in $M, expected over 12 months at the 41% forecast. Every figure is illustrative.
    If sanctions land, $62M is at risk: resin 24, Dubai re-export sales 18, penalty exposure 11,
    feeders and freight 5, Gebze banking 4. */
@@ -34,23 +34,23 @@
       cons: ["The outcome is outside our control", "Visible lobbying on Iran carries some reputational risk", "Does nothing for resin"] }
   ];
 
-  var WEEKS = ["7 Oct", "12 Oct", "19 Oct", "26 Oct", "2 Nov", "9 Nov", "16 Nov", "23 Nov", "30 Nov", "7 Dec"];
+  var WEEKS = ["Oct 7", "Oct 12", "Oct 19", "Oct 26", "Nov 2", "Nov 9", "Nov 16", "Nov 23", "Nov 30", "Dec 7"];
 
   // steps: [what, owner, start week, length in weeks]; marks: [week, label]; trips: [when, then], written to follow "If "
   var PLANS = {
     watch: {
-      lead: "Risk office", hours: 60, first: "Thu 8 Oct",
+      lead: "Risk office", hours: 60, first: "Thu Oct 8",
       steps: [
         ["Set tripwires on four signposts in Penumbra", "Risk office", 0, 1],
         ["Weekly sanctions read-out to the exec team", "Risk office", 0, 10],
         ["Draft exit letters for suppliers and traders", "Legal", 1, 2],
         ["Keep non-Gulf resin samples on file", "Procurement", 2, 2]
       ],
-      marks: [[4, "Exec review of the forecast"], [9, "Forecast horizon, 6 Dec"]],
+      marks: [[4, "Exec review of the forecast"], [9, "Forecast horizon, Dec 6"]],
       trips: [["the Senate bill passes the floor", "move to option 2 the same week"], ["the chance rises above 55%", "start option 3 at once"], ["any counterparty is named", "stop shipments that day and send the drafted letters"]]
     },
     tighten: {
-      lead: "General Counsel", hours: 420, first: "Mon 12 Oct",
+      lead: "General Counsel", hours: 420, first: "Mon Oct 12",
       steps: [
         ["Re-screen all MENA counterparties, ownership included", "Compliance", 0, 2],
         ["Ask the three Dubai traders for end-use certificates", "GM MENA, Legal", 1, 3],
@@ -62,7 +62,7 @@
       trips: [["a trader refuses to certify", "pause it and offer its volume to the GCC key accounts"], ["talks resume with a date", "keep the screening, lift the pauses"]]
     },
     resin: {
-      lead: "VP Procurement", hours: 680, first: "Fri 9 Oct",
+      lead: "VP Procurement", hours: 680, first: "Fri Oct 9",
       steps: [
         ["Order samples: two Singapore grades, one Korean", "Procurement", 0, 1],
         ["Line trials and QA sign-off at Gebze", "Gebze QA", 1, 6],
@@ -74,7 +74,7 @@
       trips: [["a Gulf polymer maker is named", "move 70% of Gebze's resin off the Gulf, using spot cargoes"], ["Hormuz closes", "fold this plan into the brief's Singapore bridge-buy"]]
     },
     engage: {
-      lead: "Group Treasurer", hours: 190, first: "Thu 8 Oct",
+      lead: "Group Treasurer", hours: 190, first: "Thu Oct 8",
       steps: [
         ["Brief the trade association's sanctions group", "General Counsel", 0, 1],
         ["Pre-clear payment routes with two banks", "Group Treasurer", 0, 3],
@@ -96,14 +96,14 @@
     ["forecast", "Would a change in India's oil buying affect the Pune plant?"]
   ];
 
-  // weekly series from 13 Jul; index 12 is this week (5 Oct)
+  // weekly series from Jul 13; index 12 is this week (Oct 5)
   var TRENDS = {
     p: { vals: [19, 20, 22, 21, 22, 22, 23, 26, 29, 31, 34, 38, 41], fmt: function (v) { return v + "%"; }, min: 0, max: 50, ticks: [0, 25, 50], color: "var(--loss)" },
     sdn: { vals: [6, 4, 7, 5, 8, 6, 9, 12, 11, 15, 19, 22, 27], fmt: function (v) { return String(v); }, min: 0, max: 30, ticks: [0, 15, 30], color: "var(--ink)" },
     brent: { vals: [78, 79, 77, 80, 82, 81, 84, 85, 87, 88, 91, 92, 93], fmt: function (v) { return "$" + v; }, min: 70, max: 100, ticks: [70, 85, 100], color: "var(--ink)" }
   };
-  var DATES = ["13 Jul", "20 Jul", "27 Jul", "3 Aug", "10 Aug", "17 Aug", "24 Aug", "31 Aug", "7 Sep", "14 Sep", "21 Sep", "28 Sep", "this week"];
-  var EVENT = 11 + 1 / 7; // 29 Sep, a day after the 28 Sep point
+  var DATES = ["Jul 13", "Jul 20", "Jul 27", "Aug 3", "Aug 10", "Aug 17", "Aug 24", "Aug 31", "Sep 7", "Sep 14", "Sep 21", "Sep 28", "this week"];
+  var EVENT = 11 + 1 / 7; // Sep 29, a day after the Sep 28 point
 
   function el(tag, cls, text) {
     var e = document.createElement(tag);
@@ -353,7 +353,7 @@
     host.innerHTML = "";
     fig.querySelector(".trend__now").textContent = d.fmt(d.vals[n - 1]);
     var s = svg("svg", { viewBox: "0 0 " + W + " " + H, width: W, height: H, role: "img",
-      "aria-label": fig.querySelector(".trend__name").textContent + ", weekly from 13 July: " + d.vals.map(d.fmt).join(", ") });
+      "aria-label": fig.querySelector(".trend__name").textContent + ", weekly from July 13: " + d.vals.map(d.fmt).join(", ") });
     d.ticks.forEach(function (v) {
       s.appendChild(svg("line", { x1: L, x2: W - R, y1: y(v), y2: y(v), class: "trend__grid" }));
       var tx = svg("text", { x: L - 6, y: y(v) + 3.5, class: "trend__tick", "text-anchor": "end" });

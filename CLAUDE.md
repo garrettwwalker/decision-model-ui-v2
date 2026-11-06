@@ -295,6 +295,12 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   the next page is prefetched when a pointer goes over its link. The user asked for it fast: 0.2s over, 0.26s off.
   No view transition there.
 - `assets/js/app.js` holds the shared helpers (`DB.money`, `DB.toast`, `DB.rng`, range fills).
+- Copy (the user's audit, 2026-11-06): plain and human, not punchy. No slogan lines ("Three decisions, not three hundred
+  alerts", "We'd rather tell you that than guess"), no "X, not Y" flourishes, and no lists of three in every explanation. Say
+  what "it", "each one" or a bare percentage refers to; when a later sentence cites a probability from earlier, name what it's
+  the chance of. Spell out figures (a bad case "1 in 20", not P95; "58%", not p 0.58; percentage points as "pts"). Oxford
+  commas in every list. US dates: "August 1", "Tuesday, October 6, 2026", "Oct 9" (not "1 August"); the date helpers in
+  redsea-report.js, redsea-tree.js and chat.js build them that way. Em dashes are fine; the user wants them kept.
 - Type: Switzer (Fontshare), self-hosted in `assets/fonts/`, for everything, on a major-third scale; data uses
   tabular figures. JetBrains Mono appears only in the workbench's code, diff and log panels. Labels are sentence
   case, with no all-caps eyebrows, middle-dot meta strings or decorative arrows.

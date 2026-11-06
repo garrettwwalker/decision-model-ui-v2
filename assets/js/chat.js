@@ -163,7 +163,7 @@
     return [
       ["Loss if this happens", DB.money(r.loss), "loss"],
       ["Plants and DCs", DB.money(r.parts.plants + r.parts.dcs)],
-      ["Freight, cover and trapped cargo", DB.money(r.parts.war + r.parts.trapped)]
+      ["Freight, cover, and trapped cargo", DB.money(r.parts.war + r.parts.trapped)]
     ];
   }
 
@@ -190,7 +190,7 @@
         if (r.D > 0) v += x.n.stop > 0.5 ? ", then " + days(x.n.stop) + (x.meta.kind === "plant" ? " stopped" : " short") : ", holds";
         return [x.meta.name, v, x.n.stop > 0.5 ? "loss" : "safe"];
       }),
-      route: "Worked out from your network model: stock cover, line rates and lead times. No forecast was needed.",
+      route: "Worked out from your network model: stock cover, line rates, and lead times. No forecast was needed.",
       followups: ["What's the best way to cut our losses?", "What if it closes for 45 days?"]
     };
   }
@@ -273,7 +273,7 @@
         ["Declined: a sudden strike or coup in Tehran", "no skill"],
         ["Fused and calibrated", "27% ±5", "loss"]
       ],
-      route: "It rose from 9% on 1 September, mostly on three boardings in ten days and the collapse of sanctions talks. The brief lists every driver.",
+      route: "It rose from 9% on September 1, mostly on three boardings in ten days and the collapse of sanctions talks. The brief lists every driver.",
       actions: [{ label: "Read the brief", href: "briefing.html#why-title" }],
       followups: ["What would change your mind?", "How much would a closure cost us?"]
     };
@@ -331,7 +331,7 @@
 
   /* ---------- Question options: how often it runs, what counts as yes, and what extra data it reads ---------- */
   var CADENCE = [["once", "Once"], ["hourly", "Hourly"], ["daily", "Daily"], ["weekly", "Weekly"], ["signal", "When a signal moves"]];
-  var NEXT_RUN = { hourly: "08:00 GST", daily: "tomorrow, 06:00 GST", weekly: "Tue 13 Oct, 06:00 GST", signal: "when AIS, broker or price feeds move" };
+  var NEXT_RUN = { hourly: "08:00 GST", daily: "tomorrow, 06:00 GST", weekly: "Tue Oct 13, 06:00 GST", signal: "when AIS, broker, or price feeds move" };
   var UNTIL = { resolves: "until it resolves", "2w": "for 2 weeks", "1m": "for a month", never: "until you stop it" };
   var SOURCES = [["sap", "SAP S/4HANA", "POs and BOMs", true], ["ais", "AIS stream", "Vessel positions", true], ["broker", "War-risk broker feed", "Gulf quotes", true], ["kinaxis", "Kinaxis RapidResponse", "Supply plan", false], ["workday", "Workday", "Teams and availability", false]];
   var opts;
@@ -341,7 +341,7 @@
   var cadBox = document.getElementById("q-cadence"), cadMore = document.getElementById("q-cadence-more");
   var fCrit = document.getElementById("q-criteria"), fBy = document.getElementById("q-by"), fSrc = document.getElementById("q-source");
   var fUntil = document.getElementById("q-until"), fNotify = document.getElementById("q-notify"), fileBox = document.getElementById("q-files"), srcBox = document.getElementById("q-sources");
-  function dateText(iso) { var d = new Date(iso + "T00:00:00"); return isNaN(d) ? iso : d.getDate() + " " + ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][d.getMonth()]; }
+  function dateText(iso) { var d = new Date(iso + "T00:00:00"); return isNaN(d) ? iso : ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][d.getMonth()] + " " + d.getDate(); }
   function changes() {
     var n = [];
     if (opts.cadence !== "once") n.push(CADENCE.filter(function (c) { return c[0] === opts.cadence; })[0][1]);
