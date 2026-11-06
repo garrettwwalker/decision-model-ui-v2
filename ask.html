@@ -45,8 +45,6 @@
       <section class="ask__intro" id="intro" aria-labelledby="intro-title">
         <h1 class="display ask__title" id="intro-title">What Do You Want to Know?</h1>
         <p class="ask__lede">Ask about a risk, or about how long your network can hold. Every answer is worked out from the same model as this morning's brief, and the Totality engine tells you when something can't be forecast.</p>
-        <div class="starters" id="starters"></div>
-        <p class="ask__fine">This is a mockup: answers are scripted from the scenario model, not a live assistant.</p>
       </section>
 
       <ol class="msgs" id="chat-log" role="log" aria-live="polite" aria-label="Conversation with Penumbra"></ol>
@@ -54,9 +52,24 @@
       <form class="composer" id="chat-form" autocomplete="off">
         <div class="qopts" id="qopts" hidden>
           <div class="qopts__head">
-            <h2 class="qopts__title">Question options</h2>
+            <h2 class="qopts__title">Settings</h2>
             <button class="qopts__close" type="button" id="qopts-close" aria-label="Close options">×</button>
           </div>
+          <fieldset class="qopt qctx">
+            <legend>The situation behind each answer</legend>
+            <p class="qopt__hint">Answers are worked out for this situation. A what-if question changes it, and later answers keep the change until you reset.</p>
+            <dl class="ctx__list">
+              <div><dt>Strait of Hormuz</dt><dd data-ctx="world">Closed for 21 days</dd></div>
+              <div><dt>Red Sea</dt><dd data-ctx="redsea">Open</dd></div>
+              <div><dt>Moves already made</dt><dd data-ctx="moves">None yet</dd></div>
+              <div><dt>Chance of this situation</dt><dd data-ctx="p">27% in 30 days</dd></div>
+            </dl>
+            <p class="ctx__note" data-ctx="source">This morning's scenario.</p>
+            <div class="ctx__actions">
+              <a class="btn btn--light btn--sm" href="workbench.html" data-open-war>Explore in the workbench</a>
+              <button class="btn btn--ghost btn--sm" type="button" id="ctx-reset">Reset to this morning</button>
+            </div>
+          </fieldset>
           <fieldset class="qopt">
             <legend>How often</legend>
             <div class="qseg" role="radiogroup" aria-label="How often the Totality engine runs this question" id="q-cadence"></div>
@@ -84,9 +97,13 @@
             <p class="qopt__hint">Read on your servers with the rest of your data; nothing leaves them.</p>
             <div class="qsources" id="q-sources" role="group" aria-label="Connected sources to include"></div>
           </fieldset>
+          <fieldset class="qopt standing" id="standing" hidden>
+            <legend>Standing questions</legend>
+            <ul class="standing__list" id="standing-list"></ul>
+          </fieldset>
         </div>
         <div class="qchips" id="qchips" hidden></div>
-        <button class="composer__opts" type="button" id="qopts-btn" aria-expanded="false" aria-controls="qopts" aria-label="Question options">
+        <button class="composer__opts" type="button" id="qopts-btn" aria-expanded="false" aria-controls="qopts" aria-label="Settings">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h4M12 17h8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="16" cy="7" r="2.2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="10" cy="17" r="2.2" fill="none" stroke="currentColor" stroke-width="2"/></svg>
           <span class="composer__badge" id="qopts-n" hidden></span>
         </button>
@@ -96,26 +113,14 @@
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
       </form>
+
+      <section class="chyron" id="starters" aria-label="Suggested questions">
+        <div class="chyron__row"><div class="chyron__track"></div></div>
+        <div class="chyron__row chyron__row--rev"><div class="chyron__track"></div></div>
+      </section>
+      <p class="ask__fine">This is a mockup: answers are scripted from the scenario model, not a live assistant.</p>
     </div>
 
-    <aside class="ctx" aria-labelledby="ctx-title">
-      <h2 class="ctx__title" id="ctx-title">Assuming</h2>
-      <dl class="ctx__list">
-        <div><dt>Strait of Hormuz</dt><dd data-ctx="world">Closed for 21 days</dd></div>
-        <div><dt>Red Sea</dt><dd data-ctx="redsea">Open</dd></div>
-        <div><dt>Your response</dt><dd data-ctx="moves">None yet</dd></div>
-        <div><dt>Chance of this world</dt><dd data-ctx="p">27% in 30 days</dd></div>
-      </dl>
-      <p class="ctx__note" data-ctx="source">This morning's scenario.</p>
-      <div class="ctx__actions">
-        <a class="btn btn--light btn--sm" href="workbench.html" data-open-war>Explore in the workbench</a>
-        <button class="btn btn--ghost btn--sm" type="button" id="ctx-reset">Reset</button>
-      </div>
-      <div class="standing" id="standing" hidden>
-        <h2 class="ctx__title">Standing questions</h2>
-        <ul class="standing__list" id="standing-list"></ul>
-      </div>
-    </aside>
 
   </main>
 

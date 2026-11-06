@@ -11,13 +11,18 @@
   var starters = document.getElementById("starters");
   if (!log) return;
 
+  // suggested questions, shown as two rows drifting past under the question box; each one is something chat.js can answer
   var STARTERS = [
     ["Capacity", "How long can our plants keep running?"],
     ["What if", "What if Hormuz stays closed for 45 days?"],
     ["Best move", "What's the best way to cut our losses?"],
-    ["Forecast", "Why do you think 27%?"],
+    ["Forecast", "Why do you put a Hormuz closure at 27%?"],
     ["What if", "What if the Red Sea closes too?"],
-    ["Limits", "Will there be a coup in Tehran this month?"]
+    ["Limits", "Will there be a coup in Tehran this month?"],
+    ["Watch list", "What would move the forecast?"],
+    ["Exposure", "How much do we stand to lose?"],
+    ["Capacity", "How long can the Dubai DC hold?"],
+    ["What if", "What if the strait closes for 60 days?"]
   ];
   var NODES = {
     gebze: { name: "Gebze plant", kind: "plant", what: "resin" },
@@ -465,13 +470,21 @@
   renderOpts();
 
   form.addEventListener("submit", function (e) { e.preventDefault(); ask(input.value); });
-  STARTERS.forEach(function (s) {
-    var b = el("button", "starter");
-    b.type = "button";
-    b.appendChild(el("span", "starter__kind", s[0]));
-    b.appendChild(el("span", "starter__q", s[1]));
-    b.addEventListener("click", function () { ask(s[1]); });
-    starters.appendChild(b);
+  // each row holds its half of the questions twice, so the drift can loop without a seam; the copy is hidden from
+  // screen readers and the keyboard
+  starters.querySelectorAll(".chyron__track").forEach(function (track, r) {
+    var mine = STARTERS.filter(function (s, i) { return i % 2 === r; });
+    [0, 1].forEach(function (copy) {
+      mine.forEach(function (s) {
+        var b = el("button", "starter");
+        b.type = "button";
+        b.appendChild(el("span", "starter__kind", s[0]));
+        b.appendChild(el("span", "starter__q", s[1]));
+        b.addEventListener("click", function () { ask(s[1]); });
+        if (copy) { b.tabIndex = -1; b.setAttribute("aria-hidden", "true"); }
+        track.appendChild(b);
+      });
+    });
   });
   document.querySelector("[data-open-war]").addEventListener("click", save);
   document.getElementById("ctx-reset").addEventListener("click", function () {

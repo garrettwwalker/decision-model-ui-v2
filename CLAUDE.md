@@ -65,7 +65,12 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   and feeder exposures and the 29 Sep talks collapse, so keep those in sync.
 - `ask.html` (fifth tab, `assets/css/ask.css`, body `app house ask-page` since 2026-11-06: the house layer at the end of
   ask.css; serif title-case headline, white starters, assumptions, user bubbles and composer, Penumbra's speaker mark a
-  plain dark disc, the send button and a reply's first action red, follow-ups soft cream) is the "ask the model" chat. `assets/js/chat.js`
+  plain dark disc, the send button and a reply's first action red, follow-ups soft cream; one centred column: before the
+  first question the headline, lede and a larger question box sit mid-screen with the suggested questions (`STARTERS`, ten,
+  each answerable) drifting past beneath in two opposite rows like a news chyron, paused under the pointer; the old
+  "Assuming" panel is now the top of the settings sheet, "The situation behind each answer", with its reset and
+  workbench link, and standing questions sit at the sheet's foot; near the top of the page the sheet opens downward)
+  is the "ask the model" chat. `assets/js/chat.js`
   answers scripted intents (capacity, what-if, best move, forecast, signposts, decline) live from `model.js`.
   The assumed scenario is kept in `sessionStorage["daybreak.scenario"]`; its "Explore in the workbench" button links out.
   Question options (slider button in the composer, `#qopts`): how often it runs (`CADENCE`, with stop and notify

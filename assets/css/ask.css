@@ -297,3 +297,52 @@
 .ask-page .qchip { background: #fff; box-shadow: var(--shadow-sm); color: var(--ink); }
 .ask-page .qchip:hover { background: #fff; box-shadow: var(--shadow); }
 @media (prefers-reduced-motion: reduce) { .ask-page .starter, .ask-page .followup { transition: none; transform: none !important; } .ask-page .typing::before { animation: none; } }
+
+/* =============== the empty state, redesigned (2026-11-06) ===============
+   One column. Before the first question the headline, the lede and a larger question box sit together in the middle of
+   the screen, with the suggested questions drifting past underneath in two rows like a news chyron (opposite ways,
+   paused under the pointer or keyboard focus, still and wrapped under reduced motion). The assumptions panel that sat
+   on the right is now the first part of the settings sheet, where it says what it is: the situation behind each answer. */
+.ask-page .ask { grid-template-columns: minmax(0, 46rem); justify-content: center; }
+.ask-page .ask:not(.is-talking) .ask__thread { min-height: calc(100vh - 4.5rem); justify-content: center; padding: 2rem 0 9vh; }
+.ask-page .ask__intro { text-align: center; }
+.ask-page .ask__title { margin: 0 auto; }
+.ask-page .ask__lede { margin: 1.1rem auto 0; max-width: 36rem; }
+.ask-page .ask:not(.is-talking) .composer { margin-top: 2rem; padding: 0.55rem; }
+.ask-page .ask:not(.is-talking) .composer__input { min-height: 52px; font-size: 1.08rem; }
+.ask-page .ask:not(.is-talking) .composer__send, .ask-page .ask:not(.is-talking) .composer__opts { width: 50px; height: 50px; }
+/* near the top of the page the settings sheet opens downward, over the chyron, instead of up off the screen */
+.ask-page .ask:not(.is-talking) .qopts { top: calc(100% + 0.6rem); bottom: auto; transform-origin: 0 0; }
+.ask-page .ask.is-talking .chyron, .ask-page .ask.is-talking .ask__fine { display: none; }
+.ask-page .ask__fine { margin: 1.75rem 0 0; text-align: center; }
+
+.chyron {
+  display: grid; gap: 0.7rem; width: 100vw; margin: 2.25rem 0 0 calc(50% - 50vw); padding: 0.6rem 0 1.4rem; overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+}
+.chyron__row { overflow: visible; }
+.chyron__track { display: flex; gap: 0.7rem; width: max-content; animation: chyron 70s linear infinite; }
+.chyron__row--rev .chyron__track { animation-direction: reverse; animation-duration: 82s; }
+.chyron:hover .chyron__track, .chyron:focus-within .chyron__track { animation-play-state: paused; }
+@keyframes chyron { to { transform: translateX(calc(-50% - 0.35rem)); } }
+.ask-page .chyron .starter {
+  display: inline-flex; align-items: baseline; gap: 0.55rem; padding: 0.62rem 1.05rem; border-radius: 999px; white-space: nowrap;
+  box-shadow: var(--shadow-sm);
+}
+.ask-page .chyron .starter:hover, .ask-page .chyron .starter:focus-visible { transform: translateY(-2px); box-shadow: var(--shadow); }
+.ask-page .chyron .starter__kind { font-size: 0.72rem; font-weight: 700; }
+.ask-page .chyron .starter__q { font-size: 0.92rem; font-weight: 600; }
+@media (prefers-reduced-motion: reduce) {
+  .chyron { width: auto; margin-left: 0; -webkit-mask-image: none; mask-image: none; }
+  .chyron__track { animation: none; flex-wrap: wrap; justify-content: center; width: auto; }
+  .chyron__track > [aria-hidden="true"] { display: none; }
+  .ask-page .chyron .starter { white-space: normal; }
+}
+
+/* the situation behind each answer, at the top of the settings sheet */
+.ask-page .qctx .ctx__list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.6rem 1.25rem; padding: 0.75rem 0.9rem; border-radius: var(--r-sm); background: var(--mist); }
+.ask-page .qctx .ctx__list dt { font-size: 0.74rem; color: var(--ink-3); }
+.ask-page .qctx .ctx__list dd { font-size: 0.92rem; }
+.ask-page .qctx .ctx__note { margin: 0; font-size: 0.74rem; color: var(--ink-3); }
+.ask-page .qctx .ctx__actions { margin-top: 0.1rem; }
+@media (max-width: 560px) { .ask-page .qctx .ctx__list { grid-template-columns: minmax(0, 1fr); } }
