@@ -21,6 +21,7 @@
     // nothing lights until the moon is dead center (cover hits 1 at p = 0.52), or the ring would cross the moon
     stage.style.setProperty("--ring", clamp((p - 0.52) / 0.03, 0, 1).toFixed(3));
     stage.style.setProperty("--burst", (1 - Math.pow(1 - b, 3)).toFixed(4)); // explosive: fast, then settling
+    stage.classList.toggle("is-burst", b > 0); // the corona and rays only paint once the burst has begun
     stage.style.setProperty("--flash", Math.sin(Math.PI * clamp((p - 0.52) / 0.16, 0, 1)).toFixed(4));
     stage.style.setProperty("--after", clamp((p - 0.62) / 0.24, 0, 1).toFixed(3));
   }
