@@ -217,6 +217,17 @@
   /* ---------- Plans ---------- */
   var tabs = document.getElementById("plan-tabs"), panel = document.getElementById("plan");
   var tabEls = {};
+  // a white pill slides behind the chosen tab (and follows it to another line when the tabs wrap)
+  var thumb = el("span", "planpick__thumb"); thumb.setAttribute("aria-hidden", "true"); tabs.appendChild(thumb);
+  function placeThumb(snap) {
+    var b = tabs.querySelector('[aria-selected="true"]'); if (!b) return;
+    if (snap) thumb.classList.add("is-snap");
+    thumb.style.width = b.offsetWidth + "px"; thumb.style.height = b.offsetHeight + "px";
+    thumb.style.transform = "translate(" + b.offsetLeft + "px," + b.offsetTop + "px)";
+    if (snap) { void thumb.offsetWidth; thumb.classList.remove("is-snap"); }
+  }
+  window.addEventListener("resize", function () { placeThumb(true); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { placeThumb(true); });
   OPTIONS.forEach(function (o) {
     var b = el("button", "planpick__tab");
     b.type = "button";
@@ -242,6 +253,7 @@
       tabEls[k].setAttribute("aria-selected", String(k === id));
       tabEls[k].tabIndex = k === id ? 0 : -1;
     });
+    placeThumb(!user);
     panel.setAttribute("aria-labelledby", "tab-" + id);
     panel.innerHTML = "";
     if (user) { panel.classList.remove("is-in"); void panel.offsetWidth; panel.classList.add("is-in"); }

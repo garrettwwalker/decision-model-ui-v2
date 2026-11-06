@@ -387,7 +387,17 @@
 .memo-page .planpick__tab { background: transparent; color: var(--ink-2); transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease; }
 .memo-page .planpick__tab:hover { background: transparent; color: var(--ink); }
 .memo-page .planpick__n { background: var(--mist-2); color: var(--ink-2); font-weight: 700; }
-.memo-page .planpick__tab[aria-selected="true"] { background: #fff; color: var(--ink); box-shadow: var(--shadow-sm); }
+.memo-page .planpick { position: relative; isolation: isolate; }
+.memo-page .planpick__tab { position: relative; z-index: 1; }
+.memo-page .planpick__tab[aria-selected="true"] { background: transparent; color: var(--ink); }
+/* the white pill slides from tab to tab (memo.js placeThumb) rather than jumping */
+.memo-page .planpick__thumb {
+  position: absolute; left: 0; top: 0; z-index: 0; border-radius: 999px; background: #fff; box-shadow: var(--shadow-sm); pointer-events: none;
+  transition: transform 0.36s cubic-bezier(0.3, 0.7, 0.2, 1), width 0.36s cubic-bezier(0.3, 0.7, 0.2, 1), height 0.36s ease;
+}
+.memo-page .planpick__thumb.is-snap { transition: none; }
+.memo-page .planpick__n { transition: background-color 0.25s ease, color 0.25s ease; }
+@media (prefers-reduced-motion: reduce) { .memo-page .planpick__thumb { transition: none; } }
 .memo-page .planpick__tab[aria-selected="true"] .planpick__n { background: var(--accent); color: #fff; }
 .memo-page .plan__meta dt { color: var(--ink-3); }
 .memo-page .plan__meta dd { font-family: var(--display); font-weight: 400; font-size: 1.3rem; letter-spacing: -0.005em; }
