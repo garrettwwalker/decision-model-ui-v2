@@ -379,8 +379,12 @@
 .memo-page .option.is-chosen .option__act .btn--primary { background: var(--ink); }
 .memo-page .btn--ghost { border: 0; background: var(--mist-2); color: var(--ink); transition: background-color 0.15s ease, box-shadow 0.2s ease, transform 0.2s ease; }
 .memo-page .btn--ghost:hover { background: var(--mist-3); box-shadow: 0 6px 14px -8px rgba(22, 20, 18, 0.35); }
-.memo-page .fit__dot--yes { background: var(--ink); }
-.memo-page .fit__dot--no { box-shadow: inset 0 0 0 2px var(--accent); }
+/* the fit marks drawn as SVG: CSS circles (a rounded box, an inset ring, a hard half-fill) came out lopsided on
+   fractional pixel positions at display scaling; SVG stays round */
+.memo-page .fit__dot { border-radius: 0; box-shadow: none; background: center / 100% 100% no-repeat; }
+.memo-page .fit__dot--yes { background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'><circle cx='7' cy='7' r='7' fill='%23161412'/></svg>"); }
+.memo-page .fit__dot--mixed { background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'><circle cx='7' cy='7' r='6.25' fill='none' stroke='%236a655e' stroke-width='1.5'/><path d='M7 0.75a6.25 6.25 0 0 0 0 12.5z' fill='%236a655e'/></svg>"); }
+.memo-page .fit__dot--no { background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'><circle cx='7' cy='7' r='6' fill='none' stroke='%23db3324' stroke-width='2'/></svg>"); }
 
 /* plans: the picker as the house's track with a white pill; red bars and red decision diamonds */
 .memo-page .planpick { display: inline-flex; gap: 3px; padding: 4px; border-radius: 26px; background: var(--track); }
