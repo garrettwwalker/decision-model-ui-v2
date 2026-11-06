@@ -418,3 +418,30 @@
 .memo-page .ask-q__a:hover { transform: translateY(-2px); box-shadow: var(--shadow-up); }
 .memo-page .ask-q__kind { color: var(--ink-3); }
 @media (prefers-reduced-motion: reduce) { .memo-page .option, .memo-page .ask-q__a { transition: none; transform: none !important; } }
+
+/* entrances, the first time each figure scrolls into view (reveal.js): the odds' marker slides along the scale to 41%
+   as its band fades up, the drivers' bars grow from the centre line, the trendlines draw with their fill and last point
+   following, and the plan's bars grow from their start */
+.rv .memo-page .words__pin { transition: left 1.1s cubic-bezier(0.3, 0.7, 0.2, 1) 0.2s; }
+.rv .memo-page .odds:not(.is-in) .words__pin { left: 0; }
+.rv .memo-page .words__err { transition: opacity 0.6s ease 0.9s; }
+.rv .memo-page .odds:not(.is-in) .words__err { opacity: 0; animation: none; }
+.rv .memo-page .tug__bar::after { transition: transform 0.9s cubic-bezier(0.3, 0.7, 0.2, 1); }
+.rv .memo-page .tug__bar--up::after { transform-origin: left center; }
+.rv .memo-page .tug__bar--down::after { transform-origin: right center; }
+.rv .memo-page .drivers:not(.is-in) .tug__bar::after { transform: scaleX(0); }
+.rv .memo-page .tug__bar b { transition: opacity 0.4s ease 0.7s; }
+.rv .memo-page .drivers:not(.is-in) .tug__bar b { opacity: 0; }
+.rv .memo-page .tug__rows li:nth-child(2) .tug__bar::after { transition-delay: 0.06s; }
+.rv .memo-page .tug__rows li:nth-child(3) .tug__bar::after { transition-delay: 0.12s; }
+.rv .memo-page .tug__rows li:nth-child(4) .tug__bar::after { transition-delay: 0.18s; }
+.rv .memo-page .tug__rows li:nth-child(5) .tug__bar::after { transition-delay: 0.24s; }
+.rv .memo-page .tug__rows li:nth-child(6) .tug__bar::after { transition-delay: 0.3s; }
+.rv .memo-page .tug__rows li:nth-child(7) .tug__bar::after { transition-delay: 0.36s; }
+.memo-page .trend__line { stroke-dasharray: 1; }
+.rv .memo-page .trend__line { transition: stroke-dashoffset 1.4s cubic-bezier(0.3, 0.6, 0.2, 1); }
+.rv .memo-page .trend:not(.is-in) .trend__line { stroke-dashoffset: 1; }
+.rv .memo-page .trend__area, .rv .memo-page .trend__plot > svg > .trend__dot { transition: opacity 0.6s ease 1s; }
+.rv .memo-page .trend:not(.is-in) .trend__area, .rv .memo-page .trend:not(.is-in) .trend__plot > svg > .trend__dot { opacity: 0; }
+.rv .memo-page .gantt__bar { transform-origin: left center; transition: transform 0.9s cubic-bezier(0.3, 0.7, 0.2, 1); }
+.rv .memo-page #plan:not(.is-in) .gantt__bar { transform: scaleX(0); }

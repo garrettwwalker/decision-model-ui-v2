@@ -162,7 +162,10 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   it on new pages and on at a glance. `assets/css/house.css` holds it for any page: `body class="app house"`, DM Serif
   Display from Google Fonts, then house.css after app.css (tokens, the cream bar, black logo, red current-tab mark,
   `.h-display`/`.h-kicker`/`.h-fig` type, `.h-card`/`.h-panel`, red `.btn--primary` that glows only on hover, the cream
-  `.btn-q`, soft `.pill`/`.pill--red`/`.pill--amber`). Its rules: cream ground, white cards on a soft shadow, serif
+  `.btn-q`, soft `.pill`/`.pill--red`/`.pill--amber`). Charts make an entrance the first time they scroll into view (the
+  user asked for opening animations on graphs generally): `assets/js/reveal.js`'s `Reveal(selector)` adds `.is-in` and
+  `html.rv`, and the page styles `.rv ... :not(.is-in)`: lines draw (pathLength 1), bars grow from their axis, charts that
+  redraw on every change wipe in with clip-path (the report keeps its own copy, `html.rs-anim`). Its rules: cream ground, white cards on a soft shadow, serif
   titles in title case with no period, one tomato red (money at risk is red; protected neutral ink), amber for a
   problem, no green, gold or blue, no outline rings (a lit or chosen card lifts), no status dots or glows. agents.css
   keeps its own copy (body `ag-page`) and is the reference; at a glance, the report and the sample memo use house.css; the other existing

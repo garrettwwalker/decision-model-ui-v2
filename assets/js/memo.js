@@ -367,7 +367,7 @@
     s.appendChild(svg("line", { x1: ex, x2: ex, y1: T - 4, y2: H - B, class: "trend__event" }));
     var pts = d.vals.map(function (v, i) { return x(i).toFixed(1) + " " + y(v).toFixed(1); });
     s.appendChild(svg("path", { d: "M" + pts.join(" L") + " L" + x(n - 1) + " " + (H - B) + " L" + L + " " + (H - B) + "Z", class: "trend__area", style: "fill:" + d.color }));
-    s.appendChild(svg("path", { d: "M" + pts.join(" L"), class: "trend__line", style: "stroke:" + d.color }));
+    s.appendChild(svg("path", { d: "M" + pts.join(" L"), class: "trend__line", style: "stroke:" + d.color, pathLength: 1 }));
     s.appendChild(svg("circle", { cx: x(n - 1), cy: y(d.vals[n - 1]), r: 4, class: "trend__dot", style: "fill:" + d.color }));
 
     var hair = svg("line", { y1: T - 4, y2: H - B, class: "trend__hair" });
@@ -398,6 +398,8 @@
   var figs = document.querySelectorAll("[data-trend]");
   function drawAll() { figs.forEach(draw); }
   drawAll();
+  // entrances (reveal.js): the odds' marker slides to 41%, the drivers' bars grow, the trendlines draw, the plan's bars grow
+  Reveal(".odds, .drivers, .trend, #plan");
   var rt;
   window.addEventListener("resize", function () { clearTimeout(rt); rt = setTimeout(drawAll, 120); });
 })();

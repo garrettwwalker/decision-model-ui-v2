@@ -398,6 +398,17 @@
 .rs-anim #f-route .rt--cape { transition-delay: 1s; transition-duration: 1.8s; }
 .rs-anim #f-trend .area, .rs-anim #f-trend .dot, .rs-anim #f-trend .lab, .rs-anim #f-route .choke, .rs-anim #f-route .choke__c { opacity: 0; transition: opacity 0.6s ease 1s; }
 .rs-anim .is-in #f-trend .area, .rs-anim .is-in #f-trend .dot, .rs-anim .is-in #f-trend .lab, .rs-anim .is-in #f-route .choke, .rs-anim .is-in #f-route .choke__c { opacity: 1; }
+/* bars grow from their axis: the drivers from the centre line, the loss table's and the lab's exposure bars from the left */
+.rs-anim .fig .tug__track i, .rs-anim .tbl .tbl__bar i, .rs-anim .fig .expo__track i { transition: transform 0.9s cubic-bezier(0.3, 0.7, 0.2, 1); }
+.rs-anim .fig .tug__track i.up, .rs-anim .tbl .tbl__bar i, .rs-anim .fig .expo__track i { transform-origin: left center; }
+.rs-anim .fig .tug__track i.down { transform-origin: right center; }
+.rs-anim .fig:not(.is-in) .tug__track i, .rs-anim .tbl:not(.is-in) .tbl__bar i, .rs-anim .fig:not(.is-in) .expo__track i { transform: scaleX(0); }
+.rs-anim .fig .tug__row:nth-child(2) i, .rs-anim .tbl tbody tr:nth-child(2) .tbl__bar i, .rs-anim .fig .expo__row:nth-child(2) i { transition-delay: 0.08s; }
+.rs-anim .fig .tug__row:nth-child(3) i, .rs-anim .tbl tbody tr:nth-child(3) .tbl__bar i, .rs-anim .fig .expo__row:nth-child(3) i { transition-delay: 0.16s; }
+.rs-anim .fig .tug__row:nth-child(4) i, .rs-anim .tbl tbody tr:nth-child(4) .tbl__bar i, .rs-anim .fig .expo__row:nth-child(4) i { transition-delay: 0.24s; }
+/* the lab's charts and the timeline are redrawn on every change, so they wipe in from the left instead */
+.rs-anim #l-stock, .rs-anim #l-risk, .rs-anim #l-plans, .rs-anim #f-gantt { transition: clip-path 1.2s cubic-bezier(0.3, 0.6, 0.2, 1); }
+.rs-anim .fig:not(.is-in) #l-stock, .rs-anim .fig:not(.is-in) #l-risk, .rs-anim .fig:not(.is-in) #l-plans, .rs-anim .fig:not(.is-in) #f-gantt { clip-path: inset(0 100% 0 0); }
 .rs-anim .tug__track i, .rs-anim .tbl__bar i { transform: scaleX(0); transition: transform 0.9s cubic-bezier(0.3, 0.6, 0.2, 1); }
 .rs-anim .tug__track i.up, .rs-anim .tbl__bar i { transform-origin: left; }
 .rs-anim .tug__track i.down { transform-origin: right; }
@@ -754,6 +765,12 @@ button.route__in:focus-visible { outline: 2px solid var(--accent); outline-offse
   .house.rs-glance .fact + .fact { border-top: 0; }
 }
 @media (prefers-reduced-motion: reduce) { .house.rs-glance .card, .house.rs-glance .deeper__card { transition: none; transform: none !important; } }
+/* the board's entrance (reveal.js marks .board .is-in): sparklines and the curves draw, the cost bars grow from the left */
+.rv .rs-glance .spark polyline, .rv .rs-glance .board__links path { stroke-dasharray: 1; transition: stroke-dashoffset 1.3s cubic-bezier(0.3, 0.6, 0.2, 1), stroke 0.2s, opacity 0.2s; }
+.rv .rs-glance .board__links path { transition-delay: 0.35s, 0s, 0s; }
+.rv .rs-glance .board:not(.is-in) .spark polyline, .rv .rs-glance .board:not(.is-in) .board__links path { stroke-dashoffset: 1; }
+.rv .rs-glance .as__bar i { transform-origin: left center; transition: transform 1s cubic-bezier(0.3, 0.7, 0.2, 1) 0.15s; }
+.rv .rs-glance .board:not(.is-in) .as__bar i { transform: scaleX(0); }
 
 /* the report in the house style (2026-11-05, after at a glance): same sections and plan lab, on the cream ground; the
    bottom line, figures and the lab as white cards on a soft shadow with cream panels inside, serif titles and big

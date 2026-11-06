@@ -14,7 +14,7 @@
     var w = 64, ht = 22, lo = Math.min.apply(null, h), hi = Math.max.apply(null, h), r = Math.max(8, hi - lo);
     var pts = h.map(function (v, i) { return [i / (h.length - 1) * w, ht - 3 - (v - lo) / r * (ht - 6)]; });
     var last = pts[pts.length - 1];
-    return '<svg class="spark" viewBox="0 0 ' + w + " " + ht + '" aria-hidden="true"><polyline points="' +
+    return '<svg class="spark" viewBox="0 0 ' + w + " " + ht + '" aria-hidden="true"><polyline pathLength="1" points="' +
       pts.map(function (p) { return p[0].toFixed(1) + "," + p[1].toFixed(1); }).join(" ") + '"/><circle cx="' +
       last[0].toFixed(1) + '" cy="' + last[1].toFixed(1) + '" r="2.2"/></svg>';
   }
@@ -94,7 +94,7 @@
       var a = cards[l[0]].getBoundingClientRect(), z = cards[l[1]].getBoundingClientRect();
       var x1 = a.right - b.left, y1 = a.top + a.height / 2 - b.top, x2 = z.left - b.left, y2 = z.top + z.height / 2 - b.top;
       var mx = (x1 + x2) / 2;
-      return '<path data-a="' + l[0] + '" data-b="' + l[1] + '" d="M' + x1.toFixed(1) + " " + y1.toFixed(1) +
+      return '<path pathLength="1" data-a="' + l[0] + '" data-b="' + l[1] + '" d="M' + x1.toFixed(1) + " " + y1.toFixed(1) +
         "C" + mx.toFixed(1) + " " + y1.toFixed(1) + " " + mx.toFixed(1) + " " + y2.toFixed(1) + " " +
         x2.toFixed(1) + " " + y2.toFixed(1) + '"/>';
     }).join("");
@@ -128,6 +128,8 @@
   board.addEventListener("focusout", function (e) { if (!board.contains(e.relatedTarget)) light(null); });
 
   draw();
+  // the board's entrance: sparklines and the curves between the columns draw in, the cost bars grow (reveal.js)
+  Reveal(".board", 0.1);
   window.addEventListener("resize", draw);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(draw);
   new ResizeObserver(draw).observe(board);
