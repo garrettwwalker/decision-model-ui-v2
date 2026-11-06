@@ -51,7 +51,11 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   warm amber-orange (first light; gamma 1.35 so only dense cores glow, since thin orange reads brown), the memo green, workflows violet with red running through it (`sky-plum`: plum-black ground), the workbench blue and cyan, ask violet and blue and the
   quietest. Only the sky changes per page; the data colors mean the same thing everywhere. The brief's body also
   has `sky-warm`: warm-black ground and neutral glass. It replaced the dawn site's drifting clouds (`sky.js`).
-- `memo.html` + `assets/js/memo.js` is a sample strategic options memo, dated Wed 7 Oct, answering the CEO's
+- `memo.html` + `assets/js/memo.js` (since 2026-11-06 in the house style like the Red Sea report: body `app house memo-page`,
+  no sky, the house layer at the end of memo.css; serif title-case headings with section numbers in the margin and the note
+  beneath, white cards with cream panels, red for risk and what pushes the odds up, amber for where interests pull apart,
+  confidence pills color coded, the declined part hatched, the plan picker a track with a white pill, red Gantt bars)
+  is a sample strategic options memo, dated Wed 7 Oct, answering the CEO's
   "How should we respond to the potential of new sanctions by the Trump Administration?" Static HTML holds the bottom
   line (key judgments with confidence, 41% ±7 by 6 Dec on an estimative-words scale) and the drivers tug-of-war
   (22% on 1 Aug, +24/−5, 41% today); `memo.js` renders the rest from data: `INTERESTS`, `OPTIONS` (cost, expected
@@ -161,7 +165,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   `.btn-q`, soft `.pill`/`.pill--red`/`.pill--amber`). Its rules: cream ground, white cards on a soft shadow, serif
   titles in title case with no period, one tomato red (money at risk is red; protected neutral ink), amber for a
   problem, no green, gold or blue, no outline rings (a lit or chosen card lifts), no status dots or glows. agents.css
-  keeps its own copy (body `ag-page`) and is the reference; at a glance and the report use house.css; the other existing
+  keeps its own copy (body `ag-page`) and is the reference; at a glance, the report and the sample memo use house.css; the other existing
   pages keep their own styles unless asked.
 - `index.html` + `assets/css/landing.css` + `assets/js/landing.js` is the landing, Penumbra (it was a preview at
   `penumbra.html` from 2026-10-15 until the switchover on 2026-10-16; `penumbra.html` now only redirects home). Same

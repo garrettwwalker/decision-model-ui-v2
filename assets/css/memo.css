@@ -1,5 +1,7 @@
-/* Sample memo: a strategic options memo on the night ground.
-   Reads top to bottom like an analyst's memo: bottom line, drivers, trends, interests, options, plans. */
+/* Sample memo: a strategic options memo. Reads top to bottom like an analyst's memo: bottom line, drivers, trends,
+   interests, options, plans. Since 2026-11-06 it wears the house style (house.css, body `app house memo-page`), like the
+   Red Sea report; the rules up to the house layer at the end are the shared structure, the layer recolors and
+   restyles them for the cream. */
 
 .memo__accent { color: #fff; }
 
@@ -275,3 +277,127 @@
 .ask-q__text { font-size: 1rem; font-weight: 700; line-height: 1.3; letter-spacing: -0.01em; }
 @media (max-width: 980px) { .asks { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 560px) { .asks { grid-template-columns: minmax(0, 1fr); } }
+
+
+/* =============== the house layer (2026-11-06, as on the Red Sea report) ===============
+   Cream ground, a narrower reading measure, serif titles in title case with the section numbers in the margin and the
+   note under the title; white cards on a soft shadow with cream panels inside; one red for money at risk, what pushes
+   the odds up and what to act on, amber for where interests pull apart, neutral ink for protected money; no glow,
+   outline rings or dashes */
+.memo-page .page { max-width: 80rem; }
+
+/* head: the headline in serif, the CEO's question as a white bubble beside an initial avatar */
+.memo-page .page-head__kicker { margin-bottom: 0.6rem; font-size: 0.82rem; font-weight: 600; color: var(--accent-ink); }
+.memo-page .page-head h1 { font-family: var(--display); font-weight: 400; font-size: clamp(2.6rem, 5.4vw, 4.2rem); letter-spacing: -0.02em; line-height: 0.98; }
+.memo-page .asked__who { border-radius: 10px; background: #7a1f2b; color: #fff; }
+.memo-page .asked__q { background: #fff; box-shadow: var(--shadow); font-size: 1.08rem; }
+.memo-page .asked__meta { color: var(--ink-3); }
+
+/* section heads as on the report: the title, its number hanging in the margin, the note beneath */
+.memo-page .section__head { display: block; margin-bottom: 1.5rem; }
+.memo-page .section__title { position: relative; font-family: var(--display); font-weight: 400; font-size: clamp(1.7rem, 2.8vw, 2.3rem); letter-spacing: -0.01em; line-height: 1.15; }
+.memo-page .section__title span {
+  display: grid; place-items: center; width: 1.6rem; height: 1.6rem; margin-bottom: 0.6rem; border-radius: 50%;
+  font-family: var(--font); font-size: 0.72rem; font-weight: 700; letter-spacing: 0; color: var(--ink-2); background: var(--track);
+}
+@media (min-width: 1100px) { .memo-page .section__title span { position: absolute; right: calc(100% + 0.9rem); top: 0.42rem; margin: 0; } }
+.memo-page .section__note { margin: 0.75rem 0 0; max-width: 42rem; font-size: 1rem; line-height: 1.55; color: var(--ink-2); text-shadow: none; }
+
+/* cards */
+.memo-page .panel, .memo-page .note { background: #fff; border-radius: var(--r); box-shadow: var(--shadow); }
+.memo-page .panel__title { font-family: var(--display); font-weight: 400; font-size: 1.3rem; letter-spacing: 0; }
+.memo-page .money { font-weight: 700; }
+.memo-page .pill--safe { color: var(--accent-ink); background: var(--accent-soft); }   /* Totality's read on the option it favours */
+.memo-page .pill--warn { color: var(--bad-ink); background: var(--bad-soft); }
+
+/* bottom line: a white card, its figures in a cream panel inside */
+.memo-page .bluf__title { font-family: var(--display); font-weight: 400; font-size: 1.6rem; letter-spacing: -0.005em; color: var(--ink); }
+.memo-page .bluf__nums { margin: 0.75rem; border-left: 0; border-radius: var(--r-sm); background: var(--mist); }
+.memo-page .odds > .eyebrow { color: var(--ink-3); }
+.memo-page .odds__big { font-family: var(--display); font-weight: 400; letter-spacing: -0.02em; font-variant-numeric: lining-nums tabular-nums; }
+.memo-page .odds__big span { font-size: 0.6em; }
+.memo-page .odds__band { color: var(--ink-3); }
+.memo-page .words__bar span { background: var(--mist-3); }
+.memo-page .words__bar span:nth-child(3) { background: #f6cdc7; }
+.memo-page .words__err { border: 0; background: rgba(219, 51, 36, 0.22); }
+.memo-page .words__pin { background: var(--accent); box-shadow: 0 0 0 2px var(--mist); }
+.memo-page .words__labels { color: var(--ink-3); }
+.memo-page .words__labels .is-on { color: var(--accent-ink); }
+.memo-page .bluf__money dt { color: var(--ink-2); }
+.memo-page .bluf__money dd { font-family: var(--display); font-weight: 400; font-size: 1.6rem; letter-spacing: -0.01em; }
+.memo-page .bluf__money small { font-family: var(--font); color: var(--ink-3); }
+@media (max-width: 980px) { .memo-page .bluf__nums { border-top: 0; } }
+/* confidence as soft pills, color coded as on the report: high a deeper gray, moderate amber, low pale */
+.memo-page .conf { padding: 0.16rem 0.6rem; font-size: 0.7rem; box-shadow: none; }
+.memo-page .conf::before { display: none; }
+.memo-page .conf--high { color: var(--ink); background: var(--mist-3); }
+.memo-page .conf--mod { color: var(--bad-ink); background: var(--bad-soft); }
+.memo-page .conf--low { color: var(--ink-3); background: var(--mist-2); }
+.memo-page .kj p { color: var(--ink-2); }
+
+/* drivers: red for what pushes the odds up, gray for what holds them down */
+.memo-page .tug__dir em:first-child { color: var(--ink-3); }
+.memo-page .tug__dir em:last-child { color: var(--accent-ink); }
+.memo-page .tug__bar--up::after { background: var(--accent); }
+.memo-page .tug__bar--down::after { background: var(--ink-3); }
+.memo-page .tug__what small { color: var(--ink-3); }
+.memo-page .tug__sum b { font-family: var(--display); font-weight: 400; font-size: 1.6rem; letter-spacing: -0.01em; color: var(--accent-ink); }
+.memo-page .parts li { background: var(--mist); }
+.memo-page .parts b { font-family: var(--display); font-weight: 400; font-size: 1.35rem; letter-spacing: -0.01em; }
+.memo-page .parts span { color: var(--ink-3); }
+/* the declined part hatched, as declined questions are on the tree, rather than outlined */
+.memo-page .parts__out { border: 0; background: repeating-linear-gradient(45deg, rgba(22, 20, 18, 0.06) 0 2px, transparent 2px 6px) !important; }
+.memo-page .parts__out p, .memo-page .parts__out b { font-family: var(--font); font-size: 0.8rem; color: var(--ink-3); }
+.memo-page .signs__up b { color: var(--accent-ink); }
+.memo-page .signs__down b { color: var(--ink); }
+
+/* trendlines */
+.memo-page .trend__name { font-size: 0.9rem; }
+.memo-page .trend__now { font-family: var(--display); font-weight: 400; font-size: 1.7rem; letter-spacing: -0.01em; }
+.memo-page .trend__grid { stroke: var(--line); }
+.memo-page .trend__event { stroke: var(--accent); stroke-dasharray: none; opacity: 0.7; }
+.memo-page .trend__hair { stroke: var(--ink-3); }
+.memo-page .trend__tip span { color: rgba(255, 255, 255, 0.65); }
+.memo-page .trend__note { color: var(--ink-2); }
+
+/* interests: white cards with serif titles; where they pull apart an amber note */
+.memo-page .interest__who { color: var(--ink-3); }
+.memo-page .interest__what { font-family: var(--display); font-weight: 400; font-size: 1.25rem; letter-spacing: -0.005em; }
+.memo-page .pull { background: var(--bad-soft); color: var(--ink); font-size: 1rem; }
+.memo-page .pull b { color: var(--bad-ink); }
+
+/* options: white cards; the one you choose lifts, its number red, with no ring or glow */
+.memo-page .option { transition: transform 0.25s ease, box-shadow 0.25s ease; }
+.memo-page .option.is-chosen { box-shadow: var(--shadow-up); transform: translateY(-4px); }
+.memo-page .option__n { font-family: var(--display); font-weight: 400; font-size: 1.15rem; background: var(--ink); color: #fff; }
+.memo-page .option.is-chosen .option__n { background: var(--accent); }
+.memo-page .option__title { font-family: var(--display); font-weight: 400; font-size: 1.3rem; letter-spacing: -0.005em; }
+.memo-page .option__nums dd { font-family: var(--display); font-weight: 400; font-size: 1.35rem; letter-spacing: -0.01em; }
+.memo-page .option__nums small { font-family: var(--font); }
+.memo-page .option__list--pro li::before { color: var(--ink-3); }
+.memo-page .option__list--con li::before { color: var(--accent-ink); }
+.memo-page .option.is-chosen .option__act .btn--primary { background: var(--ink); }
+.memo-page .btn--ghost { border: 0; background: var(--mist-2); color: var(--ink); transition: background-color 0.15s ease, box-shadow 0.2s ease, transform 0.2s ease; }
+.memo-page .btn--ghost:hover { background: var(--mist-3); box-shadow: 0 6px 14px -8px rgba(22, 20, 18, 0.35); }
+.memo-page .fit__dot--yes { background: var(--ink); }
+.memo-page .fit__dot--no { box-shadow: inset 0 0 0 2px var(--accent); }
+
+/* plans: the picker as the house's track with a white pill; red bars and red decision diamonds */
+.memo-page .planpick { display: inline-flex; gap: 3px; padding: 4px; border-radius: 26px; background: var(--track); }
+.memo-page .planpick__tab { background: transparent; color: var(--ink-2); transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease; }
+.memo-page .planpick__tab:hover { background: transparent; color: var(--ink); }
+.memo-page .planpick__n { background: var(--mist-2); color: var(--ink-2); font-weight: 700; }
+.memo-page .planpick__tab[aria-selected="true"] { background: #fff; color: var(--ink); box-shadow: var(--shadow-sm); }
+.memo-page .planpick__tab[aria-selected="true"] .planpick__n { background: var(--accent); color: #fff; }
+.memo-page .plan__meta dt { color: var(--ink-3); }
+.memo-page .plan__meta dd { font-family: var(--display); font-weight: 400; font-size: 1.3rem; letter-spacing: -0.005em; }
+.memo-page .gantt__track { background-image: repeating-linear-gradient(90deg, rgba(22, 20, 18, 0.06) 0 1px, transparent 1px calc(100% / var(--weeks))); }
+.memo-page .gantt__bar, .memo-page .gantt__row:nth-child(even) .gantt__bar { background: var(--accent); border-radius: 3px; }
+.memo-page .gantt__mark i { background: var(--accent); box-shadow: 0 0 0 2px #fff; }
+.memo-page .trips__list li { background: var(--mist); }
+
+/* you might also ask: white bubbles that lift */
+.memo-page .ask-q__a { background: #fff; box-shadow: var(--shadow); transition: transform 0.25s ease, box-shadow 0.25s ease; }
+.memo-page .ask-q__a:hover { transform: translateY(-2px); box-shadow: var(--shadow-up); }
+.memo-page .ask-q__kind { color: var(--ink-3); }
+@media (prefers-reduced-motion: reduce) { .memo-page .option, .memo-page .ask-q__a { transition: none; transform: none !important; } }

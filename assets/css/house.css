@@ -28,6 +28,10 @@ body.house {
   --on-ink: #fff; --card: #fff; --card-hover: #fff; --card-low: var(--mist); --panel: #fff; --panel-line: var(--line);
   --loss: var(--accent-ink); --safe: var(--ink); --good: var(--ink-2); --alert: var(--accent-ink); --alert-2: var(--accent-ink);
   --ctl: var(--ink); --focus: var(--accent); --glass: none; --radius: var(--r);
+  /* older shared components (app.css, base.css) read these; on the cream they resolve to the house palette */
+  --paper: #fff; --card-solid: #fff; --tone: var(--ink); --panel-line: var(--line);
+  --loss-tint: var(--accent-soft); --safe-tint: var(--mist-2); --warn: var(--bad-ink); --warn-tint: var(--bad-soft);
+  --ember: var(--accent); --ember-deep: var(--accent); --teal: var(--ink); --blue: var(--accent);
   color: var(--ink); background: var(--void);
 }
 .house ::selection { background: var(--accent-soft); }
