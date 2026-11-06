@@ -9,10 +9,14 @@
   <link rel="preload" href="assets/fonts/switzer-400.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="assets/css/base.css">
   <link rel="stylesheet" href="assets/css/app.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap">
+  <link rel="stylesheet" href="assets/css/house.css">
   <link rel="stylesheet" href="assets/css/ask.css">
   <script src="assets/js/nav.js"></script>
 </head>
-<body class="app t-night sky-violet ask-page grain">
+<body class="app house ask-page">
   <a class="skip" href="#composer-input">Skip to the question box</a>
 
   <header class="bar">
@@ -39,7 +43,7 @@
     <div class="ask__thread">
       <!-- Empty state: shown until the first question -->
       <section class="ask__intro" id="intro" aria-labelledby="intro-title">
-        <h1 class="display ask__title" id="intro-title">what do you<br>want to know?</h1>
+        <h1 class="display ask__title" id="intro-title">What Do You Want to Know?</h1>
         <p class="ask__lede">Ask about a risk, or about how long your network can hold. Every answer is worked out from the same model as this morning's brief, and the Totality engine tells you when something can't be forecast.</p>
         <div class="starters" id="starters"></div>
         <p class="ask__fine">This is a mockup: answers are scripted from the scenario model, not a live assistant.</p>
@@ -116,8 +120,6 @@
   </main>
 
   <script src="assets/js/app.js"></script>
-  <script src="assets/js/space.js"></script>
-  <script>Space.stars();</script>
   <script src="assets/js/model.js"></script>
   <script src="assets/js/chat.js"></script>
 </body>

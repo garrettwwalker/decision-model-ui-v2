@@ -1,4 +1,5 @@
-/* Ask: the page is the conversation; everything else stays out of its way. Night ground, as everywhere. */
+/* Ask: the page is the conversation; everything else stays out of its way. Since 2026-11-06 in the house style
+   (house.css, body `app house ask-page`); the rules up to the house layer at the end are the shared structure. */
 
 .ask-page { min-height: 100vh; }
 
@@ -214,3 +215,85 @@
   .ctx__list dd { font-size: 0.9rem; }
 }
 
+
+
+/* =============== the house layer (2026-11-06, as on the report and the memo) ===============
+   Cream ground; the headline in serif, title case; starters, the assumptions, your messages and the composer as white
+   cards on a soft shadow; Penumbra's speaker mark a plain dark disc (no rim glow); the first action of a reply and the
+   send button red, glowing only on hover; follow-ups and quieter actions soft cream fills; no outlines or glows */
+.ask-page .ask__title { font-family: var(--display); font-weight: 400; font-size: clamp(2.8rem, 6vw, 4.6rem); letter-spacing: -0.02em; line-height: 0.98; }
+.ask-page .ask__lede { color: var(--ink-2); text-shadow: none; }
+.ask-page .ask__fine { color: var(--ink-3); }
+.ask-page .starter { background: #fff; border: 0; box-shadow: var(--shadow); color: var(--ink); transition: transform 0.25s ease, box-shadow 0.25s ease; }
+.ask-page .starter:hover { background: #fff; transform: translateY(-2px); box-shadow: var(--shadow-up); }
+.ask-page .starter__kind { color: var(--accent-ink); }
+
+/* messages: yours a white bubble; Penumbra's on the page beside a plain dark disc */
+.ask-page .msg--user { background: #fff; box-shadow: var(--shadow); color: var(--ink); }
+.ask-page .msg--model::before, .ask-page .typing::before { background: var(--ink); box-shadow: none; }
+.ask-page .typing::before { animation: speaking 1.2s ease-in-out infinite; }
+@keyframes speaking { 50% { opacity: 0.45; } }
+.ask-page .typing span { background: var(--ink-3); }
+.ask-page .msg__facts dt { color: var(--ink-2); }
+.ask-page .msg__facts dd { font-family: var(--display); font-weight: 400; font-size: 1.2rem; letter-spacing: -0.005em; font-variant-numeric: lining-nums tabular-nums; }
+.ask-page .msg__facts .is-loss dd { color: var(--accent-ink); }
+.ask-page .msg__facts .is-safe dd { color: var(--ink); }
+.ask-page .msg__route { color: var(--ink-3); }
+.ask-page .followup { border: 0; background: var(--mist-2); color: var(--ink); transition: background-color 0.15s ease, box-shadow 0.2s ease, transform 0.2s ease; }
+.ask-page .followup:hover { background: var(--mist-3); transform: translateY(-1px); box-shadow: 0 6px 14px -8px rgba(22, 20, 18, 0.35); }
+.ask-page .msg__tags span { background: var(--mist-2); color: var(--ink-2); }
+.ask-page .track { background: #fff; box-shadow: var(--shadow); }
+.ask-page .track__title { color: var(--accent-ink); }
+.ask-page .track__rows dt, .ask-page .track__note { color: var(--ink-3); }
+
+/* buttons in replies and the assumptions: the first a red action, the rest soft cream */
+.ask-page .btn--light { border: 0; background: var(--accent); color: #fff; transition: background-color 0.15s ease, box-shadow 0.2s ease, transform 0.15s ease; }
+.ask-page .btn--light:hover { background: var(--accent-hover); box-shadow: 0 8px 18px -8px rgba(219, 51, 36, 0.7); }
+.ask-page .btn--ghost { border: 0; background: var(--mist-2); color: var(--ink); transition: background-color 0.15s ease, box-shadow 0.2s ease, transform 0.2s ease; }
+.ask-page .btn--ghost:hover { background: var(--mist-3); box-shadow: 0 6px 14px -8px rgba(22, 20, 18, 0.35); }
+
+/* the assumptions: a white card, its title in serif */
+.ask-page .ctx { background: #fff; box-shadow: var(--shadow); border-radius: var(--r); }
+.ask-page .ctx__title { font-family: var(--display); font-weight: 400; font-size: 1.3rem; color: var(--ink); }
+.ask-page .ctx__list dt, .ask-page .ctx__note { color: var(--ink-3); }
+.ask-page .ctx__list dd.is-changed { color: var(--accent-ink); }
+.ask-page .standing { border-top-color: var(--line); }
+.ask-page .standing__q > span, .ask-page .standing__q.is-paused b { color: var(--ink-3); }
+.ask-page .standing .qlink { color: var(--ink); text-decoration-color: var(--line-strong); }
+
+/* the composer: a white pill lifted off the cream; send in red */
+.ask-page .composer { background: #fff; border: 0; box-shadow: var(--shadow-up); color: var(--ink); }
+.ask-page .composer:has(.composer__input:focus) { box-shadow: var(--shadow-up), 0 0 0 2px var(--accent-soft); border-color: transparent; }
+.ask-page .composer__input::placeholder { color: var(--ink-3); }
+.ask-page .composer__send { background: var(--accent); color: #fff; transition: background-color 0.15s ease, box-shadow 0.2s ease; }
+.ask-page .composer__send:hover { background: var(--accent-hover); box-shadow: 0 8px 18px -8px rgba(219, 51, 36, 0.7); }
+.ask-page .composer__send:focus-visible, .ask-page .composer__opts:focus-visible { outline-color: var(--accent); }
+.ask-page .composer__opts { background: var(--mist-2); color: var(--ink); transition: background-color 0.15s ease; }
+.ask-page .composer__opts:hover, .ask-page .composer__opts[aria-expanded="true"] { background: var(--mist-3); }
+.ask-page .composer__badge { background: var(--accent); color: #fff; }
+
+/* question options: a white sheet; the cadence a cream track with a white pill; fields cream */
+.ask-page .qopts { background: #fff; border: 0; box-shadow: var(--shadow-up); }
+.ask-page .qopts__title { font-family: var(--display); font-weight: 400; font-size: 1.3rem; letter-spacing: 0; }
+.ask-page .qopts__close { background: var(--mist-2); color: var(--ink); }
+.ask-page .qopt + .qopt { border-top-color: var(--line); }
+.ask-page .qopt legend small, .ask-page .qopt__hint, .ask-page .qsrc small { color: var(--ink-3); }
+.ask-page .qfield { color: var(--ink-2); }
+.ask-page .qseg { gap: 3px; padding: 4px; border-radius: 22px; background: var(--track); justify-self: start; }
+.ask-page .qseg__opt { background: transparent; color: var(--ink-2); transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease; }
+.ask-page .qseg__opt:hover { background: transparent; color: var(--ink); }
+.ask-page .qseg__opt.is-on { background: #fff; color: var(--ink); box-shadow: var(--shadow-sm); }
+.ask-page .qopts select, .ask-page .qopts input[type="date"], .ask-page .qopts input[type="text"], .ask-page .qopts textarea { background: var(--mist); color: var(--ink); }
+.ask-page .qopts select:focus-visible, .ask-page .qopts input:focus-visible, .ask-page .qopts textarea:focus-visible { box-shadow: 0 0 0 2px var(--accent); }
+.ask-page .qlink { text-decoration-color: var(--line-strong); }
+.ask-page .qfile { background: var(--mist-2); }
+.ask-page .qfile__x { color: var(--ink-3); }
+.ask-page .qfile__x:hover { background: var(--mist-3); }
+.ask-page .qattach { background: var(--mist-2); }
+.ask-page .qattach:hover { background: var(--mist-3); }
+.ask-page .qattach:focus-within { outline-color: var(--accent); }
+.ask-page .qsrc { background: var(--mist); }
+.ask-page .qsrc.is-on { background: var(--mist-2); }
+.ask-page .qchip { background: #fff; box-shadow: var(--shadow-sm); color: var(--ink); }
+.ask-page .qchip:hover { background: #fff; box-shadow: var(--shadow); }
+@media (prefers-reduced-motion: reduce) { .ask-page .starter, .ask-page .followup { transition: none; transform: none !important; } .ask-page .typing::before { animation: none; } }

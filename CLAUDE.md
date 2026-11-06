@@ -63,7 +63,9 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   tripwires), `TRENDS` (three weekly line charts with hover readouts) and `ASKS`, which open `ask.html?q=` with the
   question typed in. Choices persist in localStorage (`daybreak.memo.choice`). It reuses the brief's resin, Dubai
   and feeder exposures and the 29 Sep talks collapse, so keep those in sync.
-- `ask.html` (fifth tab, `assets/css/ask.css`, body class `ask-page`) is the "ask the model" chat. `assets/js/chat.js`
+- `ask.html` (fifth tab, `assets/css/ask.css`, body `app house ask-page` since 2026-11-06: the house layer at the end of
+  ask.css; serif title-case headline, white starters, assumptions, user bubbles and composer, Penumbra's speaker mark a
+  plain dark disc, the send button and a reply's first action red, follow-ups soft cream) is the "ask the model" chat. `assets/js/chat.js`
   answers scripted intents (capacity, what-if, best move, forecast, signposts, decline) live from `model.js`.
   The assumed scenario is kept in `sessionStorage["daybreak.scenario"]`; its "Explore in the workbench" button links out.
   Question options (slider button in the composer, `#qopts`): how often it runs (`CADENCE`, with stop and notify
@@ -168,7 +170,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   redraw on every change wipe in with clip-path (the report keeps its own copy, `html.rs-anim`). Its rules: cream ground, white cards on a soft shadow, serif
   titles in title case with no period, one tomato red (money at risk is red; protected neutral ink), amber for a
   problem, no green, gold or blue, no outline rings (a lit or chosen card lifts), no status dots or glows. agents.css
-  keeps its own copy (body `ag-page`) and is the reference; at a glance, the report and the sample memo use house.css; the other existing
+  keeps its own copy (body `ag-page`) and is the reference; at a glance, the report, the sample memo and ask use house.css; the other existing
   pages keep their own styles unless asked.
 - `index.html` + `assets/css/landing.css` + `assets/js/landing.js` is the landing, Penumbra (it was a preview at
   `penumbra.html` from 2026-10-15 until the switchover on 2026-10-16; `penumbra.html` now only redirects home). Same
