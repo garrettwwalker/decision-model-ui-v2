@@ -406,6 +406,12 @@
 .rs-anim .fig .tug__row:nth-child(2) i, .rs-anim .tbl tbody tr:nth-child(2) .tbl__bar i, .rs-anim .fig .expo__row:nth-child(2) i { transition-delay: 0.08s; }
 .rs-anim .fig .tug__row:nth-child(3) i, .rs-anim .tbl tbody tr:nth-child(3) .tbl__bar i, .rs-anim .fig .expo__row:nth-child(3) i { transition-delay: 0.16s; }
 .rs-anim .fig .tug__row:nth-child(4) i, .rs-anim .tbl tbody tr:nth-child(4) .tbl__bar i, .rs-anim .fig .expo__row:nth-child(4) i { transition-delay: 0.24s; }
+/* in the exposure bars the red grows first and the pink carries on from its end, so no gap opens between them */
+.rs-anim .fig .expo__track i.expo__left { transition-duration: 0.6s; }
+.rs-anim .fig .expo__track i.expo__safe { transition-duration: 0.5s; transition-delay: 0.55s; }
+.rs-anim .fig .expo__row:nth-child(2) i.expo__safe { transition-delay: 0.63s; }
+.rs-anim .fig .expo__row:nth-child(3) i.expo__safe { transition-delay: 0.71s; }
+.rs-anim .fig .expo__row:nth-child(4) i.expo__safe { transition-delay: 0.79s; }
 /* the lab's charts and the timeline are redrawn on every change, so they wipe in from the left instead */
 .rs-anim #l-stock, .rs-anim #l-risk, .rs-anim #l-plans, .rs-anim #f-gantt { transition: clip-path 1.2s cubic-bezier(0.3, 0.6, 0.2, 1); }
 .rs-anim .fig:not(.is-in) #l-stock, .rs-anim .fig:not(.is-in) #l-risk, .rs-anim .fig:not(.is-in) #l-plans, .rs-anim .fig:not(.is-in) #f-gantt { clip-path: inset(0 100% 0 0); }
