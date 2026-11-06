@@ -398,8 +398,9 @@
   var figs = document.querySelectorAll("[data-trend]");
   function drawAll() { figs.forEach(draw); }
   drawAll();
-  // entrances (reveal.js): the odds' marker slides to 41%, the drivers' bars grow, the trendlines draw, the plan's bars grow
-  Reveal(".odds, .drivers, .trend, #plan");
+  // entrances (reveal.js): the drivers' bars grow, the trendlines draw, the plan's bars grow (the odds scale has none:
+  // its band already pulses)
+  Reveal(".drivers, .trend, #plan");
   var rt;
   window.addEventListener("resize", function () { clearTimeout(rt); rt = setTimeout(drawAll, 120); });
 })();
