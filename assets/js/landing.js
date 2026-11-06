@@ -530,6 +530,11 @@
 
   /* ---------- Contact form (mockup: no backend) ---------- */
   var form = document.querySelector(".contact__form");
+  // the message starts as one line, like the fields above it, and grows with what's typed
+  var note = form.querySelector("textarea");
+  function fit() { note.style.height = "48px"; note.style.height = Math.max(48, note.scrollHeight) + "px"; }
+  note.addEventListener("input", fit);
+  form.addEventListener("reset", function () { setTimeout(fit, 0); });
   form.addEventListener("submit", function (e) {
     e.preventDefault();
     var msg = form.querySelector(".contact__msg");
