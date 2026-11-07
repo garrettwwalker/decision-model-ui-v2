@@ -140,9 +140,11 @@
 .bmap__coast { fill: #fff; stroke: #d6ccbe; stroke-width: 0.6; stroke-linejoin: round; }
 .bmap__region { font: 600 9px var(--font); letter-spacing: 0.25em; fill: #a2988a; }
 .bmap__zone { fill: rgba(219, 51, 36, 0.14); animation: zone-breathe 2.6s ease-in-out infinite; }
-/* the danger zone, a shaded circle, pulses in color, paler then deeper red, as the memo's error band does */
+.bmap__ring { fill: none; stroke: var(--accent); stroke-width: 1.5; animation: ring-breathe 2.6s ease-in-out infinite; }
+/* the danger zone, a shaded circle with a solid ring, pulses in color, paler then deeper red, as the memo's error band does */
 @keyframes zone-breathe { 0%, 100% { fill: rgba(219, 51, 36, 0.1); } 50% { fill: rgba(219, 51, 36, 0.34); } }
-@media (prefers-reduced-motion: reduce) { .bmap__zone { animation: none; } }
+@keyframes ring-breathe { 0%, 100% { stroke: rgba(219, 51, 36, 0.4); } 50% { stroke: rgba(219, 51, 36, 1); } }
+@media (prefers-reduced-motion: reduce) { .bmap__zone, .bmap__ring { animation: none; } }
 .bmap__risk-label { font: 700 10px var(--font); fill: var(--accent-ink); }
 .bmap__risk-label--p { font: 500 9.5px var(--font); font-variant-numeric: tabular-nums; }
 .bmap__lane { fill: none; stroke: var(--accent); stroke-width: 2; stroke-dasharray: 2 5; stroke-linecap: round; opacity: 0.6; }
