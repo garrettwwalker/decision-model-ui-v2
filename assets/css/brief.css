@@ -4,6 +4,7 @@
    ink for protected money; no sky, glow, outline rings or status dots. The old dark brief is in git history. */
 .brief-page .page { max-width: 80rem; }
 .brief-page .red { color: var(--accent-ink); }
+.brief-page [hidden] { display: none !important; } /* over the house pill and button displays */
 
 /* ---------- head: kicker, serif headline, one plain sentence of what it means ---------- */
 .bh { padding: clamp(2.5rem, 7vh, 4.5rem) 0 clamp(1.75rem, 4vh, 2.5rem); }
@@ -18,16 +19,25 @@
 .stake { display: flex; flex-direction: column; gap: 0.75rem; min-width: 0; padding: clamp(1.25rem, 2.4vw, 2rem); }
 .stake + .stake { border-left: 1px solid var(--line); }
 .stake p { margin: 0; }
-.stake__k { font-size: 0.82rem; font-weight: 600; color: var(--ink-3); }
+.stake__k { display: flex; flex-wrap: wrap; align-items: center; gap: 0.3rem 0.5rem; font-size: 0.82rem; font-weight: 600; color: var(--ink-3); }
+.stake__unit { font-size: 0.6em; }
 .stake__big { font-family: var(--display); font-size: clamp(2.6rem, 4.4vw, 3.6rem); line-height: 0.95; letter-spacing: -0.02em; font-variant-numeric: lining-nums tabular-nums; }
-.stake__big span { font-size: 0.6em; }
 .stake__big--loss { font-size: clamp(3.2rem, 6vw, 5rem); color: var(--accent-ink); }
 .stake__what { max-width: 24rem; font-size: 0.92rem; line-height: 1.5; color: var(--ink-2); }
 .stake__what b { color: var(--ink); }
 .stake__what b.red { color: var(--accent-ink); }
 .stake__foot { margin-top: auto !important; font-size: 0.8rem; color: var(--ink-3); }
 .stake__foot b { color: var(--accent-ink); }
-.stake__go { align-self: flex-start; margin-top: auto; }
+.stake__go, .stake__back { align-self: flex-start; margin-top: auto; }
+
+/* with your plan: one bar the length of the loss if we do nothing, the red part what's still at risk */
+.left { height: 12px; margin-top: 0.3rem; border-radius: 6px; background: var(--mist-3); overflow: hidden; }
+.left__risk { display: block; height: 100%; width: 34%; border-radius: 6px 0 0 6px; background: var(--accent); transition: width 0.6s cubic-bezier(0.3, 0.7, 0.2, 1); }
+.left__key { display: grid; gap: 0.45rem; margin: 0; padding: 0; list-style: none; font-size: 0.84rem; }
+.left__key li { display: grid; grid-template-columns: 10px minmax(0, 1fr) auto; align-items: center; gap: 0.6rem; color: var(--ink-2); }
+.left__k { width: 10px; height: 10px; border-radius: 3px; background: var(--mist-3); }
+.left__k--risk { background: var(--accent); }
+.left__key b { color: var(--ink); font-variant-numeric: tabular-nums; }
 
 .spark { margin: auto 0 0; }
 .spark svg { display: block; width: 100%; height: 64px; overflow: visible; }
@@ -77,7 +87,9 @@
 }
 @media (min-width: 1100px) { .sec__title span { position: absolute; right: calc(100% + 0.9rem); top: 0.42rem; margin: 0; } }
 .sec__note { margin: 0.75rem 0 0; max-width: 42rem; font-size: 1rem; line-height: 1.55; color: var(--ink-2); }
-.sub { margin: 2.75rem 0 1rem; font-family: var(--display); font-weight: 400; font-size: 1.4rem; letter-spacing: -0.005em; }
+.sub-head { margin: 2.75rem 0 1rem; scroll-margin-top: 6rem; }
+.sub { margin: 0; font-family: var(--display); font-weight: 400; font-size: 1.4rem; letter-spacing: -0.005em; }
+.sub__note { margin: 0.4rem 0 0; font-size: 0.9rem; color: var(--ink-2); }
 
 /* ---------- 1. the week's deadlines, then the decisions as white cards ---------- */
 .week { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 0 0 1.25rem; padding: 0; list-style: none; }
@@ -88,6 +100,8 @@
 .week__day.is-due::after { background: var(--accent); }
 .week__day b { font-family: var(--display); font-weight: 400; font-size: 1.15rem; color: var(--ink); }
 .week__day.is-today b { color: var(--ink-3); }
+.week__day.is-done::after { background: var(--ink); }
+.week__day::after { transition: background-color 0.3s ease; }
 @media (max-width: 640px) { .week { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 1.25rem; } }
 
 .decisions { display: grid; gap: 0.9rem; margin: 0; padding: 0; list-style: none; }
@@ -110,6 +124,18 @@
 .decision__nums dd { margin: 0; font-family: var(--display); font-size: 1.5rem; letter-spacing: -0.01em; font-variant-numeric: lining-nums tabular-nums; }
 .decision__act { display: grid; gap: 0.45rem; justify-items: stretch; min-width: 10rem; }
 .decision__act .btn-q { justify-content: center; }
+/* the switch that keeps a decision in the plan: ink when on, as the tree's filters */
+.decision__in { min-height: 36px; gap: 0.75rem; }
+.decision__in .switch__text { font-size: 0.82rem; font-weight: 600; color: var(--ink-2); }
+.decision__in .switch__ui { background: rgba(22, 20, 18, 0.16); }
+.decision__in .switch__ui::after { box-shadow: 0 1px 2px rgba(22, 20, 18, 0.2); }
+.decision__in input:checked + .switch__ui { background: var(--ink); }
+.decision__in input:disabled + .switch__ui { opacity: 0.45; }
+.decision__in:has(input:disabled) { cursor: default; }
+/* out of the plan: the card keeps its white and its controls, its words fade back */
+.decision > :not(.decision__act) { transition: opacity 0.25s ease; }
+.decision.is-off > :not(.decision__act) { opacity: 0.45; }
+.decision.is-off .decision__n { background: var(--ink-3); }
 /* approved: the deadline gives way to a quiet note, the button turns ink, the number red */
 .decision.is-approved .decision__n { background: var(--accent); }
 .decision.is-approved .pill--red { display: none; }
@@ -148,15 +174,20 @@
 .bmap__risk-label { font: 700 10px var(--font); fill: var(--accent-ink); }
 .bmap__risk-label--p { font: 500 9.5px var(--font); font-variant-numeric: tabular-nums; }
 .bmap__lane { fill: none; stroke: var(--accent); stroke-width: 2; stroke-dasharray: 2 5; stroke-linecap: round; opacity: 0.6; }
-.rt { opacity: 0.3; transition: opacity 0.2s ease; }
-.rt[data-route="kf"], .rt.is-on { opacity: 1; }
-.bmap.has-focus .rt { opacity: 0.15; }
+.rt { opacity: 0.22; transition: opacity 0.25s ease; }
+.rt.is-plan, .rt.is-on { opacity: 1; }
+.bmap.has-focus .rt { opacity: 0.12; }
 .bmap.has-focus .rt.is-on { opacity: 1; }
 .rt__sea, .rt__road { fill: none; stroke: var(--ink); stroke-linecap: round; transition: stroke-width 0.2s ease; }
 .rt__sea { stroke-width: 2.5; }
 .rt__road { stroke-width: 2; stroke-dasharray: 1 4; }
 .bmap.has-focus .rt.is-on .rt__sea { stroke-width: 3.5; }
 .port circle { stroke: #fff; stroke-width: 1.5; }
+/* a ship and its orders light together: the rest of the map steps back */
+.bmap [data-ship] { transition: opacity 0.2s ease; }
+.bmap [data-ship] circle { transform-box: fill-box; transform-origin: center; transition: transform 0.2s ease; }
+.bmap.has-ship [data-ship]:not(.is-lit) { opacity: 0.3; }
+.bmap [data-ship].is-lit circle { transform: scale(1.45); }
 .port--in circle { fill: var(--accent); }
 .port--out circle { fill: var(--ink); }
 .port text, .vessel text { font: 600 9.5px var(--font); fill: var(--ink); paint-order: stroke; stroke: #ece5da; stroke-width: 3px; stroke-linejoin: round; }
@@ -189,6 +220,8 @@
 .tbl th:last-child, .tbl td:last-child { padding-right: 0; }
 .tbl td { padding: 0.75rem 0.6rem; border-top: 1px solid var(--line); vertical-align: middle; }
 .tbl .r { text-align: right; }
+.tbl tr[data-ship] td { transition: background-color 0.2s ease; }
+.tbl tr.is-lit td { background: var(--mist); }
 .tbl__id { font-weight: 700; font-variant-numeric: tabular-nums; }
 .tbl__sub { display: block; margin-top: 0.1rem; font-size: 0.76rem; color: var(--ink-3); }
 .lossbar { display: grid; grid-template-columns: 3.8rem minmax(0, 1fr); align-items: center; gap: 0.6rem; min-width: 9rem; }
@@ -199,15 +232,23 @@
 .caught__foot p { margin: 0; font-size: 0.84rem; color: var(--ink-2); }
 
 /* ways around: white cards; the recommended one lifted, the one we'd avoid with its words faded */
-.routes { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.9rem; margin: 0; padding: 0; list-style: none; }
+.routes { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.9rem; }
 .rcard {
-  display: flex; flex-direction: column; align-items: flex-start; gap: 0.6rem; padding: 1.1rem 1.15rem 1.15rem;
-  background: #fff; border-radius: var(--r); box-shadow: var(--shadow); transition: transform 0.25s ease, box-shadow 0.25s ease;
+  display: flex; flex-direction: column; align-items: flex-start; gap: 0.6rem; padding: 1.1rem 1.15rem 1.15rem; border: 0;
+  font: inherit; color: var(--ink); text-align: left; background: #fff; border-radius: var(--r); box-shadow: var(--shadow);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
-.rcard[data-route-card] { cursor: pointer; }
-.rcard.is-best { box-shadow: var(--shadow-up); transform: translateY(-4px); }
-.rcard[data-route-card]:hover, .rcard[data-route-card]:focus-visible { box-shadow: var(--shadow-up); transform: translateY(-4px); }
-.rcard h4 { margin: 0; font-family: var(--display); font-weight: 400; font-size: 1.2rem; line-height: 1.2; letter-spacing: -0.005em; }
+/* the chosen port lifts; the others' words fade back until pointed at, as the report's presets */
+button.rcard { cursor: pointer; }
+button.rcard > * { transition: opacity 0.25s ease; }
+button.rcard[aria-checked="false"] > * { opacity: 0.55; }
+button.rcard[aria-checked="false"]:hover > *, button.rcard[aria-checked="false"]:focus-visible > * { opacity: 1; }
+button.rcard[aria-checked="true"] { box-shadow: var(--shadow-up); transform: translateY(-4px); }
+button.rcard[aria-checked="false"]:hover { box-shadow: var(--shadow-up); transform: translateY(-2px); }
+button.rcard[aria-disabled="true"] { cursor: default; }
+button.rcard[aria-disabled="true"]:hover { box-shadow: var(--shadow); transform: none; }
+button.rcard[aria-disabled="true"]:hover > * { opacity: 0.55; }
+.rcard__t { font-family: var(--display); font-weight: 400; font-size: 1.2rem; line-height: 1.2; letter-spacing: -0.005em; }
 .rcard dl { display: grid; gap: 0.35rem; width: 100%; margin: 0.2rem 0 0; font-size: 0.82rem; }
 .rcard dl div { display: flex; justify-content: space-between; gap: 0.75rem; }
 .rcard dt { color: var(--ink-3); }
@@ -215,11 +256,10 @@
 .rcard__p { margin-top: 0.3rem; padding-top: 0.55rem; border-top: 1px solid var(--line); }
 .rcard__p dd { font-family: var(--display); font-weight: 400; font-size: 1.3rem; line-height: 1; }
 .rcard__why { margin: 0; font-size: 0.8rem; line-height: 1.45; color: var(--ink-2); }
-.rcard--no > :not(.pill) { opacity: 0.6; }
+.rcard--no > :not(.pill) { opacity: 0.45; } /* not a choice, so quieter than the options */
 .routes__note { margin: 0.9rem 0 0; font-size: 0.8rem; color: var(--ink-3); }
 @media (max-width: 1080px) { .routes { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 560px) { .routes { grid-template-columns: minmax(0, 1fr); } }
-@media (hover: none) { .routes__note { display: none; } }
 
 /* ---------- 3. reasoning: the parts as tiles, the fused answer lifted; the drivers and signposts in one card ---------- */
 .build { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0.75rem; margin: 0 0 1.25rem; padding: 0; list-style: none; }
@@ -278,10 +318,19 @@
 .fall__total b { font-family: var(--display); font-weight: 400; font-size: 1.2rem !important; }
 @media (max-width: 520px) { .fall li { grid-template-columns: minmax(0, 1fr) 3.4rem; } .fall li > i { grid-column: 1 / -1; grid-row: 2; min-height: 22px; } .fall__axis span { display: none; } }
 
-.signs { display: grid; gap: 0.75rem; margin: 0; padding: 0; list-style: none; font-size: 0.9rem; line-height: 1.5; color: var(--ink-2); }
-.signs li { padding: 0.75rem 0.9rem; border-radius: var(--r-sm); background: var(--mist); }
-.signs b { color: var(--ink); }
-.signs__up b { color: var(--accent-ink); }
+.why__hint { margin: -0.5rem 0 0.9rem; font-size: 0.84rem; color: var(--ink-3); }
+/* the signposts as a chooser on a cream track: the chosen one a white card lifted off it */
+.signs { display: grid; gap: 4px; padding: 4px; border-radius: calc(var(--r-sm) + 4px); background: var(--mist); }
+.sign {
+  display: block; width: 100%; padding: 0.7rem 0.85rem; border: 0; border-radius: var(--r-sm); font: inherit; font-size: 0.88rem; line-height: 1.45;
+  text-align: left; color: var(--ink-2); background: transparent; cursor: pointer; transition: background-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
+}
+.sign b { color: var(--ink); }
+.sign--up b { color: var(--accent-ink); }
+.sign:hover { color: var(--ink); }
+.sign[aria-checked="true"] { color: var(--ink); background: #fff; box-shadow: var(--shadow-sm); }
+.why__read { margin: 1rem 0 0; font-size: 0.92rem; line-height: 1.5; color: var(--ink-2); }
+.why__read b { color: var(--ink); }
 .why__cal { margin: 1.1rem 0 0; padding-top: 0.85rem; border-top: 1px solid var(--line); font-size: 0.78rem; color: var(--ink-3); }
 
 /* ---------- 4. horizon: three white cards ---------- */
@@ -317,6 +366,34 @@
 .rv .brief-page .fall li:nth-child(9) i::after { transition-delay: 0.9s; }
 
 @media (prefers-reduced-motion: reduce) {
-  .decision, .decision__n, .rcard, .rt, .sw button, .sw.is-ready .sw__pill { transition: none; }
-  .rcard[data-route-card]:hover, .rcard[data-route-card]:focus-visible { transform: none; }
+  .decision, .decision__n, .decision > *, .rcard, .rcard > *, .rt, .sign, .left__risk, .sw button, .sw.is-ready .sw__pill,
+  .bmap [data-ship], .bmap [data-ship] circle, .kbar, .kbar.is-on { transition: none; }
+  button.rcard[aria-checked]:hover, button.rcard[aria-checked="true"] { transform: none; }
+}
+
+/* ---------- the stakes, folded into a strip under the top bar once their card scrolls away (as on the report) ---------- */
+.kbar {
+  position: fixed; left: 0; right: 0; top: var(--bar-b, 73px); z-index: 39; pointer-events: none;
+  background: rgba(244, 239, 232, 0.92); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); box-shadow: 0 1px 0 var(--line);
+  opacity: 0; visibility: hidden; transform: translateY(-6px);
+  transition: opacity 0.2s ease, transform 0.3s cubic-bezier(0.3, 0.7, 0.2, 1), visibility 0s linear 0.3s;
+}
+.kbar.is-on { opacity: 1; visibility: visible; transform: none; transition: opacity 0.2s ease, transform 0.3s cubic-bezier(0.3, 0.7, 0.2, 1); }
+.kbar__in { display: grid; grid-template-columns: auto repeat(4, minmax(0, 1fr)); align-items: center; gap: 1rem 1.5rem; max-width: 80rem; margin: 0 auto; padding: 0.55rem var(--gutter) 0.6rem; }
+.kbar__i { display: flex; align-items: baseline; gap: 0.6rem; min-width: 0; }
+.kbar__k { font-size: 0.78rem; font-weight: 600; color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.kbar__v { font-family: var(--display); font-weight: 400; font-size: 1.5rem; line-height: 1.15; letter-spacing: -0.01em; font-variant-numeric: lining-nums tabular-nums; white-space: nowrap; }
+.kbar__v.red { color: var(--accent-ink); }
+.kbar__name {
+  min-height: 36px; padding: 0.35rem 0.95rem; border: 0; border-radius: 999px; font: inherit; font-size: 0.85rem; font-weight: 700; color: var(--ink);
+  background: #fff; box-shadow: var(--shadow-sm); cursor: pointer; transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+.kbar.is-on .kbar__name { pointer-events: auto; }
+.kbar__name:hover { box-shadow: var(--shadow); transform: translateY(-1px); }
+@media (max-width: 760px) {
+  .kbar__in { grid-template-columns: repeat(4, minmax(0, 1fr)); align-items: end; gap: 0.4rem 0.5rem; }
+  .kbar__name { grid-column: 1 / -1; justify-self: start; min-height: 32px; font-size: 0.8rem; }
+  .kbar__i { flex-direction: column; gap: 0; }
+  .kbar__k { max-width: 100%; font-size: 0.66rem; line-height: 1.2; white-space: normal; }
+  .kbar__v { font-size: 1.15rem; }
 }

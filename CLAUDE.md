@@ -53,16 +53,26 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   has `sky-warm`: warm-black ground and neutral glass. It replaced the dawn site's drifting clouds (`sky.js`).
 - `briefing.html` + `assets/css/brief.css` + `assets/js/brief.js`, the daily brief for the COO (Tue Oct 6), rebuilt from the
   ground up in the house style on 2026-11-07 (body `app house brief-page`, no sky or space.js; the dark brief is in git
-  history): a serif title-case head with a one-sentence lede; the stakes as one white card (the chance with a sparkline that
-  draws in, the loss if we do nothing in red with its causes in steps of red on one bar that sweeps in whole from the left (each color growing on its own was undone, as on the report), the loss if we act with net value protected in
-  a cream panel); numbered sections with the number in the margin: 1 the week's deadlines as a strip, then the three
-  decisions as white cards (Approve turns ink and swaps the deadline pill for "Approved, owner notified"; "See the team's
-  part" is a plain link to team.html?directive=, so nav.js slides between the pages; "See the three decisions" glides
-  down rather than jumping); 2 the map in the report's colors (sand sea, white land, red for what's trapped, the Hormuz danger zone a shaded circle with a solid ring, both pulsing paler to deeper red like the memo's error band (hatching, a dashed ring, and no ring were tried), ink
-  diversion routes that light from the route cards) beside the losses table, grouped by orders or products on a cream track
-  with a sliding white pill, and the ways around as white cards, the recommended one lifted; 3 the engine parts as tiles
-  (declined hatched, the fused 27% lifted in red) and the waterfall and signposts in one card; 4 three horizon cards. Its
-  figures still come from model.js; keep them in sync with the workbench, workflows, and agents pages.
+  history), then made a small decision lab the same day. It must stay skimmable for someone with a few minutes: the default
+  view is the finished brief, and every control is optional, labelled in plain words, and sits beside what it changes.
+  brief.js holds one small model (today's expected figures at 27%, in $M; a what-if chance scales them in proportion) and
+  re-renders everything from its state, numbers counting to their new values; choices (not the what-if) persist in
+  localStorage (`daybreak.brief`). Head: serif title, one-sentence lede. The stakes, one white card: the chance (sparkline that
+  draws in; under a what-if a "What if" pill, the condition, and "Back to today's 27%"), the loss if we do nothing in red with
+  its causes on one bar that sweeps in whole (each color growing on its own was undone, as on the report), and "With your
+  plan": the loss left, a bar of still at risk against protected, and net of its cost in a cream panel. Once that card passes
+  under the top bar its figures fold into a cream strip beneath it (`.kbar`, as on the report) with a "Your Plan" button back
+  up. 1: the week's deadlines (a mark turns ink when its decision is approved), then three decision cards, each with an "In
+  the plan" switch (off fades its words and recomputes everything), Approve (turns ink, keeps it in the plan, swaps the
+  deadline for "Approved, owner notified"), and "See the team's part", a plain link so nav.js slides to team.html?directive=;
+  "See the three decisions" glides down. 2: the map in the report's colors (Hormuz danger zone a shaded circle with a solid
+  ring, both pulsing paler to deeper red like the memo's error band; hatching, a dashed ring, and no ring were tried) beside
+  the losses table (orders or products on a sliding-pill track); a row lights its ship and a ship its rows. "Ways Around"
+  is decision 2's port chooser: the chosen card lifts, the others fade to 55%, and decision 2's text, cost, protection, and
+  the route drawn on the map follow; locked once decision 2 is approved. 3: the engine tiles (declined hatched, fused 27%
+  lifted in red), the waterfall, and "What Would Change the Forecast" as a chooser on a cream track that reruns the stakes
+  and plan at that chance, with a readout of what the plan protects there and whether each decision still pays for itself.
+  4: three horizon cards. Its figures came from model.js; keep them in sync with the workbench, workflows, and agents pages.
 - `memo.html` + `assets/js/memo.js` (since 2026-11-06 in the house style like the Red Sea report: body `app house memo-page`,
   no sky, the house layer at the end of memo.css; serif title-case headings with section numbers in the margin and the note
   beneath, white cards with cream panels, red for risk and what pushes the odds up, amber for where interests pull apart,
