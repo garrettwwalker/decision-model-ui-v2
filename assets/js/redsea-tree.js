@@ -404,7 +404,31 @@
     return '<li><button type="button" class="lk" data-go="' + o.i + '"><span class="lk__rel' + (e[3] === 1 ? " sg--up" : e[3] === -1 ? " sg--down" : "") + '">' + rel + "</span>" +
       '<span class="lk__t">' + esc(label(o)) + "</span></button></li>";
   }
+  // switching between questions, the panel fades out quickly, takes the new question, then fades back in as it eases to
+  // its new height (the swap used to jump); a fade already under way just picks up the latest selection when it lands.
+  // On phones the panel is a sheet that slides on its own, so it swaps straight away there
+  var shownKey = null, swapping = false;
   function showDetail() {
+    var key = sel || "", first = shownKey === null;
+    if (swapping) { shownKey = key; return; }
+    if (first || key === shownKey || REDUCE || matchMedia("(max-width: 960px)").matches) { shownKey = key; fillDetail(); return; }
+    shownKey = key; swapping = true;
+    var h0 = detail.offsetHeight;
+    var out = detail.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 90, easing: "ease-out", fill: "forwards" });
+    out.onfinish = function () {
+      swapping = false;
+      fillDetail();
+      var h1 = detail.offsetHeight;
+      out.cancel();
+      detail.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 170, easing: "ease-out" });
+      if (Math.abs(h1 - h0) > 1) {
+        detail.style.overflow = "hidden";
+        var grow = detail.animate([{ height: h0 + "px" }, { height: h1 + "px" }], { duration: 220, easing: "cubic-bezier(0.3, 0.7, 0.2, 1)" });
+        grow.onfinish = grow.oncancel = function () { detail.style.overflow = ""; };
+      }
+    };
+  }
+  function fillDetail() {
     if (!sel) {
       detail.innerHTML = '<p class="dt__empty">Select any question to see how it resolves and what else it moves.</p>' +
         '<div class="dt__legend"><p><b>Pathway</b> one way shipping could be disrupted</p><p><b>Sub-question</b> checkable against the record</p>' +
