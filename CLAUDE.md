@@ -276,9 +276,8 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   the cards' right edge (focus deepens its shadow, no ring: the user disliked the red one), the filters as switches over the panel; every question a white
   card, the chosen one lifted with its kind in red, no ring; chances in serif on a ramp of the house red from pale to deep
   in `ramp()` and `--ramp`, stops packed into the low range so neighbouring odds read apart; the route ink stops with the
-  current one red; drawCrumbs() keeps the stops that stay, which hold their width while a new stop fades in as the line
-  draws to it, and the row keeps its height at every level, the top too (folding it open pushed the cards down, which the
-  user disliked); opening a card in Cards grows that card into the "Looking into" spot, and one level up the header
+  current one red; drawCrumbs() keeps the stops that stay, so the line grows to a new stop and draws back from one that
+  goes, and at the top level the route fades and folds away (a fixed-height row was tried and undone); opening a card in Cards grows that card into the "Looking into" spot, and one level up the header
   shrinks back into its grid slot (`runMorph()`, a travelling copy, `.cd-ghost`); each level's bars grow in as its cards slide in; in List a branch drops open and folds shut, `setOpen()` animating the
   group's height around the redraw); all with the black logo. No thin gray outlines ("pencil outlines")
   around cards, buttons or panels on these pages (the user dislikes them, 2026-11-03): a surface stands on its fill or a
