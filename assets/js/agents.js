@@ -31,9 +31,9 @@
     // information agents
     { id: "traffic", kind: "sense", name: "Strait traffic", what: "AIS transits through Hormuz", every: "Hourly", checks: 3, cost: 0.12, auto: true,
       brief: "Count daily transits against the 90-day normal; flag turn-backs at the entrance.", tags: ["hormuz", "strait", "tanker", "shipping", "transit", "gulf", "iran"] },
-    { id: "notices", kind: "sense", name: "War-risk notices", what: "Underwriters' listed areas and broker circulars", every: "Every 15 minutes", checks: 9, cost: 0.31, auto: true,
+    { id: "notices", kind: "sense", name: "War-risk notices", what: "Underwriters’ listed areas and broker circulars", every: "Every 15 minutes", checks: 9, cost: 0.31, auto: true,
       brief: "Watch for any extension of the listed area to the whole strait. Retasked at 06:45: three more brokers, every 15 minutes.", tags: ["insurance", "war-risk", "underwriter", "premium", "cover", "shipping", "gulf"] },
-    { id: "ports", kind: "sense", name: "Port agents' inboxes", what: "Berth lists from Jebel Ali and Khor Fakkan", every: "Twice a day", checks: 2, cost: 0.05, auto: true,
+    { id: "ports", kind: "sense", name: "Port agents’ inboxes", what: "Berth lists from Jebel Ali and Khor Fakkan", every: "Twice a day", checks: 2, cost: 0.05, auto: true,
       brief: "Ask Jebel Ali agents about Thursday calls; confirm open berth space at Khor Fakkan.", tags: ["port", "berth", "jebel ali", "dubai", "uae", "container", "saudi", "terminal", "feeder"] },
     { id: "wire", kind: "sense", name: "Diplomatic wire", what: "Muscat talks and naval statements", every: "Hourly", checks: 3, cost: 0.18, auto: true,
       brief: "Watch for a date for a second round of talks, or an exercise announced in the shipping lanes.", tags: ["talks", "diplomatic", "iran", "oman", "navy", "naval", "sanction", "government"] },
@@ -45,19 +45,19 @@
       brief: "Count transits through Bab el-Mandeb; flag diversions south of Socotra.", tags: ["red sea", "suez", "bab el-mandeb", "shipping", "transit", "yemen"] },
     { id: "houthi", kind: "sense", name: "Houthi statements", what: "Spokesmen, channels, and claimed attacks", every: "Every 30 minutes", checks: 5, cost: 0.14, auto: true,
       brief: "Watch for threats naming merchant ships or carriers, and any claimed strike.", tags: ["houthi", "yemen", "red sea", "attack", "missile", "drone"] },
-    { id: "union", kind: "sense", name: "Union channels", what: "Metalworkers' union statements and votes", every: "Hourly", checks: 2, cost: 0.03, auto: true,
+    { id: "union", kind: "sense", name: "Union channels", what: "Metalworkers’ union statements and votes", every: "Hourly", checks: 2, cost: 0.03, auto: true,
       brief: "Watch for a strike vote, a rejected offer, or a call to walk out at Gebze.", tags: ["strike", "union", "labour", "labor", "metalworkers", "gebze", "wage", "plant"] },
     { id: "press", kind: "sense", name: "Local press", what: "Turkish business and regional papers", every: "Twice a day", checks: 2, cost: 0.02, auto: true,
-      brief: "Summarize coverage of the national metalworkers' talks and anything on Gebze.", tags: ["turkey", "turkish", "gebze", "strike", "press", "news", "election"] },
+      brief: "Summarize coverage of the national metalworkers’ talks and anything on Gebze.", tags: ["turkey", "turkish", "gebze", "strike", "press", "news", "election"] },
     { id: "sanc", kind: "sense", name: "Sanctions lists", what: "US, EU, and UK designations", every: "Every 30 minutes", checks: 6, cost: 0.08, auto: true,
       brief: "Screen the two ME4 feeders, their managers, and owners against every new designation.", tags: ["sanction", "ofac", "designation", "list", "feeder", "vessel", "export control"] },
     { id: "registry", kind: "sense", name: "Vessel registry", what: "Flag registries and class societies", every: "Daily", checks: 1, cost: 0.02, auto: true,
-      brief: "Watch both feeders' flag and class status for reviews or withdrawals.", tags: ["registry", "flag", "vessel", "feeder", "ship", "class"] },
+      brief: "Watch both feeders’ flag and class status for reviews or withdrawals.", tags: ["registry", "flag", "vessel", "feeder", "ship", "class"] },
     { id: "risk", kind: "sense", name: "Supplier risk monitor", what: "Credit, ownership, and adverse news on suppliers", every: "Daily", checks: 0, cost: 0, auto: true,
       brief: "Not linked to any question yet.", tags: ["supplier", "supply", "credit", "bankrupt", "ownership", "vendor", "procurement"] },
     { id: "digest", kind: "sense", name: "News digest", what: "Reuters, FT, and regional wires", every: "Hourly", checks: 0, cost: 0, auto: true,
       brief: "Not linked to any question yet.", tags: ["news", "election", "government", "policy", "tariff", "trade", "port", "saudi", "turkey", "china"] },
-    { id: "customs", kind: "sense", name: "Customs filings", what: "Import and export declarations for Halvorsen's lanes", every: "Daily", checks: 0, cost: 0, auto: true,
+    { id: "customs", kind: "sense", name: "Customs filings", what: "Import and export declarations for Halvorsen’s lanes", every: "Daily", checks: 0, cost: 0, auto: true,
       brief: "Not linked to any question yet.", tags: ["customs", "tariff", "import", "export", "border", "trade", "duty"] },
     { id: "weather", kind: "sense", name: "Weather and storms", what: "Cyclone and port-weather warnings", every: "Every 3 hours", checks: 0, cost: 0, auto: true,
       brief: "Not linked to any question yet.", tags: ["weather", "storm", "cyclone", "typhoon", "flood"] },
@@ -71,13 +71,13 @@
     { id: "letters", kind: "act", name: "Customer letters", what: "The five largest GCC accounts", owner: "Layla, GCC key accounts", checks: 0, cost: 0, auto: true,
       brief: "Draft delay notices as bookings change; never send without Layla.", tags: ["customer", "gcc", "saudi", "delay", "letter", "account"] },
     { id: "caperoute", kind: "act", name: "Cape routing", what: "Asia–Europe parts rerouted round Africa", owner: "VP Logistics", checks: 2, cost: 0.05, auto: false,
-      brief: "Hold Cape space for Gebze's compressor parts on the October 14 sailing.", tags: ["cape", "red sea", "suez", "routing", "shipping", "logistics"] },
+      brief: "Hold Cape space for Gebze’s compressor parts on the October 14 sailing.", tags: ["cape", "red sea", "suez", "routing", "shipping", "logistics"] },
     { id: "labour", kind: "act", name: "Labour relations", what: "Offers and talking points for the Gebze talks", owner: "HR director, Gebze", checks: 1, cost: 0.02, auto: true,
       brief: "Prepare a revised offer and talking points; never send without the HR director.", tags: ["strike", "union", "labour", "labor", "wage", "gebze"] },
     { id: "stock", kind: "act", name: "Stock planner", what: "Finished-goods buffer at Gebze", owner: "Elif, Gebze production", checks: 1, cost: 0.01, auto: false,
       brief: "Model a two-week finished-goods buffer and the overtime it needs.", tags: ["stock", "inventory", "buffer", "production", "gebze", "plant"] },
     { id: "feedbook", kind: "act", name: "Feeder rebooking", what: "Jebel Ali boxes on the ME4 feeders", owner: "VP Logistics", checks: 1, cost: 0.03, auto: false,
-      brief: "Line up space with two other feeder operators for next week's Jebel Ali boxes.", tags: ["feeder", "booking", "jebel ali", "container", "sanction"] },
+      brief: "Line up space with two other feeder operators for next week’s Jebel Ali boxes.", tags: ["feeder", "booking", "jebel ali", "container", "sanction"] },
     { id: "contract", kind: "act", name: "Contract assistant", what: "Drafts and redlines supplier contracts", owner: "Legal", checks: 0, cost: 0, auto: false,
       brief: "Not linked to any question yet.", tags: ["contract", "supplier", "legal", "clause", "force majeure", "negotiat"] },
     { id: "procure", kind: "act", name: "Procurement desk", what: "Requests quotes from approved suppliers", owner: "VP Procurement", checks: 0, cost: 0, auto: false,
@@ -88,9 +88,9 @@
 
   /* ---------- problems, and the fixes the user can apply (an agent's, so they show on every question it serves) ---------- */
   var PROBLEMS = {
-    ports: { at: 112, title: "Khor Fakkan's agent stopped answering", text: "Its mailbox has bounced since 07:52, so the berth counts are going stale.",
-      fixes: [["Switch to the terminal's public berth list", "Switched to the terminal's public berth list; counts are current again."],
-              ["Ask Farah's team to call the agent", "Farah's team reached the agent; the mailbox is back."]] },
+    ports: { at: 112, title: "Khor Fakkan’s agent stopped answering", text: "Its mailbox has bounced since 07:52, so the berth counts are going stale.",
+      fixes: [["Switch to the terminal’s public berth list", "Switched to the terminal’s public berth list; counts are current again."],
+              ["Ask Farah’s team to call the agent", "Farah’s team reached the agent; the mailbox is back."]] },
     wire: { at: 118, title: "Two sources went behind a paywall", text: "Coverage of the Muscat talks is down to 3 of 5 sources, so a date for a second round could reach us late.",
       fixes: [["Add the licensed news feed ($300 a day)", "Licensed feed added; coverage back to 5 of 5 sources.", 0.3],
               ["Accept 3 of 5 for now", "Coverage left at 3 of 5; Totality widens the band on the talks question."]] },
@@ -119,17 +119,17 @@
         { at: 90, agent: "notices", kind: "find", text: "Two brokers circulate a draft listing the whole strait from Thursday.", dp: 3 },
         { at: 90, agent: "ports", kind: "find", text: "Two carriers cancel Thursday calls at Jebel Ali.", impact: "Booking case firmer" },
         { at: 96, agent: "hub", kind: "change", text: "Brief v2 to the resin buyer, booking agent, and cover broker; the big moves wait for you." },
-        { at: 112, agent: "ports", kind: "prob", text: "Khor Fakkan's agent stopped answering; berth counts going stale." },
+        { at: 112, agent: "ports", kind: "prob", text: "Khor Fakkan’s agent stopped answering; berth counts going stale." },
         { at: 118, agent: "wire", kind: "prob", text: "Two of five sources went behind a paywall." },
         { at: 130, agent: "buyer", kind: "find", text: "Counter-offer: 4,000 t at $1,215/t by October 20; the other 3,000 t at $1,260/t in November.", impact: "Protects up to $8.6M" },
         { at: 132, agent: "hub", kind: "change", text: "Proposed brief v3 for the resin buyer and an hourly watch on resin suppliers." },
-        { at: 140, agent: "cover", kind: "prob", text: "The broker hasn't replied since 06:15; the best quote expires Wednesday." }
+        { at: 140, agent: "cover", kind: "prob", text: "The broker hasn’t replied since 06:15; the best quote expires Wednesday." }
       ],
       coming: [
         { at: 142, agent: "traffic", kind: "find", text: "08:00 count: transits steady at 58% of normal.", impact: "No change" },
-        { at: 145, agent: "notices", kind: "find", text: "A third broker repeats the draft listing; the committee hasn't confirmed it.", dp: 1 },
+        { at: 145, agent: "notices", kind: "find", text: "A third broker repeats the draft listing; the committee hasn’t confirmed it.", dp: 1 },
         { at: 149, agent: "rates", kind: "find", text: "Gulf spot rates up 6% overnight.", impact: "Freight budget at risk" },
-        { at: 153, agent: "wire", kind: "find", text: "Oman's foreign ministry: contacts continue; still no date for talks.", impact: "No change" },
+        { at: 153, agent: "wire", kind: "find", text: "Oman’s foreign ministry: contacts continue; still no date for talks.", impact: "No change" },
         { at: 158, agent: "booking", kind: "find", text: "Khor Fakkan: 420 TEU of berth space left this week, down from 600.", impact: "Slots tightening" },
         { at: 163, agent: "traffic", kind: "find", text: "Two tankers resume transits under naval escort.", dp: -1 },
         { at: 168, agent: "buyer", kind: "find", text: "The supplier holds its offer until 17:00 today.", impact: "Deadline today" },
@@ -139,20 +139,20 @@
         { q: "Will underwriters list the whole strait on Thursday?", v: 1.9, agent: "notices" },
         { q: "Will a Jubail producer declare force majeure?", v: 0.6, agent: "supply" },
         { q: "Will the Muscat talks set a date for a second round?", v: 0.4, agent: "wire" },
-        { q: "Will Khor Fakkan's berth space last until Thursday?", v: 0.3, agent: "ports" }
+        { q: "Will Khor Fakkan’s berth space last until Thursday?", v: 0.3, agent: "ports" }
       ],
       queue: [
         { id: "q-supply", kind: "Retask", agent: "supply", cost: 0.0024, rev: true,
           title: "Watch resin suppliers hourly, not daily",
           why: "A force-majeure notice from Jubail would make the last 3,000 t urgent. Learning of it a day earlier would be worth about $0.6M, because the last 3,000 t could be bought sooner.",
-          diff: [["How often", "Daily", "Hourly"], ["Sources", "2 producers", "2 producers and 3 traders"]], costText: "$2,400 for a month of the traders' feed" },
+          diff: [["How often", "Daily", "Hourly"], ["Sources", "2 producers", "2 producers and 3 traders"]], costText: "$2,400 for a month of the traders’ feed" },
         { id: "q-rates", kind: "Retask", agent: "rates", cost: 0.000015, rev: true,
           title: "Check Fujairah bunker every 30 minutes until the hedge is bound",
           why: "The hedge reprices daily, and a Thursday listing would move bunker first.",
           diff: [["How often", "Hourly", "Every 30 minutes"]], costText: "$15 of compute a day" },
         { id: "q-letters", kind: "Draft", agent: "letters", cost: 0, rev: true,
           title: "Draft delay letters to the five largest GCC accounts",
-          why: "Two carriers cancelled Thursday calls at Jebel Ali. Layla's team can send them once the bookings are firm.",
+          why: "Two carriers cancelled Thursday calls at Jebel Ali. Layla’s team can send them once the bookings are firm.",
           diff: [["Letters", "None", "5 drafts, not sent"]], costText: "No cost; nothing is sent" },
         { id: "q-buyer", kind: "Strategy", agent: "buyer", cost: 0.62, rev: false, edit: true,
           title: "Take 4,000 t at $1,215/t now; keep 3,000 t open below $1,260/t",
@@ -160,12 +160,12 @@
           diff: [["Ceiling", "$1,240/t", "$1,215/t now, $1,260/t for the rest"], ["Volume now", "7,000 t", "4,000 t"], ["Delivery", "By Oct 30", "4,000 t by Oct 20"]], costText: "$0.62M premium, signs a contract" },
         { id: "q-booking", kind: "Strategy", agent: "booking", cost: 0.9, rev: false,
           title: "Firm up all four Khor Fakkan slots",
-          why: "With carriers cancelling Thursday calls at Jebel Ali, the slots will go before the 14:00 cutoff. Booking now protects $7.6M at this morning's 27% chance of closure, or $9.3M at the current 33%.",
+          why: "With carriers cancelling Thursday calls at Jebel Ali, the slots will go before the 14:00 cutoff. Booking now protects $7.6M at this morning’s 27% chance of closure, or $9.3M at the current 33%.",
           diff: [["Slots", "4 on option", "4 booked"], ["Cutoff", "Thu 14:00", "Booked today"]], costText: "$0.90M, commits the bookings" },
         { id: "q-cover", kind: "Strategy", agent: "cover", cost: 1.36, rev: false,
-          title: "Bind war-risk cover before Thursday's listing",
-          why: "If the whole strait is listed on Thursday, today's quote is gone and premiums reprice upward.",
-          diff: [["Quote", "Held open", "Bound"], ["Bunker hedge", "Quoted", "Placed at today's price"]], costText: "$1.36M, binds cover" }
+          title: "Bind war-risk cover before Thursday’s listing",
+          why: "If the whole strait is listed on Thursday, today’s quote is gone and premiums reprice upward.",
+          diff: [["Quote", "Held open", "Bound"], ["Bunker hedge", "Quoted", "Placed at today’s price"]], costText: "$1.36M, binds cover" }
       ] },
     { id: "redsea", short: "Red Sea shuts", p0: 31,
       about: "The chance the Red Sea is shut to commercial traffic in the next 30 days, Suez lost and Asia–Europe round the Cape.",
@@ -175,10 +175,10 @@
       feed: [
         { at: 0, agent: "hub", kind: "change", text: "Morning run at 31%." },
         { at: 55, agent: "redtraffic", kind: "find", text: "Bab el-Mandeb transits down 12% on last week.", dp: 2 },
-        { at: 80, agent: "houthi", kind: "find", text: "A spokesman threatens ships 'linked to the blockade'.", dp: 1 },
+        { at: 80, agent: "houthi", kind: "find", text: "A spokesman threatens ships ‘linked to the blockade’.", dp: 1 },
         { at: 100, agent: "rates", kind: "find", text: "Asia–Europe spot via the Cape up 9%.", impact: "Cape routing dearer" },
         { at: 125, agent: "houthi", kind: "prob", text: "A channel it reads was taken down; one of three sources lost." },
-        { at: 128, agent: "caperoute", kind: "find", text: "Cape space for Gebze's compressor parts: 6 FEU open on the October 14 sailing.", impact: "Option open" }
+        { at: 128, agent: "caperoute", kind: "find", text: "Cape space for Gebze’s compressor parts: 6 FEU open on the October 14 sailing.", impact: "Option open" }
       ],
       coming: [
         { at: 150, agent: "redtraffic", kind: "find", text: "Two container ships divert south of Socotra.", dp: 1 },
@@ -192,7 +192,7 @@
       ],
       queue: [
         { id: "q-cape", kind: "Strategy", agent: "caperoute", cost: 0.4, rev: false,
-          title: "Pre-book Cape space for Gebze's compressor parts",
+          title: "Pre-book Cape space for Gebze’s compressor parts",
           why: "If Suez routings stop, Gebze runs short of compressors in late November. Six FEU on the October 14 sailing cover the gap.",
           diff: [["Space", "None", "6 FEU, Oct 14 sailing"], ["Route", "Suez", "Cape of Good Hope"]], costText: "$0.40M, commits the space" },
         { id: "q-redwatch", kind: "Retask", agent: "redtraffic", cost: 0.00002, rev: true,
@@ -203,11 +203,11 @@
     { id: "strike", short: "Gebze strike", p0: 16,
       about: "The chance metalworkers strike at the Gebze plant before their contract expires on November 1.",
       sense: ["union", "press"], act: ["labour", "stock"],
-      deadline: ["Tue Oct 20", "The union's strike vote", "union"],
+      deadline: ["Tue Oct 20", "The union’s strike vote", "union"],
       feed: [
         { at: 0, agent: "hub", kind: "change", text: "Morning run at 16%." },
-        { at: 50, agent: "union", kind: "find", text: "The union calls a members' vote for October 20.", dp: 2 },
-        { at: 95, agent: "press", kind: "find", text: "Local press: talks 'constructive' after Monday's session.", impact: "No change" },
+        { at: 50, agent: "union", kind: "find", text: "The union calls a members’ vote for October 20.", dp: 2 },
+        { at: 95, agent: "press", kind: "find", text: "Local press: talks ‘constructive’ after Monday’s session.", impact: "No change" },
         { at: 120, agent: "stock", kind: "find", text: "Finished goods at Gebze cover 9 days of shipments.", impact: "Thin buffer" }
       ],
       coming: [
@@ -216,12 +216,12 @@
       ],
       asks: [
         { q: "Will members vote to strike on October 20?", v: 0.9, agent: "union" },
-        { q: "Will the national metalworkers' deal settle first?", v: 0.5, agent: "press" }
+        { q: "Will the national metalworkers’ deal settle first?", v: 0.5, agent: "press" }
       ],
       queue: [
         { id: "q-stock", kind: "Strategy", agent: "stock", cost: 0.35, rev: false,
           title: "Build two weeks of finished-goods stock at Gebze",
-          why: "Nine days of stock won't last a strike of the usual length. Two Saturday shifts take it to fourteen.",
+          why: "Nine days of stock won’t last a strike of the usual length. Two Saturday shifts take it to fourteen.",
           diff: [["Buffer", "9 days", "14 days"], ["Overtime", "None", "Two Saturday shifts"]], costText: "$0.35M in overtime and storage" },
         { id: "q-offer", kind: "Draft", agent: "labour", cost: 0, rev: true,
           title: "Draft a revised offer for the union",
@@ -231,18 +231,18 @@
     { id: "feeders", short: "Feeder sanctions", p0: 15,
       about: "The chance sanctions hit the two ME4 feeders Halvorsen uses into Jebel Ali this month.",
       sense: ["sanc", "registry", "ports"], act: ["feedbook"],
-      deadline: ["Thu Oct 8", "The flag registry's review", "registry"],
+      deadline: ["Thu Oct 8", "The flag registry’s review", "registry"],
       briefs: { ports: "Confirm which Jebel Ali boxes sail on the two ME4 feeders this week and next." },
       feed: [
         { at: 0, agent: "hub", kind: "change", text: "Morning run at 15%." },
-        { at: 60, agent: "sanc", kind: "find", text: "The feeders' technical manager was added to a UK list overnight.", dp: 3 },
-        { at: 85, agent: "registry", kind: "find", text: "One feeder's flag registry opens a review.", dp: 1 },
-        { at: 112, agent: "ports", kind: "prob", text: "Khor Fakkan's agent stopped answering; berth counts going stale." },
-        { at: 130, agent: "feedbook", kind: "find", text: "Two other operators have space on next week's Jebel Ali feeders.", impact: "Fallback open" }
+        { at: 60, agent: "sanc", kind: "find", text: "The feeders’ technical manager was added to a UK list overnight.", dp: 3 },
+        { at: 85, agent: "registry", kind: "find", text: "One feeder’s flag registry opens a review.", dp: 1 },
+        { at: 112, agent: "ports", kind: "prob", text: "Khor Fakkan’s agent stopped answering; berth counts going stale." },
+        { at: 130, agent: "feedbook", kind: "find", text: "Two other operators have space on next week’s Jebel Ali feeders.", impact: "Fallback open" }
       ],
       coming: [
         { at: 158, agent: "sanc", kind: "find", text: "No US designation yet; the EU list updates Friday.", impact: "No change" },
-        { at: 175, agent: "registry", kind: "find", text: "The registry's review is due Thursday.", impact: "Deadline Thursday" }
+        { at: 175, agent: "registry", kind: "find", text: "The registry’s review is due Thursday.", impact: "Deadline Thursday" }
       ],
       asks: [
         { q: "Will OFAC designate the two feeders?", v: 1.1, agent: "sanc" },
@@ -250,8 +250,8 @@
       ],
       queue: [
         { id: "q-feeder", kind: "Strategy", agent: "feedbook", cost: 0.15, rev: false,
-          title: "Move next week's Jebel Ali boxes to another feeder operator",
-          why: "A designation would strand boxes already loaded. Moving next week's 38 TEU now costs less than recovering them.",
+          title: "Move next week’s Jebel Ali boxes to another feeder operator",
+          why: "A designation would strand boxes already loaded. Moving next week’s 38 TEU now costs less than recovering them.",
           diff: [["Operator", "ME4 feeders", "Two other operators"], ["Boxes", "None moved", "38 TEU"]], costText: "$0.15M, commits the bookings" }
       ] }
   ];
@@ -544,7 +544,7 @@
     box.appendChild(ctl);
   }
   function autoNote(a) {
-    return S.mode === "manual" ? "Off while you're in manual" : a.kind === "act" ? "Small, reversible steps only; never signs or sends" : "Within your " + LIMITS.filter(function (l) { return l[0] === S.limit; })[0][1] + " limit";
+    return S.mode === "manual" ? "Off while you’re in manual" : a.kind === "act" ? "Small, reversible steps only; never signs or sends" : "Within your " + LIMITS.filter(function (l) { return l[0] === S.limit; })[0][1] + " limit";
   }
   function drawHub(box) {
     var head = el("div", { class: "side__head" });
@@ -774,7 +774,7 @@
       text: "Up to $1,180/t for all 7,000 t, delivered by October 30." },
     { n: "v2", t: "07:36", why: "The draft war-risk listing; 33%", v: { ceil: 1240, vol: 7000, pri: "fast", fm: true, dl: true, pay: false },
       text: "Up to $1,240/t; split the order to get the first lot by October 20; ask for a force-majeure carve-out." },
-    { n: "v3", t: "08:12", why: "The supplier's counter-offer", v: { ceil: 1215, vol: 4000, pri: "balanced", fm: true, dl: true, pay: false },
+    { n: "v3", t: "08:12", why: "The supplier’s counter-offer", v: { ceil: 1215, vol: 4000, pri: "balanced", fm: true, dl: true, pay: false },
       text: "Take 4,000 t at $1,215/t by October 20; keep the other 3,000 t open below $1,260/t." }
   ];
   var BRIEF = { cur: 2, sent: 1 };  // v3 is Totality's proposal; v2 is what the agent works to until you sign off
@@ -796,7 +796,7 @@
       fmt: function (v) { return { price: "Price", balanced: "Balance", fast: "Speed" }[v]; } }
   ];
   var MUST = [
-    { key: "fm", text: "Force-majeure carve-out for a Gulf closure", sub: "The supplier can't walk away if the strait shuts" },
+    { key: "fm", text: "Force-majeure carve-out for a Gulf closure", sub: "The supplier can’t walk away if the strait shuts" },
     { key: "dl", text: "First lot delivered by October 20", sub: "Before both plants run out of cover" },
     { key: "pay", text: "60-day payment terms", sub: "Eases cash, but costs leverage" }
   ];
@@ -837,7 +837,7 @@
       fieldSync.push(function () {
         var v = form[o.key], tz = VERS[BRIEF.cur].v[o.key];
         btns.forEach(function (x) { x[1].setAttribute("aria-pressed", String(x[0] === v)); });
-        tv.textContent = v === tz ? "Totality's brief" : "your change";
+        tv.textContent = v === tz ? "Totality’s brief" : "your change";
         if (out) { out.textContent = o.fmt(v); less.disabled = v <= o.min; more.disabled = v >= o.max; }
       });
     });
@@ -876,7 +876,7 @@
     rows.forEach(function (r, i) {
       shown[i].l.textContent = r[0];
       shown[i].big.textContent = r[1];
-      shown[i].cmp.textContent = diff ? "Totality's brief: " + r[2] : "Totality's brief";
+      shown[i].cmp.textContent = diff ? "Totality’s brief: " + r[2] : "Totality’s brief";
       shown[i].k.classList.toggle("is-better", diff && r[3] > 0.005);
       shown[i].k.classList.toggle("is-worse", diff && r[3] < -0.005);
     });
@@ -1045,7 +1045,7 @@
       deadline: null, briefs: {}, queue: [], asks: [], coming: [],
       feed: [{ at: S.t, agent: "hub", kind: "change", text: "You started watching this question and linked " + ids.length + (ids.length === 1 ? " agent." : " agents.") }] };
     var parts = 6 + h % 7, first = 8 + h % 27;
-    q.coming.push({ at: S.t + 1, agent: "hub", kind: "change", text: "Split the question into " + parts + " smaller ones, and declined one that can't be forecast this far out." });
+    q.coming.push({ at: S.t + 1, agent: "hub", kind: "change", text: "Split the question into " + parts + " smaller ones, and declined one that can’t be forecast this far out." });
     q.sense.forEach(function (id, k) {
       var a = AGENTS[id];
       q.briefs[id] = a.brief === "Not linked to any question yet." ? "Watch for anything bearing on this question. Sources: " + a.what + "." : "For this question too. " + a.brief;

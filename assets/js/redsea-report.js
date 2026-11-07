@@ -49,7 +49,7 @@
   (function () {
     var D = [[7, "Iranian missile parts bound for Yemen intercepted twice in March"],
              [5, "Houthi statements on 26 and March 29 name commercial shipping again"],
-             [4, "Lloyd's insurers widened the Red Sea listed area on March 24"],
+             [4, "Lloyd’s insurers widened the Red Sea listed area on March 24"],
              [-1, "Gaza truce talks restart on April 7"]];
     var max = 8;
     $("#f-tug").innerHTML = D.map(function (d) {
@@ -99,7 +99,7 @@
     s += text("busan", "Busan", -9, -6, "end") + text("kaoh", "Kaohsiung", 9, 4) + text("gebze", "Gebze plant", 0, -11, "middle", "pl pl--b") +
       text("jed", "Jeddah", -9, 4, "end") + text("dam", "Dammam", 8, -6);
     s += text("bab", "Bab el-Mandeb", 16, 16, "start", "pl pl--b") + text("bab", "attacks 46%", 16, 31, "start", "pl pl--risk");
-    s += text("suez", "Suez Canal", -16, -2, "end", "pl pl--b") + text("suez", "pilots' strike 9%", -16, 13, "end", "pl pl--risk");
+    s += text("suez", "Suez Canal", -16, -2, "end", "pl pl--b") + text("suez", "pilots’ strike 9%", -16, 13, "end", "pl pl--risk");
     s += text("cape", "Cape of Good Hope", 16, 0, "start", "pl pl--b") + text("cape", "about 42 days to Gebze, 12 more", 16, 15, "start", "pl pl--mute");
     s += text("sing", "about 30 days to Gebze through the Red Sea", 0, 34, "middle", "pl pl--mute");
     s += '<text class="ocean" x="' + P([75, -18])[0] + '" y="' + P([75, -18])[1] + '" text-anchor="middle">Indian Ocean</text>';
@@ -253,9 +253,9 @@
   function stock() {
     var T = S.t, none = stockRun(false, false, T), mine = stockRun(has("procurement"), has("logistics"), T);
     var msg = mine.stops.length
-      ? "Gebze's lines stop for " + mine.stops.length + " days from " + dayLabel(mine.stops[0])
+      ? "Gebze’s lines stop for " + mine.stops.length + " days from " + dayLabel(mine.stops[0])
       : "No line stop: the lowest point is " + Math.round(Math.min.apply(null, mine.s.slice(mine.start))) + " days of stock";
-    var msgNone = none.stops.length ? "With no plan, Gebze's lines would stop for " + none.stops.length + " days from " + dayLabel(none.stops[0]) : "";
+    var msgNone = none.stops.length ? "With no plan, Gebze’s lines would stop for " + none.stops.length + " days from " + dayLabel(none.stops[0]) : "";
     $("#l-stock-msg").innerHTML = '<b class="' + (mine.stops.length ? "is-loss" : "is-safe") + '">' + msg + "</b>" + (msgNone && S.plan.length ? "<span>" + msgNone + "</span>" : "");
     $("#l-stock").setAttribute("aria-label", msg + ". " + msgNone);
     var N = none.s.length;

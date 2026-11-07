@@ -28,28 +28,28 @@
       gaps: [
         { text: "Only Joel can file customs entries at Khor Fakkan, and the diversion doubles his filings this week.", fix: "Have Rashid shadow Joel on Khor Fakkan filings", who: "rashid", day: 1, hours: 4 },
         { text: "Aisha is the only certified reach-stacker operator on nights until Tariq is back on Sunday.", fix: "Ask Nadia to borrow a certified operator from the day pool", who: "nadia", day: 0, hours: 1 },
-        { text: "Sanjay is the only one with the Khor Fakkan hauliers' numbers.", fix: "Share the haulier contact sheet with Rashid", who: "sanjay", day: 0, hours: 1 }
+        { text: "Sanjay is the only one with the Khor Fakkan hauliers’ numbers.", fix: "Share the haulier contact sheet with Rashid", who: "sanjay", day: 0, hours: 1 }
       ],
       decisions: [
-        { id: "kf-slots", q: "Book Khor Fakkan berth slots before Thursday's cutoff?", due: [2, "14:00"],
-          context: "Leadership approved the diversion this morning. Khor Fakkan is 70% booked and won't hold slots past the cutoff.",
-          opts: [{ t: "Book 4 slots", sub: "$12.8k; $1.6k a slot to cancel", done: "t-slots" }, { t: "Book 2 now, 2 on Thursday", sub: "$6.4k now; the last 2 may be gone" }, { t: "Wait for Monday's forecast", sub: "Nothing spent; likely no slots left" }],
+        { id: "kf-slots", q: "Book Khor Fakkan berth slots before Thursday’s cutoff?", due: [2, "14:00"],
+          context: "Leadership approved the diversion this morning. Khor Fakkan is 70% booked and won’t hold slots past the cutoff.",
+          opts: [{ t: "Book 4 slots", sub: "$12.8k; $1.6k a slot to cancel", done: "t-slots" }, { t: "Book 2 now, 2 on Thursday", sub: "$6.4k now; the last 2 may be gone" }, { t: "Wait for Monday’s forecast", sub: "Nothing spent; likely no slots left" }],
           pick: 0, why: "The directive needs four sailings moved, and if the strait closes every Gulf shipper will want these berths. Cancelling later costs far less than missing the cutoff." },
         { id: "yard", q: "Release boxes from the Jebel Ali yard early?", due: [1, "12:00"],
           context: "212 Halvorsen boxes are in the yard. Dwell time is 71 hours and climbing; your trigger is 72.",
           opts: [{ t: "Release the 90 fast movers", sub: "The DC can take them without overtime", add: { text: "Release 90 fast-moving boxes to the Dubai DC", who: "rashid", day: 1, hours: 6 } }, { t: "Release all 212", sub: "The DC needs a Saturday shift", add: { text: "Release all 212 boxes to the Dubai DC", who: "rashid", day: 1, hours: 12 } }, { t: "Hold until Monday", sub: "Dwell keeps climbing" }],
           pick: 0, why: "Moving the fast movers clears the boxes most likely to be needed if inbound stops, without paying the DC for a weekend shift." },
-        { id: "nights", q: "Approve overtime for Saturday's night gate shift?", due: [3, "17:00"],
+        { id: "nights", q: "Approve overtime for Saturday’s night gate shift?", due: [3, "17:00"],
           context: "With Tariq on leave, Aisha is the only certified operator on nights, and three vessels bunch up on Saturday.",
           opts: [{ t: "Approve 6 hours", sub: "$1.1k; two cranes all night", add: { text: "Schedule a second certified operator for Saturday night", who: "nadia", day: 3, hours: 1 } }, { t: "Move Rashid to nights", sub: "Free, but days lose a supervisor" }, { t: "Decline", sub: "One crane on Saturday night" }],
-          pick: 0, why: "One crane can't turn three vessels overnight, and a missed window pushes the boxes into next week's dwell." },
-        { id: "surcharge", q: "Accept the carrier's $180-a-box war-risk surcharge on AE7?", due: [1, "17:00"],
-          context: "The carrier wants an answer for this week's sailing. Treasury is binding war-risk cover today.",
+          pick: 0, why: "One crane can’t turn three vessels overnight, and a missed window pushes the boxes into next week’s dwell." },
+        { id: "surcharge", q: "Accept the carrier’s $180-a-box war-risk surcharge on AE7?", due: [1, "17:00"],
+          context: "The carrier wants an answer for this week’s sailing. Treasury is binding war-risk cover today.",
           opts: [{ t: "Ask Treasury first", sub: "Answer the carrier tomorrow", add: { text: "Ask Treasury whether the new cover overlaps the AE7 surcharge", who: "farah", day: 0, hours: 1 } }, { t: "Accept for this week", sub: "About $38k on this sailing" }, { t: "Push back", sub: "Risks a rolled booking" }],
-          pick: 0, why: "If Treasury's cover already insures this cargo, you'd be paying twice. One message to Treasury settles it before the carrier's deadline." }
+          pick: 0, why: "If Treasury’s cover already insures this cargo, you’d be paying twice. One message to Treasury settles it before the carrier’s deadline." }
       ],
       directives: [
-        { id: "divert", title: "Divert four Jebel Ali sailings to Khor Fakkan and truck the boxes to the Dubai DC", by: "Tomas Varga, VP Logistics", approved: "approved by the COO in this morning's brief",
+        { id: "divert", title: "Divert four Jebel Ali sailings to Khor Fakkan and truck the boxes to the Dubai DC", by: "Tomas Varga, VP Logistics", approved: "approved by the COO in this morning’s brief",
           part: "Get every diverted box from Khor Fakkan to the Dubai DC within 36 hours of discharge.", due: 2,
           tasks: tasks([
             ["t-slots", "Book four Khor Fakkan berth slots", "farah", 2, 2],
@@ -59,26 +59,26 @@
             ["t-dc", "Give the Dubai DC its new arrival windows", "rashid", 1, 2],
             ["t-gate", "Brief the night shift on the new gate plan", "nadia", 2, 2]
           ]) },
-        { id: "cover", title: "Bind war-risk cover on Gulf calls and hedge Q4 bunker", by: "Hanne Sørli, Group Treasurer", approved: "approved by the CFO in this morning's brief",
+        { id: "cover", title: "Bind war-risk cover on Gulf calls and hedge Q4 bunker", by: "Hanne Sørli, Group Treasurer", approved: "approved by the CFO in this morning’s brief",
           part: "Give Treasury what it needs to put every Gulf call on the cover before the quote expires Wednesday.", due: 1,
           tasks: tasks([
             ["t-calls", "Send Treasury the Gulf calls for the next 30 days", "joel", 1, 3],
-            ["t-hull", "Confirm each vessel's insured value with the carrier", "rashid", 1, 3, "blocked", "The carrier hasn't sent the hull value for Sable Orchid."],
+            ["t-hull", "Confirm each vessel’s insured value with the carrier", "rashid", 1, 3, "blocked", "The carrier hasn’t sent the hull value for Sable Orchid."],
             ["t-hold", "Hold the AE7 surcharge until the cover is confirmed", "farah", 1, 1]
           ]) }
       ],
       watch: [
         { id: "hormuz", kind: "threat", title: "Strait of Hormuz closes", p: "27% in 30 days", trend: [6, 9, 18, 27],
-          impact: "Jebel Ali inbound drops to almost nothing, three ships are stuck inside, and the team's work moves to Khor Fakkan and Sohar overnight.",
+          impact: "Jebel Ali inbound drops to almost nothing, three ships are stuck inside, and the team’s work moves to Khor Fakkan and Sohar overnight.",
           signal: { text: "Daily strait transits", now: 71, at: 40, unit: "% of normal", dir: "below" },
           steps: [["Switch every inbound booking to Khor Fakkan or Sohar", "farah", 3], ["Run trucks to the Dubai DC around the clock", "sanjay", 8], ["Move two operators to Khor Fakkan", "nadia", 2], ["Release every box in the Jebel Ali yard to the DC", "rashid", 10], ["Daily 07:30 call with Tomas until it reopens", "farah", 1]] },
         { id: "dwell", kind: "threat", title: "Jebel Ali yard congestion", p: "Likely within 2 weeks", trend: [48, 55, 63, 71],
-          impact: "Boxes wait days for a gate slot, demurrage starts after 5 days, and the DC's stock runs down while cargo sits in port.",
+          impact: "Boxes wait days for a gate slot, demurrage starts after 5 days, and the DC’s stock runs down while cargo sits in port.",
           signal: { text: "Average container dwell", now: 71, at: 72, unit: " hours", dir: "above" },
           steps: [["Release fast movers to the DC early", "rashid", 6], ["Open a Saturday gate", "nadia", 6], ["Ask the DC for overflow yard space", "farah", 1]] },
         { id: "feeders", kind: "threat", title: "Sanctions hit two ME4 feeders", p: "19% in 30 days", trend: [11, 12, 16, 19],
           impact: "About 480 boxes a week bound for Dammam are held for screening, and the documentation team is buried in checks.",
-          signal: { text: "Listing of the feeders' technical manager", now: 0, at: 1, unit: "", dir: "event", status: "Not yet" },
+          signal: { text: "Listing of the feeders’ technical manager", now: 0, at: 1, unit: "", dir: "event", status: "Not yet" },
           steps: [["Pre-book slots on the rival Gulf shuttle", "sanjay", 2], ["Prepare a cargo screening checklist", "joel", 4], ["Warn the Dammam DC of a possible gap", "farah", 1]] },
         { id: "kf-room", kind: "opportunity", title: "Spare berth space at Khor Fakkan", p: "Open now, likely gone next week", trend: null,
           impact: "600 TEU a week is free and quoted 8% below Jebel Ali. Standing slots now would make the diversion cheaper and keep it open for a month.",
@@ -106,25 +106,25 @@
         ["burak", "Burak Aydın", "Labour relations", "Days", "Gebze", 20, 30, ["Union liaison"], null, null]
       ]),
       gaps: [
-        { text: "Only Hakan can sign off a new resin grade, and he's at a supplier audit until Thursday.", fix: "Ask Hakan to approve the trial plan remotely so trials start Thursday", who: "hakan", day: 1, hours: 1 },
-        { text: "Line 3 has no backup supervisor on nights if Ozan is out.", fix: "Train Zeynep's deputy on the dryer line", who: "zeynep", day: 3, hours: 6 }
+        { text: "Only Hakan can sign off a new resin grade, and he’s at a supplier audit until Thursday.", fix: "Ask Hakan to approve the trial plan remotely so trials start Thursday", who: "hakan", day: 1, hours: 1 },
+        { text: "Line 3 has no backup supervisor on nights if Ozan is out.", fix: "Train Zeynep’s deputy on the dryer line", who: "zeynep", day: 3, hours: 6 }
       ],
       decisions: [
         { id: "offspec", q: "Accept 40 t of Singapore resin with a slightly high melt index?", due: [1, "10:00"],
           context: "The first bridge-buy lot tested inside spec for dryer drums but at the edge for washer tubs.",
-          opts: [{ t: "Accept for Line 3 only", sub: "Dryers run it; washers wait for the next lot", add: { text: "Route the 40 t lot to Line 3's silo", who: "selma", day: 1, hours: 2 } }, { t: "Reject and wait", sub: "Next lot in 9 days" }, { t: "Accept for every line", sub: "Higher scrap risk on washer tubs" }],
+          opts: [{ t: "Accept for Line 3 only", sub: "Dryers run it; washers wait for the next lot", add: { text: "Route the 40 t lot to Line 3’s silo", who: "selma", day: 1, hours: 2 } }, { t: "Reject and wait", sub: "Next lot in 9 days" }, { t: "Accept for every line", sub: "Higher scrap risk on washer tubs" }],
           pick: 0, why: "Dryer drums tolerate the higher melt index, so Line 3 uses the lot safely and saves the in-spec resin for washers." },
         { id: "saturday", q: "Run Line 2 on Saturday to build dishwasher stock?", due: [2, "16:00"],
-          context: "The metalworkers' contract expires November 1 and the strike risk is 18%. Leadership asked for a strike contingency.",
-          opts: [{ t: "Run Saturday", sub: "$38k overtime; about 1,100 units ahead", add: { text: "Staff Line 2 for Saturday", who: "zeynep", day: 3, hours: 3 } }, { t: "Half shift on Sunday", sub: "$19k; about 550 units" }, { t: "Don't run", sub: "No stock ahead" }],
+          context: "The metalworkers’ contract expires November 1 and the strike risk is 18%. Leadership asked for a strike contingency.",
+          opts: [{ t: "Run Saturday", sub: "$38k overtime; about 1,100 units ahead", add: { text: "Staff Line 2 for Saturday", who: "zeynep", day: 3, hours: 3 } }, { t: "Half shift on Sunday", sub: "$19k; about 550 units" }, { t: "Don’t run", sub: "No stock ahead" }],
           pick: 0, why: "Each Saturday worked now banks a day of dishwasher output in case talks fail, and uses resin before any Gulf disruption makes it scarce." },
-        { id: "maint", q: "Move Line 1's planned maintenance?", due: [3, "12:00"],
+        { id: "maint", q: "Move Line 1’s planned maintenance?", due: [3, "12:00"],
           context: "Maintenance is set for Friday. Resin cover is thinnest around Oct 15, when the line may idle anyway.",
-          opts: [{ t: "Move to Thu Oct 15", sub: "Maintain while waiting for resin", add: { text: "Re-book Line 1's maintenance crew for Thu Oct 15", who: "derya", day: 2, hours: 2 } }, { t: "Keep Friday", sub: "Lose a full production day now" }],
+          opts: [{ t: "Move to Thu Oct 15", sub: "Maintain while waiting for resin", add: { text: "Re-book Line 1’s maintenance crew for Thu Oct 15", who: "derya", day: 2, hours: 2 } }, { t: "Keep Friday", sub: "Lose a full production day now" }],
           pick: 0, why: "If Line 1 is going to wait for resin around the 15th, doing maintenance then costs no output at all." }
       ],
       directives: [
-        { id: "bridge", title: "Bridge-buy resin from Singapore", by: "Aylin Demir, VP Procurement", approved: "approved by the COO in this morning's brief",
+        { id: "bridge", title: "Bridge-buy resin from Singapore", by: "Aylin Demir, VP Procurement", approved: "approved by the COO in this morning’s brief",
           part: "Be ready to run every line on Singapore resin when it lands on day 14, with no scrap spike.", due: 3,
           tasks: tasks([
             ["e-trial", "Run a moulding trial with the Singapore grade on Line 1", "hakan", 3, 8, "blocked", "Hakan is at a supplier audit until Thursday."],
@@ -180,8 +180,8 @@
       ],
       decisions: [
         { id: "warn", q: "Tell Al Noor Hypermarkets about possible delays now?", due: [2, "12:00"],
-          context: "Al Noor's penalty clause starts after 7 days short. The diversion adds a day and a half to MENA deliveries.",
-          opts: [{ t: "Call this week with a protection plan", sub: "Omar leads; you join", add: { text: "Call Al Noor's buyer with the protection plan", who: "omar", day: 2, hours: 2 } }, { t: "Send a written notice", sub: "Formal, but colder" }, { t: "Wait for a closure", sub: "No noise unless it happens" }],
+          context: "Al Noor’s penalty clause starts after 7 days short. The diversion adds a day and a half to MENA deliveries.",
+          opts: [{ t: "Call this week with a protection plan", sub: "Omar leads; you join", add: { text: "Call Al Noor’s buyer with the protection plan", who: "omar", day: 2, hours: 2 } }, { t: "Send a written notice", sub: "Formal, but colder" }, { t: "Wait for a closure", sub: "No noise unless it happens" }],
           pick: 0, why: "Customers who hear early, with a plan, rarely invoke penalties. Calling first also lets Al Noor move its promotions instead of running out on shelf." },
         { id: "discount", q: "Offer 3% off to move slow fridge stock out of the Dubai DC?", due: [3, "17:00"],
           context: "Making room for diverted boxes needs 400 pallet spaces. Slow fridge SKUs take 260 of them.",
@@ -190,10 +190,10 @@
         { id: "ramadan", q: "Start planning the Ramadan promotion two weeks earlier?", due: [6, "10:00"],
           context: "Retailers are asking for earlier stock commitments. Supply may be tight in November.",
           opts: [{ t: "Bring it forward", sub: "Lock volumes before any shortage", add: { text: "Bring the Ramadan promotion plan forward two weeks", who: "dana", day: 6, hours: 6 } }, { t: "Keep the usual plan", sub: "Decide in November" }],
-          pick: 0, why: "Committing volumes while stock is available protects the season's biggest promotion if Gulf supply tightens." }
+          pick: 0, why: "Committing volumes while stock is available protects the season’s biggest promotion if Gulf supply tightens." }
       ],
       directives: [
-        { id: "protect", title: "Protect GCC key accounts through the Gulf disruption", by: "Karim Haddad, GM MENA", approved: "following this morning's brief",
+        { id: "protect", title: "Protect GCC key accounts through the Gulf disruption", by: "Karim Haddad, GM MENA", approved: "following this morning’s brief",
           part: "No key account is surprised, and none goes 7 days short on its top sellers.", due: 3,
           tasks: tasks([
             ["l-top", "Rank the top 20 SKUs for each account", "yusuf", 1, 4, "doing"],
@@ -201,7 +201,7 @@
             ["l-letter", "Draft the customer letter for a closure", "lina", 2, 3],
             ["l-clock", "Track days short against each penalty clause", "yusuf", 1, 2]
           ]) },
-        { id: "divert-l", title: "Divert four Jebel Ali sailings to Khor Fakkan", by: "Tomas Varga, VP Logistics", approved: "approved by the COO in this morning's brief",
+        { id: "divert-l", title: "Divert four Jebel Ali sailings to Khor Fakkan", by: "Tomas Varga, VP Logistics", approved: "approved by the COO in this morning’s brief",
           part: "Every MENA delivery promise reflects the extra day and a half.", due: 2,
           tasks: tasks([
             ["l-promise", "Update delivery promises on open MENA orders", "ravi", 2, 12, "todo"],
@@ -214,11 +214,11 @@
           signal: { text: "Dubai DC days of cover", now: 11, at: 7, unit: " days", dir: "below" },
           steps: [["Allocate remaining stock to top SKUs by account", "yusuf", 4], ["Call every key account the same day", "layla", 3], ["Send the agreed customer letter", "lina", 2]] },
         { id: "feeders-l", kind: "threat", title: "Dammam deliveries held by feeder sanctions", p: "19% in 30 days", trend: [11, 12, 16, 19],
-          impact: "Gulf Home's KSA stores lose about a week of deliveries while boxes are screened.",
-          signal: { text: "Listing of the feeders' technical manager", now: 0, at: 1, unit: "", dir: "event", status: "Not yet" },
-          steps: [["Warn Gulf Home's buyer", "hessa", 1], ["Serve KSA stores from Dubai by road", "ravi", 4]] },
+          impact: "Gulf Home’s KSA stores lose about a week of deliveries while boxes are screened.",
+          signal: { text: "Listing of the feeders’ technical manager", now: 0, at: 1, unit: "", dir: "event", status: "Not yet" },
+          steps: [["Warn Gulf Home’s buyer", "hessa", 1], ["Serve KSA stores from Dubai by road", "ravi", 4]] },
         { id: "rival", kind: "opportunity", title: "A rival brand is short in KSA", p: "Seen in 4 of 10 store checks", trend: null,
-          impact: "A competitor's washers are missing from Gulf Home shelves. Extra facings now could hold share after they recover.",
+          impact: "A competitor’s washers are missing from Gulf Home shelves. Extra facings now could hold share after they recover.",
           signal: { text: "Store checks with the rival out of stock", now: 4, at: 6, unit: " of 10", dir: "above" },
           steps: [["Offer Gulf Home extra washer facings", "hessa", 2], ["Shift 300 washers to KSA", "yusuf", 2]] }
       ],
@@ -312,7 +312,7 @@
     var close = threats.map(function (w) { return { w: w, s: signalState(w) }; }).sort(function (a, b) { return b.s.rank - a.s.rank; })[0];
     var tiles = [
       ["dec-title", "Decisions waiting", open.length ? String(open.length) : "None", next ? "Next due: " + dayText(next.due[0], next.due[1]) : "All made for today", open.length ? "" : "is-good"],
-      ["dir-title", "Leadership's tasks", done + " of " + lead.length + " done", stuck ? plural(stuck, "task") + " stuck" : "Nothing stuck", stuck ? "is-warn" : ""],
+      ["dir-title", "Leadership’s tasks", done + " of " + lead.length + " done", stuck ? plural(stuck, "task") + " stuck" : "Nothing stuck", stuck ? "is-warn" : ""],
       ["team-title", "Team load this week", Math.round(100 * h / cap) + "%", over.length ? over.map(function (p) { return p.name.split(" ")[0]; }).join(" and ") + " over capacity" : plural(here.length, "person", "people") + " in, none over capacity", over.length ? "is-warn" : ""],
       ["watch-title", "Closest signal", close.w.title, close.s.text, close.s.rank >= 2 ? "is-warn" : ""]
     ];
@@ -425,7 +425,7 @@
     } else if (w) body.appendChild(el("p", { class: "task__wait" }, "Waits on: " + w.text + " (" + firstName(w.who) + ")"));
     if (flagging === t.id) {
       var f = el("form", { class: "task__flag" });
-      var inp = el("input", { class: "num-input", type: "text", placeholder: "What's in the way?", "aria-label": "What's in the way of: " + t.text, maxlength: 140 });
+      var inp = el("input", { class: "num-input", type: "text", placeholder: "What’s in the way?", "aria-label": "What’s in the way of: " + t.text, maxlength: 140 });
       f.appendChild(inp); f.appendChild(el("button", { type: "submit", class: "btn btn--primary btn--sm" }, "Flag it"));
       f.appendChild(button("Cancel", "btn btn--ghost btn--sm", function () { flagging = null; render(); }));
       f.addEventListener("submit", function (e) { e.preventDefault(); if (!inp.value.trim()) return; t.status = "blocked"; t.blocker = inp.value.trim().replace(/\.?$/, "."); flagging = null; changed("Flagged " + t.text); });
@@ -491,12 +491,12 @@
     var hl = el("div");
     hl.appendChild(el("p", { class: "dir__by" }, d.by + (d.approved ? ", " + d.approved : "")));
     hl.appendChild(el("h3", { class: "dir__title" }, d.title));
-    if (d.part) { var part = el("p", { class: "dir__part" }); part.appendChild(el("b", null, "Your team's part: ")); part.appendChild(document.createTextNode(d.part)); hl.appendChild(part); }
+    if (d.part) { var part = el("p", { class: "dir__part" }); part.appendChild(el("b", null, "Your team’s part: ")); part.appendChild(document.createTextNode(d.part)); hl.appendChild(part); }
     head.appendChild(hl);
     var prog = el("div", { class: "dir__prog" });
     prog.appendChild(el("b", null, done + " of " + ts.length + " done"));
     var bar = el("span", { class: "meter" }); var fill = el("i"); fill.style.width = (ts.length ? 100 * done / ts.length : 0) + "%"; bar.appendChild(fill); prog.appendChild(bar);
-    prog.appendChild(el("span", { class: stuck ? "is-warn" : "" }, stuck ? plural(stuck, "task") + " stuck" : d.due != null ? "Team's part due " + dayLow(d.due) : ""));
+    prog.appendChild(el("span", { class: stuck ? "is-warn" : "" }, stuck ? plural(stuck, "task") + " stuck" : d.due != null ? "Team’s part due " + dayLow(d.due) : ""));
     if (opts.stop) prog.appendChild(button("Stand the playbook down", "link-btn", opts.stop));
     head.appendChild(prog);
     card.appendChild(head);
@@ -514,7 +514,7 @@
         cls: "dir--play", stop: function () { st.active[w.id].forEach(removeTask); delete st.active[w.id]; changed(); }
       }));
     });
-    if (st.own.length) box.appendChild(directiveCard({ id: "own", title: "Tasks you've added", by: "From your decisions, gaps, and preparations", taskIds: st.own }, { cls: "dir--own" }));
+    if (st.own.length) box.appendChild(directiveCard({ id: "own", title: "Tasks you’ve added", by: "From your decisions, gaps, and preparations", taskIds: st.own }, { cls: "dir--own" }));
   }
 
   /* ================= Your team ================= */
@@ -699,7 +699,7 @@
     var watching = P.watch.map(function (w) { return { w: w, s: signalState(w) }; }).filter(function (x) { return x.s.rank >= 2 && !st.active[x.w.id]; });
     if (watching.length) { L.push("", "Watching closely:"); watching.forEach(function (x) { var r = readiness(x.w); L.push("- " + x.w.title + ". " + x.s.text + ". Playbook " + r.n + " of " + r.of + " steps ready."); }); }
     var gaps = P.gaps.filter(function (g, i) { return !st.planned[i]; });
-    if (gaps.length) { L.push("", "Gaps I'm covering:"); gaps.forEach(function (g) { L.push("- " + g.text); }); }
+    if (gaps.length) { L.push("", "Gaps I’m covering:"); gaps.forEach(function (g) { L.push("- " + g.text); }); }
     var over = P.people.filter(function (p) { return !p.away && hoursOf(p.id) > p.cap; });
     if (over.length) L.push("", "Capacity: " + over.map(function (p) { return p.name.split(" ")[0] + " is " + (hoursOf(p.id) - p.cap) + " h over"; }).join("; ") + " this week.");
     L.push("", P.first);
@@ -714,7 +714,7 @@
   upText.addEventListener("input", function () { st.autodraft = false; });
   document.getElementById("update-redraft").addEventListener("click", function () { st.draft = null; st.autodraft = true; renderUpdate(); DB.toast("Redrafted from the page."); });
   document.getElementById("update-copy").addEventListener("click", function () {
-    if (navigator.clipboard) navigator.clipboard.writeText(upText.value).then(function () { DB.toast("Copied."); }, function () { DB.toast("Couldn't reach the clipboard."); });
+    if (navigator.clipboard) navigator.clipboard.writeText(upText.value).then(function () { DB.toast("Copied."); }, function () { DB.toast("Couldn’t reach the clipboard."); });
   });
   document.getElementById("update-send").addEventListener("click", function () { st.sent = true; renderUpdate(); DB.toast("Sent to " + P.boss.name + "."); });
 
@@ -729,5 +729,5 @@
   var saved = null; try { saved = localStorage.getItem("daybreak.team.as"); } catch (e) {}
   persona(dir ? dir[0] : PERSONAS[as] ? as : PERSONAS[saved] ? saved : "farah");
   render();
-  if (dir) setTimeout(function () { flash("dir-" + dir[1]); DB.toast("From this morning's brief: here's " + P.first + "'s part."); }, 250);
+  if (dir) setTimeout(function () { flash("dir-" + dir[1]); DB.toast("From this morning’s brief: here’s " + P.first + "’s part."); }, 250);
 })();

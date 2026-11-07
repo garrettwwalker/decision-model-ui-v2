@@ -15,7 +15,7 @@ window.RS = (function () {
       hist: [22, 24, 23, 25, 27, 29, 31, 46], hits: ["inbound", "outbound", "freight"] },
     { id: "premium", node: "n76", watch: true, p: 41, was: 35,
       name: "War-risk insurance tops 1% of hull value",
-      plain: "Insurers quote more than 1% of a ship's value per Red Sea transit, May to September",
+      plain: "Insurers quote more than 1% of a ship’s value per Red Sea transit, May to September",
       hist: [28, 29, 31, 30, 32, 33, 35, 41], hits: ["freight"] },
     { id: "cape", node: "n79", watch: true, p: 64, was: 62,
       name: "Big carriers stay on the Cape route",
@@ -27,7 +27,7 @@ window.RS = (function () {
       hist: [9, 10, 9, 11, 10, 12, 12, 21], hits: ["systems"] },
     { id: "strike", node: "n27", watch: false, p: 9, was: 4, spike: true,
       name: "Suez Canal pilots strike",
-      plain: "A pilots' stoppage halts transits through the canal, before mid-September",
+      plain: "A pilots’ stoppage halts transits through the canal, before mid-September",
       hist: [3, 3, 4, 3, 4, 4, 4, 9], hits: ["inbound", "outbound"] },
     { id: "mines", node: "n154", watch: false, p: 6, was: 5, swan: true,
       name: "Sea mines found in the shipping lanes",
@@ -38,7 +38,7 @@ window.RS = (function () {
   var EASE = { id: "ceasefire", node: "n2569", p: 18, was: 22, name: "A Gaza truce takes the heat out of the attacks" };
 
   var ASSETS = [
-    { id: "inbound", tag: "Gebze's parts", name: "Parts from Asia into Gebze", where: "Busan and Kaohsiung to Gebze, Türkiye",
+    { id: "inbound", tag: "Gebze’s parts", name: "Parts from Asia into Gebze", where: "Busan and Kaohsiung to Gebze, Türkiye",
       short: "Gebze runs short of compressors in late May", cover: 18 },
     { id: "outbound", tag: "Gulf shipments", name: "Shipments to Gulf customers", where: "Gebze to Jeddah and Dammam",
       short: "Late orders for the five largest Gulf accounts" },
@@ -62,7 +62,7 @@ window.RS = (function () {
     { id: "procurement", name: "Procurement", lead: "Supplier management", days: 9, cost: 0.9,
       move: "Lift compressor stock from 18 to 35 days; fly control boards", hits: ["inbound"],
       cut: { "inbound.attacks": 0.6, "inbound.strike": 0.7, "inbound.mines": 0.3 } },
-    { id: "accounts", name: "Gulf key accounts", lead: "Layla's team", days: 2, cost: 0.1,
+    { id: "accounts", name: "Gulf key accounts", lead: "Layla’s team", days: 2, cost: 0.1,
       move: "Serve Saudi orders from Dammam stock and warn the top five now", hits: ["outbound"],
       cut: { "outbound.attacks": 0.55, "outbound.strike": 0.5, "outbound.mines": 0.3 } },
     { id: "treasury", name: "Treasury and risk", lead: "Insurance desk", days: 4, cost: 0.2,

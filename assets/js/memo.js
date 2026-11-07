@@ -11,26 +11,26 @@
     { id: "legal", who: "General Counsel", what: "Avoid any sanctions breach", why: "US liability is strict for a US-listed parent, and a penalty would trip two lender covenants." },
     { id: "plants", who: "COO", what: "Keep Gebze and Pune running", why: "Gebze holds 9 days of resin. A line-stop costs about $1.1M a day in lost output." },
     { id: "cash", who: "Group Treasurer", what: "Keep dollar payments flowing", why: "Gebze settles through a Turkish lender with an Iran history; losing it would freeze payroll and supplier runs." },
-    { id: "accounts", who: "GM MENA", what: "Keep key accounts and traders", why: "Three Dubai traders move 14% of MENA volume, some of it on to buyers we can't see." }
+    { id: "accounts", who: "GM MENA", what: "Keep key accounts and traders", why: "Three Dubai traders move 14% of MENA volume, some of it on to buyers we can’t see." }
   ];
 
   // fit: yes / mixed / no for each interest, in INTERESTS order
   var OPTIONS = [
-    { id: "watch", n: 1, title: "Watch and set tripwires", line: "Change nothing yet. Set the Totality engine to watch four signposts and draft, but don't send, the exit letters.",
+    { id: "watch", n: 1, title: "Watch and set tripwires", line: "Change nothing yet. Set the Totality engine to watch four signposts and draft, but don’t send, the exit letters.",
       cost: 0.1, protects: 0, fit: ["yes", "no", "no", "mixed", "yes"],
       pros: ["Costs almost nothing and keeps every supplier and trader", "Nothing to unwind if the talks restart"],
       cons: ["A 30-day window is too short to qualify new resin, which takes 6 to 8 weeks", "If a trader is named before we act, the shipment is already a breach"] },
-    { id: "tighten", n: 2, title: "Tighten compliance now", line: "Re-screen every MENA counterparty, demand end-use certificates from the Dubai traders, pause any that won't sign, and swap the two exposed feeders.",
+    { id: "tighten", n: 2, title: "Tighten compliance now", line: "Re-screen every MENA counterparty, demand end-use certificates from the Dubai traders, pause any that won’t sign, and swap the two exposed feeders.",
       cost: 3.5, costNote: "incl. $2.1M of margin given up", protects: 16 * P, fit: ["mixed", "yes", "mixed", "yes", "no"], tag: "start at the first tripwire",
       pros: ["Removes nearly all penalty exposure", "Shows banks and auditors we moved early", "Cheap to reverse if no sanctions come"],
       cons: ["Gives up about $2.1M of margin a year even if nothing happens", "Strains the traders behind 14% of MENA volume; rivals may take them"] },
-    { id: "resin", n: 3, title: "Re-source resin before sanctions arrive", line: "Qualify two Singapore grades and one Korean grade at Gebze and move 40% of its volume off the Gulf by December. Builds on Tuesday's Singapore bridge-buy.",
+    { id: "resin", n: 3, title: "Re-source resin before sanctions arrive", line: "Qualify two Singapore grades and one Korean grade at Gebze and move 40% of its volume off the Gulf by December. Builds on Tuesday’s Singapore bridge-buy.",
       cost: 2.6, protects: 24 * 0.8 * P, fit: ["yes", "yes", "yes", "mixed", "mixed"], tag: "start now", pick: true,
-      pros: ["Protects the most value", "Also cuts the Hormuz exposure in this week's brief", "Qualification is reusable for any future supply shock"],
-      cons: ["About $35/t more for at least two quarters", "Ties up Gebze's QA team for 6 weeks", "Gulf suppliers may shrink our allocation"] },
+      pros: ["Protects the most value", "Also cuts the Hormuz exposure in this week’s brief", "Qualification is reusable for any future supply shock"],
+      cons: ["About $35/t more for at least two quarters", "Ties up Gebze’s QA team for 6 weeks", "Gulf suppliers may shrink our allocation"] },
     { id: "engage", n: 4, title: "Engage Washington and the banks", line: "Through the trade association, ask Treasury for wind-down guidance. Pre-clear payment routes with two banks and open a second settlement account for Gebze.",
       cost: 0.4, protects: 4 * P, fit: ["yes", "mixed", "mixed", "yes", "mixed"], tag: "start now", pick: true,
-      pros: ["Cheap, and may buy a longer wind-down", "Keeps Gebze's payroll and supplier runs safe"],
+      pros: ["Cheap, and may buy a longer wind-down", "Keeps Gebze’s payroll and supplier runs safe"],
       cons: ["The outcome is outside our control", "Visible lobbying on Iran carries some reputational risk", "Does nothing for resin"] }
   ];
 
@@ -55,7 +55,7 @@
         ["Re-screen all MENA counterparties, ownership included", "Compliance", 0, 2],
         ["Ask the three Dubai traders for end-use certificates", "GM MENA, Legal", 1, 3],
         ["Swap the two feeders that share a manager with named ships", "VP Logistics", 1, 3],
-        ["Pause shipments to traders that won't certify", "GM MENA", 4, 6],
+        ["Pause shipments to traders that won’t certify", "GM MENA", 4, 6],
         ["Brief the banks and auditors on what changed", "Group Treasurer", 4, 1]
       ],
       marks: [[3, "Certificates due"], [5, "Audit committee"]],
@@ -71,12 +71,12 @@
         ["First non-Gulf deliveries reach Gebze", "VP Logistics", 7, 3]
       ],
       marks: [[1, "Samples land"], [7, "QA sign-off"], [9, "40% off the Gulf"]],
-      trips: [["a Gulf polymer maker is named", "move 70% of Gebze's resin off the Gulf, using spot cargoes"], ["Hormuz closes", "fold this plan into the brief's Singapore bridge-buy"]]
+      trips: [["a Gulf polymer maker is named", "move 70% of Gebze’s resin off the Gulf, using spot cargoes"], ["Hormuz closes", "fold this plan into the brief’s Singapore bridge-buy"]]
     },
     engage: {
       lead: "Group Treasurer", hours: 190, first: "Thu Oct 8",
       steps: [
-        ["Brief the trade association's sanctions group", "General Counsel", 0, 1],
+        ["Brief the trade association’s sanctions group", "General Counsel", 0, 1],
         ["Pre-clear payment routes with two banks", "Group Treasurer", 0, 3],
         ["Joint letter to Treasury asking for wind-down guidance", "Trade association", 1, 2],
         ["Open a second settlement account for Gebze", "Group Treasurer", 2, 4],
@@ -93,7 +93,7 @@
     ["capacity", "How long can Gebze run on Singapore resin alone?"],
     ["exposure", "Which of our customers buy through the three Dubai traders?"],
     ["opportunity", "Which competitors rely on the same Gulf suppliers?"],
-    ["forecast", "Would a change in India's oil buying affect the Pune plant?"]
+    ["forecast", "Would a change in India’s oil buying affect the Pune plant?"]
   ];
 
   // weekly series from Jul 13; index 12 is this week (Oct 5)
@@ -133,7 +133,7 @@
     c.id = "opt-" + o.id;
     var head = el("div", "option__head");
     head.appendChild(el("span", "option__n", String(o.n)));
-    if (o.tag) head.appendChild(el("span", "pill " + (o.pick ? "pill--safe" : "pill--warn"), "Totality's view: " + o.tag));
+    if (o.tag) head.appendChild(el("span", "pill " + (o.pick ? "pill--safe" : "pill--warn"), "Totality’s view: " + o.tag));
     c.appendChild(head);
     c.appendChild(el("h3", "option__title", o.title));
     c.appendChild(el("p", "option__line", o.line));

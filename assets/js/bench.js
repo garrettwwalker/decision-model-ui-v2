@@ -35,13 +35,13 @@
       fused: { Judgment: 0.38, Telemetry: 0.31, Procedure: 0.30 }, hist: [0.22, 0.25, 0.31],
       subs: [["Judgment", "Will attacks on merchant ships in the southern Red Sea resume?"], ["Telemetry", "Will Bab el-Mandeb transits fall below half of normal?"], ["Procedure", "Will the three largest carriers suspend Suez routings?"]],
       declined: "Whether a ceasefire is signed this month", hits: ["c-bab", "c-suez", "l-resin-eu", "p-ambarli"] },
-    { id: "strike", short: "Gebze strike", name: "Strike at the Gebze plant", detail: "Metalworkers' contract expires November 1", p: 0.18, band: 7, mag: 10, unit: "days", min: 2, max: 45, on: false,
+    { id: "strike", short: "Gebze strike", name: "Strike at the Gebze plant", detail: "Metalworkers’ contract expires November 1", p: 0.18, band: 7, mag: 10, unit: "days", min: 2, max: 45, on: false,
       fused: { Judgment: 0.24, Telemetry: 0.12, Procedure: 0.19 }, hist: [0.05, 0.08, 0.14],
       subs: [["Judgment", "Will members reject the final offer?"], ["Telemetry", "Will overtime refusals at Gebze pass 20%?"], ["Procedure", "Will the federation file a legal strike notice?"]],
       declined: null, hits: ["f-gebze", "k-union", "s-bursa"] },
     { id: "feeders", short: "Feeder sanctions", name: "Sanctions hit two ME4 feeders", detail: "They share a technical manager with listed tankers", p: 0.19, band: 6, mag: 45, unit: "days", min: 7, max: 120, on: false,
       fused: { Judgment: 0.21, Telemetry: 0.15, Procedure: 0.22 }, hist: [0.11, 0.12, 0.16],
-      subs: [["Judgment", "Will regulators list the shared technical manager?"], ["Telemetry", "Will the feeders call at terminals tied to listed tankers?"], ["Procedure", "Would a listing cover the manager's whole fleet?"]],
+      subs: [["Judgment", "Will regulators list the shared technical manager?"], ["Telemetry", "Will the feeders call at terminals tied to listed tankers?"], ["Procedure", "Would a listing cover the manager’s whole fleet?"]],
       declined: null, hits: ["l-me4", "p-dammam"] },
     { id: "bunker", short: "Bunker spike", name: "Bunker fuel spikes", detail: "Fujairah VLSFO prices, this quarter", p: 0.30, band: 5, mag: 35, unit: "% higher", min: 10, max: 80, on: false,
       fused: { Judgment: 0.27, Telemetry: 0.34, Procedure: 0.29 }, hist: [0.19, 0.24, 0.27],
@@ -59,8 +59,8 @@
   var TEAMS = {
     proc: { name: "Procurement", lead: "Aylin Demir", role: "VP Procurement", parent: "coo", heads: 34, load: 0.72, defer: "Q1 supplier reviews slip two weeks" },
     log: { name: "Logistics", lead: "Tomas Varga", role: "VP Logistics", parent: "coo", heads: 52, load: 0.81, defer: "The carrier tender for 2027 waits a fortnight" },
-    plan: { name: "Supply planning", lead: "Priya Nair", role: "Director, S&OP", parent: "coo", heads: 21, load: 0.88, defer: "November S&OP runs on last month's forecast" },
-    gebze: { name: "Plant ops, Gebze", lead: "Murat Kaya", role: "Plant director", parent: "coo", heads: 1840, load: 0.93, defer: "Line 2's planned maintenance moves to December" },
+    plan: { name: "Supply planning", lead: "Priya Nair", role: "Director, S&OP", parent: "coo", heads: 21, load: 0.88, defer: "November S&OP runs on last month’s forecast" },
+    gebze: { name: "Plant ops, Gebze", lead: "Murat Kaya", role: "Plant director", parent: "coo", heads: 1840, load: 0.93, defer: "Line 2’s planned maintenance moves to December" },
     pune: { name: "Plant ops, Pune", lead: "Rohan Mehta", role: "Plant director", parent: "coo", heads: 1210, load: 0.77, defer: "The AC line retooling slips a week" },
     tre: { name: "Treasury", lead: "Hanne Sørli", role: "Group Treasurer", parent: "cfo", heads: 12, load: 0.55, defer: "The Q4 FX hedge review is pushed back" },
     com: { name: "Commercial, MENA", lead: "Karim Haddad", role: "GM, MENA", parent: "cco", heads: 96, load: 0.64, defer: "Two Ramadan promotions are planned late" }
@@ -121,7 +121,7 @@
       test: function (H, I) { return I.L.freight > 10; } },
     { id: "warrisk", name: "Gulf cargo sails uninsured", note: "The war-risk quote expires Wednesday", team: "tre", fix: ["cover"],
       test: function (H, I, A) { return H.hormuz != null && !A.cover; } },
-    { id: "sanction", name: "ME4 cargo held for sanctions screening", note: "Boxes on listed feeders can't be released", team: "log", fix: ["charter"],
+    { id: "sanction", name: "ME4 cargo held for sanctions screening", note: "Boxes on listed feeders can’t be released", team: "log", fix: ["charter"],
       test: function (H, I, A) { return H.feeders != null && !A.charter; } }
   ];
   var CREW_IN = 62, CREW_OUT = 43; // seafarers on chartered ships inside the strait, and on the two headed for it
@@ -160,7 +160,7 @@
     { id: "s-ningbo", type: "Supplier", name: "TV contract manufacturer", where: "Ningbo, China", owner: "proc", node: "ningbo", events: ["hormuz"], key: "1,920 units / week", deps: ["p-ningbo", "l-ae7"], attrs: [["SKUs", "HV-OLED55, HV-OLED65"]] },
     { id: "s-kaoh", type: "Supplier", name: "Washer sub-assemblies", where: "Kaohsiung, Taiwan", owner: "proc", node: "kaoh", events: ["hormuz"], key: "3,400 units / week", deps: ["p-kaoh", "l-ae7"], attrs: [["SKUs", "HV-WM8 drums and motors"]] },
     { id: "s-busan", type: "Supplier", name: "Fridge compressors", where: "Busan, South Korea", owner: "proc", node: "busan", events: ["hormuz"], key: "2,150 units / week", deps: ["p-busan", "l-ae7"], attrs: [["SKUs", "HV-FR90"]] },
-    { id: "s-bursa", type: "Supplier", name: "Seat and door assemblies", where: "Bursa, Türkiye", owner: "proc", node: "gebze", events: ["strike"], key: "Sole source", deps: [], attrs: [["Substitute tooling time", "14 weeks"], ["Union", "Same metalworkers' federation as Gebze"]] },
+    { id: "s-bursa", type: "Supplier", name: "Seat and door assemblies", where: "Bursa, Türkiye", owner: "proc", node: "gebze", events: ["strike"], key: "Sole source", deps: [], attrs: [["Substitute tooling time", "14 weeks"], ["Union", "Same metalworkers’ federation as Gebze"]] },
     // Ports
     { id: "p-jubail", type: "Port", name: "Jubail Commercial Port", where: "Saudi Arabia, inside the strait", owner: "log", node: "jubail", events: ["hormuz"], key: "Resin loading", deps: ["c-hormuz"], attrs: [["Dwell time", "62 h"]] },
     { id: "p-mesaieed", type: "Port", name: "Mesaieed", where: "Qatar, inside the strait", owner: "log", node: "mesaieed", events: ["hormuz"], key: "Resin loading", deps: ["c-hormuz"], attrs: [["Dwell time", "48 h"]] },
@@ -205,9 +205,9 @@
     { id: "m-india", type: "Market", name: "India retail", where: "21% of revenue", owner: "com", node: null, events: ["hormuz"], key: "$1.2B / year", deps: ["d-mumbai"], attrs: [] },
     { id: "m-mena", type: "Market", name: "MENA retail", where: "17% of revenue", owner: "com", node: null, events: ["hormuz", "feeders"], key: "$0.9B / year", deps: ["d-dubai", "d-dammam"], attrs: [["Penalty clauses", "2 partners, after 7 days short"]] },
     // Contracts
-    { id: "k-warrisk", type: "Contract", name: "Gulf war-risk cover", where: "Lloyd's syndicate", owner: "tre", node: "hormuz", events: ["hormuz"], key: "$620M insured", deps: [], attrs: [["Premium", "0.45% of hull value"], ["Quote expires", "Wednesday"]] },
+    { id: "k-warrisk", type: "Contract", name: "Gulf war-risk cover", where: "Lloyd’s syndicate", owner: "tre", node: "hormuz", events: ["hormuz"], key: "$620M insured", deps: [], attrs: [["Premium", "0.45% of hull value"], ["Quote expires", "Wednesday"]] },
     { id: "k-bunker", type: "Contract", name: "Bunker hedge", where: "Fujairah VLSFO swaps", owner: "tre", node: null, events: ["bunker"], key: "40% of Q4 hedged", deps: [], attrs: [["Strike", "$690 / t"]] },
-    { id: "k-union", type: "Contract", name: "Metalworkers' agreement", where: "Gebze", owner: "gebze", node: "gebze", events: ["strike"], key: "Expires November 1", deps: [], attrs: [["Last offer", "+11% over 2 years"], ["Union ask", "+19%"]] },
+    { id: "k-union", type: "Contract", name: "Metalworkers’ agreement", where: "Gebze", owner: "gebze", node: "gebze", events: ["strike"], key: "Expires November 1", deps: [], attrs: [["Last offer", "+11% over 2 years"], ["Union ask", "+19%"]] },
     { id: "k-freight", type: "Contract", name: "AE7 freight contract", where: "Carrier, 2-year term", owner: "log", node: "sing", events: ["hormuz", "bunker"], key: "$38M / year", deps: [], attrs: [["Bunker adjustment", "Pass-through, quarterly"]] }
   ];
   var PROPS = {
@@ -636,8 +636,8 @@
         set: function (v) { e.p = v / 100; markPreset(null); changed(); } });
       pf.appendChild(pr);
       pd.appendChild(pf);
-      var reset = el("button", { class: "event__reset", type: "button" }, "Back to Totality's forecast");
-      reset.addEventListener("click", function () { e.p = e.base.p; changed("Reset " + e.short + " to Totality's forecast"); });
+      var reset = el("button", { class: "event__reset", type: "button" }, "Back to Totality’s forecast");
+      reset.addEventListener("click", function () { e.p = e.base.p; changed("Reset " + e.short + " to Totality’s forecast"); });
       pd.appendChild(reset);
       row.appendChild(pd);
       // how the Totality engine got there
@@ -649,7 +649,7 @@
         row.classList.toggle("is-off", !e.on); row.classList.toggle("is-focus", focus === e.id);
         det.textContent = e.detail + ". 30-day horizon." + (e.on ? "" : " Not included in this scenario.");
         big.textContent = Math.round(p * 100) + "%";
-        pv.textContent = moved ? "Your override" : "Totality's forecast"; pr.sync();
+        pv.textContent = moved ? "Your override" : "Totality’s forecast"; pr.sync();
         reset.hidden = !moved;
         // one scale for every row, just wide enough for the largest number on it
         var top = Math.max.apply(null, events.map(function (x) { return Math.max(pOf(x), x.base.p + x.band / 100, x.fused.Judgment, x.fused.Telemetry, x.fused.Procedure); }));
@@ -664,7 +664,7 @@
         var over = moved || Math.abs(p - e.p) > 1e-9;
         you.hidden = !over; you.style.left = X(p); fd.classList.toggle("is-ghost", over);
         track.setAttribute("aria-label", "Engines: " + Object.keys(e.fused).map(function (k) { return k + " " + Math.round(e.fused[k] * 100) + "%"; }).join(", ") + ". Fused " + Math.round(e.base.p * 100) + "% plus or minus " + e.band + " points." + (moved ? " Your view: " + Math.round(p * 100) + "%." : ""));
-        leg.textContent = "Fused " + Math.round(e.base.p * 100) + "%, ±" + e.band + " points" + (moved ? ". You've set " + Math.round(e.p * 100) + "%" : "") + (Math.abs(p - e.p) > 1e-9 ? ", " + Math.round(p * 100) + "% with your signals" : "") + ".";
+        leg.textContent = "Fused " + Math.round(e.base.p * 100) + "%, ±" + e.band + " points" + (moved ? ". You’ve set " + Math.round(e.p * 100) + "%" : "") + (Math.abs(p - e.p) > 1e-9 ? ", " + Math.round(p * 100) + "% with your signals" : "") + ".";
         sp.textContent = ""; sp.appendChild(spark(e)); sp.title = "Last 90 days: " + Math.round(e.hist[0] * 100) + "% to " + Math.round(e.base.p * 100) + "%";
         var open = opened[e.id] != null ? opened[e.id] : focus === e.id;
         hw.hidden = !open; how.setAttribute("aria-expanded", String(open));
@@ -930,8 +930,8 @@
       var mk = [["MENA", S.w_mena], ["EU", S.w_eu], ["India", S.w_india]].sort(function (a, b) { return b[1] - a[1]; });
       return mk[0][1] < 0.5 ? ["No shortfall", "in any market", "Even if they all happen"] : [days(mk[0][1]) + " short", "in " + mk[0][0] + " if they all happen", mk.slice(1).map(function (m) { return m[0] + " " + Math.round(m[1]); }).join(", ") + " days"];
     }
-    if (id === "people") return S.w_crew ? [S.w_crew + " seafarers", "in harm's way if Hormuz closes", pct(S.crewP) + " chance. Plant staff stood down: " + pct(S.stoodP) + " chance"] :
-      [S.w_stood ? S.w_stood.toLocaleString() + " staff" : "No one", S.w_stood ? "stood down if they all happen" : "in harm's way", "Plant stand-down: " + pct(S.stoodP) + " chance"];
+    if (id === "people") return S.w_crew ? [S.w_crew + " seafarers", "in harm’s way if Hormuz closes", pct(S.crewP) + " chance. Plant staff stood down: " + pct(S.stoodP) + " chance"] :
+      [S.w_stood ? S.w_stood.toLocaleString() + " staff" : "No one", S.w_stood ? "stood down if they all happen" : "in harm’s way", "Plant stand-down: " + pct(S.stoodP) + " chance"];
     var ar = atRisk(S).sort(function (a, b) { return S["t_" + b.id] - S["t_" + a.id]; });
     return [plural(ar.length, "commitment"), "at risk", ar.length ? "Most likely: " + ar[0].name + ", " + pct(S["t_" + ar[0].id]) : "None above 5%"];
   }
@@ -951,7 +951,7 @@
     function n0(v) { return Math.round(v).toLocaleString(); }
     if (dim === "money") {
       head = "Where the " + money(S.money) + " comes from";
-      body = "Each bar is one place the loss lands. If every contingency you've included happened at once, the total would be " + money(S.w_money) + ".";
+      body = "Each bar is one place the loss lands. If every contingency you’ve included happened at once, the total would be " + money(S.w_money) + ".";
       rows = [["Gebze plant", "Line stops on 3 lines", "gebze"], ["Pune plant", "Line stops on 2 lines", "pune"], ["Dubai DC", "Lost margin while out of stock", "dubai"], ["Dammam DC", "Lost margin while out of stock", "dammam"]]
         .map(function (x) { return { label: x[0], sub: x[1], avg: S["m_" + x[2]], all: S["w_m_" + x[2]], f: money }; })
         .concat([{ label: "Freight and insurance", sub: "War-risk premium, bunker, trapped cargo", avg: S.m_freight, all: S.w_freight, f: money },
@@ -967,14 +967,14 @@
       rows = [["EU retail", "38% of revenue", "eu"], ["India retail", "21% of revenue", "india"], ["MENA retail", "17% of revenue, penalties after 7 days", "mena"]]
         .map(function (x) { return { label: x[0], sub: x[1], avg: S[x[2]], all: S["w_" + x[2]], f: days }; });
     } else if (dim === "people") {
-      head = "Who's in harm's way";
+      head = "Who’s in harm’s way";
       body = "People exposed if the contingencies happen. The solid part is the expected number, given the chance of each contingency.";
       var inside = S.w_crew ? Math.min(S.w_crew, CREW_IN) : 0, headed = S.w_crew > CREW_IN ? CREW_OUT : 0;
       rows = [{ label: "Seafarers inside the strait", sub: "Crew on 3 chartered ships", avg: S.crewP * inside, all: inside, f: n0 },
               { label: "Seafarers headed for it", sub: plan.divert ? "Diverted to Khor Fakkan by your plan" : "Crew on the 2 ships that could still divert", avg: S.crewP * headed, all: headed, f: n0 },
               { label: "Plant staff stood down", sub: "Gebze and Pune, while lines are stopped", avg: S.stood, all: S.w_stood, f: n0 }];
       var r = readiness(plan);
-      note = "Your own teams: " + (!hasPlan ? "no response work assigned yet." : r.late.length + r.overPeople.length ? plural(r.overPeople.length, "person", "people") + " overstretched by the plan; see Deliver." : "the plan fits in everyone's week.");
+      note = "Your own teams: " + (!hasPlan ? "no response work assigned yet." : r.late.length + r.overPeople.length ? plural(r.overPeople.length, "person", "people") + " overstretched by the plan; see Deliver." : "the plan fits in everyone’s week.");
     } else {
       bars = "chance";
       var ar = atRisk(S);
@@ -992,7 +992,7 @@
     else { key.appendChild(el("span", null, "")).appendChild(el("i", { class: "dd__sw dd__sw--chance" })); key.lastChild.appendChild(document.createTextNode("Chance of a breach")); }
     intro.appendChild(key);
     if (note) intro.appendChild(el("p", { class: "dd__note" }, note));
-    if (hasPlan) intro.appendChild(el("p", { class: "dd__note" }, "These figures assume you do nothing, so they show what's at stake. Consequences compares them with your plan."));
+    if (hasPlan) intro.appendChild(el("p", { class: "dd__note" }, "These figures assume you do nothing, so they show what’s at stake. Consequences compares them with your plan."));
     var max = bars === "chance" ? 1 : Math.max(1e-9, Math.max.apply(null, rows.map(function (x) { return x.all; })));
     rows.forEach(function (x) {
       var li = el("li", { class: "ddrow" + (bars === "chance" && x.avg > 0.05 ? " is-hot" : "") });
@@ -1071,7 +1071,7 @@
     box.appendChild(el("h3", { class: "inspector__title" }, a.name));
     box.appendChild(el("p", { class: "inspector__desc" }, a.where + ". " + a.key + "."));
     var r = R[a.id], hit = el("p", { class: "inspector__touch" });
-    if (!r) hit.textContent = "Not affected by the contingencies you've included.";
+    if (!r) hit.textContent = "Not affected by the contingencies you’ve included.";
     else if (r.direct) hit.textContent = "Hit directly by " + r.ev.map(function (e) { return "“" + eventById(e).name + "”"; }).join(" and ") + ".";
     else {
       var chain = [], c = a.id;
@@ -1143,7 +1143,7 @@
   function renderDecide() {
     var S = stats({}), ar = atRisk(S);
     $("carry-decide").textContent = "At stake from stage 3: " + money(S.money) + " of expected loss, " + plural(ar.length, "commitment") + " at risk" +
-      (S.w_crew ? ", and " + S.w_crew + " seafarers if Hormuz closes" : "") + (focus ? ". Actions that don't address " + eventById(focus).short + " are faded." : ". Tick actions to build a plan, or let the Totality engine recommend one.");
+      (S.w_crew ? ", and " + S.w_crew + " seafarers if Hormuz closes" : "") + (focus ? ". Actions that don’t address " + eventById(focus).short + " are faded." : ". Tick actions to build a plan, or let the Totality engine recommend one.");
     opBody.textContent = "";
     var act = active().map(function (e) { return e.id; }), r = readiness(plan);
     var rows = ACTIONS.map(function (a) {
@@ -1216,7 +1216,7 @@
     function dot(p, cls, r) {
       var c = sv("circle", { cx: sx(p.cost).toFixed(1), cy: sy(p.full).toFixed(1), r: r, class: cls });
       c.appendChild(sv("title", null, (p.n ? planList(p.A).map(function (a) { return a.name; }).join("; ") : "Do nothing") +
-        "\nCost " + money(p.cost, 2) + ", expected loss " + money(p.full) + ", net " + signed(netOf(p, p.full)) + (p.ok ? "" : "\nCan't be staffed in time")));
+        "\nCost " + money(p.cost, 2) + ", expected loss " + money(p.full) + ", net " + signed(netOf(p, p.full)) + (p.ok ? "" : "\nCan’t be staffed in time")));
       c.addEventListener("click", function () { plan = M.clone(p.A); changed("Adopted a plan from the chart (" + plural(p.n, "action") + ")"); });
       frontier.appendChild(c);
     }
@@ -1233,7 +1233,7 @@
     if (Math.abs(lx - bx) < 70 && Math.abs(ly - (by + 22)) < 14) ly = my - 20;
     frontier.appendChild(sv("text", { x: lx, y: ly, class: "axis axis--mine", "text-anchor": mx > x1 - 90 ? "end" : "start" }, "Your plan"));
     $("frontier-note").textContent = "Each dot on the line is the cheapest plan your teams can deliver in time for that level of protection. The best one saves " +
-      money(Math.max(0, netOf(bestNet, bestNet.full))) + " net, for " + money(bestNet.cost, 2) + ". Faint dots are the other combinations; hollow ones can't be staffed in time.";
+      money(Math.max(0, netOf(bestNet, bestNet.full))) + " net, for " + money(bestNet.cost, 2) + ". Faint dots are the other combinations; hollow ones can’t be staffed in time.";
   }
   function bestPlan(capacityAware, maxE) {
     var plans = allPlans(), key = capacityAware ? "E" : "full";
@@ -1305,7 +1305,7 @@
     var mine = teamActions(t, r);
     ws.appendChild(el("p", { class: "tws__label" }, mine.length ? "Actions " + T.name + " leads" : "Actions"));
     if (!mine.length) {
-      var em = el("p", { class: "tws__empty" }, planList(plan).length ? T.name + " doesn't lead any action in this plan. " : "There's no plan yet. ");
+      var em = el("p", { class: "tws__empty" }, planList(plan).length ? T.name + " doesn’t lead any action in this plan. " : "There’s no plan yet. ");
       em.appendChild(linkBtn(planList(plan).length ? "Back to the plan" : "Build one in Decide", function () { goTo("decide"); }));
       ws.appendChild(em);
     }
@@ -1369,7 +1369,7 @@
       ss.appendChild(b);
     });
     when.appendChild(ss); card.appendChild(when);
-    if (ra.stretch > 1.001) card.appendChild(el("p", { class: "acard__why" }, "The crew is asked for " + Math.round((ra.stretch - 1) * 100) + "% more time than it has, so the work takes " + Math.ceil(c.lead * ra.stretch - 1e-9) + " days instead of " + c.lead + ". Add someone, or change how it's done."));
+    if (ra.stretch > 1.001) card.appendChild(el("p", { class: "acard__why" }, "The crew is asked for " + Math.round((ra.stretch - 1) * 100) + "% more time than it has, so the work takes " + Math.ceil(c.lead * ra.stretch - 1e-9) + " days instead of " + c.lead + ". Add someone, or change how it’s done."));
     return card;
   }
   function shareOf(a, p) {
@@ -1413,7 +1413,7 @@
         ["Net value of the plan", "—", (net >= 0 ? "" : "−") + money(Math.abs(net)), net >= 0 ? "safe" : "loss"]]],
       ["Operations", [["Line-days lost, on average", Math.round(S0.lineDays), Math.round(S1.lineDays)], ["Units not built, if they all happen", Math.round(S0.w_units).toLocaleString(), Math.round(S1.w_units).toLocaleString()]]],
       ["Customers, if every contingency happens", [["Days short, EU retail", days(S0.w_eu), days(S1.w_eu)], ["Days short, India retail", days(S0.w_india), days(S1.w_india)], ["Days short, MENA retail", days(S0.w_mena), days(S1.w_mena)]]],
-      ["People", [["Seafarers in harm's way if Hormuz closes", String(Math.round(S0.w_crew)), String(Math.round(S1.w_crew))], ["Chance plant staff are stood down", pct(S0.stoodP), pct(S1.stoodP)]]],
+      ["People", [["Seafarers in harm’s way if Hormuz closes", String(Math.round(S0.w_crew)), String(Math.round(S1.w_crew))], ["Chance plant staff are stood down", pct(S0.stoodP), pct(S1.stoodP)]]],
       ["Commitments: chance of a breach", TRIGGERS.map(function (t) { return [t.name, pct(S0["t_" + t.id]), pct(S1["t_" + t.id]), S1["t_" + t.id] < S0["t_" + t.id] - 0.005 ? "safe" : ""]; })]
     ];
     var tb = document.getElementById("compare"); tb.textContent = "";
@@ -1430,7 +1430,7 @@
     drawHist(s0, s1);
     var r = readiness(plan), short = planList(plan).filter(function (a) { return r.acts[a.id].f < 0.999; });
     $("hist-note").textContent = "Dashed bars: doing nothing. Filled bars: your plan as delivered" + (short.length ? " (the " + short.map(function (a) { return a.short; }).join(" and ") + " may not fully land)" : "") +
-      ". In " + Math.round(100 * none0 / N) + "% of futures nothing goes wrong, so those aren't drawn.";
+      ". In " + Math.round(100 * none0 / N) + "% of futures nothing goes wrong, so those aren’t drawn.";
     drawTornado(S1.money);
     var cb = document.querySelector("#combos tbody"); cb.textContent = "";
     var cs = combos(plan, params).filter(function (c) { return !focus || c.names.indexOf(EVSHORT[focus]) > -1; });
@@ -1443,7 +1443,7 @@
       cb.appendChild(tr);
     });
     if (cs.length > 10) { var more = el("tr"); more.appendChild(el("td", { colspan: 4, class: "register__empty" }, cs.length - 10 + " less likely combinations not shown.")); cb.appendChild(more); }
-    if (focus) { var fr = el("tr"); fr.appendChild(el("td", { colspan: 4, class: "register__empty" }, "Showing only the futures that include “" + eventById(focus).name + "”, because you're following it. The plan column assumes every action lands in full.")); cb.appendChild(fr); }
+    if (focus) { var fr = el("tr"); fr.appendChild(el("td", { colspan: 4, class: "register__empty" }, "Showing only the futures that include “" + eventById(focus).name + "”, because you’re following it. The plan column assumes every action lands in full.")); cb.appendChild(fr); }
   }
 
   var hist = document.getElementById("hist");
@@ -1630,7 +1630,7 @@
         inp.addEventListener("change", function () {
           var v = parseInt(inp.value, 10); if (isNaN(v)) return; v = Math.max(0, Math.min(40, v));
           if (v === base) delete freeEdit[p.id]; else freeEdit[p.id] = v;
-          changed("Set " + p.name + "'s free hours to " + v);
+          changed("Set " + p.name + "’s free hours to " + v);
         });
         w.appendChild(inp); ins.appendChild(w);
       });
@@ -1853,7 +1853,7 @@
   }
   document.getElementById("copy").addEventListener("click", function () {
     var t = document.getElementById("code").textContent;
-    if (navigator.clipboard) navigator.clipboard.writeText(t).then(function () { DB.toast("Copied."); }, function () { DB.toast("Couldn't reach the clipboard."); });
+    if (navigator.clipboard) navigator.clipboard.writeText(t).then(function () { DB.toast("Copied."); }, function () { DB.toast("Couldn’t reach the clipboard."); });
   });
 
   /* ================= The thread: every stage's result, always in view ================= */
@@ -1880,7 +1880,7 @@
     var act = active(), S0 = stats({}), r = readiness(plan), list = planList(plan), D = delivered(plan), cost = costOf(plan), net = S0.money - D.money - cost;
     var moved = events.filter(function (e) { return Math.abs(e.p - e.base.p) > 1e-9; }).length;
     $("t-forecast").textContent = act.length ? act.slice(0, 2).map(function (e) { return e.short + " " + Math.round(pOf(e) * 100) + "%"; }).join(", ") + (act.length > 2 ? " and " + (act.length - 2) + " more" : "") : "Nothing included";
-    $("t-forecast-sub").textContent = moved ? plural(moved, "override") : "Totality's fused forecast";
+    $("t-forecast-sub").textContent = moved ? plural(moved, "override") : "Totality’s fused forecast";
     var none = act.reduce(function (s, e) { return s * (1 - pOf(e)); }, 1);
     $("t-events").textContent = plural(act.length, "contingency", "contingencies");
     $("t-events-sub").textContent = act.length ? pct(1 - none) + " chance at least one happens" : "Include one to begin";
@@ -1946,7 +1946,7 @@
     resetState(); focus = null; rebuild(); markPreset("morning");
     changed("Reset to production");
     justReset = true; paintReset();
-    DB.toast("Back to this morning's baseline.");
+    DB.toast("Back to this morning’s baseline.");
   }
   paintReset();
   function commitScenario() {
@@ -1963,12 +1963,12 @@
   var askSuggest = document.getElementById("ask-suggest");
   function currentStep() { return mode === "model" ? "model" : stage; }
   var SUGGEST = {
-    forecast: ["Why is Hormuz 27%?", "What if the Gebze strike is 40% likely?", "What's driving the loss?"],
-    events: ["What if Hormuz stays closed for 60 days?", "What depends on Jebel Ali?", "What's driving the loss?"],
-    impact: ["How exposed is the Gebze plant?", "Who owns the most exposed assets?", "What's the worst that could happen?"],
-    decide: ["What should we do?", "What's the cheapest plan that halves the loss?", "Is my plan worth it?"],
+    forecast: ["Why is Hormuz 27%?", "What if the Gebze strike is 40% likely?", "What’s driving the loss?"],
+    events: ["What if Hormuz stays closed for 60 days?", "What depends on Jebel Ali?", "What’s driving the loss?"],
+    impact: ["How exposed is the Gebze plant?", "Who owns the most exposed assets?", "What’s the worst that could happen?"],
+    decide: ["What should we do?", "What’s the cheapest plan that halves the loss?", "Is my plan worth it?"],
     deliver: ["Which team is the bottleneck?", "Why is safety stock late?", "Can we staff the best plan?"],
-    outcomes: ["Is my plan worth it?", "What's the worst that could happen?", "What's driving the loss?"],
+    outcomes: ["Is my plan worth it?", "What’s the worst that could happen?", "What’s driving the loss?"],
     model: ["What data would improve the model?", "How would a custom signal help?", "What depends on Jebel Ali?"]
   };
   var drawerTimer;
@@ -1981,7 +1981,7 @@
       var finish = function () { drawer.hidden = true; drawer.classList.remove("is-closing"); document.body.classList.remove("ask-is-open"); };
       if (REDUCE) finish(); else drawerTimer = setTimeout(finish, 240);
     }
-    if (open) { renderSuggest(); if (!askLog.children.length) say({ text: ["Ask me about this scenario: what's driving the loss, what to do, who has to do it, or what a change would cost. I answer from the numbers on screen and can make the change for you."] }); askInput.focus(); }
+    if (open) { renderSuggest(); if (!askLog.children.length) say({ text: ["Ask me about this scenario: what’s driving the loss, what to do, who has to do it, or what a change would cost. I answer from the numbers on screen and can make the change for you."] }); askInput.focus(); }
     else askOpen.focus();
   }
   askOpen.addEventListener("click", function () { setDrawer(drawer.hidden); });
@@ -2062,14 +2062,14 @@
       ev.on = wasOn;
       return {
         text: ["Setting “" + ev.name + "” to " + [next.mag !== ev.mag ? next.mag + (ev.unit.charAt(0) === "%" ? "%" : " " + ev.unit) : "", next.p !== ev.p ? Math.round(next.p * 100) + "% likely" : ""].filter(Boolean).join(", ") +
-          " changes the expected loss of doing nothing from " + money(E0) + " to " + money(e0) + "." + (planList(plan).length ? " With your plan it's " + money(e1) + "." : " You don't have a plan yet.")],
+          " changes the expected loss of doing nothing from " + money(E0) + " to " + money(e0) + "." + (planList(plan).length ? " With your plan it’s " + money(e1) + "." : " You don’t have a plan yet.")],
         facts: [["Doing nothing", money(e0), "loss"]].concat(planList(plan).length ? [["With your plan", money(e1)]] : []).concat([["Change vs now", signed(e1 - E1), e1 > E1 ? "loss" : "safe"]]),
         actions: [{ label: "Apply to the scenario", done: "Applied", run: function () { ev.on = true; ev.p = next.p; ev.mag = next.mag; rebuild(); markPreset(null); changed("Applied what-if: " + ev.short); } }]
       };
     }
     if (ev && /why|how did|how does|where does|get (to|that)|come from/.test(q) && !/late|slow|delay/.test(q)) {
-      return { text: ["The Totality engine split “" + ev.name + "” into parts and sent each to the engine built for it" + (ev.declined ? ", and declined one part no one can forecast" : "") + ". Fused and calibrated, that's " + Math.round(ev.base.p * 100) + "%, ±" + ev.band + " points over 30 days." +
-          (Math.abs(pOf(ev) - ev.base.p) > 0.005 ? " With your overrides and signals it's " + Math.round(pOf(ev) * 100) + "%." : "")],
+      return { text: ["The Totality engine split “" + ev.name + "” into parts and sent each to the engine built for it" + (ev.declined ? ", and declined one part no one can forecast" : "") + ". Fused and calibrated, that’s " + Math.round(ev.base.p * 100) + "%, ±" + ev.band + " points over 30 days." +
+          (Math.abs(pOf(ev) - ev.base.p) > 0.005 ? " With your overrides and signals it’s " + Math.round(pOf(ev) * 100) + "%." : "")],
         facts: ev.subs.map(function (s) { return [s[0] + ": " + s[1], Math.round(ev.fused[s[0]] * 100) + "%"]; }).concat(ev.declined ? [["Declined: " + ev.declined, "no skill"]] : []),
         actions: [{ label: "Show the working", run: function () { opened[ev.id] = true; goTo("forecast"); } }] };
     }
@@ -2091,34 +2091,34 @@
     }
     if (/what should|recommend|best plan|what do we do|best move/.test(q) && !/staff|capacity/.test(q)) {
       var b = bestPlan(true), bAll = bestPlan(false);
-      var t = ["The best plan your teams can deliver, with today's crews, saves " + money(E0 - b.E - b.cost) + " net, for " + money(b.cost, 2) + "."];
-      if (bAll && bAll.full < b.E - 0.1 && planList(bAll.A).length > planList(b.A).length) t.push("Ignoring capacity, a bigger plan would save " + money(E0 - bAll.full - bAll.cost) + " on paper, but your teams can't land all of it in time.");
+      var t = ["The best plan your teams can deliver, with today’s crews, saves " + money(E0 - b.E - b.cost) + " net, for " + money(b.cost, 2) + "."];
+      if (bAll && bAll.full < b.E - 0.1 && planList(bAll.A).length > planList(b.A).length) t.push("Ignoring capacity, a bigger plan would save " + money(E0 - bAll.full - bAll.cost) + " on paper, but your teams can’t land all of it in time.");
       return { text: t, facts: planFacts(b), actions: [adopt(b, "Adopted the recommended plan")] };
     }
     if (/worth|net value|is my plan|my plan good/.test(q)) {
       var pl = planList(plan);
-      if (!pl.length) return { text: ["You don't have a plan yet. Ask me what you should do, or tick actions in Decide."], actions: [{ label: "Go to Decide", run: function () { goTo("decide"); } }] };
+      if (!pl.length) return { text: ["You don’t have a plan yet. Ask me what you should do, or tick actions in Decide."], actions: [{ label: "Go to Decide", run: function () { goTo("decide"); } }] };
       var cost = costOf(plan), net = E0 - E1 - cost, b2 = bestPlan(true);
       return {
         text: [net > 0 ? "Yes. It cuts expected loss from " + money(E0) + " to " + money(E1) + " for " + money(cost, 2) + ", worth " + money(net) + " net." : "Not on these numbers. It costs " + money(cost, 2) + " but only removes " + money(E0 - E1) + " of expected loss.",
-          "If nothing happens, you've spent " + money(cost, 2) + "." + (b2 && (E0 - b2.E - b2.cost) > net + 0.1 ? " A different plan would save " + money(E0 - b2.E - b2.cost - net) + " more." : "")],
+          "If nothing happens, you’ve spent " + money(cost, 2) + "." + (b2 && (E0 - b2.E - b2.cost) > net + 0.1 ? " A different plan would save " + money(E0 - b2.E - b2.cost - net) + " more." : "")],
         actions: b2 && (E0 - b2.E - b2.cost) > net + 0.1 ? [adopt(b2, "Adopted a better plan")] : []
       };
     }
     if (/worst|bad case|tail|disaster/.test(q)) {
       var w0 = worst({}, params), w1 = worst(plan, params);
-      return { text: ["If every contingency you've included happens at once, the loss is " + money(w0.total) + (planList(plan).length ? " doing nothing and " + money(w1.total) + " with your plan." : ". You don't have a plan yet to soften it.")],
+      return { text: ["If every contingency you’ve included happens at once, the loss is " + money(w0.total) + (planList(plan).length ? " doing nothing and " + money(w1.total) + " with your plan." : ". You don’t have a plan yet to soften it.")],
         facts: [["Plants and DCs, doing nothing", money(w0.total - w0.freight - w0.eu), "loss"], ["Freight and insurance", money(w0.freight), "loss"], ["Late EU deliveries", money(w0.eu), "loss"]],
         actions: [{ label: "See the spread", run: function () { goTo("outcomes"); } }] };
     }
     if (/bottleneck|capacity|overloaded|stretched|staff/.test(q)) {
       var target2 = /best plan|recommend/.test(q) ? bestPlan(false).A : plan;
       var r = readiness(target2);
-      if (!planList(target2).length) return { text: ["There's no plan yet, so no one is stretched. Ask me what you should do first."] };
+      if (!planList(target2).length) return { text: ["There’s no plan yet, so no one is stretched. Ask me what you should do first."] };
       if (!r.overPeople.length && !r.late.length) return { text: ["Everyone on " + (target2 === plan ? "your" : "that") + " plan has the hours this week, and every action lands before its deadline."] };
       var acts = [], t3 = [];
       r.overPeople.slice(0, 4).forEach(function (id) { var p = personById(id); t3.push(p.name + " (" + TEAMS[p.team].name + ") is asked for " + Math.round(r.D[id]) + " hours but has " + freeOf(p) + "."); });
-      r.late.forEach(function (a) { t3.push(a.name + " lands on day " + r.acts[a.id].lands + ", " + r.acts[a.id].late + " days after it's needed."); });
+      r.late.forEach(function (a) { t3.push(a.name + " lands on day " + r.acts[a.id].lands + ", " + r.acts[a.id].late + " days after it’s needed."); });
       var first = r.overTeams[0] || (r.late[0] && ownerOf(r.late[0]));
       acts.push({ label: first ? "Open " + TEAMS[first].name : "Open Deliver", run: function () { if (first) openTeam = first; goTo("deliver"); } });
       return { text: t3, actions: acts };
@@ -2127,7 +2127,7 @@
       var rr = readiness(plan), a = findAction(q) || planList(plan).filter(function (x) { return rr.acts[x.id].late; })[0] || ACTIONS.filter(function (x) { return cfg(x).lead > x.need; })[0];
       var A2 = M.clone(plan); A2[a.id] = true;
       var ra = readiness(A2).acts[a.id], c = cfg(a), t4 = [];
-      t4.push(a.name + " (“" + c.way.name + "”) takes " + c.lead + " days to put in place" + (start[a.id] ? ", starting day " + start[a.id] : "") + ", and it's needed within " + a.need + ".");
+      t4.push(a.name + " (“" + c.way.name + "”) takes " + c.lead + " days to put in place" + (start[a.id] ? ", starting day " + start[a.id] : "") + ", and it’s needed within " + a.need + ".");
       if (ra.stretch > 1.001) t4.push("Its crew is asked for " + Math.round((ra.stretch - 1) * 100) + "% more time than it has, which stretches it to " + Math.ceil(c.lead * ra.stretch - 1e-9) + " days.");
       t4.push(ra.late ? "It lands " + ra.late + " days late, so it delivers " + Math.round(ra.f * 100) + "% of its protection." : "It lands in time.");
       var alt = a.ways.filter(function (w) { return a.lead + w.lead <= a.need; })[0];
@@ -2146,29 +2146,29 @@
       var on = active().map(function (e) { return e.id; }), byTeam = {};
       allAssets().forEach(function (a2) { if (a2.owner && (a2.events || []).some(function (x) { return on.indexOf(x) > -1; })) byTeam[a2.owner] = (byTeam[a2.owner] || 0) + 1; });
       var ts = Object.keys(byTeam).sort(function (a3, b3) { return byTeam[b3] - byTeam[a3]; });
-      if (!ts.length) return { text: ["No owned assets are exposed to the contingencies you've included."] };
+      if (!ts.length) return { text: ["No owned assets are exposed to the contingencies you’ve included."] };
       return { text: [TEAMS[ts[0]].name + ", led by " + TEAMS[ts[0]].lead + ", owns the most exposed assets (" + byTeam[ts[0]] + ")."],
         facts: ts.map(function (t) { return [TEAMS[t].name, byTeam[t] + " exposed"]; }),
         actions: [{ label: "Open " + TEAMS[ts[0]].name, run: function () { openTeam = ts[0]; goTo("deliver"); } }] };
     }
     if (/data|improve the model|missing|blind spot/.test(q)) {
       return { text: ["Three gaps would sharpen this scenario most:"],
-        facts: [["Gebze MES", "2 fields unmapped, so line rates are estimates"], ["Supplier tier 2", "Who supplies the Bursa seat maker isn't modelled"], ["Dammam DC stock", "Cover is a weekly snapshot, not live"]],
+        facts: [["Gebze MES", "2 fields unmapped, so line rates are estimates"], ["Supplier tier 2", "Who supplies the Bursa seat maker isn’t modelled"], ["Dammam DC stock", "Cover is a weekly snapshot, not live"]],
         actions: [{ label: "Load a dataset", run: function () { goTo("model:data"); } }] };
     }
     if (/signal/.test(q)) {
-      return { text: ["A custom signal is one of your own indicators, such as container dwell time at Jebel Ali, that nudges a forecast when it fires. The Totality engine back-tests it on your history before it counts, so a noisy signal can't skew the numbers."],
+      return { text: ["A custom signal is one of your own indicators, such as container dwell time at Jebel Ali, that nudges a forecast when it fires. The Totality engine back-tests it on your history before it counts, so a noisy signal can’t skew the numbers."],
         actions: [{ label: "Build a signal", run: function () { goTo("model:data"); } }] };
     }
     var as2 = findAsset(q);
     if (as2 && /expos|risk|how bad|loss|at stake/.test(q) || as2 && q.split(" ").length <= 4) {
       var nodes = nodeLossOf(delivered(plan)), base2 = nodeLossOf(stats({})), onIds = active().map(function (e) { return e.id; });
       var hit = (as2.events || []).filter(function (x) { return onIds.indexOf(x) > -1; });
-      return { text: [as2.name + " (" + as2.where + ") is exposed to " + (hit.length ? hit.map(function (h) { return EVSHORT[h]; }).join(" and ") : "none of the contingencies you've included") + "." +
+      return { text: [as2.name + " (" + as2.where + ") is exposed to " + (hit.length ? hit.map(function (h) { return EVSHORT[h]; }).join(" and ") : "none of the contingencies you’ve included") + "." +
         (as2.loss ? " Expected loss there is " + money(base2[as2.loss]) + (planList(plan).length ? " doing nothing, " + money(nodes[as2.loss]) + " with your plan." : ".") : "")],
         facts: (as2.attrs || []).slice(0, 3), actions: [showAsset(as2)] };
     }
-    return { text: ["I can answer how a forecast was made, what's driving the loss, what you should do, whether your plan is worth it, which team is the bottleneck, what depends on an asset, or what a change would cost (try \"what if Hormuz closes for 60 days\")."] };
+    return { text: ["I can answer how a forecast was made, what’s driving the loss, what you should do, whether your plan is worth it, which team is the bottleneck, what depends on an asset, or what a change would cost (try \"what if Hormuz closes for 60 days\")."] };
   }
 
   rebuild();

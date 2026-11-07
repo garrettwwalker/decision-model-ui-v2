@@ -50,7 +50,7 @@
     var owner = $(".decision__state", card).dataset.owner, btn = $("[data-assign]", card);
     btn.addEventListener("click", function () {
       S.d[i] = S.d[i] === "ok" ? "" : "ok";
-      if (S.d[i] === "ok") DB.toast(btn.dataset.verb ? "Approved and sent to " + owner + "." : "Assigned to " + owner + ". It's in their workflows now.");
+      if (S.d[i] === "ok") DB.toast(btn.dataset.verb ? "Approved and sent to " + owner + "." : "Assigned to " + owner + ". It’s in their workflows now.");
       render();
     });
     details(card, $("[data-details]", card));

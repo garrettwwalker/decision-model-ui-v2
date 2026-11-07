@@ -21,8 +21,8 @@
   };
   var ROLE = {
     withheld: ["Declined", "Totality declined this one: nothing in the record lets it forecast it well six months out."],
-    concept: ["Context", "Background that shapes the branch rather than an event with a date, so it isn't forecast."],
-    rejected: ["Set aside", "Set aside because it couldn't be settled cleanly: no reliable source, or the wording left room for doubt."]
+    concept: ["Context", "Background that shapes the branch rather than an event with a date, so it isn’t forecast."],
+    rejected: ["Set aside", "Set aside because it couldn’t be settled cleanly: no reliable source, or the wording left room for doubt."]
   };
   var EVAL = { any_time: "at any point before the deadline", at_date: "on the deadline itself", per_period: "over each period",
     rolling: "on a rolling average", throughout: "for the whole period" };
@@ -469,7 +469,7 @@
     }
     if (ch.length) html += '<p class="dt__sub">Splits into ' + ch.length + (ch.length === 1 ? " question" : " questions") + (nDecl ? ", " + nDecl + " declined" : "") +
       (size[n.i] - 1 > ch.length ? ", " + (size[n.i] - 1).toLocaleString("en-US") + " below it in all" : "") + ".</p>";
-    if (n.b) html += '<p class="dt__sub">' + (n.b === "d" ? "Raised by a document Totality retrieved." : "Raised from the model's own knowledge.") + "</p>";
+    if (n.b) html += '<p class="dt__sub">' + (n.b === "d" ? "Raised by a document Totality retrieved." : "Raised from the model’s own knowledge.") + "</p>";
     if (nOut || nIn) {
       html += '<div class="dt__links"><p class="dt__lab">Tied to other branches</p>';
       if (nOut) html += '<ul class="lks">' + o.map(function (e) { return linkRow(e, "out"); }).join("") + "</ul>" + (nOut > o.length ? '<p class="dt__more">and ' + (nOut - o.length) + " more</p>" : "");

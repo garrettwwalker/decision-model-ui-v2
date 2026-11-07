@@ -15,7 +15,7 @@
   var STARTERS = [
     ["Capacity", "How long can our plants keep running?"],
     ["What if", "What if Hormuz stays closed for 45 days?"],
-    ["Best move", "What's the best way to cut our losses?"],
+    ["Best move", "What’s the best way to cut our losses?"],
     ["Forecast", "Why do you put a Hormuz closure at 27%?"],
     ["What if", "What if the Red Sea closes too?"],
     ["Limits", "Will there be a coup in Tehran this month?"],
@@ -43,7 +43,7 @@
     try { saved = JSON.parse(sessionStorage.getItem(STORE) || "null"); } catch (e) {}
     var fromWar = saved && M.STATUS[saved.status] && JSON.stringify(saved) !== JSON.stringify(M.DEFAULTS);
     ctx = fromWar ? saved : M.clone(M.DEFAULTS);
-    source = fromWar ? "Your settings from earlier in this session." : "This morning's scenario.";
+    source = fromWar ? "Your settings from earlier in this session." : "This morning’s scenario.";
   }
   function save() { try { sessionStorage.setItem(STORE, JSON.stringify(ctx)); } catch (e) {} }
 
@@ -180,7 +180,7 @@
       .sort(function (a, b) { return a.n.cover - b.n.cover; });
     var first = rows[0], text = [];
     if (r.D <= 0) {
-      text.push("With the strait open, nothing runs short. Here's how much cover each site holds today.");
+      text.push("With the strait open, nothing runs short. Here’s how much cover each site holds today.");
     } else {
       text.push("With the strait " + world(ctx) + ", " + first.meta.name + " runs out of " + first.meta.what + " first, on day " + Math.round(first.n.cover) + ".");
       var short = rows.filter(function (x) { return x.n.stop > 0.5; });
@@ -196,7 +196,7 @@
         return [x.meta.name, v, x.n.stop > 0.5 ? "loss" : "safe"];
       }),
       route: "Worked out from your network model: stock cover, line rates, and lead times. No forecast was needed.",
-      followups: ["What's the best way to cut our losses?", "What if it closes for 45 days?"]
+      followups: ["What’s the best way to cut our losses?", "What if it closes for 45 days?"]
     };
   }
 
@@ -215,8 +215,8 @@
       (Math.abs(d) < 0.05 ? "about the same as before." : (d > 0 ? "up " : "down ") + DB.money(Math.abs(d)) + " from what we were assuming.")];
     if (next.redsea && next.bridge) text.push("With Suez lost too, the Singapore resin has to go round the Cape, so the bridge-buy reaches Gebze too late to keep the line running.");
     text.push(b.cost > 0
-      ? "Your current response still saves " + DB.money(nb.loss - b.loss) + " against doing nothing. I'll keep assuming this world for your next questions."
-      : "That's with no response in place. I'll keep assuming this world for your next questions.");
+      ? "Your current response still saves " + DB.money(nb.loss - b.loss) + " against doing nothing. I’ll keep assuming this world for your next questions."
+      : "That’s with no response in place. I’ll keep assuming this world for your next questions.");
     var worst = Object.keys(NODES).map(function (k) { return [k, b.nodes[k]]; }).sort(function (x, y) { return y[1].loss - x[1].loss; })[0];
     adopt(next, "From your last question.");
     return {
@@ -224,7 +224,7 @@
       facts: lossFacts(b).concat([["Hit hardest", NODES[worst[0]].name + ", " + DB.money(worst[1].loss), "loss"]]),
       route: "Worked out by running this world through your network model. The workbench shows the full spread of outcomes.",
       actions: [OPEN_WAR],
-      followups: ["How long can our plants keep running?", "What's the best way to cut our losses?"]
+      followups: ["How long can our plants keep running?", "What’s the best way to cut our losses?"]
     };
   }
 
@@ -251,26 +251,26 @@
     return {
       text: ["The best next move is to " + top.label + ". It costs " + DB.money(top.cost, 2) + " and cuts the loss by " + DB.money(top.saves) + "."],
       facts: opts.map(function (o) { return [sentence(o.label), "saves " + DB.money(o.saves) + " for " + DB.money(o.cost, 2), o.net > 0 ? "safe" : null]; }),
-      route: "Worked out by testing each move you haven't made yet, ranked by money saved after cost.",
+      route: "Worked out by testing each move you haven’t made yet, ranked by money saved after cost.",
       actions: [
         { label: "Add it to my response", done: "Added", run: function () { adopt(top.inp, "With the move you added."); } },
         OPEN_WAR
       ],
-      followups: ["What's the next best move?", "How long can our plants keep running?"]
+      followups: ["What’s the next best move?", "How long can our plants keep running?"]
     };
   }
 
   function probability(q) {
     if (/red sea|suez|bab/.test(q)) {
       return {
-        text: ["We give a Red Sea closure a 34% chance in the next 30 days. It's a separate question from Hormuz, and it matters most for Gebze, whose resin and EU lanes run through Suez."],
+        text: ["We give a Red Sea closure a 34% chance in the next 30 days. It’s a separate question from Hormuz, and it matters most for Gebze, whose resin and EU lanes run through Suez."],
         facts: [["Red Sea closure in 30 days", "34%", "loss"]],
-        route: "From this morning's forecast run.",
+        route: "From this morning’s forecast run.",
         followups: ["What if the Red Sea closes too?"]
       };
     }
     return {
-      text: ["There's a 27% chance that the Strait of Hormuz closes to commercial traffic for 7+ days in the next 30. I split the question into three parts, sent each to the engine built for it, and fused the answers."],
+      text: ["There’s a 27% chance that the Strait of Hormuz closes to commercial traffic for 7+ days in the next 30. I split the question into three parts, sent each to the engine built for it, and fused the answers."],
       facts: [
         ["Judgment: will the standoff escalate to a blockade?", "33%"],
         ["Telemetry: will transits fall below 40% of normal?", "26%"],
@@ -299,8 +299,8 @@
 
   function decline() {
     return {
-      text: ["I won't put a number on that. Sudden ruptures like a coup or a surprise strike are beyond what any of my engines can forecast at this horizon, and a guess would look more certain than it is.",
-        "What I can do is tell you what it would cost. Ask what happens if the strait closes for 60 days and I'll run it through your network."],
+      text: ["I won’t put a number on that. Sudden ruptures like a coup or a surprise strike are beyond what any of my engines can forecast at this horizon, and a guess would look more certain than it is.",
+        "What I can do is tell you what it would cost. Ask what happens if the strait closes for 60 days and I’ll run it through your network."],
       route: "Classed as a rupture event with no skill at a 30-day horizon, so it was declined rather than answered.",
       followups: ["What if the strait closes for 60 days?"]
     };
@@ -308,15 +308,15 @@
 
   function exposure() {
     var r = M.run(ctx), p = M.STATUS[ctx.status].p;
-    var text = ["With the strait " + world(ctx) + ", you'd lose " + DB.money(r.loss) + ", " + response(ctx) + "."];
+    var text = ["With the strait " + world(ctx) + ", you’d lose " + DB.money(r.loss) + ", " + response(ctx) + "."];
     if (p) text.push("Weighted by the " + Math.round(p * 100) + "% chance of that world, the expected loss is " + DB.money(r.loss * p) + ".");
     return { text: text, facts: lossFacts(r), route: "Worked out from your network model.", actions: [OPEN_WAR],
-      followups: ["What's the best way to cut our losses?"] };
+      followups: ["What’s the best way to cut our losses?"] };
   }
 
   function fallback() {
     return {
-      text: ["I can tell you how long your plants and DCs can hold, what a different closure would cost, and which move saves the most. I can also explain a forecast, or tell you when something can't be forecast."],
+      text: ["I can tell you how long your plants and DCs can hold, what a different closure would cost, and which move saves the most. I can also explain a forecast, or tell you when something can’t be forecast."],
       followups: STARTERS.slice(0, 3).map(function (s) { return s[1]; })
     };
   }
@@ -407,7 +407,7 @@
   document.getElementById("q-suggest").addEventListener("click", function () {
     var q = input.value.toLowerCase(), c, src;
     if (/red sea|suez|bab/.test(q)) { c = "Resolves yes if Bab el-Mandeb transits stay below half of normal for 7 days in a row."; src = "AIS transit counts"; }
-    else if (/strike|gebze|union/.test(q)) { c = "Resolves yes if the metalworkers' federation files a legal strike notice at Gebze."; src = "Union filings, Turkish labour ministry"; }
+    else if (/strike|gebze|union/.test(q)) { c = "Resolves yes if the metalworkers’ federation files a legal strike notice at Gebze."; src = "Union filings, Turkish labour ministry"; }
     else if (/bunker|fuel|price/.test(q)) { c = "Resolves yes if Fujairah VLSFO closes above $790 a tonne for 10 trading days."; src = "Platts Fujairah assessment"; }
     else if (/pune|gebze|plant|run out|cover|stock/.test(q)) { c = "Resolves yes if any Halvorsen plant stops a line for lack of resin."; src = "Plant MES line status"; }
     else { c = "Resolves yes if daily transits through the Strait of Hormuz fall below 40% of normal for 3 days in a row."; src = "AIS transit counts"; }
@@ -434,7 +434,7 @@
   // the card Penumbra adds to its reply when a question carries options
   function trackingCard(o, tags) {
     var rows = [];
-    if (o.cadence !== "once") rows.push(["Runs", CADENCE.filter(function (c) { return c[0] === o.cadence; })[0][1] + ", " + UNTIL[o.until] + ". Next: " + NEXT_RUN[o.cadence] + (o.notify === "change" ? ". You'll hear when the answer moves 5 points or more." : ". You'll get every run.")]);
+    if (o.cadence !== "once") rows.push(["Runs", CADENCE.filter(function (c) { return c[0] === o.cadence; })[0][1] + ", " + UNTIL[o.until] + ". Next: " + NEXT_RUN[o.cadence] + (o.notify === "change" ? ". You’ll hear when the answer moves 5 points or more." : ". You’ll get every run.")]);
     if (o.criteria.trim()) rows.push(["Resolves yes if", o.criteria.trim().replace(/^resolves yes if\s*/i, "").replace(/^\w/, function (m) { return m.toUpperCase(); }) + " Deadline " + dateText(o.by) + (o.source.trim() ? ", checked against " + o.source.trim() : "") + "."]);
     var src = SOURCES.filter(function (x) { return o.sources[x[0]]; }).map(function (x) { return x[1]; });
     if (o.files.length || tags.some(function (c) { return /sources$/.test(c); })) rows.push(["Reads", o.files.concat(src).join(", ")]);
@@ -444,7 +444,7 @@
     var dl = el("dl", "track__rows");
     rows.forEach(function (r) { var d = el("div"); d.appendChild(el("dt", null, r[0])); d.appendChild(el("dd", null, r[1])); dl.appendChild(d); });
     card.appendChild(dl);
-    if (o.files.length) card.appendChild(el("p", "track__note", plural(o.files.length) + " read alongside the model. They nudge this answer only; the brief and the workbench don't change."));
+    if (o.files.length) card.appendChild(el("p", "track__note", plural(o.files.length) + " read alongside the model. They nudge this answer only; the brief and the workbench don’t change."));
     return card;
   }
   function plural(n) { return n === 1 ? "1 document" : n + " documents"; }
@@ -488,8 +488,8 @@
   });
   document.querySelector("[data-open-war]").addEventListener("click", save);
   document.getElementById("ctx-reset").addEventListener("click", function () {
-    adopt(M.clone(M.DEFAULTS), "This morning's scenario.");
-    DB.toast("Back to this morning's scenario.");
+    adopt(M.clone(M.DEFAULTS), "This morning’s scenario.");
+    DB.toast("Back to this morning’s scenario.");
   });
 
   load();
