@@ -107,15 +107,16 @@
   var ON = "rgba(22, 20, 18, 0.24)", OFF = "rgba(22, 20, 18, 0)";
   var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
   function fade(el, to, ms) {
-    if (el._sbFade) el._sbFade.cancel();
+    // read where the bar is before stopping the last fade: once stopped, it would read as clear and the fade out jumped
     var from = getComputedStyle(el).getPropertyValue("--sb").trim() || OFF;
-    try { el._sbFade = el.animate([{ "--sb": from }, { "--sb": to }], { duration: reduce ? 0 : ms, fill: "forwards", easing: "ease" }); } catch (e) {}
+    if (el._sbFade) el._sbFade.cancel();
+    try { el._sbFade = el.animate([{ "--sb": from }, { "--sb": to }], { duration: reduce ? 0 : ms, fill: "forwards", easing: "ease-in-out" }); } catch (e) {}
   }
   document.addEventListener("scroll", function (e) {
     var el = e.target, b = document.body;
     if (!el || el.nodeType !== 1 || !b || !(b.classList.contains("house") || b.classList.contains("ag-page"))) return;
     if (!el._sbOn) { el._sbOn = true; fade(el, ON, 150); }
     clearTimeout(el._sbT);
-    el._sbT = setTimeout(function () { el._sbOn = false; fade(el, OFF, 600); }, 900);
+    el._sbT = setTimeout(function () { el._sbOn = false; fade(el, OFF, 900); }, 900);
   }, true);
 })();
