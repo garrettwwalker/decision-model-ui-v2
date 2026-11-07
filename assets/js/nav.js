@@ -120,3 +120,38 @@
     el._sbT = setTimeout(function () { el._sbOn = false; fade(el, OFF, 450); }, 800);
   }, true);
 })();
+
+/* Quotes follow the face (2026-11-07): curly quotes and apostrophes belong to the serif (DM Serif Display), straight
+   ones to the sans. The pages are written with curly quotes; here any text that renders in the sans has them made
+   straight, now and whenever a script draws new text (feeds, answers, cards), and inputs' placeholders too. */
+(function () {
+  var CURLY = /[‘’“”]/;
+  function serif(el) { return /DM Serif/i.test(getComputedStyle(el).fontFamily); }
+  function straight(s) { return s.replace(/[‘’]/g, "'").replace(/[“”]/g, '"'); }
+  function fixText(n) {
+    var p = n.parentElement;
+    if (!p || !CURLY.test(n.data) || /^(SCRIPT|STYLE)$/.test(p.tagName) || serif(p)) return;
+    n.data = straight(n.data);
+  }
+  function fixTree(root) {
+    if (root.nodeType === 3) { fixText(root); return; }
+    if (root.nodeType !== 1) return;
+    if (root.placeholder && CURLY.test(root.placeholder) && !serif(root)) root.placeholder = straight(root.placeholder);
+    var w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT), n, todo = [];
+    while ((n = w.nextNode())) if (CURLY.test(n.data)) todo.push(n);
+    todo.forEach(fixText);
+    if (root.querySelectorAll) root.querySelectorAll("[placeholder]").forEach(function (el) {
+      if (CURLY.test(el.placeholder) && !serif(el)) el.placeholder = straight(el.placeholder);
+    });
+  }
+  function start() {
+    fixTree(document.body);
+    new MutationObserver(function (ms) {
+      ms.forEach(function (m) {
+        if (m.type === "characterData") fixText(m.target);
+        else m.addedNodes.forEach(fixTree);
+      });
+    }).observe(document.body, { childList: true, subtree: true, characterData: true });
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start); else start();
+})();
