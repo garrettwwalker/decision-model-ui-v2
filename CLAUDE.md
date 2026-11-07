@@ -59,7 +59,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   questions (the agents page's four: Hormuz 27% +3 pts overnight, Red Sea 31%, Gebze strike 16%, feeder sanctions 15%, with
   next deadlines; keep in sync with agents.js `QUERIES`), the lead lifted, the others faded to 55% and linking to their pages.
   1 Bottom Line, one white card: a lead paragraph and three key judgments with confidence pills, beside a cream panel with the
-  chance with "+3 pts overnight" in a soft red pill beside it and a 90-day chart with the turning points labelled (an estimative scale, a row
+  chance with "+3 pts overnight" in a soft red pill outlined in red beside it (the user asked for the outline) and a 90-day chart with the turning points labelled (an estimative scale, a row
   of change pills, and an error bar on the chart were each removed at the user's request); beneath, the loss if we do nothing
   (causes on one bar that sweeps in whole; each color growing on its own was undone) against the loss with the three
   decisions and net of their cost. 2 Waiting for You (a red count, as on the agents page): the week's deadlines (small circles on a hairline;
