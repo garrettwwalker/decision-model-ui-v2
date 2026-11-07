@@ -140,7 +140,7 @@
 .bmap__coast { fill: #fff; stroke: #d6ccbe; stroke-width: 0.6; stroke-linejoin: round; }
 .bmap__region { font: 600 9px var(--font); letter-spacing: 0.25em; fill: #a2988a; }
 .bmap__hatch { stroke: rgba(219, 51, 36, 0.35); stroke-width: 2; animation: hatch-breathe 2.6s ease-in-out infinite; }
-.bmap__ring { fill: none; stroke: var(--accent); stroke-width: 1.5; stroke-dasharray: 3 3; animation: ring-breathe 2.6s ease-in-out infinite; }
+.bmap__ring { fill: none; stroke: var(--accent); stroke-width: 1.5; animation: ring-breathe 2.6s ease-in-out infinite; }
 /* the danger zone's lines pulse in color, paler then deeper red, as the memo's error band does; the area itself holds still */
 @keyframes hatch-breathe { 0%, 100% { stroke: rgba(219, 51, 36, 0.18); } 50% { stroke: rgba(219, 51, 36, 0.62); } }
 @keyframes ring-breathe { 0%, 100% { stroke: rgba(219, 51, 36, 0.4); } 50% { stroke: rgba(219, 51, 36, 1); } }
