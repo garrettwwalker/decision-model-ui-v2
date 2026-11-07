@@ -348,7 +348,8 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   what "it", "each one" or a bare percentage refers to; when a later sentence cites a probability from earlier, name what it's
   the chance of. Spell out figures (a bad case "1 in 20", not P95; "58%", not p 0.58; percentage points as "pts"). Oxford
   commas in every list. US dates: "August 1", "Tuesday, October 6, 2026", "Oct 9" (not "1 August"); the date helpers in
-  redsea-report.js, redsea-tree.js and chat.js build them that way. Em dashes are fine; the user wants them kept. Quotes and apostrophes are curly everywhere on the site (’ ‘ “ ”, 2026-11-07), in HTML text and in the
+  redsea-report.js, redsea-tree.js and chat.js build them that way. Em dashes are fine; the user wants them kept. Quotes and apostrophes are curly everywhere on the site except the landing page, which keeps straight ones
+  at the user's request (’ ‘ “ ”, 2026-11-07), in HTML text and in the
   scripts' display strings; straight quotes stay only in code (attributes, selectors, the workbench's code samples).
   tools/redsea-lattice.py curls the lattice's text as it writes it. Contractions are welcome where they sound more natural ("It's about even odds", "We'd move"), without
   overdoing it.
