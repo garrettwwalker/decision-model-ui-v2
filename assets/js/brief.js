@@ -50,5 +50,5 @@
   });
 
   /* Figures make their entrance the first time they scroll into view */
-  Reveal(".spark, .stack, .tbl-wrap, .fall");
+  Reveal(".spark, .stake--loss, .tbl-wrap, .fall");
 })();

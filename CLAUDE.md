@@ -54,7 +54,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
 - `briefing.html` + `assets/css/brief.css` + `assets/js/brief.js`, the daily brief for the COO (Tue Oct 6), rebuilt from the
   ground up in the house style on 2026-11-07 (body `app house brief-page`, no sky or space.js; the dark brief is in git
   history): a serif title-case head with a one-sentence lede; the stakes as one white card (the chance with a sparkline that
-  draws in, the loss if we do nothing in red with its causes in steps of red, the loss if we act with net value protected in
+  draws in, the loss if we do nothing in red with its causes in steps of red on one bar that sweeps in whole from the left (each color growing on its own was undone, as on the report), the loss if we act with net value protected in
   a cream panel); numbered sections with the number in the margin: 1 the week's deadlines as a strip, then the three
   decisions as white cards (Approve turns ink and swaps the deadline pill for "Approved, owner notified"; "See the team's
   part" opens team.html?directive=); 2 the map in the report's colors (sand sea, white land, red for what's trapped, the Hormuz danger zone a shaded circle with a solid ring, both pulsing paler to deeper red like the memo's error band (hatching, a dashed ring, and no ring were tried), ink

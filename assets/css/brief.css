@@ -301,11 +301,9 @@
 .rv .brief-page .spark:not(.is-in) .spark__line { stroke-dashoffset: 1; }
 .rv .brief-page .spark__area, .rv .brief-page .spark__dot { transition: opacity 0.5s ease 1s; }
 .rv .brief-page .spark:not(.is-in) .spark__area, .rv .brief-page .spark:not(.is-in) .spark__dot { opacity: 0; }
-.rv .brief-page .stack span { transform-origin: left center; transition: transform 0.7s cubic-bezier(0.3, 0.7, 0.2, 1); }
-.rv .brief-page .stack:not(.is-in) span { transform: scaleX(0); }
-.rv .brief-page .stack span:nth-child(2) { transition-delay: 0.08s; }
-.rv .brief-page .stack span:nth-child(3) { transition-delay: 0.16s; }
-.rv .brief-page .stack span:nth-child(4) { transition-delay: 0.24s; }
+/* the loss bar sweeps in as one from the left, as the report's exposure bars do (each color growing on its own read wrong) */
+.rv .brief-page .stack { clip-path: inset(0 0 0 0); transition: clip-path 1.1s cubic-bezier(0.3, 0.6, 0.2, 1); }
+.rv .brief-page .stake--loss:not(.is-in) .stack { clip-path: inset(0 100% 0 0); } /* watched on its card: a fully clipped bar never counts as in view */
 .rv .brief-page .lossbar i::after { transform-origin: left center; transition: transform 0.8s cubic-bezier(0.3, 0.7, 0.2, 1); }
 .rv .brief-page .tbl-wrap:not(.is-in) .lossbar i::after { transform: scaleX(0); }
 .rv .brief-page .fall i::after { transition: transform 0.7s cubic-bezier(0.3, 0.7, 0.2, 1); }
