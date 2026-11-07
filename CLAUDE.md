@@ -167,7 +167,8 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   Display from Google Fonts, then house.css after app.css (tokens, the cream bar, black logo, red current-tab mark,
   `.h-display`/`.h-kicker`/`.h-fig` type, `.h-card`/`.h-panel`, red `.btn--primary` that glows only on hover, the cream
   `.btn-q`, soft `.pill`/`.pill--red`/`.pill--amber`, thin rounded scrollbars kept clear of a tile's rounded corners, since
-  the browser's ran square past them; agents.css has the same). Charts make an entrance the first time they scroll into view (the
+  the browser's ran square past them, shown only while a panel scrolls and faded out after (nav.js animates the registered
+  `--sb` color the thumb inherits); agents.css has the same). Charts make an entrance the first time they scroll into view (the
   user asked for opening animations on graphs generally): `assets/js/reveal.js`'s `Reveal(selector)` adds `.is-in` and
   `html.rv`, and the page styles `.rv ... :not(.is-in)`: lines draw (pathLength 1), bars grow from their axis, charts that
   redraw on every change wipe in with clip-path (the report keeps its own copy, `html.rs-anim`). Its rules: cream ground, white cards on a soft shadow, serif

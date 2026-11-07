@@ -73,17 +73,18 @@ body.house {
 .house .pill--red { color: var(--accent-ink); background: var(--accent-soft); }
 .house .pill--amber { color: var(--bad-ink); background: var(--bad-soft); }
 
+/* the bar's color, faded in while a panel scrolls and out after (nav.js animates it; registered so it can animate) */
+@property --sb { syntax: "<color>"; inherits: true; initial-value: rgba(22, 20, 18, 0); }
 /* ---------- scrollbars inside the page: thin, rounded, warm gray, kept clear of a tile's rounded corners ----------
    (the browser's bar ran square past the corners of scrolling tiles, e.g. ask's settings sheet). Chrome and Safari take the
    -webkit- parts (setting scrollbar-width there would switch them off); Firefox, which has no corners to clear, the
    standard ones. The page's own scrollbar belongs to <html>, outside body.house, so it keeps the browser's. */
 .house ::-webkit-scrollbar { width: 10px; height: 10px; }
 .house ::-webkit-scrollbar-track { background: transparent; margin: 14px; }
-.house ::-webkit-scrollbar-thumb { border: 3px solid transparent; border-radius: 999px; background: rgba(22, 20, 18, 0.2) padding-box; }
-.house ::-webkit-scrollbar-thumb:hover { background-color: rgba(22, 20, 18, 0.34); }
+.house ::-webkit-scrollbar-thumb { border: 3px solid transparent; border-radius: 999px; background: var(--sb) padding-box; }
 .house ::-webkit-scrollbar-corner { background: transparent; }
 @supports not selector(::-webkit-scrollbar) {
-  .house * { scrollbar-width: thin; scrollbar-color: rgba(22, 20, 18, 0.24) transparent; }
+  .house * { scrollbar-width: thin; scrollbar-color: var(--sb) transparent; }
 }
 
 @media (prefers-reduced-motion: reduce) {
