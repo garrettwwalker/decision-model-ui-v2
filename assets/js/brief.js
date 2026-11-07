@@ -1,5 +1,5 @@
 (function () {
-  /* Approve a decision, or open the team's part of it on the workflows page */
+  /* Approve a decision (its "See the team's part" is a plain link, so nav.js slides to the workflows page) */
   document.querySelectorAll("[data-decision]").forEach(function (card) {
     var approve = card.querySelector("[data-approve]");
     approve.addEventListener("click", function () {
@@ -11,8 +11,17 @@
         DB.toast("Approved: " + title.split(" ").slice(0, 6).join(" ") + "… Owner notified.");
       }
     });
-    card.querySelector("[data-move]").addEventListener("click", function (e) {
-      window.location.href = "team.html?directive=" + e.currentTarget.getAttribute("data-move");
+  });
+
+  /* Links within the page glide there rather than jump */
+  var still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+    var to = document.querySelector(a.getAttribute("href"));
+    if (!to) return;
+    a.addEventListener("click", function (e) {
+      e.preventDefault();
+      to.scrollIntoView({ behavior: still ? "auto" : "smooth", block: "start" });
+      history.replaceState(null, "", a.getAttribute("href"));
     });
   });
 

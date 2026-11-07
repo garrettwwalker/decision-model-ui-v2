@@ -57,7 +57,8 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   draws in, the loss if we do nothing in red with its causes in steps of red on one bar that sweeps in whole from the left (each color growing on its own was undone, as on the report), the loss if we act with net value protected in
   a cream panel); numbered sections with the number in the margin: 1 the week's deadlines as a strip, then the three
   decisions as white cards (Approve turns ink and swaps the deadline pill for "Approved, owner notified"; "See the team's
-  part" opens team.html?directive=); 2 the map in the report's colors (sand sea, white land, red for what's trapped, the Hormuz danger zone a shaded circle with a solid ring, both pulsing paler to deeper red like the memo's error band (hatching, a dashed ring, and no ring were tried), ink
+  part" is a plain link to team.html?directive=, so nav.js slides between the pages; "See the three decisions" glides
+  down rather than jumping); 2 the map in the report's colors (sand sea, white land, red for what's trapped, the Hormuz danger zone a shaded circle with a solid ring, both pulsing paler to deeper red like the memo's error band (hatching, a dashed ring, and no ring were tried), ink
   diversion routes that light from the route cards) beside the losses table, grouped by orders or products on a cream track
   with a sliding white pill, and the ways around as white cards, the recommended one lifted; 3 the engine parts as tiles
   (declined hatched, the fused 27% lifted in red) and the waterfall and signposts in one card; 4 three horizon cards. Its

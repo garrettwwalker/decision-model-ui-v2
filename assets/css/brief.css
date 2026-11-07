@@ -68,7 +68,7 @@
 }
 
 /* ---------- sections: the title in serif, its number hanging in the margin, the note beneath ---------- */
-.sec { margin-top: clamp(3.5rem, 8vh, 5.5rem); }
+.sec { margin-top: clamp(3.5rem, 8vh, 5.5rem); scroll-margin-top: 6rem; } /* clears the top bar when a link scrolls here */
 .sec__head { margin-bottom: 1.5rem; }
 .sec__title { position: relative; margin: 0; font-family: var(--display); font-weight: 400; font-size: clamp(1.7rem, 2.8vw, 2.3rem); line-height: 1.15; letter-spacing: -0.01em; }
 .sec__title span {
