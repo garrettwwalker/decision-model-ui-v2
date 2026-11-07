@@ -265,6 +265,9 @@
 .ask-page .composer { background: #fff; border: 0; box-shadow: var(--shadow-up); color: var(--ink); }
 .ask-page .composer:has(.composer__input:focus) { box-shadow: var(--shadow-up), 0 0 0 2px var(--accent-soft); border-color: transparent; }
 .ask-page .composer__input::placeholder { color: var(--ink-3); }
+/* the placeholder fades out and back in as it cycles to another example (chat.js) */
+.ask-page .composer__input::placeholder { transition: color 0.35s ease; }
+.ask-page .composer__input.is-swapping::placeholder { color: transparent; }
 .ask-page .composer__send { background: var(--accent); color: #fff; transition: background-color 0.15s ease, box-shadow 0.2s ease; }
 .ask-page .composer__send:hover { background: var(--accent-hover); box-shadow: 0 8px 18px -8px rgba(219, 51, 36, 0.7); }
 .ask-page .composer__send:focus-visible, .ask-page .composer__opts:focus-visible { outline-color: var(--accent); }

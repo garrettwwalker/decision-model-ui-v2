@@ -24,6 +24,20 @@
     ["Capacity", "How long can the Dubai DC hold?"],
     ["What if", "What if the strait closes for 60 days?"]
   ];
+  // the question box's placeholder cycles through a few more examples, fading between them; it waits while the box is
+  // in use (focused or typed in), and under reduced motion it swaps without the fade
+  (function () {
+    var HINTS = ["How long can Pune keep running?", "What if Hormuz closes for six weeks?", "Is war-risk cover still worth it?",
+      "How long can Gebze run on Singapore resin?", "What should we do before Thursday?", "Which customers feel a Jebel Ali delay first?"];
+    var i = 0, still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    setInterval(function () {
+      if (document.hidden || input.value || document.activeElement === input) return;
+      i = (i + 1) % HINTS.length;
+      if (still) { input.placeholder = HINTS[i]; return; }
+      input.classList.add("is-swapping");
+      setTimeout(function () { input.placeholder = HINTS[i]; input.classList.remove("is-swapping"); }, 350);
+    }, 4500);
+  })();
   var NODES = {
     gebze: { name: "Gebze plant", kind: "plant", what: "resin" },
     pune: { name: "Pune plant", kind: "plant", what: "resin" },
