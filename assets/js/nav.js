@@ -117,6 +117,6 @@
     if (!el || el.nodeType !== 1 || !b || !(b.classList.contains("house") || b.classList.contains("ag-page"))) return;
     if (!el._sbOn) { el._sbOn = true; fade(el, ON, 150); }
     clearTimeout(el._sbT);
-    el._sbT = setTimeout(function () { el._sbOn = false; fade(el, OFF, 600); }, 900);
+    el._sbT = setTimeout(function () { el._sbOn = false; fade(el, OFF, 350); }, 900);
   }, true);
 })();
