@@ -48,14 +48,16 @@
     </section>
 
     <div class="tree__tools">
+      <div class="tree__lead">
       <div class="viewsw" role="group" aria-label="View">
         <span class="viewsw__pill" aria-hidden="true"></span>
         <button type="button" data-v="cards" aria-pressed="true">Cards</button>
         <button type="button" data-v="branches" aria-pressed="false">Branches</button>
         <button type="button" data-v="list" aria-pressed="false">List</button>
       </div>
-      <label class="find"><span class="sr-only">Search questions</span><svg class="find__i" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="4.6"/><path d="M10.4 10.4 14 14"/></svg><input id="t-find" type="search" placeholder="Search questions" autocomplete="off"></label>
+      <label class="find"><span class="sr-only">Search keywords</span><svg class="find__i" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="4.6"/><path d="M10.4 10.4 14 14"/></svg><input id="t-find" type="search" placeholder="Search keywords" autocomplete="off"></label>
       <p class="tree__found" id="t-found" aria-live="polite"></p>
+      </div>
       <div class="tree__filters">
         <span class="tree__show">Show</span>
         <label class="switch tog"><span class="switch__text">Declined</span><input type="checkbox" id="t-declined" checked><span class="switch__ui" aria-hidden="true"></span></label>

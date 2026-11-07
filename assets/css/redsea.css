@@ -983,20 +983,25 @@ html[data-moon] body { visibility: hidden; }
 .house.rs-tree .tally dd { font-size: 0.82rem; line-height: 1.35; color: var(--ink-2); }
 
 /* the tools: view switch, search and its count, then the filters */
-.house.rs-tree .tree__tools { gap: 0.75rem 1rem; padding: 0 0 clamp(1.25rem, 3vh, 1.75rem); border-top: 0; }
+/* the tools share the body's columns, so the search runs to the edge of the cards and the filters sit over the panel */
+.house.rs-tree .tree__tools { display: grid; grid-template-columns: minmax(0, 1fr) minmax(20rem, 26rem); gap: 0.75rem clamp(1.25rem, 2.4vw, 2rem); padding: 0 0 clamp(1.25rem, 3vh, 1.75rem); border-top: 0; }
+.house.rs-tree .tree__lead { display: flex; align-items: center; gap: 0.75rem 1rem; min-width: 0; }
 .house.rs-tree .viewsw { position: relative; display: inline-grid; gap: 0; padding: 4px; border-radius: 999px; background: var(--track); box-shadow: none; }
 .house.rs-tree .viewsw__pill { position: absolute; top: 4px; bottom: 4px; left: 4px; width: 0; border-radius: 999px; background: #fff; box-shadow: var(--shadow-sm); }
 .house.rs-tree .viewsw.is-ready .viewsw__pill { transition: transform 0.35s cubic-bezier(0.3, 0.7, 0.2, 1), width 0.35s cubic-bezier(0.3, 0.7, 0.2, 1); }
 .house.rs-tree .viewsw button { position: relative; z-index: 1; min-height: 36px; padding: 0 1.05rem; border-radius: 999px; font-size: 0.85rem; font-weight: 700; color: var(--ink-3); background: none; transition: color 0.2s ease; }
 .house.rs-tree .viewsw button:hover, .house.rs-tree .viewsw button[aria-pressed="true"] { color: var(--ink); background: none; }
-.house.rs-tree .find { position: relative; display: block; }
+.house.rs-tree .find { position: relative; display: block; flex: 1 1 auto; min-width: 0; }
 .house.rs-tree .find__i { position: absolute; left: 0.95rem; top: 50%; width: 15px; height: 15px; margin-top: -7.5px; fill: none; stroke: var(--ink-3); stroke-width: 1.6; stroke-linecap: round; pointer-events: none; }
-.house.rs-tree .find input { width: min(22rem, 100%); min-height: 44px; padding: 0.5rem 1rem 0.5rem 2.4rem; border: 0; border-radius: 999px; font-size: 0.9rem; color: var(--ink); background: #fff; box-shadow: var(--shadow-sm); }
+.house.rs-tree .find input { width: 100%; min-height: 44px; padding: 0.5rem 1rem 0.5rem 2.4rem; border: 0; border-radius: 999px; font-size: 0.9rem; color: var(--ink); background: #fff; box-shadow: var(--shadow-sm); transition: box-shadow 0.2s ease; }
 .house.rs-tree .find input::placeholder { color: var(--ink-3); }
-.house.rs-tree .find input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+/* focus deepens the shadow rather than ringing the field (the user disliked the red ring) */
+.house.rs-tree .find input:focus, .house.rs-tree .find input:focus-visible { outline: 0; box-shadow: var(--shadow-up); }
+.house.rs-tree .tree__found { flex: none; }
+.house.rs-tree .tree__found:empty { display: none; }
 .house.rs-tree .tree__found { font-size: 0.82rem; color: var(--ink-3); }
 .house.rs-tree .tree__tools [hidden] { display: none; }
-.house.rs-tree .tree__filters { display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 1.1rem; margin-left: auto; }
+.house.rs-tree .tree__filters { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 0.25rem 1.1rem; }
 .house.rs-tree .tree__show { font-size: 0.82rem; color: var(--ink-3); }
 .house.rs-tree .tog { gap: 0.55rem; }
 .house.rs-tree .tog .switch__text { order: 2; font-size: 0.85rem; font-weight: 600; color: var(--ink-2); }
@@ -1005,15 +1010,32 @@ html[data-moon] body { visibility: hidden; }
 .house.rs-tree .switch input:checked + .switch__ui { background: var(--ink); }
 
 .house.rs-tree .tree__body { gap: clamp(1.25rem, 2.4vw, 2rem); }
-.house.rs-tree .visual__top { margin-bottom: 1.25rem; align-items: flex-start; }
+.house.rs-tree .visual__top { display: flex; flex-direction: column; align-items: stretch; gap: 0; margin-bottom: 1.25rem; }
 
-/* the route: a thin line with a stop per level; earlier stops ink and clickable, the current one red */
-.house.rs-tree .route__stop:not(:last-child)::after { top: 0.58rem; height: 1.5px; background: var(--mist-3); }
+/* the route: a thin line with a stop per level; earlier stops ink and clickable, the current one red. drawCrumbs() keeps
+   the stops that stay, so a new stop grows in as the line draws out to it, and a stop that goes collapses as the line
+   draws back; .is-end marks the last stop that stays (not :last-child, which may be one on its way out). At the top level
+   there's no route: it fades and folds away (grid rows 0fr), and the count under the key says where you are. */
+.house.rs-tree .crumbs { display: grid; grid-template-rows: 1fr; flex: none; margin-bottom: 1.1rem; opacity: 1; }
+.house.rs-tree .crumbs > .route { min-height: 0; margin: 0; padding: 0; overflow: hidden; }
+.house.rs-tree .crumbs.is-root { grid-template-rows: 0fr; margin-bottom: 0; opacity: 0; }
+.house.rs-tree .crumbs.is-ready { transition: grid-template-rows 0.45s cubic-bezier(0.3, 0.7, 0.2, 1), margin-bottom 0.45s cubic-bezier(0.3, 0.7, 0.2, 1), opacity 0.3s ease; }
+.house.rs-tree .route__stop, .house.rs-tree .route__stop:last-child { flex: 0 1 15rem; min-width: 8.5rem; overflow: hidden; }
+.house.rs-tree .route__stop.is-end { flex: 1 1 18rem; }
+.house.rs-tree .route__stop.is-entering, .house.rs-tree .route__stop.is-leaving { flex: 0 0 0; min-width: 0; opacity: 0; }
+.house.rs-tree .crumbs.is-ready .route__stop { transition: flex 0.45s cubic-bezier(0.3, 0.7, 0.2, 1), min-width 0.45s cubic-bezier(0.3, 0.7, 0.2, 1), opacity 0.3s ease; }
+.house.rs-tree .route__stop::after, .house.rs-tree .route__stop:not(:last-child)::after {
+  content: ""; position: absolute; top: 0.58rem; left: 0.62rem; right: 0; height: 1.5px; border-radius: 1px; background: var(--mist-3);
+  transform-origin: left center;
+}
+.house.rs-tree .route__stop.is-end::after, .house.rs-tree .route__stop.is-leaving::after { transform: scaleX(0); }
+.house.rs-tree .crumbs.is-ready .route__stop::after { transition: transform 0.45s cubic-bezier(0.3, 0.7, 0.2, 1); }
+.house.rs-tree .route__stop .route__in { padding-right: 1rem; }
+.house.rs-tree .route__k { white-space: nowrap; }
+.house.rs-tree .route__t { transition: font-size 0.3s ease, color 0.3s ease; }
+.house.rs-tree button.route__in:focus-visible { outline-offset: -2px; }
 .house.rs-tree .route__dot::before { inset: 0.36rem; background: var(--ink-3); box-shadow: 0 0 0 4px var(--void); }
 .house.rs-tree .route__stop.is-here .route__dot::before { inset: 0.16rem; background: var(--accent); box-shadow: 0 0 0 4px var(--void); }
-/* at the top there's no route yet: the count under the key says where you are */
-.house.rs-tree .crumbs.is-root { display: none; }
-.house.rs-tree .vkey { margin-left: auto; }
 .house.rs-tree .route__k { font-size: 0.72rem; font-weight: 600; color: var(--ink-3); }
 .house.rs-tree .route__p { color: var(--ink-2); }
 .house.rs-tree .route__stop.is-here .route__p { color: var(--accent-ink); }
@@ -1132,7 +1154,8 @@ html[data-moon] body { visibility: hidden; }
   .house.rs-tree .tally div:nth-child(4)::before { display: none; }
   .house.rs-tree .tally div:nth-child(n + 4) { border-top: 1px solid var(--line); } }
 @media (max-width: 960px) {
-  .house.rs-tree .tree__filters { margin-left: 0; }
+  .house.rs-tree .tree__tools { grid-template-columns: minmax(0, 1fr); }
+  .house.rs-tree .tree__filters { justify-content: flex-start; }
   .house.rs-tree .detail { top: auto; background: #fff; border-radius: var(--radius-lg) var(--radius-lg) 0 0; box-shadow: 0 -14px 44px rgba(22, 20, 18, 0.18); }
   .house.rs-tree .dt__close { margin: -0.25rem 0 0.75rem auto; display: flex; }
 }
@@ -1142,11 +1165,12 @@ html[data-moon] body { visibility: hidden; }
   .house.rs-tree .tally div:nth-child(4)::before { display: block; }
   .house.rs-tree .tally div:nth-child(odd)::before { display: none; }
   .house.rs-tree .tally div:nth-child(n + 3) { border-top: 1px solid var(--line); }
-  .house.rs-tree .find, .house.rs-tree .find input { width: 100%; }
-  .house.rs-tree .tree__found:empty { display: none; }
+  .house.rs-tree .tree__lead { flex-wrap: wrap; }
+  .house.rs-tree .find { flex-basis: 100%; }
   .house.rs-tree .cd--head .cd__t { font-size: 1.3rem; }
 }
 @media (prefers-reduced-motion: reduce) {
   .house.rs-tree .cd, .house.rs-tree .viewsw.is-ready .viewsw__pill, .house.rs-tree .br__more { transition: none; }
   .house.rs-tree .cd:hover, .house.rs-tree .cd.is-sel, .house.rs-tree .br__col .cd.is-active { transform: none; }
+  .house.rs-tree .crumbs.is-ready, .house.rs-tree .crumbs.is-ready .route__stop, .house.rs-tree .crumbs.is-ready .route__stop::after, .house.rs-tree .route__t { transition: none; }
 }

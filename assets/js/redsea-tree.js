@@ -170,19 +170,56 @@
       '<span class="cd__chance">' + chance + "</span>" + '<span class="cd__foot">' + foot + "</span></button>";
   }
 
-  // where you are, as stops on a line: each level's kind, a short title and its chance; earlier stops jump back up
+  // where you are, as stops on a line: each level's kind, a short title and its chance; earlier stops jump back up.
+  // The stops that stay are kept, so the line grows to a new stop and shrinks back from one that goes (CSS animates
+  // .is-entering and .is-leaving); at the top level the whole route fades and folds away.
+  var route = null;
+  function fillStop(li, x, here) {
+    var t = x.k === "root" ? "The question" : label(x);
+    var inner = '<span class="route__dot" aria-hidden="true"></span><span class="route__k">' + (x.k === "root" ? "Question" : kind(x)) +
+      (x.pr != null ? ' <span class="route__p num">' + x.pr + "%</span>" : "") + '</span><span class="route__t">' + esc(t) + "</span>";
+    li.classList.toggle("is-here", here);
+    li.innerHTML = here ? '<span class="route__in" aria-current="true">' + inner + "</span>"
+      : '<button type="button" class="route__in" data-z="' + x.i + '" title="Up to ' + esc(t) + '">' + inner + "</button>";
+  }
+  function dropStop(li, now) {
+    li.classList.add("is-leaving"); li.classList.remove("is-end");
+    if (now) { li.remove(); return; }
+    setTimeout(function () { li.remove(); }, 500);
+  }
   function drawCrumbs() {
     var path = [], a = byId[focus];
     while (a) { path.unshift(a); a = byId[a.p]; }
-    crumbs.classList.toggle("is-root", path.length === 1);
-    crumbs.innerHTML = '<ol class="route">' + path.map(function (x, k) {
-      var here = k === path.length - 1, t = x.k === "root" ? "The question" : label(x);
-      var inner = '<span class="route__dot" aria-hidden="true"></span><span class="route__k">' + (x.k === "root" ? "Question" : kind(x)) +
-        (x.pr != null ? ' <span class="route__p num">' + x.pr + "%</span>" : "") + '</span><span class="route__t">' + esc(t) + "</span>";
-      return '<li class="route__stop' + (here ? " is-here" : "") + '">' + (here ? '<span class="route__in" aria-current="true">' + inner + "</span>"
-        : '<button type="button" class="route__in" data-z="' + x.i + '" title="Up to ' + esc(t) + '">' + inner + "</button>") + "</li>";
-    }).join("") + "</ol>";
+    if (!route) { crumbs.innerHTML = '<ol class="route"></ol>'; route = crumbs.firstChild; }
+    var ready = crumbs.classList.contains("is-ready");
+    if (path.length === 1) {  // the top: keep the stops as they are and let the route fade out
+      crumbs.classList.add("is-root"); crumbs.inert = true;
+      if (!ready) route.innerHTML = "";
+      return;
+    }
+    // coming back from the top, the route is rebuilt where it is, then fades in
+    var now = !ready || REDUCE || crumbs.classList.contains("is-root");
+    crumbs.classList.remove("is-root"); crumbs.inert = false;
+    var stay = Array.prototype.filter.call(route.children, function (li) { return !li.classList.contains("is-leaving"); });
+    var k = 0;
+    while (k < stay.length && k < path.length && stay[k].dataset.i === path[k].i) k++;
+    stay.slice(k).forEach(function (li) { dropStop(li, now); });
+    var before = Array.prototype.filter.call(route.children, function (li) { return li.classList.contains("is-leaving"); })[0] || null;
+    var fresh = [];
+    path.forEach(function (x, j) {
+      var li = j < k ? stay[j] : document.createElement("li");
+      if (j >= k) {
+        li.className = "route__stop" + (now ? "" : " is-entering"); li.dataset.i = x.i;
+        route.insertBefore(li, before); fresh.push(li);
+      }
+      var here = j === path.length - 1;
+      if (j >= k || li.classList.contains("is-here") !== here) fillStop(li, x, here);
+      li.classList.toggle("is-end", here);
+    });
+    if (fresh.length) { void route.offsetWidth; fresh.forEach(function (li) { li.classList.remove("is-entering"); }); }
   }
+  // transitions start once the first route is in place, so the page doesn't open with one
+  requestAnimationFrame(function () { requestAnimationFrame(function () { crumbs.classList.add("is-ready"); }); });
 
   // a fresh grid or tree slides in from the side it came from
   var lastDepth = -1;  // so the first level makes an entrance too
