@@ -995,8 +995,9 @@ html[data-moon] body { visibility: hidden; }
 .house.rs-tree .find__i { position: absolute; left: 0.95rem; top: 50%; width: 15px; height: 15px; margin-top: -7.5px; fill: none; stroke: var(--ink-3); stroke-width: 1.6; stroke-linecap: round; pointer-events: none; }
 .house.rs-tree .find input { width: 100%; min-height: 44px; padding: 0.5rem 1rem 0.5rem 2.4rem; border: 0; border-radius: 999px; font-size: 0.9rem; color: var(--ink); background: #fff; box-shadow: var(--shadow-sm); transition: box-shadow 0.2s ease; }
 .house.rs-tree .find input::placeholder { color: var(--ink-3); }
-/* focus deepens the shadow rather than ringing the field (the user disliked the red ring) */
-.house.rs-tree .find input:focus, .house.rs-tree .find input:focus-visible { outline: 0; box-shadow: var(--shadow-up); }
+/* focus deepens the shadow a little rather than ringing the field (the user disliked the red ring, then found the full
+   lifted shadow too much) */
+.house.rs-tree .find input:focus, .house.rs-tree .find input:focus-visible { outline: 0; box-shadow: 0 1px 2px rgba(22, 20, 18, 0.1), 0 6px 16px -8px rgba(22, 20, 18, 0.26); }
 .house.rs-tree .tree__found { flex: none; }
 .house.rs-tree .tree__found:empty { display: none; }
 .house.rs-tree .tree__found { font-size: 0.82rem; color: var(--ink-3); }
