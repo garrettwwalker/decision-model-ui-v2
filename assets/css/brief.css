@@ -87,7 +87,7 @@
 .spark__pt { fill: var(--accent); stroke: var(--mist); stroke-width: 1.5; }
 .spark__dot { fill: var(--accent); stroke: var(--mist); stroke-width: 2; }
 .spark__lab { font: 600 9px var(--font); fill: var(--ink-2); font-variant-numeric: tabular-nums; }
-.spark__lab--now { font: 700 12px var(--font); fill: var(--accent-ink); }
+.spark__lab--now { font: 400 15px var(--display); fill: var(--accent-ink); }
 .spark__axis { position: relative; height: 1rem; margin-top: 0.3rem; font-size: 0.7rem; color: var(--ink-3); }
 .spark__axis span { position: absolute; white-space: nowrap; }
 .spark__axis span:nth-child(1) { left: calc(8 / 300 * 100%); }
