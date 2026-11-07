@@ -1014,16 +1014,14 @@ html[data-moon] body { visibility: hidden; }
 
 /* the route: a thin line with a stop per level; earlier stops ink and clickable, the current one red. drawCrumbs() keeps
    the stops that stay, so a new stop grows in as the line draws out to it, and a stop that goes collapses as the line
-   draws back; .is-end marks the last stop that stays (not :last-child, which may be one on its way out). At the top level
-   there's no route: it fades and folds away (grid rows 0fr), and the count under the key says where you are. */
-.house.rs-tree .crumbs { display: grid; grid-template-rows: 1fr; flex: none; margin-bottom: 1.1rem; opacity: 1; }
-.house.rs-tree .crumbs > .route { min-height: 0; margin: 0; padding: 0; overflow: hidden; }
-.house.rs-tree .crumbs.is-root { grid-template-rows: 0fr; margin-bottom: 0; opacity: 0; }
-.house.rs-tree .crumbs.is-ready { transition: grid-template-rows 0.45s cubic-bezier(0.3, 0.7, 0.2, 1), margin-bottom 0.45s cubic-bezier(0.3, 0.7, 0.2, 1), opacity 0.3s ease; }
+   draws back; .is-end marks the last stop that stays (not :last-child, which may be one on its way out). Stops hold their
+   width (no growing or shrinking) and the row its height at every level, the top included, so nothing shifts. */
+.house.rs-tree .crumbs { flex: none; margin-bottom: 1.1rem; }
+.house.rs-tree .crumbs > .route { margin: 0; padding: 0; }
 .house.rs-tree .route__stop, .house.rs-tree .route__stop:last-child { flex: 0 1 15rem; min-width: 8.5rem; overflow: hidden; }
-.house.rs-tree .route__stop.is-end { flex: 1 1 18rem; }
-.house.rs-tree .route__stop.is-entering, .house.rs-tree .route__stop.is-leaving { flex: 0 0 0; min-width: 0; opacity: 0; }
-.house.rs-tree .crumbs.is-ready .route__stop { transition: flex 0.45s cubic-bezier(0.3, 0.7, 0.2, 1), min-width 0.45s cubic-bezier(0.3, 0.7, 0.2, 1), opacity 0.3s ease; }
+.house.rs-tree .route__stop.is-entering, .house.rs-tree .route__stop.is-leaving { opacity: 0; }
+.house.rs-tree .crumbs.is-ready .route__stop { transition: opacity 0.35s ease 0.12s; }
+.house.rs-tree .crumbs.is-ready .route__stop.is-leaving { transition-delay: 0s; }
 .house.rs-tree .route__stop::after, .house.rs-tree .route__stop:not(:last-child)::after {
   content: ""; position: absolute; top: 0.58rem; left: 0.62rem; right: 0; height: 1.5px; border-radius: 1px; background: var(--mist-3);
   transform-origin: left center;
@@ -1040,7 +1038,7 @@ html[data-moon] body { visibility: hidden; }
 .house.rs-tree .route__p { color: var(--ink-2); }
 .house.rs-tree .route__stop.is-here .route__p { color: var(--accent-ink); }
 .house.rs-tree .route__t { font-size: 0.86rem; color: var(--ink-2); }
-.house.rs-tree .route__stop.is-here .route__t { font-family: var(--display); font-weight: 400; font-size: 1.2rem; line-height: 1.15; letter-spacing: -0.005em; color: var(--ink); }
+.house.rs-tree .route__stop.is-here .route__t { min-height: 2.3em; font-family: var(--display); font-weight: 400; font-size: 1.2rem; line-height: 1.15; letter-spacing: -0.005em; color: var(--ink); }
 .house.rs-tree button.route__in:hover .route__dot::before { background: var(--ink); }
 .house.rs-tree button.route__in:hover .route__dot { transform: none; }
 
@@ -1141,6 +1139,12 @@ html[data-moon] body { visibility: hidden; }
 .house.rs-tree .lk__rel.sg--down { color: var(--ink-2); }
 .house.rs-tree .lk__t { color: var(--ink); }
 
+/* the copy of a card that travels into the "Looking into" spot or back (runMorph() in redsea-tree.js) */
+.house.rs-tree .cd.cd-ghost { position: absolute; z-index: 20; margin: 0; overflow: hidden; pointer-events: none; transform: none; transition: none; animation: none; box-shadow: var(--shadow-up); }
+.house.rs-tree .cd.cd-ghost::after { display: none; }
+.house.rs-tree .cards .cd.is-morph { animation: none; }
+.house.rs-tree .cards .cd.is-morph .cd__bar i { animation-delay: 0.3s; }
+
 /* a level's entrance: the cards slide in (above) and their chance bars grow from the left */
 /* backwards, not both, so a finished entrance lets go of transform and the hover lift still works */
 .house.rs-tree .cards.in-fwd .cd, .house.rs-tree .cards.in-back .cd, .house.rs-tree .br.in-fwd .br__col > *, .house.rs-tree .br.in-back .br__col > * { animation-fill-mode: backwards; }
@@ -1172,5 +1176,5 @@ html[data-moon] body { visibility: hidden; }
 @media (prefers-reduced-motion: reduce) {
   .house.rs-tree .cd, .house.rs-tree .viewsw.is-ready .viewsw__pill, .house.rs-tree .br__more { transition: none; }
   .house.rs-tree .cd:hover, .house.rs-tree .cd.is-sel, .house.rs-tree .br__col .cd.is-active { transform: none; }
-  .house.rs-tree .crumbs.is-ready, .house.rs-tree .crumbs.is-ready .route__stop, .house.rs-tree .crumbs.is-ready .route__stop::after, .house.rs-tree .route__t { transition: none; }
+  .house.rs-tree .crumbs.is-ready .route__stop, .house.rs-tree .crumbs.is-ready .route__stop::after, .house.rs-tree .route__t { transition: none; }
 }

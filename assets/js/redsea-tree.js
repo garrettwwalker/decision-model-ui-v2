@@ -171,8 +171,9 @@
   }
 
   // where you are, as stops on a line: each level's kind, a short title and its chance; earlier stops jump back up.
-  // The stops that stay are kept, so the line grows to a new stop and shrinks back from one that goes (CSS animates
-  // .is-entering and .is-leaving); at the top level the whole route fades and folds away.
+  // The stops that stay are kept and hold their width, so the line draws out to a new stop as it fades in and draws back
+  // from one that goes (CSS animates .is-entering and .is-leaving); the row keeps its height at every level, the top
+  // included, so nothing below it moves (the user disliked the route folding open and pushing the cards down).
   var route = null;
   function fillStop(li, x, here) {
     var t = x.k === "root" ? "The question" : label(x);
@@ -191,19 +192,12 @@
     var path = [], a = byId[focus];
     while (a) { path.unshift(a); a = byId[a.p]; }
     if (!route) { crumbs.innerHTML = '<ol class="route"></ol>'; route = crumbs.firstChild; }
-    var ready = crumbs.classList.contains("is-ready");
-    if (path.length === 1) {  // the top: keep the stops as they are and let the route fade out
-      crumbs.classList.add("is-root"); crumbs.inert = true;
-      if (!ready) route.innerHTML = "";
-      return;
-    }
-    // coming back from the top, the route is rebuilt where it is, then fades in
-    var now = !ready || REDUCE || crumbs.classList.contains("is-root");
-    crumbs.classList.remove("is-root"); crumbs.inert = false;
+    var now = !crumbs.classList.contains("is-ready") || REDUCE;
     var stay = Array.prototype.filter.call(route.children, function (li) { return !li.classList.contains("is-leaving"); });
     var k = 0;
     while (k < stay.length && k < path.length && stay[k].dataset.i === path[k].i) k++;
-    stay.slice(k).forEach(function (li) { dropStop(li, now); });
+    // a swap at the same level drops the old stop at once, so the new one fades in where it stood
+    stay.slice(k).forEach(function (li) { dropStop(li, now || path.length > k); });
     var before = Array.prototype.filter.call(route.children, function (li) { return li.classList.contains("is-leaving"); })[0] || null;
     var fresh = [];
     path.forEach(function (x, j) {
@@ -233,6 +227,28 @@
   }
 
   // Cards: the focus question as a header, its children as a grid
+  // Opening a card, the card itself grows into the "Looking into" spot, and going back up one level the header shrinks
+  // back into its place in the grid (a copy of the old card travels between the two while its contents fade, then the
+  // real card fades in where it lands); the rest of the level slides in as before
+  var morph = null;
+  function docRect(el) { var b = el.getBoundingClientRect(); return { x: b.left + scrollX, y: b.top + scrollY, w: b.width, h: b.height }; }
+  function takeMorph(el, dir, i) { morph = REDUCE || view !== "cards" ? null : { dir: dir, i: i, from: docRect(el), node: el.cloneNode(true) }; }
+  function runMorph(m) {
+    var to = m.dir === "in" ? cardsEl.querySelector(".cd--head") : cardsEl.querySelector('.cards__grid .cd[data-i="' + m.i + '"]');
+    if (!to) return;
+    var r = docRect(to), g = m.node, T = 520;
+    g.classList.add("cd-ghost"); g.classList.remove("is-sel", "is-hit"); g.removeAttribute("style"); g.setAttribute("aria-hidden", "true"); g.tabIndex = -1;
+    document.body.appendChild(g);
+    var box = function (b) { return { left: b.x + "px", top: b.y + "px", width: b.w + "px", height: b.h + "px" }; };
+    var a = g.animate([box(m.from), box(r)], { duration: T, easing: "cubic-bezier(0.3, 0.7, 0.2, 1)", fill: "forwards" });
+    Array.prototype.forEach.call(g.children, function (c) { c.animate([{ opacity: 1 }, { opacity: 0 }], { duration: T * 0.4, fill: "forwards" }); });
+    to.classList.add("is-morph");
+    to.animate([{ opacity: 0 }, { opacity: 0, offset: 0.4 }, { opacity: 1 }], { duration: T + 120 });
+    a.onfinish = a.oncancel = function () { g.remove(); to.classList.remove("is-morph"); };
+    // opened from far down the grid: bring the header into view as the card travels up to it
+    var top = to.getBoundingClientRect().top;
+    if (m.dir === "in" && top < 90) window.scrollTo({ top: Math.max(0, r.y - 110), behavior: "smooth" });
+  }
   function drawCards() {
     var f = byId[focus], ch = sorted(focus);
     var head = focus === root.i ? "" :
@@ -240,6 +256,7 @@
     cardsEl.innerHTML = head + '<p class="cards__n">' + (ch.length ? (focus === root.i ? ch.length + " pathways and scenarios" : ch.length + " questions beneath this one") + ", most likely first" : "Nothing beneath this question") + "</p>" +
       '<div class="cards__grid">' + ch.map(function (c, k) { return card(c, { style: "--k:" + Math.min(k, 16) }); }).join("") + "</div>";
     slide(cardsEl);
+    if (morph) { var m = morph; morph = null; runMorph(m); }
   }
 
   // Branches: focus, its children, and the active child's children, joined by curves; long families fold
@@ -297,8 +314,8 @@
     var c = e.target.closest(".cd"); if (!c) return;
     var i = c.dataset.i, n = byId[i], has = sorted(i).length > 0;
     if (view === "cards") {
-      if (i === focus) { if (n.p) zoom(n.p); return; }
-      if (has) { focus = i; }
+      if (i === focus) { if (n.p) { takeMorph(c, "out", i); zoom(n.p); } return; }
+      if (has) { takeMorph(c, "in", i); focus = i; }
     } else {
       if (i === focus) { if (n.p) { active = focus; focus = n.p; } }
       else if (n.p === focus) { active = has ? i : null; }
@@ -312,7 +329,12 @@
   }
   cardsEl.addEventListener("click", onCard);
   branchEl.addEventListener("click", onCard);
-  crumbs.addEventListener("click", function (e) { var b = e.target.closest("[data-z]"); if (b) zoom(b.dataset.z); });
+  crumbs.addEventListener("click", function (e) {
+    var b = e.target.closest("[data-z]"); if (!b) return;
+    var h = cardsEl.querySelector(".cd--head");
+    if (h && byId[focus].p === b.dataset.z) takeMorph(h, "out", focus);  // one level up: the header shrinks back into the grid
+    zoom(b.dataset.z);
+  });
   // the left card is sticky, so the curves are redrawn as the page scrolls to stay joined to it
   var linkQueued = false;
   function relink() {
