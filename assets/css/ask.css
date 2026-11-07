@@ -230,8 +230,12 @@
 
 /* messages: yours a white bubble; Penumbra's on the page beside a plain dark disc */
 .ask-page .msg--user { background: #fff; box-shadow: var(--shadow); color: var(--ink); }
-.ask-page .msg--model::before, .ask-page .typing::before { background: var(--ink); box-shadow: none; }
-.ask-page .typing::before { animation: speaking 1.2s ease-in-out infinite; }
+/* Penumbra's speaker mark is the logo (chat.js puts a .logo in each answer), black as in the top bar; it breathes while
+   an answer is coming */
+.ask-page .msg--model::before, .ask-page .typing::before { content: none; }
+.ask-page .msg__mark { position: absolute; left: -2px; top: 0.05rem; width: 30px; height: 30px; margin: 0; }
+.ask-page .typing .msg__mark { top: 0.2rem; animation: speaking 1.2s ease-in-out infinite; }
+@media (max-width: 560px) { .ask-page .msg__mark { width: 24px; height: 24px; } }
 @keyframes speaking { 50% { opacity: 0.45; } }
 .ask-page .typing span { background: var(--ink-3); }
 .ask-page .msg__facts dt { color: var(--ink-2); }
@@ -299,7 +303,7 @@
 .ask-page .qsrc.is-on { background: var(--mist-2); }
 .ask-page .qchip { background: #fff; box-shadow: var(--shadow-sm); color: var(--ink); }
 .ask-page .qchip:hover { background: #fff; box-shadow: var(--shadow); }
-@media (prefers-reduced-motion: reduce) { .ask-page .starter, .ask-page .followup { transition: none; transform: none !important; } .ask-page .typing::before { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .ask-page .starter, .ask-page .followup { transition: none; transform: none !important; } .ask-page .typing::before, .ask-page .typing .msg__mark { animation: none; } }
 
 /* =============== the empty state, redesigned (2026-11-06) ===============
    One column. Before the first question the headline, the lede and a larger question box sit together in the middle of

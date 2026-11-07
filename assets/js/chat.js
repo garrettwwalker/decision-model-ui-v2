@@ -24,14 +24,14 @@
     ["Capacity", "How long can the Dubai DC hold?"],
     ["What if", "What if the strait closes for 60 days?"]
   ];
-  // the question box's placeholder cycles through a few more examples, fading between them; it waits while the box is
-  // in use (focused or typed in), and under reduced motion it swaps without the fade
+  // the question box's placeholder cycles through a few more examples, fading between them, focused or not (it's gone
+  // while there's text in the box); under reduced motion it swaps without the fade
   (function () {
     var HINTS = ["How long can Pune keep running?", "What if Hormuz closes for six weeks?", "Is war-risk cover still worth it?",
       "How long can Gebze run on Singapore resin?", "What should we do before Thursday?", "Which customers feel a Jebel Ali delay first?"];
     var i = 0, still = matchMedia("(prefers-reduced-motion: reduce)").matches;
     setInterval(function () {
-      if (document.hidden || input.value || document.activeElement === input) return;
+      if (document.hidden || input.value) return;  // keeps cycling while the box is focused; typing hides it anyway
       i = (i + 1) % HINTS.length;
       if (still) { input.placeholder = HINTS[i]; return; }
       input.classList.add("is-swapping");
@@ -112,10 +112,17 @@
     if (text != null) e.textContent = text;
     return e;
   }
+  // bring the newest question up under the top bar so its answer reads from the start (or as far as the page goes).
+  // Measuring the composer didn't work: it sticks to the bottom of the screen, so it never looked out of view.
   function toBottom() {
-    var f = form.getBoundingClientRect();
-    window.scrollTo({ top: window.scrollY + f.bottom - window.innerHeight + 40, behavior: "smooth" });
+    var qs = log.querySelectorAll(".msg--user"), q = qs[qs.length - 1];
+    if (!q) return;
+    var bar = document.querySelector(".bar"), top = q.getBoundingClientRect().top + window.scrollY - (bar ? bar.getBoundingClientRect().bottom : 0) - 20;
+    var most = document.documentElement.scrollHeight - window.innerHeight;
+    window.scrollTo({ top: Math.max(0, Math.min(top, most)), behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
   }
+  // Penumbra's speaker mark: the logo, as in the top bar
+  function mark(li) { var m = el("span", "logo msg__mark"); m.setAttribute("aria-hidden", "true"); li.insertBefore(m, li.firstChild); }
   function userSays(text) {
     page.classList.add("is-talking");
     var li = el("li", "msg msg--user");
@@ -125,6 +132,7 @@
   // a: { text, facts: [[label, value, tone]], route, actions: [{label, run} | {label, href}], followups: [] }
   function modelSays(a) {
     var li = el("li", "msg msg--model");
+    mark(li);
     li.setAttribute("aria-label", "Penumbra");
     (a.text || []).forEach(function (t) { li.appendChild(el("p", null, t)); });
     if (a.facts && a.facts.length) {
@@ -171,6 +179,7 @@
     var li = el("li", "typing");
     li.setAttribute("aria-label", "Penumbra is answering");
     li.innerHTML = "<span></span><span></span><span></span>";
+    mark(li);
     log.appendChild(li);
     toBottom();
     setTimeout(function () { li.remove(); then(); toBottom(); }, 600 + Math.random() * 500);

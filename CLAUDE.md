@@ -94,10 +94,10 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   question typed in. Choices persist in localStorage (`daybreak.memo.choice`). It reuses the brief's resin, Dubai
   and feeder exposures and the 29 Sep talks collapse, so keep those in sync.
 - `ask.html` (fifth tab, `assets/css/ask.css`, body `app house ask-page` since 2026-11-06: the house layer at the end of
-  ask.css; serif title-case headline, white starters, assumptions, user bubbles and composer, Penumbra's speaker mark a
-  plain dark disc, the send button and a reply's first action red, follow-ups soft cream; one centred column: before the
+  ask.css; serif title-case headline, white starters, assumptions, user bubbles and composer, Penumbra's speaker mark the
+  black logo (a .logo in each answer, breathing while one is coming; a plain dark disc before), the send button and a reply's first action red, follow-ups soft cream; one centred column: before the
   first question the headline, lede and a larger question box sit mid-screen (its placeholder cycles every 4.5 s
-  through six example questions, fading between them, and holds while the box is in use) with the suggested questions (`STARTERS`, ten,
+  through six example questions, fading between them, focused or not) with the suggested questions (`STARTERS`, ten,
   each answerable) drifting past beneath in two opposite rows like a news chyron, paused under the pointer; the old
   "Assuming" panel is now the top of the settings sheet, "The situation behind each answer", with its reset and
   workbench link, and standing questions sit at the sheet's foot; near the top of the page the sheet opens downward)
