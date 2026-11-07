@@ -428,7 +428,37 @@
       if (opts.scroll && view === "list") el.scrollIntoView({ block: "center", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
     }
   }
-  function toggle(i) { open[i] = !open[i]; render(); var el = document.getElementById("r-" + i); if (el) el.focus({ preventScroll: true }); }
+  // a branch in the list drops open and folds shut: the outline is rebuilt on every change, so the group under the row is
+  // animated from no height to its own after an open, and to no height before a close (its chevron turns with it)
+  var EASE = "cubic-bezier(0.3, 0.7, 0.2, 1)", busy = false;
+  function grpOf(i) { var r = document.getElementById("r-" + i), g = r && r.nextElementSibling; return g && g.classList.contains("grp") ? g : null; }
+  function dropTime(h) { return 240 + Math.min(h, 1400) / 7; }
+  function drop(g, from, to, done) {
+    g.style.overflow = "hidden";
+    var a = g.animate([{ height: from + "px", opacity: from ? 1 : 0 }, { height: to + "px", opacity: to ? 1 : 0 }], { duration: dropTime(Math.max(from, to)), easing: EASE });
+    a.onfinish = a.oncancel = function () { g.style.overflow = ""; if (done) done(); };
+  }
+  function turn(i, from, to) {
+    var c = document.querySelector("#r-" + i + " .r__chev");
+    if (c) c.animate([{ transform: from }, { transform: to }], { duration: 220, easing: EASE });
+  }
+  var SHUT = "rotate(-45deg)", OPEN = "rotate(45deg) translate(-2px, -2px)";
+  function setOpen(i, v, then) {
+    var g = grpOf(i);
+    if (REDUCE || busy || v === !!open[i] || (!v && !g)) { open[i] = v; then(); return; }
+    if (v) {
+      open[i] = true; then();
+      g = grpOf(i); turn(i, SHUT, OPEN);
+      if (g) drop(g, 0, g.offsetHeight);
+    } else {
+      busy = true; turn(i, OPEN, SHUT);
+      drop(g, g.offsetHeight, 0, function () { busy = false; open[i] = false; then(); });
+      g.style.height = "0px";  // stay shut between the animation's end and the redraw
+    }
+  }
+  function toggle(i) {
+    setOpen(i, !open[i], function () { render(); var el = document.getElementById("r-" + i); if (el) el.focus({ preventScroll: true }); });
+  }
 
   outline.addEventListener("click", function (e) {
     var r = e.target.closest(".r"); if (!r) return;
@@ -436,8 +466,8 @@
     if (e.target.closest(".r__tw") && has) { toggle(i); return; }
     // on phones the panel is a sheet over the outline, so the first tap on a closed branch only opens it
     if (has && !open[i] && matchMedia("(max-width: 960px)").matches) { toggle(i); return; }
-    if (sel === i && has) { open[i] = !open[i]; }
-    else if (has && !open[i]) { open[i] = true; }
+    if (sel === i && has) { setOpen(i, !open[i], function () { select(i); }); return; }
+    if (has && !open[i]) { setOpen(i, true, function () { select(i); }); return; }
     select(i);
   });
   outline.addEventListener("keydown", function (e) {
