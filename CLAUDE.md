@@ -59,21 +59,25 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   questions (the agents page's four: Hormuz 27% +3 pts overnight, Red Sea 31%, Gebze strike 16%, feeder sanctions 15%, with
   next deadlines; keep in sync with agents.js `QUERIES`), the lead lifted, the others faded to 55% and linking to their pages.
   1 Bottom Line, one white card: a lead paragraph and three key judgments with confidence pills, beside a cream panel with the
-  chance on the memo's estimative scale (error band pulsing), a sparkline, and its history; beneath, the loss if we do nothing
+  chance, its moves as small white pills, and a 90-day chart with the turning points labelled and today's range a pale red
+  bar that pulses (an estimative scale under the 27% was removed at the user's request); beneath, the loss if we do nothing
   (causes on one bar that sweeps in whole; each color growing on its own was undone) against the loss with the three
   decisions and net of their cost. 2 Waiting for You (a red count, as on the agents page): the week's deadlines, then the
   three decisions with Approve (red, turns ink), Decline (cream; fades the card), and "See the team's part" (a plain link so
-  nav.js slides to team.html?directive=); then "Done on Their Own Overnight", the agents' small reversible steps with
-  rounded-square initials and Undo. States persist in localStorage (`daybreak.brief`). 3 What's Caught in the Crossfire: the
+  nav.js slides to team.html?directive=); then "Decisions Made Overnight", your agents' small reversible steps with
+  rounded-square initials, Details (drops open what, when, why, cost, and how to reverse) and Undo (strikes through the
+  whole summary). States persist in localStorage (`daybreak.brief`). 3 What's Caught in the Crossfire: the
   map (report colors; the Hormuz danger zone a shaded circle with a solid ring, both pulsing paler to deeper red; hatching, a
-  dashed ring, and no ring were tried) rides sticky beside "How Long We Can Run" (days of stock against the 2-to-4-week band a
-  closure would likely last), the losses table (orders or products on a sliding-pill track; a row lights its ship and a ship
+  dashed ring, and no ring were tried) rides sticky beside "How Long We Can Run" (days of stock against one pale red window behind
+  every row for the 2 to 4 weeks a closure would likely last; a stripe per row read as detached), the losses table (orders
+  or products on a sliding-pill track, money in soft red pills rather than bars; a row lights its ship and a ship
   its rows), and the ways around as one list with bars of what each protects (pointing at one lights its route). 4 Why the
   Odds Rose, with no engine detail (the user wants analysis of drivers and trends, and likes "What Moved the Odds"): the
   waterfall with each driver's evidence beneath, three trendlines as on the memo (transits, war-risk premium, naval
   incidents; weekly from July 13, a red line at the September 29 talks collapse, readouts under the pointer), and "What
   Would Change Our Minds" with italic roman numerals as on the report, each with what we'd do and where it stands now.
-  5 Outside Your Questions (gray swans and an opportunity). 6 You Might Also Ask, bubbles that open ask.html?q=. Its money
+  5 Outside Your Watchlist (gray swans and an opportunity). 6 You Might Also Ask, bubbles that open ask.html?q=
+  ("Each opens the Totality engine", the user's wording). Its money
   figures came from model.js; keep them in sync with the workbench, workflows, and agents pages.
 - `memo.html` + `assets/js/memo.js` (since 2026-11-06 in the house style like the Red Sea report: body `app house memo-page`,
   no sky, the house layer at the end of memo.css; serif title-case headings with section numbers in the margin and the note

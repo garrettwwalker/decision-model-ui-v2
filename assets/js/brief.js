@@ -1,5 +1,5 @@
 /* The daily brief: what moved across your questions, the decisions waiting for you (approve or decline, as on the agents
-   page), what the agents did on their own (with Undo), what's exposed, and why the odds rose. Decision states and undos
+   page), the decisions your agents made overnight (with Details and Undo), what's exposed, and why the odds rose. Decision states and undos
    persist in localStorage. The trendlines follow the memo's: one series each, a readout under the pointer. */
 (function () {
   var $ = function (s, r) { return (r || document).querySelector(s); };
@@ -54,6 +54,12 @@
     });
   });
   $$(".did").forEach(function (li, i) {
+    var more = $("[data-details]", li);
+    more.addEventListener("click", function () {
+      var open = li.classList.toggle("is-open");
+      more.setAttribute("aria-expanded", String(open));
+      more.textContent = open ? "Hide details" : "Details";
+    });
     $("[data-undo]", li).addEventListener("click", function () {
       S.undo[i] = !S.undo[i];
       DB.toast(S.undo[i] ? "Undone. The agent has reversed it." : "Back on. The agent has redone it.");
@@ -177,5 +183,5 @@
   window.addEventListener("resize", function () { clearTimeout(rt); rt = setTimeout(function () { figs.forEach(draw); }, 120); });
 
   // figures make their entrance the first time they scroll into view
-  Reveal(".spark, .bl__money, .rw, .tbl-wrap, .ways, .fall, .trend");
+  Reveal(".spark, .bl__money, .rw, .ways, .fall, .trend");
 })();
