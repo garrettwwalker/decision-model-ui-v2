@@ -87,7 +87,7 @@
 .spark__pt { fill: var(--accent); stroke: var(--mist); stroke-width: 1.5; }
 .spark__dot { fill: var(--accent); stroke: var(--mist); stroke-width: 2; }
 .spark__lab { font: 600 9px var(--font); fill: var(--ink-2); font-variant-numeric: tabular-nums; }
-.spark__lab--now { font: 400 15px var(--display); fill: var(--accent-ink); }
+.spark__lab--now { font: 700 12px var(--font); fill: var(--accent-ink); }
 .spark__axis { position: relative; height: 1rem; margin-top: 0.3rem; font-size: 0.7rem; color: var(--ink-3); }
 .spark__axis span { position: absolute; white-space: nowrap; }
 .spark__axis span:nth-child(1) { left: calc(8 / 300 * 100%); }
@@ -266,7 +266,9 @@
 .rw__win {
   position: absolute; top: 0; bottom: calc(1rem + 0.55rem); left: calc(var(--kw) + 0.75rem + var(--tw) * var(--a) / 30);
   width: calc(var(--tw) * (var(--b) - var(--a)) / 30); border-radius: 6px; background: rgba(219, 51, 36, 0.1);
+  animation: win-breathe 2.6s ease-in-out infinite; /* on the map's danger zone's beat */
 }
+@keyframes win-breathe { 0%, 100% { background-color: rgba(219, 51, 36, 0.08); } 50% { background-color: rgba(219, 51, 36, 0.26); } }
 .rw__win span { position: absolute; top: 0.3rem; left: 50%; transform: translateX(-50%); font-size: 0.7rem; font-weight: 600; color: var(--accent-ink); white-space: nowrap; }
 .rw__row { position: relative; display: grid; grid-template-columns: var(--kw) minmax(0, 1fr) var(--vw); align-items: center; gap: 0.75rem; }
 .rw__k { font-size: 0.84rem; color: var(--ink-2); }
@@ -417,7 +419,7 @@
 .rv .brief-page .trend:not(.is-in) .trend__area, .rv .brief-page .trend:not(.is-in) .trend__plot > svg > .trend__dot { opacity: 0; }
 
 @media (prefers-reduced-motion: reduce) {
-  .bmap__zone, .bmap__ring { animation: none; }
+  .bmap__zone, .bmap__ring, .rw__win { animation: none; }
   .did__more, .decision__more, .did__line, .did.is-undone .did__line { transition: none; }
   .q, .q > *, .decision > *, .decision__n, .did__what, .did__who, .rt, .sw button, .sw.is-ready .sw__pill, .ask-q,
   .bmap [data-ship], .bmap [data-ship] circle, .tbl td { transition: none; }
