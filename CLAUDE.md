@@ -51,28 +51,30 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   warm amber-orange (first light; gamma 1.35 so only dense cores glow, since thin orange reads brown), the memo green, workflows violet with red running through it (`sky-plum`: plum-black ground), the workbench blue and cyan, ask violet and blue and the
   quietest. Only the sky changes per page; the data colors mean the same thing everywhere. The brief's body also
   has `sky-warm`: warm-black ground and neutral glass. It replaced the dawn site's drifting clouds (`sky.js`).
-- `briefing.html` + `assets/css/brief.css` + `assets/js/brief.js`, the daily brief for the COO (Tue Oct 6), rebuilt from the
-  ground up in the house style on 2026-11-07 (body `app house brief-page`, no sky or space.js; the dark brief is in git
-  history), then made a small decision lab the same day. It must stay skimmable for someone with a few minutes: the default
-  view is the finished brief, and every control is optional, labelled in plain words, and sits beside what it changes.
-  brief.js holds one small model (today's expected figures at 27%, in $M; a what-if chance scales them in proportion) and
-  re-renders everything from its state, numbers counting to their new values; choices (not the what-if) persist in
-  localStorage (`daybreak.brief`). Head: serif title, one-sentence lede. The stakes, one white card: the chance (sparkline that
-  draws in; under a what-if a "What if" pill, the condition, and "Back to today's 27%"), the loss if we do nothing in red with
-  its causes on one bar that sweeps in whole (each color growing on its own was undone, as on the report), and "With your
-  plan": the loss left, a bar of still at risk against protected, and net of its cost in a cream panel. Once that card passes
-  under the top bar its figures fold into a cream strip beneath it (`.kbar`, as on the report) with a "Your Plan" button back
-  up. 1: the week's deadlines (a mark turns ink when its decision is approved), then three decision cards, each with an "In
-  the plan" switch (off fades its words and recomputes everything), Approve (turns ink, keeps it in the plan, swaps the
-  deadline for "Approved, owner notified"), and "See the team's part", a plain link so nav.js slides to team.html?directive=;
-  "See the three decisions" glides down. 2: the map in the report's colors (Hormuz danger zone a shaded circle with a solid
-  ring, both pulsing paler to deeper red like the memo's error band; hatching, a dashed ring, and no ring were tried) beside
-  the losses table (orders or products on a sliding-pill track); a row lights its ship and a ship its rows. "Ways Around"
-  is decision 2's port chooser: the chosen card lifts, the others fade to 55%, and decision 2's text, cost, protection, and
-  the route drawn on the map follow; locked once decision 2 is approved. 3: the engine tiles (declined hatched, fused 27%
-  lifted in red), the waterfall, and "What Would Change the Forecast" as a chooser on a cream track that reruns the stakes
-  and plan at that chance, with a readout of what the plan protects there and whether each decision still pays for itself.
-  4: three horizon cards. Its figures came from model.js; keep them in sync with the workbench, workflows, and agents pages.
+- `briefing.html` + `assets/css/brief.css` + `assets/js/brief.js`, the daily brief for the COO (Tue Oct 6, 06:00 GST), in the
+  house style (body `app house brief-page`; no sky). Redesigned from the ground up on 2026-11-07 to reflect how the platform
+  grew (a decision-lab version with plan switches, a port chooser, and a what-if chance chooser was tried the same day and
+  replaced; the user found its content and buttons out of step with the rest of the platform). It must stay skimmable for
+  someone with a few minutes. Head: an assertion headline ("Lock In Three Hormuz Protections This Week") and a lede. Your
+  questions (the agents page's four: Hormuz 27% +3 pts overnight, Red Sea 31%, Gebze strike 16%, feeder sanctions 15%, with
+  next deadlines; keep in sync with agents.js `QUERIES`), the lead lifted, the others faded to 55% and linking to their pages.
+  1 Bottom Line, one white card: a lead paragraph and three key judgments with confidence pills, beside a cream panel with the
+  chance on the memo's estimative scale (error band pulsing), a sparkline, and its history; beneath, the loss if we do nothing
+  (causes on one bar that sweeps in whole; each color growing on its own was undone) against the loss with the three
+  decisions and net of their cost. 2 Waiting for You (a red count, as on the agents page): the week's deadlines, then the
+  three decisions with Approve (red, turns ink), Decline (cream; fades the card), and "See the team's part" (a plain link so
+  nav.js slides to team.html?directive=); then "Done on Their Own Overnight", the agents' small reversible steps with
+  rounded-square initials and Undo. States persist in localStorage (`daybreak.brief`). 3 What's Caught in the Crossfire: the
+  map (report colors; the Hormuz danger zone a shaded circle with a solid ring, both pulsing paler to deeper red; hatching, a
+  dashed ring, and no ring were tried) rides sticky beside "How Long We Can Run" (days of stock against the 2-to-4-week band a
+  closure would likely last), the losses table (orders or products on a sliding-pill track; a row lights its ship and a ship
+  its rows), and the ways around as one list with bars of what each protects (pointing at one lights its route). 4 Why the
+  Odds Rose, with no engine detail (the user wants analysis of drivers and trends, and likes "What Moved the Odds"): the
+  waterfall with each driver's evidence beneath, three trendlines as on the memo (transits, war-risk premium, naval
+  incidents; weekly from July 13, a red line at the September 29 talks collapse, readouts under the pointer), and "What
+  Would Change Our Minds" with italic roman numerals as on the report, each with what we'd do and where it stands now.
+  5 Outside Your Questions (gray swans and an opportunity). 6 You Might Also Ask, bubbles that open ask.html?q=. Its money
+  figures came from model.js; keep them in sync with the workbench, workflows, and agents pages.
 - `memo.html` + `assets/js/memo.js` (since 2026-11-06 in the house style like the Red Sea report: body `app house memo-page`,
   no sky, the house layer at the end of memo.css; serif title-case headings with section numbers in the margin and the note
   beneath, white cards with cream panels, red for risk and what pushes the odds up, amber for where interests pull apart,

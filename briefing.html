@@ -4,14 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Daily brief · Penumbra</title>
-  <meta name="description" content="Penumbra daily brief: the one geopolitical risk this week, what it could cost, and the three decisions that protect the most value.">
+  <meta name="description" content="Penumbra daily brief: what moved overnight across your questions, the decisions waiting for you, what's exposed, and why the odds changed.">
   <link rel="preload" href="assets/fonts/switzer-800.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/switzer-400.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="assets/css/base.css">
   <link rel="stylesheet" href="assets/css/app.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&display=swap">
   <link rel="stylesheet" href="assets/css/house.css">
   <link rel="stylesheet" href="assets/css/brief.css">
   <script src="assets/js/nav.js"></script>
@@ -41,75 +41,121 @@
 
   <main id="main" class="page">
     <header class="bh">
-      <p class="h-kicker">Daily brief for the COO, Tuesday, October 6, 2026</p>
-      <h1 class="bh__title">One Risk This Week: Hormuz</h1>
-      <p class="bh__lede">The Strait of Hormuz has a 27% chance of closing to commercial ships for a week or more in the next 30 days. Three decisions due this week would cut what we expect to lose from $38.0M to $13.0M.</p>
+      <p class="h-kicker">Daily brief for the COO, Tuesday, October 6, 2026, as of 06:00 GST</p>
+      <h1 class="bh__title">Lock In Three Hormuz Protections This Week</h1>
+      <p class="bh__lede">The chance the Strait of Hormuz closes for a week or more rose to 27% overnight. Three decisions due by Friday would cut what we expect to lose from $38.0M to $13.0M. Your other questions held steady.</p>
     </header>
 
-    <!-- The stakes: the chance, the loss if we wait, the loss with the plan. Every figure follows the choices below. -->
-    <section class="stakes" id="stakes" aria-label="What's at stake">
-      <article class="stake">
-        <p class="stake__k"><span class="pill" id="s-whatif" hidden>What if</span><span id="s-pk">Chance of a closure</span></p>
-        <p class="stake__big"><span id="s-p">27</span><span class="stake__unit">%</span></p>
-        <p class="stake__what" id="s-pwhat">that the strait is closed or impassable to commercial traffic for <b>7 days or more</b> in the next 30 days</p>
-        <figure class="spark">
-          <svg viewBox="0 0 240 64" role="img" aria-label="The chance of a closure over the last 90 days: flat near 6% until early September, then climbing to 27%">
-            <line x1="0" y1="56" x2="240" y2="56" class="spark__base"/>
-            <path class="spark__area" d="M0 56 L0 53 L40 52.5 L80 53 L110 52 L130 50.5 L150 48 L170 46.5 L185 42 L200 38 L212 33 L222 27 L232 21 L240 17 L240 56Z"/>
-            <path class="spark__line" pathLength="1" d="M0 53 L40 52.5 L80 53 L110 52 L130 50.5 L150 48 L170 46.5 L185 42 L200 38 L212 33 L222 27 L232 21 L240 17"/>
-            <circle cx="240" cy="17" r="3.5" class="spark__dot"/>
-          </svg>
-          <figcaption class="spark__axis"><span>July</span><span>Sep 1</span><span>Today</span></figcaption>
-        </figure>
-        <p class="stake__foot" id="s-pfoot">6% in July, 9% on Sep 1, 18% last Tuesday, and <b>27% today</b></p>
-        <button class="btn-q stake__back" type="button" id="s-back" hidden>Back to today's 27%</button>
-      </article>
+    <!-- Your questions: what moved overnight, the lead story lifted -->
+    <nav class="qs" aria-label="Your questions this morning">
+      <a class="q is-lead" href="#bottom-line">
+        <span class="q__k">Hormuz closes <span class="pill pill--red">Today's lead</span></span>
+        <span class="q__p">27%</span>
+        <span class="q__d q__d--up">+3 pts overnight</span>
+        <span class="q__n">War-risk quote expires Wed Oct 7</span>
+      </a>
+      <a class="q" href="redsea.html">
+        <span class="q__k">Red Sea shuts</span>
+        <span class="q__p">31%</span>
+        <span class="q__d">−1 pt overnight</span>
+        <span class="q__n">Cape space hold expires Fri Oct 9</span>
+      </a>
+      <a class="q" href="agents.html">
+        <span class="q__k">Gebze strike</span>
+        <span class="q__p">16%</span>
+        <span class="q__d">No change</span>
+        <span class="q__n">Union strike vote Tue Oct 20</span>
+      </a>
+      <a class="q" href="agents.html">
+        <span class="q__k">Feeder sanctions</span>
+        <span class="q__p">15%</span>
+        <span class="q__d q__d--up">+2 pts overnight</span>
+        <span class="q__n">Flag registry review Thu Oct 8</span>
+      </a>
+    </nav>
 
-      <article class="stake stake--loss">
-        <p class="stake__k">If we do nothing</p>
-        <p class="stake__big stake__big--loss" id="s-loss">$38.0M</p>
-        <p class="stake__what">expected loss, weighed by the <span id="s-p2">27%</span> chance of a closure. If the strait does close, a bad case (1 in 20) is <b class="red">$343M</b>.</p>
-        <div class="stack" role="img" aria-label="Expected loss by cause: plant line stops, Middle East stock-outs, war-risk premiums and bunker fuel, and trapped cargo and demurrage">
-          <span style="--w:16.9"></span><span style="--w:9.8"></span><span style="--w:6.7"></span><span style="--w:4.5"></span>
+    <!-- 1. Bottom line -->
+    <section class="sec" id="bottom-line" aria-labelledby="bl-title">
+      <div class="sec__head">
+        <h2 class="sec__title" id="bl-title"><span aria-hidden="true">1</span>Bottom Line</h2>
+      </div>
+      <div class="bl">
+        <div class="bl__top">
+          <div class="bl__text">
+            <p class="bl__lead">A closure is still unlikely, but it's no longer remote, and our plants would feel it within two weeks. Three decisions this week protect $25.0M for $3.1M. Each one costs more, or goes away, after its deadline.</p>
+            <ol class="kj" aria-label="Key judgments">
+              <li><span class="conf conf--mod">Moderate confidence</span><p>Naval boardings, tanker seizures, and the collapse of sanctions talks have tripled the chance of a closure since September 1. Nothing yet points to a deliberate blockade.</p></li>
+              <li><span class="conf conf--high">High confidence</span><p>Resin is our biggest exposure. Gebze and Pune have 8 to 11 days of it, and replacement by sea takes about 16 days, so a closure would stop both lines in week two.</p></li>
+              <li><span class="conf conf--low">Low confidence</span><p>If the strait closes, it would most likely stay closed for two to four weeks. Past three weeks, the last 3,000 t of resin becomes urgent.</p></li>
+            </ol>
+          </div>
+          <div class="bl__odds">
+            <p class="bl__k">Chance of a closure of 7 days or more, in the next 30 days</p>
+            <p class="bl__p">27<span>%</span></p>
+            <p class="bl__band">±5 pts, so somewhere between 22% and 32%</p>
+            <div class="words" role="img" aria-label="27 percent sits in the band called unlikely">
+              <div class="words__bar">
+                <span style="--a:0;--b:20"></span><span style="--a:20;--b:45"></span><span style="--a:45;--b:55"></span><span style="--a:55;--b:80"></span><span style="--a:80;--b:100"></span>
+                <i class="words__err" style="--a:22;--b:32"></i>
+                <b class="words__pin" style="--v:27"></b>
+              </div>
+              <div class="words__labels" aria-hidden="true">
+                <span style="--v:10">very unlikely</span><span style="--v:32.5" class="is-on">unlikely</span><span style="--v:50">even</span><span style="--v:67.5">likely</span><span style="--v:90">very likely</span>
+              </div>
+            </div>
+            <figure class="spark">
+              <svg viewBox="0 0 240 64" role="img" aria-label="The chance of a closure over the last 90 days: flat near 6% until early September, then climbing to 27%">
+                <line x1="0" y1="56" x2="240" y2="56" class="spark__base"/>
+                <path class="spark__area" d="M0 56 L0 53 L40 52.5 L80 53 L110 52 L130 50.5 L150 48 L170 46.5 L185 42 L200 38 L212 33 L222 27 L232 21 L240 17 L240 56Z"/>
+                <path class="spark__line" pathLength="1" d="M0 53 L40 52.5 L80 53 L110 52 L130 50.5 L150 48 L170 46.5 L185 42 L200 38 L212 33 L222 27 L232 21 L240 17"/>
+                <circle cx="240" cy="17" r="3.5" class="spark__dot"/>
+              </svg>
+              <figcaption class="spark__axis"><span>July</span><span>Sep 1</span><span>Today</span></figcaption>
+            </figure>
+            <p class="bl__foot">6% in July, 9% on Sep 1, 18% last Tuesday, 24% yesterday, and <b>27% today</b></p>
+          </div>
         </div>
-        <ul class="stack__key">
-          <li><i></i>Line stops at the Gebze and Pune plants<b data-cause="0">$16.9M</b></li>
-          <li><i></i>Stock-outs in the Middle East<b data-cause="1">$9.8M</b></li>
-          <li><i></i>War-risk premiums and bunker fuel<b data-cause="2">$6.7M</b></li>
-          <li><i></i>Trapped cargo and demurrage<b data-cause="3">$4.5M</b></li>
-        </ul>
-      </article>
-
-      <article class="stake">
-        <p class="stake__k">With your plan</p>
-        <p class="stake__big" id="s-plan">$13.0M</p>
-        <p class="stake__what" id="s-planwhat">expected loss after the three decisions in your plan, which cost $3.1M together</p>
-        <div class="left" role="img" id="s-leftbar" aria-label="Of the loss if we do nothing, the plan protects $25.0M and $13.0M is still at risk">
-          <i class="left__risk"></i>
+        <div class="bl__money">
+          <div class="cost">
+            <p class="cost__k">If we do nothing</p>
+            <p class="cost__v red">$38.0M</p>
+            <p class="cost__what">expected loss at a 27% chance. If the strait does close, a bad case (1 in 20) is <b class="red">$343M</b>.</p>
+            <div class="stack" role="img" aria-label="Expected loss by cause: plant line stops $16.9M, Middle East stock-outs $9.8M, war-risk premiums and bunker fuel $6.7M, and trapped cargo and demurrage $4.5M">
+              <span style="--w:16.9"></span><span style="--w:9.8"></span><span style="--w:6.7"></span><span style="--w:4.5"></span>
+            </div>
+            <ul class="stack__key">
+              <li><i></i>Line stops at the Gebze and Pune plants<b>$16.9M</b></li>
+              <li><i></i>Stock-outs in the Middle East<b>$9.8M</b></li>
+              <li><i></i>War-risk premiums and bunker fuel<b>$6.7M</b></li>
+              <li><i></i>Trapped cargo and demurrage<b>$4.5M</b></li>
+            </ul>
+          </div>
+          <div class="cost">
+            <p class="cost__k">With the three decisions</p>
+            <p class="cost__v">$13.0M</p>
+            <p class="cost__what">expected loss left once all three are in place. Together they cost <b>$3.1M</b>.</p>
+            <div class="left" role="img" aria-label="Of the $38.0M, the three decisions protect $25.0M and $13.0M is still at risk"><i class="left__risk"></i></div>
+            <ul class="stack__key">
+              <li><i class="left__k left__k--risk"></i>Still at risk<b>$13.0M</b></li>
+              <li><i class="left__k"></i>Protected by the decisions<b>$25.0M</b></li>
+            </ul>
+            <div class="net"><span>Net of their cost</span><b>$21.9M</b></div>
+          </div>
         </div>
-        <ul class="left__key">
-          <li><i class="left__k left__k--risk"></i>Still at risk<b id="s-risk">$13.0M</b></li>
-          <li><i class="left__k"></i>Protected by the plan<b id="s-prot">$25.0M</b></li>
-        </ul>
-        <div class="net">
-          <span>Net of its cost</span>
-          <b id="s-net">$21.9M</b>
-        </div>
-        <a class="btn-q stake__go" href="#decisions">See the three decisions</a>
-      </article>
+      </div>
     </section>
 
-    <!-- 1. Decisions -->
-    <section class="sec" id="decisions" aria-labelledby="dec-title">
+    <!-- 2. Waiting for you -->
+    <section class="sec" id="waiting" aria-labelledby="wait-title">
       <div class="sec__head">
-        <h2 class="sec__title" id="dec-title"><span aria-hidden="true">1</span>Three Decisions, Ranked by Value Protected</h2>
-        <p class="sec__note">Each one has an owner and a deadline. After its deadline the option is gone or costs more. Switch one off to see what skipping it would cost.</p>
+        <h2 class="sec__title" id="wait-title"><span aria-hidden="true">2</span>Waiting for You <b class="count" id="wait-n" aria-label="3 waiting">3</b></h2>
+        <p class="sec__note">The three biggest moves need your sign-off. Each has an owner and a deadline, ranked by the value it protects.</p>
       </div>
 
       <ol class="week" aria-label="Deadlines this week">
         <li class="week__day is-today"><b>Tue Oct 6</b><span>Today</span></li>
         <li class="week__day is-due" data-week="2"><b>Wed Oct 7</b><span>War-risk quote expires</span></li>
-        <li class="week__day is-due" data-week="1"><b>Thu Oct 8</b><span>Diversion booking closes at 14:00</span></li>
+        <li class="week__day is-due" data-week="1"><b>Thu Oct 8</b><span>Khor Fakkan booking closes at 14:00</span></li>
         <li class="week__day is-due" data-week="0"><b>Fri Oct 9</b><span>Last day to order resin</span></li>
       </ol>
 
@@ -118,33 +164,33 @@
           <span class="decision__n" aria-hidden="true">1</span>
           <div class="decision__body">
             <h3 class="decision__title">Bridge-buy 7,000 t of resin from Singapore for the Gebze and Pune plants</h3>
-            <p class="decision__why">Both plants run on polymer shipped from Jubail and Mesaieed, inside the strait, and have only 8 to 11 days of stock. A closure would stop both lines in week two.</p>
-            <p class="decision__meta"><span>Owner: VP Procurement</span><span class="pill pill--red decision__due">Decide by Fri Oct 9</span><span class="pill decision__done">Approved, owner notified</span></p>
+            <p class="decision__why">Both plants run on resin shipped from Jubail and Mesaieed, inside the strait. Singapore resin would land before their stock runs out.</p>
+            <p class="decision__meta"><span>Owner: VP Procurement</span><span class="pill pill--red decision__due">Decide by Fri Oct 9</span><span class="pill decision__state"></span></p>
           </div>
           <dl class="decision__nums">
-            <div><dt>Costs</dt><dd data-f="cost">$0.84M</dd></div>
-            <div><dt>Protects</dt><dd data-f="prot">$11.7M</dd></div>
+            <div><dt>Costs</dt><dd>$0.84M</dd></div>
+            <div><dt>Protects</dt><dd>$11.7M</dd></div>
           </dl>
           <div class="decision__act">
-            <label class="switch decision__in"><span class="switch__text">In the plan</span><input type="checkbox" checked><span class="switch__ui" aria-hidden="true"></span></label>
-            <button class="btn btn--primary btn--sm" type="button" data-approve aria-pressed="false">Approve</button>
+            <button class="btn btn--primary btn--sm" type="button" data-approve>Approve</button>
+            <button class="btn-q" type="button" data-decline>Decline</button>
             <a class="btn-q" href="team.html?directive=bridge">See the team's part</a>
           </div>
         </li>
         <li class="decision" data-d="1">
           <span class="decision__n" aria-hidden="true">2</span>
           <div class="decision__body">
-            <h3 class="decision__title" data-f="title">Divert four Jebel Ali sailings to Khor Fakkan and truck the boxes to the Dubai DC</h3>
-            <p class="decision__why" data-f="why">Khor Fakkan sits outside the strait on the UAE's east coast, 140 km by road from the distribution center. The detour adds a day and a half, and 600 containers a week of berth space are open now.</p>
-            <p class="decision__meta"><span>Owner: VP Logistics</span><span class="pill pill--red decision__due">Booking closes Thu Oct 8, 14:00</span><span class="pill decision__done">Approved, owner notified</span></p>
+            <h3 class="decision__title">Divert four Jebel Ali sailings to Khor Fakkan and truck the boxes to the Dubai DC</h3>
+            <p class="decision__why">Khor Fakkan is outside the strait, 140 km by road from the distribution center. The agents are holding four slots on option, and two carriers have already cancelled Thursday calls at Jebel Ali.</p>
+            <p class="decision__meta"><span>Owner: VP Logistics</span><span class="pill pill--red decision__due">Booking closes Thu Oct 8, 14:00</span><span class="pill decision__state"></span></p>
           </div>
           <dl class="decision__nums">
-            <div><dt>Costs</dt><dd data-f="cost">$0.90M</dd></div>
-            <div><dt>Protects</dt><dd data-f="prot">$7.6M</dd></div>
+            <div><dt>Costs</dt><dd>$0.90M</dd></div>
+            <div><dt>Protects</dt><dd>$7.6M</dd></div>
           </dl>
           <div class="decision__act">
-            <label class="switch decision__in"><span class="switch__text">In the plan</span><input type="checkbox" checked><span class="switch__ui" aria-hidden="true"></span></label>
-            <button class="btn btn--primary btn--sm" type="button" data-approve aria-pressed="false">Approve</button>
+            <button class="btn btn--primary btn--sm" type="button" data-approve>Approve</button>
+            <button class="btn-q" type="button" data-decline>Decline</button>
             <a class="btn-q" href="team.html?directive=divert">See the team's part</a>
           </div>
         </li>
@@ -152,26 +198,39 @@
           <span class="decision__n" aria-hidden="true">3</span>
           <div class="decision__body">
             <h3 class="decision__title">Bind war-risk cover on Gulf calls and hedge fourth-quarter bunker fuel at today's price</h3>
-            <p class="decision__why">Underwriters have tripled Gulf war-risk rates since August, and quotes reprice daily. Locking in now caps what we'd pay for premiums and fuel if the strait closes.</p>
-            <p class="decision__meta"><span>Owner: Treasury</span><span class="pill pill--red decision__due">Quote expires Wed Oct 7</span><span class="pill decision__done">Approved, owner notified</span></p>
+            <p class="decision__why">Underwriters have tripled Gulf war-risk rates since August. Two brokers are circulating a draft that would list the whole strait from Thursday, which would end today's quote.</p>
+            <p class="decision__meta"><span>Owner: Treasury</span><span class="pill pill--red decision__due">Quote expires Wed Oct 7</span><span class="pill decision__state"></span></p>
           </div>
           <dl class="decision__nums">
-            <div><dt>Costs</dt><dd data-f="cost">$1.36M</dd></div>
-            <div><dt>Protects</dt><dd data-f="prot">$5.7M</dd></div>
+            <div><dt>Costs</dt><dd>$1.36M</dd></div>
+            <div><dt>Protects</dt><dd>$5.7M</dd></div>
           </dl>
           <div class="decision__act">
-            <label class="switch decision__in"><span class="switch__text">In the plan</span><input type="checkbox" checked><span class="switch__ui" aria-hidden="true"></span></label>
-            <button class="btn btn--primary btn--sm" type="button" data-approve aria-pressed="false">Approve</button>
+            <button class="btn btn--primary btn--sm" type="button" data-approve>Approve</button>
+            <button class="btn-q" type="button" data-decline>Decline</button>
             <a class="btn-q" href="team.html?directive=cover">See the team's part</a>
           </div>
         </li>
       </ol>
+
+      <div class="done">
+        <div class="done__head">
+          <h3 class="sub">Done on Their Own Overnight</h3>
+          <p class="sub__note">Small, reversible steps the agents took within the limits you set. Nothing was signed, paid, or sent.</p>
+        </div>
+        <ul class="done__list">
+          <li class="did"><span class="did__who" style="--h:18">BK</span><p><b>Held four Khor Fakkan slots on option</b> until Thursday at 14:00, so decision 2 is still open. Releasing them is free.</p><button class="btn-q" type="button" data-undo>Undo</button></li>
+          <li class="did"><span class="did__who" style="--h:32">CB</span><p><b>Asked three more brokers for war-risk quotes</b> after the draft listing appeared. Two have replied.</p><button class="btn-q" type="button" data-undo>Undo</button></li>
+          <li class="did"><span class="did__who" style="--h:6">RB</span><p><b>Checked resin suppliers twice a day instead of once</b>, in case a Jubail producer declares force majeure.</p><button class="btn-q" type="button" data-undo>Undo</button></li>
+        </ul>
+        <a class="btn-q done__more" href="agents.html">See every agent at work</a>
+      </div>
     </section>
 
-    <!-- 2. Exposure -->
+    <!-- 3. Exposure -->
     <section class="sec" id="exposure" aria-labelledby="exp-title">
       <div class="sec__head">
-        <h2 class="sec__title" id="exp-title"><span aria-hidden="true">2</span>What's Caught in the Crossfire</h2>
+        <h2 class="sec__title" id="exp-title"><span aria-hidden="true">3</span>What's Caught in the Crossfire</h2>
         <p class="sec__note">Nine vessels, 1,284 containers, and 13,600 t of bulk resin are inside the Gulf or bound for it. That's $214M of cargo and committed orders across 312 purchase orders and 64 products.</p>
       </div>
 
@@ -232,148 +291,133 @@
           </figcaption>
         </figure>
 
-        <div class="caught">
-          <div class="caught__head">
-            <h3 class="caught__title">Largest Expected Losses</h3>
-            <div class="sw" role="group" aria-label="Group the losses by">
-              <span class="sw__pill" aria-hidden="true"></span>
-              <button type="button" data-by="po" aria-pressed="true">Orders</button>
-              <button type="button" data-by="sku" aria-pressed="false">Products</button>
+        <div class="exposure__side">
+          <div class="runway">
+            <h3 class="card__title">How Long We Can Run</h3>
+            <p class="card__note">Days of stock left for what a closure would cut off first, against how long one would likely last.</p>
+            <div class="rw" role="img" aria-label="Days of stock: compressor kits for Gebze 5, HDPE resin for Pune 8, PP resin for Gebze 11, aluminum coil for Pune 12, and washers at the Dubai DC 14. A closure would likely last 14 to 28 days, so each runs out before it would end.">
+              <div class="rw__band" style="--a:14;--b:28"><span>A closure would likely last 2 to 4 weeks</span></div>
+              <div class="rw__row"><span class="rw__k">Compressor kits, Gebze</span><span class="rw__t"><i style="--v:5"></i></span><b>5 days</b></div>
+              <div class="rw__row"><span class="rw__k">HDPE resin, Pune</span><span class="rw__t"><i style="--v:8"></i></span><b>8 days</b></div>
+              <div class="rw__row"><span class="rw__k">PP resin, Gebze</span><span class="rw__t"><i style="--v:11"></i></span><b>11 days</b></div>
+              <div class="rw__row"><span class="rw__k">Aluminum coil, Pune</span><span class="rw__t"><i style="--v:12"></i></span><b>12 days</b></div>
+              <div class="rw__row"><span class="rw__k">Washers, Dubai DC</span><span class="rw__t"><i style="--v:14"></i></span><b>14 days</b></div>
+              <div class="rw__axis" aria-hidden="true"><span style="--v:0">0</span><span style="--v:7">1 week</span><span style="--v:14">2 weeks</span><span style="--v:21">3 weeks</span><span style="--v:28">4 weeks</span></div>
             </div>
           </div>
-          <div class="tbl-wrap" data-view="po">
-            <table class="tbl">
-              <thead><tr><th scope="col">Order and cargo</th><th scope="col">Vessel</th><th scope="col">Stock left</th><th scope="col" class="r">Expected loss</th></tr></thead>
-              <tbody>
-                <tr data-ship="asterion"><td><b class="tbl__id">PO 7731-044</b><span class="tbl__sub">PP resin, 4,200 t, Jubail to Gebze</span></td><td>Asterion Dawn<span class="tbl__sub">Loading, inside</span></td><td><span class="pill pill--red">11 days</span></td><td class="r"><div class="lossbar"><b>$4.8M</b><i style="--v:1"></i></div></td></tr>
-                <tr data-ship="kestrel"><td><b class="tbl__id">PO 7731-051</b><span class="tbl__sub">HDPE resin, 2,800 t, Mesaieed to Pune</span></td><td>Kestrel Bay<span class="tbl__sub">At anchor, inside</span></td><td><span class="pill pill--red">8 days</span></td><td class="r"><div class="lossbar"><b>$3.9M</b><i style="--v:.81"></i></div></td></tr>
-                <tr data-ship="jebel"><td><b class="tbl__id">PO 6602-117</b><span class="tbl__sub">Compressor kits, 18,000, Jebel Ali to Gebze</span></td><td>Jebel Ali yard<span class="tbl__sub">Transshipment</span></td><td><span class="pill pill--red">5 days</span></td><td class="r"><div class="lossbar"><b>$2.2M</b><i style="--v:.46"></i></div></td></tr>
-                <tr data-ship="sable"><td><b class="tbl__id">PO 4471-240</b><span class="tbl__sub">HV-FR90 fridges, 2,150, Busan to Dammam</span></td><td>Sable Orchid<span class="tbl__sub">Inbound, inside</span></td><td><span class="pill pill--amber">6 days</span></td><td class="r"><div class="lossbar"><b>$1.6M</b><i style="--v:.33"></i></div></td></tr>
-                <tr data-ship="jebel"><td><b class="tbl__id">PO 5518-090</b><span class="tbl__sub">Aluminum coil, 1,100 t, Jebel Ali to Pune</span></td><td>Jebel Ali yard<span class="tbl__sub">Awaiting a feeder</span></td><td><span class="pill pill--amber">12 days</span></td><td class="r"><div class="lossbar"><b>$1.4M</b><i style="--v:.29"></i></div></td></tr>
-                <tr data-ship="corvane"><td><b class="tbl__id">PO 4471-208</b><span class="tbl__sub">HV-OLED55 TVs, 1,920, Ningbo to Jebel Ali</span></td><td>Corvane Tessaly<span class="tbl__sub">Gulf of Oman, can divert</span></td><td><span class="pill pill--amber">9 days</span></td><td class="r"><div class="lossbar"><b>$1.1M</b><i style="--v:.23"></i></div></td></tr>
-                <tr data-ship="lumen"><td><b class="tbl__id">PO 4471-233</b><span class="tbl__sub">HV-WM8 washers, 3,400, Kaohsiung to Jebel Ali</span></td><td>Lumen Strait<span class="tbl__sub">Gulf of Oman, can divert</span></td><td><span class="pill">14 days</span></td><td class="r"><div class="lossbar"><b>$0.9M</b><i style="--v:.19"></i></div></td></tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="tbl-wrap" data-view="sku" hidden>
-            <table class="tbl">
-              <thead><tr><th scope="col">Product</th><th scope="col">Market</th><th scope="col">Chance of a stock-out</th><th scope="col" class="r">Revenue at risk</th></tr></thead>
-              <tbody>
-                <tr><td><b class="tbl__id">HV-WM8</b><span class="tbl__sub">Front-load washer, built in Gebze</span></td><td>Europe, Middle East</td><td><span class="pill pill--red">58%</span></td><td class="r"><div class="lossbar"><b>$7.3M</b><i style="--v:1"></i></div></td></tr>
-                <tr><td><b class="tbl__id">HV-FR90</b><span class="tbl__sub">French-door fridge, built in Pune</span></td><td>India, Middle East</td><td><span class="pill pill--red">52%</span></td><td class="r"><div class="lossbar"><b>$6.1M</b><i style="--v:.84"></i></div></td></tr>
-                <tr><td><b class="tbl__id">HV-OLED55</b><span class="tbl__sub">55″ OLED TV, made in Ningbo</span></td><td>Middle East</td><td><span class="pill pill--red">41%</span></td><td class="r"><div class="lossbar"><b>$3.8M</b><i style="--v:.52"></i></div></td></tr>
-                <tr><td><b class="tbl__id">HV-DW45</b><span class="tbl__sub">Dishwasher, built in Gebze</span></td><td>Europe</td><td><span class="pill pill--amber">33%</span></td><td class="r"><div class="lossbar"><b>$2.9M</b><i style="--v:.4"></i></div></td></tr>
-                <tr><td><b class="tbl__id">HV-AC24</b><span class="tbl__sub">Split air conditioner, built in Pune</span></td><td>India, Middle East</td><td><span class="pill pill--amber">29%</span></td><td class="r"><div class="lossbar"><b>$2.4M</b><i style="--v:.33"></i></div></td></tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="caught__foot">
-            <p>305 more orders are exposed.</p>
-            <a class="btn-q" href="workbench.html">See them all in the workbench</a>
-          </div>
-        </div>
-      </div>
 
-      <div class="sub-head" id="routes">
-        <h3 class="sub">Ways Around, for Cargo Still Outside the Strait</h3>
-        <p class="sub__note" id="r-note">Pick the port for decision 2. Its cost, what it protects, and the route on the map follow.</p>
-      </div>
-      <div class="routes" role="radiogroup" aria-label="The way around for decision 2">
-        <button class="rcard" type="button" role="radio" data-route="kf" aria-checked="true">
-          <span class="pill pill--red">Recommended</span>
-          <span class="rcard__t">Khor Fakkan, Then 140 km by Road</span>
-          <dl>
-            <div><dt>Delay</dt><dd>+1.5 days</dd></div>
-            <div><dt>Cost</dt><dd>+$0.9M</dd></div>
-            <div><dt>Berth space</dt><dd>600 a week</dd></div>
-            <div class="rcard__p"><dt>Protects</dt><dd data-rp="kf">$7.6M</dd></div>
-          </dl>
-        </button>
-        <button class="rcard" type="button" role="radio" data-route="so" aria-checked="false">
-          <span class="pill">Backup</span>
-          <span class="rcard__t">Sohar, Then 260 km by Road</span>
-          <dl>
-            <div><dt>Delay</dt><dd>+2.5 days</dd></div>
-            <div><dt>Cost</dt><dd>+$1.3M</dd></div>
-            <div><dt>Berth space</dt><dd>900 a week</dd></div>
-            <div class="rcard__p"><dt>Protects</dt><dd data-rp="so">$7.0M</dd></div>
-          </dl>
-        </button>
-        <button class="rcard" type="button" role="radio" data-route="fj" aria-checked="false">
-          <span class="pill">Limited</span>
-          <span class="rcard__t">Fujairah, Then by Road</span>
-          <dl>
-            <div><dt>Delay</dt><dd>+1.5 days</dd></div>
-            <div><dt>Cost</dt><dd>+$1.0M</dd></div>
-            <div><dt>Berth space</dt><dd>240 a week</dd></div>
-            <div class="rcard__p"><dt>Protects</dt><dd data-rp="fj">$3.1M</dd></div>
-          </dl>
-        </button>
-        <div class="rcard rcard--no">
-          <span class="pill pill--amber">Not advised</span>
-          <span class="rcard__t">The Saudi Land Bridge via Jeddah</span>
-          <dl>
-            <div><dt>Delay</dt><dd>+4 days</dd></div>
-            <div><dt>Cost</dt><dd>+$1.6M</dd></div>
-            <div class="rcard__p"><dt>Protects</dt><dd data-rp="jd">$1.9M</dd></div>
-          </dl>
-          <p class="rcard__why">It runs through the Red Sea, which has a 34% chance of closing.</p>
+          <div class="caught">
+            <div class="caught__head">
+              <h3 class="card__title">Largest Expected Losses</h3>
+              <div class="sw" role="group" aria-label="Group the losses by">
+                <span class="sw__pill" aria-hidden="true"></span>
+                <button type="button" data-by="po" aria-pressed="true">Orders</button>
+                <button type="button" data-by="sku" aria-pressed="false">Products</button>
+              </div>
+            </div>
+            <div class="tbl-wrap" data-view="po">
+              <table class="tbl">
+                <thead><tr><th scope="col">Order and cargo</th><th scope="col">Where it is</th><th scope="col" class="r">Expected loss</th></tr></thead>
+                <tbody>
+                  <tr data-ship="asterion"><td><b class="tbl__id">PO 7731-044</b><span class="tbl__sub">PP resin, 4,200 t, Jubail to Gebze</span></td><td>Asterion Dawn<span class="tbl__sub">Loading, inside</span></td><td class="r"><div class="lossbar"><b>$4.8M</b><i style="--v:1"></i></div></td></tr>
+                  <tr data-ship="kestrel"><td><b class="tbl__id">PO 7731-051</b><span class="tbl__sub">HDPE resin, 2,800 t, Mesaieed to Pune</span></td><td>Kestrel Bay<span class="tbl__sub">At anchor, inside</span></td><td class="r"><div class="lossbar"><b>$3.9M</b><i style="--v:.81"></i></div></td></tr>
+                  <tr data-ship="jebel"><td><b class="tbl__id">PO 6602-117</b><span class="tbl__sub">Compressor kits, 18,000, Jebel Ali to Gebze</span></td><td>Jebel Ali yard<span class="tbl__sub">Transshipment</span></td><td class="r"><div class="lossbar"><b>$2.2M</b><i style="--v:.46"></i></div></td></tr>
+                  <tr data-ship="sable"><td><b class="tbl__id">PO 4471-240</b><span class="tbl__sub">HV-FR90 fridges, 2,150, Busan to Dammam</span></td><td>Sable Orchid<span class="tbl__sub">Inbound, inside</span></td><td class="r"><div class="lossbar"><b>$1.6M</b><i style="--v:.33"></i></div></td></tr>
+                  <tr data-ship="corvane"><td><b class="tbl__id">PO 4471-208</b><span class="tbl__sub">HV-OLED55 TVs, 1,920, Ningbo to Jebel Ali</span></td><td>Corvane Tessaly<span class="tbl__sub">Gulf of Oman, can divert</span></td><td class="r"><div class="lossbar"><b>$1.1M</b><i style="--v:.23"></i></div></td></tr>
+                  <tr data-ship="lumen"><td><b class="tbl__id">PO 4471-233</b><span class="tbl__sub">HV-WM8 washers, 3,400, Kaohsiung to Jebel Ali</span></td><td>Lumen Strait<span class="tbl__sub">Gulf of Oman, can divert</span></td><td class="r"><div class="lossbar"><b>$0.9M</b><i style="--v:.19"></i></div></td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="tbl-wrap" data-view="sku" hidden>
+              <table class="tbl">
+                <thead><tr><th scope="col">Product</th><th scope="col">Chance of a stock-out</th><th scope="col" class="r">Revenue at risk</th></tr></thead>
+                <tbody>
+                  <tr><td><b class="tbl__id">HV-WM8</b><span class="tbl__sub">Front-load washer, built in Gebze</span></td><td><span class="pill pill--red">58%</span></td><td class="r"><div class="lossbar"><b>$7.3M</b><i style="--v:1"></i></div></td></tr>
+                  <tr><td><b class="tbl__id">HV-FR90</b><span class="tbl__sub">French-door fridge, built in Pune</span></td><td><span class="pill pill--red">52%</span></td><td class="r"><div class="lossbar"><b>$6.1M</b><i style="--v:.84"></i></div></td></tr>
+                  <tr><td><b class="tbl__id">HV-OLED55</b><span class="tbl__sub">55″ OLED TV, made in Ningbo</span></td><td><span class="pill pill--red">41%</span></td><td class="r"><div class="lossbar"><b>$3.8M</b><i style="--v:.52"></i></div></td></tr>
+                  <tr><td><b class="tbl__id">HV-DW45</b><span class="tbl__sub">Dishwasher, built in Gebze</span></td><td><span class="pill pill--amber">33%</span></td><td class="r"><div class="lossbar"><b>$2.9M</b><i style="--v:.4"></i></div></td></tr>
+                  <tr><td><b class="tbl__id">HV-AC24</b><span class="tbl__sub">Split air conditioner, built in Pune</span></td><td><span class="pill pill--amber">29%</span></td><td class="r"><div class="lossbar"><b>$2.4M</b><i style="--v:.33"></i></div></td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="caught__foot">
+              <p>305 more orders are exposed.</p>
+              <a class="btn-q" href="workbench.html">See them all in the workbench</a>
+            </div>
+          </div>
+
+          <div class="ways">
+            <h3 class="card__title">Ways Around, for Cargo Still Outside the Strait</h3>
+            <p class="card__note">Point at one to see it on the map. Berth space is in containers a week.</p>
+            <ul class="ways__list">
+              <li class="way" data-way="kf" tabindex="0"><span class="way__name">Khor Fakkan, then 140 km by road <span class="pill pill--red">Recommended</span></span><span class="way__m">+1.5 days, +$0.9M, 600 berths</span><span class="way__bar"><i style="--v:1"></i></span><b>$7.6M</b></li>
+              <li class="way" data-way="so" tabindex="0"><span class="way__name">Sohar, then 260 km by road</span><span class="way__m">+2.5 days, +$1.3M, 900 berths</span><span class="way__bar"><i style="--v:.92"></i></span><b>$7.0M</b></li>
+              <li class="way" data-way="fj" tabindex="0"><span class="way__name">Fujairah, then by road</span><span class="way__m">+1.5 days, +$1.0M, 240 berths</span><span class="way__bar"><i style="--v:.41"></i></span><b>$3.1M</b></li>
+              <li class="way way--no"><span class="way__name">Saudi land bridge via Jeddah <span class="pill pill--amber">Not advised</span></span><span class="way__m">Runs through the Red Sea, which has a 31% chance of shutting</span><span class="way__bar"><i style="--v:.25"></i></span><b>$1.9M</b></li>
+            </ul>
+            <p class="ways__k">Bars show what each protects.</p>
+          </div>
         </div>
       </div>
-      <p class="routes__note">Berth space is in containers.</p>
     </section>
 
-    <!-- 3. Why -->
+    <!-- 4. Why the odds rose -->
     <section class="sec" id="why" aria-labelledby="why-title">
       <div class="sec__head">
-        <h2 class="sec__title" id="why-title"><span aria-hidden="true">3</span>Our Reasoning</h2>
-        <p class="sec__note">The Totality engine split the question into parts, sent each to the engine built for it, declined the part nobody can forecast, and fused the rest into the 27% chance of a closure.</p>
+        <h2 class="sec__title" id="why-title"><span aria-hidden="true">4</span>Why the Odds Rose</h2>
+        <p class="sec__note">The chance of a closure has tripled since September 1. Here's what drove it, the trends behind it, and what would change our minds.</p>
       </div>
 
-      <ol class="build" aria-label="How the 27% was built">
-        <li><span class="build__eng">Judgment engine</span><span class="build__q">Will the naval standoff escalate to a blockade?</span><b class="build__p">33%</b></li>
-        <li><span class="build__eng">Telemetry engine</span><span class="build__q">Will daily transits fall below 40% of normal?</span><b class="build__p">26%</b></li>
-        <li><span class="build__eng">Procedure engine</span><span class="build__q">Will underwriters list the whole strait as a war zone?</span><b class="build__p">22%</b></li>
-        <li class="build__out"><span class="build__eng">Declined</span><span class="build__q">A sudden strike or coup in Tehran</span><b class="build__p">No skill at this horizon</b></li>
-        <li class="build__fused"><span class="build__eng">Fused and calibrated</span><span class="build__q">±5 pts, over the next 30 days</span><b class="build__p">27%</b></li>
-      </ol>
-
-      <div class="why">
-        <div class="why__col">
-          <h3 class="why__title">What Moved the Odds Since September 1</h3>
-          <ol class="fall" aria-label="How each driver moved the chance of a closure within 30 days, from 9% on September 1 to 27% today">
-            <li class="fall__axis" aria-hidden="true"><span>Chance of a closure within 30 days</span><i><em style="--v:0">0%</em><em style="--v:.1">10%</em><em style="--v:.2">20%</em><em style="--v:.3">30%</em></i><b></b></li>
-            <li class="fall__base" style="--a:0;--d:.09"><span>Where it stood on September 1</span><i></i><b>9%</b></li>
-            <li style="--a:.09;--d:.07"><span>Three naval boardings in the Gulf of Oman in 10 days</span><i></i><b>+7 pts</b></li>
-            <li style="--a:.16;--d:.06"><span>Sanctions talks collapse (September 29)</span><i></i><b>+6 pts</b></li>
-            <li style="--a:.22;--d:.04"><span>Tanker seizures follow the 2019 run-up</span><i></i><b>+4 pts</b></li>
-            <li style="--a:.26;--d:.03"><span>The war-risk area widens and premiums triple</span><i></i><b>+3 pts</b></li>
-            <li style="--a:.29;--d:.01"><span>Ships turning off their trackers near Bandar Abbas</span><i></i><b>+1 pt</b></li>
-            <li class="fall__neg" style="--a:.27;--d:.03"><span>Omani back-channel talks resume</span><i></i><b>−3 pts</b></li>
-            <li class="fall__total" style="--a:0;--d:.27"><span>Today</span><i></i><b>27%</b></li>
-          </ol>
-          <p class="why__note">Each bar starts where the one above it ends. Red bars raised the chance and gray ones lowered it.</p>
-        </div>
-        <div class="why__col">
-          <h3 class="why__title">What Would Change the Forecast</h3>
-          <p class="why__hint">Pick one to see the stakes and the plan at that chance.</p>
-          <div class="signs" role="radiogroup" aria-label="Rerun the brief at another chance">
-            <button class="sign" type="button" role="radio" data-p="27" aria-checked="true"><b>27% today</b> <span>is the forecast as it stands this morning.</span></button>
-            <button class="sign sign--up" type="button" role="radio" data-p="45" aria-checked="false"><b>Up to about 45%</b> <span>if a naval exercise is announced in the strait's shipping lanes, or a second Western-flagged tanker is seized.</span></button>
-            <button class="sign sign--up" type="button" role="radio" data-p="35" aria-checked="false"><b>Up to about 35%</b> <span>if war-risk underwriters suspend cover for Gulf calls outright.</span></button>
-            <button class="sign" type="button" role="radio" data-p="15" aria-checked="false"><b>Down to about 15%</b> <span>if the Muscat talks set a date for a second round.</span></button>
-            <button class="sign" type="button" role="radio" data-p="10" aria-checked="false"><b>Down to about 10%</b> <span>if 10 days pass with no boardings and ship traffic recovers.</span></button>
-          </div>
-          <p class="why__read" id="why-read" aria-live="polite"></p>
-          <p class="why__cal">Of the 212 questions we've put at 20 to 30%, 26% came true, so a forecast in that range can be taken at face value.</p>
-        </div>
+      <div class="moved">
+        <h3 class="card__title">What Moved the Odds Since September 1</h3>
+        <ol class="fall" aria-label="How each driver moved the chance of a closure within 30 days, from 9% on September 1 to 27% today">
+          <li class="fall__axis" aria-hidden="true"><span>Chance of a closure within 30 days</span><i><em style="--v:0">0%</em><em style="--v:.1">10%</em><em style="--v:.2">20%</em><em style="--v:.3">30%</em></i><b></b></li>
+          <li class="fall__base" style="--a:0;--d:.09"><span>Where it stood on September 1</span><i></i><b>9%</b></li>
+          <li style="--a:.09;--d:.07"><span>Naval boardings in the Gulf of Oman<small>Three in 10 days, all of Western-flagged ships</small></span><i></i><b>+7 pts</b></li>
+          <li style="--a:.16;--d:.06"><span>Sanctions talks collapse<small>September 29; no date set to resume</small></span><i></i><b>+6 pts</b></li>
+          <li style="--a:.22;--d:.04"><span>Tanker seizures<small>The pattern matches the run-up to 2019's seizures</small></span><i></i><b>+4 pts</b></li>
+          <li style="--a:.26;--d:.03"><span>Underwriters widen the war-risk area<small>Premiums have tripled since August</small></span><i></i><b>+3 pts</b></li>
+          <li style="--a:.29;--d:.01"><span>Ships going dark near Bandar Abbas<small>A cluster of tankers turned off their trackers</small></span><i></i><b>+1 pt</b></li>
+          <li class="fall__neg" style="--a:.27;--d:.03"><span>Omani back-channel talks resume<small>Contacts continue, though no date is set</small></span><i></i><b>−3 pts</b></li>
+          <li class="fall__total" style="--a:0;--d:.27"><span>Today</span><i></i><b>27%</b></li>
+        </ol>
+        <p class="card__foot">Each bar starts where the one above it ends. Red bars raised the chance and gray ones lowered it.</p>
       </div>
+
+      <h3 class="sub sub--gap">The Trends Behind It</h3>
+      <div class="trends">
+        <figure class="trend" data-trend="transits">
+          <figcaption><span class="trend__name">Ships through the strait</span><b class="trend__now"></b></figcaption>
+          <div class="trend__plot"></div>
+          <p class="trend__note">Daily transits, as a share of normal. Down to 61%, the lowest since 2019; three tankers turned back at the entrance overnight.</p>
+        </figure>
+        <figure class="trend" data-trend="premium">
+          <figcaption><span class="trend__name">War-risk premium</span><b class="trend__now"></b></figcaption>
+          <div class="trend__plot"></div>
+          <p class="trend__note">Share of a ship's hull value for one Gulf call. Tripled since August, and quotes now reprice daily.</p>
+        </figure>
+        <figure class="trend" data-trend="incidents">
+          <figcaption><span class="trend__name">Naval incidents in the Gulf</span><b class="trend__now"></b></figcaption>
+          <div class="trend__plot"></div>
+          <p class="trend__note">Boardings, seizures, and harassment each week. Four of the last five weeks were the busiest since 2019.</p>
+        </figure>
+      </div>
+      <p class="trends__key">Weekly since July 13. The red line marks September 29, when the sanctions talks collapsed. Point at a chart to read a week.</p>
+
+      <h3 class="sub sub--gap">What Would Change Our Minds</h3>
+      <dl class="trip">
+        <div><dt>If a naval exercise is announced in the shipping lanes, or a second Western-flagged tanker is seized</dt><dd>The chance would rise to about 45%. We'd buy the last 3,000 t of resin now rather than wait. <span class="trip__now">Now: no exercise announced; one seizure on September 22.</span></dd></div>
+        <div><dt>If war-risk underwriters suspend cover for Gulf calls outright</dt><dd>The chance would rise to about 35%, and any Gulf call without cover would stop. Binding cover this week guards against it. <span class="trip__now">Now: a draft listing from Thursday is circulating; the committee meets Wednesday.</span></dd></div>
+        <div><dt>If the Muscat talks set a date for a second round</dt><dd>The chance would fall to about 15%. We'd keep the bookings and cover but hold off on the second resin purchase. <span class="trip__now">Now: Oman says contacts continue, with no date.</span></dd></div>
+        <div><dt>If 10 days pass with no boardings and ship traffic recovers</dt><dd>The chance would fall to about 10%, and we'd release the Khor Fakkan slots we haven't used. <span class="trip__now">Now: the last boarding was four days ago.</span></dd></div>
+      </dl>
+      <p class="card__foot">Of the 212 questions we've put at 20 to 30%, 26% came true, so a forecast in that range can be taken at face value.</p>
     </section>
 
-    <!-- 4. Horizon -->
+    <!-- 5. Outside your questions -->
     <section class="sec" id="horizon" aria-labelledby="hz-title">
       <div class="sec__head">
-        <h2 class="sec__title" id="hz-title"><span aria-hidden="true">4</span>Also on the Horizon</h2>
+        <h2 class="sec__title" id="hz-title"><span aria-hidden="true">5</span>Outside Your Questions</h2>
         <p class="sec__note">Not part of today's decisions, but close enough to our network to keep an eye on.</p>
       </div>
       <div class="horizon">
@@ -385,17 +429,31 @@
         </article>
         <article class="hz">
           <span class="pill">Gray swan</span>
-          <h3>Two Gulf Feeder Ships Could Lose Their Flag</h3>
-          <p>A flag registry plans to drop ships linked to sanctioned owners. Two feeders on our ME4 shuttle share a technical manager with ships already on sanctions lists.</p>
-          <dl class="hz__nums"><div><dt>Chance within 60 days</dt><dd>19%</dd></div><div><dt>At risk</dt><dd class="red">$1.9M</dd></div></dl>
+          <h3>A Jubail Producer Could Declare Force Majeure</h3>
+          <p>One of our two Gulf resin suppliers has cut runs at its Jubail plant for maintenance. A notice would leave Gebze leaning on Singapore resin alone.</p>
+          <dl class="hz__nums"><div><dt>Chance within 30 days</dt><dd>8%</dd></div><div><dt>At risk</dt><dd class="red">$3.4M</dd></div></dl>
         </article>
         <article class="hz">
           <span class="pill pill--red">Opportunity</span>
           <h3>Two Competitors Depend on Jebel Ali</h3>
-          <p>Two regional rivals route over 60% of their Middle East stock through the strait and have no contracts on the UAE's east coast. If the strait closes, expect gaps on their shelves in weeks 3 to 6. Placing 30,000 units at Sohar now could take that demand.</p>
+          <p>Two regional rivals route over 60% of their Middle East stock through the strait and have no contracts on the UAE's east coast. If the strait closes, expect gaps on their shelves in weeks 3 to 6.</p>
           <dl class="hz__nums"><div><dt>Chance the strait closes</dt><dd>27%</dd></div><div><dt>Extra margin</dt><dd>+$6.4M</dd></div></dl>
         </article>
       </div>
+    </section>
+
+    <!-- 6. Ask -->
+    <section class="sec" id="ask" aria-labelledby="ask-title">
+      <div class="sec__head">
+        <h2 class="sec__title" id="ask-title"><span aria-hidden="true">6</span>You Might Also Ask</h2>
+        <p class="sec__note">Each opens Ask Penumbra with the question typed in.</p>
+      </div>
+      <ul class="asks">
+        <li><a class="ask-q" href="ask.html?q=How%20long%20can%20Gebze%20run%20on%20Singapore%20resin%20alone%3F"><span class="ask-q__kind">Capacity</span><span class="ask-q__text">How long can Gebze run on Singapore resin alone?</span></a></li>
+        <li><a class="ask-q" href="ask.html?q=What%20if%20the%20strait%20stays%20closed%20for%20six%20weeks%20instead%20of%20three%3F"><span class="ask-q__kind">What if</span><span class="ask-q__text">What if the strait stays closed for six weeks instead of three?</span></a></li>
+        <li><a class="ask-q" href="ask.html?q=Which%20customers%20would%20feel%20a%20Jebel%20Ali%20delay%20first%3F"><span class="ask-q__kind">Exposure</span><span class="ask-q__text">Which customers would feel a Jebel Ali delay first?</span></a></li>
+        <li><a class="ask-q" href="ask.html?q=Would%20a%20Red%20Sea%20closure%20make%20a%20Hormuz%20closure%20more%20likely%3F"><span class="ask-q__kind">Forecast</span><span class="ask-q__text">Would a Red Sea closure make a Hormuz closure more likely?</span></a></li>
+      </ul>
     </section>
   </main>
 
