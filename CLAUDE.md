@@ -71,7 +71,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   map (report colors; the Hormuz danger zone a shaded circle with a solid ring, both pulsing paler to deeper red; hatching, a
   dashed ring, and no ring were tried) rides sticky beside "How Long We Can Run" (days of stock against one pale red window behind
   every row, labelled "Closure, weeks 2–4", centered; a stripe per row read as detached), the losses table (orders
-  or products on a sliding-pill track, money in soft red pills rather than bars, each stock-out chance with a thin line beneath, the
+  or products on a sliding-pill track, money in soft red pills rather than bars, each stock-out chance with a thin ink line beside it, the
   card easing to its new height as the other table slides in; a row lights its ship and a ship
   its rows) (a ways-around list was removed). 4 Why the
   Odds Rose, with no engine detail (the user wants analysis of drivers and trends, and likes "What Moved the Odds"): the
