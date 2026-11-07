@@ -55,14 +55,14 @@
   };
 
   // ---------- header ----------
-  $("#t-q").textContent = root.t.replace(/ over the next 12 months\?$/, "?");
+  // the title is the root question in title case, written in the page itself
   var count = function (f) { return N.filter(f).length; };
   $("#t-tally").innerHTML = [
-    [N.length.toLocaleString("en-GB"), "questions in all"],
+    [N.length.toLocaleString("en-US"), "questions in all"],
     [count(function (n) { return depth[n.i] === 1; }), "pathways and scenarios"],
     [count(function (n) { return n.k === "step"; }), "checkable sub-questions"],
     [count(function (n) { return n.k === "driver"; }), "drivers"],
-    [count(function (n) { return n.k === "consequence"; }).toLocaleString("en-GB"), "knock-on effects"],
+    [count(function (n) { return n.k === "consequence"; }).toLocaleString("en-US"), "knock-on effects"],
     [count(function (n) { return n.r === "withheld"; }), "declined"]
   ].map(function (x) { return "<div><dt>" + x[0] + "</dt><dd>" + x[1] + "</dd></div>"; }).join("");
 
@@ -133,11 +133,9 @@
   function words(p) {
     return p < 5 ? "almost no chance" : p < 20 ? "very unlikely" : p < 45 ? "unlikely" : p <= 55 ? "about even" : p < 80 ? "likely" : p < 95 ? "very likely" : "almost certain";
   }
-  // the color for a chance, from the same ramp as the key: soft yellow at low odds, orange, rose-red at high
-  // on the light pages the ramp runs deeper (amber, orange, crimson) so a low chance still shows on white
-  var RAMP = document.body.classList.contains("rs-lt")
-    ? [[0, [236, 196, 64]], [15, [240, 150, 30]], [35, [232, 96, 28]], [55, [214, 48, 48]], [78, [176, 20, 64]], [100, [120, 10, 52]]]
-    : [[0, [242, 208, 107]], [45, [255, 162, 76]], [80, [255, 95, 115]], [100, [255, 61, 110]]];
+  // the color for a chance, from the same ramp as the key (--ramp in redsea.css): the house red from pale to deep, its
+  // stops packed into the low range where most questions sit, so neighbouring odds still read apart on white
+  var RAMP = [[0, [244, 205, 194]], [10, [238, 163, 146]], [25, [228, 108, 86]], [45, [219, 51, 36]], [70, [166, 30, 20]], [100, [94, 16, 10]]];
   function ramp(p) {
     for (var k = 1; k < RAMP.length; k++) {
       if (p <= RAMP[k][0]) {
@@ -187,7 +185,7 @@
   }
 
   // a fresh grid or tree slides in from the side it came from
-  var lastDepth = 0;
+  var lastDepth = -1;  // so the first level makes an entrance too
   function slide(el) {
     var d = depth[focus], dir = d > lastDepth ? "in-fwd" : d < lastDepth ? "in-back" : "";
     lastDepth = d;
@@ -289,14 +287,25 @@
   window.addEventListener("scroll", relink, { passive: true });
 
   function render() { renderList(); drawView(); }
+  // the view switch: a cream track with a white pill that slides to the chosen view
+  var sw = document.querySelector(".viewsw"), pill = sw.querySelector(".viewsw__pill");
+  function placePill() {
+    var b = sw.querySelector('[aria-pressed="true"]');
+    pill.style.width = b.offsetWidth + "px"; pill.style.transform = "translateX(" + (b.offsetLeft - 4) + "px)";
+  }
+  placePill();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(placePill);
+  window.addEventListener("resize", placePill);
+  requestAnimationFrame(function () { requestAnimationFrame(function () { sw.classList.add("is-ready"); }); });
   function setView(v) {
     view = v;
     document.querySelectorAll(".viewsw button").forEach(function (b) { b.setAttribute("aria-pressed", b.dataset.v === v); });
+    placePill();
     $("#t-visual").hidden = v === "list"; cardsEl.hidden = v !== "cards"; branchEl.hidden = v !== "branches";
     outline.hidden = v !== "list"; $("#t-collapse").hidden = v !== "list";
     if (sel && v !== "list" && !inView(sel)) focus = byId[sel].p || root.i;
     if (v === "branches" && sel && byId[sel].p === focus && sorted(sel).length) active = sel;  // show what sits beneath the selection
-    lastDepth = depth[focus];
+    lastDepth = v === "list" ? depth[focus] : -1;  // a fresh view makes its entrance
     render();
   }
   document.querySelector(".viewsw").addEventListener("click", function (e) { var b = e.target.closest("[data-v]"); if (b) setView(b.dataset.v); });
@@ -326,7 +335,7 @@
     var o = (out[n.i] || []).slice(0, 12), ic = (inc[n.i] || []).slice(0, 12);
     var nOut = (out[n.i] || []).length, nIn = (inc[n.i] || []).length;
     var ch = kids[n.i] || [], nDecl = ch.filter(function (c) { return byId[c].r === "withheld"; }).length;
-    var html = '<button type="button" class="dt__close" aria-label="Close">Close</button>';
+    var html = '<button type="button" class="dt__close btn-q">Close</button>';
     html += '<nav class="dt__path" aria-label="Where it sits">' + ['<button type="button" data-go="">The question</button>'].concat(path.map(function (p) {
       return '<button type="button" data-go="' + p.i + '">' + esc(label(p)) + "</button>";
     })).join('<span aria-hidden="true">/</span>') + "</nav>";
@@ -351,7 +360,7 @@
         (n.c.src ? "<dt>Source</dt><dd>" + esc(n.c.src) + "</dd>" : "") + "</dl></div>";
     }
     if (ch.length) html += '<p class="dt__sub">Splits into ' + ch.length + (ch.length === 1 ? " question" : " questions") + (nDecl ? ", " + nDecl + " declined" : "") +
-      (size[n.i] - 1 > ch.length ? ", " + (size[n.i] - 1).toLocaleString("en-GB") + " below it in all" : "") + ".</p>";
+      (size[n.i] - 1 > ch.length ? ", " + (size[n.i] - 1).toLocaleString("en-US") + " below it in all" : "") + ".</p>";
     if (n.b) html += '<p class="dt__sub">' + (n.b === "d" ? "Raised by a document Totality retrieved." : "Raised from the model's own knowledge.") + "</p>";
     if (nOut || nIn) {
       html += '<div class="dt__links"><p class="dt__lab">Tied to other branches</p>';

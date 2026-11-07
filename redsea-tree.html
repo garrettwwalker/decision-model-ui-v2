@@ -9,10 +9,14 @@
   <link rel="preload" href="assets/fonts/switzer-400.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="assets/css/base.css">
   <link rel="stylesheet" href="assets/css/app.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap">
+  <link rel="stylesheet" href="assets/css/house.css">
   <link rel="stylesheet" href="assets/css/redsea.css">
   <script src="assets/js/nav.js"></script>
 </head>
-<body class="app t-night rs rs-lt rs-lt-tree rs-tree">
+<body class="app house rs rs-tree">
   <a class="skip" href="#main">Skip to content</a>
 
   <header class="bar">
@@ -38,29 +42,33 @@
   <main id="main" class="page tree">
     <section class="tree__head">
       <p class="tree__kicker">How Totality split the question</p>
-      <h1 class="tree__q" id="t-q">How could commercial shipping through the Red Sea be disrupted?</h1>
-      <p class="tree__lede">Totality breaks one hard question into smaller ones it can check against the record, forecasts each, and declines the ones it has no skill at this far out. Open any branch to follow it down.</p>
+      <h1 class="tree__q" id="t-q">How Could Commercial Shipping Through the Red Sea Be Disrupted?</h1>
+      <p class="tree__lede">The Totality engine breaks one hard question into smaller ones it can check against the record. It forecasts each of those and declines the ones it has no skill at six months out. Open any card to follow its branch down.</p>
       <dl class="tally" id="t-tally"></dl>
     </section>
 
     <div class="tree__tools">
-      <label class="find"><span class="sr-only">Search questions</span><input id="t-find" type="search" placeholder="Search questions" autocomplete="off"></label>
-      <label class="switch tog"><span class="switch__text">Show declined</span><input type="checkbox" id="t-declined" checked><span class="switch__ui" aria-hidden="true"></span></label>
-      <label class="switch tog"><span class="switch__text">Show set aside</span><input type="checkbox" id="t-aside"><span class="switch__ui" aria-hidden="true"></span></label>
       <div class="viewsw" role="group" aria-label="View">
+        <span class="viewsw__pill" aria-hidden="true"></span>
         <button type="button" data-v="cards" aria-pressed="true">Cards</button>
         <button type="button" data-v="branches" aria-pressed="false">Branches</button>
         <button type="button" data-v="list" aria-pressed="false">List</button>
       </div>
-      <button class="btn-quiet" type="button" id="t-collapse" hidden>Collapse all</button>
+      <label class="find"><span class="sr-only">Search questions</span><svg class="find__i" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="4.6"/><path d="M10.4 10.4 14 14"/></svg><input id="t-find" type="search" placeholder="Search questions" autocomplete="off"></label>
       <p class="tree__found" id="t-found" aria-live="polite"></p>
+      <div class="tree__filters">
+        <span class="tree__show">Show</span>
+        <label class="switch tog"><span class="switch__text">Declined</span><input type="checkbox" id="t-declined" checked><span class="switch__ui" aria-hidden="true"></span></label>
+        <label class="switch tog"><span class="switch__text">Set aside</span><input type="checkbox" id="t-aside"><span class="switch__ui" aria-hidden="true"></span></label>
+        <button class="btn-q" type="button" id="t-collapse" hidden>Collapse all</button>
+      </div>
     </div>
 
     <div class="tree__body">
       <div class="visual" id="t-visual">
         <div class="visual__top">
           <nav class="crumbs" id="t-crumbs" aria-label="Looking into"></nav>
-          <p class="vkey"><span class="vkey__lo">low</span><span class="vkey__bar"></span><span class="vkey__hi">high chance</span> <span class="vkey__bar vkey__bar--none"></span>declined, no forecast <span class="mv-day is-up"><span class="mv-day__chev" aria-hidden="true"></span></span>moved since yesterday</p>
+          <p class="vkey"><span class="vkey__i"><span class="vkey__lo">Low</span><span class="vkey__bar"></span><span class="vkey__hi">high chance</span></span> <span class="vkey__i"><span class="vkey__bar vkey__bar--none"></span>declined, no forecast</span> <span class="vkey__i"><span class="mv-day is-up"><span class="mv-day__chev" aria-hidden="true"></span></span>moved since yesterday</span></p>
         </div>
         <div class="cards" id="t-cards"></div>
         <div class="br" id="t-branches" hidden></div>
