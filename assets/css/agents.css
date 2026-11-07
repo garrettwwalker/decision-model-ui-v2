@@ -750,3 +750,12 @@ body:not(.has-drawer) .loop__hub.is-sel .hub__ring, body:not(.has-drawer) .loop_
 .fd.is-prob button:hover .fd__kind { background: var(--bad-soft); }
 .fd.is-change button:hover .fd__kind { background: var(--accent-soft); }
 
+/* scrollbars in the panels: thin, rounded and clear of the rounded corners (as house.css) */
+.ag-page ::-webkit-scrollbar { width: 10px; height: 10px; }
+.ag-page ::-webkit-scrollbar-track { background: transparent; margin: 14px; }
+.ag-page ::-webkit-scrollbar-thumb { border: 3px solid transparent; border-radius: 999px; background: rgba(22, 20, 18, 0.2) padding-box; }
+.ag-page ::-webkit-scrollbar-thumb:hover { background-color: rgba(22, 20, 18, 0.34); }
+.ag-page ::-webkit-scrollbar-corner { background: transparent; }
+@supports not selector(::-webkit-scrollbar) {
+  .ag-page * { scrollbar-width: thin; scrollbar-color: rgba(22, 20, 18, 0.24) transparent; }
+}
