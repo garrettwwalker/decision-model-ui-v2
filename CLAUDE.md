@@ -59,23 +59,24 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   questions (the agents page's four: Hormuz 27% +3 pts overnight, Red Sea 31%, Gebze strike 16%, feeder sanctions 15%, with
   next deadlines; keep in sync with agents.js `QUERIES`), the lead lifted, the others faded to 55% and linking to their pages.
   1 Bottom Line, one white card: a lead paragraph and three key judgments with confidence pills, beside a cream panel with the
-  chance, its moves as small white pills, and a 90-day chart with the turning points labelled and today's range a pale red
-  bar that pulses (an estimative scale under the 27% was removed at the user's request); beneath, the loss if we do nothing
+  chance with "+3 pts overnight" beside it and a 90-day chart with the turning points labelled (an estimative scale, a row
+  of change pills, and an error bar on the chart were each removed at the user's request); beneath, the loss if we do nothing
   (causes on one bar that sweeps in whole; each color growing on its own was undone) against the loss with the three
-  decisions and net of their cost. 2 Waiting for You (a red count, as on the agents page): the week's deadlines, then the
-  three decisions with Approve (red, turns ink), Decline (cream; fades the card), and "See the team's part" (a plain link so
-  nav.js slides to team.html?directive=); then "Decisions Made Overnight", your agents' small reversible steps with
-  rounded-square initials, Details (drops open what, when, why, cost, and how to reverse) and Undo (strikes through the
-  whole summary). States persist in localStorage (`daybreak.brief`). 3 What's Caught in the Crossfire: the
+  decisions and net of their cost. 2 Waiting for You (a red count, as on the agents page): the week's deadlines (small circles on a hairline;
+  pill-shaped marks were rejected), then the three decisions with just two buttons: Assign (red; turns ink, says who it's
+  assigned to, and marks its day) and Details (drops open what happens, if we wait, who's affected, and "See the team's
+  part", a plain link so nav.js slides to team.html?directive=); then "Decisions Made Overnight", your agents' small reversible steps with
+  rounded-square initials, Details (drops open what, when, why, cost, and how to reverse) and Undo (a strike draws itself
+  through the whole summary and fades on Redo). States persist in localStorage (`daybreak.brief`). 3 What's Caught in the Crossfire: the
   map (report colors; the Hormuz danger zone a shaded circle with a solid ring, both pulsing paler to deeper red; hatching, a
   dashed ring, and no ring were tried) rides sticky beside "How Long We Can Run" (days of stock against one pale red window behind
-  every row for the 2 to 4 weeks a closure would likely last; a stripe per row read as detached), the losses table (orders
+  every row, labelled "2 week closure"; a stripe per row read as detached), the losses table (orders
   or products on a sliding-pill track, money in soft red pills rather than bars; a row lights its ship and a ship
-  its rows), and the ways around as one list with bars of what each protects (pointing at one lights its route). 4 Why the
+  its rows) (a ways-around list was removed). 4 Why the
   Odds Rose, with no engine detail (the user wants analysis of drivers and trends, and likes "What Moved the Odds"): the
   waterfall with each driver's evidence beneath, three trendlines as on the memo (transits, war-risk premium, naval
-  incidents; weekly from July 13, a red line at the September 29 talks collapse, readouts under the pointer), and "What
-  Would Change Our Minds" with italic roman numerals as on the report, each with what we'd do and where it stands now.
+  incidents; weekly from July 13, a red line at the September 29 talks collapse, readouts under the pointer),; a signposts
+  section ("What Would Change Our Minds") was removed at the user's request.
   5 Outside Your Watchlist (gray swans and an opportunity). 6 You Might Also Ask, bubbles that open ask.html?q=
   ("Each opens the Totality engine", the user's wording). Its money
   figures came from model.js; keep them in sync with the workbench, workflows, and agents pages.

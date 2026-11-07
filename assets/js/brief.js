@@ -1,12 +1,13 @@
-/* The daily brief: what moved across your questions, the decisions waiting for you (approve or decline, as on the agents
-   page), the decisions your agents made overnight (with Details and Undo), what's exposed, and why the odds rose. Decision states and undos
-   persist in localStorage. The trendlines follow the memo's: one series each, a readout under the pointer. */
+/* The daily brief: what moved across your questions, the decisions waiting for you (assign one to its owner, or open its
+   details), the decisions your agents made overnight (with Details and Undo), what's exposed, and why the odds rose.
+   Assignments and undos persist in localStorage. The trendlines follow the memo's: one series each, a readout under the
+   pointer. */
 (function () {
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return [].slice.call((r || document).querySelectorAll(s)); };
   var REDUCE = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  // ---------- state: each decision waiting, approved, or declined; each overnight step kept or undone ----------
+  // ---------- state: each decision waiting or assigned ("ok"); each overnight step kept or undone ----------
   var KEY = "daybreak.brief", S = { d: ["", "", ""], undo: [false, false, false] };
   try {
     var saved = JSON.parse(localStorage.getItem(KEY) || "null");
@@ -17,13 +18,10 @@
   var WEEK = ["resin bridge-buy", "Khor Fakkan booking", "war-risk cover"];
   function render() {
     $$(".decision").forEach(function (card, i) {
-      var st = S.d[i];
-      card.classList.toggle("is-approved", st === "ok");
-      card.classList.toggle("is-declined", st === "no");
-      $(".decision__state", card).textContent = st === "ok" ? "Approved, owner notified" : st === "no" ? "Declined" : "";
-      var a = $("[data-approve]", card), d = $("[data-decline]", card);
-      a.textContent = st === "ok" ? "Approved" : "Approve"; a.setAttribute("aria-pressed", String(st === "ok"));
-      d.textContent = st === "no" ? "Undo decline" : "Decline"; d.hidden = st === "ok";
+      var on = S.d[i] === "ok", state = $(".decision__state", card), a = $("[data-assign]", card);
+      card.classList.toggle("is-assigned", on);
+      state.textContent = on ? "Assigned to " + state.dataset.owner : "";
+      a.textContent = on ? "Assigned" : "Assign"; a.setAttribute("aria-pressed", String(on));
     });
     var n = S.d.filter(function (s) { return !s; }).length, count = $("#wait-n");
     count.textContent = n; count.hidden = !n; count.setAttribute("aria-label", n + " waiting");
@@ -31,8 +29,7 @@
       var i = +li.dataset.week, span = $("span", li);
       if (!span._base) span._base = span.textContent;
       li.classList.toggle("is-done", S.d[i] === "ok");
-      li.classList.toggle("is-off", S.d[i] === "no");
-      span.textContent = S.d[i] === "ok" ? "Approved: " + WEEK[i] : S.d[i] === "no" ? "Declined: " + WEEK[i] : span._base;
+      span.textContent = S.d[i] === "ok" ? "Assigned: " + WEEK[i] : span._base;
     });
     $$(".did").forEach(function (li, i) {
       li.classList.toggle("is-undone", S.undo[i]);
@@ -40,26 +37,25 @@
     });
     save();
   }
+  // a Details button drops its panel open (grid rows 0fr to 1fr) and back
+  function details(host, btn) {
+    btn.addEventListener("click", function () {
+      var open = host.classList.toggle("is-open");
+      btn.setAttribute("aria-expanded", String(open));
+      btn.textContent = open ? "Hide details" : "Details";
+    });
+  }
   $$(".decision").forEach(function (card, i) {
-    var title = $(".decision__title", card).textContent.split(" ").slice(0, 6).join(" ") + "…";
-    $("[data-approve]", card).addEventListener("click", function () {
+    var owner = $(".decision__state", card).dataset.owner;
+    $("[data-assign]", card).addEventListener("click", function () {
       S.d[i] = S.d[i] === "ok" ? "" : "ok";
-      if (S.d[i] === "ok") DB.toast("Approved: " + title + " Owner notified.");
+      if (S.d[i] === "ok") DB.toast("Assigned to " + owner + ". It's in their workflows now.");
       render();
     });
-    $("[data-decline]", card).addEventListener("click", function () {
-      S.d[i] = S.d[i] === "no" ? "" : "no";
-      if (S.d[i] === "no") DB.toast("Declined: " + title + " The option lapses at its deadline.");
-      render();
-    });
+    details(card, $("[data-details]", card));
   });
   $$(".did").forEach(function (li, i) {
-    var more = $("[data-details]", li);
-    more.addEventListener("click", function () {
-      var open = li.classList.toggle("is-open");
-      more.setAttribute("aria-expanded", String(open));
-      more.textContent = open ? "Hide details" : "Details";
-    });
+    details(li, $("[data-details]", li));
     $("[data-undo]", li).addEventListener("click", function () {
       S.undo[i] = !S.undo[i];
       DB.toast(S.undo[i] ? "Undone. The agent has reversed it." : "Back on. The agent has redone it.");
@@ -101,7 +97,7 @@
     });
   });
 
-  // ---------- the map and the orders point at each other; a way around lights its route ----------
+  // ---------- the map and the orders point at each other ----------
   var map = $(".bmap");
   function light(ship) {
     map.classList.toggle("has-ship", !!ship);
@@ -111,13 +107,6 @@
   $$("tr[data-ship], .bmap [data-ship]").forEach(function (el) {
     el.addEventListener("mouseenter", function () { light(el.dataset.ship); });
     el.addEventListener("mouseleave", function () { light(null); });
-  });
-  $$(".way[data-way]").forEach(function (li) {
-    var route = $('.rt[data-route="' + li.dataset.way + '"]', map);
-    function on() { map.classList.add("has-focus"); route.classList.add("is-on"); li.classList.add("is-on"); }
-    function off() { map.classList.remove("has-focus"); route.classList.remove("is-on"); li.classList.remove("is-on"); }
-    li.addEventListener("mouseenter", on); li.addEventListener("mouseleave", off);
-    li.addEventListener("focus", on); li.addEventListener("blur", off);
   });
 
   // ---------- trendlines: weekly from July 13; index 12 is this week ----------
@@ -183,5 +172,5 @@
   window.addEventListener("resize", function () { clearTimeout(rt); rt = setTimeout(function () { figs.forEach(draw); }, 120); });
 
   // figures make their entrance the first time they scroll into view
-  Reveal(".spark, .bl__money, .rw, .ways, .fall, .trend");
+  Reveal(".spark, .bl__money, .rw, .fall, .trend");
 })();
