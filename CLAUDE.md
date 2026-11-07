@@ -51,6 +51,17 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   warm amber-orange (first light; gamma 1.35 so only dense cores glow, since thin orange reads brown), the memo green, workflows violet with red running through it (`sky-plum`: plum-black ground), the workbench blue and cyan, ask violet and blue and the
   quietest. Only the sky changes per page; the data colors mean the same thing everywhere. The brief's body also
   has `sky-warm`: warm-black ground and neutral glass. It replaced the dawn site's drifting clouds (`sky.js`).
+- `briefing.html` + `assets/css/brief.css` + `assets/js/brief.js`, the daily brief for the COO (Tue Oct 6), rebuilt from the
+  ground up in the house style on 2026-11-07 (body `app house brief-page`, no sky or space.js; the dark brief is in git
+  history): a serif title-case head with a one-sentence lede; the stakes as one white card (the chance with a sparkline that
+  draws in, the loss if we do nothing in red with its causes in steps of red, the loss if we act with net value protected in
+  a cream panel); numbered sections with the number in the margin: 1 the week's deadlines as a strip, then the three
+  decisions as white cards (Approve turns ink and swaps the deadline pill for "Approved, owner notified"; "See the team's
+  part" opens team.html?directive=); 2 the map in the report's colors (sand sea, white land, red for what's trapped, ink
+  diversion routes that light from the route cards) beside the losses table, grouped by orders or products on a cream track
+  with a sliding white pill, and the ways around as white cards, the recommended one lifted; 3 the engine parts as tiles
+  (declined hatched, the fused 27% lifted in red) and the waterfall and signposts in one card; 4 three horizon cards. Its
+  figures still come from model.js; keep them in sync with the workbench, workflows, and agents pages.
 - `memo.html` + `assets/js/memo.js` (since 2026-11-06 in the house style like the Red Sea report: body `app house memo-page`,
   no sky, the house layer at the end of memo.css; serif title-case headings with section numbers in the margin and the note
   beneath, white cards with cream panels, red for risk and what pushes the odds up, amber for where interests pull apart,
@@ -174,7 +185,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   redraw on every change wipe in with clip-path (the report keeps its own copy, `html.rs-anim`). Its rules: cream ground, white cards on a soft shadow, serif
   titles in title case with no period, one tomato red (money at risk is red; protected neutral ink), amber for a
   problem, no green, gold or blue, no outline rings (a lit or chosen card lifts), no status dots or glows. agents.css
-  keeps its own copy (body `ag-page`) and is the reference; at a glance, the report, the tree, the sample memo and ask use house.css; the other existing
+  keeps its own copy (body `ag-page`) and is the reference; the daily brief, at a glance, the report, the tree, the sample memo and ask use house.css; the other existing
   pages keep their own styles unless asked.
 - `index.html` + `assets/css/landing.css` + `assets/js/landing.js` is the landing, Penumbra (it was a preview at
   `penumbra.html` from 2026-10-15 until the switchover on 2026-10-16; `penumbra.html` now only redirects home). Same

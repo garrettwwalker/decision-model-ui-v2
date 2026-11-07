@@ -1,8 +1,7 @@
 (function () {
-  /* Approve / defer decisions */
+  /* Approve a decision, or open the team's part of it on the workflows page */
   document.querySelectorAll("[data-decision]").forEach(function (card) {
     var approve = card.querySelector("[data-approve]");
-    var defer = card.querySelector("[data-defer]");
     approve.addEventListener("click", function () {
       var on = card.classList.toggle("is-approved");
       approve.textContent = on ? "Approved" : "Approve";
@@ -12,25 +11,36 @@
         DB.toast("Approved: " + title.split(" ").slice(0, 6).join(" ") + "… Owner notified.");
       }
     });
-    defer.addEventListener("click", function () {
-      window.location.href = "team.html?directive=" + defer.getAttribute("data-move");
+    card.querySelector("[data-move]").addEventListener("click", function (e) {
+      window.location.href = "team.html?directive=" + e.currentTarget.getAttribute("data-move");
     });
   });
 
-  /* POs / SKUs toggle */
-  document.querySelectorAll('input[name="by"]').forEach(function (r) {
-    r.addEventListener("change", function () {
-      document.querySelectorAll("[data-view]").forEach(function (v) {
-        v.hidden = v.getAttribute("data-view") !== r.value;
-      });
+  /* Orders or products: a cream track with a white pill that slides to the chosen grouping */
+  var sw = document.querySelector(".sw"), pill = sw.querySelector(".sw__pill");
+  function placePill() {
+    var b = sw.querySelector('[aria-pressed="true"]');
+    pill.style.width = b.offsetWidth + "px"; pill.style.transform = "translateX(" + (b.offsetLeft - 4) + "px)";
+  }
+  placePill();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(placePill);
+  window.addEventListener("resize", placePill);
+  requestAnimationFrame(function () { requestAnimationFrame(function () { sw.classList.add("is-ready"); }); });
+  sw.addEventListener("click", function (e) {
+    var b = e.target.closest("[data-by]");
+    if (!b) return;
+    sw.querySelectorAll("[data-by]").forEach(function (x) { x.setAttribute("aria-pressed", String(x === b)); });
+    placePill();
+    document.querySelectorAll("[data-view]").forEach(function (v) {
+      v.hidden = v.getAttribute("data-view") !== b.dataset.by;
+      if (!v.hidden) v.classList.add("is-in");
     });
   });
 
-  /* Route cards light up their path on the map */
-  var map = document.querySelector(".map");
+  /* A route card lights its path on the map */
+  var map = document.querySelector(".bmap");
   document.querySelectorAll("[data-route-card]").forEach(function (card) {
-    var key = card.getAttribute("data-route-card");
-    var route = document.querySelector('.route[data-route="' + key + '"]');
+    var route = map.querySelector('.rt[data-route="' + card.getAttribute("data-route-card") + '"]');
     function on() { map.classList.add("has-focus"); route.classList.add("is-on"); }
     function off() { map.classList.remove("has-focus"); route.classList.remove("is-on"); }
     card.addEventListener("mouseenter", on);
@@ -38,4 +48,7 @@
     card.addEventListener("focus", on);
     card.addEventListener("blur", off);
   });
+
+  /* Figures make their entrance the first time they scroll into view */
+  Reveal(".spark, .stack, .tbl-wrap, .fall");
 })();
