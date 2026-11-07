@@ -192,6 +192,10 @@
     while (a) { path.unshift(a); a = byId[a.p]; }
     if (!route) { crumbs.innerHTML = '<ol class="route"></ol>'; route = crumbs.firstChild; }
     var ready = crumbs.classList.contains("is-ready");
+    if (morph && ready && (path.length === 1) !== crumbs.classList.contains("is-root")) {  // a card is travelling: no fold
+      crumbs.classList.add("is-snap");
+      requestAnimationFrame(function () { crumbs.classList.remove("is-snap"); });
+    }
     if (path.length === 1) {  // the top: keep the stops as they are and let the route fade out
       crumbs.classList.add("is-root"); crumbs.inert = true;
       if (!ready) route.innerHTML = "";
@@ -234,33 +238,41 @@
 
   // Cards: the focus question as a header, its children as a grid
   // Opening a card, the card itself grows into the "Looking into" spot, and going back up one level the header shrinks
-  // back into its place in the grid (a copy of the old card travels between the two while its contents fade, then the
-  // real card fades in where it lands); the rest of the level slides in as before
+  // back into its place in the grid. A white shell travels between the two; inside it the old card's contents fade out
+  // and the new card's fade in, each held at its own size so the text never rewraps on the way. The real card shows only
+  // once the shell has landed on it. While a card travels, the route snaps to its new height instead of folding (drawCrumbs
+  // checks `morph`), so the target holds still: chasing a target the route was still pushing down made the shell overshoot
   var morph = null;
   function docRect(el) { var b = el.getBoundingClientRect(); return { x: b.left + scrollX, y: b.top + scrollY, w: b.width, h: b.height }; }
   function takeMorph(el, dir, i) { morph = REDUCE || view !== "cards" ? null : { dir: dir, i: i, from: docRect(el), node: el.cloneNode(true) }; }
+  function layer(node, w, h) {
+    node.classList.remove("is-sel", "is-hit", "is-morph"); node.removeAttribute("style"); node.removeAttribute("data-i");
+    node.classList.add("cd-ghost__in"); node.style.width = w + "px"; node.style.height = h + "px";
+    return node;
+  }
   function runMorph(m) {
     var to = m.dir === "in" ? cardsEl.querySelector(".cd--head") : cardsEl.querySelector('.cards__grid .cd[data-i="' + m.i + '"]');
     if (!to) return;
-    var r = docRect(to), g = m.node, T = 520;
-    g.classList.add("cd-ghost"); g.classList.remove("is-sel", "is-hit"); g.removeAttribute("style"); g.setAttribute("aria-hidden", "true"); g.tabIndex = -1;
+    to.classList.add("is-morph", "no-entrance");  // hidden till the shell lands, and no slide-in under it (it replayed on landing)
+    var f = m.from, r = docRect(to), T = 520;
+    var g = document.createElement("div"); g.className = "cd-ghost"; g.setAttribute("aria-hidden", "true");
+    var out = layer(m.node, f.w, f.h), inn = layer(to.cloneNode(true), r.w, r.h);
+    inn.classList.remove("no-entrance");
+    g.appendChild(out); g.appendChild(inn);
     document.body.appendChild(g);
-    // the copy steers for where the target is on each frame, since the route above may still be folding open or shut
-    var f = m.from, t0 = performance.now(), ease = function (p) { return 1 - Math.pow(1 - p, 3); };
+    out.animate([{ opacity: 1 }, { opacity: 0 }], { duration: T * 0.4, fill: "forwards", easing: "ease-out" });
+    inn.animate([{ opacity: 0 }, { opacity: 0, offset: 0.25 }, { opacity: 1 }], { duration: T, fill: "forwards" });
+    var t0 = performance.now(), ease = function (p) { return 1 - Math.pow(1 - p, 3); };
     var place = function (b) { g.style.left = b.x + "px"; g.style.top = b.y + "px"; g.style.width = b.w + "px"; g.style.height = b.h + "px"; };
     place(f);
-    Array.prototype.forEach.call(g.children, function (c) { c.animate([{ opacity: 1 }, { opacity: 0 }], { duration: T * 0.4, fill: "forwards" }); });
-    to.classList.add("is-morph");
-    to.animate([{ opacity: 0 }, { opacity: 0, offset: 0.4 }, { opacity: 1 }], { duration: T + 120 });
     (function step(now) {
-      var p = Math.min(1, (now - t0) / T), e = ease(p), b = to.isConnected ? docRect(to) : r;
-      place({ x: f.x + (b.x - f.x) * e, y: f.y + (b.y - f.y) * e, w: f.w + (b.w - f.w) * e, h: f.h + (b.h - f.h) * e });
+      var p = Math.min(1, (now - t0) / T), e = ease(p);
+      place({ x: f.x + (r.x - f.x) * e, y: f.y + (r.y - f.y) * e, w: f.w + (r.w - f.w) * e, h: f.h + (r.h - f.h) * e });
       if (p < 1 && to.isConnected) requestAnimationFrame(step);
       else { g.remove(); to.classList.remove("is-morph"); }
     })(t0);
     // opened from far down the grid: bring the header into view as the card travels up to it
-    var top = to.getBoundingClientRect().top;
-    if (m.dir === "in" && top < 90) window.scrollTo({ top: Math.max(0, r.y - 110), behavior: "smooth" });
+    if (m.dir === "in" && to.getBoundingClientRect().top < 90) window.scrollTo({ top: Math.max(0, r.y - 110), behavior: "smooth" });
   }
   function drawCards() {
     var f = byId[focus], ch = sorted(focus);

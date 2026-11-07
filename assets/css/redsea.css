@@ -1019,7 +1019,8 @@ html[data-moon] body { visibility: hidden; }
 .house.rs-tree .crumbs { display: grid; grid-template-rows: 1fr; flex: none; margin-bottom: 1.1rem; opacity: 1; }
 .house.rs-tree .crumbs > .route { min-height: 0; margin: 0; padding: 0; overflow: hidden; }
 .house.rs-tree .crumbs.is-root { grid-template-rows: 0fr; margin-bottom: 0; opacity: 0; }
-.house.rs-tree .crumbs.is-ready { transition: grid-template-rows 0.45s cubic-bezier(0.3, 0.7, 0.2, 1), margin-bottom 0.45s cubic-bezier(0.3, 0.7, 0.2, 1), opacity 0.3s ease; }
+.house.rs-tree .crumbs.is-ready.is-snap { transition: opacity 0.3s ease; }
+.house.rs-tree .crumbs.is-ready:not(.is-snap) { transition: grid-template-rows 0.45s cubic-bezier(0.3, 0.7, 0.2, 1), margin-bottom 0.45s cubic-bezier(0.3, 0.7, 0.2, 1), opacity 0.3s ease; }
 .house.rs-tree .route__stop, .house.rs-tree .route__stop:last-child { flex: 0 1 15rem; min-width: 8.5rem; overflow: hidden; }
 .house.rs-tree .route__stop.is-end { flex: 1 1 18rem; }
 .house.rs-tree .route__stop.is-entering, .house.rs-tree .route__stop.is-leaving { flex: 0 0 0; min-width: 0; opacity: 0; }
@@ -1142,10 +1143,10 @@ html[data-moon] body { visibility: hidden; }
 .house.rs-tree .lk__t { color: var(--ink); }
 
 /* the copy of a card that travels into the "Looking into" spot or back (runMorph() in redsea-tree.js) */
-.house.rs-tree .cd.cd-ghost { position: absolute; z-index: 20; margin: 0; overflow: hidden; pointer-events: none; transform: none; transition: none; animation: none; box-shadow: var(--shadow-up); }
-.house.rs-tree .cd.cd-ghost::after { display: none; }
-.house.rs-tree .cards .cd.is-morph { animation: none; }
-.house.rs-tree .cards .cd.is-morph .cd__bar i { animation-delay: 0.3s; }
+.house.rs-tree .cd-ghost { position: absolute; z-index: 20; overflow: hidden; pointer-events: none; border-radius: var(--r); background: #fff; box-shadow: var(--shadow-up); }
+.house.rs-tree .cd.cd-ghost__in { position: absolute; left: 0; top: 0; margin: 0; background: none; box-shadow: none; transform: none; transition: none; animation: none; }
+.house.rs-tree .cd-ghost__in .cd__bar i, .house.rs-tree .cards .cd.no-entrance, .house.rs-tree .cards .cd.no-entrance .cd__bar i { animation: none; }
+.house.rs-tree .cards .cd.is-morph { visibility: hidden; }
 
 /* a level's entrance: the cards slide in (above) and their chance bars grow from the left */
 /* backwards, not both, so a finished entrance lets go of transform and the hover lift still works */
@@ -1178,5 +1179,5 @@ html[data-moon] body { visibility: hidden; }
 @media (prefers-reduced-motion: reduce) {
   .house.rs-tree .cd, .house.rs-tree .viewsw.is-ready .viewsw__pill, .house.rs-tree .br__more { transition: none; }
   .house.rs-tree .cd:hover, .house.rs-tree .cd.is-sel, .house.rs-tree .br__col .cd.is-active { transform: none; }
-  .house.rs-tree .crumbs.is-ready, .house.rs-tree .crumbs.is-ready .route__stop, .house.rs-tree .crumbs.is-ready .route__stop::after, .house.rs-tree .route__t { transition: none; }
+  .house.rs-tree .crumbs.is-ready:not(.is-snap), .house.rs-tree .crumbs.is-ready .route__stop, .house.rs-tree .crumbs.is-ready .route__stop::after, .house.rs-tree .route__t { transition: none; }
 }
