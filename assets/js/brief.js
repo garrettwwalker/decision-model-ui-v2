@@ -20,8 +20,8 @@
     $$(".decision").forEach(function (card, i) {
       var on = S.d[i] === "ok", state = $(".decision__state", card), a = $("[data-assign]", card);
       card.classList.toggle("is-assigned", on);
-      state.textContent = on ? "Assigned to " + state.dataset.owner : "";
-      a.textContent = on ? "Assigned" : "Assign"; a.setAttribute("aria-pressed", String(on));
+      state.textContent = on ? (a.dataset.verb ? "Approved, sent to " : "Assigned to ") + state.dataset.owner : "";
+      a.textContent = on ? (a.dataset.did || "Assigned") : (a.dataset.verb || "Assign"); a.setAttribute("aria-pressed", String(on));
     });
     var n = S.d.filter(function (s) { return !s; }).length, count = $("#wait-n");
     count.textContent = n; count.hidden = !n; count.setAttribute("aria-label", n + " waiting");
@@ -29,7 +29,8 @@
       var i = +li.dataset.week, span = $("span", li);
       if (!span._base) span._base = span.textContent;
       li.classList.toggle("is-done", S.d[i] === "ok");
-      span.textContent = S.d[i] === "ok" ? "Assigned: " + WEEK[i] : span._base;
+      var verb = $('.decision[data-d="' + i + '"] [data-assign]').dataset.did || "Assigned";
+      span.textContent = S.d[i] === "ok" ? verb + ": " + WEEK[i] : span._base;
     });
     $$(".did").forEach(function (li, i) {
       li.classList.toggle("is-undone", S.undo[i]);
@@ -46,10 +47,10 @@
     });
   }
   $$(".decision").forEach(function (card, i) {
-    var owner = $(".decision__state", card).dataset.owner;
-    $("[data-assign]", card).addEventListener("click", function () {
+    var owner = $(".decision__state", card).dataset.owner, btn = $("[data-assign]", card);
+    btn.addEventListener("click", function () {
       S.d[i] = S.d[i] === "ok" ? "" : "ok";
-      if (S.d[i] === "ok") DB.toast("Assigned to " + owner + ". It's in their workflows now.");
+      if (S.d[i] === "ok") DB.toast(btn.dataset.verb ? "Approved and sent to " + owner + "." : "Assigned to " + owner + ". It's in their workflows now.");
       render();
     });
     details(card, $("[data-details]", card));
@@ -91,10 +92,18 @@
     if (!b) return;
     $$("[data-by]", sw).forEach(function (x) { x.setAttribute("aria-pressed", String(x === b)); });
     placePill();
+    // the card eases to its new height while the new table slides in from the side its tab lies on
+    var card = $(".caught"), h0 = card.offsetHeight, shown;
     $$("[data-view]").forEach(function (v) {
       v.hidden = v.dataset.view !== b.dataset.by;
-      if (!v.hidden) v.classList.add("is-in");
+      if (!v.hidden) { v.classList.add("is-in"); shown = v; }
     });
+    if (REDUCE || !card.animate) return;
+    var h1 = card.offsetHeight, dx = b.dataset.by === "sku" ? 16 : -16;
+    card.style.overflow = "hidden";
+    card.animate([{ height: h0 + "px" }, { height: h1 + "px" }], { duration: 320, easing: "cubic-bezier(0.3, 0.7, 0.2, 1)" })
+      .onfinish = function () { card.style.overflow = ""; };
+    shown.animate([{ opacity: 0, transform: "translateX(" + dx + "px)" }, { opacity: 1, transform: "none" }], { duration: 300, easing: "cubic-bezier(0.3, 0.7, 0.2, 1)" });
   });
 
   // ---------- the map and the orders point at each other ----------

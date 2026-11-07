@@ -68,18 +68,18 @@
 .conf--mod { color: var(--bad-ink); background: var(--bad-soft); }
 .conf--low { color: var(--ink-3); background: var(--mist-2); }
 
-.bl__odds { display: flex; flex-direction: column; gap: 0.6rem; margin: 0.75rem; padding: clamp(1.1rem, 2vw, 1.6rem); border-radius: var(--r-sm); background: var(--mist); }
+.bl__odds { display: flex; flex-direction: column; justify-content: center; gap: 0.6rem; margin: 0.75rem; padding: clamp(1.1rem, 2vw, 1.6rem); border-radius: var(--r-sm); background: var(--mist); }
 .bl__odds p { margin: 0; }
 .bl__k { font-size: 0.82rem; font-weight: 600; color: var(--ink-3); }
 .bl__p { font-family: var(--display); font-size: clamp(3.4rem, 6vw, 4.6rem); line-height: 0.95; letter-spacing: -0.02em; color: var(--accent-ink); font-variant-numeric: lining-nums tabular-nums; }
 .bl__p span { font-size: 0.6em; }
 .bl__row { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0.3rem 0.9rem; }
-.bl__move { font-size: 0.92rem; color: var(--ink-2); }
-.bl__move b { color: var(--accent-ink); }
+.bl__move { padding: 0.35rem 0.85rem; border-radius: 999px; font-size: 0.95rem; color: var(--accent-ink); background: var(--accent-soft); transform: translateY(-0.45rem); }
+.bl__move b { font-weight: 700; }
 .bl__band { font-size: 0.84rem; color: var(--ink-3); }
 
 /* the last 90 days, the turning points labelled, today's range a pale red bar that pulses as the memo's error band does */
-.spark { margin: auto 0 0; padding-top: 0.6rem; }
+.spark { margin: 0.4rem 0 0; }
 .spark svg { display: block; width: 100%; height: auto; overflow: visible; }
 .spark__base { stroke: var(--line-strong); stroke-width: 1; }
 .spark__area { fill: var(--accent-soft); }
@@ -267,7 +267,7 @@
   position: absolute; top: 0; bottom: calc(1rem + 0.55rem); left: calc(var(--kw) + 0.75rem + var(--tw) * var(--a) / 30);
   width: calc(var(--tw) * (var(--b) - var(--a)) / 30); border-radius: 6px; background: rgba(219, 51, 36, 0.1);
 }
-.rw__win span { position: absolute; top: 0.3rem; right: 0.5rem; font-size: 0.7rem; font-weight: 600; color: var(--accent-ink); white-space: nowrap; }
+.rw__win span { position: absolute; top: 0.3rem; left: 50%; transform: translateX(-50%); font-size: 0.7rem; font-weight: 600; color: var(--accent-ink); white-space: nowrap; }
 .rw__row { position: relative; display: grid; grid-template-columns: var(--kw) minmax(0, 1fr) var(--vw); align-items: center; gap: 0.75rem; }
 .rw__k { font-size: 0.84rem; color: var(--ink-2); }
 .rw__row b { font-size: 0.84rem; text-align: right; font-variant-numeric: tabular-nums; }
@@ -298,6 +298,9 @@
 .tbl__sub { display: block; margin-top: 0.1rem; font-size: 0.76rem; color: var(--ink-3); }
 .tbl__m { padding: 0.22rem 0.65rem; font-size: 0.84rem; font-variant-numeric: tabular-nums; } /* money in a soft red wash rather than a bar */
 .tbl__p { font-weight: 600; font-variant-numeric: tabular-nums; }
+/* a thin line under each chance, filled to it */
+.pbar { position: relative; display: block; width: 5rem; height: 4px; margin-top: 0.35rem; border-radius: 4px; background: var(--mist-2); overflow: hidden; }
+.pbar i { position: absolute; inset: 0 auto 0 0; width: calc(var(--v) * 1%); border-radius: 4px; background: var(--accent); }
 .caught__foot { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 0.6rem 1rem; margin-top: 0.9rem; padding-top: 0.9rem; border-top: 1px solid var(--line); }
 .caught__foot p { margin: 0; font-size: 0.84rem; color: var(--ink-2); }
 

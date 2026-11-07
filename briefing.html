@@ -94,7 +94,7 @@
             <p class="bl__row"><span class="bl__p">27<span>%</span></span><span class="bl__move"><b>+3 pts</b> overnight</span></p>
             <p class="bl__band">±5 pts, so somewhere between 22% and 32%</p>
             <figure class="spark">
-              <svg viewBox="0 0 300 112" role="img" aria-label="The chance of a closure over the last 90 days: about 6% through July and August, 9% on September 1, 18% last Tuesday, and 27% today">
+              <svg viewBox="0 16 300 96" role="img" aria-label="The chance of a closure over the last 90 days: about 6% through July and August, 9% on September 1, 18% last Tuesday, and 27% today">
                 <line x1="8" y1="100" x2="292" y2="100" class="spark__base"/>
                 <path class="spark__area" d="M8 100 L8 84.4 L37 84.4 L66 85.7 L95 84.4 L124 83.1 L147.2 81.8 L167.5 76.6 L187.8 74 L208.1 68.8 L228.4 63.6 L240 61 L248.7 53.2 L257.4 45.4 L266.1 37.6 L269 29.8 L269 100Z"/>
                 <path class="spark__line" pathLength="1" d="M8 84.4 L37 84.4 L66 85.7 L95 84.4 L124 83.1 L147.2 81.8 L167.5 76.6 L187.8 74 L208.1 68.8 L228.4 63.6 L240 61 L248.7 53.2 L257.4 45.4 L266.1 37.6 L269 29.8"/>
@@ -131,7 +131,7 @@
               <li><i class="left__k left__k--risk"></i>Still at risk<b>$13.0M</b></li>
               <li><i class="left__k"></i>Protected by the decisions<b>$25.0M</b></li>
             </ul>
-            <div class="net"><span>Net of their cost</span><b>$21.9M</b></div>
+            <div class="net"><span>Net cost</span><b>$21.9M</b></div>
           </div>
         </div>
       </div>
@@ -198,7 +198,7 @@
             <div><dt>Protects</dt><dd>$5.7M</dd></div>
           </dl>
           <div class="decision__act">
-            <button class="btn btn--primary btn--sm" type="button" data-assign>Assign</button>
+            <button class="btn btn--primary btn--sm" type="button" data-assign data-verb="Approve" data-did="Approved">Approve</button>
             <button class="btn-q" type="button" data-details aria-expanded="false" aria-controls="dec-2">Details</button>
           </div>
           <div class="decision__more" id="dec-2"><div><dl class="did__dl"><div><dt>What happens</dt><dd>Treasury binds war-risk cover on our Gulf calls at today's quote and places a fourth-quarter bunker hedge.</dd></div><div><dt>If we wait</dt><dd>If underwriters list the whole strait on Thursday, today's quote is gone and premiums reprice upward.</dd></div><div><dt>Who's affected</dt><dd>Farah's port team confirms which calls the cover needs to name.</dd></div></dl><a class="btn-q" href="team.html?directive=cover">See the team's part</a></div></div>
@@ -218,7 +218,7 @@
           <li class="did"><span class="did__who" style="--h:6">RB</span><p class="did__what"><span class="did__line"><b>Checked resin suppliers twice a day instead of once</b>, in case a Jubail producer declares force majeure.</span></p><div class="did__act"><button class="btn-q" type="button" data-details aria-expanded="false" aria-controls="did-2">Details</button><button class="btn-q" type="button" data-undo>Undo</button></div>
             <div class="did__more" id="did-2"><dl class="did__dl"><div><dt>Agent</dt><dd>Resin supply agent</dd></div><div><dt>When</dt><dd>04:05 GST</dd></div><div><dt>Why</dt><dd>A force-majeure notice from Jubail would make resin urgent, and hearing of it a day sooner buys time to buy elsewhere.</dd></div><div><dt>Cost</dt><dd>About $80 a month of data.</dd></div><div><dt>Undo</dt><dd>Goes back to one check a day.</dd></div></dl></div></li>
         </ul>
-        <a class="btn-q done__more" href="agents.html">See every agent at work</a>
+        <a class="btn btn--primary btn--sm done__more" href="agents.html">See every agent at work</a>
       </div>
     </section>
 
@@ -291,7 +291,7 @@
             <h3 class="card__title">How Long We Can Run</h3>
             <p class="card__note">Days of stock left for what a closure would cut off first, against how long one would likely last.</p>
             <div class="rw" role="img" aria-label="Days of stock: compressor kits for Gebze 5, HDPE resin for Pune 8, PP resin for Gebze 11, aluminum coil for Pune 12, and washers at the Dubai DC 14. A two-week closure would outlast every one of them.">
-              <div class="rw__win" style="--a:14;--b:28" aria-hidden="true"><span>2 week closure</span></div>
+              <div class="rw__win" style="--a:14;--b:28" aria-hidden="true"><span>Closure, weeks 2–4</span></div>
               <div class="rw__row"><span class="rw__k">Compressor kits, Gebze</span><span class="rw__t"><i style="--v:5"></i></span><b>5 days</b></div>
               <div class="rw__row"><span class="rw__k">HDPE resin, Pune</span><span class="rw__t"><i style="--v:8"></i></span><b>8 days</b></div>
               <div class="rw__row"><span class="rw__k">PP resin, Gebze</span><span class="rw__t"><i style="--v:11"></i></span><b>11 days</b></div>
@@ -327,11 +327,11 @@
               <table class="tbl">
                 <thead><tr><th scope="col">Product</th><th scope="col">Chance of a stock-out</th><th scope="col" class="r">Revenue at risk</th></tr></thead>
                 <tbody>
-                  <tr><td><b class="tbl__id">HV-WM8</b><span class="tbl__sub">Front-load washer, built in Gebze</span></td><td class="tbl__p">58%</td><td class="r"><span class="pill pill--red tbl__m">$7.3M</span></td></tr>
-                  <tr><td><b class="tbl__id">HV-FR90</b><span class="tbl__sub">French-door fridge, built in Pune</span></td><td class="tbl__p">52%</td><td class="r"><span class="pill pill--red tbl__m">$6.1M</span></td></tr>
-                  <tr><td><b class="tbl__id">HV-OLED55</b><span class="tbl__sub">55″ OLED TV, made in Ningbo</span></td><td class="tbl__p">41%</td><td class="r"><span class="pill pill--red tbl__m">$3.8M</span></td></tr>
-                  <tr><td><b class="tbl__id">HV-DW45</b><span class="tbl__sub">Dishwasher, built in Gebze</span></td><td class="tbl__p">33%</td><td class="r"><span class="pill pill--red tbl__m">$2.9M</span></td></tr>
-                  <tr><td><b class="tbl__id">HV-AC24</b><span class="tbl__sub">Split air conditioner, built in Pune</span></td><td class="tbl__p">29%</td><td class="r"><span class="pill pill--red tbl__m">$2.4M</span></td></tr>
+                  <tr><td><b class="tbl__id">HV-WM8</b><span class="tbl__sub">Front-load washer, built in Gebze</span></td><td class="tbl__p">58%<span class="pbar" aria-hidden="true"><i style="--v:58"></i></span></td><td class="r"><span class="pill pill--red tbl__m">$7.3M</span></td></tr>
+                  <tr><td><b class="tbl__id">HV-FR90</b><span class="tbl__sub">French-door fridge, built in Pune</span></td><td class="tbl__p">52%<span class="pbar" aria-hidden="true"><i style="--v:52"></i></span></td><td class="r"><span class="pill pill--red tbl__m">$6.1M</span></td></tr>
+                  <tr><td><b class="tbl__id">HV-OLED55</b><span class="tbl__sub">55″ OLED TV, made in Ningbo</span></td><td class="tbl__p">41%<span class="pbar" aria-hidden="true"><i style="--v:41"></i></span></td><td class="r"><span class="pill pill--red tbl__m">$3.8M</span></td></tr>
+                  <tr><td><b class="tbl__id">HV-DW45</b><span class="tbl__sub">Dishwasher, built in Gebze</span></td><td class="tbl__p">33%<span class="pbar" aria-hidden="true"><i style="--v:33"></i></span></td><td class="r"><span class="pill pill--red tbl__m">$2.9M</span></td></tr>
+                  <tr><td><b class="tbl__id">HV-AC24</b><span class="tbl__sub">Split air conditioner, built in Pune</span></td><td class="tbl__p">29%<span class="pbar" aria-hidden="true"><i style="--v:29"></i></span></td><td class="r"><span class="pill pill--red tbl__m">$2.4M</span></td></tr>
                 </tbody>
               </table>
             </div>
