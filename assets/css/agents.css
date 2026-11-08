@@ -626,6 +626,9 @@ body:not(.has-drawer) .rt.is-sel { background: transparent; }
 .watch__list > .wq > * { transition: opacity 0.25s ease; }
 .watch__list > .wq:not([aria-selected="true"]) > * { opacity: 0.55; }
 .watch__list > .wq:not([aria-selected="true"]):hover > *, .watch__list > .wq:focus-visible > * { opacity: 1; }
+/* their pills go gray too, so a faded card carries no color (the pointer brings the color back with the text) */
+.watch__list > .wq .st, .lag .st { transition: color 0.25s ease, background-color 0.25s ease; }
+.watch__list > .wq:not([aria-selected="true"]):not(:hover):not(:focus-visible) .st, .lag.is-off .st { color: var(--ink-3); background: var(--mist-2); }
 
 /* overview: the figures in serif; the cards white with cream panels; who acts chosen in ink with a red dot */
 .dk__v { font-size: clamp(1.9rem, 2.8vw, 2.5rem); }
