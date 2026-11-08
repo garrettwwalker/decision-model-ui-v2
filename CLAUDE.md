@@ -107,9 +107,12 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   cut links pulse red; views slide between the region and the Gulf (the Gulf box zooms in too, and markers keep their
   screen size); selecting a place lights its links and opens its details, its status in the scenario, and its links;
   beneath, what we stand to lose in the scenario by interest. (A three-column network, the Dubai traders tile, and a loss
-  curve were removed.) 6 Our Options: the four option cards with costs, protects, net, for and against, and Totality's
-  view; the selected card lifts and sets "How Each Would Run" below it (`PLANS`, Gantt, tripwires, "Send to workflows"; a
-  values-by-scenario table, a suggested-path strip, and plan tabs were removed); then where it opens doors. 7 Signposts to
+  curve were removed.) 6 Our Options: four short cards (number, Totality's view, title, costs, protects, net) so they share a
+  screen with the panel beneath; the selected card lifts and fills that panel, the full control panel for the option: its
+  description, costs and benefits beside lead, first move, and team hours, for and against side by side, the implementation
+  timeline (`PLANS`, Gantt), tripwires, and "Send to workflows" (the for and against on the cards took too much room; a "How
+  Each Would Run" heading, card hints, a values-by-scenario table, a suggested-path strip, and plan tabs were removed);
+  then where it opens doors. 7 Signposts to
   Watch: `POSTS` with readings, gauges, effects, a ticking "Checked N min ago", and alert toggles (`daybreak.memo.alerts`,
   no toast). 8 Known Unknowns: "What We Don't Know", a card per gap with a small meter of what we can see and "What would tell us"; then "Unlikely, but High Impact", a card per wildcard with its chance and "What we'd do" (two plain list cards were disliked). 9 You Might Also Ask ("Each opens the Totality
   engine."). It reuses the brief's resin, Dubai, and feeder exposures and the Sep 29 talks collapse, so keep those in sync.

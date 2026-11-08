@@ -50,22 +50,22 @@
   // the four ways to respond, as expected values over a year at the 41% chance; Totality's view marks when to start
   var P = 0.41;
   var OPTIONS = [
-    { id: "resin", n: 1, title: "Re-source resin before sanctions arrive", view: "start now", pick: true,
+    { id: "resin", n: 1, title: "Re-source Resin Before Sanctions Arrive", view: "start now", pick: true,
       line: "Qualify two Singapore grades and one Korean grade at Gebze, and move 40% of its volume off the Gulf by December. Builds on Tuesday’s Singapore bridge-buy.",
       cost: 2.6, protects: 24 * 0.8 * P,
       pros: ["Protects the most value", "Also cuts the Hormuz exposure in this week’s brief", "Qualification is reusable for any future supply shock"],
       cons: ["About $35/t more for at least two quarters", "Ties up Gebze’s QA team for 6 weeks", "Gulf suppliers may shrink our allocation"] },
-    { id: "engage", n: 2, title: "Engage Washington and the banks", view: "start now", pick: true,
+    { id: "engage", n: 2, title: "Engage Washington and the Banks", view: "start now", pick: true,
       line: "Through the trade association, ask Treasury for wind-down guidance. Pre-clear payment routes with two banks and open a second settlement account for Gebze.",
       cost: 0.4, protects: 4 * P,
       pros: ["Cheap, and may buy a longer wind-down", "Keeps Gebze’s payroll and supplier runs safe"],
       cons: ["The outcome is outside our control", "Visible lobbying on Iran carries some reputational risk", "Does nothing for resin"] },
-    { id: "tighten", n: 3, title: "Tighten compliance now", view: "start at the first tripwire",
+    { id: "tighten", n: 3, title: "Tighten Compliance Now", view: "start at the first tripwire",
       line: "Re-screen every MENA counterparty, ask the Dubai traders for end-use certificates, pause any that won’t sign, and swap the two exposed feeders.",
       cost: 3.5, costNote: "including $2.1M of margin given up", protects: 16 * P,
       pros: ["Removes nearly all penalty exposure", "Shows banks and auditors we moved early", "Cheap to reverse if no sanctions come"],
       cons: ["Gives up about $2.1M of margin a year even if nothing happens", "Strains the traders behind 14% of MENA volume; rivals may take them"] },
-    { id: "watch", n: 4, title: "Watch and set tripwires",
+    { id: "watch", n: 4, title: "Watch and Set Tripwires",
       line: "Change nothing yet. Watch four signposts, and draft, but don’t send, the exit letters.",
       cost: 0.1, protects: 0,
       pros: ["Costs almost nothing and keeps every supplier and trader", "Nothing to unwind if the talks restart"],
@@ -594,7 +594,8 @@
   paintAtlas();
   drawSide();
 
-  /* ---------- our options: a card each with its figures, for and against; the selected card sets the plan below ---------- */
+  /* ---------- our options: a short card each; the selected card fills the panel below with its figures, for and against,
+     and implementation timeline ---------- */
   var panel = $("#plan"), olist = $("#options-list"), cardEls = {}, shown = "resin";
   OPTIONS.forEach(function (o) {
     var c = el("li", "option");
@@ -604,7 +605,6 @@
     if (o.view) head.appendChild(el("span", "pill" + (o.pick ? " pill--red" : ""), "Totality’s view: " + o.view));
     c.appendChild(head);
     c.appendChild(el("h3", "option__title", o.title));
-    c.appendChild(el("p", "option__line", o.line));
     var nums = el("dl", "option__nums");
     function num(label, val, cls, sub) {
       var d = el("div"); d.appendChild(el("dt", null, label));
@@ -617,16 +617,6 @@
     num("Protects", o.protects ? DB.money(o.protects) : "$0");
     num("Net", (net < 0 ? "−" : "") + DB.money(Math.abs(net)), net < 0 ? "red" : null);
     c.appendChild(nums);
-    var pc = el("div", "option__pc");
-    [["For", o.pros, "pro"], ["Against", o.cons, "con"]].forEach(function (g) {
-      var col = el("div");
-      col.appendChild(el("p", "option__pclabel", g[0]));
-      var ul = el("ul", "option__list option__list--" + g[2]);
-      g[1].forEach(function (t) { ul.appendChild(el("li", null, t)); });
-      col.appendChild(ul); pc.appendChild(col);
-    });
-    c.appendChild(pc);
-    c.appendChild(el("p", "option__go", "See how it would run below"));
     function go() { if (shown !== o.id) { shown = o.id; paintCards(); showPlan(o.id, true); } }
     c.addEventListener("click", go);
     c.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } });
@@ -638,7 +628,6 @@
       var on = o.id === shown;
       cardEls[o.id].classList.toggle("is-on", on);
       cardEls[o.id].setAttribute("aria-pressed", String(on));
-      $(".option__go", cardEls[o.id]).textContent = on ? "Its plan is below" : "Select to see how it would run";
     });
   }
   paintCards();
@@ -649,18 +638,44 @@
     // the card stays put; only what's in it fades in, so switching plans doesn't jolt
     if (user) { panel.classList.remove("is-swap"); void panel.offsetWidth; panel.classList.add("is-swap"); }
 
-    panel.appendChild(el("p", "plan__k", "Option " + o.n + ": " + o.title));
     var top = el("div", "plan__top");
-    var meta = el("dl", "plan__meta");
-    [["Lead", p.lead], ["First move by", p.first], ["Team hours", p.hours.toLocaleString("en-US")], ["Cost", DB.money(o.cost)]].forEach(function (m) {
-      var d = el("div"); d.appendChild(el("dt", null, m[0])); d.appendChild(el("dd", null, m[1])); meta.appendChild(d);
-    });
-    top.appendChild(meta);
+    var tl = el("div", "plan__head");
+    var k = el("p", "plan__k"); k.appendChild(el("span", null, "Option " + o.n));
+    if (o.view) k.appendChild(el("span", "pill" + (o.pick ? " pill--red" : ""), "Totality’s view: " + o.view));
+    tl.appendChild(k);
+    tl.appendChild(el("h3", "plan__t", o.title));
+    tl.appendChild(el("p", "plan__line", o.line));
+    top.appendChild(tl);
     var send = el("button", "btn btn--primary btn--sm", "Send to workflows");
     send.type = "button";
     send.addEventListener("click", function () { DB.toast(p.steps.length + " tasks sent to workflows for " + p.lead + " to staff."); });
     top.appendChild(send);
     panel.appendChild(top);
+
+    // costs and benefits beside who runs it
+    var net = o.protects - o.cost, meta = el("dl", "plan__meta");
+    [["Costs", DB.money(o.cost), o.costNote], ["Protects", o.protects ? DB.money(o.protects) : "$0"], ["Net", (net < 0 ? "−" : "") + DB.money(Math.abs(net)), null, net < 0],
+     ["Lead", p.lead], ["First move by", p.first], ["Team hours", p.hours.toLocaleString("en-US")]].forEach(function (m) {
+      var d = el("div"); d.appendChild(el("dt", null, m[0]));
+      var dd = el("dd", m[3] ? "red" : null, m[1]); d.appendChild(dd);
+      if (m[2]) d.appendChild(el("small", null, m[2]));
+      meta.appendChild(d);
+    });
+    panel.appendChild(meta);
+
+    // for and against, side by side
+    var pc = el("div", "plan__pc");
+    [["For", o.pros, "pro"], ["Against", o.cons, "con"]].forEach(function (gp) {
+      var col = el("div");
+      col.appendChild(el("p", "option__pclabel", gp[0]));
+      var ul = el("ul", "option__list option__list--" + gp[2]);
+      gp[1].forEach(function (t) { ul.appendChild(el("li", null, t)); });
+      col.appendChild(ul); pc.appendChild(col);
+    });
+    panel.appendChild(pc);
+    var tlk = el("p", "plan__sub"); tlk.appendChild(el("b", null, "Implementation Timeline"));
+    tlk.appendChild(el("span", null, "Built from your teams’ free hours and this quarter’s calendar. Diamonds mark decision points."));
+    panel.appendChild(tlk);
 
     // gantt: a week grid with one row per step
     var g = el("div", "gantt");
