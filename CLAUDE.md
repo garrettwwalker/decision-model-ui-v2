@@ -66,7 +66,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   pill-shaped marks were rejected), then the three decisions with just two buttons: Assign (red; turns ink, says who it's
   assigned to, and marks its day; the war-risk decision's reads Approve) and Details (drops open what happens, if we wait, who's affected, and "See the team's
   part", a plain link so nav.js slides to team.html?directive=); then "Decisions Made Overnight", your agents' small reversible steps with
-  rounded-square initials, Configure and Undo (a strike draws itself
+  rounded-square initials, rows that shade on hover, Configure and Undo (a strike draws itself
   through the whole summary and fades on Redo); selecting the rest of the line drops its details open (what, when, why,
   cost, how to reverse), and Configure, which replaced a Details button, links to the agents page. States persist in localStorage (`daybreak.brief`). 3 What's Caught in the Crossfire: the
   map (report colors; the Hormuz danger zone a shaded circle with a solid ring, both pulsing paler to deeper red; hatching, a
@@ -95,10 +95,10 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   stretched column left dead space the user disliked), "What's Changed Since Monday, October 5" ("Net +3%" pill; each move
   a soft pill with an up or down arrow); then three figures ($25.4M expected if we wait, $62M "at risk if sanctions are
   imposed", "Protected by Penumbra's suggestions" $9.5M "at a cost of $3.0M"). 2 Key Stakeholders ("The players whose choices set the odds."; pills Pushing the odds up, Neutral, Pulling the odds
-  down): Treasury's Office of Foreign Assets Control, the Senate Banking Committee (the bill introduced August 3, in committee
+  down): the Office of Foreign Assets Control, the Senate Banking Committee (watch for the bill clearing committee and draft text from Senator Warren's office) (the bill introduced August 3, in committee
   with 34 co-sponsors: keep the drivers, trend, scenarios, and signposts consistent with that), the National Security
   Council, Tehran, and European partners (the user wanted named offices and agencies, not "the Senate" or "the White House"). 3 Four Ways This Could Go: `PATHS`
-  (targeted widening 26%, sweeping package 15%, pressure without new rules 38%, talks restart 21%), a stacked chart of their
+  (slight expansion 26%, sweeping package 15%, status quo 38%, talks restart 21%; no sanctions pills on the panel), a stacked chart of their
   weekly shares and the chosen scenario's first signs, a timeline of how it would unfold (dots joined by a line), cost to
   us, and best response; the choice carries onto the map. 4 Why We Think So: the waterfall, three trendlines (Iran-linked
   OFAC designations, senators cosponsoring the bill, Brent), and Key Assumptions ("The model's outputs depend heavily on

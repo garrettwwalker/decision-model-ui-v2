@@ -14,7 +14,7 @@
 
   // the four paths; loss is what each would cost us over a year, by interest (plants, clear, growth, freight, cash)
   var PATHS = [
-    { id: "a", name: "Targeted Widening", short: "Targeted widening", p: 26, sanctions: true,
+    { id: "a", name: "Slight Expansion", short: "Slight expansion", p: 26, sanctions: true,
       line: "Treasury extends secondary sanctions to foreign buyers of Iranian petrochemicals under the authority it already has, with a 30-day wind-down. Shipping and banks are mostly left alone.",
       signs: [["Treasury signals “maximum pressure” in three speeches", 1], ["A Gulf polymer maker is named in a designation", 0], ["The November 1 waivers lapse without renewal", 0]],
       unfold: [["Late October", "Treasury briefs allies on a rule for buyers"], ["November", "The rule is announced, and a 30-day wind-down starts"], ["December", "Our two Gulf suppliers must prove clean feedstock or lose buyers with US ties"], ["Early 2027", "Gulf resin prices rise 12 to 18%"]],
@@ -28,7 +28,7 @@
       loss: { plants: 32, clear: 18, growth: 27, freight: 8, cash: 8 },
       reach: "Every chain breaks, including the feeders and Gebze’s payments.",
       best: "Everything in the suggested path, plus tightening compliance the week a floor vote is scheduled." },
-    { id: "c", name: "Pressure Without New Sanctions", short: "Pressure, no new rules", p: 38, sanctions: false,
+    { id: "c", name: "Status Quo", short: "Status quo", p: 38, sanctions: false,
       line: "No new rules, but Treasury keeps naming ships, firms, and managers under today’s authority. The risk is being caught by association.",
       signs: [["Designations up threefold since August", 1], ["Ship-to-ship transfers off Fujairah rising", 1], ["No new rule by December 6", 0]],
       unfold: [["October to December", "Weekly designations stay above 20"], ["November", "The technical manager behind two of our feeders may be named"], ["Early 2027", "Screening counterparties becomes routine"]],
@@ -196,7 +196,7 @@
     var y = function (v) { return T + (H - T - B) * (1 - v / 100); };
     mixHost.innerHTML = "";
     var s = svg("svg", { viewBox: "0 0 " + W + " " + H, width: W, height: H, role: "img",
-      "aria-label": "Chances of the four paths, weekly since July 13. Today: targeted widening 26%, sweeping package 15%, pressure without new sanctions 38%, talks restart 21%." });
+      "aria-label": "Chances of the four paths, weekly since July 13. Today: slight expansion 26%, sweeping package 15%, status quo 38%, talks restart 21%." });
     [0, 50, 100].forEach(function (v) {
       var tx = svg("text", { x: L - 6, y: y(v) + 3.5, class: "trend__tick", "text-anchor": "end" });
       tx.textContent = v + "%"; s.appendChild(tx);
@@ -261,7 +261,6 @@
     pathEl.innerHTML = "";
     var head = el("div", "path__head");
     var hl = el("div");
-    hl.appendChild(el("span", "pill" + (p.sanctions ? " pill--red" : ""), p.sanctions ? "New sanctions" : "No new sanctions"));
     hl.appendChild(el("h3", "path__t", p.name));
     head.appendChild(hl);
     head.appendChild(el("p", "path__p", p.p + "%"));
