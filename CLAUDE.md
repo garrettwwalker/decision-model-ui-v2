@@ -79,7 +79,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   incidents; weekly from July 13, a red line at the September 29 talks collapse, readouts under the pointer),; a signposts
   section ("What Would Change Our Minds") was removed at the user's request.
   5 Outside Your Watchlist (gray swans and an opportunity). 6 You Might Also Ask, bubbles that open ask.html?q=
-  ("Each opens the Totality engine", the user's wording). Its money
+  ("Each query opens the Totality engine", the user's wording). Its money
   figures came from model.js; keep them in sync with the workbench, workflows, and agents pages.
 - `memo.html` + `assets/css/memo.css` + `assets/js/memo.js`, a sample strategic options memo dated Wed Oct 7 answering the CEO's
   "How should we respond to the potential of new sanctions by the Trump Administration?" In the house style (body `app house
@@ -114,8 +114,8 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   Each Would Run" heading, card hints, a values-by-scenario table, a suggested-path strip, and plan tabs were removed);
   then where it opens doors. 7 Signposts to
   Watch: `POSTS` with readings, gauges, effects, a ticking "Checked N min ago", and alert toggles (`daybreak.memo.alerts`,
-  no toast). 8 Known Unknowns: "What We Don't Know", a card per gap with a small meter of what we can see and "What would tell us"; then "Unlikely, but High Impact", a card per wildcard with its chance and "What we'd do" (two plain list cards were disliked). 9 You Might Also Ask ("Each opens the Totality
-  engine."). It reuses the brief's resin, Dubai, and feeder exposures and the Sep 29 talks collapse, so keep those in sync.
+  no toast). 8 Known Unknowns: "What We Don't Know", a card per gap with a small meter of what we can see and "What would tell us"; then "Unlikely, but High Impact", a card per wildcard with its chance and "What we'd do" (two plain list cards were disliked). 9 You Might Also Ask ("Each query opens the
+  Totality engine."). It reuses the brief's resin, Dubai, and feeder exposures and the Sep 29 talks collapse, so keep those in sync.
 - `ask.html` (fifth tab, `assets/css/ask.css`, body `app house ask-page` since 2026-11-06: the house layer at the end of
   ask.css; serif title-case headline, white starters, assumptions, user bubbles and composer, Penumbra's speaker mark the
   black logo (a .logo in each answer, breathing while one is coming; a plain dark disc before), the send button and a reply's first action red, follow-ups soft cream; one centred column: before the
