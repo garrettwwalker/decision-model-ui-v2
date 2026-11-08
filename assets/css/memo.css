@@ -474,13 +474,21 @@
 .gap__bar i { background: var(--ink-3); }
 .gap__bar u { background: rgba(219, 51, 36, 0.35); }
 /* two bars on one 0 to 60 day scale, so where the wind-down and re-sourcing overlap is plain */
-.gap__meter--two { gap: 0.45rem; }
+.gap__meter--two { position: relative; gap: 0.45rem; padding-top: 1.2rem; --kw: 7.2rem; --vw: 4.6rem; --tw: (100% - var(--kw) - var(--vw) - 1.2rem); }
+/* the days the two windows share: one pale red box behind both bars, pulsing as the brief's closure window does */
+.gap__win {
+  position: absolute; top: 0; bottom: calc(0.9rem + 0.45rem); left: calc(var(--kw) + 0.6rem + var(--tw) * var(--a) / 60);
+  width: calc(var(--tw) * (var(--b) - var(--a)) / 60); border-radius: 4px; background: rgba(219, 51, 36, 0.12);
+  animation: win-breathe 2.6s ease-in-out infinite;
+}
+@keyframes win-breathe { 0%, 100% { background-color: rgba(219, 51, 36, 0.1); } 50% { background-color: rgba(219, 51, 36, 0.32); } }
+.gap__win span { position: absolute; top: 0.05rem; left: 50%; transform: translateX(-50%); font-size: 0.66rem; font-weight: 700; color: var(--accent-ink); white-space: nowrap; }
+.gap__meter--two .gap__bar { z-index: 1; background: rgba(239, 233, 224, 0.75); }
 .gap__row { display: grid; grid-template-columns: 7.2rem minmax(0, 1fr) 4.6rem; align-items: center; gap: 0.6rem; font-size: 0.74rem; color: var(--ink-3); }
 .gap__row b { font-weight: 700; text-align: right; color: var(--ink); font-variant-numeric: tabular-nums; }
 .gap__row b.red { color: var(--accent-ink); }
 .gap__meter--two .gap__bar i { background: var(--ink-3); }
 .gap__meter--two .gap__bar u { background: var(--accent); }
-.gap__bar em { position: absolute; top: 0; bottom: 0; left: calc(var(--a) / 60 * 100%); width: calc((var(--b) - var(--a)) / 60 * 100%); background: var(--accent); }
 .gap__axis { position: relative; height: 0.9rem; margin: 0 5.2rem 0 7.8rem; font-size: 0.68rem; color: var(--ink-3); }
 .gap__axis span { position: absolute; left: calc(var(--v) / 60 * 100%); transform: translateX(-50%); white-space: nowrap; }
 .gap__axis span:first-child { transform: none; }
@@ -520,7 +528,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .sw button, .sw.is-ready .sw__pill, .ask-q, .post__alert, .post__alert svg, .mix__area, .mix__lab, .option, .option__n, .mkg, .mkg__dot, .lk, .atlas__layer { transition: none; }
-  .words__err, .lk.is-cut, .atlas__side { animation: none; }
+  .words__err, .lk.is-cut, .atlas__side, .gap__win { animation: none; }
   .ask-q:hover, .option:hover, .option.is-on { transform: none; }
   .plan.is-swap > *, .path.is-swap > * { animation: none; }
 }
