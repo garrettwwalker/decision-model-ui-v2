@@ -280,7 +280,7 @@
   }
   var ST = { ok: "Working", wait: "Waiting for you", bad: "Problem", off: "Paused" };
   function latest(id, kinds) { for (var i = Q.feed.length - 1; i >= 0; i--) if (Q.feed[i].agent === id && (!kinds || kinds.indexOf(Q.feed[i].kind) >= 0)) return Q.feed[i]; return null; }
-  function pts(dp) { return (dp > 0 ? "+" : "−") + Math.abs(dp) + (Math.abs(dp) === 1 ? " pt" : " pts"); }
+  function pts(dp) { return (dp > 0 ? "+" : "−") + Math.abs(dp) + "%"; }
   function impactText(f) { return f.dp ? pts(f.dp) : f.impact || ""; }
   function impChip(f) { var t = impactText(f); return t ? el("span", { class: "imp" }, t) : null; }
   var pText = function (q) { return q.p == null ? "…" : q.p + "%"; };

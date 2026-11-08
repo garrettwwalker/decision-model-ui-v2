@@ -149,8 +149,8 @@
   function moved(n) {
     if (!n.dd) return "";
     var up = n.dd > 0;
-    return '<span class="mv-day ' + (up ? "is-up" : "is-down") + '" title="' + (up ? "Up " : "Down ") + Math.abs(n.dd) + (Math.abs(n.dd) === 1 ? " point" : " points") +
-      ' since yesterday"><span class="mv-day__chev" aria-hidden="true"></span>' + (up ? "+" : "-") + Math.abs(n.dd) + '<span class="mv-day__t"> since yesterday</span></span>';
+    return '<span class="mv-day ' + (up ? "is-up" : "is-down") + '" title="' + (up ? "Up " : "Down ") + Math.abs(n.dd) + "%" +
+      ' since yesterday"><span class="mv-day__chev" aria-hidden="true"></span>' + (up ? "+" : "-") + Math.abs(n.dd) + "%" + '<span class="mv-day__t"> since yesterday</span></span>';
   }
   function card(n, o) {
     o = o || {};
@@ -454,7 +454,7 @@
       html += '<div class="dt__p"><span class="num">' + n.pr + '<small>%</small></span><span>chance' +
         (n.k === "consequence" ? ", if the driver above it happens" : n.c && n.c.dl ? " by " + fmtDate(n.c.dl) : " by " + fmtDate(L.meta.to)) +
         '<br><span class="dt__band">likely between ' + Math.max(0, n.pr - n.bd) + " and " + Math.min(100, n.pr + n.bd) + "%</span>" +
-        (n.dd ? '<br><span class="dt__day ' + (n.dd > 0 ? "is-up" : "is-down") + '">' + (n.dd > 0 ? "Up " : "Down ") + Math.abs(n.dd) + (Math.abs(n.dd) === 1 ? " point" : " points") + " since yesterday</span>" : "") +
+        (n.dd ? '<br><span class="dt__day ' + (n.dd > 0 ? "is-up" : "is-down") + '">' + (n.dd > 0 ? "Up " : "Down ") + Math.abs(n.dd) + "%" + " since yesterday</span>" : "") +
         "</span></div>";
     } else if (role) {
       html += '<p class="dt__role"><b>' + role[0] + "</b> " + role[1] + "</p>";

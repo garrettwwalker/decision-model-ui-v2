@@ -457,7 +457,7 @@
   // the card Penumbra adds to its reply when a question carries options
   function trackingCard(o, tags) {
     var rows = [];
-    if (o.cadence !== "once") rows.push(["Runs", CADENCE.filter(function (c) { return c[0] === o.cadence; })[0][1] + ", " + UNTIL[o.until] + ". Next: " + NEXT_RUN[o.cadence] + (o.notify === "change" ? ". You’ll hear when the answer moves 5 points or more." : ". You’ll get every run.")]);
+    if (o.cadence !== "once") rows.push(["Runs", CADENCE.filter(function (c) { return c[0] === o.cadence; })[0][1] + ", " + UNTIL[o.until] + ". Next: " + NEXT_RUN[o.cadence] + (o.notify === "change" ? ". You’ll hear when the answer moves 5% or more." : ". You’ll get every run.")]);
     if (o.criteria.trim()) rows.push(["Resolves yes if", o.criteria.trim().replace(/^resolves yes if\s*/i, "").replace(/^\w/, function (m) { return m.toUpperCase(); }) + " Deadline " + dateText(o.by) + (o.source.trim() ? ", checked against " + o.source.trim() : "") + "."]);
     var src = SOURCES.filter(function (x) { return o.sources[x[0]]; }).map(function (x) { return x[1]; });
     if (o.files.length || tags.some(function (c) { return /sources$/.test(c); })) rows.push(["Reads", o.files.concat(src).join(", ")]);

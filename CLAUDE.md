@@ -88,11 +88,12 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   model's engines, sources, and agents was rejected, since the user wants only value for someone who must understand an
   issue and decide, no discussion of how the model works; and the older "team of rivals" framing, each interest owned by an
   officer, was disliked). Percentages throughout, never "pts" (the user's call). Head: headline, lede, the CEO's question
-  as a white bubble with "The question we're answering". 1 Bottom Line: lead, key judgments with confidence, 41% with "+3%
+  as a white bubble (the scope note under it was removed). 1 Bottom Line: lead, key judgments with confidence, 41% with "+3%
   this week" in the brief's red-outlined pill, "±7%, updated as of 4:40pm GST", the estimative-words probability bar with its
-  pulsing error band (a 13-week chart there was undone), three figures ($25.4M expected if we wait, $62M "at risk if
-  sanctions are imposed", "Protected by Penumbra's suggestions" $9.5M "at a cost of $3.0M"), and "What's Changed Since
-  Monday, October 5" ("Net +3%" pill; each move a soft pill with an up or down arrow). 2 Key Stakeholders: Treasury, the
+  pulsing error band (a 13-week chart there was undone), and beneath that panel, at its natural height (centering it in the
+  stretched column left dead space the user disliked), "What's Changed Since Monday, October 5" ("Net +3%" pill; each move
+  a soft pill with an up or down arrow); then three figures ($25.4M expected if we wait, $62M "at risk if sanctions are
+  imposed", "Protected by Penumbra's suggestions" $9.5M "at a cost of $3.0M"). 2 Key Stakeholders: Treasury, the
   Senate (a bill introduced August 3, in the Banking Committee with 34 co-sponsors: keep the drivers, trend, scenarios, and
   signposts consistent with that), the White House, Tehran, and European partners. 3 Four Ways This Could Go: `PATHS`
   (targeted widening 26%, sweeping package 15%, pressure without new rules 38%, talks restart 21%), a stacked chart of their
@@ -110,7 +111,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   view; the selected card lifts and sets "How Each Would Run" below it (`PLANS`, Gantt, tripwires, "Send to workflows"; a
   values-by-scenario table, a suggested-path strip, and plan tabs were removed); then where it opens doors. 7 Signposts to
   Watch: `POSTS` with readings, gauges, effects, a ticking "Checked N min ago", and alert toggles (`daybreak.memo.alerts`,
-  no toast). 8 Known Unknowns: gaps and low-chance, high-impact turns. 9 You Might Also Ask ("Each opens the Totality
+  no toast). 8 Known Unknowns: "What We Don't Know", a card per gap with a small meter of what we can see and "What would tell us"; then "Unlikely, but High Impact", a card per wildcard with its chance and "What we'd do" (two plain list cards were disliked). 9 You Might Also Ask ("Each opens the Totality
   engine."). It reuses the brief's resin, Dubai, and feeder exposures and the Sep 29 talks collapse, so keep those in sync.
 - `ask.html` (fifth tab, `assets/css/ask.css`, body `app house ask-page` since 2026-11-06: the house layer at the end of
   ask.css; serif title-case headline, white starters, assumptions, user bubbles and composer, Penumbra's speaker mark the
@@ -366,7 +367,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
 - Copy (the user's audit, 2026-11-06): plain and human, not punchy. No slogan lines ("Three decisions, not three hundred
   alerts", "We'd rather tell you that than guess"), no "X, not Y" flourishes, and no lists of three in every explanation. Say
   what "it", "each one" or a bare percentage refers to; when a later sentence cites a probability from earlier, name what it's
-  the chance of. Spell out figures (a bad case "1 in 20", not P95; "58%", not p 0.58; percentage points as "pts"). Oxford
+  the chance of. Spell out figures (a bad case "1 in 20", not P95; "58%", not p 0.58). A change in a chance, or a band around one, is written in % everywhere ("+3% overnight", "±7%"), never pts or points (the user standardized this across the platform, 2026-11-07); resolution criteria in the tree's lattice keep "percentage points", since they define thresholds. Oxford
   commas in every list. US dates: "August 1", "Tuesday, October 6, 2026", "Oct 9" (not "1 August"); the date helpers in
   redsea-report.js, redsea-tree.js and chat.js build them that way. Em dashes are fine; the user wants them kept. Quotes follow the face (2026-11-07): curly quotes and apostrophes in the serif
   (DM Serif Display), straight ones in the sans. The source is written curly everywhere (HTML text and the scripts' display

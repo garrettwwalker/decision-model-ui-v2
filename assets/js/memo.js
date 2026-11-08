@@ -428,8 +428,6 @@
     });
     gulfBox = svg("g", { class: "atlas__gulfbox", tabindex: "0", role: "button", "aria-label": "Zoom to the Gulf" });
     gulfBox.appendChild(svg("rect", { x: VIEWS.gulf[0], y: VIEWS.gulf[1], width: VIEWS.gulf[2], height: VIEWS.gulf[3], rx: 3 }));
-    var gt = svg("text", { x: VIEWS.gulf[0] + VIEWS.gulf[2] / 2, y: VIEWS.gulf[1] - 4, "text-anchor": "middle" });
-    gt.textContent = "The Gulf: select to zoom in"; gulfBox.appendChild(gt);
     gulfBox.addEventListener("click", function (e) { e.stopPropagation(); zoom("gulf"); });
     gulfBox.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); zoom("gulf"); } });
     map.appendChild(gulfBox);
@@ -468,7 +466,6 @@
     var zoomed = b[2] < 400;
     atlas.classList.toggle("is-zoomed", zoomed);
     gulfBox.style.strokeWidth = (1.5 * b[2] / w) + "px";
-    $("text", gulfBox).style.fontSize = (11 * b[2] / w * 1.25) + "px";
   }
   function zoom(to, force) {
     if (to === view && !force) return;

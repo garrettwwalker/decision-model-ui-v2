@@ -16,8 +16,6 @@
 .asked { display: grid; gap: 0.6rem; margin: 0; }
 .asked__who { font-size: 0.78rem; font-weight: 600; color: var(--ink-3); }
 .asked__q { margin: 0; padding: 1rem 1.2rem; border-radius: 18px 18px 6px 18px; background: #fff; box-shadow: var(--shadow); font-size: 1.05rem; font-weight: 600; line-height: 1.45; }
-.asked__read { margin: 0; padding: 0.8rem 1rem; border-radius: var(--r-sm); background: var(--mist-2); font-size: 0.84rem; line-height: 1.45; color: var(--ink-2); }
-.asked__read span { display: block; margin-bottom: 0.15rem; font-size: 0.74rem; font-weight: 700; color: var(--ink); }
 @media (max-width: 980px) { .mh { grid-template-columns: minmax(0, 1fr); } .asked { max-width: 34rem; } }
 
 /* ---------- sections: the title in serif, its number hanging in the margin, the note beneath ---------- */
@@ -50,7 +48,9 @@
 .conf--mod { color: var(--bad-ink); background: var(--bad-soft); }
 .conf--low { color: var(--ink-3); background: var(--mist-2); }
 
-.bl__odds { display: flex; flex-direction: column; justify-content: center; gap: 0.6rem; margin: 0.75rem; padding: clamp(1.1rem, 2vw, 1.6rem); border-radius: var(--r-sm); background: var(--mist); }
+/* the right column: the chance in a cream panel at its natural height, what's changed beneath it */
+.bl__side { display: flex; flex-direction: column; gap: 0.5rem; margin: 0.75rem; }
+.bl__odds { display: flex; flex-direction: column; gap: 0.6rem; padding: clamp(1.1rem, 2vw, 1.6rem); border-radius: var(--r-sm); background: var(--mist); }
 .bl__odds p { margin: 0; }
 .bl__k { font-size: 0.82rem; font-weight: 600; color: var(--ink-3); }
 .bl__p { font-family: var(--display); font-size: clamp(3.4rem, 6vw, 4.6rem); line-height: 0.95; letter-spacing: -0.02em; color: var(--accent-ink); font-variant-numeric: lining-nums tabular-nums; }
@@ -76,7 +76,7 @@
 
 @media (max-width: 980px) {
   .bl__top { grid-template-columns: minmax(0, 1fr); }
-  .bl__odds { margin-top: 0; }
+  .bl__side { margin-top: 0; }
 }
 /* ---------- 3. what's driving it: the waterfall, each driver with its evidence beneath ---------- */
 .moved { padding: clamp(1.2rem, 2.4vw, 1.9rem); background: #fff; border-radius: var(--r); box-shadow: var(--shadow); }
@@ -167,7 +167,6 @@
 .atlas__gulfbox { cursor: pointer; transition: opacity 0.3s ease; }
 .atlas__gulfbox rect { fill: rgba(219, 51, 36, 0.04); stroke: var(--ink-3); }
 .atlas__gulfbox:hover rect, .atlas__gulfbox:focus-visible rect { fill: rgba(219, 51, 36, 0.1); }
-.atlas__gulfbox text { font-family: var(--font); font-weight: 700; fill: var(--ink-2); }
 .atlas__gulfbox:focus { outline: none; }
 .is-zoomed .atlas__gulfbox { opacity: 0; pointer-events: none; }
 /* links: gray at rest, red and pulsing where the scenario would cut them, the re-sourcing routes thin ink */
@@ -394,14 +393,14 @@
 .door__nums dd { margin: 0; font-family: var(--display); font-size: 1.45rem; font-variant-numeric: lining-nums tabular-nums; }
 @media (max-width: 980px) { .doors { grid-template-columns: minmax(0, 1fr); max-width: 36rem; } }
 
-/* what's changed since Monday, at the foot of the bottom line */
-.since { padding: clamp(1.1rem, 2.2vw, 1.6rem); border-top: 1px solid var(--line); }
-.since__k { display: flex; align-items: center; gap: 0.6rem; margin: 0 0 0.7rem; font-size: 0.82rem; font-weight: 700; }
-.since__list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.75rem; margin: 0; padding: 0; list-style: none; }
-.since__list li { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0.65rem; align-items: start; padding: 0.8rem 0.9rem; border-radius: var(--r-sm); background: var(--mist); font-size: 0.84rem; line-height: 1.45; color: var(--ink-2); }
+/* what's changed since Monday, under the chance */
+.since { padding: 0.75rem 0.4rem 0.2rem; }
+.since__k { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 0.6rem; margin: 0 0 0.4rem; font-size: 0.82rem; font-weight: 700; }
+.since__list { display: grid; margin: 0; padding: 0; list-style: none; }
+.since__list li { display: grid; grid-template-columns: 3.4rem minmax(0, 1fr); gap: 0.6rem; align-items: start; padding: 0.6rem 0; font-size: 0.82rem; line-height: 1.45; color: var(--ink-2); }
+.since__list li + li { border-top: 1px solid var(--line); }
 .since__list b { color: var(--ink); font-weight: 600; }
-.since__d { margin-top: 0.05rem; font-size: 0.74rem; font-variant-numeric: tabular-nums; }
-@media (max-width: 860px) { .since__list { grid-template-columns: minmax(0, 1fr); } }
+.since__d { justify-content: center; margin-top: 0.05rem; font-size: 0.74rem; font-variant-numeric: tabular-nums; }
 
 /* ---------- 2. key stakeholders: a white card per player, which way it pushes in a soft pill ---------- */
 .actors { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0.9rem; margin: 0; padding: 0; list-style: none; }
@@ -439,16 +438,27 @@
 .post.is-alert .post__alert:hover { background: #2c2925; }
 @media (max-width: 760px) { .post { grid-template-columns: minmax(0, 1fr); } .post__side { justify-content: flex-start; } }
 
-/* ---------- 8. known unknowns: gaps beside wildcards ---------- */
-.gaps { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1rem; }
-.gaps__card { padding: 1.2rem 1.3rem; background: #fff; border-radius: var(--r); box-shadow: var(--shadow); }
-.gaps__list, .wild { display: grid; gap: 0.85rem; margin: 0.9rem 0 0; padding: 0; list-style: none; font-size: 0.88rem; line-height: 1.5; color: var(--ink-2); }
-.gaps__list b, .wild b { color: var(--ink); }
-.wild li { display: grid; grid-template-columns: 3.2rem minmax(0, 1fr); gap: 0.8rem; align-items: start; }
-.wild__p { font-family: var(--display); font-size: 1.6rem; line-height: 1.1; color: var(--accent-ink); font-variant-numeric: lining-nums tabular-nums; }
-.wild p { margin: 0.1rem 0 0; }
-.wild .btn-q { margin-top: 0.5rem; }
-@media (max-width: 860px) { .gaps { grid-template-columns: minmax(0, 1fr); } }
+/* ---------- 8. known unknowns: a card per gap, with how much we can see and what would tell us; then the wildcards ---------- */
+.gaps, .wilds { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin: 1rem 0 0; padding: 0; list-style: none; }
+.gap, .wildc { display: flex; flex-direction: column; align-items: flex-start; gap: 0.65rem; padding: 1.2rem 1.25rem; background: #fff; border-radius: var(--r); box-shadow: var(--shadow); }
+.gap p, .wildc p { margin: 0; font-size: 0.86rem; line-height: 1.5; color: var(--ink-2); }
+.gap__t, .wildc__t { margin: 0; font-family: var(--display); font-weight: 400; font-size: 1.25rem; line-height: 1.2; }
+.gap__meter { display: grid; gap: 0.35rem; width: 100%; }
+.gap__meter--words { justify-items: start; }
+.gap__bar { position: relative; height: 10px; border-radius: 5px; background: var(--mist-2); overflow: hidden; }
+.gap__bar i, .gap__bar u { position: absolute; top: 0; bottom: 0; left: calc(var(--a) / 60 * 100%); width: calc((var(--b) - var(--a)) / 60 * 100%); border-radius: 5px; }
+.gap__bar--pct i { left: calc(var(--a) * 1%) !important; width: calc((var(--b) - var(--a)) * 1%) !important; }
+.gap__bar i { background: var(--ink-3); }
+.gap__bar u { background: rgba(219, 51, 36, 0.35); }
+.gap__scale { display: flex; justify-content: space-between; gap: 1rem; font-size: 0.74rem; color: var(--ink-3); }
+.gap__scale b { color: var(--ink); }
+.gap__close { width: 100%; margin-top: auto !important; padding: 0.7rem 0.85rem; border-radius: var(--r-sm); background: var(--mist); font-size: 0.82rem !important; }
+.gap__close b { display: block; margin-bottom: 0.1rem; font-size: 0.76rem; color: var(--ink); }
+.wildc__p { font-family: var(--display); font-size: 2.4rem !important; line-height: 1 !important; color: var(--accent-ink) !important; font-variant-numeric: lining-nums tabular-nums; }
+.wildc__p--none { font-size: 1.5rem !important; color: var(--ink-3) !important; }
+.wildc .gap__close { margin-top: auto !important; }
+.wildc .btn-q { margin-top: -0.2rem; }
+@media (max-width: 980px) { .gaps, .wilds { grid-template-columns: minmax(0, 1fr); max-width: 36rem; } }
 
 /* ---------- entrances, the first time each figure scrolls into view (reveal.js) ---------- */
 /* the scenarios' shares wipe in from the left; the signposts' gauges fill */

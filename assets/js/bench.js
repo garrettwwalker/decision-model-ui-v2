@@ -663,8 +663,8 @@
         // overridden: the solid dot moves to your value and Totality's stays behind as a faint outline
         var over = moved || Math.abs(p - e.p) > 1e-9;
         you.hidden = !over; you.style.left = X(p); fd.classList.toggle("is-ghost", over);
-        track.setAttribute("aria-label", "Engines: " + Object.keys(e.fused).map(function (k) { return k + " " + Math.round(e.fused[k] * 100) + "%"; }).join(", ") + ". Fused " + Math.round(e.base.p * 100) + "% plus or minus " + e.band + " points." + (moved ? " Your view: " + Math.round(p * 100) + "%." : ""));
-        leg.textContent = "Fused " + Math.round(e.base.p * 100) + "%, ±" + e.band + " points" + (moved ? ". You’ve set " + Math.round(e.p * 100) + "%" : "") + (Math.abs(p - e.p) > 1e-9 ? ", " + Math.round(p * 100) + "% with your signals" : "") + ".";
+        track.setAttribute("aria-label", "Engines: " + Object.keys(e.fused).map(function (k) { return k + " " + Math.round(e.fused[k] * 100) + "%"; }).join(", ") + ". Fused " + Math.round(e.base.p * 100) + "% plus or minus " + e.band + "%." + (moved ? " Your view: " + Math.round(p * 100) + "%." : ""));
+        leg.textContent = "Fused " + Math.round(e.base.p * 100) + "%, ±" + e.band + "%" + (moved ? ". You’ve set " + Math.round(e.p * 100) + "%" : "") + (Math.abs(p - e.p) > 1e-9 ? ", " + Math.round(p * 100) + "% with your signals" : "") + ".";
         sp.textContent = ""; sp.appendChild(spark(e)); sp.title = "Last 90 days: " + Math.round(e.hist[0] * 100) + "% to " + Math.round(e.base.p * 100) + "%";
         var open = opened[e.id] != null ? opened[e.id] : focus === e.id;
         hw.hidden = !open; how.setAttribute("aria-expanded", String(open));
@@ -677,9 +677,9 @@
           });
           if (e.declined) { var dl = el("li", { class: "is-declined" }); dl.appendChild(el("span", { class: "fcrow__engname" }, "Declined")); dl.appendChild(el("span", null, e.declined)); dl.appendChild(el("b", null, "no skill")); hw.appendChild(dl); }
           signals.filter(function (s) { return s.event === e.id; }).forEach(function (s) {
-            var li = el("li", { class: "is-signal" }); li.appendChild(el("span", { class: "fcrow__engname" }, "Your signal")); li.appendChild(el("span", null, s.name + (s.on ? ", firing" : ", quiet"))); li.appendChild(el("b", null, s.on ? (s.pts > 0 ? "+" : "") + s.pts + " pts" : "0 pts")); hw.appendChild(li);
+            var li = el("li", { class: "is-signal" }); li.appendChild(el("span", { class: "fcrow__engname" }, "Your signal")); li.appendChild(el("span", null, s.name + (s.on ? ", firing" : ", quiet"))); li.appendChild(el("b", null, s.on ? (s.pts > 0 ? "+" : "") + s.pts + "%" : "0%")); hw.appendChild(li);
           });
-          var fl = el("li", { class: "is-fused" }); fl.appendChild(el("span", { class: "fcrow__engname" }, "Fused and calibrated")); fl.appendChild(el("span", null, "±" + e.band + " points, 30-day horizon")); fl.appendChild(el("b", null, Math.round(e.base.p * 100) + "%")); hw.appendChild(fl);
+          var fl = el("li", { class: "is-fused" }); fl.appendChild(el("span", { class: "fcrow__engname" }, "Fused and calibrated")); fl.appendChild(el("span", null, "±" + e.band + "%, 30-day horizon")); fl.appendChild(el("b", null, Math.round(e.base.p * 100) + "%")); hw.appendChild(fl);
           if (!signals.some(function (s) { return s.event === e.id; })) {
             var add = el("li", { class: "is-add" }); add.appendChild(linkBtn("Add one of your own indicators as a signal", function () { goTo("model:data"); })); hw.appendChild(add);
           }
@@ -1462,7 +1462,7 @@
   function drawTornado(E) {
     var act = active(), rows = [];
     act.forEach(function (e) {
-      rows.push({ label: e.short + ", chance ±10 pts", lo: expected(plan, params, null, { id: e.id, p: -0.1 }).E, hi: expected(plan, params, null, { id: e.id, p: 0.1 }).E });
+      rows.push({ label: e.short + ", chance ±10%", lo: expected(plan, params, null, { id: e.id, p: -0.1 }).E, hi: expected(plan, params, null, { id: e.id, p: 0.1 }).E });
       rows.push({ label: e.short + ", severity ±25%", lo: expected(plan, params, null, { id: e.id, mag: 0.75 }).E, hi: expected(plan, params, null, { id: e.id, mag: 1.25 }).E });
     });
     rows.sort(function (a, b) { return (b.hi - b.lo) - (a.hi - a.lo); });
@@ -1798,7 +1798,7 @@
   EVENTS_BASE.forEach(function (e) { evSel.appendChild(el("option", { value: e.id }, e.name)); });
   var sigPts = 5, ptsPick = picker({ label: "How far it moves the forecast", step: 1, min: -15, max: 15,
     choices: [[-5, "lowers it"], [5, "raises it"], [10, "raises it a lot"]],
-    fmt: function (v) { return (v > 0 ? "+" : v < 0 ? "\u2212" : "") + Math.abs(v) + " pts"; }, get: function () { return sigPts; },
+    fmt: function (v) { return (v > 0 ? "+" : v < 0 ? "\u2212" : "") + Math.abs(v) + "%"; }, get: function () { return sigPts; },
     set: function (v) { sigPts = v; ptsPick.sync(); } });
   document.getElementById("sig-pts").appendChild(ptsPick);
   sf.addEventListener("submit", function (e) {
@@ -1817,7 +1817,7 @@
       var li = el("li", { class: "signal" });
       var top = el("label", { class: "switch" });
       var txt = el("span", { class: "switch__text" }, s.name);
-      txt.appendChild(el("small", null, s.rule + ". When it fires, “" + EVNAME[s.event] + "” moves " + (s.pts > 0 ? "+" : "") + s.pts + " pts. Back-tested on 14 months of your data: Brier score " + s.brier[0].toFixed(3) + " to " + s.brier[1].toFixed(3) + "."));
+      txt.appendChild(el("small", null, s.rule + ". When it fires, “" + EVNAME[s.event] + "” moves " + (s.pts > 0 ? "+" : "") + s.pts + "%. Back-tested on 14 months of your data: Brier score " + s.brier[0].toFixed(3) + " to " + s.brier[1].toFixed(3) + "."));
       top.appendChild(txt);
       var cb = el("input", { type: "checkbox", "aria-label": "Firing now: " + s.name }); cb.checked = s.on;
       cb.addEventListener("change", function () { s.on = cb.checked; changed("Signal " + s.name + (s.on ? " firing" : " quiet")); });

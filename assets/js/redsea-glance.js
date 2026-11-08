@@ -32,7 +32,7 @@
       '<span class="ev__body"><span class="card__name">' + e.name + "</span>" +
       '<span class="card__line">' + e.plain + "</span>" +
       '<span class="ev__foot">' + spark(e.hist) + '<span class="' + (d > 0 ? "up" : "down") + '">' +
-      (d > 0 ? "+" : "") + d + " pts this week</span>" + tag + "</span>" + hitsLine("Hits", e.hits) + "</span></a>";
+      (d > 0 ? "+" : "") + d + "% this week</span>" + tag + "</span>" + hitsLine("Hits", e.hits) + "</span></a>";
   }
 
   var maxLoss = Math.max.apply(null, RS.ASSETS.map(function (a) { return a.loss; }));
