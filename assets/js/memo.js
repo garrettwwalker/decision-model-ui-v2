@@ -1,10 +1,11 @@
 /* Sample memo: a strategic options memo answering "How should we respond to the potential of new
-   sanctions by the Trump Administration?" Written on Wed Oct 7, the day after the brief. A deep dive rather than a
-   brief (rebuilt 2026-11-07 at the user's request): four paths the question could take and how each would reach
-   Halvorsen, the drivers, how the forecast was built (the three engines and the declined part), the counterparty
-   network, the loss curve, the responses that hold up in every path, the plans, the openings, and the models, sources,
-   and agents behind it. Choosing a path anywhere follows it through the page. Money in $M over 12 months; every figure
-   is illustrative. The two sanctions paths make up the 41%; if sanctions land, $62M is at risk on average across them. */
+   sanctions by the Trump Administration?" Written on Wed Oct 7, the day after the brief. Shaped like an intelligence
+   community options memo, made live (rebuilt 2026-11-07; the user wants only what helps a decision-maker, nothing on
+   how the model works): key judgments and what changed since you last read, who decides, four scenarios followed
+   through the page by one choice, drivers, trends and key assumptions, how it would reach Halvorsen (a counterparty
+   network and a loss curve), options across the scenarios with the suggested path and plans, signposts with live
+   readings and alerts, and gaps and wildcards. Money in $M over 12 months; every figure is illustrative. The two
+   sanctions paths make up the 41%; if sanctions land, $62M is at risk on average across them. */
 (function () {
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return [].slice.call((r || document).querySelectorAll(s)); };
@@ -612,6 +613,58 @@
 
   // figures make their entrance the first time they scroll into view
 
+  /* ---------- signposts: where each stands, what it would do to the chance, and an alert you can turn on ---------- */
+  var POSTS = [
+    { id: "vote", t: "The Senate schedules a floor vote", now: "Not on the calendar", effect: "Would rise to about 55%", up: true, checked: 4 },
+    { id: "polymer", t: "A Gulf polymer maker is named in a designation", now: "None named so far", effect: "Would rise to about 60%", up: true, checked: 11 },
+    { id: "sdn", t: "Iran-linked designations in a week", now: "27 last week, against a line of 40", gauge: 27 / 40, effect: "Past 40, would rise to about 50%", up: true, checked: 26 },
+    { id: "brent", t: "Brent crude falls below $85", now: "$93 this morning", effect: "Would rise about 6 pts", up: true, checked: 7 },
+    { id: "waivers", t: "The November 1 waivers are renewed unchanged", now: "Due in 25 days", effect: "Would fall to about 30%", up: false, checked: 52 },
+    { id: "muscat", t: "Muscat sets a date for a second round", now: "No date yet", effect: "Would fall to about 25%", up: false, checked: 18 }
+  ];
+  var AKEY = "daybreak.memo.alerts", alerts = { vote: true, polymer: true };
+  try { var sa = JSON.parse(localStorage.getItem(AKEY) || "null"); if (sa) alerts = sa; } catch (e) {}
+  var posts = $("#posts"), ages = [];
+  function ago(m) { return m < 1 ? "Checked just now" : m < 60 ? "Checked " + m + " min ago" : "Checked " + Math.floor(m / 60) + " hr ago"; }
+  POSTS.forEach(function (sp) {
+    var li = el("li", "post");
+    var main = el("div", "post__main");
+    main.appendChild(el("h3", "post__t", sp.t));
+    main.appendChild(el("p", "post__now", sp.now));
+    if (sp.gauge != null) {
+      var g = el("span", "post__gauge"); g.setAttribute("aria-hidden", "true");
+      var gi = el("i"); gi.style.setProperty("--v", sp.gauge); g.appendChild(gi); main.appendChild(g);
+    }
+    li.appendChild(main);
+    var side = el("div", "post__side");
+    side.appendChild(el("span", "pill" + (sp.up ? " pill--red" : ""), sp.effect));
+    var age = el("span", "post__age", ago(sp.checked)); side.appendChild(age); ages.push([age, sp]);
+    var b = el("button", "btn-q post__alert"); b.type = "button";
+    function paint() {
+      var on = !!alerts[sp.id];
+      b.textContent = on ? "Alert on" : "Alert me"; b.setAttribute("aria-pressed", String(on));
+      li.classList.toggle("is-alert", on);
+    }
+    b.addEventListener("click", function () {
+      alerts[sp.id] = !alerts[sp.id];
+      try { localStorage.setItem(AKEY, JSON.stringify(alerts)); } catch (e) {}
+      paint();
+      DB.toast(alerts[sp.id] ? "We’ll tell you the moment this moves." : "Alert off.");
+    });
+    paint();
+    side.appendChild(b);
+    li.appendChild(side);
+    posts.appendChild(li);
+  });
+  // the checks keep coming: each signpost's age ticks up, and every so often one is checked again
+  setInterval(function () {
+    if (document.hidden) return;
+    ages.forEach(function (a, i) {
+      a[1].checked = (i === Math.floor(Math.random() * ages.length) && a[1].checked > 20) ? 0 : a[1].checked + 1;
+      a[0].textContent = ago(a[1].checked);
+    });
+  }, 60000);
+
   /* ---------- links within the page glide there rather than jump ---------- */
   $$('a[href^="#"]').forEach(function (a) {
     var to = $(a.getAttribute("href"));
@@ -635,5 +688,5 @@
   });
 
   // figures make their entrance the first time they scroll into view
-  Reveal(".spark, .mix, .fall, .trend, .fuse, .curve, #plan");
+  Reveal(".spark, .mix, .fall, .trend, .curve, .posts, #plan");
 })();

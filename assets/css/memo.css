@@ -1,11 +1,12 @@
-/* The sample memo, in the house style (body `app house memo-page`, house.css loaded before this). A deep dive on one
-   question (rebuilt 2026-11-07, after a version in the daily brief's shape read as a second brief): the CEO's question and
-   what went into the answer; a bottom line; four paths the question could take, followed through the page by one choice;
-   the drivers; how the forecast was built (three engines, a fused band, the declined part); how sanctions would reach us
-   (a counterparty network, where interests pull apart, and a loss curve); what holds up in every path, the suggested path,
-   and plans; openings; the models, sources, and agents behind it; and where to take it next. Cream ground, white cards on
-   a soft shadow with cream panels inside, serif titles in title case with section numbers in the margin; one red for
-   money at risk, what pushes the odds up, and what a path cuts; amber where interests pull apart; no glow or outline rings. */
+/* The sample memo, in the house style (body `app house memo-page`, house.css loaded before this). Shaped like an intelligence
+   community options memo, made live (rebuilt 2026-11-07; only what helps a decision-maker, nothing on how the model works):
+   the CEO's question; a bottom line with key judgments and what changed since you last read; who decides; four scenarios,
+   followed through the page by one choice; why we think so (drivers, trends, key assumptions); how it would reach us (a
+   counterparty network, where interests pull apart, a loss curve); our options across the scenarios, the suggested path,
+   plans, and openings; signposts with live readings and alerts; gaps and wildcards; and where to take it next. Cream
+   ground, white cards on a soft shadow with cream panels inside, serif titles in title case with section numbers in the
+   margin; one red for money at risk, what pushes the odds up, and what a scenario cuts; amber where interests pull apart or
+   an assumption is under strain; no glow or outline rings. */
 .memo-page .page { max-width: 80rem; }
 .memo-page .red { color: var(--accent-ink); }
 
@@ -225,16 +226,6 @@
 .ask-q__text { font-size: 0.98rem; font-weight: 600; line-height: 1.4; }
 @media (max-width: 640px) { .asks { grid-template-columns: minmax(0, 1fr); } }
 
-/* ---------- what went into it, under the head: one white strip of serif figures ---------- */
-.worked { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)) auto; align-items: center; gap: 1rem 1.5rem; margin: 2rem 0 0; padding: 1.1rem clamp(1.1rem, 2.4vw, 1.6rem); background: #fff; border-radius: var(--r); box-shadow: var(--shadow); }
-.worked div { display: grid; gap: 0.1rem; }
-.worked div + div { padding-left: 1.5rem; border-left: 1px solid var(--line); }
-.worked dt { font-size: 0.76rem; font-weight: 600; color: var(--ink-3); }
-.worked dd { margin: 0; font-family: var(--display); font-size: 1.9rem; line-height: 1.05; letter-spacing: -0.01em; font-variant-numeric: lining-nums tabular-nums; }
-.worked span { font-size: 0.78rem; line-height: 1.35; color: var(--ink-2); }
-@media (max-width: 1080px) { .worked { grid-template-columns: repeat(2, minmax(0, 1fr)); } .worked div:nth-child(3) { padding-left: 0; border-left: 0; } .worked__more { justify-self: start; } }
-@media (max-width: 480px) { .worked { grid-template-columns: minmax(0, 1fr); } .worked div + div { padding-left: 0; border-left: 0; padding-top: 0.8rem; border-top: 1px solid var(--line); } }
-
 /* the bottom line's three figures, beneath the judgments and the odds */
 .figs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 0; border-top: 1px solid var(--line); }
 .figs div { display: grid; align-content: start; gap: 0.25rem; padding: clamp(1.1rem, 2.2vw, 1.6rem); }
@@ -244,7 +235,7 @@
 .figs span { font-size: 0.84rem; color: var(--ink-2); }
 @media (max-width: 760px) { .figs { grid-template-columns: minmax(0, 1fr); } .figs div + div { border-left: 0; border-top: 1px solid var(--line); } }
 
-/* ---------- 2. four ways this could go: the shares over time beside the chosen path ---------- */
+/* ---------- 3. four ways this could go: the shares over time beside the chosen path ---------- */
 .paths__bar { margin-bottom: 1rem; }
 .paths { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 1.25rem; align-items: start; }
 @media (max-width: 1080px) { .paths { grid-template-columns: minmax(0, 1fr); } }
@@ -295,39 +286,6 @@
 .path__best p:last-child { margin: 0; font-size: 0.88rem; line-height: 1.5; color: var(--ink-2); }
 @media (max-width: 560px) { .path__foot { grid-template-columns: minmax(0, 1fr); } .path__cost { padding: 0 0 0.8rem; border-right: 0; border-bottom: 1px solid var(--line); } }
 
-/* ---------- 4. how the forecast was built: each engine's mark beside the fused band, then the parts ---------- */
-.fuse { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.4fr); gap: 1.25rem 2.5rem; align-items: center; padding: clamp(1.2rem, 2.4vw, 1.75rem); background: #fff; border-radius: var(--r); box-shadow: var(--shadow); }
-.fuse__text .card__note { margin-top: 0.4rem; }
-.fuse__chart { display: grid; gap: 0.35rem; }
-.fuse__row { display: grid; grid-template-columns: 5.5rem minmax(0, 1fr) 3rem; align-items: center; gap: 0.9rem; min-height: 30px; font-size: 0.85rem; color: var(--ink-2); }
-.fuse__row i { position: relative; height: 100%; min-height: 30px; background: linear-gradient(var(--line-strong), var(--line-strong)) 0 50% / 100% 1px no-repeat; }
-.fuse__row b { position: absolute; top: 50%; left: calc(var(--v) / 60 * 100%); width: 12px; height: 12px; margin: -6px 0 0 -6px; border-radius: 50%; background: var(--ink-3); }
-.fuse__row u { position: absolute; top: 50%; height: 14px; margin-top: -7px; left: calc(var(--a) / 60 * 100%); width: calc((var(--b) - var(--a)) / 60 * 100%); border-radius: 7px; background: rgba(219, 51, 36, 0.16); animation: band-breathe 2.6s ease-in-out infinite; }
-@keyframes band-breathe { 0%, 100% { background-color: rgba(219, 51, 36, 0.1); } 50% { background-color: rgba(219, 51, 36, 0.3); } }
-.fuse__row em { font-style: normal; font-weight: 700; text-align: right; color: var(--ink); font-variant-numeric: tabular-nums; }
-.fuse__row--out { margin-top: 0.3rem; padding-top: 0.4rem; border-top: 1px solid var(--line); color: var(--ink); font-weight: 700; }
-.fuse__row--out b { width: 14px; height: 14px; margin: -7px 0 0 -7px; background: var(--accent); }
-.fuse__row--out em { font-family: var(--display); font-weight: 400; font-size: 1.3rem; color: var(--accent-ink); }
-.fuse__axis { position: relative; height: 1rem; margin: 0 3.9rem 0 6.4rem; font-size: 0.7rem; color: var(--ink-3); }
-.fuse__axis span { position: absolute; left: calc(var(--v) / 60 * 100%); transform: translateX(-50%); }
-.fuse__axis span:first-child { transform: none; }
-@media (max-width: 860px) { .fuse { grid-template-columns: minmax(0, 1fr); } }
-
-.engines { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.9rem; margin: 1rem 0 0; padding: 0; list-style: none; }
-.engine { display: flex; flex-direction: column; gap: 0.55rem; padding: 1.15rem 1.15rem 1.1rem; background: #fff; border-radius: var(--r); box-shadow: var(--shadow); }
-.engine__k { display: flex; flex-wrap: wrap; align-items: center; gap: 0.3rem 0.6rem; margin: 0; font-size: 0.74rem; color: var(--ink-3); }
-.engine__q { margin: 0; font-family: var(--display); font-weight: 400; font-size: 1.15rem; line-height: 1.25; letter-spacing: -0.005em; }
-.engine__p { margin: 0; font-family: var(--display); font-size: 2rem; line-height: 1; font-variant-numeric: lining-nums tabular-nums; }
-.engine__reads { margin: 0; font-size: 0.82rem; line-height: 1.45; color: var(--ink-2); }
-.engine__subs { display: grid; gap: 0.35rem; margin: auto 0 0; padding: 0.7rem 0 0; border-top: 1px solid var(--line); list-style: none; font-size: 0.8rem; line-height: 1.35; color: var(--ink-2); }
-.engine__subs li { display: flex; justify-content: space-between; gap: 0.75rem; }
-.engine__subs b { color: var(--ink); font-variant-numeric: tabular-nums; }
-/* the declined part: cream, hatched, no figure */
-.engine--out { background: repeating-linear-gradient(135deg, var(--mist) 0 8px, var(--mist-2) 8px 9px); box-shadow: none; }
-.engine--out .engine__p { font-size: 1.3rem; color: var(--ink-3); }
-@media (max-width: 1180px) { .engines { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 560px) { .engines { grid-template-columns: minmax(0, 1fr); } }
-
 /* ---------- 5. how it would reach us: three columns of cards joined by curves that turn red where the path cuts ---------- */
 .reach { padding: clamp(1.2rem, 2.4vw, 1.75rem); background: #fff; border-radius: var(--r); box-shadow: var(--shadow); }
 .reach__head { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.9rem; margin-bottom: 1.25rem; }
@@ -362,7 +320,7 @@
 .k--wait { background: var(--accent); }
 .k--plan { background: var(--ink); }
 
-/* ---------- 6. what holds up in every path: a table of net values, the chosen path's column in cream ---------- */
+/* ---------- 6. our options: a table of net values, the chosen path's column in cream ---------- */
 .tbl-wrap { overflow-x: auto; }
 .rob { width: 100%; min-width: 640px; border-collapse: collapse; font-size: 0.88rem; }
 .rob th, .rob td { padding: 0.75rem 0.7rem; text-align: left; transition: background-color 0.25s ease; }
@@ -392,7 +350,7 @@
 @media (max-width: 860px) { .stages { grid-template-columns: minmax(0, 1fr); } }
 .sub__note { margin: -0.5rem 0 1rem; max-width: 42rem; font-size: 0.9rem; color: var(--ink-2); }
 
-/* ---------- 7. where it opens doors ---------- */
+/* where it opens doors */
 .doors { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin: 0; padding: 0; list-style: none; }
 .door { display: flex; flex-direction: column; gap: 0.6rem; padding: 1.25rem 1.3rem 1.2rem; background: #fff; border-radius: var(--r); box-shadow: var(--shadow); }
 .door__t { margin: 0; font-family: var(--display); font-weight: 400; font-size: 1.3rem; line-height: 1.2; }
@@ -404,18 +362,62 @@
 .door__nums dd { margin: 0; font-family: var(--display); font-size: 1.45rem; font-variant-numeric: lining-nums tabular-nums; }
 @media (max-width: 980px) { .doors { grid-template-columns: minmax(0, 1fr); max-width: 36rem; } }
 
-/* ---------- 8. what went into it: models, sources, your data, and agents ---------- */
-.res { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; }
-.res__card { display: grid; align-content: start; gap: 0.9rem; padding: 1.2rem 1.25rem; background: #fff; border-radius: var(--r); box-shadow: var(--shadow); }
-.res__list { display: grid; gap: 0.7rem; margin: 0; padding: 0; list-style: none; }
-.res__list li { display: grid; gap: 0.1rem; font-size: 0.82rem; line-height: 1.4; color: var(--ink-2); }
-.res__list b { font-size: 0.86rem; color: var(--ink); }
-.res__list--agents li { grid-template-columns: auto minmax(0, 1fr); column-gap: 0.65rem; }
-.res__list--agents i { grid-row: span 2; display: grid; place-items: center; width: 2rem; height: 2rem; border-radius: 9px; font-style: normal; font-size: 0.68rem; font-weight: 700; color: #fff; background: hsl(var(--h) 52% 46%); }
-.res__tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0; padding: 0; list-style: none; }
-.res__tags li { padding: 0.25rem 0.65rem; border-radius: 999px; font-size: 0.76rem; font-weight: 600; color: var(--ink-2); background: var(--mist-2); }
-@media (max-width: 1180px) { .res { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 560px) { .res { grid-template-columns: minmax(0, 1fr); } }
+/* what changed since you last read, at the foot of the bottom line */
+.since { padding: clamp(1.1rem, 2.2vw, 1.6rem); border-top: 1px solid var(--line); }
+.since__k { display: flex; align-items: center; gap: 0.6rem; margin: 0 0 0.7rem; font-size: 0.82rem; font-weight: 700; }
+.since__list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.75rem; margin: 0; padding: 0; list-style: none; }
+.since__list li { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0.65rem; align-items: start; padding: 0.8rem 0.9rem; border-radius: var(--r-sm); background: var(--mist); font-size: 0.84rem; line-height: 1.45; color: var(--ink-2); }
+.since__list b { color: var(--ink); font-weight: 600; }
+.since__d { font-family: var(--display); font-size: 1.1rem; line-height: 1.2; color: var(--accent-ink); white-space: nowrap; font-variant-numeric: lining-nums tabular-nums; }
+.since__d--down { color: var(--ink-3); }
+@media (max-width: 860px) { .since__list { grid-template-columns: minmax(0, 1fr); } }
+
+/* ---------- 2. who decides: a white card per player, which way it pushes in a soft pill ---------- */
+.actors { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0.9rem; margin: 0; padding: 0; list-style: none; }
+.actor { display: flex; flex-direction: column; gap: 0.5rem; padding: 1.15rem 1.15rem 1.05rem; background: #fff; border-radius: var(--r); box-shadow: var(--shadow); }
+.actor p { margin: 0; font-size: 0.85rem; line-height: 1.5; color: var(--ink-2); }
+.actor__t { margin: 0; font-family: var(--display); font-weight: 400; font-size: 1.3rem; line-height: 1.15; }
+.actor__watch { margin-top: auto !important; padding-top: 0.7rem; border-top: 1px solid var(--line); font-size: 0.8rem !important; }
+.actor__watch b { display: block; color: var(--ink); }
+.house .pill--quiet { color: var(--ink-3); background: var(--mist); }
+@media (max-width: 1180px) { .actors { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 760px) { .actors { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 480px) { .actors { grid-template-columns: minmax(0, 1fr); } }
+
+/* key assumptions: a white card each, its status in a soft pill (amber when under strain) */
+.assume { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.9rem; margin: 0; padding: 0; list-style: none; }
+.as { display: grid; align-content: start; gap: 0.5rem; padding: 1.15rem 1.25rem; background: #fff; border-radius: var(--r); box-shadow: var(--shadow); }
+.as__k { display: flex; flex-wrap: wrap; align-items: center; gap: 0.3rem 0.6rem; margin: 0; font-size: 0.78rem; color: var(--ink-3); }
+.as__t { margin: 0; font-family: var(--display); font-weight: 400; font-size: 1.2rem; line-height: 1.25; }
+.as p:last-child { margin: 0; font-size: 0.86rem; line-height: 1.5; color: var(--ink-2); }
+.as p:last-child b { color: var(--ink); }
+@media (max-width: 760px) { .assume { grid-template-columns: minmax(0, 1fr); } }
+
+/* ---------- 7. signposts: one white list; each row its reading, its effect on the chance, and an alert ---------- */
+.posts { margin: 0; padding: 0.4rem clamp(1.1rem, 2.4vw, 1.6rem); background: #fff; border-radius: var(--r); box-shadow: var(--shadow); list-style: none; }
+.post { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 0.6rem 1.5rem; padding: 0.95rem 0; }
+.post + .post { border-top: 1px solid var(--line); }
+.post__t { margin: 0; font-family: var(--display); font-weight: 400; font-size: 1.15rem; line-height: 1.25; }
+.post__now { margin: 0.15rem 0 0; font-size: 0.84rem; color: var(--ink-2); }
+.post__gauge { display: block; width: min(14rem, 100%); height: 4px; margin-top: 0.45rem; border-radius: 4px; background: var(--mist-2); overflow: hidden; }
+.post__gauge i { display: block; height: 100%; width: calc(var(--v) * 100%); border-radius: 4px; background: var(--accent); transform-origin: left center; }
+.post__side { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 0.5rem 0.9rem; }
+.post__age { font-size: 0.74rem; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.post__alert { min-width: 6.5rem; justify-content: center; }
+.post.is-alert .post__alert { color: #fff; background: var(--ink); }
+.post.is-alert .post__alert:hover { background: #2c2925; }
+@media (max-width: 760px) { .post { grid-template-columns: minmax(0, 1fr); } .post__side { justify-content: flex-start; } }
+
+/* ---------- 8. what could change the picture: gaps beside wildcards ---------- */
+.gaps { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1rem; }
+.gaps__card { padding: 1.2rem 1.3rem; background: #fff; border-radius: var(--r); box-shadow: var(--shadow); }
+.gaps__list, .wild { display: grid; gap: 0.85rem; margin: 0.9rem 0 0; padding: 0; list-style: none; font-size: 0.88rem; line-height: 1.5; color: var(--ink-2); }
+.gaps__list b, .wild b { color: var(--ink); }
+.wild li { display: grid; grid-template-columns: 3.2rem minmax(0, 1fr); gap: 0.8rem; align-items: start; }
+.wild__p { font-family: var(--display); font-size: 1.6rem; line-height: 1.1; color: var(--accent-ink); font-variant-numeric: lining-nums tabular-nums; }
+.wild p { margin: 0.1rem 0 0; }
+.wild .btn-q { margin-top: 0.5rem; }
+@media (max-width: 860px) { .gaps { grid-template-columns: minmax(0, 1fr); } }
 
 /* ---------- 9. take it further: four white cards that lift, each opening another part of Penumbra ---------- */
 .further { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.9rem; margin: 0; padding: 0; list-style: none; }
@@ -431,15 +433,13 @@
 .rv .memo-page .spark:not(.is-in) .spark__line { stroke-dashoffset: 1; }
 .rv .memo-page .spark :is(.spark__area, .spark__dot, .spark__pt, .spark__lab) { transition: opacity 0.5s ease 1s; }
 .rv .memo-page .spark:not(.is-in) :is(.spark__area, .spark__dot, .spark__pt, .spark__lab) { opacity: 0; }
-/* the paths' shares wipe in from the left; the engines' marks slide out from zero; the loss curves draw */
+/* the paths' shares wipe in from the left; the loss curves draw; the signposts' gauges fill */
 .rv .memo-page .mix__plot svg { clip-path: inset(0 0 0 0); transition: clip-path 1.2s cubic-bezier(0.3, 0.6, 0.2, 1); }
 .rv .memo-page .mix:not(.is-in) .mix__plot svg { clip-path: inset(0 100% 0 0); }
-.rv .memo-page .fuse__row b { transition: left 0.9s cubic-bezier(0.3, 0.7, 0.2, 1), opacity 0.3s ease; }
-.rv .memo-page .fuse:not(.is-in) .fuse__row b { left: 0; opacity: 0; }
-.rv .memo-page .fuse__row u { transition: opacity 0.5s ease 0.8s; }
-.rv .memo-page .fuse:not(.is-in) .fuse__row u { opacity: 0; }
 .rv .memo-page .curve__line { transition: stroke-dashoffset 1.4s cubic-bezier(0.3, 0.6, 0.2, 1); }
 .rv .memo-page .curve:not(.is-in) .curve__line { stroke-dashoffset: 1; }
+.rv .memo-page .post__gauge i { transition: transform 0.9s cubic-bezier(0.3, 0.7, 0.2, 1); }
+.rv .memo-page .posts:not(.is-in) .post__gauge i { transform: scaleX(0); }
 .rv .memo-page .fall i::after { transition: transform 0.7s cubic-bezier(0.3, 0.7, 0.2, 1); }
 .rv .memo-page .fall:not(.is-in) i::after { transform: scaleX(0); }
 .rv .memo-page .fall li:nth-child(3) i::after { transition-delay: 0.12s; }
@@ -458,7 +458,7 @@
 .rv .memo-page #plan:not(.is-in) .gantt__bar { transform: scaleX(0); }
 
 @media (prefers-reduced-motion: reduce) {
-  .sw button, .sw.is-ready .sw__pill, .planpick__thumb, .planpick__n, .ask-q, .go, .mix__area, .mix__lab, .node, .net__edge, .rob th, .rob td { transition: none; }
+  .sw button, .sw.is-ready .sw__pill, .planpick__thumb, .planpick__n, .ask-q, .go, .post__alert, .mix__area, .mix__lab, .node, .net__edge, .rob th, .rob td { transition: none; }
   .ask-q:hover, .go:hover { transform: none; }
   .plan.is-swap > *, .path.is-swap > * { animation: none; }
 }

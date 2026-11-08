@@ -83,26 +83,29 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   figures came from model.js; keep them in sync with the workbench, workflows, and agents pages.
 - `memo.html` + `assets/css/memo.css` + `assets/js/memo.js`, a sample strategic options memo dated Wed Oct 7 answering the CEO's
   "How should we respond to the potential of new sanctions by the Trump Administration?" In the house style (body `app house
-  memo-page`, no sky). A deep dive, not a brief: the user wants incisive analysis of one topic, possible trajectories for the
-  organization, and a showcase of the applications, models, and resources a client could have (rebuilt 2026-11-07; a version
-  in the daily brief's shape read as a second brief, and the older "team of rivals" framing, each interest owned by an
-  officer, was disliked: surface the company's interests, keeping one note on where they diverge). Head: headline, lede, the
-  CEO's question as a white bubble with how the Totality engine read it, and a strip of what went into it (sub-questions,
-  engines, sources, simulated futures). 1 Bottom Line: lead, key judgments, 41% with "+3 pts this week" in the brief's
-  red-outlined pill, "±7 pts, updated as of 4:40pm GST", a 13-week chart, and three figures ($25.4M expected if we wait,
-  $62M at risk, "Protected by Penumbra's suggestions" $9.5M "at a cost of $3.0M"). 2 Four Ways This Could Go: `PATHS`
-  (targeted widening 26%, sweeping package 15%, pressure without new rules 38%, talks restart 21%; the two sanctions paths
-  make the 41%), a stacked chart of their weekly shares and the chosen path's first signs, how it would unfold, cost to us,
-  and best response. Choosing a path (any of its sliding tracks, the chart, or the table's column heads) follows it through
-  the page. 3 What's Driving It: the waterfall and three trendlines. 4 How the Forecast Was Built: each engine's mark beside
-  the fused band (pulsing), the three engines' questions with their horizons of skill, what they read, and sub-questions,
-  and the declined part hatched; a calibration line. 5 How It Would Reach Us: a counterparty network (Iranian links, who we
-  deal with, the five interests; curves drawn by `drawNet()` turn red where the path cuts, the interests show its loss),
-  "Where our interests pull apart" (amber; the Dubai traders), and a loss-exceedance curve. 6 What Holds Up in Every Path: a
-  table of each response's net value by path, Penumbra's suggested path in three stages, and the plans (`PLANS`, Gantt,
-  tripwires, "Send to workflows"). 7 Where It Opens Doors. 8 What Went Into This Memo: models, public sources, your data,
-  and agents (no vendors or methods). 9 Take It Further: cards to the workbench, agents, workflows, and ask, then
-  `ASKS`. It reuses the brief's resin, Dubai, and feeder exposures and the Sep 29 talks collapse, so keep those in sync.
+  memo-page`, no sky). Shaped like an intelligence community options memo, made live with shifting probabilities (rebuilt
+  2026-11-07 after three tries: a version in the daily brief's shape read as a second brief; a deep dive that showed off the
+  model's engines, sources, and agents was rejected, since the user wants only value for someone who must understand an
+  issue and decide, no discussion of how the model works; and the older "team of rivals" framing, each interest owned by an
+  officer, was disliked: surface the company's interests, with one note on where they diverge). Head: headline, lede, the
+  CEO's question as a white bubble with "The question we're answering". 1 Bottom Line: lead, key judgments with confidence,
+  41% with "+3 pts this week" in the brief's red-outlined pill, "±7 pts, updated as of 4:40pm GST", a 13-week chart, three
+  figures ($25.4M expected if we wait, $62M at risk, "Protected by Penumbra's suggestions" $9.5M "at a cost of $3.0M"), and
+  "Since you last read" (what moved the chance, by how much, and when). 2 Who Decides: Treasury, the Senate, the White
+  House, Tehran, and European partners, each with what it wants, which way it pushes (soft pills), and what to watch for.
+  3 Four Ways This Could Go: `PATHS` (targeted widening 26%, sweeping package 15%, pressure without new rules 38%, talks
+  restart 21%; the two sanctions paths make the 41%), a stacked chart of their weekly shares and the chosen path's first
+  signs, how it would unfold, cost to us, and best response; choosing a path (any of its sliding tracks, the chart, or the
+  options table's column heads) follows it through the page. 4 Why We Think So: the waterfall, three trendlines, and Key
+  Assumptions (each with its status, amber when under strain, and what follows if it's wrong). 5 How It Would Reach Us: a
+  counterparty network (Iranian links, who we deal with, the five interests; curves drawn by `drawNet()` turn red where the
+  path cuts, the interests show its loss), "Where our interests pull apart" (amber; the Dubai traders), and a
+  loss-exceedance curve. 6 Our Options: each response's net value by path, Penumbra's suggested path in three stages, the
+  plans (`PLANS`, Gantt, tripwires, "Send to workflows"), and where it opens doors. 7 Signposts to Watch: `POSTS`, each with
+  its current reading (a gauge where there's a line), what it would do to the chance, a "Checked N min ago" that ticks, and
+  an alert toggle (`daybreak.memo.alerts`). 8 What Could Change the Picture: gaps and low-chance, high-impact turns. 9 Take It
+  Further: cards to the workbench, agents, workflows, and ask, then `ASKS`. It reuses the brief's resin, Dubai, and feeder
+  exposures and the Sep 29 talks collapse, so keep those in sync.
 - `ask.html` (fifth tab, `assets/css/ask.css`, body `app house ask-page` since 2026-11-06: the house layer at the end of
   ask.css; serif title-case headline, white starters, assumptions, user bubbles and composer, Penumbra's speaker mark the
   black logo (a .logo in each answer, breathing while one is coming; a plain dark disc before), the send button and a reply's first action red, follow-ups soft cream; one centred column: before the
