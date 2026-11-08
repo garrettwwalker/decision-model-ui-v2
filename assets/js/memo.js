@@ -617,12 +617,59 @@
     num("Protects", o.protects ? DB.money(o.protects) : "$0");
     num("Net", (net < 0 ? "−" : "") + DB.money(Math.abs(net)), net < 0 ? "red" : null);
     c.appendChild(nums);
-    function go() { if (shown !== o.id) { shown = o.id; paintCards(); showPlan(o.id, true); } }
+    function go() { if (shown !== o.id) { shown = o.id; paintCards(); showPlan(o.id, true); drawRivals(true); } }
     c.addEventListener("click", go);
     c.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } });
     cardEls[o.id] = c;
     olist.appendChild(c);
   });
+  /* ---------- how rivals are positioned, and where each meets the selected option ---------- */
+  var RIVALS = [
+    { name: "Ostra Home", base: "Turkish white goods, plants in Manisa", exp: "High exposure", cls: " pill--red",
+      facts: [["Resin from the Gulf", "70%"],["Share of MENA sales", "18%"]],
+      hit: "No second resin source. A rule on buyers would slow its lines within weeks.",
+      meets: { resin: "We’d both chase Singapore and Korean grades. Ours qualify by mid-November and Ostra hasn’t started, so frame contracts this month keep that capacity ours.",
+        engage: "Little overlap. Ostra banks with state lenders that have no Iran history.",
+        tighten: "If we pause a Dubai trader, Ostra is the likeliest to pick up its volume.",
+        watch: "Waiting puts us in the same queue as Ostra for Asian resin once sanctions land." } },
+    { name: "Brenmar Group", base: "European, plants in Poland and Egypt", exp: "Low exposure", cls: "",
+      facts: [["Resin from the Gulf", "15%"], ["Share of MENA sales", "22%"]],
+      hit: "Buys most of its resin in Europe, so it would gain from any rival that stalls.",
+      meets: { resin: "Brenmar buys Korean resin too, so that grade could tighten. Singapore is the safer first source.",
+        engage: "Its trade association is already lobbying Treasury. A joint letter with ours would carry more weight.",
+        tighten: "Brenmar already certifies its traders, so customers asking for clean supply chains will compare us to it.",
+        watch: "Brenmar is the one that wins if we’re caught short." } },
+    { name: "Saffron Electric", base: "Gulf assembler at Jebel Ali", exp: "High exposure", cls: " pill--red",
+      facts: [["Resin from the Gulf", "90%"], ["Share of MENA sales", "9%"]],
+      hit: "Buys from the same three Dubai traders and hires two of the same feeders.",
+      meets: { resin: "Saffron takes resin from the same Mesaieed plant. If that plant is shut out, it will bid for our Gulf allocation, so move first.",
+        engage: "No overlap. Saffron banks in Dubai.",
+        tighten: "Two of its feeders share our technical manager. If we swap ours first, we get the better replacement slots.",
+        watch: "Saffron shares our exposure with no plan. Its trouble could pull the traders down with it." } }
+  ];
+  var rivalsEl = $("#rivals");
+  function drawRivals(user) {
+    var o = OPTIONS.filter(function (x) { return x.id === shown; })[0];
+    rivalsEl.innerHTML = "";
+    RIVALS.forEach(function (rv) {
+      var li = el("li", "rival");
+      var head = el("div", "rival__head");
+      head.appendChild(el("h4", "rival__t", rv.name));
+      head.appendChild(el("span", "pill" + rv.cls, rv.exp));
+      li.appendChild(head);
+      li.appendChild(el("p", "rival__base", rv.base));
+      var dl = el("dl", "rival__facts");
+      rv.facts.forEach(function (f) { var d = el("div"); d.appendChild(el("dt", null, f[0])); d.appendChild(el("dd", null, f[1])); dl.appendChild(d); });
+      li.appendChild(dl);
+      li.appendChild(el("p", "rival__hit", rv.hit));
+      var m = el("div", "rival__meets" + (user && !REDUCE ? " is-swap" : ""));
+      m.appendChild(el("b", null, "Where it meets option " + o.n));
+      m.appendChild(el("p", null, rv.meets[o.id]));
+      li.appendChild(m);
+      rivalsEl.appendChild(li);
+    });
+  }
+
   function paintCards() {
     OPTIONS.forEach(function (o) {
       var on = o.id === shown;
@@ -631,6 +678,7 @@
     });
   }
   paintCards();
+  drawRivals(false);
 
   function showPlan(id, user) {
     var o = OPTIONS.filter(function (x) { return x.id === id; })[0], p = PLANS[id];
@@ -824,16 +872,21 @@
     var side = el("div", "post__side");
     side.appendChild(el("span", "pill" + (sp.up ? " pill--red" : ""), sp.effect));
     var age = el("span", "post__age", ago(sp.checked)); side.appendChild(age); ages.push([age, sp]);
-    var b = el("button", "btn-q post__alert"); b.type = "button";
+    // a bell: outlined while off, filled (and rung once) when the alert is on
+    var b = el("button", "post__alert"); b.type = "button";
+    b.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path class="bell__body" d="M12 3.2a5.6 5.6 0 0 0-5.6 5.6v3.3c0 .9-.3 1.8-.9 2.5l-1 1.3c-.5.6-.1 1.4.7 1.4h13.6c.8 0 1.2-.8.7-1.4l-1-1.3a4 4 0 0 1-.9-2.5V8.8A5.6 5.6 0 0 0 12 3.2Z"/><path class="bell__clap" d="M9.6 19.4a2.5 2.5 0 0 0 4.8 0"/></svg>';
     function paint() {
       var on = !!alerts[sp.id];
-      b.textContent = on ? "Alert on" : "Alert me"; b.setAttribute("aria-pressed", String(on));
+      b.setAttribute("aria-pressed", String(on));
+      b.setAttribute("aria-label", (on ? "Alert on: " : "Alert me: ") + sp.t);
+      b.title = on ? "Alert on. Select to turn it off." : "Alert me when this moves";
       li.classList.toggle("is-alert", on);
     }
     b.addEventListener("click", function () {
       alerts[sp.id] = !alerts[sp.id];
       try { localStorage.setItem(AKEY, JSON.stringify(alerts)); } catch (e) {}
       paint();
+      if (alerts[sp.id] && !REDUCE) { b.classList.remove("is-ring"); void b.offsetWidth; b.classList.add("is-ring"); }
     });
     paint();
     side.appendChild(b);

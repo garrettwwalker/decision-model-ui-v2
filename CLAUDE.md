@@ -112,9 +112,11 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   description, costs and benefits beside lead, first move, and team hours, for and against side by side, the implementation
   timeline (`PLANS`, Gantt), tripwires, and "Send to workflows" (the for and against on the cards took too much room; a "How
   Each Would Run" heading, card hints, a values-by-scenario table, a suggested-path strip, and plan tabs were removed);
-  then where it opens doors. 7 Signposts to
-  Watch: `POSTS` with readings, gauges, effects, a ticking "Checked N min ago", and alert toggles (`daybreak.memo.alerts`,
-  no toast). 8 Known Unknowns: "What We Don't Know", a card per gap with a small meter of what we can see and "What would tell us"; then "Unlikely, but High Impact", a card per wildcard with its chance and "What we'd do" (two plain list cards were disliked). 9 You Might Also Ask ("Each query opens the
+  then How Rivals Are Positioned (`RIVALS`: three fictional competitors, each with its exposure pill, Gulf resin share,
+  MENA share, and a cream "Where it meets option N" panel that follows the selected card; it replaced "Where It Opens
+  Doors"). 7 Signposts to
+  Watch: `POSTS` with readings, gauges, effects, a ticking "Checked N min ago", and a bell for each alert (`daybreak.memo.alerts`;
+  outlined when off, filled on ink and rung once when on, no toast; text buttons were disliked). 8 Known Unknowns: "What We Don't Know", a card per gap with a small meter of what we can see and "What would tell us"; then "Unlikely, but High Impact", a card per wildcard with its chance and "What we'd do" (two plain list cards were disliked). 9 You Might Also Ask ("Each query opens the
   Totality engine."). It reuses the brief's resin, Dubai, and feeder exposures and the Sep 29 talks collapse, so keep those in sync.
 - `ask.html` (fifth tab, `assets/css/ask.css`, body `app house ask-page` since 2026-11-06: the house layer at the end of
   ask.css; serif title-case headline, white starters, assumptions, user bubbles and composer, Penumbra's speaker mark the
