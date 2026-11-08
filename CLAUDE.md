@@ -109,7 +109,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   cut links pulse red; views slide between the region and the Gulf (the Gulf box zooms in too, and markers keep their
   screen size); selecting a place lights its links and opens its details, its status in the scenario, and its links;
   beside the map, under the side panel (the scenario's descriptive title, chance, and reach; no sanctions pills or link-count hint), what's at risk in the scenario, the total and each interest. (A three-column network, the Dubai traders tile, and a loss
-  curve were removed.) 6 Our Options: four short cards (number, a short punchy title, one plain line: Re-source Resin, Secure the
+  curve were removed.) 6 Our Options: four cards (number, a short punchy title, and a short paragraph naming who does what: Re-source Resin, Secure the
   Banks, Vet Our Partners, Stay Ready; no economics or Totality's-view pills) so they share a screen with the panel beneath;
   the selected card lifts, the others fade to 50% (as on the agents page), and it fills that panel, the full control panel for the option: its
   description, costs and benefits beside lead, first move, and team hours, "Arguments for" and "Arguments against" side by side, the implementation
@@ -119,7 +119,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   MENA share, and a cream panel headed by the selected response ("If we re-source resin"; never "option N" or a bare "it") that follows the selected card; it replaced "Where It Opens
   Doors"). 7 Signposts to
   Watch: `POSTS` with readings, gauges, effects, a ticking "Checked N min ago", and a bell for each alert (`daybreak.memo.alerts`;
-  outlined when off, filled on ink and rung once when on, no toast; text buttons were disliked). 8 Known Unknowns: "What We Don't Know", a card per gap with a small meter of what we can see and "What would tell us"; then "Unlikely, but High Impact", a card per wildcard with its chance and "What we'd do" (two plain list cards were disliked). 9 You Might Also Ask ("Each query opens the
+  outlined when off, filled on ink and rung once when on, no toast; text buttons were disliked). 8 Known Unknowns: "What We Don't Know", a card per gap with a small meter of what we can see (the wind-down card two bars on one day scale, so the overlap with re-sourcing shows) and "What would tell us"; then "Unlikely, but High Impact", a card per wildcard with its chance and "What we'd do" (two plain list cards were disliked). 9 You Might Also Ask ("Each query opens the
   Totality engine."). It reuses the brief's resin, Dubai, and feeder exposures and the Sep 29 talks collapse, so keep those in sync.
 - `ask.html` (fifth tab, `assets/css/ask.css`, body `app house ask-page` since 2026-11-06: the house layer at the end of
   ask.css; serif title-case headline, white starters, assumptions, user bubbles and composer, Penumbra's speaker mark the
