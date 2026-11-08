@@ -1956,7 +1956,7 @@
     DB.toast(planList(plan).length ? "Committed as a scenario. Each person on the plan has their action, with a deadline." : "Committed as a scenario.");
   }
 
-  /* ================= Ask Penumbra: questions about the live scenario ================= */
+  /* ================= Ask Totality: questions about the live scenario ================= */
   var askOpen = document.getElementById("ask-open"), drawer = document.getElementById("askdrawer");
   document.body.appendChild(drawer); // out of .page's stacking context, so it can sit over the sticky bar
   var askLog = document.getElementById("ask-log"), askForm = document.getElementById("ask-form"), askInput = document.getElementById("ask-input");

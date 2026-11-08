@@ -66,8 +66,9 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   pill-shaped marks were rejected), then the three decisions with just two buttons: Assign (red; turns ink, says who it's
   assigned to, and marks its day; the war-risk decision's reads Approve) and Details (drops open what happens, if we wait, who's affected, and "See the team's
   part", a plain link so nav.js slides to team.html?directive=); then "Decisions Made Overnight", your agents' small reversible steps with
-  rounded-square initials, Details (drops open what, when, why, cost, and how to reverse) and Undo (a strike draws itself
-  through the whole summary and fades on Redo). States persist in localStorage (`daybreak.brief`). 3 What's Caught in the Crossfire: the
+  rounded-square initials, Configure and Undo (a strike draws itself
+  through the whole summary and fades on Redo); selecting the rest of the line drops its details open (what, when, why,
+  cost, how to reverse), and Configure, which replaced a Details button, links to the agents page. States persist in localStorage (`daybreak.brief`). 3 What's Caught in the Crossfire: the
   map (report colors; the Hormuz danger zone a shaded circle with a solid ring, both pulsing paler to deeper red; hatching, a
   dashed ring, and no ring were tried) rides sticky beside "How Long We Can Run" (days of stock against one pale red window behind
   every row, labelled "Closure, 2–4 weeks out", centered, pulsing paler to deeper red on the danger zone's 2.6s beat; a stripe per row read as detached), the losses table (orders
@@ -93,9 +94,10 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   pulsing error band (a 13-week chart there was undone), and beneath that panel, at its natural height (centering it in the
   stretched column left dead space the user disliked), "What's Changed Since Monday, October 5" ("Net +3%" pill; each move
   a soft pill with an up or down arrow); then three figures ($25.4M expected if we wait, $62M "at risk if sanctions are
-  imposed", "Protected by Penumbra's suggestions" $9.5M "at a cost of $3.0M"). 2 Key Stakeholders: Treasury, the
-  Senate (a bill introduced August 3, in the Banking Committee with 34 co-sponsors: keep the drivers, trend, scenarios, and
-  signposts consistent with that), the White House, Tehran, and European partners. 3 Four Ways This Could Go: `PATHS`
+  imposed", "Protected by Penumbra's suggestions" $9.5M "at a cost of $3.0M"). 2 Key Stakeholders ("The players whose choices set the odds."; pills Pushing the odds up, Neutral, Pulling the odds
+  down): Treasury's Office of Foreign Assets Control, the Senate Banking Committee (the bill introduced August 3, in committee
+  with 34 co-sponsors: keep the drivers, trend, scenarios, and signposts consistent with that), the National Security
+  Council, Tehran, and European partners (the user wanted named offices and agencies, not "the Senate" or "the White House"). 3 Four Ways This Could Go: `PATHS`
   (targeted widening 26%, sweeping package 15%, pressure without new rules 38%, talks restart 21%), a stacked chart of their
   weekly shares and the chosen scenario's first signs, a timeline of how it would unfold (dots joined by a line), cost to
   us, and best response; the choice carries onto the map. 4 Why We Think So: the waterfall, three trendlines (Iran-linked
@@ -392,11 +394,12 @@ no tests. To preview, open `index.html` in a browser; there's no server.
 
 ## Product messaging
 
-Naming: say **Penumbra** for the company and the product (wordmark, titles, footers, "Ask Penumbra", the SDK's
+Naming: say **Penumbra** for the company and the product (wordmark, titles, footers, the SDK's
 `from penumbra import World`, anything the customer uses or buys). Say **the Totality engine** (lowercase "engine")
 when the copy describes the model doing analysis: splitting questions, running its three engines, fusing,
-forecasting, declining, suggesting. Tight labels may shorten it to "Totality" ("Totality's read", "How Totality got
-27%"). Storage keys and SVG mask IDs say `daybreak` from the first company name; they're internal, so leave them.
+forecasting, declining, suggesting, and for the place you ask it questions (the user retired "Ask Penumbra", 2026-11-08:
+"Asked by the CEO in the Totality engine", the workbench's "Ask Totality" drawer). Tight labels may shorten it to "Totality"
+("Totality's read", "How Totality got 27%"). Storage keys and SVG mask IDs say `daybreak` from the first company name; they're internal, so leave them.
 
 Source docs: `references/Decision Model Pitch.docx` (overview) and
 `references/Sector-Agnostic Decision Notes.docx` (technical breakdown). The site names three

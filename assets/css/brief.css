@@ -189,7 +189,12 @@
 .done__list { margin: 0; padding: 0; list-style: none; }
 .did { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 0 0.9rem; padding: 0.85rem 0; border-top: 1px solid var(--line); }
 .did__who { display: grid; place-items: center; width: 2.1rem; height: 2.1rem; border-radius: 9px; font-size: 0.72rem; font-weight: 700; color: #fff; background: hsl(var(--h) 52% 46%); transition: opacity 0.25s ease; }
-.did__what { margin: 0; font-size: 0.9rem; line-height: 1.5; color: var(--ink-2); transition: opacity 0.25s ease; }
+.did__what { margin: 0; font-size: 0.9rem; line-height: 1.5; color: var(--ink-2); cursor: pointer; transition: opacity 0.25s ease, color 0.2s ease; }
+.did { cursor: pointer; }
+.did__act, .did__more { cursor: auto; }
+.did:hover .did__what, .did.is-open .did__what { color: var(--ink); }
+.did__what:focus { outline: none; }
+.did__what:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
 .did__what b { color: var(--ink); }
 .did__act { display: flex; gap: 0.4rem; }
 .did.is-undone .did__what, .did.is-undone .did__who { opacity: 0.45; }

@@ -55,8 +55,12 @@
     });
     details(card, $("[data-details]", card));
   });
+  // an overnight step drops its details open when its line is selected; Configure goes to the agents page
   $$(".did").forEach(function (li, i) {
-    details(li, $("[data-details]", li));
+    var what = $(".did__what", li);
+    function toggle() { var open = li.classList.toggle("is-open"); what.setAttribute("aria-expanded", String(open)); }
+    li.addEventListener("click", function (e) { if (!e.target.closest(".did__act, .did__more")) toggle(); });
+    what.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); } });
     $("[data-undo]", li).addEventListener("click", function () {
       S.undo[i] = !S.undo[i];
       DB.toast(S.undo[i] ? "Undone. The agent has reversed it." : "Back on. The agent has redone it.");
