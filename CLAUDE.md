@@ -81,18 +81,27 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   5 Outside Your Watchlist (gray swans and an opportunity). 6 You Might Also Ask, bubbles that open ask.html?q=
   ("Each opens the Totality engine", the user's wording). Its money
   figures came from model.js; keep them in sync with the workbench, workflows, and agents pages.
-- `memo.html` + `assets/js/memo.js` (since 2026-11-06 in the house style like the Red Sea report: body `app house memo-page`,
-  no sky, the house layer at the end of memo.css; serif title-case headings with section numbers in the margin and the note
-  beneath, white cards with cream panels, red for risk and what pushes the odds up, amber for where interests pull apart,
-  confidence pills color coded, the odds' error band pulsing in color, paler to deeper red (a pulse in width was undone), the declined part hatched, the plan picker a track with a white pill that slides between plans, red Gantt bars)
-  is a sample strategic options memo, dated Wed 7 Oct, answering the CEO's
-  "How should we respond to the potential of new sanctions by the Trump Administration?" Static HTML holds the bottom
-  line (key judgments with confidence, 41% ±7 by 6 Dec on an estimative-words scale) and the drivers tug-of-war
-  (22% on 1 Aug, +24/−5, 41% today); `memo.js` renders the rest from data: `INTERESTS`, `OPTIONS` (cost, expected
-  value protected at P = 0.41, pros/cons, a fit per interest), `PLANS` (week-grid Gantt steps, decision points,
-  tripwires), `TRENDS` (three weekly line charts with hover readouts) and `ASKS`, which open `ask.html?q=` with the
-  question typed in. Choices persist in localStorage (`daybreak.memo.choice`). It reuses the brief's resin, Dubai
-  and feeder exposures and the 29 Sep talks collapse, so keep those in sync.
+- `memo.html` + `assets/css/memo.css` + `assets/js/memo.js`, a sample strategic options memo dated Wed Oct 7 answering the CEO's
+  "How should we respond to the potential of new sanctions by the Trump Administration?" In the house style (body `app house
+  memo-page`, no sky). Rebuilt from the ground up on 2026-11-07 in the daily brief's shape, once the brand was settled; the
+  user disliked the old "team of rivals" framing (each interest owned by an officer: CEO, General Counsel, GM MENA ...), so
+  the memo surfaces the company's interests, not who holds them, keeping one note on where they diverge. Head: headline,
+  lede, and the CEO's question as a white bubble with how the Totality engine read it. 1 Bottom Line, as on the brief: lead,
+  three key judgments with confidence pills, a cream panel with 41% and "+3 pts this week" in the brief's red-outlined pill,
+  "±7 pts, updated as of 4:40pm GST" (the memo's 16:40 stamp), and a 13-week chart (the estimative-words scale and its
+  pulsing error band are gone; the old tile left a gap the user disliked); beneath, if we wait $25.4M (a bar by interest:
+  resin 24, Dubai traders 18, penalties 11, freight 5, banking 4 = the $62M at risk) against "With Penumbra's suggestions"
+  $15.9M (re-source resin and engage the banks: $9.5M protected at a cost of $3.0M, net value $6.5M). 2 What's at Stake:
+  `INTERESTS`, a white card each with its value at risk, then "Where they pull apart" (amber pill): the three Dubai traders,
+  staying clear of a breach against keeping MENA growing, with Penumbra's suggestion. 3 Why the Odds Rose: the brief's
+  waterfall (22% on Aug 1, five drivers up, two down, 41%) and three trendlines (designations, senators backing the bill,
+  Brent; red line at the Sep 29 talks collapse); no engine detail or signposts, as on the brief. 4 Four Ways to Respond:
+  `OPTIONS` as rows like the brief's decisions (Penumbra's two picks first), each with Totality's view, "Serves ..." and
+  amber "Strains ..." pills, Costs and Protects, Choose (turns ink, names the lead and start date; `daybreak.memo.choice`)
+  and Details (for and against, "See how it would run"); a "Show what serves" sliding track fades the options that don't
+  serve the chosen interest. 5 How Each Would Run: `PLANS`, a track with a sliding white pill, red Gantt bars, decision
+  diamonds, tripwires, a red "Send to workflows". 6 You Might Also Ask (`ASKS`, ask.html?q=). It reuses the brief's resin,
+  Dubai, and feeder exposures and the Sep 29 talks collapse, so keep those in sync.
 - `ask.html` (fifth tab, `assets/css/ask.css`, body `app house ask-page` since 2026-11-06: the house layer at the end of
   ask.css; serif title-case headline, white starters, assumptions, user bubbles and composer, Penumbra's speaker mark the
   black logo (a .logo in each answer, breathing while one is coming; a plain dark disc before), the send button and a reply's first action red, follow-ups soft cream; one centred column: before the
