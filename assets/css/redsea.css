@@ -746,6 +746,8 @@ button.route__in:focus-visible { outline: 2px solid var(--accent); outline-offse
 .house.rs-glance .board.is-tracing .card:not(.is-on) .ev__foot .up, .house.rs-glance .board.is-tracing .card:not(.is-on) .ev__foot .down { color: var(--ink-3); }
 .house.rs-glance .board.is-tracing .card:not(.is-on) .money--safe, .house.rs-glance .board.is-tracing .card:not(.is-on) .money--loss { color: var(--ink-3); }
 .house.rs-glance .board.is-tracing .card:not(.is-on) svg { filter: grayscale(1); }
+.house.rs-glance .board.is-tracing .card:not(.is-on) .as__bar i { background: var(--ink-3); }
+.house.rs-glance .as__bar i { transition: background-color 0.25s ease, transform 1s cubic-bezier(0.3, 0.7, 0.2, 1) 0.15s; }
 .house.rs-glance .as__money b, .house.rs-glance .tm__foot b { font-family: var(--display); font-weight: 400; letter-spacing: -0.005em; font-size: 1.45rem; font-variant-numeric: lining-nums tabular-nums; }
 .house.rs-glance .as__bar { background: var(--mist-2); }
 .house.rs-glance .as__bar i { background: var(--accent); }
