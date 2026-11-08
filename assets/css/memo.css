@@ -383,6 +383,7 @@
 .memo-page .option__list--pro li::before { color: var(--ink-3); }
 .memo-page .option__list--con li::before { color: var(--accent-ink); }
 .memo-page .option.is-chosen .option__act .btn--primary { background: var(--ink); }
+.memo-page .option.is-chosen .option__act .btn--primary:hover { background: #2b2824; box-shadow: 0 8px 18px -8px rgba(20, 18, 16, 0.55); }
 .memo-page .btn--ghost { border: 0; background: var(--mist-2); color: var(--ink); transition: background-color 0.15s ease, box-shadow 0.2s ease, transform 0.2s ease; }
 .memo-page .btn--ghost:hover { background: var(--mist-3); box-shadow: 0 6px 14px -8px rgba(22, 20, 18, 0.35); }
 /* the fit marks drawn as SVG: CSS circles (a rounded box, an inset ring, a hard half-fill) came out lopsided on
