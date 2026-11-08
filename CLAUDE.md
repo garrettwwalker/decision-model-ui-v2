@@ -89,7 +89,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   issue and decide, no discussion of how the model works; and the older "team of rivals" framing, each interest owned by an
   officer, was disliked). Percentages throughout, never "pts" (the user's call). Head: headline, lede, the CEO's question
   as a white bubble (the scope note under it was removed). 1 Bottom Line: lead, key judgments with confidence, 41% with "+3%
-  this week" in the brief's red-outlined pill, "±7%, updated as of 4:40pm GST", the estimative-words probability bar with its
+  this week" in a solid red pill (white text; the brief keeps its soft pill outlined in red), "±7%, updated as of 4:40pm GST", the estimative-words probability bar with its
   pulsing error band (a 13-week chart there was undone), and beneath that panel, at its natural height (centering it in the
   stretched column left dead space the user disliked), "What's Changed Since Monday, October 5" ("Net +3%" pill; each move
   a soft pill with an up or down arrow); then three figures ($25.4M expected if we wait, $62M "at risk if sanctions are
