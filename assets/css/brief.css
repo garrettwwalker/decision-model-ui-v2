@@ -31,7 +31,8 @@
 .q.is-lead { box-shadow: var(--shadow-up); transform: translateY(-4px); }
 .q__k { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem; font-size: 0.82rem; font-weight: 700; }
 .q__p { font-family: var(--display); font-size: 2.1rem; line-height: 1.05; letter-spacing: -0.01em; font-variant-numeric: lining-nums tabular-nums; }
-.is-lead .q__p { color: var(--accent-ink); }
+.q__p { transition: color 0.25s ease; }
+.is-lead .q__p, .q:hover .q__p, .q:focus-visible .q__p, .q:active .q__p { color: var(--accent-ink); } /* every card's chance turns red under the pointer, as the lead's is */
 .q__d { font-size: 0.8rem; font-weight: 600; color: var(--ink-3); }
 .q__d--up { color: var(--accent-ink); }
 .q__n { margin-top: 0.35rem; padding-top: 0.5rem; border-top: 1px solid var(--line); font-size: 0.76rem; color: var(--ink-3); }
