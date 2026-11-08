@@ -186,7 +186,7 @@
     var b = Math.round(s * (0.3 + 0.066 * i / 12)), d = D13[i];
     return { b: b, a: s - b, c: 100 - s - d, d: d };
   });
-  var ORDER = ["b", "a", "c", "d"]; // bottom to top
+  var ORDER = ["d", "c", "b", "a"]; // bottom to top, so the bands read top down in the order of the tracks
   var DATES = ["Jul 13", "Jul 20", "Jul 27", "Aug 3", "Aug 10", "Aug 17", "Aug 24", "Aug 31", "Sep 7", "Sep 14", "Sep 21", "Sep 28", "this week"];
   var EVENT = 11 + 1 / 7; // September 29, a day after the Sep 28 point
   var mixHost = $("#mix"), mixAreas = {};
@@ -233,7 +233,7 @@
       tip.appendChild(el("span", null, i === 12 ? "This week" : "Week of " + DATES[i]));
       PATHS.forEach(function (p) {
         var row = el("p", "mix__row" + (p.id === path ? " is-on" : ""));
-        row.appendChild(el("i", "mix__sw mix__sw--" + p.id)); row.appendChild(document.createTextNode(p.short + " "));
+        row.appendChild(el("i", "mix__sw mix__sw--" + p.id + (p.id === path ? " is-on" : ""))); row.appendChild(document.createTextNode(p.short + " "));
         row.appendChild(el("b", null, MIX[i][p.id] + "%"));
         tip.appendChild(row);
       });
@@ -274,7 +274,7 @@
     p.signs.forEach(function (s) {
       var li = el("li");
       li.appendChild(el("span", null, s[0]));
-      li.appendChild(el("span", "pill" + (s[1] ? " pill--red" : ""), s[1] ? "Seen" : "Not yet"));
+      li.appendChild(el("span", "pill" + (s[1] ? " pill--red" : ""), s[1] ? "Observed" : "Pending"));
       ul.appendChild(li);
     });
     signs.appendChild(ul);

@@ -352,7 +352,7 @@
 .mix__area--c { fill: var(--mist-3); }
 .mix__area--d { fill: var(--mist-2); }
 .mix__area.is-on { fill: var(--accent); }
-.mix__area:not(.is-on):hover { fill: #eaa79b; }
+.mix__area:not(.is-on):hover { filter: brightness(0.94); } /* a band darkens a shade in its own color under the pointer */
 .mix__lab { font: 600 11px var(--font); fill: var(--ink-3); font-variant-numeric: tabular-nums; transition: fill 0.3s ease; }
 .mix__lab.is-on { font: 400 16px var(--display); fill: var(--ink); }
 .mix__hair { stroke: var(--ink); stroke-width: 1; opacity: 0; pointer-events: none; }
@@ -362,7 +362,9 @@
 .mix__row b { margin-left: auto; padding-left: 0.8rem; color: #fff; font-size: 0.8rem; }
 .mix__row.is-on { color: #fff; }
 .mix__sw { width: 8px; height: 8px; border-radius: 2px; }
-.mix__sw--a { background: #f8d9d3; } .mix__sw--b { background: #f2bdb4; } .mix__sw--c { background: var(--mist-3); } .mix__sw--d { background: #fff; }
+/* the swatches match the chart: pale reds and cream grays, the chosen scenario in full red */
+.mix__sw--a { background: #f8d9d3; } .mix__sw--b { background: #f2bdb4; } .mix__sw--c { background: var(--mist-3); } .mix__sw--d { background: var(--mist-2); }
+.mix__sw.is-on { background: var(--accent); box-shadow: 0 0 0 1.5px #fff; }
 
 .path.is-swap > * { animation: plan-fade 0.3s ease; }
 .path__head { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; }
