@@ -15,33 +15,33 @@
   // the four paths; loss is what each would cost us over a year, by interest (plants, clear, growth, freight, cash)
   var PATHS = [
     { id: "a", name: "Treasury Extends Sanctions to Buyers", short: "Slight expansion", p: 26, sanctions: true,
-      line: "Treasury extends secondary sanctions to foreign buyers of Iranian petrochemicals under the authority it already has, with a 30-day wind-down. Shipping and banks are mostly left alone.",
+      line: "Treasury extends secondary sanctions to foreign buyers of Iranian petrochemicals under existing authority, with a 30-day wind-down. Shipping and banks are mostly left alone.",
       signs: [["Treasury signals “maximum pressure” in three speeches", 1], ["A Gulf polymer maker is named in a designation", 0], ["The November 1 waivers lapse without renewal", 0]],
       unfold: [["Late October", "Treasury briefs allies on a rule for buyers"], ["November", "The rule is announced, and a 30-day wind-down starts"], ["December", "Our two Gulf suppliers must prove clean feedstock or lose buyers with US ties"], ["Early 2027", "Gulf resin prices rise 12 to 18%"]],
       loss: { plants: 22, clear: 8, growth: 14, freight: 0, cash: 0 },
       reach: "Two chains break: resin from the Gulf suppliers, and sales through the Dubai traders.",
-      best: "Re-source resin now. In this path it’s the difference between paying more for resin and stopping a line." },
+      best: "Re-source resin now. In this scenario, re-sourcing is the difference between paying more for resin and stopping a Gebze line." },
     { id: "b", name: "Congress Passes a Sweeping Package", short: "Sweeping package", p: 15, sanctions: true,
       line: "The Senate bill clears committee, passes, and is signed, reaching the shipping, insurers, and banks that serve Iranian trade. The wind-down could be as short as two weeks.",
-      signs: [["A sanctions bill is introduced in the Senate", 1], ["It clears the Banking Committee", 0], ["Leadership schedules a floor vote", 0]],
+      signs: [["A sanctions bill is introduced in the Senate", 1], ["The bill clears the Banking Committee", 0], ["Leadership schedules a floor vote", 0]],
       unfold: [["November", "The bill clears committee, then a floor vote and signing"], ["November and December", "Banks drop clients with Iran exposure, and insurers withdraw cover"], ["December", "Gebze’s Turkish lender restricts dollar payments"], ["Early 2027", "Gulf freight and resin are both scarce"]],
       loss: { plants: 32, clear: 18, growth: 27, freight: 8, cash: 8 },
       reach: "Every chain breaks, including the feeders and Gebze’s payments.",
-      best: "Everything in the suggested path, plus tightening compliance the week a floor vote is scheduled." },
+      best: "Re-source resin and secure the banks now, then vet our partners the week a floor vote is scheduled." },
     { id: "c", name: "More Designations, No New Rules", short: "Status quo", p: 38, sanctions: false,
       line: "No new rules, but Treasury keeps naming ships, firms, and managers under today’s authority. The risk is being caught by association.",
       signs: [["Designations up threefold since August", 1], ["Ship-to-ship transfers off Fujairah rising", 1], ["No new rule by December 6", 0]],
       unfold: [["October to December", "Weekly designations stay above 20"], ["November", "The technical manager behind two of our feeders may be named"], ["Early 2027", "Screening counterparties becomes routine"]],
       loss: { plants: 0, clear: 0, growth: 0, freight: 0.8, cash: 0 },
       reach: "Only the feeder chain is at risk, through the technical manager we share with named tankers.",
-      best: "Swap the two exposed feeders. It’s cheap and ends the only real exposure here." },
+      best: "Swap the two exposed feeders, a cheap fix for the only real exposure in this scenario." },
     { id: "d", name: "Talks Restart and Pressure Eases", short: "Talks restart", p: 21, sanctions: false,
       line: "Muscat sets a second round, the waivers are renewed unchanged, and pressure eases into the new year.",
       signs: [["European partners push to keep talking", 1], ["Muscat sets a date for a second round", 0], ["The November 1 waivers are renewed unchanged", 0]],
-      unfold: [["November", "A second round in Muscat"], ["December", "Designations fall back to summer levels"], ["Early 2027", "The risk returns if the talks stall again"]],
+      unfold: [["November", "A second round in Muscat"], ["December", "Designations fall back to summer levels"], ["Early 2027", "Sanctions risk returns if the talks stall again"]],
       loss: { plants: 0, clear: 0, growth: 0, freight: 0, cash: 0 },
-      reach: "Nothing breaks. Every chain still runs, though none of them goes away.",
-      best: "Keep the resin qualification going. It still covers the Hormuz exposure." }
+      reach: "Nothing breaks, but every exposure stays in place.",
+      best: "Keep qualifying the new resin, which still hedges the Hormuz exposure." }
   ];
   var BYP = {};
   PATHS.forEach(function (p) { BYP[p.id] = p; });
@@ -52,10 +52,10 @@
   var OPTIONS = [
     { id: "resin", n: 1, title: "Re-source Resin", if: "If we re-source resin",
       sub: "Qualify Singapore and Korean resin at Gebze, and move 40% of its supply off the Gulf by December.",
-      detail: "Procurement orders samples of two Singapore grades and one Korean grade this week. Gebze’s QA team runs line trials through November, then Procurement signs frame contracts for 40% of the plant’s resin and Legal trims the Gulf allocation without breaching terms. It builds on Tuesday’s Singapore bridge-buy.",
+      detail: "Procurement orders samples of two Singapore grades and one Korean grade this week. Gebze’s QA team runs line trials through November, then Procurement signs frame contracts for 40% of the plant’s resin and Legal trims the Gulf allocation without breaching terms. The plan builds on Tuesday’s Singapore bridge-buy.",
       line: "Qualify two Singapore grades and one Korean grade at Gebze, and move 40% of its volume off the Gulf by December. Builds on Tuesday’s Singapore bridge-buy.",
       cost: 2.6, protects: 24 * 0.8 * P,
-      pros: ["Protects the most value", "Also cuts the Hormuz exposure in this week’s brief", "Qualification is reusable for any future supply shock"],
+      pros: ["Protects $7.9M, the most of any option", "Also cuts the Hormuz exposure in this week’s brief", "Qualification is reusable for any future supply shock"],
       cons: ["About $35/t more for at least two quarters", "Ties up Gebze’s QA team for 6 weeks", "Gulf suppliers may shrink our allocation"] },
     { id: "engage", n: 2, title: "Secure the Banks", if: "If we secure the banks",
       sub: "Open a second account for Gebze’s payments, and ask Treasury for wind-down guidance.",
@@ -63,14 +63,14 @@
       line: "Through the trade association, ask Treasury for wind-down guidance. Pre-clear payment routes with two banks and open a second settlement account for Gebze.",
       cost: 0.4, protects: 4 * P,
       pros: ["Cheap, and may buy a longer wind-down", "Keeps Gebze’s payroll and supplier runs safe"],
-      cons: ["The outcome is outside our control", "Visible lobbying on Iran carries some reputational risk", "Does nothing for resin"] },
+      cons: ["Treasury’s answer is outside our control", "Visible lobbying on Iran carries some reputational risk", "Does nothing for resin"] },
     { id: "tighten", n: 3, title: "Vet Our Partners", if: "If we vet our partners",
       sub: "Re-screen MENA partners, have the Dubai traders certify end use, and swap two exposed feeders.",
       detail: "Compliance re-screens every MENA partner, ownership included. The GM MENA and Legal ask the three Dubai traders to certify end use and pause any that won’t, while Logistics swaps the two feeders that share a manager with named tankers.",
       line: "Re-screen every MENA counterparty, ask the Dubai traders for end-use certificates, pause any that won’t sign, and swap the two exposed feeders.",
       cost: 3.5, costNote: "including $2.1M of margin given up", protects: 16 * P,
       pros: ["Removes nearly all penalty exposure", "Shows banks and auditors we moved early", "Cheap to reverse if no sanctions come"],
-      cons: ["Gives up about $2.1M of margin a year even if nothing happens", "Strains the traders behind 14% of MENA volume; rivals may take them"] },
+      cons: ["Gives up about $2.1M of margin a year even if nothing happens", "Strains the traders behind 14% of MENA volume; rivals may win that business"] },
     { id: "watch", n: 4, title: "Stay Ready", if: "If we stay ready",
       sub: "Change nothing yet. Watch four signposts and keep exit letters drafted.",
       detail: "Change nothing yet. The risk office tracks four signposts each week, and Legal keeps exit letters drafted.",
@@ -105,7 +105,7 @@
         ["Prepare investor questions and answers", "Investor relations", 3, 1]
       ],
       marks: [[3, "Letter sent"], [6, "Second account live"]],
-      trips: [["the guidance allows less than 30 days to wind down", "start tightening compliance at once"], ["the Turkish lender is named", "move all Gebze payments to the new account"]]
+      trips: [["the guidance allows less than 30 days to wind down", "start vetting our partners at once"], ["the Turkish lender is named", "move all Gebze payments to the new account"]]
     },
     tighten: {
       lead: "General Counsel", hours: 420, first: "Mon Oct 12",
@@ -117,7 +117,7 @@
         ["Brief the banks and auditors on what changed", "Group Treasurer", 4, 1]
       ],
       marks: [[3, "Certificates due"], [5, "Audit committee"]],
-      trips: [["a trader refuses to certify", "pause it and offer its volume to the GCC key accounts"], ["talks resume with a date", "keep the screening, lift the pauses"]]
+      trips: [["a trader refuses to certify", "pause that trader and redirect the volume to the GCC key accounts"], ["talks resume with a date", "keep the screening, lift the pauses"]]
     },
     watch: {
       lead: "Risk office", hours: 60, first: "Thu Oct 8",
@@ -128,7 +128,7 @@
         ["Keep non-Gulf resin samples on file", "Procurement", 2, 2]
       ],
       marks: [[4, "Exec review of the forecast"], [9, "Forecast horizon, Dec 6"]],
-      trips: [["the Senate bill passes the floor", "tighten compliance the same week"], ["the chance rises above 55%", "re-source resin at once"], ["any counterparty is named", "stop shipments that day and send the drafted letters"]]
+      trips: [["the Senate bill passes the floor", "vet our partners the same week"], ["the chance rises above 55%", "re-source resin at once"], ["any counterparty is named", "stop shipments that day and send the drafted letters"]]
     }
   };
 
@@ -321,7 +321,7 @@
   var GULF = { x0: 214, y0: 172, x1: 306, y1: 227 };
   var PLACES = [
     { id: "gebze", kind: "site", name: "Gebze plant", place: "Gebze, Türkiye", lon: 29.43, lat: 40.8, side: "r", interest: "plants",
-      about: "Makes washers and dishwashers for Europe and the Middle East. 38% of its resin comes from two Gulf suppliers.",
+      about: "Makes washers and dishwashers for Europe and the Middle East. 38% of the plant’s resin comes from two Gulf suppliers.",
       facts: [["Resin on hand", "9 days"], ["A stopped line costs", "$1.1M a day"]] },
     { id: "pune", kind: "site", name: "Pune plant", place: "Pune, India", lon: 73.86, lat: 18.52, side: "r", interest: "plants",
       about: "Builds fridges and air conditioners on HDPE resin shipped from Mesaieed.",
@@ -330,7 +330,7 @@
       about: "Serves the Gulf states, and sells through three Dubai traders who resell across the region.",
       facts: [["Share of group revenue", "11%"], ["Sold through the traders", "14% of MENA volume"]] },
     { id: "feeders", kind: "site", name: "Two chartered feeders", place: "Jebel Ali to Khor Fakkan", lon: 54.3, lat: 25.75, side: "l", interest: "freight",
-      about: "Shuttle our containers around the Gulf. Their technical manager also runs tankers named in September.",
+      about: "Shuttle our containers around the Gulf. The feeders’ technical manager also runs tankers named in September.",
       facts: [["Containers a week", "About 1,100"]] },
     { id: "jubail", kind: "partner", name: "Resin supplier", place: "Jubail, Saudi Arabia", lon: 49.66, lat: 27.01, side: "r",
       about: "Supplies PP resin to Gebze. Takes feedstock from an Iranian joint venture.",
@@ -348,13 +348,13 @@
       about: "Handles Gebze’s payroll and supplier payments. Settled an Iran case with US authorities in 2019.",
       facts: [["Payments a month", "About $40M"]] },
     { id: "jv", kind: "iran", name: "Petrochemical joint venture", place: "Asaluyeh, Iran", lon: 52.61, lat: 27.48, side: "t", status: "Not named yet",
-      about: "Supplies feedstock to both of our Gulf resin suppliers. A rule on buyers would reach it first." },
+      about: "Supplies feedstock to both of our Gulf resin suppliers. A rule on buyers would reach the joint venture first." },
     { id: "buyers", kind: "iran", name: "Iran-linked buyers", place: "Bandar Abbas, Iran", lon: 56.27, lat: 27.18, side: "t", status: "Two already named",
       about: "Where some of the Dubai traders’ volume ends up." },
     { id: "tankers", kind: "iran", name: "Named tankers", place: "Anchored off Fujairah", lon: 56.66, lat: 25.4, side: "t", status: "Named in September",
-      about: "Five tankers named for carrying Iranian oil. They share a technical manager with our feeders." },
+      about: "Five tankers named for carrying Iranian oil. The tankers share a technical manager with our feeders." },
     { id: "banks", kind: "iran", name: "Iranian correspondent banks", place: "Tehran, Iran", lon: 51.39, lat: 35.69, side: "t", status: "Named in 2018",
-      about: "Gebze’s lender dealt with them before its 2019 settlement." },
+      about: "Gebze’s lender dealt with these banks before settling with US authorities in 2019." },
     { id: "sg", kind: "alt", name: "Singapore resin", place: "Jurong Island, Singapore", lon: 103.75, lat: 1.27, side: "r",
       about: "Two grades in qualification for Gebze, about 24 days away by sea.", facts: [["Ready by", "Mid-November"]] },
     { id: "ulsan", kind: "alt", name: "Korean resin", place: "Ulsan, South Korea", lon: 129.3, lat: 35.5, side: "l",
@@ -712,7 +712,7 @@
     });
     panel.appendChild(pc);
     var tlk = el("p", "plan__sub"); tlk.appendChild(el("b", null, "Implementation Timeline"));
-    tlk.appendChild(el("span", null, "Built from your teams’ free hours and this quarter’s calendar. Diamonds mark decision points."));
+    tlk.appendChild(el("span", null, "Built from your teams’ free hours and this quarter’s calendar."));
     panel.appendChild(tlk);
 
     // gantt: a week grid with one row per step
@@ -838,12 +838,12 @@
 
   /* ---------- signposts: where each stands, what it would do to the chance, and an alert you can turn on ---------- */
   var POSTS = [
-    { id: "vote", t: "The sanctions bill clears the Banking Committee", now: "In committee, with 34 co-sponsors", effect: "Would rise to about 52%", up: true, checked: 4 },
-    { id: "polymer", t: "A Gulf polymer maker is named in a designation", now: "None named so far", effect: "Would rise to about 60%", up: true, checked: 11 },
-    { id: "sdn", t: "Iran-linked designations in a week", now: "27 last week, against a line of 40", gauge: 27 / 40, effect: "Past 40, would rise to about 50%", up: true, checked: 26 },
-    { id: "brent", t: "Brent crude falls below $85", now: "$93 this morning", effect: "Would rise about 6%", up: true, checked: 7 },
-    { id: "waivers", t: "The November 1 waivers are renewed unchanged", now: "Due in 25 days", effect: "Would fall to about 30%", up: false, checked: 52 },
-    { id: "muscat", t: "Muscat sets a date for a second round of talks", now: "No date yet", effect: "Would fall to about 25%", up: false, checked: 18 }
+    { id: "vote", t: "The sanctions bill clears the Banking Committee", now: "In committee, with 34 co-sponsors", effect: "Chance rises to about 52%", up: true, checked: 4 },
+    { id: "polymer", t: "A Gulf polymer maker is named in a designation", now: "None named so far", effect: "Chance rises to about 60%", up: true, checked: 11 },
+    { id: "sdn", t: "Iran-linked designations in a week", now: "27 last week, against a line of 40", gauge: 27 / 40, effect: "Past 40, chance rises to about 50%", up: true, checked: 26 },
+    { id: "brent", t: "Brent crude falls below $85", now: "$93 this morning", effect: "Chance rises to about 47%", up: true, checked: 7 },
+    { id: "waivers", t: "The November 1 waivers are renewed unchanged", now: "Due in 25 days", effect: "Chance falls to about 30%", up: false, checked: 52 },
+    { id: "muscat", t: "Muscat sets a date for a second round of talks", now: "No date yet", effect: "Chance falls to about 25%", up: false, checked: 18 }
   ];
   var AKEY = "daybreak.memo.alerts", alerts = { vote: true, polymer: true };
   try { var sa = JSON.parse(localStorage.getItem(AKEY) || "null"); if (sa) alerts = sa; } catch (e) {}
