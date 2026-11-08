@@ -24,6 +24,9 @@
 .q > * { transition: opacity 0.25s ease; }
 .q:not(.is-lead) > * { opacity: 0.55; }
 .q:hover > *, .q:focus-visible > * { opacity: 1; }
+/* a faded card carries no color: its overnight move goes gray until the pointer brings it up (as on the agents page) */
+.q__d { transition: color 0.25s ease; }
+.q:not(.is-lead):not(:hover):not(:focus-visible) .q__d--up { color: var(--ink-3); }
 .q:hover { box-shadow: var(--shadow-up); transform: translateY(-2px); }
 .q.is-lead { box-shadow: var(--shadow-up); transform: translateY(-4px); }
 .q__k { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem; font-size: 0.82rem; font-weight: 700; }

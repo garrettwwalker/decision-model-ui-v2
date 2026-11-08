@@ -231,7 +231,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   `html.rv`, and the page styles `.rv ... :not(.is-in)`: lines draw (pathLength 1), bars grow from their axis, charts that
   redraw on every change wipe in with clip-path (the report keeps its own copy, `html.rs-anim`). Its rules: cream ground, white cards on a soft shadow, serif
   titles in title case with no period, one tomato red (money at risk is red; protected neutral ink), amber for a
-  problem, no green, gold or blue, no outline rings (a lit or chosen card lifts), no status dots or glows. agents.css
+  problem, no green, gold or blue, no outline rings (a lit or chosen card lifts), no status dots or glows; a faded card carries no color (its pills and colored figures go gray with its text, coming back under the pointer: agents, brief, at a glance, report). agents.css
   keeps its own copy (body `ag-page`) and is the reference; the daily brief, at a glance, the report, the tree, the sample memo and ask use house.css; the other existing
   pages keep their own styles unless asked.
 - `index.html` + `assets/css/landing.css` + `assets/js/landing.js` is the landing, Penumbra (it was a preview at

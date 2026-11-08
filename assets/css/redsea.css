@@ -741,6 +741,11 @@ button.route__in:focus-visible { outline: 2px solid var(--accent); outline-offse
 .house.rs-glance .tag { padding: 0.16rem 0.55rem; font-size: 0.68rem; font-weight: 700; color: var(--ink-2); background: var(--mist-2); }
 .house.rs-glance .tag--jump { color: var(--accent-ink); background: var(--accent-soft); }
 .house.rs-glance .tag--swan { color: var(--bad-ink); background: var(--bad-soft); }
+/* while a chain is traced, the cards off it lose their color too: pills and weekly moves go gray */
+.house.rs-glance .board.is-tracing .card:not(.is-on) .tag { color: var(--ink-3); background: var(--mist-2); }
+.house.rs-glance .board.is-tracing .card:not(.is-on) .ev__foot .up, .house.rs-glance .board.is-tracing .card:not(.is-on) .ev__foot .down { color: var(--ink-3); }
+.house.rs-glance .board.is-tracing .card:not(.is-on) .money--safe, .house.rs-glance .board.is-tracing .card:not(.is-on) .money--loss { color: var(--ink-3); }
+.house.rs-glance .board.is-tracing .card:not(.is-on) svg { filter: grayscale(1); }
 .house.rs-glance .as__money b, .house.rs-glance .tm__foot b { font-family: var(--display); font-weight: 400; letter-spacing: -0.005em; font-size: 1.45rem; font-variant-numeric: lining-nums tabular-nums; }
 .house.rs-glance .as__bar { background: var(--mist-2); }
 .house.rs-glance .as__bar i { background: var(--accent); }
@@ -831,7 +836,9 @@ button.route__in:focus-visible { outline: 2px solid var(--accent); outline-offse
 .house.rs-report .preset:hover > *, .house.rs-report .preset:focus-visible > * { opacity: 1; }
 .house.rs-report .preset:not([aria-pressed="true"]):hover { transform: translateY(-1px); }
 .house.rs-report .preset[aria-pressed="true"], .house.rs-report .preset[aria-pressed="true"]:hover { color: var(--ink); background: #fff; box-shadow: var(--shadow-up); transform: translateY(-3px); }
-.house.rs-report .preset em { color: var(--accent-ink); background: var(--accent-soft); }
+.house.rs-report .preset em { color: var(--accent-ink); background: var(--accent-soft); transition: color 0.25s ease, background-color 0.25s ease; }
+/* an unchosen preset's pill goes gray with its text (the pointer brings the color back) */
+.house.rs-report .preset:not([aria-pressed="true"]):not(:hover):not(:focus-visible) em { color: var(--ink-3); background: var(--mist-2); }
 .house.rs-report .moves { display: block; }
 .house.rs-report .moves legend, .house.rs-report .knob__h { margin-bottom: 0.5rem; font-size: 0.82rem; font-weight: 700; color: var(--ink-2); }
 .house.rs-report .mv-list { padding: 0 1rem; border-radius: var(--r); background: #fff; box-shadow: var(--shadow); }
