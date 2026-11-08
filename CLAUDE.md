@@ -87,25 +87,31 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   2026-11-07 after three tries: a version in the daily brief's shape read as a second brief; a deep dive that showed off the
   model's engines, sources, and agents was rejected, since the user wants only value for someone who must understand an
   issue and decide, no discussion of how the model works; and the older "team of rivals" framing, each interest owned by an
-  officer, was disliked: surface the company's interests, with one note on where they diverge). Head: headline, lede, the
-  CEO's question as a white bubble with "The question we're answering". 1 Bottom Line: lead, key judgments with confidence,
-  41% with "+3 pts this week" in the brief's red-outlined pill, "±7 pts, updated as of 4:40pm GST", a 13-week chart, three
-  figures ($25.4M expected if we wait, $62M at risk, "Protected by Penumbra's suggestions" $9.5M "at a cost of $3.0M"), and
-  "Since you last read" (what moved the chance, by how much, and when). 2 Who Decides: Treasury, the Senate, the White
-  House, Tehran, and European partners, each with what it wants, which way it pushes (soft pills), and what to watch for.
-  3 Four Ways This Could Go: `PATHS` (targeted widening 26%, sweeping package 15%, pressure without new rules 38%, talks
-  restart 21%; the two sanctions paths make the 41%), a stacked chart of their weekly shares and the chosen path's first
-  signs, how it would unfold, cost to us, and best response; choosing a path (any of its sliding tracks, the chart, or the
-  options table's column heads) follows it through the page. 4 Why We Think So: the waterfall, three trendlines, and Key
-  Assumptions (each with its status, amber when under strain, and what follows if it's wrong). 5 How It Would Reach Us: a
-  counterparty network (Iranian links, who we deal with, the five interests; curves drawn by `drawNet()` turn red where the
-  path cuts, the interests show its loss), "Where our interests pull apart" (amber; the Dubai traders), and a
-  loss-exceedance curve. 6 Our Options: each response's net value by path, Penumbra's suggested path in three stages, the
-  plans (`PLANS`, Gantt, tripwires, "Send to workflows"), and where it opens doors. 7 Signposts to Watch: `POSTS`, each with
-  its current reading (a gauge where there's a line), what it would do to the chance, a "Checked N min ago" that ticks, and
-  an alert toggle (`daybreak.memo.alerts`). 8 What Could Change the Picture: gaps and low-chance, high-impact turns. 9 Take It
-  Further: cards to the workbench, agents, workflows, and ask, then `ASKS`. It reuses the brief's resin, Dubai, and feeder
-  exposures and the Sep 29 talks collapse, so keep those in sync.
+  officer, was disliked). Percentages throughout, never "pts" (the user's call). Head: headline, lede, the CEO's question
+  as a white bubble with "The question we're answering". 1 Bottom Line: lead, key judgments with confidence, 41% with "+3%
+  this week" in the brief's red-outlined pill, "±7%, updated as of 4:40pm GST", the estimative-words probability bar with its
+  pulsing error band (a 13-week chart there was undone), three figures ($25.4M expected if we wait, $62M "at risk if
+  sanctions are imposed", "Protected by Penumbra's suggestions" $9.5M "at a cost of $3.0M"), and "What's Changed Since
+  Monday, October 5" ("Net +3%" pill; each move a soft pill with an up or down arrow). 2 Key Stakeholders: Treasury, the
+  Senate (a bill introduced August 3, in the Banking Committee with 34 co-sponsors: keep the drivers, trend, scenarios, and
+  signposts consistent with that), the White House, Tehran, and European partners. 3 Four Ways This Could Go: `PATHS`
+  (targeted widening 26%, sweeping package 15%, pressure without new rules 38%, talks restart 21%), a stacked chart of their
+  weekly shares and the chosen scenario's first signs, a timeline of how it would unfold (dots joined by a line), cost to
+  us, and best response; the choice carries onto the map. 4 Why We Think So: the waterfall, three trendlines (Iran-linked
+  OFAC designations, senators cosponsoring the bill, Brent), and Key Assumptions ("The model's outputs depend heavily on
+  these assumptions. We've added them to this week's watchlist."; statuses Holding, amber Under strain, Uncertain).
+  5 How We're at Risk: an interactive map (`PLACES`, `LINKS` in memo.js; land from bench-map.js, the region at 1:50m with
+  the Gulf at 1:10m laid over it in the same projection): our sites, partners, Iranian links, and re-sourcing options
+  (a layer, off by default, that widens the view to East Asia), joined by sea lanes drawn through waypoints; the scenario's
+  cut links pulse red; views slide between the region and the Gulf (the Gulf box zooms in too, and markers keep their
+  screen size); selecting a place lights its links and opens its details, its status in the scenario, and its links;
+  beneath, what we stand to lose in the scenario by interest. (A three-column network, the Dubai traders tile, and a loss
+  curve were removed.) 6 Our Options: the four option cards with costs, protects, net, for and against, and Totality's
+  view; the selected card lifts and sets "How Each Would Run" below it (`PLANS`, Gantt, tripwires, "Send to workflows"; a
+  values-by-scenario table, a suggested-path strip, and plan tabs were removed); then where it opens doors. 7 Signposts to
+  Watch: `POSTS` with readings, gauges, effects, a ticking "Checked N min ago", and alert toggles (`daybreak.memo.alerts`,
+  no toast). 8 Known Unknowns: gaps and low-chance, high-impact turns. 9 You Might Also Ask ("Each opens the Totality
+  engine."). It reuses the brief's resin, Dubai, and feeder exposures and the Sep 29 talks collapse, so keep those in sync.
 - `ask.html` (fifth tab, `assets/css/ask.css`, body `app house ask-page` since 2026-11-06: the house layer at the end of
   ask.css; serif title-case headline, white starters, assumptions, user bubbles and composer, Penumbra's speaker mark the
   black logo (a .logo in each answer, breathing while one is coming; a plain dark disc before), the send button and a reply's first action red, follow-ups soft cream; one centred column: before the

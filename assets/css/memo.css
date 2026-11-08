@@ -1,12 +1,11 @@
 /* The sample memo, in the house style (body `app house memo-page`, house.css loaded before this). Shaped like an intelligence
    community options memo, made live (rebuilt 2026-11-07; only what helps a decision-maker, nothing on how the model works):
-   the CEO's question; a bottom line with key judgments and what changed since you last read; who decides; four scenarios,
-   followed through the page by one choice; why we think so (drivers, trends, key assumptions); how it would reach us (a
-   counterparty network, where interests pull apart, a loss curve); our options across the scenarios, the suggested path,
-   plans, and openings; signposts with live readings and alerts; gaps and wildcards; and where to take it next. Cream
-   ground, white cards on a soft shadow with cream panels inside, serif titles in title case with section numbers in the
-   margin; one red for money at risk, what pushes the odds up, and what a scenario cuts; amber where interests pull apart or
-   an assumption is under strain; no glow or outline rings. */
+   the CEO's question; a bottom line with key judgments, the chance on the estimative scale, and what's changed since
+   Monday; key stakeholders; four scenarios; why we think so (drivers, trends, key assumptions); a map of how we're at risk;
+   option cards that set the plan beneath them, and openings; signposts with live readings and alerts; known unknowns; and
+   questions to ask next. Cream ground, white cards on a soft shadow with cream panels inside, serif titles in title case
+   with section numbers in the margin; one red for money at risk, what pushes the odds up, and what a scenario cuts; amber
+   where an assumption is under strain; no glow or outline rings. */
 .memo-page .page { max-width: 80rem; }
 .memo-page .red { color: var(--accent-ink); }
 
@@ -61,37 +60,24 @@
 .bl__move b { font-weight: 700; }
 .bl__band { font-size: 0.84rem; color: var(--ink-3); }
 
-/* the last 13 weeks, the turning points labelled */
-.spark { margin: 0.4rem 0 0; }
-.spark svg { display: block; width: 100%; height: auto; overflow: visible; }
-.spark__base { stroke: var(--line-strong); stroke-width: 1; }
-.spark__area { fill: var(--accent-soft); }
-.spark__line { fill: none; stroke: var(--accent); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; stroke-dasharray: 1; }
-.spark__pt { fill: var(--accent); stroke: var(--mist); stroke-width: 1.5; }
-.spark__dot { fill: var(--accent); stroke: var(--mist); stroke-width: 2; }
-.spark__lab { font: 600 9px var(--font); fill: var(--ink-2); font-variant-numeric: tabular-nums; }
-.spark__lab--now { font: 400 15px var(--display); fill: var(--accent-ink); }
-.spark__axis { position: relative; height: 1rem; margin-top: 0.3rem; font-size: 0.7rem; color: var(--ink-3); }
-.spark__axis span { position: absolute; left: calc(var(--x) / 300 * 100%); white-space: nowrap; }
-.spark__axis .is-mid { transform: translateX(-50%); }
-.spark__axis .is-end { left: auto; right: 0; }
+/* the chance on the estimative scale, the error band pulsing paler to deeper red (as before the 2026-11-07 rebuilds) */
+.words { margin-top: 0.9rem; }
+.words__bar { position: relative; display: flex; gap: 2px; height: 12px; }
+.words__bar span { flex: calc(var(--b) - var(--a)) 0 0; border-radius: 3px; background: var(--mist-3); }
+.words__bar span:nth-child(3) { background: #f6cdc7; }
+.words__err { position: absolute; top: -4px; bottom: -4px; left: calc(var(--a) * 1%); width: calc((var(--b) - var(--a)) * 1%); border-radius: 4px; background: rgba(219, 51, 36, 0.22); animation: err-breathe 2.6s ease-in-out infinite; }
+@keyframes err-breathe { 0%, 100% { background-color: rgba(219, 51, 36, 0.14); } 50% { background-color: rgba(219, 51, 36, 0.38); } }
+.words__pin { position: absolute; top: -9px; bottom: -9px; left: calc(var(--v) * 1%); width: 3px; margin-left: -1.5px; border-radius: 2px; background: var(--accent); box-shadow: 0 0 0 2px var(--mist); }
+.words__labels { position: relative; height: 1.6rem; margin-top: 0.5rem; font-size: 0.7rem; color: var(--ink-3); }
+.words__labels span { position: absolute; left: calc(var(--v) * 1%); transform: translateX(-50%); white-space: nowrap; }
+.words__labels span:first-child { left: 0; transform: none; }
+.words__labels span:last-child { left: auto; right: 0; transform: none; }
+.words__labels .is-on { color: var(--accent-ink); font-weight: 700; }
 
 @media (max-width: 980px) {
   .bl__top { grid-template-columns: minmax(0, 1fr); }
   .bl__odds { margin-top: 0; }
 }
-.apart { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 2fr); gap: 1.25rem 2rem; margin-top: 1.25rem; padding: clamp(1.2rem, 2.4vw, 1.75rem); background: #fff; border-radius: var(--r); box-shadow: var(--shadow); }
-.apart__head { display: grid; align-content: start; justify-items: start; gap: 0.55rem; }
-.apart__head .card__note { margin: 0; }
-.apart__sides { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0.75rem; }
-.apart__side { padding: 0.95rem 1.05rem; border-radius: var(--r-sm); background: var(--mist); }
-.apart__side p { margin: 0; font-size: 0.88rem; line-height: 1.5; color: var(--ink-2); }
-.apart__side .apart__k { margin-bottom: 0.2rem; font-family: var(--display); font-size: 1.1rem; color: var(--ink); }
-.apart__way { grid-column: 2; margin: 0; font-size: 0.9rem; line-height: 1.5; color: var(--ink-2); }
-.apart__way b { color: var(--ink); }
-@media (max-width: 860px) { .apart { grid-template-columns: minmax(0, 1fr); } .apart__way { grid-column: 1; } }
-@media (max-width: 560px) { .apart__sides { grid-template-columns: minmax(0, 1fr); } }
-
 /* ---------- 3. what's driving it: the waterfall, each driver with its evidence beneath ---------- */
 .moved { padding: clamp(1.2rem, 2.4vw, 1.9rem); background: #fff; border-radius: var(--r); box-shadow: var(--shadow); }
 .moved .card__title { margin-bottom: 1rem; }
@@ -165,22 +151,130 @@
 .sw button { position: relative; z-index: 1; min-height: 34px; padding: 0 1rem; border: 0; border-radius: 999px; font: inherit; font-size: 0.82rem; font-weight: 700; white-space: nowrap; color: var(--ink-3); background: none; cursor: pointer; transition: color 0.2s ease; }
 .sw button:hover, .sw button[aria-pressed="true"] { color: var(--ink); }
 
-/* ---------- 6. how each would run: the picker a track with a sliding white pill; red bars and decision diamonds ---------- */
-.planpick { position: relative; isolation: isolate; display: inline-flex; flex-wrap: wrap; gap: 3px; max-width: 100%; margin-bottom: 1rem; padding: 4px; border-radius: 26px; background: var(--track); }
-.planpick__tab {
-  position: relative; z-index: 1; display: inline-flex; align-items: center; gap: 0.55rem; min-height: 44px; padding: 0.4rem 1rem 0.4rem 0.45rem;
-  border: 0; border-radius: 999px; background: transparent; color: var(--ink-2); font: inherit; font-size: 0.86rem; font-weight: 700; text-align: left; cursor: pointer; transition: color 0.2s ease;
-}
-.planpick__tab:hover, .planpick__tab[aria-selected="true"] { color: var(--ink); }
-.planpick__n { flex: none; display: grid; place-items: center; width: 1.8rem; height: 1.8rem; border-radius: 50%; font-size: 0.8rem; background: var(--mist-2); color: var(--ink-2); transition: background-color 0.25s ease, color 0.25s ease; }
-.planpick__tab[aria-selected="true"] .planpick__n { background: var(--accent); color: #fff; }
-.planpick__thumb {
-  position: absolute; left: 0; top: 0; z-index: 0; border-radius: 999px; background: #fff; box-shadow: var(--shadow-sm); pointer-events: none;
-  transition: transform 0.36s cubic-bezier(0.3, 0.7, 0.2, 1), width 0.36s cubic-bezier(0.3, 0.7, 0.2, 1), height 0.36s ease;
-}
-.planpick__thumb.is-snap { transition: none; }
+/* ---------- 5. how we're at risk: a map of our sites, partners, and their Iranian links (memo.js) ---------- */
+.atlas { padding: clamp(1rem, 2vw, 1.4rem); background: #fff; border-radius: var(--r); box-shadow: var(--shadow); }
+.atlas__bar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 0.75rem 1.5rem; margin-bottom: 1rem; }
+.atlas__ctl { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.8rem; min-width: 0; max-width: 100%; }
+.atlas__k { font-size: 0.82rem; font-weight: 600; color: var(--ink-3); }
+.atlas__body { display: grid; grid-template-columns: minmax(0, 1fr) 19rem; gap: 1.25rem; align-items: start; }
+@media (max-width: 1080px) { .atlas__body { grid-template-columns: minmax(0, 1fr); } }
+.atlas__map { margin: 0; }
+.atlas__map svg { display: block; width: 100%; height: auto; aspect-ratio: 2 / 1; border-radius: var(--r-sm); background: #ece5da; touch-action: manipulation; }
+.atlas__sea { fill: #ece5da; }
+.atlas__land { fill: #fff; stroke: #d6ccbe; stroke-width: 0.6; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+.atlas__region { font: 600 7px var(--font); letter-spacing: 0.25em; fill: #b0a597; transition: opacity 0.3s ease; }
+.is-zoomed .atlas__region { opacity: 0; }
+.atlas__gulfbox { cursor: pointer; transition: opacity 0.3s ease; }
+.atlas__gulfbox rect { fill: rgba(219, 51, 36, 0.04); stroke: var(--ink-3); }
+.atlas__gulfbox:hover rect, .atlas__gulfbox:focus-visible rect { fill: rgba(219, 51, 36, 0.1); }
+.atlas__gulfbox text { font-family: var(--font); font-weight: 700; fill: var(--ink-2); }
+.atlas__gulfbox:focus { outline: none; }
+.is-zoomed .atlas__gulfbox { opacity: 0; pointer-events: none; }
+/* links: gray at rest, red and pulsing where the scenario would cut them, the re-sourcing routes thin ink */
+.lk { fill: none; stroke: #9a9187; stroke-width: 1.4; stroke-linecap: round; opacity: 0.7; transition: opacity 0.25s ease, stroke-width 0.25s ease; }
+.lk--money { stroke-width: 1.1; }
+.lk--alt { stroke: var(--ink); stroke-width: 1; opacity: 0.45; }
+.lk.is-cut { stroke: var(--accent); stroke-width: 2.2; opacity: 1; animation: lk-breathe 2.6s ease-in-out infinite; }
+@keyframes lk-breathe { 0%, 100% { stroke: rgba(219, 51, 36, 0.45); } 50% { stroke: rgba(219, 51, 36, 1); } }
+.lk.is-near { stroke-width: 3; opacity: 1; }
+.lk.is-dim { opacity: 0.12; }
+.lk.is-hidden { display: none; }
+/* places: our sites ink discs, partners gray rounded squares, Iranian links red, re-sourcing hollow; each keeps its size on screen */
+.mkg { cursor: pointer; transition: opacity 0.25s ease; }
+.mkg:focus { outline: none; }
+.mkg__dot { stroke: #fff; stroke-width: 2; transition: transform 0.2s ease; }
+.mkg--site .mkg__dot { fill: var(--ink); }
+.mkg--partner .mkg__dot { fill: #6a655e; }
+.mkg--iran .mkg__dot { fill: var(--accent); }
+.mkg--alt .mkg__dot { fill: #fff; stroke: var(--ink); stroke-width: 2; }
+.mkg__lab { font: 600 11px var(--font); fill: var(--ink); paint-order: stroke; stroke: #ece5da; stroke-width: 3.5px; stroke-linejoin: round; pointer-events: none; }
+.mkg--iran .mkg__lab { fill: var(--accent-ink); }
+.mkg:hover .mkg__dot, .mkg:focus-visible .mkg__dot, .mkg.is-picked .mkg__dot { transform: scale(1.35); }
+.mkg.is-picked .mkg__lab, .mkg:focus-visible .mkg__lab { font-weight: 800; }
+.mkg.is-hit:not(.mkg--iran) .mkg__dot { stroke: var(--accent); stroke-width: 2.5; }
+.mkg.is-dim { opacity: 0.25; }
+.mkg.is-hidden { display: none; }
+/* in the region view the Gulf's places sit inside its box as small marks, their names waiting for the zoom */
+.atlas:not(.is-zoomed) .mkg.is-gulf .mkg__lab { display: none; }
+.atlas:not(.is-zoomed) .mkg.is-gulf .mkg__dot { transform: scale(0.6); }
+.atlas.is-zoomed .mkg:not(.is-gulf) .mkg__lab { display: none; }
+.atlas__key { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 0.5rem; padding-top: 0.8rem; font-size: 0.78rem; color: var(--ink-2); }
+.atlas__layer { display: inline-flex; align-items: center; gap: 0.45rem; min-height: 32px; padding: 0 0.75rem 0 0.6rem; border: 0; border-radius: 999px; font: inherit; font-size: 0.78rem; font-weight: 700; color: var(--ink-3); background: transparent; cursor: pointer; transition: background-color 0.2s ease, color 0.2s ease; }
+.atlas__layer[aria-pressed="true"] { color: var(--ink); background: var(--mist-2); }
+.atlas__layer:hover { color: var(--ink); }
+.mk { display: inline-block; width: 10px; height: 10px; border-radius: 50%; }
+.mk--site { background: var(--ink); }
+.mk--partner { border-radius: 3px; background: #6a655e; }
+.mk--iran { background: var(--accent); }
+.mk--alt { box-shadow: inset 0 0 0 2px var(--ink); }
+.atlas__layer[aria-pressed="false"] .mk { opacity: 0.4; }
+.atlas__lines { display: inline-flex; align-items: center; gap: 0.45rem; margin-left: auto; }
+.ln { display: inline-block; width: 18px; height: 3px; border-radius: 2px; background: var(--accent); }
+/* the side panel: the scenario's summary, or the selected place's details */
+.atlas__side { display: grid; align-content: start; justify-items: start; gap: 0.55rem; padding: 1.1rem 1.15rem; border-radius: var(--r-sm); background: var(--mist); }
+.atlas__side p { margin: 0; }
+.atlas__t { margin: 0; font-family: var(--display); font-weight: 400; font-size: 1.45rem; line-height: 1.15; }
+.atlas__p { font-family: var(--display); font-size: 1.9rem; line-height: 1; }
+.atlas__place { font-size: 0.8rem; font-weight: 600; color: var(--ink-3); }
+.atlas__about { font-size: 0.88rem; line-height: 1.5; color: var(--ink-2); }
+.atlas__hint { font-size: 0.8rem; color: var(--ink-3); }
+.atlas__facts { display: grid; gap: 0.35rem; width: 100%; margin: 0.2rem 0 0; }
+.atlas__facts div { display: flex; justify-content: space-between; gap: 1rem; padding-top: 0.35rem; border-top: 1px solid var(--line); font-size: 0.82rem; }
+.atlas__facts dt { color: var(--ink-3); }
+.atlas__facts dd { margin: 0; font-weight: 700; text-align: right; }
+.atlas__in { display: grid; gap: 0.1rem; width: 100%; padding: 0.65rem 0.8rem; border-radius: var(--r-sm); background: #fff; font-size: 0.8rem; color: var(--ink-3); }
+.atlas__in b { font-size: 0.92rem; color: var(--ink); }
+.atlas__in b.red { color: var(--accent-ink); }
+.atlas__k2 { margin-top: 0.3rem !important; font-size: 0.78rem; font-weight: 700; }
+.atlas__linked { display: grid; gap: 0.4rem; width: 100%; margin: 0; padding: 0; list-style: none; }
+.atlas__linked li { display: flex; flex-wrap: wrap; align-items: center; gap: 0.2rem 0.6rem; font-size: 0.78rem; color: var(--ink-3); }
+.atlas__linked .btn-q { min-height: 30px; padding: 0.2rem 0.75rem; background: #fff; }
+.atlas__back { margin-top: 0.3rem; padding: 0; border: 0; background: none; font: inherit; font-size: 0.8rem; font-weight: 700; color: var(--ink-2); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+/* what we stand to lose in the scenario, under the map */
+.atlas__loss { display: grid; grid-template-columns: minmax(0, 1.3fr) repeat(5, minmax(0, 1fr)); gap: 0.75rem; margin: 1.1rem 0 0; padding-top: 1rem; border-top: 1px solid var(--line); }
+.atlas__loss div { display: grid; align-content: start; gap: 0.15rem; }
+.atlas__loss dt { font-size: 0.76rem; font-weight: 600; color: var(--ink-3); }
+.atlas__loss dd { margin: 0; font-family: var(--display); font-size: 1.35rem; color: var(--ink-3); font-variant-numeric: lining-nums tabular-nums; }
+.atlas__loss .is-on dd { color: var(--ink); }
+.atlas__losshead dt { color: var(--ink); font-weight: 700; }
+.atlas__total { font-size: 1.9rem !important; color: var(--ink) !important; }
+.atlas__total.red { color: var(--accent-ink) !important; }
+@media (max-width: 980px) { .atlas__loss { grid-template-columns: repeat(3, minmax(0, 1fr)); } .atlas__losshead { grid-column: 1 / -1; } }
+@media (max-width: 480px) { .atlas__loss { grid-template-columns: repeat(2, minmax(0, 1fr)); } .atlas__lines { margin-left: 0; } }
 
+/* ---------- 6. our options: four white cards; the selected one lifts and sets the plan below ---------- */
+.options { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; align-items: stretch; margin: 0 0 2.75rem; padding: 0; list-style: none; }
+@media (max-width: 1240px) { .options { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 640px) { .options { grid-template-columns: minmax(0, 1fr); } }
+.option { display: flex; flex-direction: column; gap: 0.75rem; padding: 1.2rem 1.25rem; background: #fff; border-radius: var(--r); box-shadow: var(--shadow); cursor: pointer; transition: transform 0.25s ease, box-shadow 0.25s ease; }
+.option:hover { box-shadow: var(--shadow-up); transform: translateY(-2px); }
+.option:focus { outline: none; }
+.option:focus-visible { box-shadow: var(--shadow-up), 0 0 0 2px var(--accent); }
+.option.is-on { box-shadow: var(--shadow-up); transform: translateY(-5px); }
+.option__head { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.6rem; }
+.option__head .pill { min-width: 0; white-space: normal; line-height: 1.3; padding-block: 0.25rem; text-align: left; }
+.option__n { flex: none; display: grid; place-items: center; width: 2.2rem; height: 2.2rem; border-radius: 50%; font-family: var(--display); font-size: 1.15rem; color: #fff; background: var(--ink); transition: background-color 0.25s ease; }
+.option.is-on .option__n { background: var(--accent); }
+.option__title { margin: 0; font-family: var(--display); font-weight: 400; font-size: 1.3rem; line-height: 1.2; }
+.option__line { margin: 0; font-size: 0.86rem; line-height: 1.5; color: var(--ink-2); }
+.option__nums { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.5rem; margin: 0; padding: 0.75rem 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.option__nums div { display: grid; align-content: start; gap: 0.1rem; }
+.option__nums dt { font-size: 0.74rem; font-weight: 600; color: var(--ink-3); }
+.option__nums dd { margin: 0; font-family: var(--display); font-size: 1.35rem; letter-spacing: -0.01em; font-variant-numeric: lining-nums tabular-nums; }
+.option__nums small { display: block; font-family: var(--font); font-size: 0.66rem; line-height: 1.25; color: var(--ink-3); }
+.option__pc { display: grid; gap: 0.85rem; }
+.option__pclabel { margin: 0 0 0.3rem; font-size: 0.76rem; font-weight: 700; }
+.option__list { display: grid; gap: 0.35rem; margin: 0; padding: 0; list-style: none; font-size: 0.82rem; line-height: 1.45; color: var(--ink-2); }
+.option__list li { position: relative; padding-left: 1.1rem; }
+.option__list li::before { position: absolute; left: 0; top: 0; font-weight: 800; }
+.option__list--pro li::before { content: "+"; color: var(--ink-3); }
+.option__list--con li::before { content: "\2212"; color: var(--accent-ink); }
+.option__go { margin: auto 0 0; padding-top: 0.4rem; font-size: 0.78rem; font-weight: 700; color: var(--ink-3); }
+.option.is-on .option__go { color: var(--accent-ink); }
+
+/* ---------- 6. how each would run: red bars and decision diamonds ---------- */
 .plan { padding: clamp(1.25rem, 2.4vw, 2rem); background: #fff; border-radius: var(--r); box-shadow: var(--shadow); }
+.plan__k { margin: 0 0 0.9rem; font-size: 0.82rem; font-weight: 700; color: var(--accent-ink); }
 .plan.is-swap > * { animation: plan-fade 0.28s ease; }
 @keyframes plan-fade { from { opacity: 0; } }
 .plan__top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem 2rem; padding-bottom: 1.1rem; border-bottom: 1px solid var(--line); }
@@ -239,11 +333,11 @@
 .paths__bar { margin-bottom: 1rem; }
 .paths { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 1.25rem; align-items: start; }
 @media (max-width: 1080px) { .paths { grid-template-columns: minmax(0, 1fr); } }
-.mix, .path, .curve, .grid-card { margin: 0; padding: 1.2rem 1.3rem; background: #fff; border-radius: var(--r); box-shadow: var(--shadow); }
-.mix__head, .curve__head { display: grid; gap: 0.2rem; margin-bottom: 0.9rem; }
-.mix__head .card__note, .curve__head .card__note { margin: 0; }
-.mix__plot, .curve__plot { position: relative; touch-action: pan-y; }
-.mix__plot svg, .curve__plot svg { display: block; width: 100%; height: auto; overflow: visible; cursor: crosshair; }
+.mix, .path { margin: 0; padding: 1.2rem 1.3rem; background: #fff; border-radius: var(--r); box-shadow: var(--shadow); }
+.mix__head { display: grid; gap: 0.2rem; margin-bottom: 0.9rem; }
+.mix__head .card__note { margin: 0; }
+.mix__plot { position: relative; touch-action: pan-y; }
+.mix__plot svg { display: block; width: 100%; height: auto; overflow: visible; cursor: crosshair; }
 /* the two sanctions paths in pale reds, the others in cream grays; the chosen one in full red */
 .mix__area { cursor: pointer; stroke: #fff; stroke-width: 1; transition: fill 0.3s ease; }
 .mix__area--b { fill: #f2bdb4; }
@@ -262,7 +356,6 @@
 .mix__row.is-on { color: #fff; }
 .mix__sw { width: 8px; height: 8px; border-radius: 2px; }
 .mix__sw--a { background: #f8d9d3; } .mix__sw--b { background: #f2bdb4; } .mix__sw--c { background: var(--mist-3); } .mix__sw--d { background: #fff; }
-.curve__plot.is-hover .trend__hov, .curve__plot.is-hover .trend__tip { opacity: 1; }
 
 .path.is-swap > * { animation: plan-fade 0.3s ease; }
 .path__head { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; }
@@ -278,6 +371,7 @@
 .path__signs .pill { flex: none; }
 .path__steps li { position: relative; display: grid; gap: 0.05rem; padding-left: 1rem; }
 .path__steps li::before { content: ""; position: absolute; left: 0; top: 0.4rem; width: 6px; height: 6px; border-radius: 50%; background: var(--ink-3); }
+.path__steps li:not(:last-child)::after { content: ""; position: absolute; left: 2.5px; top: calc(0.4rem + 6px); width: 1px; height: calc(100% + 0.5rem - 6px); background: var(--line-strong); }
 .path__steps b { font-size: 0.78rem; color: var(--ink); }
 .path__foot { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 1rem; margin-top: 1.1rem; padding: 0.95rem 1.05rem; border-radius: var(--r-sm); background: var(--mist); }
 .path__cost { padding-right: 1.25rem; border-right: 1px solid var(--line); }
@@ -286,68 +380,6 @@
 .path__best p:last-child { margin: 0; font-size: 0.88rem; line-height: 1.5; color: var(--ink-2); }
 @media (max-width: 560px) { .path__foot { grid-template-columns: minmax(0, 1fr); } .path__cost { padding: 0 0 0.8rem; border-right: 0; border-bottom: 1px solid var(--line); } }
 
-/* ---------- 5. how it would reach us: three columns of cards joined by curves that turn red where the path cuts ---------- */
-.reach { padding: clamp(1.2rem, 2.4vw, 1.75rem); background: #fff; border-radius: var(--r); box-shadow: var(--shadow); }
-.reach__head { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.9rem; margin-bottom: 1.25rem; }
-.reach__k { margin: 0; font-size: 0.82rem; font-weight: 600; color: var(--ink-3); }
-.net { position: relative; display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.2fr) minmax(0, 0.9fr); gap: 0 clamp(2.5rem, 7vw, 6rem); }
-.net__lines { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
-.net__edge { fill: none; stroke: var(--line-strong); stroke-width: 1.25; transition: stroke 0.3s ease, stroke-width 0.3s ease; }
-.net__edge.is-on { stroke: var(--accent); stroke-width: 2; }
-.net__col { position: relative; display: grid; align-content: space-around; gap: 0.6rem; padding-top: 1.7rem; }
-.net__h { position: absolute; top: 0; left: 0; margin: 0; font-size: 0.76rem; font-weight: 600; color: var(--ink-3); }
-.node { padding: 0.65rem 0.8rem; border-radius: var(--r-sm); background: var(--mist); transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease; }
-.node p { margin: 0; }
-.node__t { font-size: 0.86rem; font-weight: 700; line-height: 1.3; }
-.node__s, .node__v { margin-top: 0.15rem !important; font-size: 0.76rem; line-height: 1.4; color: var(--ink-3); }
-.node.is-on { background: #fff; box-shadow: var(--shadow-up); transform: translateY(-1px); }
-.node--c0.is-on .node__s { color: var(--accent-ink); }
-.node--c2 .node__v { font-family: var(--display); font-size: 1.15rem; color: var(--ink-3); }
-.node--c2.is-on .node__v { color: var(--accent-ink); }
-.net__sum { margin: 1.25rem 0 0; padding-top: 0.9rem; border-top: 1px solid var(--line); font-size: 0.9rem; color: var(--ink-2); }
-@media (max-width: 760px) {
-  .net { grid-template-columns: minmax(0, 1fr); gap: 1.25rem; }
-  .net__lines { display: none; }
-}
-
-.curve { margin-top: 1.25rem; }
-.curve__line { fill: none; stroke-width: 2.25; stroke-linejoin: round; stroke-linecap: round; stroke-dasharray: 1; }
-.curve__line--wait { stroke: var(--accent); }
-.curve__line--plan { stroke: var(--ink); }
-.curve__key { display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; margin: 0.7rem 0 0; font-size: 0.78rem; color: var(--ink-2); }
-.curve__key span { display: inline-flex; align-items: center; gap: 0.45rem; }
-.k { display: inline-block; width: 16px; height: 3px; border-radius: 2px; }
-.k--wait { background: var(--accent); }
-.k--plan { background: var(--ink); }
-
-/* ---------- 6. our options: a table of net values, the chosen path's column in cream ---------- */
-.tbl-wrap { overflow-x: auto; }
-.rob { width: 100%; min-width: 640px; border-collapse: collapse; font-size: 0.88rem; }
-.rob th, .rob td { padding: 0.75rem 0.7rem; text-align: left; transition: background-color 0.25s ease; }
-.rob thead th { padding-top: 0.4rem; font-size: 0.76rem; font-weight: 600; color: var(--ink-3); vertical-align: bottom; }
-.rob thead th:first-child { padding-left: 0; }
-.rob tbody th { padding-left: 0; border-top: 1px solid var(--line); font-weight: 600; }
-.rob tbody td { border-top: 1px solid var(--line); }
-.rob .r { text-align: right; }
-.rob__name { display: block; margin-bottom: 0.3rem; font-size: 0.92rem; font-weight: 700; }
-.rob__path button { display: grid; justify-items: end; gap: 0.1rem; margin-left: auto; padding: 0; border: 0; background: none; font: inherit; color: inherit; text-align: right; cursor: pointer; }
-.rob__path button:hover { color: var(--ink); }
-.rob__path small { font-size: 0.72rem; font-weight: 700; }
-.rob .is-on { background: var(--mist); }
-.rob thead .is-on { color: var(--ink); border-radius: var(--r-sm) var(--r-sm) 0 0; }
-.rob__v { font-variant-numeric: tabular-nums; }
-.rob__v .pill { font-size: 0.82rem; }
-.rob__ev { font-family: var(--display); font-size: 1.2rem; font-variant-numeric: lining-nums tabular-nums; }
-
-/* Penumbra's suggested path: three stages on a hairline, as the brief's week */
-.stages { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.9rem; margin: 0; padding: 0; list-style: none; counter-reset: stage; }
-.stage { position: relative; display: grid; align-content: start; gap: 0.4rem; padding: 1.15rem 1.2rem; background: #fff; border-radius: var(--r); box-shadow: var(--shadow); }
-.stage:first-child { box-shadow: var(--shadow-up); transform: translateY(-3px); }
-.stage__k { margin: 0; font-size: 0.78rem; font-weight: 700; color: var(--ink-3); }
-.stage:first-child .stage__k { color: var(--accent-ink); }
-.stage__t { margin: 0; font-family: var(--display); font-weight: 400; font-size: 1.25rem; line-height: 1.2; }
-.stage p:last-child { margin: 0; font-size: 0.86rem; line-height: 1.5; color: var(--ink-2); }
-@media (max-width: 860px) { .stages { grid-template-columns: minmax(0, 1fr); } }
 .sub__note { margin: -0.5rem 0 1rem; max-width: 42rem; font-size: 0.9rem; color: var(--ink-2); }
 
 /* where it opens doors */
@@ -362,17 +394,16 @@
 .door__nums dd { margin: 0; font-family: var(--display); font-size: 1.45rem; font-variant-numeric: lining-nums tabular-nums; }
 @media (max-width: 980px) { .doors { grid-template-columns: minmax(0, 1fr); max-width: 36rem; } }
 
-/* what changed since you last read, at the foot of the bottom line */
+/* what's changed since Monday, at the foot of the bottom line */
 .since { padding: clamp(1.1rem, 2.2vw, 1.6rem); border-top: 1px solid var(--line); }
 .since__k { display: flex; align-items: center; gap: 0.6rem; margin: 0 0 0.7rem; font-size: 0.82rem; font-weight: 700; }
 .since__list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.75rem; margin: 0; padding: 0; list-style: none; }
 .since__list li { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0.65rem; align-items: start; padding: 0.8rem 0.9rem; border-radius: var(--r-sm); background: var(--mist); font-size: 0.84rem; line-height: 1.45; color: var(--ink-2); }
 .since__list b { color: var(--ink); font-weight: 600; }
-.since__d { font-family: var(--display); font-size: 1.1rem; line-height: 1.2; color: var(--accent-ink); white-space: nowrap; font-variant-numeric: lining-nums tabular-nums; }
-.since__d--down { color: var(--ink-3); }
+.since__d { margin-top: 0.05rem; font-size: 0.74rem; font-variant-numeric: tabular-nums; }
 @media (max-width: 860px) { .since__list { grid-template-columns: minmax(0, 1fr); } }
 
-/* ---------- 2. who decides: a white card per player, which way it pushes in a soft pill ---------- */
+/* ---------- 2. key stakeholders: a white card per player, which way it pushes in a soft pill ---------- */
 .actors { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0.9rem; margin: 0; padding: 0; list-style: none; }
 .actor { display: flex; flex-direction: column; gap: 0.5rem; padding: 1.15rem 1.15rem 1.05rem; background: #fff; border-radius: var(--r); box-shadow: var(--shadow); }
 .actor p { margin: 0; font-size: 0.85rem; line-height: 1.5; color: var(--ink-2); }
@@ -408,7 +439,7 @@
 .post.is-alert .post__alert:hover { background: #2c2925; }
 @media (max-width: 760px) { .post { grid-template-columns: minmax(0, 1fr); } .post__side { justify-content: flex-start; } }
 
-/* ---------- 8. what could change the picture: gaps beside wildcards ---------- */
+/* ---------- 8. known unknowns: gaps beside wildcards ---------- */
 .gaps { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1rem; }
 .gaps__card { padding: 1.2rem 1.3rem; background: #fff; border-radius: var(--r); box-shadow: var(--shadow); }
 .gaps__list, .wild { display: grid; gap: 0.85rem; margin: 0.9rem 0 0; padding: 0; list-style: none; font-size: 0.88rem; line-height: 1.5; color: var(--ink-2); }
@@ -419,25 +450,10 @@
 .wild .btn-q { margin-top: 0.5rem; }
 @media (max-width: 860px) { .gaps { grid-template-columns: minmax(0, 1fr); } }
 
-/* ---------- 9. take it further: four white cards that lift, each opening another part of Penumbra ---------- */
-.further { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.9rem; margin: 0; padding: 0; list-style: none; }
-.go { display: grid; gap: 0.35rem; height: 100%; padding: 1.1rem 1.2rem; border-radius: var(--r); background: #fff; box-shadow: var(--shadow); color: var(--ink); text-decoration: none; transition: transform 0.25s ease, box-shadow 0.25s ease; }
-.go:hover { transform: translateY(-2px); box-shadow: var(--shadow-up); }
-.go b { font-family: var(--display); font-weight: 400; font-size: 1.2rem; }
-.go span { font-size: 0.84rem; line-height: 1.45; color: var(--ink-2); }
-@media (max-width: 1080px) { .further { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 480px) { .further { grid-template-columns: minmax(0, 1fr); } }
-
 /* ---------- entrances, the first time each figure scrolls into view (reveal.js) ---------- */
-.rv .memo-page .spark__line { transition: stroke-dashoffset 1.3s cubic-bezier(0.3, 0.6, 0.2, 1); }
-.rv .memo-page .spark:not(.is-in) .spark__line { stroke-dashoffset: 1; }
-.rv .memo-page .spark :is(.spark__area, .spark__dot, .spark__pt, .spark__lab) { transition: opacity 0.5s ease 1s; }
-.rv .memo-page .spark:not(.is-in) :is(.spark__area, .spark__dot, .spark__pt, .spark__lab) { opacity: 0; }
-/* the paths' shares wipe in from the left; the loss curves draw; the signposts' gauges fill */
+/* the scenarios' shares wipe in from the left; the signposts' gauges fill */
 .rv .memo-page .mix__plot svg { clip-path: inset(0 0 0 0); transition: clip-path 1.2s cubic-bezier(0.3, 0.6, 0.2, 1); }
 .rv .memo-page .mix:not(.is-in) .mix__plot svg { clip-path: inset(0 100% 0 0); }
-.rv .memo-page .curve__line { transition: stroke-dashoffset 1.4s cubic-bezier(0.3, 0.6, 0.2, 1); }
-.rv .memo-page .curve:not(.is-in) .curve__line { stroke-dashoffset: 1; }
 .rv .memo-page .post__gauge i { transition: transform 0.9s cubic-bezier(0.3, 0.7, 0.2, 1); }
 .rv .memo-page .posts:not(.is-in) .post__gauge i { transform: scaleX(0); }
 .rv .memo-page .fall i::after { transition: transform 0.7s cubic-bezier(0.3, 0.7, 0.2, 1); }
@@ -458,7 +474,8 @@
 .rv .memo-page #plan:not(.is-in) .gantt__bar { transform: scaleX(0); }
 
 @media (prefers-reduced-motion: reduce) {
-  .sw button, .sw.is-ready .sw__pill, .planpick__thumb, .planpick__n, .ask-q, .go, .post__alert, .mix__area, .mix__lab, .node, .net__edge, .rob th, .rob td { transition: none; }
-  .ask-q:hover, .go:hover { transform: none; }
+  .sw button, .sw.is-ready .sw__pill, .ask-q, .post__alert, .mix__area, .mix__lab, .option, .option__n, .mkg, .mkg__dot, .lk, .atlas__layer { transition: none; }
+  .words__err, .lk.is-cut, .atlas__side { animation: none; }
+  .ask-q:hover, .option:hover, .option.is-on { transform: none; }
   .plan.is-swap > *, .path.is-swap > * { animation: none; }
 }

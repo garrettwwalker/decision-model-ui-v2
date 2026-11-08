@@ -1,11 +1,10 @@
 /* Sample memo: a strategic options memo answering "How should we respond to the potential of new
    sanctions by the Trump Administration?" Written on Wed Oct 7, the day after the brief. Shaped like an intelligence
    community options memo, made live (rebuilt 2026-11-07; the user wants only what helps a decision-maker, nothing on
-   how the model works): key judgments and what changed since you last read, who decides, four scenarios followed
-   through the page by one choice, drivers, trends and key assumptions, how it would reach Halvorsen (a counterparty
-   network and a loss curve), options across the scenarios with the suggested path and plans, signposts with live
-   readings and alerts, and gaps and wildcards. Money in $M over 12 months; every figure is illustrative. The two
-   sanctions paths make up the 41%; if sanctions land, $62M is at risk on average across them. */
+   how the model works): key judgments and what's changed since Monday, key stakeholders, four scenarios (the chosen one
+   carries onto the map), drivers, trends and key assumptions, a map of how we're at risk, option cards that set the plan
+   below them, signposts with live readings and alerts, and known unknowns. Money in $M over 12 months; every figure is
+   illustrative. The two sanctions scenarios make up the 41%; if sanctions land, $62M is at risk on average across them. */
 (function () {
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return [].slice.call((r || document).querySelectorAll(s)); };
@@ -23,9 +22,9 @@
       reach: "Two chains break: resin from the Gulf suppliers, and sales through the Dubai traders.",
       best: "Re-source resin now. In this path it’s the difference between paying more for resin and stopping a line." },
     { id: "b", name: "Sweeping Package", short: "Sweeping package", p: 15, sanctions: true,
-      line: "The Senate bill passes and is signed, reaching the shipping, insurers, and banks that serve Iranian trade. The wind-down could be as short as two weeks.",
-      signs: [["The bill clears committee", 1], ["A majority of senators back it", 1], ["Leadership schedules a floor vote", 0]],
-      unfold: [["November", "A floor vote, then signing"], ["November and December", "Banks drop clients with Iran exposure, and insurers withdraw cover"], ["December", "Gebze’s Turkish lender restricts dollar payments"], ["Early 2027", "Gulf freight and resin are both scarce"]],
+      line: "The Senate bill clears committee, passes, and is signed, reaching the shipping, insurers, and banks that serve Iranian trade. The wind-down could be as short as two weeks.",
+      signs: [["A sanctions bill is introduced in the Senate", 1], ["It clears the Banking Committee", 0], ["Leadership schedules a floor vote", 0]],
+      unfold: [["November", "The bill clears committee, then a floor vote and signing"], ["November and December", "Banks drop clients with Iran exposure, and insurers withdraw cover"], ["December", "Gebze’s Turkish lender restricts dollar payments"], ["Early 2027", "Gulf freight and resin are both scarce"]],
       loss: { plants: 32, clear: 18, growth: 27, freight: 8, cash: 8 },
       reach: "Every chain breaks, including the feeders and Gebze’s payments.",
       best: "Everything in the suggested path, plus tightening compliance the week a floor vote is scheduled." },
@@ -48,12 +47,29 @@
   PATHS.forEach(function (p) { BYP[p.id] = p; });
   var path = "a";
 
-  // the responses: what each is worth net of its cost in each path ($M); plans below use n, title, and cost
+  // the four ways to respond, as expected values over a year at the 41% chance; Totality's view marks when to start
+  var P = 0.41;
   var OPTIONS = [
-    { id: "resin", n: 1, title: "Re-source resin before sanctions arrive", cost: 2.6, v: { a: 18.0, b: 26.0, c: 0.4, d: 0.4 } },
-    { id: "engage", n: 2, title: "Engage Washington and the banks", cost: 0.4, v: { a: 1.6, b: 10.6, c: 0.1, d: 0.1 } },
-    { id: "tighten", n: 3, title: "Tighten compliance now", cost: 3.5, v: { a: 11.5, b: 28.5, c: -2.7, d: -3.5 } },
-    { id: "watch", n: 4, title: "Watch and set tripwires", cost: 0.1, v: { a: 0.9, b: 1.9, c: -0.1, d: -0.1 } }
+    { id: "resin", n: 1, title: "Re-source resin before sanctions arrive", view: "start now", pick: true,
+      line: "Qualify two Singapore grades and one Korean grade at Gebze, and move 40% of its volume off the Gulf by December. Builds on Tuesday’s Singapore bridge-buy.",
+      cost: 2.6, protects: 24 * 0.8 * P,
+      pros: ["Protects the most value", "Also cuts the Hormuz exposure in this week’s brief", "Qualification is reusable for any future supply shock"],
+      cons: ["About $35/t more for at least two quarters", "Ties up Gebze’s QA team for 6 weeks", "Gulf suppliers may shrink our allocation"] },
+    { id: "engage", n: 2, title: "Engage Washington and the banks", view: "start now", pick: true,
+      line: "Through the trade association, ask Treasury for wind-down guidance. Pre-clear payment routes with two banks and open a second settlement account for Gebze.",
+      cost: 0.4, protects: 4 * P,
+      pros: ["Cheap, and may buy a longer wind-down", "Keeps Gebze’s payroll and supplier runs safe"],
+      cons: ["The outcome is outside our control", "Visible lobbying on Iran carries some reputational risk", "Does nothing for resin"] },
+    { id: "tighten", n: 3, title: "Tighten compliance now", view: "start at the first tripwire",
+      line: "Re-screen every MENA counterparty, ask the Dubai traders for end-use certificates, pause any that won’t sign, and swap the two exposed feeders.",
+      cost: 3.5, costNote: "including $2.1M of margin given up", protects: 16 * P,
+      pros: ["Removes nearly all penalty exposure", "Shows banks and auditors we moved early", "Cheap to reverse if no sanctions come"],
+      cons: ["Gives up about $2.1M of margin a year even if nothing happens", "Strains the traders behind 14% of MENA volume; rivals may take them"] },
+    { id: "watch", n: 4, title: "Watch and set tripwires",
+      line: "Change nothing yet. Watch four signposts, and draft, but don’t send, the exit letters.",
+      cost: 0.1, protects: 0,
+      pros: ["Costs almost nothing and keeps every supplier and trader", "Nothing to unwind if the talks restart"],
+      cons: ["A 30-day window is too short to qualify new resin, which takes 6 to 8 weeks", "If a trader is named before we act, the shipment is already a breach"] }
   ];
 
   var WEEKS = ["Oct 7", "Oct 12", "Oct 19", "Oct 26", "Nov 2", "Nov 9", "Nov 16", "Nov 23", "Nov 30", "Dec 7"];
@@ -124,7 +140,6 @@
     return e;
   }
 
-  function signed(v) { return (v < 0 ? "−" : "+") + Math.abs(v).toFixed(1); }
   function lossOf(p) { var t = 0; for (var k in p.loss) t += p.loss[k]; return t; }
 
   /* ---------- path tracks: a cream track with a white pill, one per section that follows the path, all in step ---------- */
@@ -160,8 +175,8 @@
     placeTracks();
     drawPath();
     paintMix();
-    paintNet();
-    paintRob();
+    paintAtlas();
+    drawSide();
   }
 
   /* ---------- how the paths have shifted: stacked shares, the sanctions paths at the foot ---------- */
@@ -241,7 +256,6 @@
 
   /* ---------- the chosen path: what it is, its first signs, how it would unfold, what it costs us ---------- */
   var pathEl = $("#path");
-  var INT_NAMES = { plants: "Gebze’s resin", clear: "Penalties", growth: "MENA sales", freight: "Freight", cash: "Payments" };
   function drawPath() {
     var p = BYP[path], total = lossOf(p);
     pathEl.innerHTML = "";
@@ -290,195 +304,355 @@
     if (!REDUCE) { pathEl.classList.remove("is-swap"); void pathEl.offsetWidth; pathEl.classList.add("is-swap"); }
   }
 
-  /* ---------- the counterparty network: Iranian links, who we deal with, what we stand to lose ---------- */
-  var NODES = [
-    { id: "jv", col: 0, t: "An Iranian petrochemical joint venture", s: "Not named yet" },
-    { id: "buyers", col: 0, t: "Iran-linked buyers in the Gulf", s: "Some already named" },
-    { id: "tankers", col: 0, t: "Tankers named in September", s: "Named" },
-    { id: "banks", col: 0, t: "Iranian correspondent banks", s: "Named" },
-    { id: "suppliers", col: 1, t: "Two Gulf resin suppliers", s: "Take feedstock from the joint venture, and supply 38% of Gebze’s resin" },
-    { id: "traders", col: 1, t: "Three Dubai traders", s: "Move 14% of MENA volume, some of it on to Iran-linked buyers" },
-    { id: "manager", col: 1, t: "A shared technical manager", s: "Runs the named tankers and two of our feeder ships" },
-    { id: "lender", col: 1, t: "Gebze’s Turkish lender", s: "Settled an Iran case in 2019, and handles Gebze’s payroll and supplier runs" },
-    { id: "plants", col: 2, t: "Keep Gebze running" },
-    { id: "clear", col: 2, t: "Stay clear of a breach" },
-    { id: "growth", col: 2, t: "Keep MENA growing" },
-    { id: "freight", col: 2, t: "Keep freight moving" },
-    { id: "cash", col: 2, t: "Keep payments flowing" }
+  /* ---------- how we're at risk: a map of our sites, partners, and their Iranian links ----------
+     Land from bench-map.js (Natural Earth): the region at 1:50m, and the Gulf at 1:10m laid over it in the same
+     projection, so zooming in on the Gulf stays sharp. Choosing a scenario turns the links it would cut red; selecting
+     a place lights its links and opens its details beside the map. */
+  var MAPX = function (lon) { return (lon - 24) * 9.06; }, MAPY = function (lat) { return (46 - lat) * 10; };
+  // the region crops to Türkiye, the Gulf, and India; it widens to reach East Asia when the re-sourcing routes are shown
+  var VIEWS = { region: [10, 20, 600, 300], wide: [0, 0, 1000, 500], gulf: [214, 176, 92, 46] };
+  var GULF = { x0: 214, y0: 172, x1: 306, y1: 227 };
+  var PLACES = [
+    { id: "gebze", kind: "site", name: "Gebze plant", place: "Gebze, Türkiye", lon: 29.43, lat: 40.8, side: "r", interest: "plants",
+      about: "Makes washers and dishwashers for Europe and the Middle East. 38% of its resin comes from two Gulf suppliers.",
+      facts: [["Resin on hand", "9 days"], ["A stopped line costs", "$1.1M a day"]] },
+    { id: "pune", kind: "site", name: "Pune plant", place: "Pune, India", lon: 73.86, lat: 18.52, side: "r", interest: "plants",
+      about: "Builds fridges and air conditioners on HDPE resin shipped from Mesaieed.",
+      facts: [["Resin on hand", "8 days"]] },
+    { id: "hub", kind: "site", name: "Dubai distribution center", place: "Jebel Ali, UAE", lon: 55.06, lat: 24.99, side: "b", interest: "growth",
+      about: "Serves the Gulf states, and sells through three Dubai traders who resell across the region.",
+      facts: [["Share of group revenue", "11%"], ["Sold through the traders", "14% of MENA volume"]] },
+    { id: "feeders", kind: "site", name: "Two chartered feeders", place: "Jebel Ali to Khor Fakkan", lon: 54.3, lat: 25.75, side: "l", interest: "freight",
+      about: "Shuttle our containers around the Gulf. Their technical manager also runs tankers named in September.",
+      facts: [["Containers a week", "About 1,100"]] },
+    { id: "jubail", kind: "partner", name: "Resin supplier", place: "Jubail, Saudi Arabia", lon: 49.66, lat: 27.01, side: "r",
+      about: "Supplies PP resin to Gebze. Takes feedstock from an Iranian joint venture.",
+      facts: [["Share of Gebze’s resin", "22%"], ["Contract runs to", "June 2027"]] },
+    { id: "mesaieed", kind: "partner", name: "Resin supplier", place: "Mesaieed, Qatar", lon: 51.55, lat: 24.99, side: "r",
+      about: "Supplies PP resin to Gebze and HDPE to Pune. Also takes feedstock from the joint venture.",
+      facts: [["Share of Gebze’s resin", "16%"], ["Share of Pune’s resin", "45%"]] },
+    { id: "traders", kind: "partner", name: "Three Dubai traders", place: "Deira, Dubai", lon: 55.33, lat: 25.27, side: "t",
+      about: "Buy from our distribution center and resell across the region, some of it to buyers we can’t see.",
+      facts: [["Share of MENA volume", "14%"], ["Onward sales we can trace", "About 60%"]] },
+    { id: "manager", kind: "partner", name: "Technical manager", place: "Fujairah, UAE", lon: 56.34, lat: 25.12, side: "b",
+      about: "Runs two of our chartered feeders, and the tankers named in September.",
+      facts: [["Ships under management", "23"]] },
+    { id: "lender", kind: "partner", name: "Gebze’s lender", place: "Istanbul, Türkiye", lon: 28.98, lat: 41.01, side: "t",
+      about: "Handles Gebze’s payroll and supplier payments. Settled an Iran case with US authorities in 2019.",
+      facts: [["Payments a month", "About $40M"]] },
+    { id: "jv", kind: "iran", name: "Petrochemical joint venture", place: "Asaluyeh, Iran", lon: 52.61, lat: 27.48, side: "t", status: "Not named yet",
+      about: "Supplies feedstock to both of our Gulf resin suppliers. A rule on buyers would reach it first." },
+    { id: "buyers", kind: "iran", name: "Iran-linked buyers", place: "Bandar Abbas, Iran", lon: 56.27, lat: 27.18, side: "t", status: "Two already named",
+      about: "Where some of the Dubai traders’ volume ends up." },
+    { id: "tankers", kind: "iran", name: "Named tankers", place: "Anchored off Fujairah", lon: 56.66, lat: 25.4, side: "t", status: "Named in September",
+      about: "Five tankers named for carrying Iranian oil. They share a technical manager with our feeders." },
+    { id: "banks", kind: "iran", name: "Iranian correspondent banks", place: "Tehran, Iran", lon: 51.39, lat: 35.69, side: "t", status: "Named in 2018",
+      about: "Gebze’s lender dealt with them before its 2019 settlement." },
+    { id: "sg", kind: "alt", name: "Singapore resin", place: "Jurong Island, Singapore", lon: 103.75, lat: 1.27, side: "r",
+      about: "Two grades in qualification for Gebze, about 24 days away by sea.", facts: [["Ready by", "Mid-November"]] },
+    { id: "ulsan", kind: "alt", name: "Korean resin", place: "Ulsan, South Korea", lon: 129.3, lat: 35.5, side: "l",
+      about: "One grade in qualification for Gebze, about 30 days away by sea.", facts: [["Ready by", "Late November"]] }
   ];
-  var EDGES = [["jv", "suppliers"], ["suppliers", "plants"], ["suppliers", "clear"], ["buyers", "traders"], ["traders", "clear"],
-    ["traders", "growth"], ["tankers", "manager"], ["manager", "freight"], ["banks", "lender"], ["lender", "cash"]];
-  var net = $("#net"), netSvg = $(".net__lines", net), nodeEls = {}, edgeEls = [];
-  NODES.forEach(function (nd) {
-    var c = el("div", "node node--c" + nd.col);
-    c.appendChild(el("p", "node__t", nd.t));
-    if (nd.col === 2) { var v = el("p", "node__v"); c.appendChild(v); nd.v = v; }
-    else c.appendChild(el("p", "node__s", nd.s));
-    $('[data-col="' + nd.col + '"]', net).appendChild(c);
-    nodeEls[nd.id] = c;
+  var PL = {};
+  PLACES.forEach(function (p) {
+    p.x = MAPX(p.lon); p.y = MAPY(p.lat); PL[p.id] = p;
+    p.gulf = p.x > GULF.x0 && p.x < GULF.x1 && p.y > GULF.y0 && p.y < GULF.y1;
   });
-  function lit(e) {
-    var p = BYP[path];
-    if (p.loss[e[1]] != null) return p.loss[e[1]] > 0;
-    return EDGES.some(function (f) { return f[0] === e[1] && p.loss[f[1]] > 0; });
-  }
-  function drawNet() {
-    netSvg.innerHTML = ""; edgeEls = [];
-    var r0 = net.getBoundingClientRect();
-    netSvg.setAttribute("viewBox", "0 0 " + r0.width + " " + r0.height);
-    EDGES.forEach(function (e) {
-      var a = nodeEls[e[0]].getBoundingClientRect(), b = nodeEls[e[1]].getBoundingClientRect();
-      var x1 = a.right - r0.left, y1 = a.top + a.height / 2 - r0.top, x2 = b.left - r0.left, y2 = b.top + b.height / 2 - r0.top, mx = (x1 + x2) / 2;
-      var line = svg("path", { d: "M" + x1 + " " + y1 + " C" + mx + " " + y1 + " " + mx + " " + y2 + " " + x2 + " " + y2, class: "net__edge" });
-      netSvg.appendChild(line); edgeEls.push(line);
-    });
-    paintNet();
-  }
-  function paintNet() {
-    var p = BYP[path], on = {};
-    EDGES.forEach(function (e, i) {
-      var l = lit(e);
-      if (edgeEls[i]) edgeEls[i].classList.toggle("is-on", l);
-      if (l) { on[e[0]] = 1; on[e[1]] = 1; }
-    });
-    NODES.forEach(function (nd) {
-      nodeEls[nd.id].classList.toggle("is-on", !!on[nd.id]);
-      if (nd.v) {
-        var v = p.loss[nd.id];
-        nd.v.textContent = v ? DB.money(v, v % 1 ? 1 : 0) + " at risk" : "Nothing new at risk";
-      }
-    });
-    $("#net-sum").textContent = p.name + ": " + p.reach;
-  }
+  // sea lanes, as lon/lat waypoints
+  var OUT_JUBAIL = [[50.4, 27.0], [51.3, 26.7], [52.3, 26.4], [54.8, 26.4]];
+  var OUT_MESAIEED = [[51.95, 25.2], [52.4, 25.9], [53.5, 26.25], [54.8, 26.4]];
+  var HORMUZ = [[56.3, 26.55], [57.1, 25.6], [58.6, 23.9]];
+  var TO_SUEZ = [[60.0, 21.0], [56.0, 16.5], [51.0, 13.6], [46.5, 12.6], [43.45, 12.6], [42.4, 14.6], [39.5, 19.5], [36.5, 24.0], [34.2, 27.6], [32.6, 29.6], [32.35, 31.3]];
+  var TO_GEBZE = [[31.0, 32.7], [27.8, 34.5], [25.6, 36.4], [25.9, 38.6], [26.3, 40.05], [26.9, 40.45], [27.8, 40.7], [28.9, 40.85]];
+  var TO_PUNE = [[62.0, 22.5], [70.0, 19.6], [72.95, 18.95]];
+  var FROM_SG = [[103.6, 1.6], [100.5, 3.6], [97.0, 6.3], [88.0, 6.0], [80.5, 5.4], [72.0, 8.5], [60.0, 12.6], [51.0, 13.6]];
+  var FROM_ULSAN = [[128.6, 34.4], [126.0, 32.5], [123.0, 29.8], [120.9, 25.0], [117.0, 20.0], [110.0, 12.5], [105.6, 5.0]];
+  var LINKS = [
+    { id: "jv-jub", a: "jv", b: "jubail", chain: "resin", what: "Feedstock" },
+    { id: "jv-mes", a: "jv", b: "mesaieed", chain: "resin", what: "Feedstock" },
+    { id: "jub-geb", a: "jubail", b: "gebze", chain: "resin", what: "PP resin by sea, through Suez", via: OUT_JUBAIL.concat(HORMUZ, TO_SUEZ.slice(2), TO_GEBZE) },
+    { id: "mes-geb", a: "mesaieed", b: "gebze", chain: "resin", what: "PP resin by sea, through Suez", via: OUT_MESAIEED.concat(HORMUZ, TO_SUEZ.slice(2), TO_GEBZE) },
+    { id: "mes-pun", a: "mesaieed", b: "pune", chain: "resin", what: "HDPE resin by sea and road", via: OUT_MESAIEED.concat(HORMUZ, TO_PUNE) },
+    { id: "buy-tra", a: "buyers", b: "traders", chain: "trade", what: "Onward sales" },
+    { id: "tra-hub", a: "traders", b: "hub", chain: "trade", what: "Our sales to the traders" },
+    { id: "tan-man", a: "tankers", b: "manager", chain: "freight", what: "Technical management" },
+    { id: "man-fee", a: "manager", b: "feeders", chain: "freight", what: "Technical management" },
+    { id: "fee-hub", a: "feeders", b: "hub", chain: "freight", what: "Feeder service" },
+    { id: "ban-len", a: "banks", b: "lender", chain: "money", what: "Past correspondent banking", bow: -0.18 },
+    { id: "len-geb", a: "lender", b: "gebze", chain: "money", what: "Payroll and supplier payments" },
+    { id: "sg-geb", a: "sg", b: "gebze", chain: "alt", what: "Re-sourcing route", via: FROM_SG.concat(TO_SUEZ.slice(4), TO_GEBZE) },
+    { id: "uls-geb", a: "ulsan", b: "gebze", chain: "alt", what: "Re-sourcing route", via: FROM_ULSAN.concat(FROM_SG.slice(1), TO_SUEZ.slice(4), TO_GEBZE) }
+  ];
+  var CUTS = { a: { resin: 1, trade: 1 }, b: { resin: 1, trade: 1, freight: 1, money: 1 }, c: { freight: 1 }, d: {} };
+  var KIND = { site: "Our site", partner: "Partner", iran: "Iranian link", alt: "Where we could re-source" };
+  var INTEREST = { plants: "Keep Gebze running", clear: "Stay clear of a breach", growth: "Keep MENA growing", freight: "Keep freight moving", cash: "Keep payments flowing" };
 
-  /* ---------- how bad it could get: the chance the loss passes each amount ---------- */
-  var CURVE = {
-    xs: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 120, 140, 150],
-    wait: [41, 40, 37, 33, 27, 20, 15, 13, 11, 8, 6, 3, 2, 1.5],
-    plan: [41, 33, 24, 15, 12, 9, 6, 4, 3, 2, 1.4, 0.6, 0.3, 0.2]
-  };
-  var curveHost = $("#curve");
-  function drawCurve() {
-    var W = Math.max(300, curveHost.clientWidth), H = 220, L = 38, R = 12, T = 10, B = 24, n = CURVE.xs.length;
-    var x = function (v) { return L + (W - L - R) * v / 150; };
-    var y = function (v) { return T + (H - T - B) * (1 - v / 50); };
-    curveHost.innerHTML = "";
-    var s = svg("svg", { viewBox: "0 0 " + W + " " + H, width: W, height: H, role: "img",
-      "aria-label": "Chance the loss passes each amount. If we wait: 33% above $30M, 15% above $60M, 6% above $100M. With Penumbra’s suggestions: 15%, 6%, and 1.4%." });
-    [0, 25, 50].forEach(function (v) {
-      s.appendChild(svg("line", { x1: L, x2: W - R, y1: y(v), y2: y(v), class: "trend__grid" }));
-      var tx = svg("text", { x: L - 6, y: y(v) + 3.5, class: "trend__tick", "text-anchor": "end" }); tx.textContent = v + "%"; s.appendChild(tx);
-    });
-    [0, 50, 100, 150].forEach(function (v) {
-      var tx = svg("text", { x: x(v), y: H - 6, class: "trend__tick", "text-anchor": v === 0 ? "start" : v === 150 ? "end" : "middle" });
-      tx.textContent = "$" + v + "M"; s.appendChild(tx);
-    });
-    ["wait", "plan"].forEach(function (k) {
-      var d = "M" + CURVE.xs.map(function (v, i) { return x(v).toFixed(1) + " " + y(CURVE[k][i]).toFixed(1); }).join(" L");
-      s.appendChild(svg("path", { d: d, class: "curve__line curve__line--" + k, pathLength: 1 }));
-    });
-    var hair = svg("line", { y1: T, y2: H - B, class: "trend__hair" });
-    var hov = svg("g", { class: "trend__hov" }); hov.appendChild(hair); s.appendChild(hov);
-    var tip = el("div", "trend__tip");
-    curveHost.appendChild(s); curveHost.appendChild(tip);
-    s.addEventListener("pointermove", function (e) {
-      var r = s.getBoundingClientRect();
-      var i = 0, best = 1e9, px = (e.clientX - r.left) * W / r.width;
-      CURVE.xs.forEach(function (v, j) { var dd = Math.abs(x(v) - px); if (dd < best) { best = dd; i = j; } });
-      hair.setAttribute("x1", x(CURVE.xs[i])); hair.setAttribute("x2", x(CURVE.xs[i]));
-      tip.innerHTML = "";
-      tip.appendChild(el("span", null, "Losing more than $" + CURVE.xs[i] + "M"));
-      var a = el("p", "mix__row"); a.appendChild(document.createTextNode("If we wait ")); a.appendChild(el("b", null, CURVE.wait[i] + "%")); tip.appendChild(a);
-      var b = el("p", "mix__row"); b.appendChild(document.createTextNode("With suggestions ")); b.appendChild(el("b", null, CURVE.plan[i] + "%")); tip.appendChild(b);
-      tip.style.left = (x(CURVE.xs[i]) / W * 100) + "%"; tip.style.top = (y(CURVE.wait[i]) / H * 100) + "%";
-      tip.classList.toggle("is-left", i > n / 2);
-      curveHost.classList.add("is-hover");
-    });
-    s.addEventListener("pointerleave", function () { curveHost.classList.remove("is-hover"); });
-  }
+  var atlas = $("#atlas"), map = $("#atlas-svg"), side = $("#atlas-side");
+  var vb = VIEWS.region.slice(), view = "region", picked = null, hovered = null;
+  var layers = { site: true, partner: true, iran: true, alt: false };
+  var gMarks, linkEls = {}, markEls = {}, gulfBox;
 
-  /* ---------- what holds up in every path: each response's net value in each path; the chosen path's column lit ---------- */
-  var rob = $("#rob");
-  (function () {
-    var thead = el("thead"), hr = el("tr");
-    hr.appendChild(el("th", null, "Response"));
-    PATHS.forEach(function (p) {
-      var th = el("th", "r rob__path"); th.dataset.path = p.id; th.scope = "col";
-      var b = el("button", null); b.type = "button";
-      b.appendChild(el("span", null, p.short)); b.appendChild(el("small", null, p.p + "%"));
-      b.addEventListener("click", function () { setPath(p.id); });
-      th.appendChild(b); hr.appendChild(th);
+  // a smooth curve through projected points (Catmull-Rom as cubic Béziers)
+  function smooth(pts) {
+    var d = "M" + pts[0][0].toFixed(1) + " " + pts[0][1].toFixed(1);
+    for (var i = 0; i < pts.length - 1; i++) {
+      var p0 = pts[i - 1] || pts[i], p1 = pts[i], p2 = pts[i + 1], p3 = pts[i + 2] || p2;
+      d += " C" + (p1[0] + (p2[0] - p0[0]) / 6).toFixed(1) + " " + (p1[1] + (p2[1] - p0[1]) / 6).toFixed(1) + " " +
+        (p2[0] - (p3[0] - p1[0]) / 6).toFixed(1) + " " + (p2[1] - (p3[1] - p1[1]) / 6).toFixed(1) + " " + p2[0].toFixed(1) + " " + p2[1].toFixed(1);
+    }
+    return d;
+  }
+  function linkPath(l) {
+    var a = PL[l.a], b = PL[l.b];
+    if (l.via) return smooth([[a.x, a.y]].concat(l.via.map(function (q) { return [MAPX(q[0]), MAPY(q[1])]; }), [[b.x, b.y]]));
+    var mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2, dx = b.x - a.x, dy = b.y - a.y, k = l.bow || 0.2;
+    return "M" + a.x + " " + a.y + " Q" + (mx - dy * k).toFixed(1) + " " + (my + dx * k).toFixed(1) + " " + b.x + " " + b.y;
+  }
+  function buildMap() {
+    var M = window.BENCH_MAP || {};
+    map.appendChild(svg("rect", { x: -50, y: -50, width: 1100, height: 600, class: "atlas__sea" }));
+    if (M.main) map.appendChild(svg("path", { d: M.main, class: "atlas__land" }));
+    // the Gulf at 1:10m over its own patch of sea, in the main projection
+    var defs = svg("defs", {}), clip = svg("clipPath", { id: "gulf-clip" });
+    clip.appendChild(svg("rect", { x: GULF.x0, y: GULF.y0, width: GULF.x1 - GULF.x0, height: GULF.y1 - GULF.y0 }));
+    defs.appendChild(clip); map.appendChild(defs);
+    if (M.inset) {
+      var g = svg("g", { "clip-path": "url(#gulf-clip)" });
+      g.appendChild(svg("rect", { x: GULF.x0, y: GULF.y0, width: GULF.x1 - GULF.x0, height: GULF.y1 - GULF.y0, class: "atlas__sea" }));
+      g.appendChild(svg("path", { d: M.inset, class: "atlas__land atlas__land--fine", transform: "translate(212.27 58.56) scale(0.335556 0.33557)" }));
+      map.appendChild(g);
+    }
+    [["TÜRKİYE", 33, 39.3], ["IRAN", 54.5, 32.5], ["SAUDI ARABIA", 44, 23.5], ["INDIA", 77, 23], ["EGYPT", 29, 26.5], ["CHINA", 103, 33]].forEach(function (t) {
+      var tx = svg("text", { x: MAPX(t[1]), y: MAPY(t[2]), class: "atlas__region", "text-anchor": "middle" });
+      tx.textContent = t[0]; map.appendChild(tx);
     });
-    var te = el("th", "r", "Expected"); te.scope = "col"; hr.appendChild(te);
-    thead.appendChild(hr); rob.appendChild(thead);
-    var tb = el("tbody");
-    OPTIONS.forEach(function (o) {
-      var tr = el("tr"), th = el("th"); th.scope = "row";
-      th.appendChild(el("span", "rob__name", o.title));
-      var all = PATHS.every(function (p) { return o.v[p.id] >= 0; });
-      if (all) th.appendChild(el("span", "pill", "Holds up in every path"));
-      tr.appendChild(th);
-      var ev = 0;
-      PATHS.forEach(function (p) {
-        var v = o.v[p.id]; ev += v * p.p / 100;
-        var td = el("td", "r rob__v"); td.dataset.path = p.id;
-        td.appendChild(el("span", v < 0 ? "pill pill--red" : null, signed(v)));
-        tr.appendChild(td);
+    gulfBox = svg("g", { class: "atlas__gulfbox", tabindex: "0", role: "button", "aria-label": "Zoom to the Gulf" });
+    gulfBox.appendChild(svg("rect", { x: VIEWS.gulf[0], y: VIEWS.gulf[1], width: VIEWS.gulf[2], height: VIEWS.gulf[3], rx: 3 }));
+    var gt = svg("text", { x: VIEWS.gulf[0] + VIEWS.gulf[2] / 2, y: VIEWS.gulf[1] - 4, "text-anchor": "middle" });
+    gt.textContent = "The Gulf: select to zoom in"; gulfBox.appendChild(gt);
+    gulfBox.addEventListener("click", function (e) { e.stopPropagation(); zoom("gulf"); });
+    gulfBox.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); zoom("gulf"); } });
+    map.appendChild(gulfBox);
+    var gl = svg("g", { class: "atlas__links" });
+    LINKS.forEach(function (l) {
+      var p = svg("path", { d: linkPath(l), class: "lk lk--" + l.chain, "vector-effect": "non-scaling-stroke" });
+      gl.appendChild(p); linkEls[l.id] = p;
+    });
+    map.appendChild(gl);
+    gMarks = svg("g", { class: "atlas__marks" });
+    PLACES.forEach(function (p) {
+      var g = svg("g", { class: "mkg mkg--" + p.kind + (p.gulf ? " is-gulf" : ""), tabindex: "0", role: "button", "aria-label": p.name + ", " + p.place });
+      var inner = svg("g", { class: "mkg__in" });
+      if (p.kind === "partner") inner.appendChild(svg("rect", { x: -5, y: -5, width: 10, height: 10, rx: 2.5, class: "mkg__dot" }));
+      else inner.appendChild(svg("circle", { r: p.kind === "site" ? 6 : 5, class: "mkg__dot" }));
+      var off = { r: [10, 4, "start"], l: [-10, 4, "end"], t: [0, -10, "middle"], b: [0, 17, "middle"] }[p.side];
+      var t = svg("text", { x: off[0], y: off[1], "text-anchor": off[2], class: "mkg__lab" });
+      t.textContent = p.name; inner.appendChild(t);
+      g.appendChild(inner);
+      g.addEventListener("click", function (e) { e.stopPropagation(); pick(p.id === picked ? null : p.id); });
+      g.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pick(p.id === picked ? null : p.id); } });
+      g.addEventListener("mouseenter", function () { hovered = p.id; paintAtlas(); });
+      g.addEventListener("mouseleave", function () { hovered = null; paintAtlas(); });
+      gMarks.appendChild(g); markEls[p.id] = { g: g, inner: inner };
+    });
+    map.appendChild(gMarks);
+    map.addEventListener("click", function () { if (picked) pick(null); });
+    setVB(vb);
+  }
+  // markers and labels keep their size on screen whatever the zoom
+  function setVB(b) {
+    vb = b;
+    map.setAttribute("viewBox", b.map(function (v) { return v.toFixed(2); }).join(" "));
+    var w = map.getBoundingClientRect().width || 800, s = b[2] / w * (w < 600 ? 0.85 : 1.25); // smaller marks on a phone
+    PLACES.forEach(function (p) { markEls[p.id].g.setAttribute("transform", "translate(" + p.x + " " + p.y + ") scale(" + s.toFixed(4) + ")"); });
+    var zoomed = b[2] < 400;
+    atlas.classList.toggle("is-zoomed", zoomed);
+    gulfBox.style.strokeWidth = (1.5 * b[2] / w) + "px";
+    $("text", gulfBox).style.fontSize = (11 * b[2] / w * 1.25) + "px";
+  }
+  function zoom(to, force) {
+    if (to === view && !force) return;
+    view = to;
+    $$("#atlas-view button").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.view === to)); });
+    placeView();
+    var from = vb.slice(), dest = VIEWS[to === "region" && layers.alt ? "wide" : to];
+    if (REDUCE) { setVB(dest.slice()); return; }
+    var t0 = performance.now(), dur = 650;
+    (function step(now) {
+      var t = Math.min(1, (now - t0) / dur), e = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+      // ease the zoom on a log scale so it doesn't rush the last stretch
+      var w = Math.exp(Math.log(from[2]) + (Math.log(dest[2]) - Math.log(from[2])) * e), f = (from[2] - w) / (from[2] - dest[2] || 1);
+      setVB([from[0] + (dest[0] - from[0]) * f, from[1] + (dest[1] - from[1]) * f, w, w / 2]);
+      if (t < 1) requestAnimationFrame(step);
+    })(t0);
+  }
+  var viewPill = $("#atlas-view .sw__pill");
+  function placeView() {
+    var b = $('#atlas-view [aria-pressed="true"]');
+    if (b && b.offsetWidth) { viewPill.style.width = b.offsetWidth + "px"; viewPill.style.transform = "translateX(" + (b.offsetLeft - 4) + "px)"; }
+  }
+  $$("#atlas-view button").forEach(function (b) { b.addEventListener("click", function () { zoom(b.dataset.view); }); });
+  requestAnimationFrame(function () { requestAnimationFrame(function () { $("#atlas-view").classList.add("is-ready"); }); });
+  $$(".atlas__layer").forEach(function (b) {
+    b.addEventListener("click", function () {
+      layers[b.dataset.layer] = !layers[b.dataset.layer];
+      b.setAttribute("aria-pressed", String(layers[b.dataset.layer]));
+      if (picked && !layers[PL[picked].kind]) picked = null;
+      if (b.dataset.layer === "alt" && view === "region") zoom("region", true);
+      paintAtlas(); drawSide();
+    });
+  });
+  function pick(id) {
+    picked = id;
+    if (id) {
+      var p = PL[id];
+      if (!layers[p.kind]) { layers[p.kind] = true; $('.atlas__layer[data-layer="' + p.kind + '"]').setAttribute("aria-pressed", "true"); }
+      if (p.kind === "alt" && view === "region") { zoom("region", true); paintAtlas(); drawSide(); return; }
+      if (p.gulf && view !== "gulf") zoom("gulf");
+      else if (!p.gulf && view === "gulf") zoom("region");
+    }
+    paintAtlas(); drawSide();
+  }
+  function cut(l) { return !!CUTS[path][l.chain]; }
+  function paintAtlas() {
+    if (!gMarks) return;
+    var focus = hovered || picked, near = {};
+    if (focus) { near[focus] = 1; LINKS.forEach(function (l) { if (l.a === focus || l.b === focus) { near[l.a] = 1; near[l.b] = 1; } }); }
+    var hit = {};
+    LINKS.forEach(function (l) {
+      var on = layers[PL[l.a].kind] && layers[PL[l.b].kind], c = cut(l), el2 = linkEls[l.id];
+      if (c) { hit[l.a] = 1; hit[l.b] = 1; }
+      el2.classList.toggle("is-hidden", !on);
+      el2.classList.toggle("is-cut", c);
+      el2.classList.toggle("is-dim", !!focus && !(l.a === focus || l.b === focus));
+      el2.classList.toggle("is-near", !!focus && (l.a === focus || l.b === focus));
+    });
+    PLACES.forEach(function (p) {
+      var m = markEls[p.id].g;
+      m.classList.toggle("is-hidden", !layers[p.kind]);
+      m.classList.toggle("is-hit", !!hit[p.id]);
+      m.classList.toggle("is-picked", p.id === picked);
+      m.classList.toggle("is-dim", !!focus && !near[p.id]);
+    });
+    var sc = BYP[path], loss = $("#atlas-loss");
+    loss.innerHTML = "";
+    var head = el("div", "atlas__losshead");
+    head.appendChild(el("dt", null, "What we stand to lose in this scenario"));
+    var tot = lossOf(sc);
+    head.appendChild(el("dd", "atlas__total" + (tot ? " red" : ""), tot ? DB.money(tot, tot % 1 ? 1 : 0) : "Nothing new"));
+    loss.appendChild(head);
+    ["plants", "clear", "growth", "freight", "cash"].forEach(function (k) {
+      var v = sc.loss[k], d = el("div", v ? "is-on" : null);
+      d.appendChild(el("dt", null, INTEREST[k]));
+      d.appendChild(el("dd", null, v ? DB.money(v, v % 1 ? 1 : 0) : "$0"));
+      loss.appendChild(d);
+    });
+    if (!picked) drawSide();
+  }
+  function drawSide() {
+    side.innerHTML = "";
+    var sc = BYP[path];
+    if (!picked) {
+      side.appendChild(el("span", "pill" + (sc.sanctions ? " pill--red" : ""), sc.sanctions ? "New sanctions" : "No new sanctions"));
+      side.appendChild(el("h3", "atlas__t", sc.name));
+      side.appendChild(el("p", "atlas__p", sc.p + "% chance"));
+      side.appendChild(el("p", "atlas__about", sc.reach));
+      var n = LINKS.filter(function (l) { return cut(l); }).length;
+      side.appendChild(el("p", "atlas__hint", n ? n + " of our links would be cut. Select any place on the map for its details." : "Select any place on the map for its details."));
+      return;
+    }
+    var p = PL[picked], hit = LINKS.some(function (l) { return cut(l) && (l.a === p.id || l.b === p.id); });
+    side.appendChild(el("span", "pill" + (p.kind === "iran" ? " pill--red" : ""), KIND[p.kind]));
+    side.appendChild(el("h3", "atlas__t", p.name));
+    side.appendChild(el("p", "atlas__place", p.place));
+    side.appendChild(el("p", "atlas__about", p.about));
+    var dl = el("dl", "atlas__facts");
+    (p.status ? [["Status", p.status]] : []).concat(p.facts || []).forEach(function (f) {
+      var d = el("div"); d.appendChild(el("dt", null, f[0])); d.appendChild(el("dd", null, f[1])); dl.appendChild(d);
+    });
+    if (dl.children.length) side.appendChild(dl);
+    if (p.kind !== "alt") {
+      var st = el("p", "atlas__in");
+      st.appendChild(el("span", null, "In this scenario"));
+      st.appendChild(el("b", hit ? "red" : null, hit ? (p.interest && sc.loss[p.interest] ? "Cut off, with " + DB.money(sc.loss[p.interest], sc.loss[p.interest] % 1 ? 1 : 0) + " at risk" : "Cut off") : "Not affected"));
+      side.appendChild(st);
+    }
+    var links = LINKS.filter(function (l) { return (l.a === p.id || l.b === p.id) && layers[PL[l.a].kind] && layers[PL[l.b].kind]; });
+    if (links.length) {
+      side.appendChild(el("p", "atlas__k2", "Linked to"));
+      var ul = el("ul", "atlas__linked");
+      links.forEach(function (l) {
+        var o = PL[l.a === p.id ? l.b : l.a], li = el("li"), b = el("button", "btn-q", o.name);
+        b.type = "button";
+        b.addEventListener("click", function (e) { e.stopPropagation(); pick(o.id); });
+        li.appendChild(b); li.appendChild(el("span", null, l.what)); ul.appendChild(li);
       });
-      tr.appendChild(el("td", "r rob__ev", signed(ev)));
-      tb.appendChild(tr);
-    });
-    rob.appendChild(tb);
-  })();
-  function paintRob() {
-    $$("[data-path]", rob).forEach(function (c) { c.classList.toggle("is-on", c.dataset.path === path); });
+      side.appendChild(ul);
+    }
+    var back = el("button", "atlas__back", "Back to the scenario"); back.type = "button";
+    back.addEventListener("click", function () { pick(null); });
+    side.appendChild(back);
   }
+  buildMap();
+  paintAtlas();
+  drawSide();
 
-  /* ---------- plans ---------- */
-  var tabs = $("#plan-tabs"), panel = $("#plan");
-  var tabEls = {};
-  // a white pill slides behind the chosen tab (and follows it to another line when the tabs wrap)
-  var thumb = el("span", "planpick__thumb"); thumb.setAttribute("aria-hidden", "true"); tabs.appendChild(thumb);
-  function placeThumb(snap) {
-    var b = tabs.querySelector('[aria-selected="true"]'); if (!b) return;
-    if (snap) thumb.classList.add("is-snap");
-    thumb.style.width = b.offsetWidth + "px"; thumb.style.height = b.offsetHeight + "px";
-    thumb.style.transform = "translate(" + b.offsetLeft + "px," + b.offsetTop + "px)";
-    if (snap) { void thumb.offsetWidth; thumb.classList.remove("is-snap"); }
-  }
-  window.addEventListener("resize", function () { placeThumb(true); });
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { placeThumb(true); });
+  /* ---------- our options: a card each with its figures, for and against; the selected card sets the plan below ---------- */
+  var panel = $("#plan"), olist = $("#options-list"), cardEls = {}, shown = "resin";
   OPTIONS.forEach(function (o) {
-    var b = el("button", "planpick__tab");
-    b.type = "button";
-    b.setAttribute("role", "tab");
-    b.id = "tab-" + o.id;
-    b.appendChild(el("span", "planpick__n", String(o.n)));
-    b.appendChild(el("span", null, o.title));
-    b.addEventListener("click", function () { showPlan(o.id, true); });
-    b.addEventListener("keydown", function (e) {
-      var i = OPTIONS.indexOf(o), d = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
-      if (!d) return;
-      e.preventDefault();
-      var next = OPTIONS[(i + d + OPTIONS.length) % OPTIONS.length].id;
-      showPlan(next, true); tabEls[next].focus();
+    var c = el("li", "option");
+    c.tabIndex = 0; c.setAttribute("role", "button"); c.setAttribute("aria-controls", "plan");
+    var head = el("div", "option__head");
+    head.appendChild(el("span", "option__n", String(o.n)));
+    if (o.view) head.appendChild(el("span", "pill" + (o.pick ? " pill--red" : ""), "Totality’s view: " + o.view));
+    c.appendChild(head);
+    c.appendChild(el("h3", "option__title", o.title));
+    c.appendChild(el("p", "option__line", o.line));
+    var nums = el("dl", "option__nums");
+    function num(label, val, cls, sub) {
+      var d = el("div"); d.appendChild(el("dt", null, label));
+      var dd = el("dd", cls || null, val);
+      if (sub) dd.appendChild(el("small", null, sub));
+      d.appendChild(dd); nums.appendChild(d);
+    }
+    var net = o.protects - o.cost;
+    num("Costs", DB.money(o.cost), null, o.costNote);
+    num("Protects", o.protects ? DB.money(o.protects) : "$0");
+    num("Net", (net < 0 ? "−" : "") + DB.money(Math.abs(net)), net < 0 ? "red" : null);
+    c.appendChild(nums);
+    var pc = el("div", "option__pc");
+    [["For", o.pros, "pro"], ["Against", o.cons, "con"]].forEach(function (g) {
+      var col = el("div");
+      col.appendChild(el("p", "option__pclabel", g[0]));
+      var ul = el("ul", "option__list option__list--" + g[2]);
+      g[1].forEach(function (t) { ul.appendChild(el("li", null, t)); });
+      col.appendChild(ul); pc.appendChild(col);
     });
-    tabEls[o.id] = b;
-    tabs.appendChild(b);
+    c.appendChild(pc);
+    c.appendChild(el("p", "option__go", "See how it would run below"));
+    function go() { if (shown !== o.id) { shown = o.id; paintCards(); showPlan(o.id, true); } }
+    c.addEventListener("click", go);
+    c.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } });
+    cardEls[o.id] = c;
+    olist.appendChild(c);
   });
+  function paintCards() {
+    OPTIONS.forEach(function (o) {
+      var on = o.id === shown;
+      cardEls[o.id].classList.toggle("is-on", on);
+      cardEls[o.id].setAttribute("aria-pressed", String(on));
+      $(".option__go", cardEls[o.id]).textContent = on ? "Its plan is below" : "Select to see how it would run";
+    });
+  }
+  paintCards();
 
   function showPlan(id, user) {
     var o = OPTIONS.filter(function (x) { return x.id === id; })[0], p = PLANS[id];
-    Object.keys(tabEls).forEach(function (k) {
-      tabEls[k].setAttribute("aria-selected", String(k === id));
-      tabEls[k].tabIndex = k === id ? 0 : -1;
-    });
-    placeThumb(!user);
-    panel.setAttribute("aria-labelledby", "tab-" + id);
     panel.innerHTML = "";
     // the card stays put; only what's in it fades in, so switching plans doesn't jolt
     if (user) { panel.classList.remove("is-swap"); void panel.offsetWidth; panel.classList.add("is-swap"); }
 
+    panel.appendChild(el("p", "plan__k", "Option " + o.n + ": " + o.title));
     var top = el("div", "plan__top");
     var meta = el("dl", "plan__meta");
     [["Lead", p.lead], ["First move by", p.first], ["Team hours", p.hours.toLocaleString("en-US")], ["Cost", DB.money(o.cost)]].forEach(function (m) {
@@ -541,7 +715,6 @@
     trips.appendChild(ul);
     panel.appendChild(trips);
   }
-  showPlan("resin", false);
 
   /* ---------- related questions: white bubbles that open the ask page ---------- */
   var asks = $("#asks");
@@ -558,7 +731,7 @@
   /* ---------- trendlines: weekly from July 13; index 12 is this week ---------- */
   var TRENDS = {
     sdn: { vals: [6, 4, 7, 5, 8, 6, 9, 12, 11, 15, 19, 22, 27], fmt: function (v) { return String(Math.round(v)); }, min: 0, max: 30, ticks: [0, 15, 30] },
-    senate: { vals: [18, 18, 19, 21, 22, 22, 24, 27, 31, 36, 41, 47, 52], fmt: function (v) { return String(Math.round(v)); }, min: 0, max: 60, ticks: [0, 30, 60] },
+    senate: { vals: [0, 0, 0, 4, 6, 7, 9, 12, 16, 20, 23, 26, 34], fmt: function (v) { return String(Math.round(v)); }, min: 0, max: 40, ticks: [0, 20, 40] },
     brent: { vals: [78, 79, 77, 80, 82, 81, 84, 85, 87, 88, 91, 92, 93], fmt: function (v) { return "$" + Math.round(v); }, min: 70, max: 100, ticks: [70, 85, 100] }
   };
   function draw(fig) {
@@ -615,12 +788,12 @@
 
   /* ---------- signposts: where each stands, what it would do to the chance, and an alert you can turn on ---------- */
   var POSTS = [
-    { id: "vote", t: "The Senate schedules a floor vote", now: "Not on the calendar", effect: "Would rise to about 55%", up: true, checked: 4 },
+    { id: "vote", t: "The sanctions bill clears the Banking Committee", now: "In committee, with 34 co-sponsors", effect: "Would rise to about 52%", up: true, checked: 4 },
     { id: "polymer", t: "A Gulf polymer maker is named in a designation", now: "None named so far", effect: "Would rise to about 60%", up: true, checked: 11 },
     { id: "sdn", t: "Iran-linked designations in a week", now: "27 last week, against a line of 40", gauge: 27 / 40, effect: "Past 40, would rise to about 50%", up: true, checked: 26 },
-    { id: "brent", t: "Brent crude falls below $85", now: "$93 this morning", effect: "Would rise about 6 pts", up: true, checked: 7 },
+    { id: "brent", t: "Brent crude falls below $85", now: "$93 this morning", effect: "Would rise about 6%", up: true, checked: 7 },
     { id: "waivers", t: "The November 1 waivers are renewed unchanged", now: "Due in 25 days", effect: "Would fall to about 30%", up: false, checked: 52 },
-    { id: "muscat", t: "Muscat sets a date for a second round", now: "No date yet", effect: "Would fall to about 25%", up: false, checked: 18 }
+    { id: "muscat", t: "Muscat sets a date for a second round of talks", now: "No date yet", effect: "Would fall to about 25%", up: false, checked: 18 }
   ];
   var AKEY = "daybreak.memo.alerts", alerts = { vote: true, polymer: true };
   try { var sa = JSON.parse(localStorage.getItem(AKEY) || "null"); if (sa) alerts = sa; } catch (e) {}
@@ -649,7 +822,6 @@
       alerts[sp.id] = !alerts[sp.id];
       try { localStorage.setItem(AKEY, JSON.stringify(alerts)); } catch (e) {}
       paint();
-      DB.toast(alerts[sp.id] ? "We’ll tell you the moment this moves." : "Alert off.");
     });
     paint();
     side.appendChild(b);
@@ -678,15 +850,14 @@
   });
 
   /* ---------- first draw, and redraws when the width changes ---------- */
-  drawMix(); drawPath(); drawCurve(); placeTracks(); paintRob();
-  drawNet();
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { placeTracks(); drawNet(); });
+  drawMix(); drawPath(); placeTracks(); placeView(); showPlan("resin", false);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { placeTracks(); placeView(); });
   var rt;
   window.addEventListener("resize", function () {
     clearTimeout(rt);
-    rt = setTimeout(function () { figs.forEach(draw); drawMix(); drawCurve(); drawNet(); placeTracks(); }, 120);
+    rt = setTimeout(function () { figs.forEach(draw); drawMix(); setVB(vb); placeTracks(); placeView(); }, 120);
   });
 
   // figures make their entrance the first time they scroll into view
-  Reveal(".spark, .mix, .fall, .trend, .curve, .posts, #plan");
+  Reveal(".mix, .fall, .trend, .posts, #plan");
 })();
