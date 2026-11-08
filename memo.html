@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Sample memo · Penumbra</title>
-  <meta name="description" content="A Penumbra strategic options memo: how Halvorsen Group should respond to the chance of new US sanctions, with what’s at stake, why the odds rose, four ways to respond, and how each would run.">
+  <meta name="description" content="A Penumbra strategic options memo: a deep dive into the chance of new US sanctions, the four ways it could go, how each would reach Halvorsen Group, and the responses that hold up in every path.">
   <link rel="preload" href="assets/fonts/switzer-800.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/switzer-400.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="assets/css/base.css">
@@ -44,7 +44,7 @@
       <div>
         <p class="h-kicker">Strategic options memo for the CEO, Wednesday, October 7, 2026, as of 16:40 GST</p>
         <h1 class="mh__title">Prepare for New Sanctions Without Pulling Out</h1>
-        <p class="mh__lede">The chance of new US sanctions on Iranian petrochemicals by December 6 has nearly doubled since August, to 41%. Two moves this month would protect $9.5M for $3.0M, and both pay off whether or not sanctions come.</p>
+        <p class="mh__lede">A closer look at whether Washington widens its Iran sanctions this fall: the four ways it could go, how each would reach Halvorsen, and the moves that pay off in all of them.</p>
       </div>
       <figure class="asked">
         <figcaption class="asked__who">Asked by the CEO in Ask Penumbra at 9:12am</figcaption>
@@ -52,6 +52,15 @@
         <p class="asked__read"><span>How the Totality engine read it</span>New US sanctions that reach Iranian petrochemicals, or the ships and banks that serve them, announced by December 6.</p>
       </figure>
     </header>
+
+    <!-- what went into it, at a glance -->
+    <dl class="worked" aria-label="What went into this memo">
+      <div><dt>Sub-questions</dt><dd>10</dd><span>split from the CEO’s question, one declined</span></div>
+      <div><dt>Engines</dt><dd>3</dd><span>judgment, telemetry, and procedure</span></div>
+      <div><dt>Sources</dt><dd>1,284</dd><span>filings, records, feeds, and your own data</span></div>
+      <div><dt>Simulated futures</dt><dd>4,000</dd><span>each run through our supply and contracts</span></div>
+      <a class="btn-q worked__more" href="#resources">See what went into it</a>
+    </dl>
 
     <!-- 1. Bottom line -->
     <section class="sec" id="bottom-line" aria-labelledby="bl-title">
@@ -85,66 +94,35 @@
             </figure>
           </div>
         </div>
-        <div class="bl__money">
-          <div class="cost">
-            <p class="cost__k">If we wait</p>
-            <p class="cost__v red">$25.4M</p>
-            <p class="cost__what">expected loss over the next year at a 41% chance of sanctions. If they come, $62M is at risk, and a particularly bad case (1 in 20 chance) would cost <b class="red">$140M</b>.</p>
-            <div class="stack" role="img" aria-label="Value at risk if sanctions come, by interest: plants $24M, MENA sales $18M, penalties $11M, freight $5M, and payments $4M">
-              <span style="--w:24"></span><span style="--w:18"></span><span style="--w:11"></span><span style="--w:5"></span><span style="--w:4"></span>
-            </div>
-            <ul class="stack__key">
-              <li><i></i>Resin for the Gebze plant<b>$24M</b></li>
-              <li><i></i>Sales through the Dubai traders<b>$18M</b></li>
-              <li><i></i>Penalty exposure<b>$11M</b></li>
-              <li><i></i>Feeder ships and freight<b>$5M</b></li>
-              <li><i></i>Gebze’s banking<b>$4M</b></li>
-            </ul>
-          </div>
-          <div class="cost">
-            <p class="cost__k">With Penumbra’s suggestions</p>
-            <p class="cost__v">$15.9M</p>
-            <p class="cost__what">expected loss left once Gebze’s resin is re-sourced and a second bank is lined up. Together they cost <b>$3.0M</b>.</p>
-            <div class="left" role="img" aria-label="Of the $25.4M, the two moves protect $9.5M and $15.9M is still at risk"><i class="left__risk"></i></div>
-            <ul class="stack__key">
-              <li><i class="left__k left__k--risk"></i>Still at risk<b>$15.9M</b></li>
-              <li><i class="left__k"></i>Protected by the two moves<b>$9.5M</b></li>
-            </ul>
-            <div class="net"><span>Net value</span><b>$6.5M</b></div>
-          </div>
-        </div>
+        <dl class="figs">
+          <div><dt>Expected loss from new sanctions if we wait</dt><dd class="red">$25.4M</dd><span>over the next year, at a 41% chance</span></div>
+          <div><dt>At risk if sanctions come</dt><dd>$62M</dd><span>$140M in a particularly bad case (1 in 20 chance)</span></div>
+          <div><dt>Protected by Penumbra’s suggestions</dt><dd>$9.5M</dd><span>at a cost of $3.0M</span></div>
+        </dl>
       </div>
     </section>
 
-    <!-- 2. What's at stake -->
-    <section class="sec" id="stake" aria-labelledby="stake-title">
+    <!-- 2. Trajectories -->
+    <section class="sec" id="paths" aria-labelledby="path-title">
       <div class="sec__head">
-        <h2 class="sec__title" id="stake-title"><span aria-hidden="true">2</span>What’s at Stake</h2>
-        <p class="sec__note">The company interests new sanctions would reach, with what each stands to lose if they come.</p>
+        <h2 class="sec__title" id="path-title"><span aria-hidden="true">2</span>Four Ways This Could Go</h2>
+        <p class="sec__note">Two paths bring new sanctions and two don’t. Their chances add up to 100%, and the two sanctions paths make up the 41%. Choose a path to follow it through the rest of the memo.</p>
       </div>
-      <ul class="stakes" id="stakes"></ul>
-
-      <div class="apart">
-        <div class="apart__head">
-          <span class="pill pill--amber">Where they pull apart</span>
-          <h3 class="card__title">The Three Dubai Traders</h3>
-          <p class="card__note">They move 14% of MENA volume, some of it on to buyers we can’t see.</p>
-        </div>
-        <div class="apart__sides">
-          <div class="apart__side"><p class="apart__k">Staying clear of a breach</p><p>argues for pausing them now. If one is named before we act, a shipment already on the water is a breach.</p></div>
-          <div class="apart__side"><p class="apart__k">Keeping MENA growing</p><p>argues for keeping them until something is announced. Rivals would take them, and they’re hard to win back.</p></div>
-        </div>
-        <p class="apart__way"><b>Penumbra’s suggestion:</b> ask all three for end-use certificates now, which costs little, and pause only a trader that won’t sign or is named.</p>
+      <div class="paths">
+        <figure class="mix">
+          <figcaption class="mix__head"><span class="card__title">How the Paths Have Shifted</span><span class="card__note">Weekly since July 13. The red line marks September 29, when the Muscat talks collapsed.</span></figcaption>
+          <div class="mix__plot" id="mix"></div>
+        </figure>
+        <div class="path" id="path" aria-live="polite"></div>
       </div>
     </section>
 
-    <!-- 3. Why the odds rose -->
+    <!-- 3. Drivers -->
     <section class="sec" id="why" aria-labelledby="why-title">
       <div class="sec__head">
-        <h2 class="sec__title" id="why-title"><span aria-hidden="true">3</span>Why the Odds Rose</h2>
-        <p class="sec__note">The chance has nearly doubled since August 1. Here’s what drove it and the trends behind it.</p>
+        <h2 class="sec__title" id="why-title"><span aria-hidden="true">3</span>What’s Driving It</h2>
+        <p class="sec__note">The chance of new sanctions has nearly doubled since August 1. Here’s what moved it and the trends behind it.</p>
       </div>
-
       <div class="moved">
         <h3 class="card__title">What Moved the Odds Since August 1</h3>
         <ol class="fall" aria-label="How each driver moved the chance of new sanctions, from 22% on August 1 to 41% today">
@@ -183,38 +161,216 @@
       <p class="trends__key">Weekly since July 13. The red line marks September 29, when the Muscat talks collapsed. Point at a chart to read a week.</p>
     </section>
 
-    <!-- 4. Options -->
-    <section class="sec" id="options" aria-labelledby="opt-title">
+    <!-- 4. How the forecast was built -->
+    <section class="sec" id="built" aria-labelledby="built-title">
       <div class="sec__head">
-        <h2 class="sec__title" id="opt-title"><span aria-hidden="true">4</span>Four Ways to Respond</h2>
-        <p class="sec__note">What each protects over the next year, weighted by the 41% chance of sanctions. They overlap a little, so their values don’t simply add up. Choose one to tell its lead to start.</p>
+        <h2 class="sec__title" id="built-title"><span aria-hidden="true">4</span>How the Forecast Was Built</h2>
+        <p class="sec__note">The Totality engine split the question into parts it can forecast and gave each to the engine with skill at this horizon. One part has no skill this far out, so it was declined rather than guessed.</p>
       </div>
-      <div class="serves">
-        <span class="serves__k" id="serves-k">Show what serves</span>
-        <div class="sw" role="group" aria-labelledby="serves-k" id="serves">
-          <span class="sw__pill" aria-hidden="true"></span>
-          <button type="button" data-int="" aria-pressed="true">Every interest</button>
+      <div class="built">
+        <div class="fuse">
+          <div class="fuse__text">
+            <h3 class="card__title">Three Reads, Fused Into One</h3>
+            <p class="card__note">Each engine’s answer to its own part, and the calibrated chance they fuse into. Where the engines agree, the band narrows.</p>
+          </div>
+          <div class="fuse__chart" role="img" aria-label="Judgment 46%, telemetry 38%, procedure 35%, fused 41% plus or minus 7 points">
+            <div class="fuse__row"><span>Judgment</span><i><b style="--v:46"></b></i><em>46%</em></div>
+            <div class="fuse__row"><span>Telemetry</span><i><b style="--v:38"></b></i><em>38%</em></div>
+            <div class="fuse__row"><span>Procedure</span><i><b style="--v:35"></b></i><em>35%</em></div>
+            <div class="fuse__row fuse__row--out"><span>Fused</span><i><u style="--a:34;--b:48"></u><b style="--v:41"></b></i><em>41%</em></div>
+            <div class="fuse__axis" aria-hidden="true"><span style="--v:0">0%</span><span style="--v:20">20%</span><span style="--v:40">40%</span><span style="--v:60">60%</span></div>
+          </div>
         </div>
+        <ol class="engines">
+          <li class="engine">
+            <p class="engine__k"><span class="pill">Judgment</span><span>Skill out to about 90 days</span></p>
+            <h3 class="engine__q">Will the White House announce a new Iran sanctions package by December 6?</h3>
+            <p class="engine__p">46%</p>
+            <p class="engine__reads">Reads officials’ statements, expert forecasters, and 1,140 news reports and filings.</p>
+            <ul class="engine__subs">
+              <li><span>Muscat talks resume by November 15</span><b>24%</b></li>
+              <li><span>Treasury names a Gulf polymer maker</span><b>18%</b></li>
+            </ul>
+          </li>
+          <li class="engine">
+            <p class="engine__k"><span class="pill">Telemetry</span><span>Skill out to about 45 days</span></p>
+            <h3 class="engine__q">Will Iran-linked designations pass 40 in any week before December 6?</h3>
+            <p class="engine__p">38%</p>
+            <p class="engine__reads">Reads Treasury’s designation lists, ship tracking in the Gulf, and customs records.</p>
+            <ul class="engine__subs">
+              <li><span>Ship-to-ship transfers off Fujairah pass 30 a week</span><b>57%</b></li>
+              <li><span>A tanker manager we share is named</span><b>21%</b></li>
+            </ul>
+          </li>
+          <li class="engine">
+            <p class="engine__k"><span class="pill">Procedure</span><span>Skill out to about 120 days</span></p>
+            <h3 class="engine__q">Will Treasury extend secondary sanctions to petrochemical buyers?</h3>
+            <p class="engine__p">35%</p>
+            <p class="engine__reads">Reads the bill’s progress, the Senate calendar, rulemaking steps, and waiver deadlines.</p>
+            <ul class="engine__subs">
+              <li><span>The Senate schedules a floor vote by November 20</span><b>31%</b></li>
+              <li><span>The November 1 waivers are renewed unchanged</span><b>44%</b></li>
+            </ul>
+          </li>
+          <li class="engine engine--out">
+            <p class="engine__k"><span class="pill">Declined</span><span>No skill at this horizon</span></p>
+            <h3 class="engine__q">Will a leaders’ deal be struck on a single phone call?</h3>
+            <p class="engine__p">No forecast</p>
+            <p class="engine__reads">Nothing in the record forecasts this well this far out. It’s left out of the 41% and stated as a limit instead.</p>
+          </li>
+        </ol>
+        <p class="card__foot">Of the 140 policy questions we’ve put between 35% and 45%, 39% came true, so this forecast can be taken at face value.</p>
       </div>
-      <ol class="options" id="options-list"></ol>
     </section>
 
-    <!-- 5. Plans -->
-    <section class="sec" id="plans" aria-labelledby="plan-title">
+    <!-- 5. How it reaches Halvorsen -->
+    <section class="sec" id="reach" aria-labelledby="reach-title">
       <div class="sec__head">
-        <h2 class="sec__title" id="plan-title"><span aria-hidden="true">5</span>How Each Would Run</h2>
-        <p class="sec__note">Built from your teams’ free hours and this quarter’s calendar. Diamonds mark decision points. Your agents watch each tripwire and flag it the day it’s hit.</p>
+        <h2 class="sec__title" id="reach-title"><span aria-hidden="true">5</span>How It Would Reach Us</h2>
+        <p class="sec__note">None of our partners is sanctioned today. The risk runs through who they deal with: every chain below is two steps or fewer from an Iranian entity, traced through ownership registries, shipping records, and our own contracts.</p>
       </div>
-      <div class="planpick" role="tablist" aria-label="Choose a plan" id="plan-tabs"></div>
+      <div class="reach">
+        <div class="reach__head">
+          <p class="reach__k">Follow a path</p>
+          <div class="sw" role="group" aria-label="Follow a path" data-paths></div>
+        </div>
+        <div class="net" id="net">
+          <svg class="net__lines" aria-hidden="true"></svg>
+          <div class="net__col" data-col="0"><p class="net__h">Iranian links</p></div>
+          <div class="net__col" data-col="1"><p class="net__h">Who we deal with</p></div>
+          <div class="net__col" data-col="2"><p class="net__h">What we stand to lose</p></div>
+        </div>
+        <p class="net__sum" id="net-sum"></p>
+      </div>
+
+      <div class="apart">
+        <div class="apart__head">
+          <span class="pill pill--amber">Where our interests pull apart</span>
+          <h3 class="card__title">The Three Dubai Traders</h3>
+          <p class="card__note">They move 14% of MENA volume, some of it on to buyers we can’t see.</p>
+        </div>
+        <div class="apart__sides">
+          <div class="apart__side"><p class="apart__k">Staying clear of a breach</p><p>argues for pausing them now. If one is named before we act, a shipment already on the water is a breach.</p></div>
+          <div class="apart__side"><p class="apart__k">Keeping MENA growing</p><p>argues for keeping them until something is announced. Rivals would take them, and they’re hard to win back.</p></div>
+        </div>
+        <p class="apart__way"><b>Penumbra’s suggestion:</b> ask all three for end-use certificates now, which costs little, and pause only a trader that won’t sign or is named.</p>
+      </div>
+
+      <figure class="curve">
+        <figcaption class="curve__head">
+          <span class="card__title">How Bad It Could Get</span>
+          <span class="card__note">The chance that sanctions cost us more than each amount over the next year, across 4,000 simulated futures. Point at the chart to read it.</span>
+        </figcaption>
+        <div class="curve__plot" id="curve"></div>
+        <p class="curve__key"><span><i class="k k--wait"></i>If we wait</span><span><i class="k k--plan"></i>With Penumbra’s suggestions</span></p>
+      </figure>
+    </section>
+
+    <!-- 6. Responses -->
+    <section class="sec" id="respond" aria-labelledby="resp-title">
+      <div class="sec__head">
+        <h2 class="sec__title" id="resp-title"><span aria-hidden="true">6</span>What Holds Up in Every Path</h2>
+        <p class="sec__note">What each response is worth, net of its cost, in each of the four paths. Two of them pay off however things go, so they’re worth starting now. The others are worth having ready.</p>
+      </div>
+      <div class="grid-card">
+        <div class="tbl-wrap"><table class="rob" id="rob"></table></div>
+        <p class="card__foot">In $M over the next year. Re-sourcing resin pays for itself even with no sanctions, because it also covers the Hormuz exposure in this week’s brief.</p>
+      </div>
+
+      <h3 class="sub sub--gap">Penumbra’s Suggested Path</h3>
+      <ol class="stages">
+        <li class="stage"><p class="stage__k">Now, this month</p><h4 class="stage__t">Re-source Resin and Engage the Banks</h4><p>Qualify Singapore and Korean grades at Gebze, and open a second settlement account. $3.0M, and they protect $9.5M.</p></li>
+        <li class="stage"><p class="stage__k">At the first tripwire</p><h4 class="stage__t">Tighten Compliance</h4><p>If the Senate schedules a floor vote, the chance passes 55%, or a Gulf polymer maker is named: certify the traders and swap the two feeders.</p></li>
+        <li class="stage"><p class="stage__k">If a sweeping package passes</p><h4 class="stage__t">Run the Full Playbook</h4><p>Move 70% of Gebze’s resin off the Gulf, pause any trader that won’t certify, and move all Gebze payments to the new account.</p></li>
+      </ol>
+
+      <h3 class="sub sub--gap">How Each Would Run</h3>
+      <p class="sub__note">Built from your teams’ free hours and this quarter’s calendar. Diamonds mark decision points. Your agents watch each tripwire and flag it the day it’s hit.</p>
+      <div class="planpick" role="tablist" aria-label="Choose a response" id="plan-tabs"></div>
       <div class="plan" id="plan" role="tabpanel" tabindex="0"></div>
     </section>
 
-    <!-- 6. Related questions -->
-    <section class="sec" id="related" aria-labelledby="rel-title">
+    <!-- 7. Opportunities -->
+    <section class="sec" id="doors" aria-labelledby="doors-title">
       <div class="sec__head">
-        <h2 class="sec__title" id="rel-title"><span aria-hidden="true">6</span>You Might Also Ask</h2>
-        <p class="sec__note">Each opens the Totality engine.</p>
+        <h2 class="sec__title" id="doors-title"><span aria-hidden="true">7</span>Where It Opens Doors</h2>
+        <p class="sec__note">Sanctions would hurt our rivals too, and some of them more than us. Moving early could win us ground.</p>
       </div>
+      <ul class="doors">
+        <li class="door">
+          <h3 class="door__t">Win Share in Türkiye</h3>
+          <p>Two rivals buy most of their Turkish resin from the same Gulf suppliers we do, without a second source. If the first path comes, their lines would slow while ours run on Singapore resin.</p>
+          <dl class="door__nums"><div><dt>Chance</dt><dd>26%</dd></div><div><dt>Upside if it comes</dt><dd>$6.2M</dd></div></dl>
+        </li>
+        <li class="door">
+          <h3 class="door__t">Lock In Asian Resin First</h3>
+          <p>Once sanctions are announced, every Gulf buyer will chase the same Singapore and Korean capacity. Frame contracts signed this month would come at today’s prices.</p>
+          <dl class="door__nums"><div><dt>Chance</dt><dd>41%</dd></div><div><dt>Upside if it comes</dt><dd>$2.8M</dd></div></dl>
+        </li>
+        <li class="door">
+          <h3 class="door__t">Sell a Cleaner Supply Chain</h3>
+          <p>EU retailers are tightening supplier due diligence. A chain with no Iranian links, certified, is a point in our favor at next year’s tenders.</p>
+          <dl class="door__nums"><div><dt>Chance</dt><dd>60%</dd></div><div><dt>Upside if it comes</dt><dd>$1.5M</dd></div></dl>
+        </li>
+      </ul>
+    </section>
+
+    <!-- 8. What went into it -->
+    <section class="sec" id="resources" aria-labelledby="res-title">
+      <div class="sec__head">
+        <h2 class="sec__title" id="res-title"><span aria-hidden="true">8</span>What Went Into This Memo</h2>
+        <p class="sec__note">The models, sources, and agents behind the analysis. Any of them can be pointed at another question.</p>
+      </div>
+      <div class="res">
+        <div class="res__card">
+          <h3 class="card__title">Models</h3>
+          <ul class="res__list">
+            <li><b>The Totality engine</b><span>Splits the question, runs the three engines, and fuses their reads</span></li>
+            <li><b>Counterparty network</b><span>Traces ownership and dealings up to three steps from a sanctioned entity</span></li>
+            <li><b>Supply and contracts model</b><span>Turns a cut-off supplier or trader into lost output, sales, and penalties</span></li>
+            <li><b>Scenario simulator</b><span>Runs 4,000 futures across the four paths</span></li>
+          </ul>
+        </div>
+        <div class="res__card">
+          <h3 class="card__title">Public Sources</h3>
+          <ul class="res__tags">
+            <li>Treasury designation lists</li><li>Congressional record</li><li>Federal Register</li><li>Senate calendar</li>
+            <li>Ship tracking in the Gulf</li><li>Customs records</li><li>Corporate ownership registries</li><li>Officials’ statements</li>
+            <li>Expert forecasters</li><li>1,140 news reports and filings</li>
+          </ul>
+        </div>
+        <div class="res__card">
+          <h3 class="card__title">Your Data</h3>
+          <ul class="res__tags">
+            <li>ERP and purchase orders</li><li>Supplier contracts</li><li>Trader agreements</li><li>Bank and payment records</li>
+            <li>Vessel charters</li><li>Teams’ free hours</li><li>This quarter’s calendar</li>
+          </ul>
+        </div>
+        <div class="res__card">
+          <h3 class="card__title">Agents Watching It</h3>
+          <ul class="res__list res__list--agents">
+            <li><i style="--h:6">SW</i><b>Sanctions watch</b><span>Checks new designations every hour against our counterparties</span></li>
+            <li><i style="--h:32">RS</i><b>Resin supply</b><span>Follows Gulf and Asian resin allocations and prices</span></li>
+            <li><i style="--h:18">CS</i><b>Counterparty screening</b><span>Re-screens the Dubai traders and feeders each night</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 9. Take it further -->
+    <section class="sec" id="further" aria-labelledby="fur-title">
+      <div class="sec__head">
+        <h2 class="sec__title" id="fur-title"><span aria-hidden="true">9</span>Take It Further</h2>
+        <p class="sec__note">The memo is a starting point. Each of these opens the same analysis somewhere you can work with it.</p>
+      </div>
+      <ul class="further">
+        <li><a class="go" href="workbench.html"><b>Change the Assumptions</b><span>Open the model in the workbench and try your own chances, costs, and suppliers.</span></a></li>
+        <li><a class="go" href="agents.html"><b>Watch It With Agents</b><span>See the agents tracking this question, and what they’ve reported today.</span></a></li>
+        <li><a class="go" href="team.html"><b>Hand It to Your Teams</b><span>Send the plans to workflows, where each lead staffs their steps.</span></a></li>
+        <li><a class="go" href="ask.html?q=How%20should%20we%20respond%20to%20the%20potential%20of%20new%20sanctions%20by%20the%20Trump%20Administration%3F"><b>Ask a Follow-Up</b><span>Pick up the conversation where the CEO’s question left off.</span></a></li>
+      </ul>
+      <h3 class="sub sub--gap">You Might Also Ask</h3>
+      <p class="sub__note">Each opens the Totality engine.</p>
       <ul class="asks" id="asks"></ul>
     </section>
   </main>
