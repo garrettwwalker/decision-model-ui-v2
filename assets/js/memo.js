@@ -14,28 +14,28 @@
 
   // the four paths; loss is what each would cost us over a year, by interest (plants, clear, growth, freight, cash)
   var PATHS = [
-    { id: "a", name: "Slight Expansion", short: "Slight expansion", p: 26, sanctions: true,
+    { id: "a", name: "Treasury Extends Sanctions to Buyers", short: "Slight expansion", p: 26, sanctions: true,
       line: "Treasury extends secondary sanctions to foreign buyers of Iranian petrochemicals under the authority it already has, with a 30-day wind-down. Shipping and banks are mostly left alone.",
       signs: [["Treasury signals “maximum pressure” in three speeches", 1], ["A Gulf polymer maker is named in a designation", 0], ["The November 1 waivers lapse without renewal", 0]],
       unfold: [["Late October", "Treasury briefs allies on a rule for buyers"], ["November", "The rule is announced, and a 30-day wind-down starts"], ["December", "Our two Gulf suppliers must prove clean feedstock or lose buyers with US ties"], ["Early 2027", "Gulf resin prices rise 12 to 18%"]],
       loss: { plants: 22, clear: 8, growth: 14, freight: 0, cash: 0 },
       reach: "Two chains break: resin from the Gulf suppliers, and sales through the Dubai traders.",
       best: "Re-source resin now. In this path it’s the difference between paying more for resin and stopping a line." },
-    { id: "b", name: "Sweeping Package", short: "Sweeping package", p: 15, sanctions: true,
+    { id: "b", name: "Congress Passes a Sweeping Package", short: "Sweeping package", p: 15, sanctions: true,
       line: "The Senate bill clears committee, passes, and is signed, reaching the shipping, insurers, and banks that serve Iranian trade. The wind-down could be as short as two weeks.",
       signs: [["A sanctions bill is introduced in the Senate", 1], ["It clears the Banking Committee", 0], ["Leadership schedules a floor vote", 0]],
       unfold: [["November", "The bill clears committee, then a floor vote and signing"], ["November and December", "Banks drop clients with Iran exposure, and insurers withdraw cover"], ["December", "Gebze’s Turkish lender restricts dollar payments"], ["Early 2027", "Gulf freight and resin are both scarce"]],
       loss: { plants: 32, clear: 18, growth: 27, freight: 8, cash: 8 },
       reach: "Every chain breaks, including the feeders and Gebze’s payments.",
       best: "Everything in the suggested path, plus tightening compliance the week a floor vote is scheduled." },
-    { id: "c", name: "Status Quo", short: "Status quo", p: 38, sanctions: false,
+    { id: "c", name: "More Designations, No New Rules", short: "Status quo", p: 38, sanctions: false,
       line: "No new rules, but Treasury keeps naming ships, firms, and managers under today’s authority. The risk is being caught by association.",
       signs: [["Designations up threefold since August", 1], ["Ship-to-ship transfers off Fujairah rising", 1], ["No new rule by December 6", 0]],
       unfold: [["October to December", "Weekly designations stay above 20"], ["November", "The technical manager behind two of our feeders may be named"], ["Early 2027", "Screening counterparties becomes routine"]],
       loss: { plants: 0, clear: 0, growth: 0, freight: 0.8, cash: 0 },
       reach: "Only the feeder chain is at risk, through the technical manager we share with named tankers.",
       best: "Swap the two exposed feeders. It’s cheap and ends the only real exposure here." },
-    { id: "d", name: "Talks Restart", short: "Talks restart", p: 21, sanctions: false,
+    { id: "d", name: "Talks Restart and Pressure Eases", short: "Talks restart", p: 21, sanctions: false,
       line: "Muscat sets a second round, the waivers are renewed unchanged, and pressure eases into the new year.",
       signs: [["European partners push to keep talking", 1], ["Muscat sets a date for a second round", 0], ["The November 1 waivers are renewed unchanged", 0]],
       unfold: [["November", "A second round in Muscat"], ["December", "Designations fall back to summer levels"], ["Early 2027", "The risk returns if the talks stall again"]],
@@ -50,22 +50,26 @@
   // the four ways to respond, as expected values over a year at the 41% chance; Totality's view marks when to start
   var P = 0.41;
   var OPTIONS = [
-    { id: "resin", n: 1, title: "Re-source Resin Before Sanctions Arrive", view: "start now", pick: true,
+    { id: "resin", n: 1, title: "Re-source Resin", if: "If we re-source resin",
+      sub: "Qualify Singapore and Korean resin at Gebze, and move 40% of its supply off the Gulf by December.",
       line: "Qualify two Singapore grades and one Korean grade at Gebze, and move 40% of its volume off the Gulf by December. Builds on Tuesday’s Singapore bridge-buy.",
       cost: 2.6, protects: 24 * 0.8 * P,
       pros: ["Protects the most value", "Also cuts the Hormuz exposure in this week’s brief", "Qualification is reusable for any future supply shock"],
       cons: ["About $35/t more for at least two quarters", "Ties up Gebze’s QA team for 6 weeks", "Gulf suppliers may shrink our allocation"] },
-    { id: "engage", n: 2, title: "Engage Washington and the Banks", view: "start now", pick: true,
+    { id: "engage", n: 2, title: "Secure the Banks", if: "If we secure the banks",
+      sub: "Open a second account for Gebze’s payments, and ask Treasury for wind-down guidance.",
       line: "Through the trade association, ask Treasury for wind-down guidance. Pre-clear payment routes with two banks and open a second settlement account for Gebze.",
       cost: 0.4, protects: 4 * P,
       pros: ["Cheap, and may buy a longer wind-down", "Keeps Gebze’s payroll and supplier runs safe"],
       cons: ["The outcome is outside our control", "Visible lobbying on Iran carries some reputational risk", "Does nothing for resin"] },
-    { id: "tighten", n: 3, title: "Tighten Compliance Now", view: "start at the first tripwire",
+    { id: "tighten", n: 3, title: "Vet Our Partners", if: "If we vet our partners",
+      sub: "Re-screen MENA partners, have the Dubai traders certify end use, and swap two exposed feeders.",
       line: "Re-screen every MENA counterparty, ask the Dubai traders for end-use certificates, pause any that won’t sign, and swap the two exposed feeders.",
       cost: 3.5, costNote: "including $2.1M of margin given up", protects: 16 * P,
       pros: ["Removes nearly all penalty exposure", "Shows banks and auditors we moved early", "Cheap to reverse if no sanctions come"],
       cons: ["Gives up about $2.1M of margin a year even if nothing happens", "Strains the traders behind 14% of MENA volume; rivals may take them"] },
-    { id: "watch", n: 4, title: "Watch and Set Tripwires",
+    { id: "watch", n: 4, title: "Stay Ready", if: "If we stay ready",
+      sub: "Change nothing yet. Watch four signposts and keep exit letters drafted.",
       line: "Change nothing yet. Watch four signposts, and draft, but don’t send, the exit letters.",
       cost: 0.1, protects: 0,
       pros: ["Costs almost nothing and keeps every supplier and trader", "Nothing to unwind if the talks restart"],
@@ -186,7 +190,7 @@
     var b = Math.round(s * (0.3 + 0.066 * i / 12)), d = D13[i];
     return { b: b, a: s - b, c: 100 - s - d, d: d };
   });
-  var ORDER = ["d", "c", "b", "a"]; // bottom to top, so the bands read top down in the order of the tracks
+  var ORDER = ["a", "b", "c", "d"]; // bottom to top: the two sanctions scenarios at the foot, so their 41% reads as a height
   var DATES = ["Jul 13", "Jul 20", "Jul 27", "Aug 3", "Aug 10", "Aug 17", "Aug 24", "Aug 31", "Sep 7", "Sep 14", "Sep 21", "Sep 28", "this week"];
   var EVENT = 11 + 1 / 7; // September 29, a day after the Sep 28 point
   var mixHost = $("#mix"), mixAreas = {};
@@ -533,7 +537,7 @@
     var sc = BYP[path], loss = $("#atlas-loss");
     loss.innerHTML = "";
     var head = el("div", "atlas__losshead");
-    head.appendChild(el("dt", null, "What we stand to lose in this scenario"));
+    head.appendChild(el("dt", null, "At risk in this scenario"));
     var tot = lossOf(sc);
     head.appendChild(el("dd", "atlas__total" + (tot ? " red" : ""), tot ? DB.money(tot, tot % 1 ? 1 : 0) : "Nothing new"));
     loss.appendChild(head);
@@ -549,12 +553,9 @@
     side.innerHTML = "";
     var sc = BYP[path];
     if (!picked) {
-      side.appendChild(el("span", "pill" + (sc.sanctions ? " pill--red" : ""), sc.sanctions ? "New sanctions" : "No new sanctions"));
       side.appendChild(el("h3", "atlas__t", sc.name));
       side.appendChild(el("p", "atlas__p", sc.p + "% chance"));
       side.appendChild(el("p", "atlas__about", sc.reach));
-      var n = LINKS.filter(function (l) { return cut(l); }).length;
-      side.appendChild(el("p", "atlas__hint", n ? n + " of our links would be cut. Select any place on the map for its details." : "Select any place on the map for its details."));
       return;
     }
     var p = PL[picked], hit = LINKS.some(function (l) { return cut(l) && (l.a === p.id || l.b === p.id); });
@@ -601,21 +602,9 @@
     c.tabIndex = 0; c.setAttribute("role", "button"); c.setAttribute("aria-controls", "plan");
     var head = el("div", "option__head");
     head.appendChild(el("span", "option__n", String(o.n)));
-    if (o.view) head.appendChild(el("span", "pill" + (o.pick ? " pill--red" : ""), "Totality’s view: " + o.view));
+    head.appendChild(el("h3", "option__title", o.title));
     c.appendChild(head);
-    c.appendChild(el("h3", "option__title", o.title));
-    var nums = el("dl", "option__nums");
-    function num(label, val, cls, sub) {
-      var d = el("div"); d.appendChild(el("dt", null, label));
-      var dd = el("dd", cls || null, val);
-      if (sub) dd.appendChild(el("small", null, sub));
-      d.appendChild(dd); nums.appendChild(d);
-    }
-    var net = o.protects - o.cost;
-    num("Costs", DB.money(o.cost), null, o.costNote);
-    num("Protects", o.protects ? DB.money(o.protects) : "$0");
-    num("Net", (net < 0 ? "−" : "") + DB.money(Math.abs(net)), net < 0 ? "red" : null);
-    c.appendChild(nums);
+    c.appendChild(el("p", "option__sub", o.sub));
     function go() { if (shown !== o.id) { shown = o.id; paintCards(); showPlan(o.id, true); drawRivals(true); } }
     c.addEventListener("click", go);
     c.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } });
@@ -626,25 +615,25 @@
   var RIVALS = [
     { name: "Ostra Home", base: "Turkish white goods, plants in Manisa", exp: "High exposure", cls: " pill--red",
       facts: [["Resin from the Gulf", "70%"],["Share of MENA sales", "18%"]],
-      hit: "No second resin source. A rule on buyers would slow its lines within weeks.",
+      hit: "No second resin source. A rule on buyers would slow Ostra’s lines within weeks.",
       meets: { resin: "We’d both chase Singapore and Korean grades. Ours qualify by mid-November and Ostra hasn’t started, so frame contracts this month keep that capacity ours.",
         engage: "Little overlap. Ostra banks with state lenders that have no Iran history.",
-        tighten: "If we pause a Dubai trader, Ostra is the likeliest to pick up its volume.",
+        tighten: "If we pause a Dubai trader, Ostra is the likeliest to pick up that trader’s volume.",
         watch: "Waiting puts us in the same queue as Ostra for Asian resin once sanctions land." } },
     { name: "Brenmar Group", base: "European, plants in Poland and Egypt", exp: "Low exposure", cls: "",
       facts: [["Resin from the Gulf", "15%"], ["Share of MENA sales", "22%"]],
-      hit: "Buys most of its resin in Europe, so it would gain from any rival that stalls.",
+      hit: "Brenmar buys most of its resin in Europe and would gain from any rival that stalls.",
       meets: { resin: "Brenmar buys Korean resin too, so that grade could tighten. Singapore is the safer first source.",
-        engage: "Its trade association is already lobbying Treasury. A joint letter with ours would carry more weight.",
-        tighten: "Brenmar already certifies its traders, so customers asking for clean supply chains will compare us to it.",
+        engage: "Brenmar’s trade association is already lobbying Treasury. A joint letter with ours would carry more weight.",
+        tighten: "Brenmar already certifies its traders, so customers asking for clean supply chains will compare us with Brenmar.",
         watch: "Brenmar is the one that wins if we’re caught short." } },
     { name: "Saffron Electric", base: "Gulf assembler at Jebel Ali", exp: "High exposure", cls: " pill--red",
       facts: [["Resin from the Gulf", "90%"], ["Share of MENA sales", "9%"]],
-      hit: "Buys from the same three Dubai traders and hires two of the same feeders.",
-      meets: { resin: "Saffron takes resin from the same Mesaieed plant. If that plant is shut out, it will bid for our Gulf allocation, so move first.",
+      hit: "Saffron buys from the same three Dubai traders and hires two of the same feeders.",
+      meets: { resin: "Saffron takes resin from the same Mesaieed plant. If that plant is shut out, Saffron will bid for our Gulf allocation, so we should move first.",
         engage: "No overlap. Saffron banks in Dubai.",
         tighten: "Two of its feeders share our technical manager. If we swap ours first, we get the better replacement slots.",
-        watch: "Saffron shares our exposure with no plan. Its trouble could pull the traders down with it." } }
+        watch: "Saffron shares our exposure with no plan, and trouble there could drag the traders down too." } }
   ];
   var rivalsEl = $("#rivals");
   function drawRivals(user) {
@@ -662,7 +651,7 @@
       li.appendChild(dl);
       li.appendChild(el("p", "rival__hit", rv.hit));
       var m = el("div", "rival__meets" + (user && !REDUCE ? " is-swap" : ""));
-      m.appendChild(el("b", null, "Where it meets option " + o.n));
+      m.appendChild(el("b", null, o.if));
       m.appendChild(el("p", null, rv.meets[o.id]));
       li.appendChild(m);
       rivalsEl.appendChild(li);
@@ -670,6 +659,7 @@
   }
 
   function paintCards() {
+    olist.classList.add("has-pick"); // one is always chosen, so the others step back
     OPTIONS.forEach(function (o) {
       var on = o.id === shown;
       cardEls[o.id].classList.toggle("is-on", on);
@@ -687,9 +677,6 @@
 
     var top = el("div", "plan__top");
     var tl = el("div", "plan__head");
-    var k = el("p", "plan__k"); k.appendChild(el("span", null, "Option " + o.n));
-    if (o.view) k.appendChild(el("span", "pill" + (o.pick ? " pill--red" : ""), "Totality’s view: " + o.view));
-    tl.appendChild(k);
     tl.appendChild(el("h3", "plan__t", o.title));
     tl.appendChild(el("p", "plan__line", o.line));
     top.appendChild(tl);
@@ -712,7 +699,7 @@
 
     // for and against, side by side
     var pc = el("div", "plan__pc");
-    [["For", o.pros, "pro"], ["Against", o.cons, "con"]].forEach(function (gp) {
+    [["Arguments for", o.pros, "pro"], ["Arguments against", o.cons, "con"]].forEach(function (gp) {
       var col = el("div");
       col.appendChild(el("p", "option__pclabel", gp[0]));
       var ul = el("ul", "option__list option__list--" + gp[2]);

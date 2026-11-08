@@ -97,9 +97,9 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   imposed", "Protected by Penumbra's suggestions" $9.5M "at a cost of $3.0M"). 2 Key Stakeholders ("The players whose choices set the odds."; pills Pushing the odds up, Neutral, Pulling the odds
   down): the Office of Foreign Assets Control, the Senate Banking Committee (watch for the bill clearing committee and draft text from Senator Warren's office) (the bill introduced August 3, in committee
   with 34 co-sponsors: keep the drivers, trend, scenarios, and signposts consistent with that), the National Security
-  Council, Tehran, and European partners (the user wanted named offices and agencies, not "the Senate" or "the White House"). 3 Four Ways This Could Go: `PATHS`
+  Council, Tehran, and European partners (the user wanted named offices and agencies, not "the Senate" or "the White House"). 3 Four Ways Sanctions Policy Could Evolve (scenario cards titled descriptively, e.g. "Treasury Extends Sanctions to Buyers", the tracks keep the short names): `PATHS`
   (slight expansion 26%, sweeping package 15%, status quo 38%, talks restart 21%; no sanctions pills on the panel), a stacked chart ("How Probabilities Have
-  Changed") of their weekly shares, the bands top down in the tracks' order, tooltip swatches matching the bands and the chosen scenario's first signs (pills Observed and Pending), a timeline of how it would unfold (dots joined by a line), cost to
+  Changed") of their weekly shares, the two sanctions scenarios at the foot, tooltip swatches matching the bands and the chosen scenario's first signs (pills Observed and Pending), a timeline of how it would unfold (dots joined by a line), cost to
   us, and best response; the choice carries onto the map. 4 Why We Think So: the waterfall, three trendlines (Iran-linked
   OFAC designations, senators cosponsoring the bill, Brent), and Key Assumptions ("The model's outputs depend heavily on
   these assumptions. We've added them to this week's watchlist."; statuses Holding, amber Under strain, Uncertain).
@@ -108,14 +108,15 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   (a layer, off by default, that widens the view to East Asia), joined by sea lanes drawn through waypoints; the scenario's
   cut links pulse red; views slide between the region and the Gulf (the Gulf box zooms in too, and markers keep their
   screen size); selecting a place lights its links and opens its details, its status in the scenario, and its links;
-  beneath, what we stand to lose in the scenario by interest. (A three-column network, the Dubai traders tile, and a loss
-  curve were removed.) 6 Our Options: four short cards (number, Totality's view, title, costs, protects, net) so they share a
-  screen with the panel beneath; the selected card lifts and fills that panel, the full control panel for the option: its
-  description, costs and benefits beside lead, first move, and team hours, for and against side by side, the implementation
+  beside the map, under the side panel (the scenario's descriptive title, chance, and reach; no sanctions pills or link-count hint), what's at risk in the scenario, the total and each interest. (A three-column network, the Dubai traders tile, and a loss
+  curve were removed.) 6 Our Options: four short cards (number, a short punchy title, one plain line: Re-source Resin, Secure the
+  Banks, Vet Our Partners, Stay Ready; no economics or Totality's-view pills) so they share a screen with the panel beneath;
+  the selected card lifts, the others fade to 50% (as on the agents page), and it fills that panel, the full control panel for the option: its
+  description, costs and benefits beside lead, first move, and team hours, "Arguments for" and "Arguments against" side by side, the implementation
   timeline (`PLANS`, Gantt), tripwires, and "Send to workflows" (the for and against on the cards took too much room; a "How
   Each Would Run" heading, card hints, a values-by-scenario table, a suggested-path strip, and plan tabs were removed);
   then How Rivals Are Positioned (`RIVALS`: three fictional competitors, each with its exposure pill, Gulf resin share,
-  MENA share, and a cream "Where it meets option N" panel that follows the selected card; it replaced "Where It Opens
+  MENA share, and a cream panel headed by the selected response ("If we re-source resin"; never "option N" or a bare "it") that follows the selected card; it replaced "Where It Opens
   Doors"). 7 Signposts to
   Watch: `POSTS` with readings, gauges, effects, a ticking "Checked N min ago", and a bell for each alert (`daybreak.memo.alerts`;
   outlined when off, filled on ink and rung once when on, no toast; text buttons were disliked). 8 Known Unknowns: "What We Don't Know", a card per gap with a small meter of what we can see and "What would tell us"; then "Unlikely, but High Impact", a card per wildcard with its chance and "What we'd do" (two plain list cards were disliked). 9 You Might Also Ask ("Each query opens the

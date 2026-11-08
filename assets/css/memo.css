@@ -229,17 +229,19 @@
 .atlas__linked li { display: flex; flex-wrap: wrap; align-items: center; gap: 0.2rem 0.6rem; font-size: 0.78rem; color: var(--ink-3); }
 .atlas__linked .btn-q { min-height: 30px; padding: 0.2rem 0.75rem; background: #fff; }
 .atlas__back { margin-top: 0.3rem; padding: 0; border: 0; background: none; font: inherit; font-size: 0.8rem; font-weight: 700; color: var(--ink-2); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
-/* what we stand to lose in the scenario, under the map */
-.atlas__loss { display: grid; grid-template-columns: minmax(0, 1.3fr) repeat(5, minmax(0, 1fr)); gap: 0.75rem; margin: 1.1rem 0 0; padding-top: 1rem; border-top: 1px solid var(--line); }
-.atlas__loss div { display: grid; align-content: start; gap: 0.15rem; }
-.atlas__loss dt { font-size: 0.76rem; font-weight: 600; color: var(--ink-3); }
-.atlas__loss dd { margin: 0; font-family: var(--display); font-size: 1.35rem; color: var(--ink-3); font-variant-numeric: lining-nums tabular-nums; }
+/* what's at risk in the scenario, under the side panel: the total, then each interest */
+.atlas__col { display: grid; align-content: start; gap: 0.9rem; min-width: 0; }
+.atlas__loss { display: grid; margin: 0; padding: 0 0.3rem; }
+.atlas__loss div { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding: 0.45rem 0; }
+.atlas__loss div + div { border-top: 1px solid var(--line); }
+.atlas__loss dt { font-size: 0.8rem; font-weight: 600; color: var(--ink-3); }
+.atlas__loss dd { margin: 0; font-family: var(--display); font-size: 1.15rem; color: var(--ink-3); font-variant-numeric: lining-nums tabular-nums; }
+.atlas__loss .is-on dt { color: var(--ink-2); }
 .atlas__loss .is-on dd { color: var(--ink); }
-.atlas__losshead dt { color: var(--ink); font-weight: 700; }
-.atlas__total { font-size: 1.9rem !important; color: var(--ink) !important; }
+.atlas__losshead { padding-bottom: 0.6rem !important; }
+.atlas__losshead dt { color: var(--ink) !important; font-weight: 700; }
+.atlas__total { font-size: 1.7rem !important; color: var(--ink) !important; }
 .atlas__total.red { color: var(--accent-ink) !important; }
-@media (max-width: 980px) { .atlas__loss { grid-template-columns: repeat(3, minmax(0, 1fr)); } .atlas__losshead { grid-column: 1 / -1; } }
-@media (max-width: 480px) { .atlas__loss { grid-template-columns: repeat(2, minmax(0, 1fr)); } .atlas__lines { margin-left: 0; } }
 
 /* ---------- 6. our options: four white cards; the selected one lifts and sets the plan below ---------- */
 .options { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; align-items: stretch; margin: 0 0 1.1rem; padding: 0; list-style: none; }
@@ -250,17 +252,15 @@
 .option:focus { outline: none; }
 .option:focus-visible { box-shadow: var(--shadow-up), 0 0 0 2px var(--accent); }
 .option.is-on { box-shadow: var(--shadow-up); transform: translateY(-5px); }
-.option__head { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.6rem; }
-.option__head .pill { min-width: 0; white-space: normal; line-height: 1.3; padding-block: 0.25rem; text-align: left; }
+.option__head { display: flex; align-items: center; gap: 0.7rem; }
+.option__sub { margin: 0; font-size: 0.84rem; line-height: 1.45; color: var(--ink-2); }
+.option > * { transition: opacity 0.25s ease; }
+.options.has-pick .option:not(.is-on) > * { opacity: 0.5; }
+.options.has-pick .option:not(.is-on):hover > * { opacity: 1; }
 .option.is-on { cursor: default; }
 .option__n { flex: none; display: grid; place-items: center; width: 2.2rem; height: 2.2rem; border-radius: 50%; font-family: var(--display); font-size: 1.15rem; color: #fff; background: var(--ink); transition: background-color 0.25s ease; }
 .option.is-on .option__n { background: var(--accent); }
-.option__title { margin: 0; font-family: var(--display); font-weight: 400; font-size: 1.2rem; line-height: 1.2; }
-.option__nums { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.5rem; margin: auto 0 0; padding: 0.6rem 0 0; border-top: 1px solid var(--line); }
-.option__nums div { display: grid; align-content: start; gap: 0.1rem; }
-.option__nums dt { font-size: 0.74rem; font-weight: 600; color: var(--ink-3); }
-.option__nums dd { margin: 0; font-family: var(--display); font-size: 1.2rem; letter-spacing: -0.01em; font-variant-numeric: lining-nums tabular-nums; }
-.option__nums small { display: none; font-family: var(--font); font-size: 0.66rem; line-height: 1.25; color: var(--ink-3); }
+.option__title { margin: 0; font-family: var(--display); font-weight: 400; font-size: 1.3rem; line-height: 1.15; }
 .option__pclabel { margin: 0 0 0.3rem; font-size: 0.76rem; font-weight: 700; }
 .option__list { display: grid; gap: 0.35rem; margin: 0; padding: 0; list-style: none; font-size: 0.82rem; line-height: 1.45; color: var(--ink-2); }
 .option__list li { position: relative; padding-left: 1.1rem; }
