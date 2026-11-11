@@ -167,7 +167,9 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   Gebze strike 16% with the union vote on October 20, feeder sanctions 15%). Day 0 is Tue Oct 6, 07:10. State is per
   manager (`S[pid]`); everything re-renders from it. The brief's "See the team's part" opens
   `team.html?directive=bridge|divert|cover`, which picks out that directive in the plan. On first view only the filled
-  part of each bar grows; its track is there from the start (the user's call).
+  part of each bar grows; its track is there from the start (the user's call). Kept flat (the user disliked tiles in tiles in tiles): one white card per
+  piece with hairlines inside, decision options as columns split by hairlines with a red radio mark on the one being
+  weighed, the task card and playbook split by a vertical hairline, people as chips; the bottom line's is the only cream panel.
 - `workbench.html` + `assets/js/bench.js` follows one decision through six stages, with a sticky "thread" strip
   showing each stage's live result: 1 Forecast (each event's sub-questions per engine, declined part, fused
   probability ±band, override), 2 Contingencies (the `events` data: include, severity, assets hit first),
