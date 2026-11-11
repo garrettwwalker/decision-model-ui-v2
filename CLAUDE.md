@@ -256,8 +256,9 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   `html.rv`, and the page styles `.rv ... :not(.is-in)`: lines draw (pathLength 1), bars grow from their axis, charts that
   redraw on every change wipe in with clip-path (the report keeps its own copy, `html.rs-anim`). Headline figures count, as the report's lab figures do
   (2026-11-10, reveal.js): `CountIn(sel)` counts a page's top odds and money up from zero on first view (brief, memo, at a glance, workflows),
-  and `CountFrom(el, oldText)` counts a redrawn figure from its old value when the units match (the memo's scenario chance and
-  cost, the map's total at risk, the option panel's figures). Kept to those, at the user's request not to overdo it. Its rules: cream ground, white cards on a soft shadow, serif
+  and `CountFrom(el, oldText)` counts a redrawn figure up from zero whenever its value changes (the memo's scenario chance and
+  cost, the map's total at risk, the option panel's figures; workflows' bottom-line figures when the manager or plan changes; counting
+  from the old value, e.g. $3.3M to $3.2M, barely moved, so the user asked for zero everywhere, 2026-11-11). Kept to those, at the user's request not to overdo it. Its rules: cream ground, white cards on a soft shadow, serif
   titles in title case with no period, one tomato red (money at risk is red; protected neutral ink), amber for a
   problem, no green, gold or blue, no outline rings (a lit or chosen card lifts), no status dots or glows; a faded card carries no color (its pills and colored figures go gray with its text, coming back under the pointer: agents, brief, at a glance, report). agents.css
   keeps its own copy (body `ag-page`) and is the reference; the daily brief, at a glance, the report, the tree, the sample memo, workflows and ask use house.css; the other existing

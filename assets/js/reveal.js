@@ -17,7 +17,8 @@ window.Reveal = function (sel, threshold) {
 
 /* Figures count to their value, as the Red Sea report's lab figures do (house style, 2026-11-10). Count(el, from) runs the
    first number in el's text (keeping its prefix, suffix, decimals, and thousands commas) from `from` to the value it shows
-   now; CountIn(".a, .b") counts each match up from zero the first time it scrolls into view. Kept to headline figures:
+   now; CountIn(".a, .b") counts each match up from zero the first time it scrolls into view, and CountFrom(el, oldText)
+   counts a redrawn figure up from zero when its value changed. Kept to headline figures:
    a page's top odds and money, and figures that change when a scenario or option is chosen. Off under reduced motion. */
 (function () {
   var REDUCE = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -48,15 +49,11 @@ window.Reveal = function (sel, threshold) {
     var n = el && textNode(el); if (!n) return null;
     return parseFloat(n.nodeValue.match(NUM)[0].replace(/,/g, ""));
   };
-  // count from what an element showed before a redraw (its old text), when the units match: "$2.6M" to "$3.5M" counts,
-  // "$400k" to "$2.6M" or "Nothing new" to "$44M" just changes
+  // a redrawn figure whose value changed counts up to it from zero, as it did when it first came into view (the user found
+  // counting from the old value, e.g. $3.3M to $3.2M, barely moved); prev is the text it showed before the redraw
   window.CountFrom = function (el, prev) {
-    var n = el && textNode(el); if (!n || prev == null) return;
-    var m = prev.match(NUM); if (!m) return;
-    var from = parseFloat(m[0].replace(/,/g, "")), to = parseFloat(n.nodeValue.match(NUM)[0].replace(/,/g, ""));
-    // a zero reads "$0", so it counts with "$0.8M" or "$44M" even though the units are written differently
-    if (prev.replace(NUM, "#") !== n.nodeValue.replace(NUM, "#") && from !== 0 && to !== 0) return;
-    Count(el, from);
+    var n = el && textNode(el); if (!n || prev == null || prev === n.nodeValue) return;
+    Count(el, 0);
   };
   window.CountIn = function (sel) {
     var els = [].slice.call(document.querySelectorAll(sel));
@@ -71,7 +68,7 @@ window.Reveal = function (sel, threshold) {
       es.forEach(function (e) {
         if (!e.isIntersecting) return;
         io.unobserve(e.target);
-        var n = textNode(e.target); if (n && e.target._src) { n.nodeValue = e.target._src; Count(e.target, 0, 900); }
+        var n = textNode(e.target); if (n && e.target._src) { n.nodeValue = e.target._src; e.target._src = null; Count(e.target, 0, 900); }
       });
     }, { threshold: 0.5 });
     els.forEach(function (el) { io.observe(el); });
