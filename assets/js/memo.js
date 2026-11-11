@@ -320,7 +320,7 @@
      a place lights its links and opens its details beside the map. */
   var MAPX = function (lon) { return (lon - 24) * 9.06; }, MAPY = function (lat) { return (46 - lat) * 10; };
   // the region crops to Türkiye, the Gulf, and India; it widens to reach East Asia when the re-sourcing routes are shown
-  var VIEWS = { region: [10, 20, 600, 300], wide: [0, 0, 1000, 500], gulf: [214, 176, 92, 46] };
+  var VIEWS = { region: [-8, 14, 600, 300], wide: [0, 0, 1000, 500], gulf: [214, 176, 92, 46] };
   var GULF = { x0: 214, y0: 172, x1: 306, y1: 227 };
   var PLACES = [
     { id: "gebze", kind: "site", name: "Gebze plant", place: "Gebze, Türkiye", lon: 29.43, lat: 40.8, side: "r", interest: "plants",
@@ -329,16 +329,16 @@
     { id: "pune", kind: "site", name: "Pune plant", place: "Pune, India", lon: 73.86, lat: 18.52, side: "r", interest: "plants",
       about: "Builds fridges and air conditioners on HDPE resin shipped from Mesaieed.",
       facts: [["Resin on hand", "8 days"]] },
-    { id: "hub", kind: "site", name: "Dubai distribution center", place: "Jebel Ali, UAE", lon: 55.06, lat: 24.99, side: "b", interest: "growth",
+    { id: "hub", kind: "site", name: "Dubai distribution center", place: "Jebel Ali, UAE", lon: 55.06, lat: 24.99, side: "l", interest: "growth",
       about: "Serves the Gulf states, and sells through three Dubai traders who resell across the region.",
       facts: [["Share of group revenue", "11%"], ["Sold through the traders", "14% of MENA volume"]] },
-    { id: "feeders", kind: "site", name: "Two chartered feeders", place: "Jebel Ali to Khor Fakkan", lon: 54.3, lat: 25.75, side: "l", interest: "freight",
+    { id: "feeders", kind: "site", name: "Two chartered feeders", place: "Jebel Ali to Khor Fakkan", lon: 54.2, lat: 25.95, side: "l", interest: "freight",
       about: "Shuttle our containers around the Gulf. The feeders’ technical manager also runs tankers named in September.",
       facts: [["Containers a week", "About 1,100"]] },
     { id: "jubail", kind: "partner", name: "Resin supplier", place: "Jubail, Saudi Arabia", lon: 49.66, lat: 27.01, side: "r",
       about: "Supplies PP resin to Gebze. Takes feedstock from an Iranian joint venture.",
       facts: [["Share of Gebze’s resin", "22%"], ["Contract runs to", "June 2027"]] },
-    { id: "mesaieed", kind: "partner", name: "Resin supplier", place: "Mesaieed, Qatar", lon: 51.55, lat: 24.99, side: "r",
+    { id: "mesaieed", kind: "partner", name: "Resin supplier", place: "Mesaieed, Qatar", lon: 51.55, lat: 24.99, side: "b",
       about: "Supplies PP resin to Gebze and HDPE to Pune. Also takes feedstock from the joint venture.",
       facts: [["Share of Gebze’s resin", "16%"], ["Share of Pune’s resin", "45%"]] },
     { id: "traders", kind: "partner", name: "Three Dubai traders", place: "Deira, Dubai", lon: 55.33, lat: 25.27, side: "t",
@@ -418,6 +418,17 @@
     var mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2, dx = b.x - a.x, dy = b.y - a.y, k = l.bow || 0.2;
     return "M" + a.x + " " + a.y + " Q" + (mx - dy * k).toFixed(1) + " " + (my + dx * k).toFixed(1) + " " + b.x + " " + b.y;
   }
+  var measure = document.createElement("canvas").getContext("2d"), tags = [];
+  function sizeTags() {
+    tags.forEach(function (t) {
+      var tw = labelWidth(t[1]), off = t[2], x = off[2] === "start" ? off[0] - 5 : off[2] === "end" ? off[0] - tw - 5 : off[0] - tw / 2 - 5;
+      t[0].setAttribute("x", x.toFixed(1)); t[0].setAttribute("width", (tw + 10).toFixed(1));
+    });
+  }
+  function labelWidth(text) {
+    measure.font = "600 11px " + (getComputedStyle(document.body).getPropertyValue("--font").trim() || "Switzer, sans-serif");
+    return measure.measureText(text).width;
+  }
   function buildMap() {
     var M = window.BENCH_MAP || {};
     map.appendChild(svg("rect", { x: -50, y: -50, width: 1100, height: 600, class: "atlas__sea" }));
@@ -454,6 +465,10 @@
       if (p.kind === "partner") inner.appendChild(svg("rect", { x: -5, y: -5, width: 10, height: 10, rx: 2.5, class: "mkg__dot" }));
       else inner.appendChild(svg("circle", { r: p.kind === "site" ? 6 : 5, class: "mkg__dot" }));
       var off = { r: [10, 4, "start"], l: [-10, 4, "end"], t: [0, -10, "middle"], b: [0, 17, "middle"] }[p.side];
+      // each name sits on a small white tag with a soft shadow, as the house's cards do (plain ink read as flat, and a
+      // beige halo round the letters was disliked); the tag is sized from the measured name
+      var tag = svg("rect", { y: off[1] - 11.5, height: 16, rx: 5, class: "mkg__tag" });
+      inner.appendChild(tag); tags.push([tag, p.name, off]);
       var t = svg("text", { x: off[0], y: off[1], "text-anchor": off[2], class: "mkg__lab" });
       t.textContent = p.name; inner.appendChild(t);
       g.appendChild(inner);
@@ -629,6 +644,8 @@
     side.appendChild(back);
   }
   buildMap();
+  sizeTags();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(sizeTags); // measured again in the real face
   paintAtlas();
   drawSide();
 
