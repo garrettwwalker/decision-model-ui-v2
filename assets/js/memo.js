@@ -632,12 +632,10 @@
   paintAtlas();
   drawSide();
 
-  // the map's entrance, the first time it scrolls into view: places pop in (Iranian links, then partners, then our sites),
-  // then each link draws itself from its source. Strokes don't scale with the zoom, so dashes are set in screen pixels.
+  // the map's entrance, the first time it scrolls into view: every place pops in at once, then each link draws itself
+  // from its source. Strokes don't scale with the zoom, so dashes are set in screen pixels.
   (function () {
     if (REDUCE || !window.IntersectionObserver) return;
-    var ORDER_K = { iran: 0, partner: 1, site: 2, alt: 3 };
-    PLACES.forEach(function (p, i) { markEls[p.id].inner.style.setProperty("--d", (ORDER_K[p.kind] * 0.15 + (i % 4) * 0.04).toFixed(2) + "s"); });
     atlas.classList.add("is-waiting");
     var io = new IntersectionObserver(function (es) {
       if (!es[0].isIntersecting) return;

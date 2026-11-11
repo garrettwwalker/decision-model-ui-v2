@@ -106,7 +106,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   5 How We're at Risk: an interactive map (`PLACES`, `LINKS` in memo.js; land from bench-map.js, the region at 1:50m with
   the Gulf at 1:10m laid over it in the same projection): our sites, partners, Iranian links, and re-sourcing options
   (a layer, off by default, that widens the view to East Asia), joined by sea lanes drawn through waypoints; the scenario's
-  cut links pulse red; on first view the places pop in by kind and each link draws itself from its source; views slide between the region and the Gulf (the Gulf box zooms in too, and markers keep their
+  cut links pulse red; on first view the places pop in together and each link draws itself from its source; views slide between the region and the Gulf (the Gulf box zooms in too, and markers keep their
   screen size); selecting a place lights its links and opens its details, its status in the scenario, and its links;
   beside the map (labels plain ink, no halo: the user disliked a beige outline round black text), under the side panel (it crossfades and eases to its new height when the scenario or selection changes; figures in $M so every scenario counts into the next, a zero reads $0) (the scenario's descriptive title, chance, and reach; no sanctions pills or link-count hint), what's at risk in the scenario, the total and each interest. (A three-column network, the Dubai traders tile, and a loss
   curve were removed.) 6 Our Options: four short cards (number, a short punchy title, one plain line: Re-source Resin, Secure the
