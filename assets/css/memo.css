@@ -502,6 +502,10 @@
 .rv .memo-page .mix:not(.is-in) .mix__plot svg { clip-path: inset(0 100% 0 0); }
 .rv .memo-page .post__gauge i { transition: transform 0.9s cubic-bezier(0.3, 0.7, 0.2, 1); }
 .rv .memo-page .posts:not(.is-in) .post__gauge i { transform: scaleX(0); }
+/* the known unknowns' bars grow from their start, the re-sourcing bar a beat after the drafts */
+.rv .memo-page .gap__bar i, .rv .memo-page .gap__bar u { transform-origin: left center; transition: transform 0.9s cubic-bezier(0.3, 0.7, 0.2, 1); }
+.rv .memo-page .gap__row + .gap__row .gap__bar u { transition-delay: 0.25s; }
+.rv .memo-page .gaps:not(.is-in) .gap__bar i, .rv .memo-page .gaps:not(.is-in) .gap__bar u { transform: scaleX(0); }
 .rv .memo-page .fall i::after { transition: transform 0.7s cubic-bezier(0.3, 0.7, 0.2, 1); }
 .rv .memo-page .fall:not(.is-in) i::after { transform: scaleX(0); }
 .rv .memo-page .fall li:nth-child(3) i::after { transition-delay: 0.12s; }

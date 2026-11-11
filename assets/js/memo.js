@@ -914,5 +914,5 @@
   });
 
   // figures make their entrance the first time they scroll into view
-  Reveal(".mix, .fall, .trend, .posts, #plan");
+  Reveal(".mix, .fall, .trend, .posts, .gaps, #plan");
 })();
