@@ -486,6 +486,8 @@
 .gap__axis span:last-child { transform: translateX(-100%); }
 .gap__scale { display: flex; justify-content: space-between; gap: 1rem; font-size: 0.74rem; color: var(--ink-3); }
 .gap__scale b { color: var(--ink); }
+.gap__meter--red .gap__bar i { background: var(--accent); }
+.gap__meter--red .gap__scale b { color: var(--accent-ink); }
 .gap__close { width: 100%; margin-top: auto !important; padding: 0.7rem 0.85rem; border-radius: var(--r-sm); background: var(--mist); font-size: 0.82rem !important; }
 .gap__close b { display: block; margin-bottom: 0.1rem; font-size: 0.76rem; color: var(--ink); }
 .wildc__p { font-family: var(--display); font-size: 2.4rem !important; line-height: 1 !important; color: var(--accent-ink) !important; font-variant-numeric: lining-nums tabular-nums; }
