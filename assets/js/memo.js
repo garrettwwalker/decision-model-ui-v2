@@ -265,6 +265,7 @@
   /* ---------- the chosen path: what it is, its first signs, how it would unfold, what it costs us ---------- */
   var pathEl = $("#path");
   function drawPath() {
+    var was = [$(".path__p", pathEl), $(".path__v", pathEl)].map(function (e) { return e ? e.textContent : null; });
     var p = BYP[path], total = lossOf(p);
     pathEl.innerHTML = "";
     var head = el("div", "path__head");
@@ -309,6 +310,7 @@
     foot.appendChild(best);
     pathEl.appendChild(foot);
     if (!REDUCE) { pathEl.classList.remove("is-swap"); void pathEl.offsetWidth; pathEl.classList.add("is-swap"); }
+    CountFrom($(".path__p", pathEl), was[0]); CountFrom($(".path__v", pathEl), was[1]); // the chance and the cost count to the new scenario's
   }
 
   /* ---------- how we're at risk: a map of our sites, partners, and their Iranian links ----------
@@ -539,12 +541,15 @@
       m.classList.toggle("is-dim", !!focus && !near[p.id]);
     });
     var sc = BYP[path], loss = $("#atlas-loss");
+    var wasTot = $(".atlas__total", loss), wasText = wasTot && wasTot.textContent;
     loss.innerHTML = "";
     var head = el("div", "atlas__losshead");
     head.appendChild(el("dt", null, "At risk in this scenario"));
     var tot = lossOf(sc);
-    head.appendChild(el("dd", "atlas__total" + (tot ? " red" : ""), tot ? DB.money(tot, tot % 1 ? 1 : 0) : "Nothing new"));
+    var totEl = el("dd", "atlas__total" + (tot ? " red" : ""), tot ? DB.money(tot, tot % 1 ? 1 : 0) : "Nothing new");
+    head.appendChild(totEl);
     loss.appendChild(head);
+    CountFrom(totEl, wasText); // the total counts to the new scenario's
     ["plants", "clear", "growth", "freight", "cash"].forEach(function (k) {
       var v = sc.loss[k], d = el("div", v ? "is-on" : null);
       d.appendChild(el("dt", null, INTEREST[k]));
@@ -698,6 +703,7 @@
 
   function showPlan(id, user) {
     var o = OPTIONS.filter(function (x) { return x.id === id; })[0], p = PLANS[id];
+    var wasMeta = $$(".plan__meta dd", panel).map(function (e) { return e.textContent; });
     panel.innerHTML = "";
     // the card stays put; only what's in it fades in, so switching plans doesn't jolt
     if (user) { panel.classList.remove("is-swap"); void panel.offsetWidth; panel.classList.add("is-swap"); }
@@ -723,6 +729,7 @@
       meta.appendChild(d);
     });
     panel.appendChild(meta);
+    $$("dd", meta).forEach(function (e, i) { CountFrom(e, wasMeta[i]); }); // costs, protects, net, and hours count to the new option's
 
     // for and against, side by side
     var pc = el("div", "plan__pc");
@@ -938,4 +945,5 @@
 
   // figures make their entrance the first time they scroll into view
   Reveal(".mix, .fall, .trend, .posts, .gaps, #plan");
+  CountIn(".bl__p, .figs dd"); // the headline odds and money count up on first view
 })();

@@ -186,4 +186,5 @@
 
   // figures make their entrance the first time they scroll into view
   Reveal(".spark, .bl__money, .rw, .fall, .trend");
+  CountIn(".bl__p, .cost__v, .net b"); // the headline odds and money count up on first view
 })();

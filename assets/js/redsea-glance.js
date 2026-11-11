@@ -130,6 +130,7 @@
   draw();
   // the board's entrance: sparklines and the curves between the columns draw in, the cost bars grow (reveal.js)
   Reveal(".board", 0.1);
+  CountIn(".fact__big"); // the numbers that matter count up on first view
   window.addEventListener("resize", draw);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(draw);
   new ResizeObserver(draw).observe(board);
