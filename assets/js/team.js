@@ -114,11 +114,11 @@
       watch: [
         { id: "hormuz", kind: "threat", title: "Strait of Hormuz Closes", pn: 27, p: "Chance in 30 days", trend: [6, 9, 18, 24, 27],
           impact: "Jebel Ali inbound drops to almost nothing, three ships are stuck inside, and the team’s work moves to Khor Fakkan and Sohar overnight.",
-          signal: { text: "Daily strait transits", now: 61, at: 40, unit: "% of normal", dir: "below" },
+          signal: { text: "Daily strait transits", now: 61, at: 40, max: 100, unit: "% of normal", dir: "below" },
           steps: [["Switch every inbound booking to Khor Fakkan or Sohar", "farah", 3], ["Run trucks to the Dubai DC around the clock", "sanjay", 8], ["Move two operators to Khor Fakkan", "nadia", 2], ["Release every box in the Jebel Ali yard to the DC", "rashid", 10], ["Hold a 07:30 call with Tomas every day until the strait reopens", "farah", 1]] },
         { id: "dwell", kind: "threat", title: "Jebel Ali Yard Congestion", p: "Likely within 2 weeks", trend: [48, 55, 63, 71],
           impact: "Boxes wait days for a gate slot, demurrage starts after 5 days, and the DC’s stock runs down while cargo sits in port.",
-          signal: { text: "Average container dwell", now: 71, at: 72, unit: " hours", dir: "above" },
+          signal: { text: "Average container dwell", now: 71, at: 72, max: 96, unit: " hours", dir: "above" },
           steps: [["Release fast movers to the DC early", "rashid", 6], ["Open a Saturday gate", "nadia", 6], ["Ask the DC for overflow yard space", "farah", 1]] },
         { id: "feeders", kind: "threat", title: "Sanctions Hit Two ME4 Feeders", pn: 15, p: "Chance in 30 days", trend: [9, 10, 13, 15],
           impact: "About 480 boxes a week bound for Dammam are held for screening, and the documentation team is buried in checks.",
@@ -126,7 +126,7 @@
           steps: [["Pre-book slots on the rival Gulf shuttle", "sanjay", 2], ["Prepare a cargo screening checklist", "joel", 4], ["Warn the Dammam DC of a possible gap", "farah", 1]] },
         { id: "kf-room", kind: "opportunity", title: "Spare Berth Space at Khor Fakkan", p: "Open now, likely gone next week",
           impact: "600 TEU a week is free and quoted 8% below Jebel Ali. Standing slots now would make the diversion cheaper and keep it open for a month.",
-          signal: { text: "Free capacity at Khor Fakkan", now: 600, at: 200, unit: " TEU a week", dir: "below" },
+          signal: { text: "Free capacity at Khor Fakkan", now: 600, at: 200, max: 800, unit: " TEU a week", dir: "below" },
           steps: [["Book standing slots for the next four weeks", "farah", 2], ["Negotiate the rate on a four-week commitment", "farah", 2]] }
       ],
       asks: [["Capacity", "How many trucks a day would Khor Fakkan need if the strait closes?"], ["What if", "What if Khor Fakkan fills up before Thursday’s cutoff?"], ["Exposure", "Which boxes in the Jebel Ali yard matter most to the Dubai DC?"], ["Forecast", "How likely is a closure before the four diverted sailings arrive?"]]
@@ -184,12 +184,12 @@
         { id: "bridge", brief: true, protects: 11.7, short: "the resin bridge-buy", title: "Bridge-Buy Resin from Singapore", by: "Aylin Demir, VP Procurement", approved: "Approved by the COO in this morning’s brief",
           part: "Every line ready to run on Singapore resin when it lands on October 20, with no scrap spike.", due: [6, "10:00"],
           tasks: tasks([
-            ["e-trial", "Run a moulding trial with the Singapore grade on Line 1", "hakan", 2, 3, 8, "blocked", "Hakan is at a supplier audit until Thursday."],
+            ["e-trial", "Trial-mould washer tubs on Line 1 with Singapore resin", "hakan", 2, 3, 8, "blocked", "Hakan is at a supplier audit until Thursday."],
             ["e-seq", "Re-sequence the lines so Singapore resin goes to washers first", "selma", 3, 6, 6],
             ["e-silo", "Agree silo space for the 4,000 t landing October 20", "selma", 0, 1, 2, "doing"],
             ["e-cover", "Report resin days of cover to Murat every morning", "selma", 0, 0, 1, "done"]
           ]) },
-        { id: "strike", title: "Prepare a Strike Contingency", by: "Murat Kaya, Plant director", approved: "Asked of every plant manager this week",
+        { id: "strike", short: "the strike contingency", title: "Prepare a Strike Contingency", by: "Murat Kaya, Plant director", approved: "Asked of every plant manager this week",
           part: "Which work continues, which stops, and in what order, before the union votes on October 20.", due: [6, "10:00"],
           tasks: tasks([
             ["e-roles", "List the roles that keep running during a legal strike", "burak", 1, 3, 4],
@@ -210,19 +210,19 @@
       watch: [
         { id: "resin", kind: "threat", title: "Resin Runs Out if the Strait Closes", pn: 27, p: "Chance of a closure in 30 days", trend: [6, 9, 18, 24, 27],
           impact: "Jubail resin stops. With 11 days of cover, all three lines stop in week two unless the Singapore resin is qualified and flowing.",
-          signal: { text: "PP resin days of cover", now: 11, at: 8, unit: " days", dir: "below" },
+          signal: { text: "PP resin days of cover", now: 11, at: 8, max: 20, unit: " days", dir: "below" },
           steps: [["Switch every line to the Singapore grade", "selma", 4], ["Cut to two shifts on Lines 1 and 2", "elif", 2], ["Pull planned maintenance into the idle days", "derya", 3]] },
         { id: "strike-w", kind: "threat", title: "Strike at the Gebze Plant", pn: 16, p: "Chance before November 1", trend: [5, 8, 13, 16],
           impact: "Lines stop for the length of the walkout. Every day out costs about 6,200 units, and the EU washer launch slips after five days.",
-          signal: { text: "Overtime refusals", now: 12, at: 20, unit: "%", dir: "above" },
+          signal: { text: "Overtime refusals", now: 12, at: 20, max: 30, unit: "%", dir: "above" },
           steps: [["Run the shutdown sequence line by line", "derya", 4], ["Keep the agreed essential roles staffed", "burak", 2], ["Shift EU washer orders to Pune", "elif", 3]] },
         { id: "redsea-e", kind: "threat", title: "Red Sea Shuts to Traffic", pn: 31, p: "Chance in 30 days", trend: [22, 25, 32, 31],
           impact: "Resin and Bursa parts ships go round the Cape, adding 11 days to every inbound lot.",
-          signal: { text: "Bab el-Mandeb transits", now: 64, at: 50, unit: "% of normal", dir: "below" },
+          signal: { text: "Bab el-Mandeb transits", now: 64, at: 50, max: 100, unit: "% of normal", dir: "below" },
           steps: [["Add 11 days to every inbound in the plan", "selma", 3], ["Ask Bursa for a road shipment of seat assemblies", "selma", 1]] },
         { id: "pune", kind: "opportunity", title: "Spare Capacity at the Pune Plant", p: "18% free this quarter",
           impact: "Pune can take some EU washer orders, which would protect the launch if Gebze has to stop.",
-          signal: { text: "Pune spare capacity", now: 18, at: 10, unit: "%", dir: "below" },
+          signal: { text: "Pune spare capacity", now: 18, at: 10, max: 30, unit: "%", dir: "below" },
           steps: [["Agree which washer SKUs Pune could make", "elif", 3]] }
       ],
       asks: [["Capacity", "How long can Gebze run on Singapore resin alone?"], ["What if", "What if the first Singapore lot lands a week late?"], ["Exposure", "Which products would Gebze stop making first if resin runs short?"], ["Forecast", "Would a Hormuz closure make a strike at Gebze more likely?"]]
@@ -276,7 +276,7 @@
           flip: "If the strait’s odds fall below 15% by Monday, the usual plan is fine." }
       ],
       directives: [
-        { id: "protect", title: "Protect GCC Key Accounts Through the Gulf Disruption", by: "Karim Haddad, GM, MENA", approved: "Set after this morning’s brief",
+        { id: "protect", short: "the key-account plan", title: "Protect GCC Key Accounts Through the Gulf Disruption", by: "Karim Haddad, GM, MENA", approved: "Set after this morning’s brief",
           part: "No key account surprised, and none 7 days short on its top sellers.", due: [3, "17:00"],
           tasks: tasks([
             ["l-top", "Rank the top 20 SKUs for each account", "yusuf", 0, 1, 4, "doing"],
@@ -303,7 +303,7 @@
       watch: [
         { id: "mena", kind: "threat", title: "Middle East Stock-Outs if the Strait Closes", pn: 27, p: "Chance of a closure in 30 days", trend: [6, 9, 18, 24, 27],
           impact: "The Dubai and Dammam DCs run dry within two weeks, and two key accounts can invoke penalties after 7 days short.",
-          signal: { text: "Washer stock at the Dubai DC", now: 14, at: 7, unit: " days", dir: "below" },
+          signal: { text: "Washer stock at the Dubai DC", now: 14, at: 7, max: 28, unit: " days", dir: "below" },
           steps: [["Allocate remaining stock to top SKUs by account", "yusuf", 4], ["Call every key account the same day", "layla", 3], ["Send the agreed customer letter", "lina", 2]] },
         { id: "feeders-l", kind: "threat", title: "Feeder Sanctions Hold Dammam Deliveries", pn: 15, p: "Chance in 30 days", trend: [9, 10, 13, 15],
           impact: "Gulf Home’s Saudi stores lose about a week of deliveries while boxes are screened.",
@@ -311,7 +311,7 @@
           steps: [["Warn Gulf Home’s buyer", "hessa", 1], ["Serve Saudi stores from Dubai by road", "ravi", 4]] },
         { id: "rival", kind: "opportunity", title: "A Rival Brand Is Short in Saudi Arabia", p: "Seen in 4 of 10 store checks",
           impact: "A competitor’s washers are missing from Gulf Home shelves. Extra facings now could hold share after the competitor recovers.",
-          signal: { text: "Store checks with the rival out of stock", now: 4, at: 6, unit: " of 10", dir: "above" },
+          signal: { text: "Store checks with the rival out of stock", now: 4, at: 6, max: 10, unit: " of 10", dir: "above" },
           steps: [["Offer Gulf Home extra washer facings", "hessa", 2], ["Shift 300 washers to Saudi stores", "yusuf", 2]] }
       ],
       asks: [["Exposure", "Which customers would feel a Jebel Ali delay first?"], ["What if", "What if Al Noor invokes its penalty clause?"], ["Capacity", "How many washers could Saudi stores take from Dubai by road?"], ["Forecast", "How likely are the Dammam feeders to be sanctioned this month?"]]
@@ -327,15 +327,70 @@
   // work an agent can take on, and the hours its human owner keeps to check it
   var AGENTABLE = { "t-customs": ["customs", 3], "t-calls": ["booking", 1], "t-trucks": ["haulage", 3], "e-seq": ["planning", 2], "e-cover": ["data", 0], "l-promise": ["order", 2], "l-letter": ["drafting", 1], "l-clock": ["contract", 1] };
   var STATUS = { todo: "To do", doing: "In progress", done: "Done", blocked: "Stuck" };
+  // what each task is for, and the steps that make it up (ticking them moves its status)
+  var DETAIL = {
+    "t-slots": ["Locks four Khor Fakkan berths for the diverted sailings before the port stops holding slots on option.",
+      ["Confirm the four sailings and their arrival dates with the carrier", "Check each slot against the vessel’s length and draft", "Book the held slots in the port system", "Send the booking numbers to the carrier and Sanjay"]],
+    "t-trucks": ["Gets every box from Khor Fakkan to the Dubai DC within 36 hours of discharge, which the diversion’s $7.6M depends on.",
+      ["Ask both hauliers for 14 trucks a sailing", "Agree rates and a 36-hour delivery window", "Get road permits for the Khor Fakkan to Dubai run", "Share the truck plan with the Dubai DC"]],
+    "t-customs": ["Clears the diverted boxes for transit to Dubai. Without an entry, a box can’t leave the Khor Fakkan terminal.",
+      ["Pull the bills of lading for the four sailings", "Draft a transit entry for each box", "Check the entries against the cargo manifests", "File the entries with Khor Fakkan customs", "Chase any entry customs holds"]],
+    "t-eta": ["Gives every team downstream the boxes’ new arrival times, starting with Layla’s order desk.",
+      ["Export the 212 boxes from the TMS", "Apply the new Khor Fakkan dates", "Publish the new arrival times to the order desk"]],
+    "t-dc": ["Lets the Dubai DC staff its receiving docks for when the diverted boxes will actually arrive.",
+      ["Turn the new arrival times into daily receiving windows", "Agree the windows with the DC’s inbound planning", "Confirm dock staffing for Saturday"]],
+    "t-gate": ["Makes sure the night shift knows which boxes go to Khor Fakkan and how the gate runs once the diversion starts.",
+      ["Write a one-page gate plan for nights", "Walk Nadia’s shift through it at the start of shift", "Post the plan in the gate office"]],
+    "t-calls": ["Gives Treasury the list it needs to put every Gulf port call on the war-risk cover before the quote expires Wednesday at 5pm.",
+      ["List every Gulf call in the next 30 days, by vessel", "Add each vessel’s cargo value", "Send the list to Hanne Sørli in Treasury"]],
+    "t-hull": ["Treasury prices the cover on each vessel’s insured hull value, and one value is missing.",
+      ["Collect the hull values from each carrier", "Get the Sable Orchid’s value from its operator", "Send the full set to Treasury"]],
+    "t-hold": ["Stops Halvorsen paying the carrier’s surcharge for risk the new cover may already insure.",
+      ["Tell the carrier the surcharge is under review", "Hold the AE7 invoice until Treasury confirms the cover", "Accept or turn down the surcharge once the cover is bound"]],
+    "e-trial": ["Proves the Singapore grade moulds washer tubs within Gebze’s scrap and strength limits. Procurement won’t release the second lot until the trial passes, and the lines can’t switch to the new resin without it.",
+      ["Hakan approves the trial plan", "Load 2 t of the Singapore lot into Line 1’s dryer", "Mould 200 tubs at standard settings, then at two melt temperatures", "Test the tubs for impact strength, warpage, and scrap", "Hakan signs off the result and sends it to Procurement"]],
+    "e-seq": ["Sends the first Singapore resin to washer tubs, the line with the thinnest cover.",
+      ["Rank the lines by resin days of cover", "Rewrite the week’s schedule so washers draw the Singapore grade first", "Agree changeover times with Kemal and Zeynep", "Publish the schedule to the line supervisors"]],
+    "e-silo": ["Makes room at the Ambarlı terminal for the 4,000 t landing October 20, so the resin isn’t left on the ship.",
+      ["Confirm the landing window with Procurement", "Book silo space for October 19 to 22", "Arrange trucking from Ambarlı to Gebze"]],
+    "e-cover": ["Keeps Murat’s view of how long Gebze can run current every morning.",
+      ["Read the silo levels at 6am", "Report days of cover by line to Murat"]],
+    "e-roles": ["Fixes which roles keep working through a legal strike, so the contingency covers safety and essential maintenance.",
+      ["Draft the list of essential roles", "Review it with the union’s branch secretary on Thursday", "Get the agreed list signed by both sides"]],
+    "e-ahead": ["Banks two days of washer output before the strike vote, so EU orders keep shipping if talks fail.",
+      ["Set the extra output for each day", "Schedule the overtime with Kemal’s team", "Move finished stock to the export warehouse"]],
+    "e-shut": ["Lets each line stop safely, and restart quickly, if a strike is called.",
+      ["Write the shutdown order for Lines 1, 2, and 3", "List what has to keep running, such as dryers and compressors", "Walk each sequence through with its supervisor", "Send the sequences to Murat"]],
+    "e-brief": ["Keeps supervisors from saying anything about the talks that could breach labor law.",
+      ["Get the agreed wording from Labor relations and Legal", "Brief the three line supervisors", "Pass their questions to Burak"]],
+    "l-top": ["Shows which products each account can’t do without, so scarce stock goes there first.",
+      ["Pull 12 weeks of sales by account and SKU", "Rank the top 20 SKUs for each account", "Send the ranking to Karim"]],
+    "l-sub": ["Settles in advance what each buyer will take when a SKU runs short, so substitutes ship without a dispute.",
+      ["Propose a substitute for each top SKU", "Meet Al Noor’s category buyer", "Write the agreed rules into the order desk’s notes"]],
+    "l-letter": ["Has the customer letter ready to send the same day if the strait closes.",
+      ["Draft the letter around the protection plan", "Get Legal’s sign-off on the wording", "Load it into the customer service system, ready to send"]],
+    "l-clock": ["Shows how close each account is to a penalty claim, so the team acts before day 7.",
+      ["List each account’s penalty terms", "Count days short by SKU every morning", "Flag any SKU 4 days short to Layla"]],
+    "l-promise": ["Gives customers delivery dates that include the diversion’s extra day and a half, so no order is promised on the old date.",
+      ["Load Farah’s new arrival times", "Recalculate the promise on each open Middle East order", "Check the 40 largest orders by hand", "Release the new promises to customers"]],
+    "l-tell": ["Lets account managers warn their buyers about the orders that move before the buyers notice.",
+      ["List the orders whose dates moved", "Send each account manager their list"]]
+  };
 
   /* ================= State: one per manager, kept while switching between them ================= */
   var S = {}, pid = "farah", P, st;
   function clone(o) { return JSON.parse(JSON.stringify(o)); }
   function init(id) {
     if (S[id]) return S[id];
-    var p = PERSONAS[id], s = { tasks: {}, dirs: [], own: [], decided: {}, choice: {}, pending: {}, hits: {}, ext: {}, prepared: {}, active: {}, armed: {}, planned: {}, escalated: {}, sel: null, watch: p.watch[0].id, sent: false, note: "", seq: 0 };
+    var p = PERSONAS[id], s = { tasks: {}, dirs: [], own: [], decided: {}, choice: {}, pending: {}, hits: {}, ext: {}, prepared: {}, active: {}, armed: {}, planned: {}, escalated: {}, steps: {}, sel: null, dsel: null, preview: false, watch: p.watch[0].id, sent: false, note: "", seq: 0 };
     p.directives.forEach(function (d) {
       var c = clone(d); c.taskIds = c.tasks.map(function (t) { t.dir = d.id; s.tasks[t.id] = t; return t.id; }); delete c.tasks; s.dirs.push(c);
+    });
+    // work under way has its first step ticked; finished work all of them
+    Object.keys(s.tasks).forEach(function (k) {
+      var t = s.tasks[k], n = DETAIL[k] ? DETAIL[k][1].length : 0, done = {};
+      if (t.status === "done") for (var i = 0; i < n; i++) done[i] = true; else if (t.status === "doing" && n) done[0] = true;
+      s.steps[k] = done;
     });
     p.xin.forEach(function (x) { s.ext[x.id] = { nudged: false, got: false, raised: false }; });
     s.sel = s.dirs[0].taskIds.filter(function (id) { return s.tasks[id].status !== "done"; })[0];
@@ -415,9 +470,10 @@
   var WORDS = ["no", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"];
   function words(n, one, many) { return (WORDS[n] || n) + " " + (n === 1 ? one : many || one + "s"); }
   function cap(t) { return t.charAt(0).toUpperCase() + t.slice(1); }
-  function lc(t) { return t.charAt(0).toLowerCase() + t.slice(1); }
+  function lc(t) { return /^[A-Z][A-Z]/.test(t) ? t : t.charAt(0).toLowerCase() + t.slice(1); } // leaves acronyms such as PP and TEU alone
   function pct(p) { return Math.round(100 * p) + "%"; }
   function money(m) { return DB.money(m); }
+  function signed(m) { return Math.abs(m) < 0.05 ? "$0" : (m < 0 ? "−" : "+") + money(Math.abs(m)); }
   function kmoney(k) { return "$" + (k % 1 ? k.toFixed(1) : k) + "k"; }
   function dayText(d, time) { return (d === -2 ? "Sun Oct 4" : d === -1 ? "Mon Oct 5" : d === 0 ? "Today" : d === 1 ? "Tomorrow" : DOW[d]) + (time ? " " + time : ""); }
   function dayLow(d, time) { var t = dayText(d, time); return d === 0 || d === 1 ? lc(t) : t; }
@@ -450,11 +506,13 @@
     [].forEach.call(document.querySelectorAll(sel), function (e, i) { if (old[i] != null && old[i] !== e.textContent) CountFrom(e, old[i]); });
   }
   function changed() { render(); }
+  // a redraw a moment after a switch or a tick, so its own motion plays first
+  function later() { setTimeout(changed, 300); }
 
   /* ================= Changes to the plan, each applied to a state so it can be previewed first ================= */
-  function addTask(s, a, group) {
+  function addTask(s, a, group, why) {
     var id = "x" + (++s.seq);
-    s.tasks[id] = { id: id, text: a.text, who: a.who, start: a.start, day: a.day, hours: a.hours, status: "todo", blocker: "", dir: a.dir || null };
+    s.tasks[id] = { id: id, text: a.text, who: a.who, start: a.start, day: a.day, hours: a.hours, status: "todo", blocker: "", dir: a.dir || null, why: why || "" };
     var d = a.dir && dirOf(s, a.dir);
     if (group) group.push(id); else if (d) d.taskIds.push(id); else s.own.push(id);
     return id;
@@ -468,7 +526,7 @@
   function applyOpt(s, d, i) {
     var o = d.opts[i], rec = { i: i };
     if (o.done && s.tasks[o.done]) { rec.done = o.done; rec.was = s.tasks[o.done].status; s.tasks[o.done].status = "done"; }
-    if (o.add) rec.added = addTask(s, o.add);
+    if (o.add) rec.added = addTask(s, o.add, null, "From your decision on whether to " + lc(d.q.replace(/\?$/, "")) + ": " + lc(o.t) + ".");
     if (o.hit) { (s.hits[d.dir] = s.hits[d.dir] || []).push({ m: o.hit.m, why: o.hit.why, dec: d.id }); rec.hit = true; }
     s.decided[d.id] = rec;
     return rec;
@@ -485,7 +543,7 @@
   function qualified(t, q) { return !SKILL[t.id] || q.skills.indexOf(SKILL[t.id]) >= 0; }
   function planGap(s, i) {
     var g = P.gaps[i];
-    s.planned[i] = addTask(s, { text: g.fix, who: g.who, start: g.start, day: g.day, hours: g.hours });
+    s.planned[i] = addTask(s, { text: g.fix, who: g.who, start: g.start, day: g.day, hours: g.hours }, null, g.text);
     if (g.unblocks && s.tasks[g.unblocks] && s.tasks[g.unblocks].status === "blocked") { s.tasks[g.unblocks].status = "todo"; s.tasks[g.unblocks].blocker = ""; }
   }
   // what a change does to the plan: the directive's chance before and after, money expected, and whose hours move
@@ -493,7 +551,7 @@
     var tmp = clone(st); fn(tmp);
     var d0 = dirId && dirOf(st, dirId), d1 = dirId && dirOf(tmp, dirId);
     var loads = P.people.map(function (p) { return { p: p, a: hoursOf(st, p.id), b: hoursOf(tmp, p.id) }; }).filter(function (x) { return x.a !== x.b; });
-    return { from: d0 ? dirRisk(st, d0) : null, to: d1 ? dirRisk(tmp, d1) : null, dExp: expected(tmp) - expected(st), dScore: score(tmp) - score(st), loads: loads };
+    return { tmp: tmp, from: d0 ? dirRisk(st, d0) : null, to: d1 ? dirRisk(tmp, d1) : null, dExp: expected(tmp) - expected(st), dScore: score(tmp) - score(st), loads: loads };
   }
 
   /* ================= Head and the managers ================= */
@@ -582,46 +640,40 @@
     });
   }
 
-  /* ================= 2. Decisions, weighed before they're committed ================= */
-  var fresh = null;
+  /* ================= 2. Decisions: a short card each, as the memo's options are; the chosen card fills the panel beneath
+     with its options weighed on a copy of the plan, what the chosen one does, and Totality's read ================= */
+  var fresh = null, shownDec = null;
+  function decState(d) { return st.decided[d.id] != null ? "made" : st.pending[d.id] != null ? "pending" : "open"; }
+  // a panel that changes what it shows eases to its new height and fades its contents in
+  function swapIn(box, h0, parts) {
+    if (REDUCE || !box.animate) return;
+    var h1 = box.offsetHeight;
+    box.style.overflow = "hidden";
+    box.animate([{ height: h0 + "px" }, { height: h1 + "px" }], { duration: 340, easing: "cubic-bezier(0.3, 0.7, 0.2, 1)" }).onfinish = function () { box.style.overflow = ""; };
+    parts.forEach(function (x, i) { x.animate([{ opacity: 0, transform: "translateY(8px)" }, { opacity: 1, transform: "none" }], { duration: 320, delay: i * 40, easing: "cubic-bezier(0.3, 0.7, 0.2, 1)", fill: "backwards" }); });
+  }
   function renderDecisions() {
-    var open = P.decisions.filter(function (d) { return st.decided[d.id] == null && st.pending[d.id] == null; }).length, c = byId("wait-n");
-    c.textContent = open; c.hidden = !open; c.setAttribute("aria-label", open + " waiting");
-    $("wait-note").textContent = "Calls that are yours to make. Each option shows what it would do to the plan before you commit, and anything over " + kmoney(LIMIT) + " goes to " + P.boss.first + " for approval.";
+    var list = P.decisions.slice().sort(byDue), open = list.filter(function (d) { return decState(d) === "open"; }), c = byId("wait-n");
+    c.textContent = open.length; c.hidden = !open.length; c.setAttribute("aria-label", open.length + " waiting");
+    $("wait-note").textContent = "Calls that are yours to make. Each option is tried on a copy of the plan before you commit, and anything over " + kmoney(LIMIT) + " goes to " + P.boss.first + " for approval.";
+    if (!list.some(function (d) { return d.id === st.dsel; })) st.dsel = (open[0] || list[0]).id;
     var box = byId("decisions"); box.textContent = "";
-    P.decisions.slice().sort(byDue).forEach(function (d, n) {
-      var made = st.decided[d.id], wait = st.pending[d.id];
-      var li = el("li", { class: "dec" + (made != null ? " is-made" : wait != null ? " is-pending" : ""), id: "dec-" + d.id });
-      var head = el("div", "dec__head");
-      head.appendChild(el("span", { class: "dec__n", "aria-hidden": "true" }, String(n + 1)));
-      var hw = el("div", "dec__words");
-      hw.appendChild(el("h3", "dec__q", d.q));
-      if (made != null || wait != null) {
-        var o = d.opts[made != null ? made.i : wait];
-        var res = el("p", "dec__made");
-        res.appendChild(el("b", null, (made != null ? "Committed: " : "Waiting on " + P.boss.first + "’s approval: ") + o.t + ". "));
-        res.appendChild(document.createTextNode(made != null ? consequence(d, made) : "It costs " + kmoney(o.cost) + ", over your " + kmoney(LIMIT) + " limit."));
-        hw.appendChild(res);
-        head.appendChild(hw);
-        var act = el("div", "dec__act");
-        act.appendChild(button(made != null ? "Reopen" : "Withdraw", "btn-q", function () { if (made != null) undoOpt(st, d); else delete st.pending[d.id]; fresh = d.id; changed(); }));
-        head.appendChild(act);
-        li.appendChild(head);
-      } else {
-        hw.appendChild(el("p", "dec__ctx", d.context));
-        var meta = el("p", "dec__meta");
-        meta.appendChild(el("span", "pill pill--red", "Decide by " + dayLow(d.due[0], d.due[1])));
-        var dd = dirOf(st, d.dir);
-        meta.appendChild(el("span", null, dd.title + ": " + pct(dirRisk(st, dd)) + " on time now"));
-        hw.appendChild(meta);
-        head.appendChild(hw);
-        li.appendChild(head);
-        li.appendChild(optionsPanel(d));
-      }
-      if (fresh === d.id && !REDUCE && li.animate) li.animate([{ opacity: 0.4, transform: "translateY(6px)" }, { opacity: 1, transform: "none" }], { duration: 360, easing: "cubic-bezier(0.3, 0.7, 0.2, 1)" });
+    box.style.setProperty("--n", list.length);
+    list.forEach(function (d, n) {
+      var s = decState(d), on = d.id === st.dsel, dd = dirOf(st, d.dir);
+      var li = el("li", { class: "decard is-" + s + (on ? " is-on" : ""), tabindex: "0", role: "button", "aria-pressed": String(on), "aria-controls": "dpanel" });
+      var head = el("div", "decard__head");
+      head.appendChild(el("span", { class: "decard__n", "aria-hidden": "true" }, String(n + 1)));
+      head.appendChild(el("span", "pill " + (s === "open" ? "pill--red" : s === "pending" ? "pill--amber" : ""), s === "open" ? "Decide by " + dayLow(d.due[0], d.due[1]) : s === "pending" ? "With " + P.boss.first : "Committed"));
+      li.appendChild(head);
+      li.appendChild(el("h3", "decard__q", d.q));
+      li.appendChild(el("p", "decard__sub", s === "made" ? d.opts[st.decided[d.id].i].t : s === "pending" ? d.opts[st.pending[d.id]].t + ", " + kmoney(d.opts[st.pending[d.id]].cost) : "For " + dd.short));
+      function go() { if (st.dsel !== d.id) { st.dsel = d.id; render(); } }
+      li.addEventListener("click", go);
+      li.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } });
       box.appendChild(li);
     });
-    fresh = null;
+    renderDecPanel();
   }
   function consequence(d, rec) {
     var bits = [];
@@ -630,52 +682,96 @@
     if (rec.hit) bits.push("The plan carries the risk: " + lc(d.opts[rec.i].hit.why) + ".");
     return bits.join(" ") || "Logged for " + P.boss.first + ".";
   }
-  function optionsPanel(d) {
-    var panel = el("div", "dec__panel");
-    var sel = st.choice[d.id] != null ? st.choice[d.id] : d.pick;
-    var opts = el("div", { class: "dec__opts", role: "radiogroup", "aria-label": d.q });
-    var pv = d.opts.map(function (o, i) { return preview(function (s) { applyOpt(s, d, i); }, d.dir); });
-    d.opts.forEach(function (o, i) {
-      var v = pv[i], on = i === sel;
-      var b = el("button", { type: "button", role: "radio", "aria-checked": String(on), class: "opt" + (on ? " is-on" : "") });
-      var top = el("span", "opt__top"); top.appendChild(el("b", null, o.t));
-      if (i === d.pick) top.appendChild(el("span", "pill pill--red", "Totality suggests"));
-      b.appendChild(top);
-      b.appendChild(el("small", null, o.sub));
-      var dl = el("dl", "opt__fx");
-      function fx(k, val, cls) { var x = el("div"); x.appendChild(el("dt", null, k)); x.appendChild(el("dd", cls || null, val)); dl.appendChild(x); }
-      fx("Cost", o.cost ? kmoney(o.cost) : "$0", o.cost >= LIMIT ? "is-down" : null);
-      fx("On time", pct(v.from) + " → " + pct(v.to), v.to < v.from - 0.005 ? "is-down" : null);
-      if (dirOf(st, d.dir).brief) fx("Expected to land", (v.dExp >= 0 ? "+" : "−") + money(Math.abs(v.dExp)), v.dExp < -0.05 ? "is-down" : null);
-      b.appendChild(dl);
-      b.addEventListener("click", function () { if (st.choice[d.id] !== i) { st.choice[d.id] = i; render(); } });
-      opts.appendChild(b);
-    });
-    panel.appendChild(opts);
-    // the chosen option, spelled out before it's committed
-    var o = d.opts[sel], v = pv[sel];
-    var rev = el("div", "dec__review");
-    var ul = el("ul", "dec__fx");
-    if (o.done) ul.appendChild(el("li", null, "Finishes “" + st.tasks[o.done].text + "”."));
-    if (o.add) ul.appendChild(el("li", null, "Adds “" + o.add.text + "” for " + first(o.add.who) + ", " + o.add.hours + " h, due " + dayLow(o.add.day) + "."));
-    v.loads.forEach(function (x) { if (x.b > x.p.cap) ul.appendChild(el("li", "is-warn", First(x.p.id) + " goes to " + x.b + " of " + x.p.cap + " h this week.")); });
-    if (o.hit) ul.appendChild(el("li", "is-warn", cap(o.hit.why) + ", which cuts the chance " + lc(dirOf(st, d.dir).short || dirOf(st, d.dir).title) + " lands on time."));
-    if (o.cost >= LIMIT) ul.appendChild(el("li", null, "Over your " + kmoney(LIMIT) + " limit, so " + P.boss.first + " approves it first."));
-    if (!ul.childNodes.length) ul.appendChild(el("li", null, "No change to the plan’s tasks."));
-    rev.appendChild(ul);
-    var why = el("div", "dec__why");
-    var w1 = el("p"); w1.appendChild(el("b", null, "Why Totality suggests " + lc(d.opts[d.pick].t) + ": ")); w1.appendChild(document.createTextNode(d.why)); why.appendChild(w1);
-    var w2 = el("p"); w2.appendChild(el("b", null, "What would change the suggestion: ")); w2.appendChild(document.createTextNode(d.flip)); why.appendChild(w2);
-    rev.appendChild(why);
-    var acts = el("div", "dec__go");
-    acts.appendChild(button(o.cost >= LIMIT ? "Send to " + P.boss.first + " for approval" : "Commit: " + o.t, "btn btn--primary btn--sm", function () {
+  function renderDecPanel() {
+    var box = byId("dpanel"), d = P.decisions.filter(function (x) { return x.id === st.dsel; })[0];
+    var key = pid + ":" + d.id, swap = shownDec !== null && shownDec !== key, h0 = box.offsetHeight;
+    var was = [].map.call(box.querySelectorAll(".dp__meta dd"), function (e) { return e.textContent; });
+    shownDec = key;
+    box.textContent = "";
+    var s = decState(d), dd = dirOf(st, d.dir), brief = dd.brief;
+    var sel = s === "made" ? st.decided[d.id].i : s === "pending" ? st.pending[d.id] : st.choice[d.id] != null ? st.choice[d.id] : d.pick;
+    var o = d.opts[sel], parts = [];
+
+    // the question, and the one button that acts on it
+    var top = el("div", "dp__top");
+    var tw = el("div", "dp__head");
+    tw.appendChild(el("p", "dp__k", "For " + dd.short + (s === "open" ? ", decide by " + dayLow(d.due[0], d.due[1]) : "")));
+    tw.appendChild(el("h3", "dp__t", d.q));
+    if (s === "open") tw.appendChild(el("p", "dp__line", d.context));
+    else {
+      var res = el("p", "dp__line");
+      res.appendChild(el("b", null, (s === "made" ? "Committed: " : "Waiting on " + P.boss.first + "’s approval: ") + o.t + ". "));
+      res.appendChild(document.createTextNode(s === "made" ? consequence(d, st.decided[d.id]) : "It costs " + kmoney(o.cost) + ", over your " + kmoney(LIMIT) + " limit, so " + P.boss.name + " approves it first."));
+      tw.appendChild(res);
+    }
+    top.appendChild(tw);
+    if (s === "open") top.appendChild(button(o.cost >= LIMIT ? "Send to " + P.boss.first + " for approval" : "Commit: " + o.t, "btn btn--primary btn--sm", function () {
       if (o.cost >= LIMIT) { st.pending[d.id] = sel; DB.toast("Sent to " + P.boss.name + " for approval."); }
       else { applyOpt(st, d, sel); DB.toast("Committed. The plan has been updated."); }
-      fresh = d.id; changed();
+      changed();
     }));
-    rev.appendChild(acts);
-    panel.appendChild(rev);
-    return panel;
+    else top.appendChild(button(s === "made" ? "Reopen" : "Withdraw", "btn-q", function () { if (s === "made") undoOpt(st, d); else delete st.pending[d.id]; changed(); }));
+    box.appendChild(top); parts.push(top);
+
+    if (s === "open") {
+      var pv = d.opts.map(function (x, i) { return preview(function (t) { applyOpt(t, d, i); }, d.dir); }), v = pv[sel];
+      // the chosen option's figures, between hairlines
+      var meta = el("dl", "dp__meta");
+      [["Cost", o.cost ? kmoney(o.cost) : "$0", o.cost >= LIMIT ? "Over your " + kmoney(LIMIT) + " limit" : "Within your limit", o.cost >= LIMIT],
+       [cap(dd.short) + " on time", pct(v.from), "As the plan stands"],
+       ["With this option", pct(v.to), v.to > v.from + 0.005 ? "+" + Math.round(100 * (v.to - v.from)) + "%" : v.to < v.from - 0.005 ? "−" + Math.round(100 * (v.from - v.to)) + "%" : "No change", v.to < v.from - 0.005],
+       brief ? ["Expected to land", signed(v.dExp), "Of " + money(dd.protects) + " the directive protects", v.dExp < -0.05] : null
+      ].filter(Boolean).forEach(function (m) {
+        var x = el("div"); x.appendChild(el("dt", null, m[0])); x.appendChild(el("dd", m[3] ? "red" : null, m[1])); x.appendChild(el("small", null, m[2])); meta.appendChild(x);
+      });
+      box.appendChild(meta); parts.push(meta);
+      [].forEach.call(meta.querySelectorAll("dd"), function (e, i) { if (was[i] != null && was[i] !== e.textContent) CountFrom(e, was[i]); });
+
+      // the options, each tried on a copy of the plan
+      var ow = el("div", "dp__opts");
+      var oh = el("div", "dopt dopt--head", null); ["Option", "Cost", "On time", brief ? "Expected to land" : ""].forEach(function (k) { oh.appendChild(el("span", null, k)); });
+      ow.appendChild(oh);
+      var rg = el("div", { role: "radiogroup", "aria-label": d.q });
+      d.opts.forEach(function (x, i) {
+        var pi = pv[i], on = i === sel;
+        var b = el("button", { type: "button", role: "radio", "aria-checked": String(on), class: "dopt" + (on ? " is-on" : "") });
+        var nm = el("span", "dopt__name");
+        var tt = el("b", null, x.t); nm.appendChild(tt);
+        if (i === d.pick) nm.appendChild(el("span", "pill pill--red", "Totality suggests"));
+        nm.appendChild(el("small", null, x.sub));
+        b.appendChild(nm);
+        b.appendChild(el("span", "dopt__v" + (x.cost >= LIMIT ? " red" : ""), x.cost ? kmoney(x.cost) : "$0"));
+        b.appendChild(el("span", "dopt__v" + (pi.to < pi.from - 0.005 ? " red" : ""), pct(pi.to)));
+        b.appendChild(el("span", "dopt__v" + (pi.dExp < -0.05 ? " red" : ""), brief ? signed(pi.dExp) : ""));
+        b.addEventListener("click", function () { if (st.choice[d.id] !== i && sel !== i) { st.choice[d.id] = i; render(); } });
+        rg.appendChild(b);
+      });
+      ow.appendChild(rg);
+      box.appendChild(ow); parts.push(ow);
+
+      // what the chosen option does to the plan, beside Totality's read
+      var cols = el("div", "dp__cols");
+      var c1 = el("div"); c1.appendChild(el("h4", "dp__h", "What It Does to the Plan"));
+      var ul = el("ul", "dec__fx");
+      if (o.done) ul.appendChild(el("li", null, "Finishes “" + st.tasks[o.done].text + "”."));
+      if (o.add) ul.appendChild(el("li", null, "Adds “" + o.add.text + "” for " + first(o.add.who) + ", " + o.add.hours + " h, due " + dayLow(o.add.day) + "."));
+      v.loads.forEach(function (x) { if (x.b > x.p.cap) ul.appendChild(el("li", "is-warn", First(x.p.id) + " goes to " + x.b + " of " + x.p.cap + " h this week.")); });
+      if (o.hit) ul.appendChild(el("li", "is-warn", cap(o.hit.why) + ", which cuts the chance " + dd.short + " lands on time."));
+      if (o.cost >= LIMIT) ul.appendChild(el("li", null, "Over your " + kmoney(LIMIT) + " limit, so " + P.boss.first + " approves it first."));
+      if (!ul.childNodes.length) ul.appendChild(el("li", null, "No change to the plan’s tasks."));
+      c1.appendChild(ul); cols.appendChild(c1);
+      var c2 = el("div"); c2.appendChild(el("h4", "dp__h", "Totality’s Read"));
+      var w1 = el("p", "dp__why"); w1.appendChild(el("b", null, "Why " + lc(d.opts[d.pick].t) + ". ")); w1.appendChild(document.createTextNode(d.why)); c2.appendChild(w1);
+      var w2 = el("p", "dp__why"); w2.appendChild(el("b", null, "What would change the suggestion. ")); w2.appendChild(document.createTextNode(d.flip)); c2.appendChild(w2);
+      cols.appendChild(c2);
+      box.appendChild(cols); parts.push(cols);
+    } else {
+      var rd = el("div", "dp__cols dp__cols--one");
+      var c3 = el("div"); c3.appendChild(el("h4", "dp__h", "Totality’s Read"));
+      var w3 = el("p", "dp__why"); w3.appendChild(el("b", null, "What would change the suggestion. ")); w3.appendChild(document.createTextNode(d.flip)); c3.appendChild(w3);
+      rd.appendChild(c3); box.appendChild(rd); parts.push(rd);
+    }
+    if (swap) swapIn(box, h0, parts);
   }
 
   /* ================= 3. The plan: a week of tasks with what each waits on ================= */
@@ -687,78 +783,91 @@
     if (st.own.length) g.push({ id: "own", title: "Tasks You’ve Added", ids: st.own, p: null });
     return g;
   }
-  // Totality's moves: each previewed on a copy of the plan, kept if it raises the odds, best first
-  function moves() {
+  // Totality's suggestions: every way it finds to raise a task's odds, each tried on a copy of the plan and kept only if
+  // it helps; the best one per task is its suggestion, so two never pull the same work in different directions
+  function suggestions() {
     var cands = [];
     allTasks(st).forEach(function (t) {
       if (t.status === "done") return;
       if (canAgent(t)) {
-        var a = AGENTABLE[t.id];
-        cands.push({ text: "Hand “" + t.text + "” to the " + lc(agentName("ag:" + a[0])) + (a[1] ? ", with " + first(t.who) + " checking its work (" + a[1] + " h instead of " + t.hours + ")" : ""), t: t, who: "ag:" + a[0], fn: function (s) { toAgent(s, s.tasks[t.id]); } });
+        var a = AGENTABLE[t.id], ag = "ag:" + a[0];
+        cands.push({ kind: "agent", text: "Hand it to the " + lc(agentName(ag)) + (a[1] ? ", with " + first(t.who) + " checking its work" : ""), t: t, who: ag, fn: function (s) { toAgent(s, s.tasks[t.id]); },
+          note: a[1] ? "The agent drafts and " + first(t.who) + " checks and signs off, " + a[1] + " h instead of " + t.hours + ", so nothing goes out unchecked." : "The agent does it on its own; nobody needs to check it." });
       }
       var h = human(t), me = person(h);
       if (!isAgent(t.who) && hoursOf(st, h) > me.cap) {
         P.people.filter(function (q) { return q.id !== h && q.base > 0 && !(q.off && q.off.days.indexOf(t.start) >= 0) && q.cap - hoursOf(st, q.id) >= t.hours && qualified(t, q); })
-          .sort(function (a, b) { return (b.cap - hoursOf(st, b.id)) - (a.cap - hoursOf(st, a.id)); }).slice(0, 1)
-          .forEach(function (q) { cands.push({ text: "Hand “" + t.text + "” from " + first(h) + " to " + q.name.split(" ")[0] + ", who has " + (q.cap - hoursOf(st, q.id)) + " h free", t: t, who: q.id, fn: function (s) { s.tasks[t.id].who = q.id; } }); });
+          .sort(function (a, b) { return (b.cap - hoursOf(st, b.id)) - (a.cap - hoursOf(st, a.id)); }).slice(0, 2)
+          .forEach(function (q) { cands.push({ kind: "hand", text: "Hand it from " + first(h) + " to " + q.name.split(" ")[0], t: t, who: q.id, fn: function (s) { s.tasks[t.id].who = q.id; },
+            note: q.name.split(" ")[0] + " has " + (q.cap - hoursOf(st, q.id)) + " h free this week" + (SKILL[t.id] ? " and is certified for " + lc(SKILL[t.id]) : "") + "." }); });
       }
       if (t.status === "blocked" && !st.escalated[t.id] && !P.gaps.some(function (g, i) { return g.unblocks === t.id && !st.planned[i]; }))
-        cands.push({ text: "Raise “" + lc(t.blocker.replace(/\.$/, "")) + "” with " + P.boss.first, t: t, who: P.boss.name, fn: function (s) { s.escalated[t.id] = true; } });
+        cands.push({ kind: "raise", text: "Raise what’s in its way with " + P.boss.first, t: t, who: P.boss.name, fn: function (s) { s.escalated[t.id] = true; },
+          note: P.boss.first + " sees it at the top of today’s roll-up, as something needed from " + P.boss.first + "." });
     });
     P.gaps.forEach(function (g, i) {
       if (!g.unblocks || st.planned[i] || !st.tasks[g.unblocks] || st.tasks[g.unblocks].status !== "blocked") return;
-      cands.push({ text: g.fix + ", which unblocks “" + st.tasks[g.unblocks].text + "”", t: st.tasks[g.unblocks], who: g.who, fn: function (s) { planGap(s, i); } });
+      cands.push({ kind: "gap", text: g.fix, t: st.tasks[g.unblocks], who: g.who, fn: function (s) { planGap(s, i); }, note: g.text + " Covering it adds " + g.hours + " h for " + first(g.who) + " and unblocks the task." });
     });
     P.xin.forEach(function (x) {
       var e = st.ext[x.id];
-      if (x.src || x.agent || e.got || e.nudged || extP(st, x) >= 0.85) return;
-      cands.push({ text: (x.late ? "Escalate with " : "Chase ") + x.team + ": " + lc(x.what), t: st.tasks[x.gates], who: x.who || x.team, fn: function (s) { s.ext[x.id].nudged = true; if (x.late) s.ext[x.id].raised = true; } });
+      if (x.src || x.agent || e.got || e.nudged || extP(st, x) >= 0.85 || !st.tasks[x.gates]) return;
+      cands.push({ kind: "chase", text: (x.late ? "Escalate with " : "Chase ") + x.team + ": " + lc(x.what), t: st.tasks[x.gates], who: x.who || x.team, fn: function (s) { s.ext[x.id].nudged = true; if (x.late) s.ext[x.id].raised = true; },
+        note: x.late ? "It’s " + lc(x.status) + ". " + P.boss.first + " gets it as a need on today’s roll-up, and a reminder goes to " + (x.who || x.team) + "." : "A reminder goes to " + (x.who || x.team) + " in your name. Status now: " + lc(x.status) + "." });
     });
-    cands.forEach(function (c) { c.v = preview(c.fn, c.t && c.t.dir); });
-    // one move per task, the best of them, so two suggestions never pull the same work in different directions
-    var seen = {};
-    return cands.filter(function (c) { return c.v.dScore > 0.004; }).sort(function (a, b) { return b.v.dScore - a.v.dScore; })
-      .filter(function (c) { var k = c.t ? c.t.id : c.text; if (seen[k]) return false; seen[k] = true; return true; }).slice(0, 4);
+    cands.forEach(function (c) { c.v = preview(c.fn, c.t.dir); });
+    var byTask = {}, best = [];
+    cands.filter(function (c) { return c.v.dScore > 0.004; }).sort(function (a, b) { return b.v.dScore - a.v.dScore; })
+      .forEach(function (c) { var k = c.t.id; if (!byTask[k]) { byTask[k] = []; best.push(c); } byTask[k].push(c); });
+    return { byTask: byTask, best: best };
   }
-  function renderMoves() {
-    var box = byId("moves"); box.textContent = "";
-    var cands = moves();
-    var head = el("div", "moves__head");
-    var hw = el("div");
-    hw.appendChild(el("h3", "sub", "Totality’s Suggestions"));
-    if (cands.length) {
-      var all = clone(st); cands.forEach(function (c) { c.fn(all); });
-      var gain = expected(all) - expected(st);
-      hw.appendChild(el("p", "sub__note", cap(words(cands.length, "move")) + " that raise the plan’s odds" + (gain > 0.05 ? ", taking what’s expected to land from " + money(expected(st)) + " to " + money(expected(all)) : "") + "."));
-      head.appendChild(hw);
-      head.appendChild(button("Make all " + WORDS[cands.length], "btn btn--primary btn--sm", function () {
-        cands.forEach(function (c) { c.fn(st); }); DB.toast("Plan updated: " + words(cands.length, "move") + " made."); changed();
-      }));
-    } else {
-      hw.appendChild(el("p", "sub__note", "Nothing left that would raise the plan’s odds: every owner is within capacity, and nothing is waiting to be chased."));
-      head.appendChild(hw);
-    }
-    box.appendChild(head);
-    if (!cands.length) return;
-    var ul = el("ul", "moves__list");
-    cands.forEach(function (c) {
-      var li = el("li", "move");
-      li.appendChild(avatar(c.who, "av--sm"));
-      li.appendChild(el("p", "move__t", c.text + "."));
-      var fxs = el("span", "move__fx");
-      if (c.v.from != null) fxs.appendChild(el("span", "pill", pct(c.v.from) + " → " + pct(c.v.to) + " on time"));
-      if (c.v.dExp > 0.05) fxs.appendChild(el("span", "pill pill--red", "+" + money(c.v.dExp) + " expected"));
-      li.appendChild(fxs);
-      li.appendChild(button("Make it", "btn-q btn-q--sm", function () { c.fn(st); DB.toast("Plan updated."); changed(); }));
-      ul.appendChild(li);
-    });
-    box.appendChild(ul);
+  // why a suggestion helps, in words: what it clears from the task's way, whose hours move, what else it lifts
+  function reasons(c) {
+    var tmp = c.v.tmp, before = taskRisk(st, c.t).f, after = tmp.tasks[c.t.id] ? taskRisk(tmp, tmp.tasks[c.t.id]).f : [];
+    var keep = after.map(function (x) { return x[0]; }), out = [];
+    var gone = before.filter(function (x) { return keep.indexOf(x[0]) < 0; });
+    if (gone.length) out.push("Removes what’s holding it back: " + gone.map(function (x) { return x[0] + " (−" + Math.max(1, Math.round(100 * (1 - x[1]))) + "%)"; }).join("; ") + ".");
+    out.push(c.note);
+    c.v.loads.forEach(function (x) { out.push(First(x.p.id) + " goes from " + x.a + " to " + x.b + " of " + x.p.cap + " h this week."); });
+    var lifts = allTasks(st).filter(function (o) { return o.id !== c.t.id && o.status !== "done" && tmp.tasks[o.id] && taskRisk(tmp, tmp.tasks[o.id]).p - taskRisk(st, o).p > 0.015; });
+    if (lifts.length) out.push("Also lifts " + lifts.map(function (o) { return "“" + o.text + "” to " + pct(taskRisk(tmp, tmp.tasks[o.id]).p); }).join(" and ") + ".");
+    if (after.length) out.push("Still in its way: " + after.map(function (x) { return lc(x[0]); }).join("; ") + ".");
+    return out;
   }
+  var SUG = { byTask: {}, best: [] }, AHEAD = null;
   function renderPlan() {
+    SUG = suggestions();
+    AHEAD = null;
+    if (SUG.best.length) { AHEAD = clone(st); SUG.best.forEach(function (c) { c.fn(AHEAD); }); }
+    if (!AHEAD) st.preview = false;
     var n = allTasks(st).filter(function (t) { return t.status !== "done"; }).length;
-    $("plan-note").textContent = cap(words(n, "task")) + " still open this week. Each bar runs from the day a task can start to the day it’s due and shows its chance of landing on time; arrows join tasks that wait on each other.";
-    renderMoves();
+    $("plan-note").textContent = cap(words(n, "task")) + " still open this week. Each bar runs from the day a task can start to the day it’s due, with its chance of landing on time. A red figure beside a task is how far Totality’s suggestion would raise that chance; select the task to see why.";
     var box = byId("gantt"); box.textContent = "";
+    // the suggestions, summed up at the head of the week they change
+    var top = el("div", "g__top");
+    var tw = el("div", "g__sum");
+    if (SUG.best.length) {
+      var gain = expected(AHEAD) - expected(st);
+      tw.appendChild(el("b", null, "Totality’s Suggestions"));
+      tw.appendChild(el("p", null, cap(words(SUG.best.length, "task")) + " could be on firmer ground" + (gain > 0.05 ? ", taking what’s expected to land from " + money(expected(st)) + " to " + money(expected(AHEAD)) : "") + ". " + (st.preview ? "The bars show the week with every suggestion made." : "Preview them to see the week with every suggestion made.")));
+      top.appendChild(tw);
+      var ctl = el("div", "g__ctl");
+      var sw = el("label", "switch g__pv");
+      sw.appendChild(el("span", "switch__text", "Preview on the plan"));
+      var cb = el("input", { type: "checkbox" }); cb.checked = st.preview;
+      cb.addEventListener("change", function () { st.preview = cb.checked; later(); });
+      sw.appendChild(cb); sw.appendChild(el("span", { class: "switch__ui", "aria-hidden": "true" }));
+      ctl.appendChild(sw);
+      ctl.appendChild(button("Make all " + WORDS[SUG.best.length], "btn btn--primary btn--sm", function () {
+        var k = SUG.best.length; SUG.best.forEach(function (c) { c.fn(st); }); st.preview = false; DB.toast("Plan updated: " + words(k, "suggestion") + " made."); changed();
+      }));
+      top.appendChild(ctl);
+    } else {
+      tw.appendChild(el("b", null, "Totality’s Suggestions"));
+      tw.appendChild(el("p", null, "Nothing left that would raise the plan’s odds: every owner is within capacity, and nothing is waiting to be chased."));
+      top.appendChild(tw);
+    }
+    box.appendChild(top);
     var scroll = el("div", "g__scroll");
     var head = el("div", "g__row g__head");
     head.appendChild(el("span", "g__lab", "Task and owner"));
@@ -767,17 +876,21 @@
     var grid = el("div", "g__body");
     DAYS.forEach(function (d, i) { if (!WORK[i]) { var w = el("i", "g__wkend"); w.style.setProperty("--c", i); grid.appendChild(w); } });
     var now = el("i", "g__now"); now.style.setProperty("--x", NOW / 24); grid.appendChild(now);
+    var pv = st.preview && AHEAD;
     groups().forEach(function (g) {
       var sec = el("div", { class: "g__group", id: "dir-" + g.id });
       var gh = el("div", "g__row g__ghead");
       var gt = el("span", "g__lab");
       gt.appendChild(el("b", null, g.title));
-      if (g.p != null) { var b = band(g.p); gt.appendChild(el("span", "pill " + b.cls, pct(g.p) + " on time")); }
+      if (g.p != null) {
+        var p1 = pv ? dirRisk(AHEAD, dirOf(AHEAD, g.id)) : g.p, b = band(p1);
+        gt.appendChild(el("span", "pill " + b.cls, (pv && p1 - g.p > 0.005 ? pct(g.p) + " → " : "") + pct(p1) + " on time"));
+      }
       gh.appendChild(gt);
       if (g.due) { var dl = el("span", "g__due"); dl.style.setProperty("--x", g.due[0] + parseInt(g.due[1], 10) / 24); dl.textContent = "Due " + DOW[g.due[0]] + " " + g.due[1]; gh.appendChild(dl); }
       if (g.id.indexOf("play-") === 0) { var wid = g.id.slice(5); gh.appendChild(button("Stand down", "btn-q btn-q--sm g__stop", function () { st.active[wid].ids.forEach(function (id) { removeTask(st, id); }); delete st.active[wid]; changed(); })); }
       sec.appendChild(gh);
-      g.ids.map(function (id) { return st.tasks[id]; }).filter(Boolean).forEach(function (t) { sec.appendChild(taskRow(t)); });
+      g.ids.map(function (id) { return st.tasks[id]; }).filter(Boolean).forEach(function (t) { sec.appendChild(taskRow(t, pv)); });
       if (g.due) { var line = el("i", "g__dueline"); line.style.setProperty("--x", g.due[0] + parseInt(g.due[1], 10) / 24); sec.appendChild(line); }
       grid.appendChild(sec);
     });
@@ -787,16 +900,20 @@
     renderTaskCard();
     requestAnimationFrame(drawLinks);
   }
-  function taskRow(t) {
-    var r = taskRisk(st, t), row = el("div", { class: "g__row g__task is-" + t.status + (st.sel === t.id ? " is-sel" : "") + (r.p < 0.6 ? " is-risk" : ""), id: "task-" + t.id, "data-t": t.id, role: "button", tabindex: "0", "aria-pressed": String(st.sel === t.id), "aria-label": t.text + ", " + STATUS[t.status] + ", " + pct(r.p) + " on time" });
+  function taskRow(t, pv) {
+    var r = taskRisk(st, t), alt = pv && AHEAD.tasks[t.id], r1 = alt ? taskRisk(AHEAD, alt) : r, moved = alt && r1.p - r.p > 0.005;
+    var sug = SUG.byTask[t.id] && SUG.byTask[t.id][0];
+    var row = el("div", { class: "g__row g__task is-" + t.status + (st.sel === t.id ? " is-sel" : "") + (r1.p < 0.6 ? " is-risk" : "") + (moved ? " is-moved" : ""), id: "task-" + t.id, "data-t": t.id, role: "button", tabindex: "0", "aria-pressed": String(st.sel === t.id), "aria-label": t.text + ", " + STATUS[t.status] + ", " + pct(r.p) + " on time" + (sug ? ", Totality has a suggestion" : "") });
     var lab = el("span", "g__lab");
-    lab.appendChild(avatar(t.who, "av--sm"));
+    lab.appendChild(avatar(alt ? alt.who : t.who, "av--sm"));
     lab.appendChild(el("span", "g__text", t.text));
+    if (sug && !pv) lab.appendChild(el("span", { class: "g__sug", title: "Totality’s suggestion: " + sug.text }, "+" + Math.max(1, Math.round(100 * (taskRisk(sug.v.tmp, sug.v.tmp.tasks[t.id]).p - r.p))) + "%"));
     row.appendChild(lab);
     var bar = el("span", "g__bar");
     bar.style.gridColumn = (t.start + 2) + " / " + (t.day + 3);
-    bar.appendChild(el("b", null, t.status === "done" ? "Done" : t.status === "blocked" ? "Stuck" : pct(r.p)));
-    bar.appendChild(el("span", null, isAgent(t.who) ? (t.revH ? t.revH + " h check" : "Agent") : t.hours + " h"));
+    var who = alt || t;
+    bar.appendChild(el("b", null, t.status === "done" ? "Done" : who.status === "blocked" ? "Stuck" : moved ? pct(r.p) + " → " + pct(r1.p) : pct(r1.p)));
+    bar.appendChild(el("span", null, isAgent(who.who) ? (who.revH ? who.revH + " h check" : "Agent") : t.hours + " h"));
     if (P.xin.some(function (x) { return x.gates === t.id && extP(st, x) < 1; })) bar.appendChild(el("i", { class: "g__ext", title: "Waits on another team" }));
     row.appendChild(bar);
     function pick() { if (st.sel !== t.id) { st.sel = t.id; flagging = null; render(); } var c = byId("task-card"); if (c.getBoundingClientRect().top > innerHeight - 120) glide("task-card", 160); }
@@ -836,12 +953,15 @@
     left.appendChild(el("p", "tc__kind", d ? d.title : "Added by you"));
     left.appendChild(el("h3", "tc__title", t.text));
     left.appendChild(el("p", "tc__when", (t.start === t.day ? DAYS[t.day] : DAYS[t.start] + " to " + DAYS[t.day]) + ". " + (isAgent(t.who) ? agentName(t.who) + ", with " + first(t.rev) + " checking its work (" + t.revH + " h)." : t.hours + " h for " + first(t.who) + ".")));
+    var det = DETAIL[t.id], why = det ? det[0] : t.why;
+    if (why) { var wp = el("p", "tc__for"); wp.appendChild(el("b", null, "What it’s for. ")); wp.appendChild(document.createTextNode(why)); left.appendChild(wp); }
     var seg = el("div", { class: "seg", role: "group", "aria-label": "Status" });
     ["todo", "doing", "done", "blocked"].forEach(function (k) {
       seg.appendChild(button(STATUS[k], "seg__b" + (t.status === k ? " is-on" : ""), function () {
         if (k === t.status) return;
         if (k === "blocked") { flagging = t.id; render(); return; }
         if (t.status === "blocked") { t.blocker = ""; delete st.escalated[t.id]; }
+        if (DETAIL[t.id] && (k === "done" || k === "todo")) { st.steps[t.id] = {}; if (k === "done") DETAIL[t.id][1].forEach(function (x, i) { st.steps[t.id][i] = true; }); }
         t.status = k; flagging = null; changed();
       }, { "aria-pressed": String(t.status === k) }));
     });
@@ -854,6 +974,28 @@
       f.addEventListener("submit", function (e) { e.preventDefault(); if (!inp.value.trim()) return; t.status = "blocked"; t.blocker = inp.value.trim().replace(/\.?$/, "."); flagging = null; changed(); });
       left.appendChild(f);
       setTimeout(function () { inp.focus({ preventScroll: true }); }, 0);
+    }
+    // the steps that make the task up: ticking one starts it, ticking them all finishes it
+    if (det) {
+      var done = st.steps[t.id] || (st.steps[t.id] = {}), nd = det[1].filter(function (x, i) { return done[i]; }).length;
+      var sw = el("div", "tc__steps");
+      sw.appendChild(el("p", "tc__h", "Steps, " + nd + " of " + det[1].length + " done"));
+      var ol = el("ol");
+      det[1].forEach(function (x, i) {
+        var li = el("li", done[i] ? "is-done" : null), lab = el("label");
+        var cb = el("input", { type: "checkbox" }); cb.checked = !!done[i];
+        cb.addEventListener("change", function () {
+          if (cb.checked) done[i] = true; else delete done[i];
+          var k = det[1].filter(function (y, j) { return done[j]; }).length;
+          if (k === det[1].length) { if (t.status === "blocked") { t.blocker = ""; delete st.escalated[t.id]; } t.status = "done"; }
+          else if (k && (t.status === "todo" || t.status === "done")) t.status = "doing";
+          else if (!k && t.status === "doing") t.status = "todo";
+          later();
+        });
+        lab.appendChild(cb); lab.appendChild(el("span", null, x)); li.appendChild(lab); ol.appendChild(li);
+      });
+      sw.appendChild(ol);
+      left.appendChild(sw);
     }
     // who does it: the team with their free hours (the uncertified can't take it), then the agent that can
     var who = el("div", "tc__who");
@@ -912,6 +1054,32 @@
       right.appendChild(acts);
     }
     box.appendChild(right);
+
+    // beneath the odds, every way Totality found to raise them, the suggestion first, each with its reasons and what it moves
+    var ways = SUG.byTask[t.id];
+    if (ways && ways.length) {
+      var wb = el("div", "tc__ways");
+      wb.appendChild(el("h4", "dp__h", ways.length > 1 ? "Ways to Raise Its Odds" : "Totality’s Suggestion"));
+      var wl = el("ol");
+      ways.forEach(function (c, i) {
+        var tp = taskRisk(c.v.tmp, c.v.tmp.tasks[t.id]).p, li = el("li", "way");
+        var ww = el("div", "way__w");
+        var wt = el("p", "way__t"); wt.appendChild(el("b", null, c.text)); if (!i) wt.appendChild(el("span", "pill pill--red", "Totality suggests")); ww.appendChild(wt);
+        var rl = el("ul", "way__why"); reasons(c).forEach(function (x) { rl.appendChild(el("li", null, x)); }); ww.appendChild(rl);
+        li.appendChild(ww);
+        var side = el("div", "way__side");
+        var fx = el("p", "way__fx");
+        fx.appendChild(el("span", "pill", "This task " + pct(r.p) + " → " + pct(tp)));
+        if (d && c.v.from != null && c.v.to - c.v.from > 0.005) fx.appendChild(el("span", "pill", cap(d.short) + " " + pct(c.v.from) + " → " + pct(c.v.to)));
+        if (c.v.dExp > 0.05) fx.appendChild(el("span", "pill pill--red", "+" + money(c.v.dExp) + " expected"));
+        side.appendChild(fx);
+        side.appendChild(button("Make it", i ? "btn-q btn-q--sm" : "btn btn--primary btn--sm", function () { c.fn(st); DB.toast("Plan updated."); changed(); }));
+        li.appendChild(side);
+        wl.appendChild(li);
+      });
+      wb.appendChild(wl);
+      right.appendChild(wb);
+    }
   }
 
   /* ================= 4. Across teams ================= */
@@ -1046,7 +1214,7 @@
     return s;
   }
   function readiness(w) { var n = Object.keys(st.prepared[w.id] || {}).length; return { n: n, of: w.steps.length }; }
-  function playbookTasks(s, w) { var g = []; w.steps.forEach(function (step, i) { addTask(s, { text: step[0], who: step[1], start: 0, day: i < 2 ? 0 : 1, hours: step[2] }, g); }); return g; }
+  function playbookTasks(s, w) { var g = []; w.steps.forEach(function (step, i) { addTask(s, { text: step[0], who: step[1], start: 0, day: i < 2 ? 0 : 1, hours: step[2] }, g, "Step " + (i + 1) + " of the playbook for " + lc(w.title) + "."); }); return g; }
   // run the playbook on a copy of the week: who runs short, what slips, how long a full response takes
   function rehearse(w) {
     var tmp = clone(st), prep = st.prepared[w.id] || {};
@@ -1096,20 +1264,26 @@
     var sig = el("div", "signal");
     var sl = el("p", "signal__k"); sl.appendChild(el("span", null, "Early signal")); sl.appendChild(el("span", "pill " + s.cls, s.label)); sig.appendChild(sl);
     sig.appendChild(el("p", "signal__t", s.text + "."));
+    // the reading on its scale: the stretch past the trigger pale red and labelled, now a caret above
     if (w.signal.dir !== "event") {
-      var lo = Math.min(w.signal.now, w.signal.at), hi = Math.max(w.signal.now, w.signal.at), span = (hi - lo) || 1, pad = span * 0.6, a = lo - pad, z = hi + pad;
-      var X = function (v) { return (100 * (v - a) / (z - a)).toFixed(1) + "%"; };
-      var m = el("div", { class: "signal__meter", role: "img", "aria-label": s.text });
-      var zone = el("i", "signal__zone");
-      if (w.signal.dir === "below") { zone.style.left = "0"; zone.style.width = X(w.signal.at); } else { zone.style.left = X(w.signal.at); zone.style.right = "0"; }
-      m.appendChild(zone);
-      var trig = el("i", "signal__trig"); trig.style.left = X(w.signal.at); m.appendChild(trig);
-      var now = el("i", "signal__now" + (s.rank === 3 ? " is-hit" : "")); now.style.left = X(w.signal.now); m.appendChild(now);
+      var g = w.signal, X = function (v) { return Math.max(0, Math.min(100, 100 * v / g.max)); };
+      var m = el("div", { class: "gauge" + (s.rank === 3 ? " is-hit" : s.rank === 2 ? " is-near" : ""), role: "img", "aria-label": s.text + ", on a scale of 0 to " + g.max + g.unit });
+      var nowRow = el("div", "gauge__row gauge__row--now");
+      var nk = el("span", "gauge__now", "Now " + g.now + g.unit); nk.style.setProperty("--x", X(g.now)); nowRow.appendChild(nk);
+      m.appendChild(nowRow);
+      var trk = el("div", "gauge__track");
+      var safe = el("i", "gauge__safe"), zone = el("i", "gauge__zone");
+      if (g.dir === "below") { zone.style.left = "0"; zone.style.width = X(g.at) + "%"; safe.style.left = X(g.at) + "%"; safe.style.right = "0"; }
+      else { safe.style.left = "0"; safe.style.width = X(g.at) + "%"; zone.style.left = X(g.at) + "%"; zone.style.right = "0"; }
+      trk.appendChild(safe); trk.appendChild(zone);
+      var ln = el("i", "gauge__line"); ln.style.setProperty("--x", X(g.at)); trk.appendChild(ln);
+      var car = el("i", "gauge__caret"); car.style.setProperty("--x", X(g.now)); trk.appendChild(car);
+      m.appendChild(trk);
+      var trRow = el("div", "gauge__row");
+      var tk = el("span", "gauge__trig", "Trigger: " + (g.dir === "below" ? "below " : "above ") + g.at + g.unit); tk.style.setProperty("--x", X(g.at));
+      trRow.appendChild(tk);
+      m.appendChild(trRow);
       sig.appendChild(m);
-      var legend = el("p", "signal__legend");
-      [[w.signal.now, "Now " + w.signal.now + w.signal.unit, "now"], [w.signal.at, "Trigger " + w.signal.at + w.signal.unit, "trig"]].sort(function (x, y) { return x[0] - y[0]; })
-        .forEach(function (x, i) { var sp = el("span", "signal__" + x[2] + "-k" + (i ? " is-r" : ""), x[1]); sp.style.left = X(x[0]); legend.appendChild(sp); });
-      sig.appendChild(legend);
     }
     left.appendChild(sig);
     // armed, the steps hand themselves out when the signal crosses its trigger, for the manager's sign-off
@@ -1119,7 +1293,7 @@
       tx.appendChild(el("small", null, w.signal.dir === "event" ? "If the listing comes, Totality hands out the steps and asks for your sign-off." : "If " + lc(w.signal.text) + " crosses " + w.signal.at + w.signal.unit + ", Totality hands out the steps and asks for your sign-off."));
       arm.appendChild(tx);
       var cb = el("input", { type: "checkbox" }); cb.checked = !!st.armed[w.id];
-      cb.addEventListener("change", function () { st.armed[w.id] = cb.checked; DB.toast(cb.checked ? "Armed. You’ll be asked to sign off if it triggers." : "Disarmed."); changed(); });
+      cb.addEventListener("change", function () { st.armed[w.id] = cb.checked; DB.toast(cb.checked ? "Armed. You’ll be asked to sign off if it triggers." : "Disarmed."); later(); });
       arm.appendChild(cb); arm.appendChild(el("span", { class: "switch__ui", "aria-hidden": "true" }));
       left.appendChild(arm);
     }

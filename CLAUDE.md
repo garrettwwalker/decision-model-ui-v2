@@ -148,19 +148,31 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   chance (Farah $13.3M at stake, Elif $11.7M, Layla $7.6M, of the brief's $25.0M). Sections: 1 Bottom Line (lead and
   priorities; the money expected to land of what rides on the team, a pale red track behind it for what's at risk from
   execution, each directive's chance; the brief's 27%; four figures that count when they change), 2 Waiting for You
-  (each option previewed on a copy of the plan: cost, on-time chance before and after, money expected; Totality's
-  suggestion with why and "what would change the suggestion"; Commit, or past the $25k `LIMIT`, "Send to [boss] for
-  approval"; Reopen), 3 The Plan (Totality's suggestions, moves previewed and kept if they raise the odds, one per task,
-  best first: hand work to an agent in `AGENTABLE` with the owner checking it, hand it to a certified teammate with room
-  (`SKILL`), raise a blocker, plan a gap's cover that unblocks a task, chase or escalate a late input, with "Make all";
-  then a Gantt of the week: bars from start to due day with the chance on each, red under 60%, amber when stuck, arrows
+  (shaped like the memo's Our Options, at the user's request, 2026-11-11: a short white card per decision, number, due
+  pill, question and what it's for, the chosen one lifted with its number red and the others faded to 50% with gray
+  pills; beneath, one white panel for it: the question and context with Commit, or past the $25k `LIMIT`, "Send to
+  [boss] for approval" top right, the chosen option's figures between hairlines (cost, the directive's chance now and
+  with it, money expected), the options as rows of one table tried on a copy of the plan, and "What It Does to the
+  Plan" beside "Totality's Read" (why, and what would change the suggestion); Reopen or Withdraw once acted on),
+  3 The Plan (Totality's suggestions live in the timeline, since a separate list read as conclusory: the Gantt's head
+  sums them up with a "Preview on the plan" switch, which redraws the bars, owners, and directive pills as the week
+  would be with every suggestion made, and "Make all"; a red "+N%" at the end of a task's name is how far its suggestion
+  would raise its chance. `suggestions()` tries every move on a copy of the plan and keeps those that raise the odds,
+  best first per task: hand work to an agent in `AGENTABLE` with the owner checking it, hand it to a certified teammate
+  with room (`SKILL`), raise a blocker, plan a gap's cover that unblocks a task, chase or escalate a late input. The
+  Gantt of the week: bars from start to due day with the chance on each, red under 60%, amber when stuck, arrows
   for `AFTER`, an amber diamond where another team's input is still to come, weekends shaded, a red line for now and for
-  each directive's deadline; selecting a bar opens its card: status, who does it with free hours and the agent, the
-  chance with each factor's cost, and what waits on it), 4 Across Teams (Waiting on Others and Waiting on You, each
+  each directive's deadline; selecting a bar opens its card: what the task is for and its steps (`DETAIL`; the user
+  couldn't tell what "run a moulding trial" meant; ticking a step starts the task, ticking all finishes it), status,
+  who does it with free hours and the agent, the chance with each factor's cost, what waits on it, and under the odds
+  every way Totality weighed to raise them, the suggestion first, each with its reasons in words (what it removes,
+  whose hours move, what else it lifts, what's still in the way) and its effect on the task, the directive, and money), 4 Across Teams (Waiting on Others and Waiting on You, each
   handoff's chance of arriving; Chase, Escalate, Mark received; Farah's arrival times feed Layla's plan live, and each
   side can open the other's plan), 5 Who Has Room (hours a day per person, deeper as the day fills, red past a fifth of
-  the week's cap; agents on the plan; One Person Deep gaps), 6 If It Happens (threat and opportunity cards; the playbook
-  rehearsed on a copy of the week: full response time, who runs short, what slips; Arm, which hands out the steps for
+  the week's cap; agents on the plan; One Person Deep gaps), 6 If It Happens (threat and opportunity cards; the early signal on a
+  gauge from zero to `signal.max`: the stretch past the trigger pale red with a red edge and "Trigger: below 40%"
+  beneath, now an ink caret above with its reading, amber close to the trigger and red past it (two black ticks were
+  unclear); the playbook rehearsed on a copy of the week: full response time, who runs short, what slips; Arm, which hands out the steps for
   sign-off when the signal crosses its trigger; Get ready; Run the playbook, which adds its steps to the plan), 7 What
   [Boss] Sees (the roll-up: status, money expected, each directive's chance and weakest task, what's needed from the boss,
   decisions made, a note and Send), and 8 You Might Also Ask. Chances of events match the brief (Hormuz 27%, Red Sea 31%,
@@ -170,6 +182,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   part of each bar grows; its track is there from the start (the user's call). Kept flat (the user disliked tiles in tiles in tiles): one white card per
   piece with hairlines inside, decision options as columns split by hairlines with a red radio mark on the one being
   weighed, the task card and playbook split by a vertical hairline, people as chips; the bottom line's is the only cream panel.
+  Switches redraw the page only after they've slid (`later()`), since a redraw mid-slide replaced the switch unmoved.
 - `workbench.html` + `assets/js/bench.js` follows one decision through six stages, with a sticky "thread" strip
   showing each stage's live result: 1 Forecast (each event's sub-questions per engine, declined part, fused
   probability ±band, override), 2 Contingencies (the `events` data: include, severity, assets hit first),
