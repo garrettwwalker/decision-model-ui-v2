@@ -22,7 +22,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   `--alert-2` (softer warnings); alerts sit next to the sky's hue rather than opposite it (the user found
   orange-on-blue and red-on-green harsh), and moonlight for everything else ("yours", e.g. your plan in a chart, is plain
   white). Brief `sky-warm`: amber / pale gold / coral. Memo `sky-green` (green nebula, green-black ground): mint / pale mint / honey-gold pastel (a warm gold: a greener gold read as chartreuse against the green sky). Workflows
-  `sky-plum`: violet / lilac / red-rose. Workbench (the defaults): blue / pale cyan / orchid. Ask
+  `sky-plum` (until 2026-11-11; now house style): violet / lilac / red-rose. Workbench (the defaults): blue / pale cyan / orchid. Ask
   `sky-violet`: periwinkle / pale periwinkle / pink. The older names the page rules use (`--blue`, `--teal`,
   `--rose`, `--gold`, `--violet`, `--ember`, `--safe`, `--loss` ...) are aliases redefined on `.t-night`, and tints
   are `color-mix()` of the tokens, so a page's palette is four values on its `sky-*` class. bench.js sets SVG colors
@@ -135,14 +135,30 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   rules), resolution criteria (text, resolve-by date, source of truth, a suggested wording), and extra documents
   (names only; read in the browser) plus connected `SOURCES`. Active options show as chips, travel with the
   message as tags, add a `.track` card to the reply, and recurring questions list under "Standing questions".
-- `team.html` + `assets/js/team.js` is Penumbra for the people who carry decisions out. `PERSONAS` holds three
-  managers (Farah, port operations; Elif, Gebze production; Layla, GCC key accounts), switched under "Viewing as"
-  and remembered in localStorage. Each has `people` (role, shift, base hours, cap, skills, away, backup), `gaps`,
-  `decisions` (options can finish a task or add one), `directives` from leadership broken into `tasks`
-  (status, owner, day, hours, blocker; `AFTER` holds dependencies), `watch` items (threats and opportunities with
-  an early `signal` against its trigger and playbook `steps`), and `fixed` calendar events. Day 0 is Tue 6 Oct,
-  the morning of the brief. State is per manager (`S[pid]`); everything re-renders from it, including the drafted
-  update to their boss. The brief's "See the team's part" opens `team.html?directive=bridge|divert|cover`.
+- `team.html` + `assets/css/team.css` + `assets/js/team.js` ("workflows") is Penumbra for the managers who carry decisions
+  out, in the house style (body `app house team-page`; rebuilt from the ground up 2026-11-11, replacing a dark `sky-plum`
+  version). `PERSONAS` holds three managers (Farah, port operations; Elif, Gebze production; Layla, GCC key accounts),
+  shown as white cards under the head (the chosen one lifted with a red "Viewing as" pill and its count of decisions
+  waiting in red, the others faded to 55% and gray) and remembered in localStorage. Each has a headline, lede, bottom-line
+  lead and three `priorities`, `rides` (the share of the brief's $25.0M protected that rides on the team: Farah $13.3M,
+  the diversion and war-risk cover; Elif $11.7M, the resin bridge-buy; Layla $7.6M, the diversion), `people` (role, shift,
+  base hours, cap, skills, away, backup), `gaps`, `decisions` (options can finish a task or add one), `directives`
+  broken into `tasks` (status, owner, day, hours, blocker; `AFTER` holds dependencies, `SKILL` the tasks only a certified
+  person can do), `watch` items (threats and opportunities with an early `signal` against its trigger and playbook
+  `steps`; chances match the brief: Hormuz 27%, Red Sea 31%, Gebze strike 16% with the union vote on October 20, feeder
+  sanctions 15%), `fixed` calendar events, and `asks`. Sections: 1 Bottom Line (lead and priorities beside a cream panel
+  with what rides on the team and the brief's 27% "+3% overnight" linking back, a strip of four figures beneath that count
+  when they change), 2 Waiting for You (red count; the week on a hairline as on the brief, then the decisions in deadline
+  order, each with its options as white tiles on cream and "Totality suggests" on one, plus why), 3 From Leadership
+  (a white card per directive with progress, task rows with a soft status pill that moves on, an owner chip with each
+  person's free hours, Flag a problem shown on row hover, and "See the decision in the daily brief"; running playbooks
+  and tasks you've added get their own cards), 4 Who Has Room (rounded-square initials as on the agents page, load bars,
+  the chosen person's card with Totality's handoff suggestion when they're over capacity, then Gaps to Cover with amber
+  "One person deep" pills), 5 What Could Change Your Week (threat and opportunity cards, the chosen one lifted; a panel
+  with the signal against its trigger and the playbook, easing to its new height), 6 Your Update (the drafted note to the
+  boss), and 7 You Might Also Ask. Day 0 is Tue Oct 6, the morning of the brief. State is per manager (`S[pid]`);
+  everything re-renders from it. The brief's "See the team's part" opens `team.html?directive=bridge|divert|cover`,
+  which picks out that directive.
 - `workbench.html` + `assets/js/bench.js` follows one decision through six stages, with a sticky "thread" strip
   showing each stage's live result: 1 Forecast (each event's sub-questions per engine, declined part, fused
   probability ±band, override), 2 Contingencies (the `events` data: include, severity, assets hit first),
@@ -230,12 +246,12 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   user asked for opening animations on graphs generally): `assets/js/reveal.js`'s `Reveal(selector)` adds `.is-in` and
   `html.rv`, and the page styles `.rv ... :not(.is-in)`: lines draw (pathLength 1), bars grow from their axis, charts that
   redraw on every change wipe in with clip-path (the report keeps its own copy, `html.rs-anim`). Headline figures count, as the report's lab figures do
-  (2026-11-10, reveal.js): `CountIn(sel)` counts a page's top odds and money up from zero on first view (brief, memo, at a glance),
+  (2026-11-10, reveal.js): `CountIn(sel)` counts a page's top odds and money up from zero on first view (brief, memo, at a glance, workflows),
   and `CountFrom(el, oldText)` counts a redrawn figure from its old value when the units match (the memo's scenario chance and
   cost, the map's total at risk, the option panel's figures). Kept to those, at the user's request not to overdo it. Its rules: cream ground, white cards on a soft shadow, serif
   titles in title case with no period, one tomato red (money at risk is red; protected neutral ink), amber for a
   problem, no green, gold or blue, no outline rings (a lit or chosen card lifts), no status dots or glows; a faded card carries no color (its pills and colored figures go gray with its text, coming back under the pointer: agents, brief, at a glance, report). agents.css
-  keeps its own copy (body `ag-page`) and is the reference; the daily brief, at a glance, the report, the tree, the sample memo and ask use house.css; the other existing
+  keeps its own copy (body `ag-page`) and is the reference; the daily brief, at a glance, the report, the tree, the sample memo, workflows and ask use house.css; the other existing
   pages keep their own styles unless asked.
 - `index.html` + `assets/css/landing.css` + `assets/js/landing.js` is the landing, Penumbra (it was a preview at
   `penumbra.html` from 2026-10-15 until the switchover on 2026-10-16; `penumbra.html` now only redirects home). Same

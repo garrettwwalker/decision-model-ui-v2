@@ -4,15 +4,19 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Workflows · Penumbra</title>
-  <meta name="description" content="Penumbra for team leads: the decisions that need you today, leadership’s directives broken into your team’s tasks, who on the team has room, what to watch, and how the team adapts.">
+  <meta name="description" content="Penumbra for the managers who carry decisions out: the calls that are theirs to make, leadership’s directives broken into their team’s tasks, who has room, what to watch, and the update that goes back up.">
   <link rel="preload" href="assets/fonts/switzer-800.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/switzer-400.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="assets/css/base.css">
   <link rel="stylesheet" href="assets/css/app.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&display=swap">
+  <link rel="stylesheet" href="assets/css/house.css">
   <link rel="stylesheet" href="assets/css/team.css">
   <script src="assets/js/nav.js"></script>
 </head>
-<body class="app t-night sky-plum grain">
+<body class="app house team-page">
   <a class="skip" href="#main">Skip to content</a>
 
   <header class="bar">
@@ -35,86 +39,118 @@
     <p class="bar__meta"><b>Halvorsen Group</b><span>Tue Oct 6, 07:10 GST</span></p>
   </header>
 
-  <main id="main" class="page page--team">
-    <section class="thead">
-      <div class="thead__who">
-        <p class="eyebrow thead__kicker" data-out="kicker"></p>
-        <h1 class="display thead__title" data-out="hello"></h1>
-      </div>
-      <div class="persona" role="radiogroup" aria-label="Viewing as" id="persona"></div>
-    </section>
+  <main id="main" class="page">
+    <header class="th">
+      <p class="h-kicker" data-out="kicker"></p>
+      <h1 class="th__title" data-out="title"></h1>
+      <p class="th__lede" data-out="lede"></p>
+    </header>
 
-    <section class="glance" aria-label="Your team at a glance" id="glance"></section>
+    <!-- Viewing as: the three managers, the chosen one lifted -->
+    <nav class="mgrs" id="mgrs" aria-label="Viewing as"></nav>
 
-    <!-- Decisions that need the manager, and the week -->
-    <div class="tgrid">
-      <section class="tsec" aria-labelledby="dec-title">
-        <div class="tsec__head">
-          <h2 class="tsec__title" id="dec-title">needs you today</h2>
-          <p class="tsec__note">Decisions you can make without escalating. The Totality engine suggests an option for each and explains its reasoning.</p>
+    <div class="tbody" id="tbody">
+      <!-- 1. Bottom line -->
+      <section class="sec" id="bottom-line" aria-labelledby="bl-title">
+        <div class="sec__head">
+          <h2 class="sec__title" id="bl-title"><span aria-hidden="true">1</span>Bottom Line</h2>
         </div>
+        <div class="bl">
+          <div class="bl__top">
+            <div class="bl__text">
+              <p class="bl__lead" data-out="bl-lead"></p>
+              <ol class="kp" id="kp" aria-label="This week’s priorities"></ol>
+            </div>
+            <div class="bl__side">
+              <div class="rides">
+                <p class="bl__k" data-out="rides-k"></p>
+                <p class="rides__v" data-out="rides-v"></p>
+                <div class="rides__bar" aria-hidden="true"><i data-out="rides-bar"></i></div>
+                <p class="rides__what" data-out="rides-what"></p>
+              </div>
+              <a class="odds" href="briefing.html#bottom-line">
+                <span class="odds__k">Chance the Strait of Hormuz closes for 7 days or more in the next 30 days</span>
+                <span class="odds__row"><b class="odds__p">27%</b><span class="pill pill--red">+3% overnight</span></span>
+                <span class="odds__n">From this morning’s daily brief</span>
+              </a>
+            </div>
+          </div>
+          <div class="stats" id="stats"></div>
+        </div>
+      </section>
+
+      <!-- 2. Waiting for you -->
+      <section class="sec" id="waiting" aria-labelledby="wait-title">
+        <div class="sec__head">
+          <h2 class="sec__title" id="wait-title"><span aria-hidden="true">2</span>Waiting for You <b class="count" id="wait-n"></b></h2>
+          <p class="sec__note" data-out="wait-note"></p>
+        </div>
+        <ol class="week" id="week" aria-label="This week"></ol>
         <ol class="decisions" id="decisions"></ol>
       </section>
-      <aside class="panel week" aria-labelledby="week-title">
-        <h2 class="week__title" id="week-title">This week</h2>
-        <ol class="week__days" id="week"></ol>
-      </aside>
-    </div>
 
-    <!-- Leadership's decisions, broken into the team's tasks -->
-    <section class="tsec" aria-labelledby="dir-title">
-      <div class="tsec__head">
-        <h2 class="tsec__title" id="dir-title">from leadership</h2>
-        <p class="tsec__note">Directives from leadership and the tasks your team owns for each. Update a task’s status as it moves, or hand it to someone with more time.</p>
-      </div>
-      <div class="directives" id="directives"></div>
-    </section>
-
-    <!-- The team -->
-    <section class="tsec" aria-labelledby="team-title">
-      <div class="tsec__head">
-        <h2 class="tsec__title" id="team-title">your team</h2>
-        <p class="tsec__note">Who’s working this week and how full their schedule is. Select someone to see their tasks, certifications, and backup.</p>
-      </div>
-      <div class="crew">
-        <ul class="roster" id="roster"></ul>
-        <aside class="panel member" id="member" aria-live="polite"></aside>
-      </div>
-      <div class="panel gaps">
-        <h3 class="panel__title">Gaps to cover</h3>
-        <ul class="gaps__list" id="gaps"></ul>
-      </div>
-    </section>
-
-    <!-- Threats and opportunities -->
-    <section class="tsec" aria-labelledby="watch-title">
-      <div class="tsec__head">
-        <h2 class="tsec__title" id="watch-title">what to watch</h2>
-        <p class="tsec__note">Threats and opportunities that matter to your team, each with an early warning signal and a playbook. Preparing the steps now means the team won’t be starting from scratch.</p>
-      </div>
-      <div class="watch">
-        <ul class="watch__list" id="watch" role="tablist" aria-label="Threats and opportunities"></ul>
-        <div class="panel play" id="play" role="tabpanel" aria-live="polite"></div>
-      </div>
-    </section>
-
-    <!-- The update upward -->
-    <section class="tsec" aria-labelledby="up-title">
-      <div class="tsec__head">
-        <h2 class="tsec__title" id="up-title">your update</h2>
-        <p class="tsec__note">A draft update to your manager, written from what’s on this page. Edit it before you send it.</p>
-      </div>
-      <div class="panel update">
-        <p class="update__to" data-out="update-to"></p>
-        <label class="sr-only" for="update-text">Your update</label>
-        <textarea class="update__text" id="update-text" rows="14"></textarea>
-        <div class="update__acts">
-          <button class="btn btn--primary btn--sm" type="button" id="update-send"></button>
-          <button class="btn btn--ghost btn--sm" type="button" id="update-copy">Copy</button>
-          <button class="btn btn--ghost btn--sm" type="button" id="update-redraft">Redraft from the page</button>
+      <!-- 3. From leadership -->
+      <section class="sec" id="leadership" aria-labelledby="dir-title">
+        <div class="sec__head">
+          <h2 class="sec__title" id="dir-title"><span aria-hidden="true">3</span>From Leadership</h2>
+          <p class="sec__note" data-out="dir-note"></p>
         </div>
-      </div>
-    </section>
+        <div class="dirs" id="dirs"></div>
+      </section>
+
+      <!-- 4. The team -->
+      <section class="sec" id="team" aria-labelledby="team-title">
+        <div class="sec__head">
+          <h2 class="sec__title" id="team-title"><span aria-hidden="true">4</span>Who Has Room</h2>
+          <p class="sec__note" data-out="team-note"></p>
+        </div>
+        <div class="crew">
+          <ul class="roster" id="roster"></ul>
+          <aside class="member" id="member" aria-live="polite"></aside>
+        </div>
+        <div class="gaps">
+          <h3 class="sub">Gaps to Cover</h3>
+          <ul class="gaps__list" id="gaps"></ul>
+        </div>
+      </section>
+
+      <!-- 5. What to watch -->
+      <section class="sec" id="watch" aria-labelledby="watch-title">
+        <div class="sec__head">
+          <h2 class="sec__title" id="watch-title"><span aria-hidden="true">5</span>What Could Change Your Week</h2>
+          <p class="sec__note" data-out="watch-note"></p>
+        </div>
+        <div class="watch" id="watch-list" role="tablist" aria-label="Threats and opportunities"></div>
+        <div class="play" id="play" role="tabpanel" aria-live="polite"></div>
+      </section>
+
+      <!-- 6. The update upward -->
+      <section class="sec" id="update" aria-labelledby="up-title">
+        <div class="sec__head">
+          <h2 class="sec__title" id="up-title"><span aria-hidden="true">6</span>Your Update</h2>
+          <p class="sec__note" data-out="up-note"></p>
+        </div>
+        <div class="update">
+          <p class="update__to" data-out="update-to"></p>
+          <label class="sr-only" for="update-text">Your update</label>
+          <textarea class="update__text" id="update-text" rows="14"></textarea>
+          <div class="update__acts">
+            <button class="btn btn--primary btn--sm" type="button" id="update-send"></button>
+            <button class="btn-q" type="button" id="update-copy">Copy</button>
+            <button class="btn-q" type="button" id="update-redraft">Redraft from the page</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 7. Ask -->
+      <section class="sec" id="ask" aria-labelledby="ask-title">
+        <div class="sec__head">
+          <h2 class="sec__title" id="ask-title"><span aria-hidden="true">7</span>You Might Also Ask</h2>
+          <p class="sec__note">Each query opens the Totality engine.</p>
+        </div>
+        <ul class="asks" id="asks"></ul>
+      </section>
+    </div>
   </main>
 
   <footer class="app-foot">
@@ -123,8 +159,7 @@
   </footer>
 
   <script src="assets/js/app.js"></script>
-  <script src="assets/js/space.js"></script>
-  <script>Space.stars();</script>
+  <script src="assets/js/reveal.js"></script>
   <script src="assets/js/team.js"></script>
 </body>
 </html>
