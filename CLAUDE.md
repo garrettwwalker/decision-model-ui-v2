@@ -138,8 +138,8 @@ no tests. To preview, open `index.html` in a browser; there's no server.
 - `team.html` + `assets/css/team.css` + `assets/js/team.js` ("workflows") is Penumbra for the managers who carry decisions
   out, in the house style (body `app house team-page`; rebuilt from the ground up 2026-11-11, replacing a dark `sky-plum`
   version). `PERSONAS` holds three managers (Farah, port operations; Elif, Gebze production; Layla, GCC key accounts),
-  shown as white cards under the head (the chosen one lifted with a red "Viewing as" pill and its count of decisions
-  waiting in red, the others faded to 55% and gray) and remembered in localStorage. Each has a headline, lede, bottom-line
+  switched by their first names on a cream track with a sliding white pill at the top right, beside the title (white
+  cards under the head took too much room), and remembered in localStorage. Each has a headline, lede, bottom-line
   lead and three `priorities`, `rides` (the share of the brief's $25.0M protected that rides on the team: Farah $13.3M,
   the diversion and war-risk cover; Elif $11.7M, the resin bridge-buy; Layla $7.6M, the diversion), `people` (role, shift,
   base hours, cap, skills, away, backup), `gaps`, `decisions` (options can finish a task or add one), `directives`
@@ -156,7 +156,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   the chosen person's card with Totality's handoff suggestion when they're over capacity, then Gaps to Cover with amber
   "One person deep" pills), 5 What Could Change Your Week (threat and opportunity cards, the chosen one lifted; a panel
   with the signal against its trigger and the playbook, easing to its new height), 6 Your Update (the drafted note to the
-  boss), and 7 You Might Also Ask. Day 0 is Tue Oct 6, the morning of the brief. State is per manager (`S[pid]`);
+  boss), and 7 You Might Also Ask. On first view only the filled part of each bar grows; its track is there from the start (the user's call). Day 0 is Tue Oct 6, the morning of the brief. State is per manager (`S[pid]`);
   everything re-renders from it. The brief's "See the team's part" opens `team.html?directive=bridge|divert|cover`,
   which picks out that directive.
 - `workbench.html` + `assets/js/bench.js` follows one decision through six stages, with a sticky "thread" strip

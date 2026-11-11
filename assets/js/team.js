@@ -355,25 +355,27 @@
     $("kicker").textContent = "Workflows for " + P.name + ", " + P.role.charAt(0).toLowerCase() + P.role.slice(1) + ", Tuesday, October 6, 2026";
     $("title").textContent = P.title;
     $("lede").textContent = P.lede;
-    var box = byId("mgrs"); box.textContent = "";
-    Object.keys(PERSONAS).forEach(function (id) {
-      var q = PERSONAS[id], s = init(id), on = id === pid;
-      var open = q.decisions.filter(function (d) { return s.decided[d.id] == null; });
-      var next = open.slice().sort(function (a, b) { return a.due[0] - b.due[0] || a.due[1].localeCompare(b.due[1]); })[0];
-      var b = el("button", { type: "button", class: "mgr" + (on ? " is-on" : ""), "aria-pressed": String(on) });
-      var k = el("span", "mgr__k"); k.appendChild(el("b", null, q.name)); if (on) k.appendChild(el("span", "pill pill--red", "Viewing as"));
-      b.appendChild(k);
-      b.appendChild(el("span", "mgr__role", q.short + ", reporting to " + q.boss.name));
-      var n = el("span", "mgr__n"); n.appendChild(el("b", "mgr__p", String(open.length))); n.appendChild(el("span", null, open.length === 1 ? "decision waiting" : "decisions waiting"));
-      b.appendChild(n);
-      b.appendChild(el("span", "mgr__next", next ? "Next due " + dayLow(next.due[0], next.due[1]) : "Nothing left to decide this week"));
+    var box = byId("mgrs");
+    if (!box.querySelector("button")) Object.keys(PERSONAS).forEach(function (id) {
+      var b = el("button", { type: "button", "data-as": id }, PERSONAS[id].first);
+      b.title = PERSONAS[id].name + ", " + PERSONAS[id].short;
       b.addEventListener("click", function () { if (id !== pid) switchTo(id); });
       box.appendChild(b);
     });
+    [].forEach.call(box.querySelectorAll("button"), function (b) { b.setAttribute("aria-pressed", String(b.dataset.as === pid)); });
+    placePill();
   }
+  // the white pill slides behind the chosen name
+  function placePill() {
+    var box = byId("mgrs"), b = box.querySelector('[aria-pressed="true"]'), pill = box.querySelector(".mgrs__pill");
+    if (!b) return;
+    pill.style.width = b.offsetWidth + "px"; pill.style.transform = "translateX(" + (b.offsetLeft - 4) + "px)";
+  }
+  window.addEventListener("resize", placePill);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(placePill);
   function switchTo(id) {
     persona(id); render();
-    var body = byId("tbody"), head = document.querySelector(".th");
+    var body = byId("tbody"), head = document.querySelector(".th__words");
     if (!REDUCE && body.animate) [head, body].forEach(function (x) {
       x.animate([{ opacity: 0, transform: "translateY(10px)" }, { opacity: 1, transform: "none" }], { duration: 380, easing: "cubic-bezier(0.3, 0.7, 0.2, 1)" });
     });
@@ -634,10 +636,11 @@
 
   /* ================= 4. Who has room ================= */
   function loadBar(p) {
-    var h = hoursOf(p.id), bar = el("span", "load" + (h > p.cap ? " is-over" : "")), base = el("i", "load__base"), add = el("i", "load__add");
-    base.style.width = Math.min(100, 100 * p.base / p.cap) + "%";
-    add.style.width = Math.max(0, Math.min(100, 100 * h / p.cap) - Math.min(100, 100 * p.base / p.cap)) + "%";
-    bar.appendChild(base); bar.appendChild(add);
+    var h = hoursOf(p.id), bar = el("span", "load" + (h > p.cap ? " is-over" : "")), fill = el("span", "load__fill"), base = el("i", "load__base"), add = el("i", "load__add");
+    var all = Math.min(100, 100 * h / p.cap);
+    fill.style.width = all + "%";
+    base.style.flexGrow = Math.min(p.base, h); add.style.flexGrow = Math.max(0, h - p.base);
+    fill.appendChild(base); fill.appendChild(add); bar.appendChild(fill);
     return bar;
   }
   // for someone over capacity: the largest task of theirs that a teammate with room could take
@@ -907,6 +910,7 @@
   var saved = null; try { saved = localStorage.getItem("daybreak.team.as"); } catch (e) {}
   persona(dir ? dir[0] : PERSONAS[as] ? as : PERSONAS[saved] ? saved : "farah");
   render();
+  requestAnimationFrame(function () { requestAnimationFrame(function () { byId("mgrs").classList.add("is-ready"); }); });
   // figures count in and bars grow the first time each section scrolls into view; later redraws stay put
   CountIn(".rides__v, .odds__p");
   Reveal("#bottom-line, #leadership, #team, #watch", 0.15);
