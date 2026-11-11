@@ -598,6 +598,29 @@
   paintAtlas();
   drawSide();
 
+  // the map's entrance, the first time it scrolls into view: places pop in (Iranian links, then partners, then our sites),
+  // then each link draws itself from its source. Strokes don't scale with the zoom, so dashes are set in screen pixels.
+  (function () {
+    if (REDUCE || !window.IntersectionObserver) return;
+    var ORDER_K = { iran: 0, partner: 1, site: 2, alt: 3 };
+    PLACES.forEach(function (p, i) { markEls[p.id].inner.style.setProperty("--d", (ORDER_K[p.kind] * 0.15 + (i % 4) * 0.04).toFixed(2) + "s"); });
+    atlas.classList.add("is-waiting");
+    var io = new IntersectionObserver(function (es) {
+      if (!es[0].isIntersecting) return;
+      io.disconnect();
+      atlas.classList.remove("is-waiting");
+      var k = (map.getBoundingClientRect().width || 800) / vb[2];
+      LINKS.forEach(function (l, i) {
+        var el2 = linkEls[l.id], len = el2.getTotalLength() * k;
+        el2.style.strokeDasharray = len + "px"; el2.style.strokeDashoffset = len + "px";
+        var a = el2.animate([{ strokeDashoffset: len + "px" }, { strokeDashoffset: "0px" }],
+          { duration: l.via ? 1400 : 700, delay: 500 + i * 70, easing: "cubic-bezier(0.3, 0.6, 0.2, 1)", fill: "forwards" });
+        a.onfinish = function () { a.cancel(); el2.style.strokeDasharray = ""; el2.style.strokeDashoffset = ""; };
+      });
+    }, { threshold: 0.35 });
+    io.observe(map);
+  })();
+
   /* ---------- our options: a short card each; the selected card fills the panel below with its figures, for and against,
      and implementation timeline ---------- */
   var panel = $("#plan"), olist = $("#options-list"), cardEls = {}, shown = "resin";

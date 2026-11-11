@@ -193,6 +193,10 @@
 .mkg.is-hit:not(.mkg--iran) .mkg__dot { stroke: var(--accent); stroke-width: 2.5; }
 .mkg.is-dim { opacity: 0.25; }
 .mkg.is-hidden { display: none; }
+/* entrance (memo.js): until the map scrolls into view its places wait small and clear, then pop in by kind */
+.mkg__in { transition: opacity 0.35s ease var(--d, 0s), transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) var(--d, 0s); }
+.atlas.is-waiting .mkg__in { opacity: 0; transform: scale(0.2); }
+.atlas.is-waiting .lk { opacity: 0; }
 /* in the region view the Gulf's places sit inside its box as small marks, their names waiting for the zoom */
 .atlas:not(.is-zoomed) .mkg.is-gulf .mkg__lab { display: none; }
 .atlas:not(.is-zoomed) .mkg.is-gulf .mkg__dot { transform: scale(0.6); }
