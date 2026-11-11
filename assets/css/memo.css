@@ -187,9 +187,6 @@
 .mkg--iran .mkg__dot { fill: var(--accent); }
 .mkg--alt .mkg__dot { fill: #fff; stroke: var(--ink); stroke-width: 2; }
 .mkg__lab { font: 600 11px var(--font); fill: var(--ink); pointer-events: none; }
-.mkg__tag { fill: #fff; filter: drop-shadow(0 1px 1.5px rgba(22, 20, 18, 0.18)); pointer-events: none; }
-.mkg--iran .mkg__tag { fill: #fff7f5; }
-.atlas:not(.is-zoomed) .mkg.is-gulf .mkg__tag, .atlas.is-zoomed .mkg:not(.is-gulf) .mkg__tag { display: none; }
 .mkg--iran .mkg__lab { fill: var(--accent-ink); }
 .mkg:hover .mkg__dot, .mkg:focus-visible .mkg__dot, .mkg.is-picked .mkg__dot { transform: scale(1.35); }
 .mkg.is-picked .mkg__lab, .mkg:focus-visible .mkg__lab { font-weight: 800; }
