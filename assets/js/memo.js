@@ -148,6 +148,7 @@
     return e;
   }
 
+  function mM(v) { return v ? "$" + (v % 1 ? v.toFixed(1) : String(v)) + "M" : "$0"; }
   function lossOf(p) { var t = 0; for (var k in p.loss) t += p.loss[k]; return t; }
 
   /* ---------- path tracks: a cream track with a white pill, one per section that follows the path, all in step ---------- */
@@ -301,7 +302,7 @@
     var foot = el("div", "path__foot");
     var cost = el("div", "path__cost");
     cost.appendChild(el("p", "path__k", "What it would cost us"));
-    cost.appendChild(el("p", "path__v" + (total ? " red" : ""), total ? DB.money(total, total % 1 ? 1 : 0) : "$0"));
+    cost.appendChild(el("p", "path__v" + (total ? " red" : ""), mM(total)));
     cost.appendChild(el("p", "path__sub", "over the next year if we change nothing"));
     foot.appendChild(cost);
     var best = el("div", "path__best");
@@ -542,24 +543,52 @@
     });
     var sc = BYP[path], loss = $("#atlas-loss");
     var wasTot = $(".atlas__total", loss), wasText = wasTot && wasTot.textContent;
+    var wasRows = $$("div:not(.atlas__losshead) dd", loss).map(function (e) { return e.textContent; });
     loss.innerHTML = "";
     var head = el("div", "atlas__losshead");
     head.appendChild(el("dt", null, "At risk in this scenario"));
     var tot = lossOf(sc);
-    var totEl = el("dd", "atlas__total" + (tot ? " red" : ""), tot ? DB.money(tot, tot % 1 ? 1 : 0) : "Nothing new");
+    var totEl = el("dd", "atlas__total" + (tot ? " red" : ""), mM(tot));
     head.appendChild(totEl);
     loss.appendChild(head);
     CountFrom(totEl, wasText); // the total counts to the new scenario's
     ["plants", "clear", "growth", "freight", "cash"].forEach(function (k) {
       var v = sc.loss[k], d = el("div", v ? "is-on" : null);
       d.appendChild(el("dt", null, INTEREST[k]));
-      d.appendChild(el("dd", null, v ? DB.money(v, v % 1 ? 1 : 0) : "$0"));
-      loss.appendChild(d);
+      var dd = el("dd", null, mM(v));
+      d.appendChild(dd); loss.appendChild(d);
+      CountFrom(dd, wasRows[loss.children.length - 2]);
     });
     if (!picked) drawSide();
   }
+  // the side panel crossfades when its content changes: the old content fades out over the new as the panel eases to
+  // its new height, and the chance counts to the new scenario's; a redraw with nothing new (a hover) leaves it be
+  var sideKey = null;
   function drawSide() {
-    side.innerHTML = "";
+    var key = path + "|" + (picked || "") + "|" + Object.keys(layers).filter(function (k) { return layers[k]; }).join();
+    if (key === sideKey) return;
+    var first = sideKey === null, wasP = $(".atlas__p", side), wasPText = wasP && wasP.textContent;
+    sideKey = key;
+    var h0 = side.offsetHeight, ghost = null;
+    if (!first && !REDUCE && side.animate) {
+      $$(".atlas__ghost", side).forEach(function (g) { g.remove(); });
+      ghost = el("div", "atlas__ghost"); ghost.setAttribute("aria-hidden", "true");
+      while (side.firstChild) ghost.appendChild(side.firstChild);
+    } else side.innerHTML = "";
+    fillSide();
+    CountFrom($(".atlas__p", side), wasPText);
+    if (!ghost) return;
+    var kids = [].slice.call(side.children), h1 = side.offsetHeight;
+    side.appendChild(ghost);
+    var ease = "cubic-bezier(0.3, 0.7, 0.2, 1)";
+    ghost.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 200, easing: "ease-out", fill: "forwards" }).onfinish = function () { ghost.remove(); };
+    kids.forEach(function (k) { k.animate([{ opacity: 0, transform: "translateY(4px)" }, { opacity: 1, transform: "none" }], { duration: 320, delay: 120, easing: ease, fill: "backwards" }); });
+    if (Math.abs(h1 - h0) > 1) {
+      side.style.overflow = "hidden";
+      side.animate([{ height: h0 + "px" }, { height: h1 + "px" }], { duration: 340, easing: ease }).onfinish = function () { side.style.overflow = ""; };
+    }
+  }
+  function fillSide() {
     var sc = BYP[path];
     if (!picked) {
       side.appendChild(el("h3", "atlas__t", sc.name));

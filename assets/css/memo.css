@@ -186,7 +186,7 @@
 .mkg--partner .mkg__dot { fill: #6a655e; }
 .mkg--iran .mkg__dot { fill: var(--accent); }
 .mkg--alt .mkg__dot { fill: #fff; stroke: var(--ink); stroke-width: 2; }
-.mkg__lab { font: 600 11px var(--font); fill: var(--ink); paint-order: stroke; stroke: #ece5da; stroke-width: 3.5px; stroke-linejoin: round; pointer-events: none; }
+.mkg__lab { font: 600 11px var(--font); fill: var(--ink); pointer-events: none; }
 .mkg--iran .mkg__lab { fill: var(--accent-ink); }
 .mkg:hover .mkg__dot, .mkg:focus-visible .mkg__dot, .mkg.is-picked .mkg__dot { transform: scale(1.35); }
 .mkg.is-picked .mkg__lab, .mkg:focus-visible .mkg__lab { font-weight: 800; }
@@ -214,7 +214,10 @@
 .atlas__lines { display: inline-flex; align-items: center; gap: 0.45rem; margin-left: auto; }
 .ln { display: inline-block; width: 18px; height: 3px; border-radius: 2px; background: var(--accent); }
 /* the side panel: the scenario's summary, or the selected place's details */
-.atlas__side { display: grid; align-content: start; justify-items: start; gap: 0.55rem; padding: 1.1rem 1.15rem; border-radius: var(--r-sm); background: var(--mist); }
+.atlas__side { position: relative; display: grid; align-content: start; justify-items: start; gap: 0.55rem; padding: 1.1rem 1.15rem; border-radius: var(--r-sm); background: var(--mist); }
+/* the outgoing content, laid over the incoming as it fades (memo.js drawSide) */
+.atlas__ghost { position: absolute; inset: 0; display: grid; align-content: start; justify-items: start; gap: 0.55rem; padding: 1.1rem 1.15rem; pointer-events: none; }
+.atlas__ghost p { margin: 0; }
 .atlas__side p { margin: 0; }
 .atlas__t { margin: 0; font-family: var(--display); font-weight: 400; font-size: 1.45rem; line-height: 1.15; }
 .atlas__p { font-family: var(--display); font-size: 1.9rem; line-height: 1; }

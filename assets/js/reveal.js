@@ -53,8 +53,10 @@ window.Reveal = function (sel, threshold) {
   window.CountFrom = function (el, prev) {
     var n = el && textNode(el); if (!n || prev == null) return;
     var m = prev.match(NUM); if (!m) return;
-    if (prev.replace(NUM, "#") !== n.nodeValue.replace(NUM, "#")) return;
-    Count(el, parseFloat(m[0].replace(/,/g, "")));
+    var from = parseFloat(m[0].replace(/,/g, "")), to = parseFloat(n.nodeValue.match(NUM)[0].replace(/,/g, ""));
+    // a zero reads "$0", so it counts with "$0.8M" or "$44M" even though the units are written differently
+    if (prev.replace(NUM, "#") !== n.nodeValue.replace(NUM, "#") && from !== 0 && to !== 0) return;
+    Count(el, from);
   };
   window.CountIn = function (sel) {
     var els = [].slice.call(document.querySelectorAll(sel));
