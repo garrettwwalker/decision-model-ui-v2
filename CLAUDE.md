@@ -136,29 +136,38 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   (names only; read in the browser) plus connected `SOURCES`. Active options show as chips, travel with the
   message as tags, add a `.track` card to the reply, and recurring questions list under "Standing questions".
 - `team.html` + `assets/css/team.css` + `assets/js/team.js` ("workflows") is Penumbra for the managers who carry decisions
-  out, in the house style (body `app house team-page`; rebuilt from the ground up 2026-11-11, replacing a dark `sky-plum`
-  version). `PERSONAS` holds three managers (Farah, port operations; Elif, Gebze production; Layla, GCC key accounts),
-  switched by their first names on a cream track with a sliding white pill at the top right, beside the title (white
-  cards under the head took too much room), and remembered in localStorage. Each has a headline, lede, bottom-line
-  lead and three `priorities`, `rides` (the share of the brief's $25.0M protected that rides on the team: Farah $13.3M,
-  the diversion and war-risk cover; Elif $11.7M, the resin bridge-buy; Layla $7.6M, the diversion), `people` (role, shift,
-  base hours, cap, skills, away, backup), `gaps`, `decisions` (options can finish a task or add one), `directives`
-  broken into `tasks` (status, owner, day, hours, blocker; `AFTER` holds dependencies, `SKILL` the tasks only a certified
-  person can do), `watch` items (threats and opportunities with an early `signal` against its trigger and playbook
-  `steps`; chances match the brief: Hormuz 27%, Red Sea 31%, Gebze strike 16% with the union vote on October 20, feeder
-  sanctions 15%), `fixed` calendar events, and `asks`. Sections: 1 Bottom Line (lead and priorities beside a cream panel
-  with what rides on the team and the brief's 27% "+3% overnight" linking back, a strip of four figures beneath that count
-  when they change), 2 Waiting for You (red count; the week on a hairline as on the brief, then the decisions in deadline
-  order, each with its options as white tiles on cream and "Totality suggests" on one, plus why), 3 From Leadership
-  (a white card per directive with progress, task rows with a soft status pill that moves on, an owner chip with each
-  person's free hours, Flag a problem shown on row hover, and "See the decision in the daily brief"; running playbooks
-  and tasks you've added get their own cards), 4 Who Has Room (rounded-square initials as on the agents page, load bars,
-  the chosen person's card with Totality's handoff suggestion when they're over capacity, then Gaps to Cover with amber
-  "One person deep" pills), 5 What Could Change Your Week (threat and opportunity cards, the chosen one lifted; a panel
-  with the signal against its trigger and the playbook, easing to its new height), 6 Your Update (the drafted note to the
-  boss), and 7 You Might Also Ask. On first view only the filled part of each bar grows; its track is there from the start (the user's call). Day 0 is Tue Oct 6, the morning of the brief. State is per manager (`S[pid]`);
-  everything re-renders from it. The brief's "See the team's part" opens `team.html?directive=bridge|divert|cover`,
-  which picks out that directive.
+  out, in the house style (body `app house team-page`). Rebuilt 2026-11-11 from a dark `sky-plum` page, then the same day
+  made an orchestration tool: the user found a status page with one-click choices and an email draft too basic, and wants
+  something that could transform how work gets carried out at every level. `PERSONAS` holds three managers (Farah, port
+  operations; Elif, Gebze production; Layla, GCC key accounts), switched by first name on a cream track with a sliding
+  white pill at the top right, beside the title, and remembered in localStorage. The model: every task's chance of landing
+  on time is a product of what stands in its way (`taskRisk()`: stuck, its owner, or the human checking an agent's work,
+  over capacity, away the day it starts, waiting on an unfinished task in `AFTER`, waiting on another team's input in
+  `xin`), each with its reason in words; a directive's chance multiplies its tasks', any `hits` from decisions, and the
+  `stake` of each decision still open on it; and what's expected to land is each brief directive's `protects` times its
+  chance (Farah $13.3M at stake, Elif $11.7M, Layla $7.6M, of the brief's $25.0M). Sections: 1 Bottom Line (lead and
+  priorities; the money expected to land of what rides on the team, a pale red track behind it for what's at risk from
+  execution, each directive's chance; the brief's 27%; four figures that count when they change), 2 Waiting for You
+  (each option previewed on a copy of the plan: cost, on-time chance before and after, money expected; Totality's
+  suggestion with why and "what would change the suggestion"; Commit, or past the $25k `LIMIT`, "Send to [boss] for
+  approval"; Reopen), 3 The Plan (Totality's suggestions, moves previewed and kept if they raise the odds, one per task,
+  best first: hand work to an agent in `AGENTABLE` with the owner checking it, hand it to a certified teammate with room
+  (`SKILL`), raise a blocker, plan a gap's cover that unblocks a task, chase or escalate a late input, with "Make all";
+  then a Gantt of the week: bars from start to due day with the chance on each, red under 60%, amber when stuck, arrows
+  for `AFTER`, an amber diamond where another team's input is still to come, weekends shaded, a red line for now and for
+  each directive's deadline; selecting a bar opens its card: status, who does it with free hours and the agent, the
+  chance with each factor's cost, and what waits on it), 4 Across Teams (Waiting on Others and Waiting on You, each
+  handoff's chance of arriving; Chase, Escalate, Mark received; Farah's arrival times feed Layla's plan live, and each
+  side can open the other's plan), 5 Who Has Room (hours a day per person, deeper as the day fills, red past a fifth of
+  the week's cap; agents on the plan; One Person Deep gaps), 6 If It Happens (threat and opportunity cards; the playbook
+  rehearsed on a copy of the week: full response time, who runs short, what slips; Arm, which hands out the steps for
+  sign-off when the signal crosses its trigger; Get ready; Run the playbook, which adds its steps to the plan), 7 What
+  [Boss] Sees (the roll-up: status, money expected, each directive's chance and weakest task, what's needed from the boss,
+  decisions made, a note and Send), and 8 You Might Also Ask. Chances of events match the brief (Hormuz 27%, Red Sea 31%,
+  Gebze strike 16% with the union vote on October 20, feeder sanctions 15%). Day 0 is Tue Oct 6, 07:10. State is per
+  manager (`S[pid]`); everything re-renders from it. The brief's "See the team's part" opens
+  `team.html?directive=bridge|divert|cover`, which picks out that directive in the plan. On first view only the filled
+  part of each bar grows; its track is there from the start (the user's call).
 - `workbench.html` + `assets/js/bench.js` follows one decision through six stages, with a sticky "thread" strip
   showing each stage's live result: 1 Forecast (each event's sub-questions per engine, declined part, fused
   probability ±band, override), 2 Contingencies (the `events` data: include, severity, assets hit first),

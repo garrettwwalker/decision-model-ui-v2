@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Workflows · Penumbra</title>
-  <meta name="description" content="Penumbra for the managers who carry decisions out: the calls that are theirs to make, leadership’s directives broken into their team’s tasks, who has room, what to watch, and the update that goes back up.">
+  <meta name="description" content="Penumbra for the managers who carry decisions out: a live plan with the chance each piece lands on time, decisions weighed before they’re committed, the handoffs between teams, playbooks rehearsed against the week, and what leadership sees.">
   <link rel="preload" href="assets/fonts/switzer-800.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/switzer-400.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="assets/css/base.css">
@@ -51,7 +51,7 @@
     </header>
 
     <div class="tbody" id="tbody">
-      <!-- 1. Bottom line -->
+      <!-- 1. Bottom line: what's expected to land, given how the plan stands -->
       <section class="sec" id="bottom-line" aria-labelledby="bl-title">
         <div class="sec__head">
           <h2 class="sec__title" id="bl-title"><span aria-hidden="true">1</span>Bottom Line</h2>
@@ -65,9 +65,10 @@
             <div class="bl__side">
               <div class="rides">
                 <p class="bl__k" data-out="rides-k"></p>
-                <p class="rides__v" data-out="rides-v"></p>
+                <p class="rides__row"><span class="rides__v" data-out="rides-v"></span><span class="rides__of" data-out="rides-of"></span></p>
                 <div class="rides__bar" aria-hidden="true"><i data-out="rides-bar"></i></div>
                 <p class="rides__what" data-out="rides-what"></p>
+                <ul class="ontime" id="ontime" aria-label="Chance each directive is done on time"></ul>
               </div>
               <a class="odds" href="briefing.html#bottom-line">
                 <span class="odds__k">Chance the Strait of Hormuz closes for 7 days or more in the next 30 days</span>
@@ -80,73 +81,74 @@
         </div>
       </section>
 
-      <!-- 2. Waiting for you -->
+      <!-- 2. Decisions, weighed before they're committed -->
       <section class="sec" id="waiting" aria-labelledby="wait-title">
         <div class="sec__head">
           <h2 class="sec__title" id="wait-title"><span aria-hidden="true">2</span>Waiting for You <b class="count" id="wait-n"></b></h2>
           <p class="sec__note" data-out="wait-note"></p>
         </div>
-        <ol class="week" id="week" aria-label="This week"></ol>
         <ol class="decisions" id="decisions"></ol>
       </section>
 
-      <!-- 3. From leadership -->
-      <section class="sec" id="leadership" aria-labelledby="dir-title">
+      <!-- 3. The plan: every task on the week, with what it waits on and its chance of landing on time -->
+      <section class="sec" id="plan" aria-labelledby="plan-title">
         <div class="sec__head">
-          <h2 class="sec__title" id="dir-title"><span aria-hidden="true">3</span>From Leadership</h2>
-          <p class="sec__note" data-out="dir-note"></p>
+          <h2 class="sec__title" id="plan-title"><span aria-hidden="true">3</span>The Plan</h2>
+          <p class="sec__note" data-out="plan-note"></p>
         </div>
-        <div class="dirs" id="dirs"></div>
+        <div class="moves" id="moves"></div>
+        <div class="gantt" id="gantt"></div>
+        <div class="task-card" id="task-card" aria-live="polite"></div>
       </section>
 
-      <!-- 4. The team -->
+      <!-- 4. Across teams: what we wait on, and who waits on us -->
+      <section class="sec" id="across" aria-labelledby="x-title">
+        <div class="sec__head">
+          <h2 class="sec__title" id="x-title"><span aria-hidden="true">4</span>Across Teams</h2>
+          <p class="sec__note" data-out="x-note"></p>
+        </div>
+        <div class="xteams">
+          <div class="xcol"><h3 class="sub">Waiting on Others</h3><ul class="xlist" id="x-in"></ul></div>
+          <div class="xcol"><h3 class="sub">Waiting on You</h3><ul class="xlist" id="x-out"></ul></div>
+        </div>
+      </section>
+
+      <!-- 5. Who has room, day by day -->
       <section class="sec" id="team" aria-labelledby="team-title">
         <div class="sec__head">
-          <h2 class="sec__title" id="team-title"><span aria-hidden="true">4</span>Who Has Room</h2>
+          <h2 class="sec__title" id="team-title"><span aria-hidden="true">5</span>Who Has Room</h2>
           <p class="sec__note" data-out="team-note"></p>
         </div>
-        <div class="crew">
-          <ul class="roster" id="roster"></ul>
-          <aside class="member" id="member" aria-live="polite"></aside>
-        </div>
+        <div class="heat" id="heat"></div>
         <div class="gaps">
-          <h3 class="sub">Gaps to Cover</h3>
+          <h3 class="sub">One Person Deep</h3>
           <ul class="gaps__list" id="gaps"></ul>
         </div>
       </section>
 
-      <!-- 5. What to watch -->
+      <!-- 6. If it happens: playbooks rehearsed against today's plan -->
       <section class="sec" id="watch" aria-labelledby="watch-title">
         <div class="sec__head">
-          <h2 class="sec__title" id="watch-title"><span aria-hidden="true">5</span>What Could Change Your Week</h2>
+          <h2 class="sec__title" id="watch-title"><span aria-hidden="true">6</span>If It Happens</h2>
           <p class="sec__note" data-out="watch-note"></p>
         </div>
         <div class="watch" id="watch-list" role="tablist" aria-label="Threats and opportunities"></div>
         <div class="play" id="play" role="tabpanel" aria-live="polite"></div>
       </section>
 
-      <!-- 6. The update upward -->
-      <section class="sec" id="update" aria-labelledby="up-title">
+      <!-- 7. What leadership sees: the plan rolled up -->
+      <section class="sec" id="rollup" aria-labelledby="up-title">
         <div class="sec__head">
-          <h2 class="sec__title" id="up-title"><span aria-hidden="true">6</span>Your Update</h2>
+          <h2 class="sec__title" id="up-title"><span aria-hidden="true">7</span><i class="up-t" data-out="up-title"></i></h2>
           <p class="sec__note" data-out="up-note"></p>
         </div>
-        <div class="update">
-          <p class="update__to" data-out="update-to"></p>
-          <label class="sr-only" for="update-text">Your update</label>
-          <textarea class="update__text" id="update-text" rows="14"></textarea>
-          <div class="update__acts">
-            <button class="btn btn--primary btn--sm" type="button" id="update-send"></button>
-            <button class="btn-q" type="button" id="update-copy">Copy</button>
-            <button class="btn-q" type="button" id="update-redraft">Redraft from the page</button>
-          </div>
-        </div>
+        <div class="roll" id="roll"></div>
       </section>
 
-      <!-- 7. Ask -->
+      <!-- 8. Ask -->
       <section class="sec" id="ask" aria-labelledby="ask-title">
         <div class="sec__head">
-          <h2 class="sec__title" id="ask-title"><span aria-hidden="true">7</span>You Might Also Ask</h2>
+          <h2 class="sec__title" id="ask-title"><span aria-hidden="true">8</span>You Might Also Ask</h2>
           <p class="sec__note">Each query opens the Totality engine.</p>
         </div>
         <ul class="asks" id="asks"></ul>
