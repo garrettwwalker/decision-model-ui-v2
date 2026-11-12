@@ -394,12 +394,30 @@
     }
     var band = function (v, a, b) { return smooth((v - a) / (b - a)); };
 
+    // The fade in and out at the band's top and bottom is painted into each layer rather than masked in CSS: a pinch-zoom
+    // rescaled a CSS mask out of step with the layers and flashed a line of cloud along its edges. Stops are fractions of
+    // the box; the canvases run from -10% to 110% of it.
+    var FADE = box.classList.contains("nebula--close")
+      ? [[0, 0], [0.02, 0], [0.07, 0.05], [0.15, 0.2], [0.23, 0.48], [0.31, 0.76], [0.38, 0.93], [0.44, 1], [0.54, 1], [0.76, 0.3], [0.92, 0], [1, 0]]
+      : [[0, 0], [0.02, 0], [0.07, 0.06], [0.13, 0.22], [0.2, 0.5], [0.27, 0.78], [0.33, 0.94], [0.38, 1], [0.7, 1], [0.83, 0.6], [0.96, 0], [1, 0]];
+    function fadeAt(f) { // f: 0 at the box's top, 1 at its bottom
+      if (f <= 0 || f >= 1) return 0;
+      for (var i = 1; i < FADE.length; i++) if (f <= FADE[i][0]) {
+        var a = FADE[i - 1], b = FADE[i]; return a[1] + (b[1] - a[1]) * (f - a[0]) / (b[0] - a[0]);
+      }
+      return 0;
+    }
     function paint(cv, w, h, pixel) {
       cv.width = w; cv.height = h;
       var c = cv.getContext("2d"), img = c.createImageData(w, h), d = img.data;
-      for (var y = 0; y < h; y++) for (var x = 0; x < w; x++) {
-        var px = pixel(x / w * 3.4, y / w * 3.4), o = (y * w + x) * 4;
-        d[o] = px[0]; d[o + 1] = px[1]; d[o + 2] = px[2]; d[o + 3] = px[3];
+      for (var y = 0; y < h; y++) {
+        var fade = fadeAt(-0.1 + 1.2 * (y + 0.5) / h);
+        for (var x = 0; x < w; x++) {
+          var o = (y * w + x) * 4;
+          if (!fade) { d[o + 3] = 0; continue; }
+          var px = pixel(x / w * 3.4, y / w * 3.4);
+          d[o] = px[0]; d[o + 1] = px[1]; d[o + 2] = px[2]; d[o + 3] = px[3] * fade;
+        }
       }
       c.putImageData(img, 0, 0);
       cv._base = new Uint8ClampedArray(d); // the painting; the visible canvas is a slowly warped copy of it
@@ -457,6 +475,11 @@
         gr.addColorStop(0, "rgba(255,255,255,0.95)"); gr.addColorStop(0.12, "rgba(255,232,210,0.6)"); gr.addColorStop(1, "rgba(255,170,130,0)");
         g.fillStyle = gr; g.beginPath(); g.arc(bx, by, br, 0, 6.283); g.fill();
       }
+      g.setTransform(1, 0, 0, 1, 0, 0); g.globalCompositeOperation = "destination-in"; // the same fade as the gas
+      var fg = g.createLinearGradient(0, 0, 0, specks.height);
+      FADE.forEach(function (st) { fg.addColorStop((st[0] + 0.1) / 1.2, "rgba(0,0,0," + st[1] + ")"); });
+      g.fillStyle = fg; g.fillRect(0, 0, specks.width, specks.height);
+      g.globalCompositeOperation = "source-over";
       specks.classList.add("is-ready");
     }
 
