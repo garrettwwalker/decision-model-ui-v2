@@ -213,9 +213,8 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   wash (`--accent-soft`); a faint dot alone left the selection unclear. The bottom line's track is plain (`--mist-3`; a
   pale red one read as pink), and the first section sits close under the head.
 - The workbench (`workbench.html`, `bench.css`, `bench.js`) was removed on 2026-11-12 at the user's request, after its
-  house-style rebuild that day didn't land; it's in git history. Its nav tab, the landing's "modeling workbench" card and
-  footer link (the product section now has three cards), the brief's "See them all in the workbench" button, and ask's
-  "Explore in the workbench" buttons went with it. `bench-map.js` stays: the memo's map uses it.
+  house-style rebuild that day didn't land; it's in git history. Its nav tab, the landing's footer link, the brief's "See them all in the workbench" button, and ask's
+  "Explore in the workbench" buttons went with it; the landing keeps its "modeling workbench" card (the user's call; the cards have no links). `bench-map.js` stays: the memo's map uses it.
 - `agents.html` + `assets/css/agents.css` + `assets/js/agents.js`, `agents-views.js` and `agents-ui.js` ("agents" in the
   nav, between workbench and ask; 2026-11-03, settled 2026-11-04) imagines Penumbra with a team's agents: the Totality
   engine as the brain, agents as the edge, in a positive feedback loop overseen by the decision-maker. Headline "Agentic

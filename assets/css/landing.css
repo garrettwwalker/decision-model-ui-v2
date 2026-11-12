@@ -379,8 +379,8 @@ main, .footer { position: relative; z-index: 2; }
 .modes { padding: 2rem var(--gutter) clamp(6rem, 14vh, 9rem); }
 .modes__head { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 1.5rem 3rem; margin-left: clamp(0rem, 6vw, 6rem); }
 .modes__grid {
-  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1.5rem; margin-top: 3.5rem; max-width: 72rem; align-items: stretch; /* squared up: equal heights, no stagger */
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.5rem; margin-top: 3.5rem; max-width: 86rem; align-items: stretch; /* squared up: equal heights, no stagger */
 }
 .mode { display: flex; flex-direction: column; gap: 0.85rem; }
 .mode__for { margin: 0; color: var(--moon-3); } /* quiet: on this page only the answer is lit (the fused forecast, the best moon, the money a card protects) */
@@ -425,7 +425,7 @@ main, .footer { position: relative; z-index: 2; }
 .pv-av { width: 1.5rem; height: 1.5rem; border-radius: 50%; display: grid; place-items: center; font-size: 0.6rem; font-weight: 800; background: rgba(236, 238, 242, 0.1); color: var(--moon); }
 .pv-heat { display: grid; grid-template-columns: repeat(8, 1fr); gap: 3px; }
 .pv-heat span { aspect-ratio: 1.6; border-radius: 3px; }
-@media (max-width: 1100px) { .modes__grid { grid-template-columns: minmax(0, 1fr); max-width: 34rem; gap: 2.5rem; } }
+@media (max-width: 1240px) { .modes__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 60rem; } }
 @media (max-width: 760px) { .modes__grid { grid-template-columns: minmax(0, 1fr); max-width: 34rem; gap: 2.5rem; } }
 
 /* ---------- What should I do? A moon chart ----------
