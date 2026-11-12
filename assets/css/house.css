@@ -72,7 +72,7 @@ body.house {
 .house .pill { display: inline-flex; align-items: center; padding: 0.16rem 0.55rem; border-radius: 999px; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.005em; color: var(--ink-2); background: var(--mist-2); white-space: nowrap; }
 .house .pill--red { color: var(--accent-ink); background: var(--accent-soft); }
 .house .pill--amber { color: var(--bad-ink); background: var(--bad-soft); }
-/* green only where something is good for us set against a threat (an opportunity, a player pulling the odds of harm down), at the user's request, 2026-11-11 */
+/* green where it carries meaning: good news against bad, a steady state against a shaky one, finished or on track (2026-11-11) */
 .house .pill--green { color: #2c6e48; background: #e1f0e6; }
 
 /* the bar's color, faded in while a panel scrolls and out after (nav.js animates it; registered so it can animate) */

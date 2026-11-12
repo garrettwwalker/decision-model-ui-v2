@@ -452,7 +452,7 @@
   function rides() { return P.directives.reduce(function (a, d) { return a + (d.brief ? d.protects : 0); }, 0); }
   // one number for comparing moves: money expected to land, plus a little for directives that carry no money
   function score(s) { return expected(s) + s.dirs.reduce(function (a, d) { return a + (d.brief ? 0 : dirRisk(s, d)); }, 0); }
-  function band(p) { return p >= 0.8 ? { label: "On track", cls: "" } : p >= 0.6 ? { label: "At risk", cls: "pill--amber" } : { label: "Off track", cls: "pill--red" }; }
+  function band(p) { return p >= 0.8 ? { label: "On track", cls: "pill--green" } : p >= 0.6 ? { label: "At risk", cls: "pill--amber" } : { label: "Off track", cls: "pill--red" }; }
 
   /* ================= Helpers ================= */
   var $ = function (k) { return document.querySelector('[data-out="' + k + '"]'); };
@@ -694,7 +694,7 @@
       var li = el("li", { class: "decard is-" + s + (on ? " is-on" : ""), "data-k": d.id, tabindex: "0", role: "button", "aria-pressed": String(on), "aria-controls": "dpanel" });
       var head = el("div", "decard__head");
       head.appendChild(el("span", { class: "decard__n", "aria-hidden": "true" }, String(n + 1)));
-      head.appendChild(el("span", "pill " + (s === "open" ? "pill--red" : s === "pending" ? "pill--amber" : ""), s === "open" ? "Decide by " + dayLow(d.due[0], d.due[1]) : s === "pending" ? "With " + P.boss.first : "Committed"));
+      head.appendChild(el("span", "pill " + (s === "open" ? "pill--red" : s === "pending" ? "pill--amber" : "pill--green"), s === "open" ? "Decide by " + dayLow(d.due[0], d.due[1]) : s === "pending" ? "With " + P.boss.first : "Committed"));
       li.appendChild(head);
       li.appendChild(el("h3", "decard__q", d.q));
       li.appendChild(el("p", "decard__sub", s === "made" ? d.opts[st.decided[d.id].i].t : s === "pending" ? d.opts[st.pending[d.id]].t + ", " + kmoney(d.opts[st.pending[d.id]].cost) : "For " + dd.short));
@@ -1175,7 +1175,7 @@
       xrow(inb, st.xin === x.id, function () { if (st.xin !== x.id) { st.xin = x.id; render(); } }, {
         av: x.agent ? avatar("ag:" + x.agent) : avatar(x.who || x.team), team: x.team + (x.who ? ", " + x.who : ""), what: x.what,
         meta: status + (t ? ". Holds up “" + t.text + "”." : "."), done: p >= 1,
-        cls: p >= 1 ? "" : p < 0.7 ? "pill--red" : p < 0.85 ? "pill--amber" : "", pill: p >= 1 ? "In hand" : pct(p) + " on time",
+        cls: p >= 1 ? "pill--green" : p < 0.7 ? "pill--red" : p < 0.85 ? "pill--amber" : "", pill: p >= 1 ? "In hand" : pct(p) + " on time",
         due: p >= 1 ? "" : (x.due[0] < 0 ? "Was due " : "Due ") + dayLow(x.due[0], x.due[1]), late: x.late && p < 1
       });
     });
@@ -1199,7 +1199,7 @@
       var tt = st.tasks[o.from], r = tt ? taskRisk(st, tt) : { p: 1 }, done = !tt || tt.status === "done";
       xrow(out, st.xout === i, function () { if (st.xout !== i) { st.xout = i; render(); } }, {
         av: avatar(o.who), team: o.to + ", " + o.who, what: o.what, meta: o.why, done: done,
-        cls: done ? "" : r.p < 0.6 ? "pill--red" : r.p < 0.8 ? "pill--amber" : "", pill: done ? "Sent" : pct(r.p) + " on time",
+        cls: done ? "pill--green" : r.p < 0.6 ? "pill--red" : r.p < 0.8 ? "pill--amber" : "", pill: done ? "Sent" : pct(r.p) + " on time",
         due: done ? "" : "Due " + dayLow(o.due[0], o.due[1])
       });
     });

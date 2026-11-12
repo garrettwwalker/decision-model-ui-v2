@@ -917,7 +917,7 @@
     }
     li.appendChild(main);
     var side = el("div", "post__side");
-    side.appendChild(el("span", "pill" + (sp.up ? " pill--red" : ""), sp.effect));
+    side.appendChild(el("span", "pill" + (sp.up ? " pill--red" : " pill--green"), sp.effect));
     var age = el("span", "post__age", ago(sp.checked)); side.appendChild(age); ages.push([age, sp]);
     // a bell: outlined while off, filled (and rung once) when the alert is on
     var b = el("button", "post__alert"); b.type = "button";
