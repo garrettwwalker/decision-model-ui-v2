@@ -382,7 +382,7 @@ body:not(.has-drawer) .rt.is-sel { background: transparent; }
 .fd__body { display: grid; gap: 0.15rem; }
 .fd__top { display: flex; flex-wrap: wrap; align-items: center; gap: 0.3rem 0.5rem; }
 .fd__who { font-size: 0.78rem; font-weight: 800; }
-.fd__who--hub { color: var(--accent-ink); }
+.fd__who--hub { color: var(--ink); } /* Totality in ink like every agent (red read as a problem) */
 .fd__kind { font-size: 0.7rem; color: var(--ink-3); }
 .fd__text { font-size: 0.86rem; line-height: 1.45; }
 .fd.is-prob .fd__kind { color: var(--accent-ink); font-weight: 700; }
@@ -412,7 +412,11 @@ body:not(.has-drawer) .rt.is-sel { background: transparent; }
 @keyframes qc-in { from { opacity: 0; transform: translateY(8px); } }
 .qc__top { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 0.6rem; margin: 0; }
 .qc__kind { padding: 0.15rem 0.6rem; border-radius: 999px; font-size: 0.72rem; font-weight: 700; background: var(--mist); color: var(--ink); }
-.qc--strategy .qc__kind { background: var(--accent-soft); color: var(--accent-ink); }
+/* each kind of waiting change its own color, kept off red, amber, and green, which mean a problem, waiting, and good:
+   a strategy change blue (as Totality's changes in the feed), a retask teal, a draft plum */
+.qc--strategy .qc__kind { background: var(--change-soft); color: var(--change-ink); }
+.qc--retask .qc__kind { background: #dff0ee; color: #1f6660; }
+.qc--draft .qc__kind { background: #f1e6f2; color: #74447a; }
 .qc__agent { font-size: 0.78rem; color: var(--ink-3); }
 .qc__title { margin: 0; font-size: 1.15rem; font-weight: 800; letter-spacing: -0.025em; line-height: 1.25; }
 .qc__why { margin: 0; font-size: 0.88rem; line-height: 1.5; color: var(--ink-2); }
