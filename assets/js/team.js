@@ -642,7 +642,7 @@
 
   /* ================= 2. Decisions: a short card each, as the memo's options are; the chosen card fills the panel beneath
      with its options weighed on a copy of the plan, what the chosen one does, and Totality's read ================= */
-  var fresh = null, shownDec = null;
+  var fresh = null, shownDec = null, shownSel = null;
   function decState(d) { return st.decided[d.id] != null ? "made" : st.pending[d.id] != null ? "pending" : "open"; }
   // a panel that changes what it shows eases to its new height and fades its contents in
   function swapIn(box, h0, parts) {
@@ -651,6 +651,36 @@
     box.style.overflow = "hidden";
     box.animate([{ height: h0 + "px" }, { height: h1 + "px" }], { duration: 340, easing: "cubic-bezier(0.3, 0.7, 0.2, 1)" }).onfinish = function () { box.style.overflow = ""; };
     parts.forEach(function (x, i) { x.animate([{ opacity: 0, transform: "translateY(8px)" }, { opacity: 1, transform: "none" }], { duration: 320, delay: i * 40, easing: "cubic-bezier(0.3, 0.7, 0.2, 1)", fill: "backwards" }); });
+  }
+  function fadeIn(parts) {
+    if (REDUCE) return;
+    parts.forEach(function (x, i) { if (x && x.animate) x.animate([{ opacity: 0, transform: "translateY(6px)" }, { opacity: 1, transform: "none" }], { duration: 300, delay: i * 40, easing: "cubic-bezier(0.3, 0.7, 0.2, 1)", fill: "backwards" }); });
+  }
+  // a newly chosen row: its wash fades in and its radio mark grows, while the old row's wash fades out
+  function pickAnim(on, off) {
+    if (REDUCE || !on || !on.animate) return;
+    var E = "cubic-bezier(0.3, 0.7, 0.2, 1)", wash = getComputedStyle(on).backgroundColor, none = "rgba(253, 235, 232, 0)";
+    on.animate([{ backgroundColor: none }, { backgroundColor: wash }], { duration: 300, easing: E });
+    var m = on.querySelector(".radio"); if (m) m.animate([{ transform: "scale(0.5)" }, { transform: "scale(1.12)", offset: 0.6 }, { transform: "scale(1)" }], { duration: 340, easing: E });
+    if (off) {
+      off.animate([{ backgroundColor: wash }, { backgroundColor: none }], { duration: 300, easing: E });
+      var n = off.querySelector(".radio"); if (n) n.animate([{ backgroundColor: getComputedStyle(m || on).backgroundColor }, { backgroundColor: getComputedStyle(n).backgroundColor }], { duration: 300, easing: E });
+    }
+  }
+  // a card row redrawn on a new choice: the chosen card rises into its lift and the old one settles, as if neither were redrawn
+  var lifted = {};
+  function liftAnim(box, name, sel, lift) {
+    var was = lifted[name]; lifted[name] = pid + ":" + sel;
+    if (REDUCE || was == null || was === lifted[name] || was.split(":")[0] !== pid) return;
+    var E = "cubic-bezier(0.3, 0.7, 0.2, 1)", on = box.querySelector(".is-on"), off = box.querySelector('[data-k="' + was.split(":")[1] + '"]');
+    if (on) {
+      on.animate([{ transform: "translateY(-2px)" }, { transform: "translateY(-" + lift + "px)" }], { duration: 320, easing: E });
+      [].forEach.call(on.children, function (c) { c.animate([{ opacity: 0.5 }, { opacity: 1 }], { duration: 280, easing: "ease" }); });
+    }
+    if (off && off !== on) {
+      off.animate([{ transform: "translateY(-" + lift + "px)", boxShadow: getComputedStyle(on || off).boxShadow }, { transform: "none", boxShadow: getComputedStyle(off).boxShadow }], { duration: 320, easing: E });
+      [].forEach.call(off.children, function (c) { c.animate([{ opacity: 1 }, { opacity: getComputedStyle(c).opacity }], { duration: 280, easing: "ease" }); });
+    }
   }
   function renderDecisions() {
     var list = P.decisions.slice().sort(byDue), open = list.filter(function (d) { return decState(d) === "open"; }), c = byId("wait-n");
@@ -661,7 +691,7 @@
     box.style.setProperty("--n", list.length);
     list.forEach(function (d, n) {
       var s = decState(d), on = d.id === st.dsel, dd = dirOf(st, d.dir);
-      var li = el("li", { class: "decard is-" + s + (on ? " is-on" : ""), tabindex: "0", role: "button", "aria-pressed": String(on), "aria-controls": "dpanel" });
+      var li = el("li", { class: "decard is-" + s + (on ? " is-on" : ""), "data-k": d.id, tabindex: "0", role: "button", "aria-pressed": String(on), "aria-controls": "dpanel" });
       var head = el("div", "decard__head");
       head.appendChild(el("span", { class: "decard__n", "aria-hidden": "true" }, String(n + 1)));
       head.appendChild(el("span", "pill " + (s === "open" ? "pill--red" : s === "pending" ? "pill--amber" : ""), s === "open" ? "Decide by " + dayLow(d.due[0], d.due[1]) : s === "pending" ? "With " + P.boss.first : "Committed"));
@@ -673,6 +703,7 @@
       li.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } });
       box.appendChild(li);
     });
+    liftAnim(box, "dec", st.dsel, 5);
     renderDecPanel();
   }
   function consequence(d, rec) {
@@ -684,13 +715,14 @@
   }
   function renderDecPanel() {
     var box = byId("dpanel"), d = P.decisions.filter(function (x) { return x.id === st.dsel; })[0];
-    var key = pid + ":" + d.id, swap = shownDec !== null && shownDec !== key, h0 = box.offsetHeight;
+    var key = pid + ":" + d.id, swap = shownDec !== null && shownDec !== key, h0 = box.offsetHeight, wasSel = shownDec === key ? shownSel : null;
     var was = [].map.call(box.querySelectorAll(".dp__meta dd"), function (e) { return e.textContent; });
     shownDec = key;
     box.textContent = "";
     var s = decState(d), dd = dirOf(st, d.dir), brief = dd.brief;
     var sel = s === "made" ? st.decided[d.id].i : s === "pending" ? st.pending[d.id] : st.choice[d.id] != null ? st.choice[d.id] : d.pick;
-    var o = d.opts[sel], parts = [];
+    var o = d.opts[sel], parts = [], again = wasSel != null && wasSel !== sel;
+    shownSel = sel;
 
     // the question, and the one button that acts on it
     var top = el("div", "dp__top");
@@ -736,6 +768,7 @@
         var pi = pv[i], on = i === sel;
         var b = el("button", { type: "button", role: "radio", "aria-checked": String(on), class: "dopt" + (on ? " is-on" : "") });
         var nm = el("span", "dopt__name");
+        nm.appendChild(el("span", { class: "radio", "aria-hidden": "true" }));
         var tt = el("b", null, x.t); nm.appendChild(tt);
         if (i === d.pick) nm.appendChild(el("span", "pill pill--red", "Totality suggests"));
         nm.appendChild(el("small", null, x.sub));
@@ -748,6 +781,7 @@
       });
       ow.appendChild(rg);
       box.appendChild(ow); parts.push(ow);
+      if (again) pickAnim(rg.children[sel], rg.children[wasSel]);
 
       // what the chosen option does to the plan, beside Totality's read
       var cols = el("div", "dp__cols");
@@ -772,6 +806,7 @@
       rd.appendChild(c3); box.appendChild(rd); parts.push(rd);
     }
     if (swap) swapIn(box, h0, parts);
+    else if (again) fadeIn([top.lastChild, meta, cols]);
   }
 
   /* ================= 3. The plan: a week of tasks with what each waits on ================= */
@@ -947,12 +982,17 @@
       });
     });
   }
-  var flagging = null;
+  var flagging = null, shownTask = null, segWas = null, struck = {};
   function renderTaskCard() {
-    var box = byId("task-card"); box.textContent = "";
+    var box = byId("task-card"), h0 = box.hidden ? 0 : box.offsetHeight; box.textContent = "";
     var t = st.tasks[st.sel];
-    if (!t) { box.hidden = true; return; }
+    if (!t) { box.hidden = true; shownTask = null; return; }
     box.hidden = false;
+    // a different task or owner eases the card to its new height and fades it in, as the decision panel does
+    var key = pid + ":" + t.id + ":" + t.who, prev = shownTask, swap = prev !== null && prev !== key;
+    var opened = prev !== null && prev.split(":").slice(0, 2).join(":") !== pid + ":" + t.id;
+    if (opened) struck = {};
+    shownTask = key;
     var r = taskRisk(st, t), d = t.dir && dirOf(st, t.dir);
     var left = el("div", "tc__about");
     left.appendChild(el("p", "tc__kind", d ? d.title : "Added by you"));
@@ -960,9 +1000,10 @@
     left.appendChild(el("p", "tc__when", (t.start === t.day ? DAYS[t.day] : DAYS[t.start] + " to " + DAYS[t.day]) + ". " + (isAgent(t.who) ? agentName(t.who) + ", with " + first(t.rev) + " checking its work (" + t.revH + " h)." : t.hours + " h for " + first(t.who) + ".")));
     var det = DETAIL[t.id], why = det ? det[0] : t.why;
     if (why) { var wp = el("p", "tc__for"); wp.appendChild(el("b", null, "What it’s for. ")); wp.appendChild(document.createTextNode(why)); left.appendChild(wp); }
-    var seg = el("div", { class: "seg", role: "group", "aria-label": "Status" });
+    var seg = el("div", { class: "seg", role: "group", "aria-label": "Status" }), segPill = el("span", { class: "seg__pill", "aria-hidden": "true" });
+    seg.appendChild(segPill);
     ["todo", "doing", "done", "blocked"].forEach(function (k) {
-      seg.appendChild(button(STATUS[k], "seg__b" + (t.status === k ? " is-on" : ""), function () {
+      seg.appendChild(button(STATUS[k], "seg__b seg__b--" + k + (t.status === k ? " is-on" : ""), function () {
         if (k === t.status) return;
         if (k === "blocked") { flagging = t.id; render(); return; }
         if (t.status === "blocked") { t.blocker = ""; delete st.escalated[t.id]; }
@@ -986,18 +1027,27 @@
       var sw = el("div", "tc__steps");
       sw.appendChild(el("p", "tc__h", "Steps, " + nd + " of " + det[1].length + " done"));
       var ol = el("ol");
+      var drawn = struck[t.id] || (struck[t.id] = {}), nth = 0, ndone = 0;
       det[1].forEach(function (x, i) {
-        var li = el("li", done[i] ? "is-done" : null), lab = el("label");
+        // a step done since the card last showed it has its strike drawn through, one after another on a newly opened card
+        // a strike ticked a moment ago carries on drawing through the redraw (a negative delay picks it up where it was)
+        var since = typeof drawn[i] === "number" ? performance.now() - drawn[i] : 1e9;
+        var draw = done[i] && prev !== null && (!drawn[i] || since < 520);
+        var li = el("li", (done[i] ? "is-done" : "") + (draw ? " is-new" : "")), lab = el("label");
+        if (draw) li.style.setProperty("--d", (drawn[i] ? -since / 1000 : (opened ? 0.25 : 0) + 0.09 * nth++) + "s");
+        if (done[i]) { li.style.setProperty("--i", ndone++); if (!drawn[i]) drawn[i] = true; }
         var cb = el("input", { type: "checkbox" }); cb.checked = !!done[i];
         cb.addEventListener("change", function () {
-          if (cb.checked) done[i] = true; else delete done[i];
+          if (cb.checked) { done[i] = true; drawn[i] = performance.now(); li.style.setProperty("--d", "0s"); li.classList.add("is-done", "is-new"); }
+          else { delete done[i]; delete drawn[i]; li.classList.remove("is-done", "is-new"); }
           var k = det[1].filter(function (y, j) { return done[j]; }).length;
           if (k === det[1].length) { if (t.status === "blocked") { t.blocker = ""; delete st.escalated[t.id]; } t.status = "done"; }
           else if (k && (t.status === "todo" || t.status === "done")) t.status = "doing";
           else if (!k && t.status === "doing") t.status = "todo";
           later();
         });
-        lab.appendChild(cb); lab.appendChild(el("span", null, x)); li.appendChild(lab); ol.appendChild(li);
+        var tx = el("span"); tx.appendChild(el("span", "tc__st", x));
+        lab.appendChild(cb); lab.appendChild(tx); li.appendChild(lab); ol.appendChild(li);
       });
       sw.appendChild(ol);
       left.appendChild(sw);
@@ -1071,7 +1121,7 @@
       ways.forEach(function (c, i) {
         var tp = taskRisk(c.v.tmp, c.v.tmp.tasks[t.id]).p, on = i === ws;
         var li = el(ways.length > 1 ? "button" : "div", ways.length > 1 ? { type: "button", role: "radio", "aria-checked": String(on), class: "way" + (on ? " is-on" : "") } : "way is-on is-only");
-        var wt = el("p", "way__t"); wt.appendChild(el("b", null, c.text)); if (!i) wt.appendChild(el("span", "pill pill--red", "Totality suggests")); li.appendChild(wt);
+        var wt = el("p", "way__t"); if (ways.length > 1) wt.appendChild(el("span", { class: "radio", "aria-hidden": "true" })); wt.appendChild(el("b", null, c.text)); if (!i) wt.appendChild(el("span", "pill pill--red", "Totality suggests")); li.appendChild(wt);
         var rl = el("ul", "way__why"); reasons(c).forEach(function (x) { rl.appendChild(el("li", null, x)); }); li.appendChild(rl);
         var fx = el("p", "way__fx");
         if (tp - r.p > 0.005) fx.appendChild(el("span", "pill", "This task " + pct(r.p) + " → " + pct(tp)));
@@ -1083,9 +1133,25 @@
       });
       wb.appendChild(wl);
       var pickd = ways[ws];
-      wb.appendChild(button(pickd.text, "btn btn--primary btn--sm way__go", function () { pickd.fn(st); delete st.wsel[t.id]; DB.toast("Plan updated."); changed(); }));
+      var go = button(pickd.text, "btn btn--primary btn--sm way__go", function () { pickd.fn(st); delete st.wsel[t.id]; DB.toast("Plan updated."); changed(); });
+      wb.appendChild(go);
       right.appendChild(wb);
+      if (!swap && wayWas && wayWas.id === key && wayWas.i !== ws) { pickAnim(wl.children[ws], wl.children[wayWas.i]); fadeIn([go]); }
+      wayWas = { id: key, i: ws };
     }
+    placeSeg(seg, segPill, t);
+    if (swap) swapIn(box, h0, [left, right]);
+  }
+  var wayWas = null;
+  // the status pill slides from the old status to the new one, as the managers' pill does
+  function placeSeg(seg, pill, t) {
+    var id = pid + ":" + t.id, on = seg.querySelector(".is-on");
+    var was = segWas && segWas.id === id && segWas.k !== t.status ? seg.querySelector(".seg__b--" + segWas.k) : null;
+    segWas = { id: id, k: t.status };
+    if (!on) return;
+    function at(b) { pill.style.width = b.offsetWidth + "px"; pill.style.height = b.offsetHeight + "px"; pill.style.transform = "translate(" + b.offsetLeft + "px, " + b.offsetTop + "px)"; }
+    if (was && !REDUCE) { at(was); void pill.offsetWidth; pill.classList.add("is-moving"); }
+    at(on);
   }
 
   /* ================= 4. Across teams: each list's rows are selectable, and the chosen handoff's actions, worded for it,
@@ -1108,6 +1174,7 @@
     li.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pick(); } });
     list.appendChild(li);
   }
+  var shownX = { i: null, o: null };
   function renderAcross() {
     var late = P.xin.filter(function (x) { return extP(st, x) < 0.7; }).length;
     $("x-note").textContent = "What other teams owe " + P.first + "’s team, and what the team owes them, with each handoff’s chance of arriving on time. Select one to act on it." + (late ? " " + cap(words(late, "input")) + " could hold the plan up." : "");
@@ -1126,6 +1193,7 @@
     });
     // the chosen input's actions, each worded for it
     var x = P.xin.filter(function (y) { return y.id === st.xin; })[0], e = st.ext[x.id], t = st.tasks[x.gates], acts = byId("x-in-act");
+    var xk = pid + ":" + x.id, xh0 = acts.offsetHeight, xswap = shownX.i !== null && shownX.i !== xk; shownX.i = xk;
     acts.textContent = "";
     if (x.src) acts.appendChild(button("Open " + PERSONAS[x.persona].first + "’s plan, where it’s made", "btn-q", function () { openPlan(x.persona); }));
     else if (!e.got && !x.agent) {
@@ -1135,6 +1203,7 @@
       acts.appendChild(button("Mark as received from " + x.ask, "btn-q", function () { e.got = true; if (t && t.status === "blocked") { t.status = "todo"; t.blocker = ""; } changed(); }));
     } else if (x.agent) acts.appendChild(el("p", "xi__note", agentName("ag:" + x.agent) + " is handling it: " + lc(x.status) + "."));
     if (t) acts.appendChild(button("See “" + t.text + "”", "btn-q", function () { openTask(t); }));
+    if (xswap) { pickAnim(inb.querySelector(".xi.is-on")); swapIn(acts, xh0, [].slice.call(acts.children)); }
 
     if (st.xout == null || !P.xout[st.xout]) st.xout = 0;
     var out = byId("x-out"); out.textContent = "";
@@ -1147,10 +1216,12 @@
       });
     });
     var o = P.xout[st.xout], ot = st.tasks[o.from], oacts = byId("x-out-act");
+    var ok = pid + ":" + st.xout, oh0 = oacts.offsetHeight, oswap = shownX.o !== null && shownX.o !== ok; shownX.o = ok;
     oacts.textContent = "";
     if (ot && ot.status !== "done") oacts.appendChild(button("See “" + ot.text + "”", "btn-q", function () { openTask(ot); }));
     if (o.persona) oacts.appendChild(button("Open " + PERSONAS[o.persona].first + "’s plan, where it’s needed", "btn-q", function () { openPlan(o.persona); }));
     if (!oacts.childNodes.length) oacts.appendChild(el("p", "xi__note", "Sent to " + o.who + "."));
+    if (oswap) { pickAnim(out.querySelector(".xi.is-on")); swapIn(oacts, oh0, [].slice.call(oacts.children)); }
   }
 
   /* ================= 5. Who has room, day by day ================= */
@@ -1258,7 +1329,7 @@
     box.style.setProperty("--n", P.watch.length);
     P.watch.forEach(function (w) {
       var s = signalState(w), r = readiness(w), on = st.watch === w.id;
-      var b = el("button", { type: "button", role: "tab", "aria-selected": String(on), class: "wi" + (on ? " is-on" : "") });
+      var b = el("button", { type: "button", role: "tab", "aria-selected": String(on), class: "wi" + (on ? " is-on" : ""), "data-k": w.id });
       var top = el("span", "wi__top");
       top.appendChild(el("span", "pill" + (w.kind === "opportunity" ? " pill--red" : ""), w.kind === "threat" ? "Threat" : "Opportunity"));
       top.appendChild(el("span", "pill " + (st.active[w.id] ? "pill--red" : s.cls), st.active[w.id] ? "Running" : st.armed[w.id] ? "Armed" : s.label));
@@ -1273,6 +1344,7 @@
       b.addEventListener("click", function () { if (st.watch !== w.id) { st.watch = w.id; render(); } });
       box.appendChild(b);
     });
+    liftAnim(box, "watch", st.watch, 4);
     renderPlay();
   }
   var shownPlay = null;

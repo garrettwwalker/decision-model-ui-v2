@@ -188,7 +188,14 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   (Across Teams: select a handoff, its actions sit once beneath the list, named for the party in `xin[].ask`; the task
   card's ways are radio rows with one button named for the chosen way; One Person Deep covers are switches; playbook
   steps are ticked, then "Prepare N steps this week"). The bottom line's four figures are separate white tiles beneath
-  its card (the user's call), each lifting under the pointer. Checkboxes here draw a white check (`--cb-mark`).
+  its card (the user's call), each lifting under the pointer. Checkboxes here draw a white check (`--cb-mark`). Choices animate as the decision cards do (2026-11-11, the user's call): a new task or owner eases the task card to its
+  new height and fades it in (`swapIn`), as a new decision does the panel; the chosen decision or threat card rises into
+  its lift and the old one settles (`liftAnim`, since redrawn cards skipped their CSS transition); the status track's
+  white pill slides (`placeSeg`); a done step's strike is drawn in ink through each line (`.tc__st`, a background line
+  that grows), staggered when a card opens and on first view, and carried through the redraw that follows a tick.
+  Option and way rows use a real radio mark (an empty disc, or red with a white centre) and the chosen row a pale red
+  wash (`--accent-soft`); a faint dot alone left the selection unclear. The bottom line's track is plain (`--mist-3`; a
+  pale red one read as pink), and the first section sits close under the head.
 - `workbench.html` + `assets/js/bench.js` follows one decision through six stages, with a sticky "thread" strip
   showing each stage's live result: 1 Forecast (each event's sub-questions per engine, declined part, fused
   probability ±band, override), 2 Contingencies (the `events` data: include, severity, assets hit first),
