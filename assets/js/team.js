@@ -1377,7 +1377,7 @@
       var s = signalState(w), r = readiness(w), on = st.watch === w.id;
       var b = el("button", { type: "button", role: "tab", "aria-selected": String(on), class: "wi" + (on ? " is-on" : ""), "data-k": w.id });
       var top = el("span", "wi__top");
-      top.appendChild(el("span", "pill wi__kind" + (w.kind === "opportunity" ? " pill--red" : " pill--ink"), w.kind === "threat" ? "Threat" : "Opportunity"));
+      top.appendChild(el("span", "pill wi__kind" + (w.kind === "opportunity" ? " pill--green" : " pill--red"), w.kind === "threat" ? "Threat" : "Opportunity"));
       top.appendChild(el("span", "pill " + (st.active[w.id] ? "pill--red" : s.cls), st.active[w.id] ? "Running" : st.armed[w.id] ? "Armed" : s.label));
       b.appendChild(top);
       b.appendChild(el("b", "wi__title", w.title));

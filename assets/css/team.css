@@ -429,8 +429,8 @@ button.way .way__why, button.way .way__fx { margin-left: calc(18px + 0.7rem); }
 /* a faded card carries no color: its pills and its line go gray until the pointer brings it up */
 .wi .pill, .wi .spark__line, .wi .spark__dot, .wi__p { transition: color 0.25s ease, background-color 0.25s ease, stroke 0.25s ease, fill 0.25s ease; }
 .wi:not(.is-on):not(:hover):not(:focus-visible) .pill { color: var(--ink-3); background: var(--mist-2); }
-.team-page .pill--ink { color: #fff; background: var(--ink); }
-.wi:not(.is-on):not(:hover):not(:focus-visible) .pill--ink { color: #fff; background: var(--ink-3); }
+/* an opportunity in green, at the user's request (2026-11-11): the house style's one green */
+.team-page .pill--green { color: #2c6e48; background: #e1f0e6; }
 .wi:not(.is-on):not(:hover):not(:focus-visible) .spark__line { stroke: var(--ink-3); }
 .wi:not(.is-on):not(:hover):not(:focus-visible) .spark__dot { fill: var(--ink-3); }
 .wi:not(.is-on):not(:hover):not(:focus-visible) .wi__p { color: var(--ink); }
