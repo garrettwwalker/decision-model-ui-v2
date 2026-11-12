@@ -887,7 +887,7 @@
       var li = el("li", { class: "ver" + (i === BRIEF.sent ? " is-live" : "") + (i > BRIEF.sent ? " is-pending" : "") });
       var h = el("p", { class: "ver__h" });
       h.appendChild(el("b", null, v.n)); h.appendChild(el("span", { class: "num" }, v.t));
-      h.appendChild(el("span", { class: "ver__tag" }, i === BRIEF.sent ? "the agent is working to this" : i > BRIEF.sent ? "waiting for your sign-off" : "superseded"));
+      h.appendChild(el("span", { class: "ver__tag" }, i === BRIEF.sent ? "Working" : i > BRIEF.sent ? "Waiting for your sign-off" : "Superseded"));
       li.appendChild(h);
       li.appendChild(el("p", { class: "ver__text" }, v.text));
       li.appendChild(el("p", { class: "ver__why" }, (v.mine ? "Your edit. " : "Why: ") + v.why));
