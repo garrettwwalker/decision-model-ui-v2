@@ -150,7 +150,8 @@ button.dopt { border-radius: 10px; }
 .dopt--head span:not(:first-child) { text-align: right; }
 .dopt--head span:first-child { padding-left: calc(18px + 0.75rem); }
 button.dopt:not(.is-on):hover { background: var(--mist); }
-.dopt.is-on { background: var(--accent-soft); cursor: default; }
+.dopt.is-on { background: var(--accent-soft); cursor: default; transition: background-color 0.15s ease; }
+.dopt.is-on:hover { background: #fbe0dc; }
 .dopt > * { transition: opacity 0.2s ease; }
 button.dopt:not(.is-on) > * { opacity: 0.6; }
 button.dopt:not(.is-on):hover > * { opacity: 1; }
@@ -297,7 +298,8 @@ button:not(.is-on):hover > * > .radio { background: #d3cbbf; }
 button.way { cursor: pointer; transition: background-color 0.15s ease; }
 button.way:not(.is-on):hover { background: var(--mist); }
 button.way { border-radius: 10px; }
-button.way.is-on { background: var(--accent-soft); cursor: default; }
+button.way.is-on { background: var(--accent-soft); cursor: default; transition: background-color 0.15s ease; }
+button.way.is-on:hover { background: #fbe0dc; }
 button.way.is-on, button.way.is-on + .way { border-top-color: transparent; }
 button.way > * { transition: opacity 0.2s ease; }
 button.way:not(.is-on) > * { opacity: 0.6; }
@@ -341,7 +343,8 @@ button.way .way__why, button.way .way__fx { margin-left: calc(18px + 0.7rem); }
 .xi { margin: 0 -0.6rem; padding-left: 0.6rem; padding-right: 0.6rem; border-radius: 10px; cursor: pointer; transition: background-color 0.15s ease; }
 .xi + .xi { border-top-color: var(--line); }
 .xi:not(.is-on):hover { background: var(--mist); }
-.xi.is-on { background: var(--accent-soft); cursor: default; }
+.xi.is-on { background: var(--accent-soft); cursor: default; transition: background-color 0.15s ease; }
+.xi.is-on:hover { background: #fbe0dc; }
 .xi.is-on, .xi.is-on + .xi { border-top-color: transparent; }
 .xi > * { transition: opacity 0.2s ease; }
 .xi:not(.is-on) > * { opacity: 0.6; }
