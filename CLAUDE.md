@@ -122,7 +122,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   Totality engine."). It reuses the brief's resin, Dubai, and feeder exposures and the Sep 29 talks collapse, so keep those in sync.
 - `ask.html` (fifth tab, `assets/css/ask.css`, body `app house ask-page` since 2026-11-06: the house layer at the end of
   ask.css; serif title-case headline, white starters, assumptions, user bubbles and composer, Penumbra's speaker mark the
-  black logo (a .logo in each answer, spinning while one is coming, each turn easing in and out so it runs fast then slow; it used to fade in and out; a plain dark disc before), the send button and a reply's first action red, follow-ups soft cream; one centred column: before the
+  black logo (a .logo in each answer, spinning while one is coming, each turn easing in and out so it runs fast then slow, with no disc behind it (the typing dots' rule once painted a gray one); it used to fade in and out; a plain dark disc before), the send button and a reply's first action red, follow-ups soft cream; one centred column: before the
   first question the headline, lede and a larger question box sit mid-screen (its placeholder cycles every 4.5 s
   through six example questions, fading between them, focused or not) with the suggested questions (`STARTERS`, ten,
   each answerable) drifting past beneath in two opposite rows like a news chyron, paused under the pointer; the old
@@ -161,7 +161,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   carry the alert mark, a red circle with a white exclamation point (`ALERT`; the triangle stays the grid's shortage mark). Redesigned 2026-11-11, because elbow arrows for `AFTER` overlapped
   the bars, amber diamonds for another team's input were ambiguous, and "+N%" chips didn't say what the change was:
   then the same day condensed at the user's request (the rows read too long and wordy): each row is one line again,
-  its name with an ellipsis, and the circled alert mark after it (it and the grid's triangles pulse gently, swelling a little and dimming a touch); pointing to the mark (hover only; a click or tap on or near it goes down to the task card, as the row does), or
+  its name with an ellipsis, and the circled alert mark after it (it and the grid's triangles pulse gently, swelling a little and settling, never dimming); pointing to the mark (hover only; a click or tap on or near it goes down to the task card, as the row does), or
   resting on a bar, opens a pop-out (`taskPop()`, in the shared floating `.gpop` via `showPop()`, which the Who Has
   Room alerts use too; above or below the trigger, else beside it, held on screen): the task, every obstacle in its
   way worst first (`inWay()`, from `taskRisk()`'s factors; "Stuck: ..." in amber), and Totality's suggestion with its

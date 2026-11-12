@@ -234,7 +234,7 @@
    coming it spins, each turn easing in and out so it runs fast then slow (it used to fade in and out) */
 .ask-page .msg--model::before, .ask-page .typing::before { content: none; }
 .ask-page .msg__mark { position: absolute; left: -2px; top: 0.05rem; width: 30px; height: 30px; margin: 0; }
-.ask-page .typing .msg__mark { top: 0.2rem; animation: speaking 1.5s cubic-bezier(0.7, 0, 0.3, 1) infinite; }
+.ask-page .typing .msg__mark { top: 0.2rem; border-radius: 0; background: none; animation: speaking 1.5s cubic-bezier(0.7, 0, 0.3, 1) infinite; } /* the typing dots' rule painted a gray disc behind it */
 @media (max-width: 560px) { .ask-page .msg__mark { width: 24px; height: 24px; } }
 @keyframes speaking { to { transform: rotate(360deg); } }
 .ask-page .typing span { background: var(--ink-3); }
