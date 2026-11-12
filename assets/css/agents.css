@@ -200,7 +200,6 @@ button.dk__i:hover::before, button.dk__i:hover + .dk__i::before { opacity: 0; }
 .dk__l { font-size: 0.8rem; font-weight: 600; color: var(--ink-3); }
 .dk__v { font-size: clamp(1.7rem, 2.6vw, 2.3rem); font-weight: 800; letter-spacing: -0.045em; line-height: 1.1; }
 .dk__s { font-size: 0.76rem; color: var(--ink-3); }
-.dk__i.is-ok .dk__v { color: var(--green-ink); }
 .dk__i.is-bad .dk__s { color: var(--accent-ink); }
 .dk__i.is-warn .dk__v { color: var(--yellow-ink); }
 .dk__i.is-new { animation: dk-new 1.2s ease; }

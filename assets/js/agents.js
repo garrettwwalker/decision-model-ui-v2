@@ -355,7 +355,7 @@
     var wait = Q.queue.filter(function (x) { return x.state === "waiting"; }), big = wait.filter(function (x) { return !small(x); }).length;
     var items = [
       { l: Q.short, v: pText(Q), s: Q.p == null ? "Totality is building the first forecast" : Q.p0 == null ? "First forecast at " + hhmm(Q.firstAt) : pts(Q.p - Q.p0) + " since 06:00", go: function () { select("hub"); } },
-      { l: "Agents working", ok: true, v: (counts.ok + counts.wait) + " of " + ag.length, s: counts.bad ? counts.bad + (counts.bad === 1 ? " has a problem" : " have problems") + (counts.off ? ", " + counts.off + " paused" : "") : counts.off ? counts.off + " paused" : "No problems", bad: counts.bad > 0, go: function () { jump("attn"); } },
+      { l: "Agents working", v: (counts.ok + counts.wait) + " of " + ag.length, s: counts.bad ? counts.bad + (counts.bad === 1 ? " has a problem" : " have problems") + (counts.off ? ", " + counts.off + " paused" : "") : counts.off ? counts.off + " paused" : "No problems", bad: counts.bad > 0, go: function () { jump("attn"); } },
       { l: "Waiting for you", v: String(wait.length), s: big ? big + " commit money" : "None commit money", warn: wait.length > 0, go: function () { jump("q-title"); } },
       { l: "Agent spend today", v: "$" + spend().toFixed(1) + "k", s: "Of a $" + BUDGET + "k daily budget" },
       { l: "Next deadline", v: Q.deadline ? Q.deadline[0] : "None yet", s: Q.deadline ? Q.deadline[1] : "Totality sets one once it has a forecast", go: function () { if (Q.deadline) select(Q.deadline[2]); } }
@@ -376,7 +376,7 @@
       e.lastQ = Q;
       e.l.textContent = it.l; e.v.textContent = it.v; e.s.textContent = it.s;
       e.c.onclick = it.go || null;
-      e.c.classList.toggle("is-ok", !!it.ok); e.c.classList.toggle("is-bad", !!it.bad); e.c.classList.toggle("is-warn", !!it.warn);
+      e.c.classList.toggle("is-bad", !!it.bad); e.c.classList.toggle("is-warn", !!it.warn);
     });
   }
   function jump(id) { $(id).scrollIntoView({ behavior: REDUCE ? "auto" : "smooth", block: "center" }); }
