@@ -80,7 +80,7 @@
           flip: "If Treasury’s cover excludes AE7’s cargo, accepting is cheaper than rolling the booking." }
       ],
       directives: [
-        { id: "divert", brief: true, protects: 7.6, short: "the Khor Fakkan diversion", title: "Divert Four Jebel Ali Sailings to Khor Fakkan", by: "Tomas Varga, VP Logistics", approved: "Approved by the COO in this morning’s brief",
+        { id: "divert", brief: true, protects: 7.6, short: "the Khor Fakkan diversion", title: "Divert Four Jebel Ali Sailings", by: "Tomas Varga, VP Logistics", approved: "Approved by the COO in this morning’s brief",
           part: "Every diverted box from Khor Fakkan to the Dubai DC within 36 hours of discharge, ready before Saturday’s vessels.", due: [3, "17:00"],
           tasks: tasks([
             ["t-slots", "Book four Khor Fakkan berth slots", "farah", 1, 2, 2],
@@ -284,7 +284,7 @@
             ["l-letter", "Draft the customer letter for a closure", "lina", 1, 2, 3],
             ["l-clock", "Track days short against each penalty clause", "yusuf", 0, 1, 2]
           ]) },
-        { id: "divert-l", brief: true, protects: 7.6, short: "the Khor Fakkan diversion", title: "Divert Four Jebel Ali Sailings to Khor Fakkan", by: "Tomas Varga, VP Logistics", approved: "Approved by the COO in this morning’s brief",
+        { id: "divert-l", brief: true, protects: 7.6, short: "the Khor Fakkan diversion", title: "Divert Four Jebel Ali Sailings", by: "Tomas Varga, VP Logistics", approved: "Approved by the COO in this morning’s brief",
           part: "Every Middle East delivery promise reflects the extra day and a half.", due: [2, "17:00"],
           tasks: tasks([
             ["l-promise", "Update delivery promises on open Middle East orders", "ravi", 1, 2, 12],
