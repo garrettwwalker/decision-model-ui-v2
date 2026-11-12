@@ -9,6 +9,7 @@
 .team-page .page { max-width: 80rem; }
 .team-page [hidden] { display: none !important; } /* over the house pill and button displays */
 .team-page .red { color: var(--accent-ink); }
+.team-page { --cb-mark: #fff; } /* a white check on the ink box (the default dark mark vanished on it) */
 
 /* ---------- head ---------- */
 .th { padding: clamp(2.5rem, 7vh, 4.5rem) 0 clamp(1.5rem, 3vh, 2rem); }
@@ -87,26 +88,22 @@
 .odds__p { font-family: var(--display); font-weight: 400; font-size: 2rem; line-height: 1; color: var(--accent-ink); font-variant-numeric: lining-nums tabular-nums; }
 .odds__n { font-size: 0.74rem; color: var(--ink-3); }
 
-.stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--line); }
+/* the four figures as their own white tiles beneath the card, each lifting under the pointer and jumping to its section */
+.stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; margin-top: 1rem; }
 .stat {
-  display: grid; gap: 0.2rem; align-content: start; min-height: 44px; padding: 1.1rem clamp(1rem, 2vw, 1.5rem) 1.2rem; border: 0; font: inherit; text-align: left;
-  color: var(--ink); background: none; cursor: pointer; transition: background-color 0.2s ease;
+  display: grid; gap: 0.2rem; align-content: start; min-height: 44px; padding: 1rem 1.15rem 1.1rem; border: 0; border-radius: var(--r); font: inherit; text-align: left;
+  color: var(--ink); background: #fff; box-shadow: var(--shadow); cursor: pointer; transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
-.stat + .stat { border-left: 1px solid var(--line); }
-.stat:last-child { border-radius: 0 0 var(--r) 0; }
-.stat:first-child { border-radius: 0 0 0 var(--r); }
-.stat:hover { background: var(--mist); }
+.stat:hover { transform: translateY(-2px); box-shadow: var(--shadow-up); }
+.stat:focus-visible { outline: none; box-shadow: var(--shadow-up), 0 0 0 2px var(--accent); }
 .stat__k { font-size: 0.78rem; font-weight: 600; color: var(--ink-3); }
 .stat__v { font-family: var(--display); font-weight: 400; font-size: 1.9rem; line-height: 1.1; letter-spacing: -0.01em; font-variant-numeric: lining-nums tabular-nums; }
 .stat.is-red .stat__v { color: var(--accent-ink); }
-.stat__n { font-size: 0.8rem; color: var(--ink-2); }
+.stat__n { font-size: 0.8rem; line-height: 1.4; color: var(--ink-2); }
 @media (max-width: 980px) {
   .bl__top { grid-template-columns: minmax(0, 1fr); }
   .bl__side { margin-top: 0; }
   .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .stat:nth-child(3) { border-left: 0; }
-  .stat:nth-child(n+3) { border-top: 1px solid var(--line); }
-  .stat:first-child, .stat:last-child { border-radius: 0; }
 }
 
 /* ---------- 2. waiting for you: a short white card per decision, as the memo's options are; the chosen one lifts, the
@@ -273,14 +270,28 @@ button.dopt:not(.is-on):not(:hover) .red { color: var(--ink); }
 .tc__steps input { flex: none; margin: 0.05rem 0 0; }
 .tc__steps li.is-done span { color: var(--ink-3); text-decoration: line-through; text-decoration-color: var(--line-strong); }
 .tc__ways { margin-top: 0.6rem; padding-top: 1rem; border-top: 1px solid var(--line); }
-.tc__ways ol { margin: 0; padding: 0; list-style: none; }
-.way { display: grid; gap: 0.55rem; padding: 0.9rem 0; border-top: 1px solid var(--line); }
-.way:first-child { border-top: 0; padding-top: 0.2rem; }
-.way__t { display: flex; flex-wrap: wrap; align-items: center; gap: 0.3rem 0.6rem; margin: 0 0 0.35rem; font-size: 0.92rem; line-height: 1.35; }
+.tc__ways { display: flex; flex-direction: column; }
+.ways { display: grid; }
+.way { display: grid; gap: 0.45rem; width: 100%; padding: 0.85rem 0.6rem 0.9rem; border: 0; border-top: 1px solid var(--line); border-radius: 0; font: inherit; text-align: left; color: var(--ink); background: none; }
+.way:first-child { border-top: 0; }
+button.way { cursor: pointer; transition: background-color 0.15s ease; }
+button.way:hover { background: var(--mist); }
+button.way.is-on { cursor: default; }
+button.way > * { transition: opacity 0.2s ease; }
+button.way:not(.is-on) > * { opacity: 0.55; }
+button.way:not(.is-on):hover > * { opacity: 1; }
+button.way:not(.is-on):not(:hover) .pill { color: var(--ink-3); background: var(--mist-2); }
+.way.is-only { padding-left: 0; padding-right: 0; }
+.way__t { position: relative; display: flex; flex-wrap: wrap; align-items: center; gap: 0.3rem 0.6rem; margin: 0; font-size: 0.92rem; line-height: 1.35; }
+/* a radio mark before each way when there's a choice: gray, red for the chosen one */
+button.way .way__t { padding-left: calc(10px + 0.6rem); }
+button.way .way__t::before { content: ""; position: absolute; left: 0; top: 0.3rem; width: 10px; height: 10px; border-radius: 50%; background: var(--mist-3); transition: background-color 0.2s ease; }
+button.way.is-on .way__t::before { background: var(--accent); }
+button.way .way__why, button.way .way__fx { margin-left: calc(10px + 0.6rem); }
 .way__why { display: grid; gap: 0.2rem; margin: 0; padding: 0 0 0 1.05rem; font-size: 0.82rem; line-height: 1.45; color: var(--ink-2); }
 .way__why li::marker { color: var(--ink-3); }
-.way__side { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 0.5rem 1rem; }
 .way__fx { display: flex; flex-wrap: wrap; gap: 0.3rem; margin: 0; }
+.way__go { justify-self: start; margin-top: 0.4rem; white-space: normal; text-align: left; }
 .tc__odds { display: flex; flex-direction: column; gap: 0.45rem; padding-left: 2rem; border-left: 1px solid var(--line); }
 .tc__odds p { margin: 0; }
 .tc__p { font-family: var(--display); font-size: clamp(2.6rem, 4.6vw, 3.4rem); line-height: 1; letter-spacing: -0.02em; font-variant-numeric: lining-nums tabular-nums; }
@@ -305,10 +316,18 @@ button.dopt:not(.is-on):not(:hover) .red { color: var(--ink); }
 .xi__meta { font-size: 0.8rem; line-height: 1.45; color: var(--ink-2); }
 .xi__side { display: grid; justify-items: end; gap: 0.3rem; text-align: right; }
 .xi__due { font-size: 0.74rem; font-weight: 600; color: var(--ink-3); }
-.xi__acts { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 0.3rem; margin-top: 0.15rem; }
 .xi.is-done .xi__what { color: var(--ink-3); }
+.xi { margin: 0 -0.6rem; padding-left: 0.6rem; padding-right: 0.6rem; border-radius: 10px; cursor: pointer; transition: background-color 0.15s ease; }
+.xi + .xi { border-top-color: var(--line); }
+.xi:hover { background: var(--mist); }
+.xi.is-on { background: var(--mist-2); cursor: default; }
+.xi:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+/* the chosen handoff's actions, worded for it, once beneath the list */
+.xact { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; margin-top: 0.6rem; padding-top: 0.9rem; border-top: 1px solid var(--line); }
+.xact .btn-q, .xact .btn { white-space: normal; text-align: left; }
+.xi__note { margin: 0; font-size: 0.84rem; color: var(--ink-2); }
 @media (max-width: 980px) { .xteams { grid-template-columns: minmax(0, 1fr); } }
-@media (max-width: 520px) { .xi { grid-template-columns: auto minmax(0, 1fr); } .xi__side { grid-column: 2; justify-items: start; text-align: left; } .xi__acts { justify-content: flex-start; } }
+@media (max-width: 520px) { .xi { grid-template-columns: auto minmax(0, 1fr); } .xi__side { grid-column: 2; justify-items: start; text-align: left; } }
 
 /* ---------- 5. who has room: hours a day per person, deeper as the day fills, red past capacity ---------- */
 .heat { padding: 0.9rem clamp(0.9rem, 2vw, 1.4rem) 1.1rem; background: #fff; border-radius: var(--r); box-shadow: var(--shadow); }
@@ -336,12 +355,14 @@ button.dopt:not(.is-on):not(:hover) .red { color: var(--ink); }
 .gaps { margin-top: 1.1rem; padding: clamp(1.2rem, 2.4vw, 1.75rem); background: #fff; border-radius: var(--r); box-shadow: var(--shadow); }
 .gaps .sub { margin-bottom: 0.6rem; }
 .gaps__list { margin: 0; padding: 0; list-style: none; }
-.gap { display: grid; grid-template-columns: 8.5rem minmax(0, 1fr) auto; align-items: center; gap: 0.5rem 1rem; padding: 0.85rem 0; border-top: 1px solid var(--line); }
+.gap { display: grid; grid-template-columns: 8.5rem minmax(0, 1fr); align-items: center; gap: 0.5rem 1rem; padding: 0.7rem 0; border-top: 1px solid var(--line); }
 .gap .pill { justify-self: start; }
-.gap__words p { margin: 0; font-size: 0.9rem; line-height: 1.45; }
-.gap__words .gap__fix { margin-top: 0.2rem; font-size: 0.8rem; color: var(--ink-3); }
-.gap.is-planned .gap__words p:first-child { color: var(--ink-3); }
-@media (max-width: 640px) { .gap { grid-template-columns: minmax(0, 1fr) auto; } .gap .pill { grid-column: 1 / -1; } }
+.gap__sw { gap: 1.5rem; }
+.gap__words { font-weight: 400; }
+.gap__risk { display: block; font-size: 0.9rem; line-height: 1.45; }
+.gap .switch__text small { margin-top: 0.2rem; font-size: 0.8rem; line-height: 1.4; color: var(--ink-3); }
+.gap.is-planned .gap__risk { color: var(--ink-3); }
+@media (max-width: 640px) { .gap { grid-template-columns: minmax(0, 1fr); } }
 
 /* ---------- 6. if it happens: a white card per threat or opportunity, the chosen one lifted; its playbook rehearsed ---------- */
 .watch { display: grid; grid-template-columns: repeat(var(--n, 4), minmax(0, 1fr)); gap: 0.8rem; margin-bottom: 1.1rem; }
@@ -407,7 +428,11 @@ button.dopt:not(.is-on):not(:hover) .red { color: var(--ink); }
 .play__h h4 { margin: 0; font-family: var(--display); font-weight: 400; font-size: 1.2rem; }
 .play__h span { font-size: 0.78rem; font-weight: 600; color: var(--ink-3); }
 .steps { margin: 0; padding: 0; list-style: none; }
-.step { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 0.7rem; padding: 0.6rem 0; border-top: 1px solid var(--line); }
+.step { padding: 0; border-top: 1px solid var(--line); }
+.step__row { display: grid; grid-template-columns: auto auto minmax(0, 1fr); align-items: center; gap: 0.7rem; min-height: 44px; padding: 0.55rem 0; }
+label.step__row { cursor: pointer; }
+div.step__row { grid-template-columns: auto minmax(0, 1fr) auto; }
+.step__row input { margin: 0; }
 .step:first-child { border-top: 0; }
 .step__txt { display: grid; gap: 0.1rem; }
 .step__txt b { font-size: 0.86rem; font-weight: 600; line-height: 1.35; }
@@ -482,6 +507,6 @@ button.dopt:not(.is-on):not(:hover) .red { color: var(--ink); }
 
 @media (prefers-reduced-motion: reduce) {
   .is-flash { animation: none; }
-  .mgrs button, .mgrs.is-ready .mgrs__pill, .wi, .wi > *, .decard, .decard > *, .dopt, .dopt > *, .gauge__row span, .gauge__caret, .who, .seg__b, .g__task, .h__c, .ask-q, .rides__bar i, .odds, .stat { transition: none; }
-  .wi:hover, .wi.is-on, .decard:hover, .decard.is-on, .ask-q:hover { transform: none; }
+  .mgrs button, .mgrs.is-ready .mgrs__pill, .wi, .wi > *, .decard, .decard > *, .dopt, .dopt > *, .gauge__row span, .gauge__caret, .who, .seg__b, .g__task, .h__c, .ask-q, .rides__bar i, .odds, .stat, .xi, .way { transition: none; }
+  .wi:hover, .wi.is-on, .decard:hover, .decard.is-on, .ask-q:hover, .stat:hover { transform: none; }
 }

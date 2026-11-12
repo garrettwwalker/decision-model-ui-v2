@@ -183,6 +183,12 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   piece with hairlines inside, decision options as columns split by hairlines with a red radio mark on the one being
   weighed, the task card and playbook split by a vertical hairline, people as chips; the bottom line's is the only cream panel.
   Switches redraw the page only after they've slid (`later()`), since a redraw mid-slide replaced the switch unmoved.
+  No short button repeated down every row ("Chase", "Make it", "Get ready"; the user dislikes them, 2026-11-11): rows
+  are selectable or carry a switch or checkbox, and one button per list, worded for what it does, acts on the choice
+  (Across Teams: select a handoff, its actions sit once beneath the list, named for the party in `xin[].ask`; the task
+  card's ways are radio rows with one button named for the chosen way; One Person Deep covers are switches; playbook
+  steps are ticked, then "Prepare N steps this week"). The bottom line's four figures are separate white tiles beneath
+  its card (the user's call), each lifting under the pointer. Checkboxes here draw a white check (`--cb-mark`).
 - `workbench.html` + `assets/js/bench.js` follows one decision through six stages, with a sticky "thread" strip
   showing each stage's live result: 1 Forecast (each event's sub-questions per engine, declined part, fused
   probability ±band, override), 2 Contingencies (the `events` data: include, severity, assets hit first),

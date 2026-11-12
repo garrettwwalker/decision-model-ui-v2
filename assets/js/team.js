@@ -101,9 +101,9 @@
       // what other teams owe this one, and the task each holds up
       xin: [
         { id: "x-slots", team: "Booking agent", agent: "booking", what: "Hold four Khor Fakkan slots on option", due: [2, "14:00"], p: 0.97, gates: "t-slots", status: "Holding until Thursday at 2pm" },
-        { id: "x-haul", team: "Khor Fakkan hauliers", who: "Two hauliers", what: "Confirm 14 trucks a sailing", due: [1, "12:00"], p: 0.8, gates: "t-trucks", status: "Quoted, not confirmed" },
-        { id: "x-hull", team: "Carrier", who: "The Sable Orchid’s operator", what: "Send the Sable Orchid’s hull value", due: [-2, "17:00"], p: 0.5, gates: "t-hull", status: "Two days late", late: true },
-        { id: "x-dcwin", team: "Dubai DC", who: "Inbound planning", what: "Confirm it can receive at the new windows", due: [2, "12:00"], p: 0.9, gates: "t-dc", status: "Waiting on our windows" }
+        { id: "x-haul", ask: "the Khor Fakkan hauliers", team: "Khor Fakkan hauliers", who: "Two hauliers", what: "Confirm 14 trucks a sailing", due: [1, "12:00"], p: 0.8, gates: "t-trucks", status: "Quoted, not confirmed" },
+        { id: "x-hull", ask: "the Sable Orchid’s operator", team: "Carrier", who: "The Sable Orchid’s operator", what: "Send the Sable Orchid’s hull value", due: [-2, "17:00"], p: 0.5, gates: "t-hull", status: "Two days late", late: true },
+        { id: "x-dcwin", ask: "the Dubai DC’s inbound planning", team: "Dubai DC", who: "Inbound planning", what: "Confirm it can receive at the new windows", due: [2, "12:00"], p: 0.9, gates: "t-dc", status: "Waiting on our windows" }
       ],
       // what this team owes others, and the task that delivers it
       xout: [
@@ -199,9 +199,9 @@
           ]) }
       ],
       xin: [
-        { id: "x-spec", team: "Procurement", who: "Aylin Demir", what: "Confirm the Singapore grade’s melt-index spec", due: [1, "12:00"], p: 0.85, gates: "e-trial", status: "Supplier sheet requested" },
-        { id: "x-silo", team: "Ambarlı terminal", who: "Bulk desk", what: "Confirm silo space for 4,000 t", due: [1, "17:00"], p: 0.85, gates: "e-silo", status: "Quoted for October 19 to 22" },
-        { id: "x-union", team: "Metalworkers’ union", who: "Branch secretary", what: "Agree the list of essential roles", due: [3, "12:00"], p: 0.6, gates: "e-roles", status: "Meeting Thursday morning" }
+        { id: "x-spec", ask: "Aylin Demir in Procurement", team: "Procurement", who: "Aylin Demir", what: "Confirm the Singapore grade’s melt-index spec", due: [1, "12:00"], p: 0.85, gates: "e-trial", status: "Supplier sheet requested" },
+        { id: "x-silo", ask: "the Ambarlı bulk desk", team: "Ambarlı terminal", who: "Bulk desk", what: "Confirm silo space for 4,000 t", due: [1, "17:00"], p: 0.85, gates: "e-silo", status: "Quoted for October 19 to 22" },
+        { id: "x-union", ask: "the union’s branch secretary", team: "Metalworkers’ union", who: "Branch secretary", what: "Agree the list of essential roles", due: [3, "12:00"], p: 0.6, gates: "e-roles", status: "Meeting Thursday morning" }
       ],
       xout: [
         { to: "Procurement", who: "Aylin Demir", what: "The resin trial’s result", from: "e-trial", due: [3, "17:00"], why: "Procurement releases the second Singapore lot only after a passing trial." },
@@ -293,8 +293,8 @@
       ],
       xin: [
         { id: "x-eta", team: "Port operations, UAE", who: "Farah Saleh", persona: "farah", src: "t-eta", what: "New arrival times for 212 boxes", due: [0, "09:00"], p: 0.9, gates: "l-promise" },
-        { id: "x-buyer", team: "Al Noor Hypermarkets", who: "Category buyer", what: "Agree substitution rules", due: [3, "12:00"], p: 0.7, gates: "l-sub", status: "Meeting requested" },
-        { id: "x-legal", team: "Legal, MENA", who: "Contracts counsel", what: "Clear the customer letter’s wording", due: [2, "12:00"], p: 0.8, gates: "l-letter", status: "In the queue" }
+        { id: "x-buyer", ask: "Al Noor’s category buyer", team: "Al Noor Hypermarkets", who: "Category buyer", what: "Agree substitution rules", due: [3, "12:00"], p: 0.7, gates: "l-sub", status: "Meeting requested" },
+        { id: "x-legal", ask: "Legal’s contracts counsel", team: "Legal, MENA", who: "Contracts counsel", what: "Clear the customer letter’s wording", due: [2, "12:00"], p: 0.8, gates: "l-letter", status: "In the queue" }
       ],
       xout: [
         { to: "GM, MENA", who: "Karim Haddad", what: "Which accounts are exposed, ranked", from: "l-top", due: [1, "17:00"], why: "Karim calls the two biggest accounts himself if a closure comes." },
@@ -382,7 +382,7 @@
   function clone(o) { return JSON.parse(JSON.stringify(o)); }
   function init(id) {
     if (S[id]) return S[id];
-    var p = PERSONAS[id], s = { tasks: {}, dirs: [], own: [], decided: {}, choice: {}, pending: {}, hits: {}, ext: {}, prepared: {}, active: {}, armed: {}, planned: {}, escalated: {}, steps: {}, sel: null, dsel: null, preview: false, watch: p.watch[0].id, sent: false, note: "", seq: 0 };
+    var p = PERSONAS[id], s = { tasks: {}, dirs: [], own: [], decided: {}, choice: {}, pending: {}, hits: {}, ext: {}, prepared: {}, active: {}, armed: {}, planned: {}, escalated: {}, steps: {}, wsel: {}, prep: {}, sel: null, dsel: null, preview: false, watch: p.watch[0].id, sent: false, note: "", seq: 0 };
     p.directives.forEach(function (d) {
       var c = clone(d); c.taskIds = c.tasks.map(function (t) { t.dir = d.id; s.tasks[t.id] = t; return t.id; }); delete c.tasks; s.dirs.push(c);
     });
@@ -812,8 +812,8 @@
     P.xin.forEach(function (x) {
       var e = st.ext[x.id];
       if (x.src || x.agent || e.got || e.nudged || extP(st, x) >= 0.85 || !st.tasks[x.gates]) return;
-      cands.push({ kind: "chase", text: (x.late ? "Escalate with " : "Chase ") + x.team + ": " + lc(x.what), t: st.tasks[x.gates], who: x.who || x.team, fn: function (s) { s.ext[x.id].nudged = true; if (x.late) s.ext[x.id].raised = true; },
-        note: x.late ? "It’s " + lc(x.status) + ". " + P.boss.first + " gets it as a need on today’s roll-up, and a reminder goes to " + (x.who || x.team) + "." : "A reminder goes to " + (x.who || x.team) + " in your name. Status now: " + lc(x.status) + "." });
+      cands.push({ kind: "chase", text: (x.late ? "Escalate with " + x.ask + ": " : "Remind " + x.ask + " to ") + lc(x.what), t: st.tasks[x.gates], who: x.who || x.team, fn: function (s) { s.ext[x.id].nudged = true; if (x.late) s.ext[x.id].raised = true; },
+        note: x.late ? "It’s " + lc(x.status) + ". " + P.boss.first + " gets it as a need on today’s roll-up, and a reminder goes to " + x.ask + "." : "A reminder goes to " + x.ask + " in your name. Where it stands: " + lc(x.status) + "." });
     });
     cands.forEach(function (c) { c.v = preview(c.fn, c.t.dir); });
     var byTask = {}, best = [];
@@ -824,9 +824,14 @@
   // why a suggestion helps, in words: what it clears from the task's way, whose hours move, what else it lifts
   function reasons(c) {
     var tmp = c.v.tmp, before = taskRisk(st, c.t).f, after = tmp.tasks[c.t.id] ? taskRisk(tmp, tmp.tasks[c.t.id]).f : [];
-    var keep = after.map(function (x) { return x[0]; }), out = [];
-    var gone = before.filter(function (x) { return keep.indexOf(x[0]) < 0; });
-    if (gone.length) out.push("Removes what’s holding it back: " + gone.map(function (x) { return x[0] + " (−" + Math.max(1, Math.round(100 * (1 - x[1]))) + "%)"; }).join("; ") + ".");
+    // factors match on their words without figures, so one that only shrinks reads as eased, not removed and still there
+    var key = function (x) { return x[0].replace(/[0-9]+/g, "#"); }, cost = function (x) { return "−" + Math.max(1, Math.round(100 * (1 - x[1]))) + "%"; };
+    var bare = function (x) { return x[0].replace(/ \([0-9]+% on time\)$/, ""); }, out = [];
+    var gone = before.filter(function (x) { return !after.some(function (y) { return key(y) === key(x); }); });
+    var eased = before.map(function (x) { var y = after.filter(function (z) { return key(z) === key(x); })[0]; return y && y[1] > x[1] + 0.004 ? [x, y] : null; }).filter(Boolean);
+    if (gone.length) out.push("Removes " + gone.map(function (x) { return "“" + x[0] + "” (" + cost(x) + ")"; }).join(" and ") + ".");
+    eased.forEach(function (e) { out.push("Eases “" + bare(e[0]) + "” from " + cost(e[0]) + " to " + cost(e[1]) + "."); });
+    after = after.filter(function (y) { return !eased.some(function (e) { return e[1] === y; }); });
     out.push(c.note);
     c.v.loads.forEach(function (x) { out.push(First(x.p.id) + " goes from " + x.a + " to " + x.b + " of " + x.p.cap + " h this week."); });
     var lifts = allTasks(st).filter(function (o) { return o.id !== c.t.id && o.status !== "done" && tmp.tasks[o.id] && taskRisk(tmp, tmp.tasks[o.id]).p - taskRisk(st, o).p > 0.015; });
@@ -1060,79 +1065,92 @@
     if (ways && ways.length) {
       var wb = el("div", "tc__ways");
       wb.appendChild(el("h4", "dp__h", ways.length > 1 ? "Ways to Raise Its Odds" : "Totality’s Suggestion"));
-      var wl = el("ol");
+      // the ways as choices, the suggestion picked first; one button beneath carries out the chosen one
+      var ws = st.wsel[t.id] != null && ways[st.wsel[t.id]] ? st.wsel[t.id] : 0;
+      var wl = el("div", { class: "ways", role: "radiogroup", "aria-label": "Ways to raise the chance “" + t.text + "” lands on time" });
       ways.forEach(function (c, i) {
-        var tp = taskRisk(c.v.tmp, c.v.tmp.tasks[t.id]).p, li = el("li", "way");
-        var ww = el("div", "way__w");
-        var wt = el("p", "way__t"); wt.appendChild(el("b", null, c.text)); if (!i) wt.appendChild(el("span", "pill pill--red", "Totality suggests")); ww.appendChild(wt);
-        var rl = el("ul", "way__why"); reasons(c).forEach(function (x) { rl.appendChild(el("li", null, x)); }); ww.appendChild(rl);
-        li.appendChild(ww);
-        var side = el("div", "way__side");
+        var tp = taskRisk(c.v.tmp, c.v.tmp.tasks[t.id]).p, on = i === ws;
+        var li = el(ways.length > 1 ? "button" : "div", ways.length > 1 ? { type: "button", role: "radio", "aria-checked": String(on), class: "way" + (on ? " is-on" : "") } : "way is-on is-only");
+        var wt = el("p", "way__t"); wt.appendChild(el("b", null, c.text)); if (!i) wt.appendChild(el("span", "pill pill--red", "Totality suggests")); li.appendChild(wt);
+        var rl = el("ul", "way__why"); reasons(c).forEach(function (x) { rl.appendChild(el("li", null, x)); }); li.appendChild(rl);
         var fx = el("p", "way__fx");
-        fx.appendChild(el("span", "pill", "This task " + pct(r.p) + " → " + pct(tp)));
+        if (tp - r.p > 0.005) fx.appendChild(el("span", "pill", "This task " + pct(r.p) + " → " + pct(tp)));
         if (d && c.v.from != null && c.v.to - c.v.from > 0.005) fx.appendChild(el("span", "pill", cap(d.short) + " " + pct(c.v.from) + " → " + pct(c.v.to)));
         if (c.v.dExp > 0.05) fx.appendChild(el("span", "pill pill--red", "+" + money(c.v.dExp) + " expected"));
-        side.appendChild(fx);
-        side.appendChild(button("Make it", i ? "btn-q btn-q--sm" : "btn btn--primary btn--sm", function () { c.fn(st); DB.toast("Plan updated."); changed(); }));
-        li.appendChild(side);
+        li.appendChild(fx);
+        if (ways.length > 1) li.addEventListener("click", function () { if (st.wsel[t.id] !== i && ws !== i) { st.wsel[t.id] = i; render(); } });
         wl.appendChild(li);
       });
       wb.appendChild(wl);
+      var pickd = ways[ws];
+      wb.appendChild(button(pickd.text, "btn btn--primary btn--sm way__go", function () { pickd.fn(st); delete st.wsel[t.id]; DB.toast("Plan updated."); changed(); }));
       right.appendChild(wb);
     }
   }
 
-  /* ================= 4. Across teams ================= */
+  /* ================= 4. Across teams: each list's rows are selectable, and the chosen handoff's actions, worded for it,
+     sit once beneath the list (the user dislikes the same short button repeated down every row) ================= */
   function openPlan(id) { switchTo(id); window.scrollTo({ top: 0, behavior: REDUCE ? "auto" : "smooth" }); }
+  function openTask(t) { st.sel = t.id; render(); glide("task-card", 160); }
+  function xrow(list, on, pick, parts) {
+    var li = el("li", { class: "xi" + (parts.done ? " is-done" : "") + (on ? " is-on" : ""), role: "button", tabindex: "0", "aria-pressed": String(on) });
+    li.appendChild(parts.av);
+    var w = el("div", "xi__w");
+    w.appendChild(el("p", "xi__team", parts.team));
+    w.appendChild(el("p", "xi__what", parts.what));
+    w.appendChild(el("p", "xi__meta", parts.meta));
+    li.appendChild(w);
+    var side = el("div", "xi__side");
+    side.appendChild(el("span", "pill " + parts.cls, parts.pill));
+    if (parts.due) side.appendChild(el("span", "xi__due" + (parts.late ? " red" : ""), parts.due));
+    li.appendChild(side);
+    li.addEventListener("click", pick);
+    li.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pick(); } });
+    list.appendChild(li);
+  }
   function renderAcross() {
     var late = P.xin.filter(function (x) { return extP(st, x) < 0.7; }).length;
-    $("x-note").textContent = "What other teams owe " + P.first + "’s team, and what the team owes them, with each handoff’s chance of arriving on time." + (late ? " " + cap(words(late, "input")) + " could hold the plan up." : "");
+    $("x-note").textContent = "What other teams owe " + P.first + "’s team, and what the team owes them, with each handoff’s chance of arriving on time. Select one to act on it." + (late ? " " + cap(words(late, "input")) + " could hold the plan up." : "");
+    var xin = P.xin.slice().sort(function (a, b) { return extP(st, a) - extP(st, b); });
+    if (!xin.some(function (x) { return x.id === st.xin; })) st.xin = xin[0].id;
     var inb = byId("x-in"); inb.textContent = "";
-    P.xin.slice().sort(function (a, b) { return extP(st, a) - extP(st, b); }).forEach(function (x) {
+    xin.forEach(function (x) {
       var p = extP(st, x), e = st.ext[x.id], t = st.tasks[x.gates], other = x.src && init(x.persona).tasks[x.src];
-      var li = el("li", "xi" + (p >= 1 ? " is-done" : ""));
-      li.appendChild(x.agent ? avatar("ag:" + x.agent) : avatar(x.who || x.team));
-      var w = el("div", "xi__w");
-      w.appendChild(el("p", "xi__team", x.team + (x.who ? ", " + x.who : "")));
-      w.appendChild(el("p", "xi__what", x.what));
       var status = x.src ? STATUS[other.status] + " in " + PERSONAS[x.persona].first + "’s plan" : e.got ? "Received" : x.status + (e.raised ? ", escalated" : e.nudged ? ", chased" : "");
-      var meta = el("p", "xi__meta"); meta.appendChild(document.createTextNode(status + (t ? ". Holds up " : "")));
-      if (t) meta.appendChild(button(lc(t.text), "tc__link", function () { st.sel = t.id; render(); glide("task-card", 160); }));
-      w.appendChild(meta);
-      li.appendChild(w);
-      var side = el("div", "xi__side");
-      side.appendChild(el("span", "pill " + (p >= 1 ? "" : p < 0.7 ? "pill--red" : p < 0.85 ? "pill--amber" : ""), p >= 1 ? "In hand" : pct(p) + " on time"));
-      side.appendChild(el("span", "xi__due" + (x.late && p < 1 ? " red" : ""), p >= 1 ? "" : (x.due[0] < 0 ? "Was due " : "Due ") + dayLow(x.due[0], x.due[1])));
-      var acts = el("div", "xi__acts");
-      if (x.src) acts.appendChild(button("Open " + PERSONAS[x.persona].first + "’s plan", "btn-q btn-q--sm", function () { openPlan(x.persona); }));
-      else if (!e.got && !x.agent) {
-        if (!e.nudged) acts.appendChild(button(x.late ? "Escalate" : "Chase", "btn-q btn-q--sm", function () { e.nudged = true; if (x.late) e.raised = true; DB.toast((x.late ? "Escalated with " : "Chased ") + x.team + "."); changed(); }));
-        acts.appendChild(button("Mark received", "btn-q btn-q--sm", function () { e.got = true; if (t && t.status === "blocked") { t.status = "todo"; t.blocker = ""; } changed(); }));
-      }
-      side.appendChild(acts);
-      li.appendChild(side);
-      inb.appendChild(li);
+      xrow(inb, st.xin === x.id, function () { if (st.xin !== x.id) { st.xin = x.id; render(); } }, {
+        av: x.agent ? avatar("ag:" + x.agent) : avatar(x.who || x.team), team: x.team + (x.who ? ", " + x.who : ""), what: x.what,
+        meta: status + (t ? ". Holds up “" + t.text + "”." : "."), done: p >= 1,
+        cls: p >= 1 ? "" : p < 0.7 ? "pill--red" : p < 0.85 ? "pill--amber" : "", pill: p >= 1 ? "In hand" : pct(p) + " on time",
+        due: p >= 1 ? "" : (x.due[0] < 0 ? "Was due " : "Due ") + dayLow(x.due[0], x.due[1]), late: x.late && p < 1
+      });
     });
+    // the chosen input's actions, each worded for it
+    var x = P.xin.filter(function (y) { return y.id === st.xin; })[0], e = st.ext[x.id], t = st.tasks[x.gates], acts = byId("x-in-act");
+    acts.textContent = "";
+    if (x.src) acts.appendChild(button("Open " + PERSONAS[x.persona].first + "’s plan, where it’s made", "btn-q", function () { openPlan(x.persona); }));
+    else if (!e.got && !x.agent) {
+      if (!e.nudged) acts.appendChild(button(x.late ? "Escalate with " + x.ask + ", copying " + P.boss.first : "Remind " + x.ask + " to " + lc(x.what), "btn btn--primary btn--sm", function () {
+        e.nudged = true; if (x.late) e.raised = true; DB.toast((x.late ? "Escalated with " : "Reminded ") + x.ask + "."); changed();
+      }));
+      acts.appendChild(button("Mark as received from " + x.ask, "btn-q", function () { e.got = true; if (t && t.status === "blocked") { t.status = "todo"; t.blocker = ""; } changed(); }));
+    } else if (x.agent) acts.appendChild(el("p", "xi__note", agentName("ag:" + x.agent) + " is handling it: " + lc(x.status) + "."));
+    if (t) acts.appendChild(button("See “" + t.text + "”", "btn-q", function () { openTask(t); }));
+
+    if (st.xout == null || !P.xout[st.xout]) st.xout = 0;
     var out = byId("x-out"); out.textContent = "";
-    P.xout.forEach(function (x) {
-      var t = st.tasks[x.from], r = t ? taskRisk(st, t) : { p: 1 }, done = !t || t.status === "done";
-      var li = el("li", "xi" + (done ? " is-done" : ""));
-      li.appendChild(avatar(x.who));
-      var w = el("div", "xi__w");
-      w.appendChild(el("p", "xi__team", x.to + ", " + x.who));
-      w.appendChild(el("p", "xi__what", x.what));
-      w.appendChild(el("p", "xi__meta", x.why));
-      li.appendChild(w);
-      var side = el("div", "xi__side");
-      side.appendChild(el("span", "pill " + (done ? "" : r.p < 0.6 ? "pill--red" : r.p < 0.8 ? "pill--amber" : ""), done ? "Sent" : pct(r.p) + " on time"));
-      side.appendChild(el("span", "xi__due", done ? "" : "Due " + dayLow(x.due[0], x.due[1])));
-      var acts = el("div", "xi__acts");
-      if (t && !done) acts.appendChild(button("Open the task", "btn-q btn-q--sm", function () { st.sel = t.id; render(); glide("task-card", 160); }));
-      if (x.persona) acts.appendChild(button("Open " + PERSONAS[x.persona].first + "’s plan", "btn-q btn-q--sm", function () { openPlan(x.persona); }));
-      side.appendChild(acts);
-      li.appendChild(side);
-      out.appendChild(li);
+    P.xout.forEach(function (o, i) {
+      var tt = st.tasks[o.from], r = tt ? taskRisk(st, tt) : { p: 1 }, done = !tt || tt.status === "done";
+      xrow(out, st.xout === i, function () { if (st.xout !== i) { st.xout = i; render(); } }, {
+        av: avatar(o.who), team: o.to + ", " + o.who, what: o.what, meta: o.why, done: done,
+        cls: done ? "" : r.p < 0.6 ? "pill--red" : r.p < 0.8 ? "pill--amber" : "", pill: done ? "Sent" : pct(r.p) + " on time",
+        due: done ? "" : "Due " + dayLow(o.due[0], o.due[1])
+      });
     });
+    var o = P.xout[st.xout], ot = st.tasks[o.from], oacts = byId("x-out-act");
+    oacts.textContent = "";
+    if (ot && ot.status !== "done") oacts.appendChild(button("See “" + ot.text + "”", "btn-q", function () { openTask(ot); }));
+    if (o.persona) oacts.appendChild(button("Open " + PERSONAS[o.persona].first + "’s plan, where it’s needed", "btn-q", function () { openPlan(o.persona); }));
+    if (!oacts.childNodes.length) oacts.appendChild(el("p", "xi__note", "Sent to " + o.who + "."));
   }
 
   /* ================= 5. Who has room, day by day ================= */
@@ -1184,14 +1202,21 @@
       box.appendChild(ar);
     }
     var gb = byId("gaps"); gb.textContent = "";
+    // each gap's cover as a switch: on puts the cover in the plan, off takes it out
     P.gaps.forEach(function (g, i) {
       var li = el("li", "gap" + (st.planned[i] ? " is-planned" : ""));
       li.appendChild(el("span", st.planned[i] ? "pill" : "pill pill--amber", st.planned[i] ? "Covered" : "One person deep"));
-      var t = el("div", "gap__words"); t.appendChild(el("p", null, g.text));
-      t.appendChild(el("p", "gap__fix", (st.planned[i] ? "Planned: " : "Cover: ") + g.fix + " (" + first(g.who) + ", " + dayLow(g.day) + ", " + g.hours + " h)."));
-      li.appendChild(t);
-      if (st.planned[i]) li.appendChild(button("Undo", "btn-q", function () { removeTask(st, st.planned[i]); delete st.planned[i]; changed(); }));
-      else li.appendChild(button("Plan the cover", "btn-q", function () { planGap(st, i); DB.toast("Added to the plan for " + first(g.who) + "."); changed(); }));
+      var lab = el("label", "switch gap__sw");
+      var t = el("span", "switch__text gap__words"); t.appendChild(el("span", "gap__risk", g.text));
+      t.appendChild(el("small", null, "Cover: " + g.fix + " (" + first(g.who) + ", " + dayLow(g.day) + ", " + g.hours + " h)" + (g.unblocks && st.tasks[g.unblocks] ? ", which unblocks “" + st.tasks[g.unblocks].text + "”." : ".")));
+      lab.appendChild(t);
+      var cb = el("input", { type: "checkbox", "aria-label": "Plan the cover: " + g.fix }); cb.checked = !!st.planned[i];
+      cb.addEventListener("change", function () {
+        if (cb.checked) { planGap(st, i); DB.toast("Added to the plan for " + first(g.who) + "."); } else { removeTask(st, st.planned[i]); delete st.planned[i]; }
+        later();
+      });
+      lab.appendChild(cb); lab.appendChild(el("span", { class: "switch__ui", "aria-hidden": "true" }));
+      li.appendChild(lab);
       gb.appendChild(li);
     });
   }
@@ -1314,17 +1339,19 @@
       right.appendChild(dl);
     }
     var ol = el("ol", "steps");
-    var prep = st.prepared[w.id] || (st.prepared[w.id] = {});
+    var prep = st.prepared[w.id] || (st.prepared[w.id] = {}), pick = st.prep[w.id] || (st.prep[w.id] = {});
     w.steps.forEach(function (step, i) {
-      var li = el("li", "step" + (prep[i] ? " is-ready" : ""));
-      li.appendChild(avatar(step[1], "av--sm"));
-      var t = el("div", "step__txt"); t.appendChild(el("b", null, step[0])); t.appendChild(el("span", null, (isMe(step[1]) ? "You" : person(step[1]).name) + ", about " + step[2] + " h" + (prep[i] ? ", " + Math.max(1, Math.round(step[2] * 0.3)) + " h once ready" : ""))); li.appendChild(t);
-      if (prep[i] || st.active[w.id]) li.appendChild(el("span", "pill", prep[i] && !st.active[w.id] ? "Ready" : "Handed out"));
-      else li.appendChild(button("Get ready", "btn-q btn-q--sm", function () {
-        prep[i] = addTask(st, { text: "Get ready to " + lc(step[0]), who: step[1], start: 1, day: 2, hours: 1 });
-        DB.toast("Added a prep task for " + first(step[1]) + ".");
-        changed();
-      }));
+      var li = el("li", "step" + (prep[i] ? " is-ready" : "")), open = !prep[i] && !st.active[w.id];
+      var lab = el(open ? "label" : "div", "step__row");
+      if (open) {
+        var cb = el("input", { type: "checkbox", "aria-label": "Get ready to " + lc(step[0]) }); cb.checked = pick[i] !== false;
+        cb.addEventListener("change", function () { pick[i] = cb.checked; later(); });
+        lab.appendChild(cb);
+      }
+      lab.appendChild(avatar(step[1], "av--sm"));
+      var t = el("div", "step__txt"); t.appendChild(el("b", null, step[0])); t.appendChild(el("span", null, (isMe(step[1]) ? "You" : person(step[1]).name) + ", about " + step[2] + " h" + (prep[i] ? ", " + Math.max(1, Math.round(step[2] * 0.3)) + " h once ready" : ", " + Math.max(1, Math.round(step[2] * 0.3)) + " h if prepared"))); lab.appendChild(t);
+      if (!open) lab.appendChild(el("span", "pill", prep[i] && !st.active[w.id] ? "Ready" : "Handed out"));
+      li.appendChild(lab);
       ol.appendChild(li);
     });
     right.appendChild(ol);
@@ -1333,6 +1360,13 @@
       acts.appendChild(el("p", "play__running", cap(words(st.active[w.id].ids.length, "step")) + " handed out at 7:10am, in the plan above."));
       acts.appendChild(button("See them in the plan", "btn-q", function () { flash("dir-play-" + w.id); }));
     } else {
+      // one button prepares every ticked step: an hour's prep task each, this week, so the step runs faster if it comes
+      var todo = w.steps.map(function (x, i) { return i; }).filter(function (i) { return !prep[i] && pick[i] !== false; });
+      if (todo.length) acts.appendChild(button("Prepare " + (todo.length === w.steps.filter(function (x, i) { return !prep[i]; }).length && todo.length > 1 ? "all " : "") + words(todo.length, "step") + " this week, " + plural(todo.length, "hour"), "btn-q", function () {
+        todo.forEach(function (i) { prep[i] = addTask(st, { text: "Get ready to " + lc(w.steps[i][0]), who: w.steps[i][1], start: 1, day: 2, hours: 1 }, null, "Prep for step " + (i + 1) + " of the playbook for " + lc(w.title) + ", so the step takes less time if it comes."); });
+        DB.toast("Added " + words(todo.length, "prep task") + " to the plan.");
+        changed();
+      }));
       acts.appendChild(button(w.kind === "threat" ? "Run the playbook now" : "Act on it now", "btn btn--primary btn--sm", function () {
         st.active[w.id] = { ids: playbookTasks(st, w) };
         DB.toast((w.kind === "threat" ? "Playbook running. " : "On it. ") + cap(words(w.steps.length, "step")) + " handed out.");
