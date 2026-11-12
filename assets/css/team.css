@@ -221,12 +221,16 @@ button:not(.is-on):hover > * > .radio { background: #d3cbbf; }
 .g__task .g__lab { display: flex; align-items: center; gap: 0.6rem; min-width: 0; padding-right: 0.9rem; }
 .g__text { overflow: hidden; font-size: 0.84rem; line-height: 1.3; white-space: nowrap; text-overflow: ellipsis; }
 /* a task with a change Totality suggests; the mark opens the change */
-.g__sug { flex: none; margin-left: auto; padding: 0.15rem 0.5rem; border: 0; border-radius: 999px; font: inherit; font-size: 0.7rem; font-weight: 700; color: var(--accent-ink); background: var(--accent-soft); font-variant-numeric: tabular-nums; cursor: pointer; transition: background-color 0.15s ease, color 0.15s ease; }
-.g__sug:hover, .g__sug[aria-expanded="true"] { color: #fff; background: var(--accent); }
-.g__sug:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-.is-sel .g__sug { background: #fff; }
-.is-sel .g__sug:hover, .is-sel .g__sug[aria-expanded="true"] { background: var(--accent); }
-.g__sug--key { display: inline-block; margin: 0 0.1rem; cursor: default; }
+.g__sug { position: relative; flex: none; display: grid; place-items: center; width: 22px; height: 22px; margin-left: auto; padding: 0; border: 0; background: none; cursor: pointer; transition: transform 0.2s cubic-bezier(0.3, 0.7, 0.2, 1); }
+.g__sug::before { content: ""; position: absolute; inset: -11px; } /* a 44px target round the small mark */
+.g__sug svg, .g__sug svg .mk { fill: var(--accent); stroke: #fff; stroke-width: 2px; paint-order: stroke; }
+.g__sug svg rect, .g__sug svg circle:not(.mk) { fill: #fff; }
+.g__sug:hover, .g__sug[aria-expanded="true"] { transform: scale(1.18); }
+.g__sug:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+.is-sel .g__sug svg .mk { stroke: var(--accent-soft); }
+.g__sug--key { display: inline-grid; width: 18px; height: 18px; margin: 0 0.05rem 0 0.1rem; vertical-align: -3px; cursor: default; }
+.g__sug--key::before { display: none; }
+.g__sug--key svg { width: 16px; height: 16px; }
 .is-sel .g__text { font-weight: 700; }
 .is-done .g__text { color: var(--ink-3); }
 /* a bar from a task's start to its due day: ink while it's on course, red below a 60% chance, amber when stuck, pale when done */
@@ -391,7 +395,6 @@ button.way .way__why, button.way .way__fx { margin-left: calc(18px + 0.7rem); }
 .h__alert { position: relative; align-self: center; height: 38px; margin: 0 -3px; border-radius: 10px; box-shadow: inset 0 0 0 2px var(--accent); pointer-events: none; }
 .h__bang { position: absolute; top: -9px; right: -9px; display: grid; place-items: center; width: 22px; height: 22px; padding: 0; border: 0; background: none; cursor: pointer; pointer-events: auto; transition: transform 0.2s cubic-bezier(0.3, 0.7, 0.2, 1); }
 .h__bang::before { content: ""; position: absolute; inset: -11px; } /* a 44px target round the small mark */
-.h__bang svg { width: 20px; height: 20px; overflow: visible; }
 .h__bang svg path { fill: var(--accent); stroke: #fff; stroke-width: 2.4px; stroke-linejoin: round; paint-order: stroke; } /* a white edge parts it from the outline, no disc */
 .h__bang svg rect, .h__bang svg circle { fill: #fff; }
 .h__bang:hover, .h__bang[aria-expanded="true"] { transform: scale(1.18); }
@@ -560,7 +563,7 @@ div.step__row { grid-template-columns: auto minmax(0, 1fr) auto; }
 
 @media (prefers-reduced-motion: reduce) {
   .is-flash { animation: none; }
-  .mgrs button, .mgrs.is-ready .mgrs__pill, .wi, .wi > *, .decard, .decard > *, .dopt, .dopt > *, .gauge__row span, .gauge__caret, .who, .g__task, .h__c, .ask-q, .rides__bar i, .odds, .stat, .xi, .way, .tc__st, .tc__steps li.is-done .tc__st, .radio, .radio::after, .gauge__zone, .gauge__line, .h__bang, .gpop, .gpop.is-on { transition: none; }
+  .mgrs button, .mgrs.is-ready .mgrs__pill, .wi, .wi > *, .decard, .decard > *, .dopt, .dopt > *, .gauge__row span, .gauge__caret, .who, .g__task, .h__c, .ask-q, .rides__bar i, .odds, .stat, .xi, .way, .tc__st, .tc__steps li.is-done .tc__st, .radio, .radio::after, .gauge__zone, .gauge__line, .h__bang, .g__sug, .gpop, .gpop.is-on { transition: none; }
   .tc__steps li.is-new .tc__st, .tc__steps li.is-undo .tc__st { animation: none; }
   .wi:hover, .wi.is-on, .decard:hover, .decard.is-on, .ask-q:hover, .stat:hover { transform: none; }
 }

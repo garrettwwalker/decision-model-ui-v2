@@ -875,6 +875,9 @@
     return out;
   }
   var SUG = { byTask: {}, best: [] }, AHEAD = null;
+  // alert marks: a red triangle for the grid's shortages, a red circle for the plan's suggestions, each with an exclamation point
+  var BANG = '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2.2 19 17.8H1z"/><rect x="9.1" y="7.4" width="1.8" height="5.6" rx=".9"/><circle cx="10" cy="15.1" r="1.05"/></svg>';
+  var ALERT = '<svg viewBox="0 0 20 20" aria-hidden="true"><circle class="mk" cx="10" cy="10" r="8.6"/><rect x="9.05" y="4.9" width="1.9" height="6.6" rx=".95"/><circle cx="10" cy="14.3" r="1.15"/></svg>';
   function renderPlan() {
     SUG = suggestions();
     AHEAD = null;
@@ -890,7 +893,7 @@
       tw.appendChild(el("b", null, "Totality’s Suggestions"));
       var sp = el("p");
       sp.appendChild(document.createTextNode(cap(words(k, "task")) + " below " + (k === 1 ? "has" : "have") + " a change Totality suggests, marked "));
-      sp.appendChild(el("span", "g__sug g__sug--key", "Suggestion"));
+      var km = el("span", { class: "g__sug g__sug--key", role: "img", "aria-label": "an alert mark" }); km.innerHTML = ALERT; sp.appendChild(km);
       sp.appendChild(document.createTextNode(". Made together, they’d raise the plan’s odds" + (gain > 0.05 ? " and take what’s expected to land from " + money(expected(st)) + " to " + money(expected(AHEAD)) : "") + ". Point to a mark to see the change."));
       tw.appendChild(sp);
       top.appendChild(tw);
@@ -970,7 +973,8 @@
     lab.appendChild(el("span", { class: "g__text", title: t.text }, t.text));
     // a task with a suggested change is marked; the mark opens the change
     if (sug) {
-      var chip = el("button", { type: "button", class: "g__sug", "aria-haspopup": "dialog", "aria-expanded": "false", "aria-label": "Totality’s suggestion for " + t.text }, "Suggestion");
+      var chip = el("button", { type: "button", class: "g__sug", "aria-haspopup": "dialog", "aria-expanded": "false", "aria-label": "Totality’s suggestion for " + t.text });
+      chip.innerHTML = ALERT;
       chip.addEventListener("mouseenter", function () { taskPop(t, sug, chip, 0); });
       chip.addEventListener("mouseleave", function () { hidePop(); });
       chip.addEventListener("focus", function () { taskPop(t, sug, chip, 0); });
@@ -1266,7 +1270,7 @@
         if (!g.at || g.at[0] !== p.id || st.planned[gi]) return;
         var a = el("span", "h__alert"); a.style.gridColumn = (g.at[1] + 2) + " / " + (g.at[2] + 3);
         var bang = el("button", { type: "button", class: "h__bang", "aria-label": "Shortage risk: " + g.text, "aria-expanded": "false" });
-        bang.innerHTML = '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2.2 19 17.8H1z"/><rect x="9.1" y="7.4" width="1.8" height="5.6" rx=".9"/><circle cx="10" cy="15.1" r="1.05"/></svg>';
+        bang.innerHTML = BANG;
         bang.addEventListener("mouseenter", function () { gapPop(gi, bang); });
         bang.addEventListener("focus", function () { gapPop(gi, bang); });
         bang.addEventListener("click", function () { if (popFor === gi) hidePop(true); else gapPop(gi, bang); });

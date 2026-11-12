@@ -155,12 +155,13 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   with it, money expected), the options as rows of one table tried on a copy of the plan, and "What It Does to the
   Plan" beside "Totality's Read" (why, and what would change the suggestion); Reopen or Withdraw once acted on),
   3 The Plan (Totality's suggestions live in the timeline, since a separate list read as conclusory: the Gantt's head
-  sums them up in a line that names the soft red "Suggestion" mark the tasks below carry and what all of them would
+  sums them up in a line that shows the alert mark the tasks below carry (a red circle with a white exclamation
+  point, `ALERT`; a worded "Suggestion" tag was disliked, and the triangle stays the grid's shortage mark) and what all of them would
   add to the money expected (a "Preview on the plan" switch and "Make all" button were removed, 2026-11-11, as were
   "+N%" chips, which confused). Redesigned 2026-11-11, because elbow arrows for `AFTER` overlapped
   the bars, amber diamonds for another team's input were ambiguous, and "+N%" chips didn't say what the change was:
   then the same day condensed at the user's request (the rows read too long and wordy): each row is one line again,
-  its name with an ellipsis, and a "Suggestion" mark after it; pointing to (or tapping) the mark, or
+  its name with an ellipsis, and the circled alert mark after it; pointing to (or tapping) the mark, or
   resting on a bar, opens a pop-out (`taskPop()`, in the shared floating `.gpop` via `showPop()`, which the Who Has
   Room alerts use too; above or below the trigger, else beside it, held on screen): the task, every obstacle in its
   way worst first (`inWay()`, from `taskRisk()`'s factors; "Stuck: ..." in amber), and Totality's suggestion with its
