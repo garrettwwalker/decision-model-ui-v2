@@ -15,7 +15,7 @@ body.ag-page {
   --accent: #db3324; --accent-ink: #b3241a; --accent-soft: #fdebe8; --accent-glow: #ff8a7f;   /* waits for you, Totality */
   --good: #57524c; --good-ink: #161412; --good-soft: #efe9e0;                                 /* working and protected: neutral */
   --green: #4a9a6a; --green-ink: #2c6e48; --green-soft: #e1f0e6;                              /* working, fixed, all clear, a fall in the odds, a better term */
-  --yellow: #e2b007; --yellow-ink: #7a5600; --yellow-soft: #fbf0c4;                            /* waiting for you (2026-11-12: problems red, waiting yellow, working green) */
+  --yellow: var(--bad); --yellow-ink: var(--bad-ink); --yellow-soft: var(--bad-soft);         /* waiting for you, in the amber problems had (2026-11-12: problems red, waiting amber, working green) */
   --bad: #e0861a; --bad-ink: #8f5208; --bad-soft: #fcf0dc;                                    /* a problem */
   --off: #a39d94;
   --night: #0b0d12; --night-2: #161a22; --night-3: #1f2430;                                   /* the instrument panel */
@@ -72,7 +72,7 @@ body.ag-page {
 .vtab[hidden] { display: none; }
 .vtab:hover, .vtab[aria-current="true"] { color: var(--ink); }
 .vtab:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
-.vtab__n { display: inline-grid; place-items: center; min-width: 1.3rem; height: 1.3rem; padding: 0 0.35rem; border-radius: 999px; font-size: 0.7rem; font-weight: 800; color: var(--yellow-ink); background: var(--yellow-soft); font-variant-numeric: tabular-nums; }
+.vtab__n { display: inline-grid; place-items: center; min-width: 1.3rem; height: 1.3rem; padding: 0 0.35rem; border-radius: 999px; font-size: 0.7rem; font-weight: 800; color: #fff; background: var(--yellow); font-variant-numeric: tabular-nums; }
 .vtab__n--bad { color: #fff; background: var(--accent); }
 .vtab__n[hidden] { display: none; }
 .vtabs__live { margin: 0; flex: none; font-size: 0.82rem; color: var(--ink-2); white-space: nowrap; }
@@ -327,7 +327,7 @@ body:not(.has-drawer) .rt.is-sel { background: transparent; }
   display: grid; gap: 0.15rem; text-align: left; padding: 0.8rem 0.95rem; border: 0; border-radius: var(--r-sm); font: inherit;
   background: var(--yellow-soft); color: var(--ink); cursor: pointer; transition: background-color 0.15s ease;
 }
-.side__wait:hover { background: #f8e8a8; }
+.side__wait:hover { background: #f8e4c2; }
 .side__wait b { font-size: 0.8rem; color: var(--yellow-ink); }
 .side__wait span { font-size: 0.85rem; font-weight: 600; }
 .side__ctl { display: grid; gap: 0.5rem; padding-top: 0.9rem; border-top: 1px solid var(--line); }
