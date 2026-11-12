@@ -666,7 +666,7 @@
       fears: ["Moves that spike oil prices before the holidays", "Designations that collapse in court for thin evidence"],
       who: [["Scott Bessent, Treasury Secretary", "Has made “maximum pressure” on Iran’s oil revenue a public test of the department"],
             ["John Hurley, Under Secretary for Terrorism and Financial Intelligence", "Sets the campaign’s priorities and gave two of the three speeches on it"],
-            ["OFAC’s director", "Signs off each designation package"],
+            ["Bradley Smith, OFAC’s director", "Signs off each designation package"],
             ["The Iran targeting team", "Builds the cases; has moved from tankers toward petrochemical brokers since August"]],
       record: [["June 2019", "Designated Persian Gulf Petrochemical Industries, Iran’s largest petrochemical group"],
                ["January 2020", "Gained authority to sanction anyone in Iran’s petrochemical sector (Executive Order 13902)"],
