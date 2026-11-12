@@ -250,9 +250,9 @@ button:not(.is-on):hover > * > .radio { background: #d3cbbf; }
 .tc__title { margin: 0 0 0.4rem; font-family: var(--display); font-weight: 400; font-size: 1.55rem; line-height: 1.15; letter-spacing: -0.01em; }
 .tc__when { margin: 0 0 1rem; font-size: 0.86rem; color: var(--ink-2); }
 /* status as a cream track of four; the current one a white pill */
-.seg { position: relative; display: inline-grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-rows: minmax(34px, 1fr); gap: 2px; padding: 4px; border-radius: 999px; background: var(--track); }
-.seg__pill { grid-area: 1 / 1; border-radius: 999px; background: #fff; box-shadow: var(--shadow-sm); pointer-events: none; transform: translateX(calc(var(--i, 0) * (100% + 2px))); }
-.seg__pill.is-moving { transition: transform 0.35s cubic-bezier(0.3, 0.7, 0.2, 1); }
+.seg { position: relative; display: inline-grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-rows: minmax(34px, 1fr); gap: 2px; padding: 4px; border: 0; border-radius: 999px; background: var(--track); } /* app.css's .seg span rule squared the pill off */
+.seg .seg__pill { grid-area: 1 / 1; min-height: 0; padding: 0; border-radius: 999px; transition: none; background: #fff; box-shadow: var(--shadow-sm); pointer-events: none; transform: translateX(calc(var(--i, 0) * (100% + 2px))); }
+.seg .seg__pill.is-moving { transition: transform 0.35s cubic-bezier(0.3, 0.7, 0.2, 1); }
 .seg__b { position: relative; grid-row: 1; align-self: stretch; min-height: 34px; padding: 0 0.9rem; white-space: nowrap; border: 0; border-radius: 999px; font: inherit; font-size: 0.8rem; font-weight: 700; color: var(--ink-3); background: none; cursor: pointer; transition: color 0.15s ease, background-color 0.15s ease; }
 .seg__b--todo { grid-column: 1; } .seg__b--doing { grid-column: 2; } .seg__b--done { grid-column: 3; } .seg__b--blocked { grid-column: 4; }
 .seg__b:hover { color: var(--ink); }
@@ -340,8 +340,16 @@ button.way .way__why, button.way .way__fx { margin-left: calc(18px + 0.7rem); }
 .xi.is-done .xi__what { color: var(--ink-3); }
 .xi { margin: 0 -0.6rem; padding-left: 0.6rem; padding-right: 0.6rem; border-radius: 10px; cursor: pointer; transition: background-color 0.15s ease; }
 .xi + .xi { border-top-color: var(--line); }
-.xi:hover { background: var(--mist); }
-.xi.is-on { background: var(--mist-2); cursor: default; }
+.xi:not(.is-on):hover { background: var(--mist); }
+.xi.is-on { background: var(--accent-soft); cursor: default; }
+.xi.is-on, .xi.is-on + .xi { border-top-color: transparent; }
+.xi > * { transition: opacity 0.2s ease; }
+.xi:not(.is-on) > * { opacity: 0.6; }
+.xi:not(.is-on):hover > *, .xi:not(.is-on):focus-visible > * { opacity: 1; }
+.xi:not(.is-on):not(:hover):not(:focus-visible) .pill { color: var(--ink-3); background: var(--mist-2); }
+.xi:not(.is-on):not(:hover):not(:focus-visible) .red { color: var(--ink-3); }
+.xi.is-on .pill:not(.pill--red):not(.pill--amber) { background: #fff; }
+.xi.is-on .pill--red { background: #fff; }
 .xi:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
 /* the chosen handoff's actions, worded for it, once beneath the list */
 .xact { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; margin-top: auto; padding-top: 0.9rem; border-top: 1px solid var(--line); }
@@ -376,10 +384,11 @@ button.way .way__why, button.way .way__fx { margin-left: calc(18px + 0.7rem); }
 /* shifts that rest on one person: a red outline round them, an alert at its corner that opens into why and the cover */
 .h__row { position: relative; }
 .h__row > * { grid-row: 1; }
-.h__alert { position: relative; align-self: center; height: 38px; margin: 0 -3px; border-radius: 9px; box-shadow: inset 0 0 0 2px var(--accent); pointer-events: none; }
-.h__bang { position: absolute; top: -9px; right: -9px; display: grid; place-items: center; width: 22px; height: 22px; padding: 0; border: 0; border-radius: 50%; background: #fff; box-shadow: var(--shadow-sm); cursor: pointer; pointer-events: auto; transition: transform 0.2s cubic-bezier(0.3, 0.7, 0.2, 1); }
+.h__alert { position: relative; align-self: center; height: 38px; margin: 0 -3px; border-radius: 10px; box-shadow: inset 0 0 0 2px var(--accent); pointer-events: none; }
+.h__bang { position: absolute; top: -9px; right: -9px; display: grid; place-items: center; width: 22px; height: 22px; padding: 0; border: 0; background: none; cursor: pointer; pointer-events: auto; transition: transform 0.2s cubic-bezier(0.3, 0.7, 0.2, 1); }
 .h__bang::before { content: ""; position: absolute; inset: -11px; } /* a 44px target round the small mark */
-.h__bang svg { width: 14px; height: 14px; fill: var(--accent); }
+.h__bang svg { width: 20px; height: 20px; overflow: visible; }
+.h__bang svg path { fill: var(--accent); stroke: #fff; stroke-width: 2.4px; stroke-linejoin: round; paint-order: stroke; } /* a white edge parts it from the outline, no disc */
 .h__bang svg rect, .h__bang svg circle { fill: #fff; }
 .h__bang:hover, .h__bang[aria-expanded="true"] { transform: scale(1.18); }
 .h__bang:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
@@ -447,7 +456,7 @@ button.way .way__why, button.way .way__fx { margin-left: calc(18px + 0.7rem); }
 .gauge__track { position: relative; height: 12px; }
 .gauge__safe, .gauge__zone { position: absolute; top: 0; bottom: 0; border-radius: 6px; }
 .gauge__safe { background: var(--mist-2); }
-.gauge__zone { background: rgba(219, 51, 36, 0.2); transition: transform 0.8s cubic-bezier(0.3, 0.7, 0.2, 1) 0.15s; }
+.gauge__zone { background: #f7d6d3; transition: transform 0.8s cubic-bezier(0.3, 0.7, 0.2, 1) 0.15s; }
 .gauge__zone.is-low { transform-origin: left center; }
 .gauge__zone.is-high { transform-origin: right center; }
 .gauge__line { position: absolute; top: -3px; bottom: -3px; left: calc(var(--x) * 1%); width: 3px; margin-left: -1.5px; border-radius: 2px; background: var(--accent); box-shadow: 0 0 0 2px #fff; }

@@ -1428,8 +1428,10 @@
       var trk = el("div", "gauge__track");
       var safe = el("i", "gauge__safe"), zone = el("i", "gauge__zone");
       zone.classList.add(g.dir === "below" ? "is-low" : "is-high");
-      if (g.dir === "below") { zone.style.left = "0"; zone.style.width = X(g.at) + "%"; safe.style.left = X(g.at) + "%"; safe.style.right = "0"; }
-      else { safe.style.left = "0"; safe.style.width = X(g.at) + "%"; zone.style.left = X(g.at) + "%"; zone.style.right = "0"; }
+      // the beige track runs the whole scale, and the red zone sweeps out over it from its end
+      safe.style.left = "0"; safe.style.right = "0";
+      if (g.dir === "below") { zone.style.left = "0"; zone.style.width = X(g.at) + "%"; }
+      else { zone.style.left = X(g.at) + "%"; zone.style.right = "0"; }
       trk.appendChild(safe); trk.appendChild(zone);
       var ln = el("i", "gauge__line"); ln.style.setProperty("--x", X(g.at)); trk.appendChild(ln);
       var car = el("i", "gauge__caret"); car.style.setProperty("--x", X(g.now)); trk.appendChild(car);

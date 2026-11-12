@@ -170,7 +170,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   handoff's chance of arriving; Chase, Escalate, Mark received; Farah's arrival times feed Layla's plan live, and each
   side can open the other's plan), 5 Who Has Room (hours a day per person, deeper as the day fills, red past a fifth of
   the week's cap; agents on the plan; shifts that rest on one person (`P.gaps[].at`: person, first and last day) outlined
-  in red with an alert mark at the corner that pops out on hover or tap into why, the cover, and "Plan the cover", in one
+  in red with an alert mark at the corner that pops out on hover or tap into why, the cover, and "Plan the cover" (the outline 3px clear of the cells with concentric corners, the mark a bare red triangle with a white edge, no disc), in one
   floating `.gpop` so the grid's scroller can't clip it; it replaced a One Person Deep card, 2026-11-11), 6 If It Happens (threat and opportunity cards; the early signal on a
   gauge from zero to `signal.max`: the stretch past the trigger pale red with a red edge and "Trigger: below 40%"
   beneath, now an ink caret above with its reading, amber close to the trigger and red past it (two black ticks were
@@ -189,11 +189,13 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   are selectable or carry a switch or checkbox, and one button per list, worded for what it does, acts on the choice
   (Across Teams: select a handoff, its actions sit once beneath the list in short words, "Send a reminder", "Escalate",
   "Mark received", "See the task" (worded-out labels were far too long; the user only minds the same text down every row,
-  and the two cards keep one height with the actions at their foot); the task card's ways are radio rows with one button
+  and the two cards keep one height with the actions at their foot; the chosen handoff the decision rows' pale red, the
+  others faded to 60% with gray pills); the task card's ways are radio rows with one button
   named for the chosen way; playbook steps each carry a switch, then "Prepare N steps this week"; a checklist read sloppy).
-  If It Happens: Threat is an ink pill, so it stands apart from a gray Watching; the gauge's red zone sweeps out from its
-  end of the scale and the trigger line rises, on first view and on each new card. The status track is four equal columns
-  with the pill placed by index (measuring the buttons gave it the wrong shape), and choosing Stuck slides it there while
+  If It Happens: Threat is an ink pill, so it stands apart from a gray Watching; the gauge's red zone sweeps out over the full-length
+  beige track from its end of the scale and the trigger line rises, on first view and on each new card. The status track is four equal columns
+  with the pill a grid item in the first cell, moved by index (measuring gave it the wrong shape, and app.css's `.seg span`
+  rule squared it off, hence `.seg .seg__pill`), and choosing Stuck slides it there while
   the reason box slides open (and shut on Cancel). Unticking a step fades its strike out. Hover never grays a chosen
   option row, and "Totality suggests" is white on the chosen row's pale red. The bottom line's four figures are separate white tiles beneath
   its card (the user's call), each lifting under the pointer. Checkboxes here draw a white check (`--cb-mark`). Choices animate as the decision cards do (2026-11-11, the user's call): a new task or owner eases the task card to its
