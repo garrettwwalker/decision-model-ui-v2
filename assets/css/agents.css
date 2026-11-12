@@ -3,7 +3,7 @@
    and looo closeup.png) without its landing-page set pieces (2026-11-04). A warm off-white ground with the bars in the
    same cream; white cards on a very soft shadow with cream panels inside; DM Serif Display for titles and big figures,
    small gray Switzer for the rest; one tomato red for
-   buttons, counts and what waits for you, amber for a problem, working neutral (no green); status as soft pills with no
+   buttons and counts; status in color since 2026-11-12: a problem red, waiting for you yellow, working green; soft pills with no
    ring or dot; the view tabs and the feed's filters as a cream track with a sliding white pill; red buttons glow only on
    hover; who acts' chosen option a lifted white card; the live map light, its tiles with initial avatars, Totality a
    gauge. Built on the earlier agents 2 stylesheet (retokened) plus the layer at the end; history in git. */
@@ -14,7 +14,8 @@ body.ag-page {
   --line: rgba(22, 20, 18, 0.08); --line-strong: rgba(22, 20, 18, 0.16);
   --accent: #db3324; --accent-ink: #b3241a; --accent-soft: #fdebe8; --accent-glow: #ff8a7f;   /* waits for you, Totality */
   --good: #57524c; --good-ink: #161412; --good-soft: #efe9e0;                                 /* working and protected: neutral */
-  --green: #4a9a6a; --green-ink: #2c6e48; --green-soft: #e1f0e6;                              /* where green carries meaning (2026-11-11): fixed, all working, a fall in the odds, a better term */
+  --green: #4a9a6a; --green-ink: #2c6e48; --green-soft: #e1f0e6;                              /* working, fixed, all clear, a fall in the odds, a better term */
+  --yellow: #e2b007; --yellow-ink: #7a5600; --yellow-soft: #fbf0c4;                            /* waiting for you (2026-11-12: problems red, waiting yellow, working green) */
   --bad: #e0861a; --bad-ink: #8f5208; --bad-soft: #fcf0dc;                                    /* a problem */
   --off: #a39d94;
   --night: #0b0d12; --night-2: #161a22; --night-3: #1f2430;                                   /* the instrument panel */
@@ -71,8 +72,8 @@ body.ag-page {
 .vtab[hidden] { display: none; }
 .vtab:hover, .vtab[aria-current="true"] { color: var(--ink); }
 .vtab:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
-.vtab__n { display: inline-grid; place-items: center; min-width: 1.3rem; height: 1.3rem; padding: 0 0.35rem; border-radius: 999px; font-size: 0.7rem; font-weight: 800; color: #fff; background: var(--accent); font-variant-numeric: tabular-nums; }
-.vtab__n--bad { background: var(--bad); }
+.vtab__n { display: inline-grid; place-items: center; min-width: 1.3rem; height: 1.3rem; padding: 0 0.35rem; border-radius: 999px; font-size: 0.7rem; font-weight: 800; color: var(--yellow-ink); background: var(--yellow-soft); font-variant-numeric: tabular-nums; }
+.vtab__n--bad { color: #fff; background: var(--accent); }
 .vtab__n[hidden] { display: none; }
 .vtabs__live { margin: 0; flex: none; font-size: 0.82rem; color: var(--ink-2); white-space: nowrap; }
 
@@ -176,12 +177,12 @@ body.ag-page {
 /* ---------- status: a dot and a word, the same everywhere ---------- */
 .st { display: inline-flex; align-items: center; gap: 0.32rem; flex: none; padding: 0.12rem 0.5rem; border-radius: 999px; font-size: 0.66rem; font-weight: 700; white-space: nowrap; }
 .st::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
-.st--ok { background: var(--good-soft); color: var(--good-ink); }
-.st--ok::before { background: var(--good); }
-.st--wait { background: var(--accent-soft); color: var(--accent-ink); }
-.st--wait::before { background: var(--accent); }
-.st--bad { background: var(--bad-soft); color: var(--bad-ink); }
-.st--bad::before { background: var(--bad); animation: st-blink 1.6s ease-in-out infinite; }
+.st--ok { background: var(--green-soft); color: var(--green-ink); }
+.st--ok::before { background: var(--green); }
+.st--wait { background: var(--yellow-soft); color: var(--yellow-ink); }
+.st--wait::before { background: var(--yellow); }
+.st--bad { background: var(--accent-soft); color: var(--accent-ink); }
+.st--bad::before { background: var(--accent); animation: st-blink 1.6s ease-in-out infinite; }
 .st--off { background: var(--mist-2); color: var(--ink-3); }
 .st--off::before { background: var(--off); }
 @keyframes st-blink { 50% { opacity: 0.25; } }
@@ -199,8 +200,9 @@ button.dk__i:hover::before, button.dk__i:hover + .dk__i::before { opacity: 0; }
 .dk__l { font-size: 0.8rem; font-weight: 600; color: var(--ink-3); }
 .dk__v { font-size: clamp(1.7rem, 2.6vw, 2.3rem); font-weight: 800; letter-spacing: -0.045em; line-height: 1.1; }
 .dk__s { font-size: 0.76rem; color: var(--ink-3); }
-.dk__i.is-bad .dk__s, .dk__i.is-bad .dk__v { color: var(--bad-ink); }
-.dk__i.is-warn .dk__v { color: var(--accent-ink); }
+.dk__i.is-ok .dk__v { color: var(--green-ink); }
+.dk__i.is-bad .dk__s { color: var(--accent-ink); }
+.dk__i.is-warn .dk__v { color: var(--yellow-ink); }
 .dk__i.is-new { animation: dk-new 1.2s ease; }
 @keyframes dk-new { 0% { background: var(--good-soft); } 100% { background: transparent; } }
 
@@ -318,15 +320,15 @@ body:not(.has-drawer) .rt.is-sel { background: transparent; }
 .sp__log { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.45rem; max-height: 13rem; overflow: auto; }
 .sp__log li { display: grid; grid-template-columns: 2.9rem minmax(0, 1fr); gap: 0.5rem; font-size: 0.8rem; line-height: 1.4; }
 .sp__log li > :first-child { color: var(--ink-3); }
-.sp__log li.is-prob > :last-child { color: var(--bad-ink); font-weight: 700; }
+.sp__log li.is-prob > :last-child { color: var(--accent-ink); font-weight: 700; }
 .sp__log li.is-fix > :last-child { color: var(--green-ink); font-weight: 700; }
 .sp__log li.is-none { display: block; color: var(--ink-3); }
 .side__wait {
   display: grid; gap: 0.15rem; text-align: left; padding: 0.8rem 0.95rem; border: 0; border-radius: var(--r-sm); font: inherit;
-  background: var(--accent-soft); color: var(--ink); cursor: pointer; transition: background-color 0.15s ease;
+  background: var(--yellow-soft); color: var(--ink); cursor: pointer; transition: background-color 0.15s ease;
 }
-.side__wait:hover { background: #ffe6d4; }
-.side__wait b { font-size: 0.8rem; color: var(--accent-ink); }
+.side__wait:hover { background: #f8e8a8; }
+.side__wait b { font-size: 0.8rem; color: var(--yellow-ink); }
 .side__wait span { font-size: 0.85rem; font-weight: 600; }
 .side__ctl { display: grid; gap: 0.5rem; padding-top: 0.9rem; border-top: 1px solid var(--line); }
 .side__ctl .btn-q { justify-self: start; }
@@ -382,7 +384,7 @@ body:not(.has-drawer) .rt.is-sel { background: transparent; }
 .fd__who--hub { color: var(--accent-ink); }
 .fd__kind { font-size: 0.7rem; color: var(--ink-3); }
 .fd__text { font-size: 0.86rem; line-height: 1.45; }
-.fd.is-prob .fd__kind { color: var(--bad-ink); font-weight: 700; }
+.fd.is-prob .fd__kind { color: var(--accent-ink); font-weight: 700; }
 .fd.is-fix .fd__kind { color: var(--green-ink); font-weight: 700; }
 .fd.is-fresh { animation: fd-in 2.4s ease both; }
 @keyframes fd-in { 0% { opacity: 0; transform: translateY(-6px); background: var(--accent-soft); } 15% { opacity: 1; transform: none; } 100% { background: transparent; } }
@@ -455,8 +457,8 @@ body:not(.has-drawer) .rt.is-sel { background: transparent; }
 .kpi__c { margin: 0; font-size: 0.74rem; color: var(--ink-3); }
 .kpi.is-better { background: var(--green-soft); }
 .kpi.is-better .kpi__v { color: var(--green-ink); }
-.kpi.is-worse { background: var(--bad-soft); }
-.kpi.is-worse .kpi__v { color: var(--bad-ink); }
+.kpi.is-worse { background: var(--accent-soft); }
+.kpi.is-worse .kpi__v { color: var(--accent-ink); }
 .steer__h { margin: 0; font-size: 0.95rem; font-weight: 800; }
 /* the brief's history as a timeline: a rail with a dot per version */
 .vers { list-style: none; margin: -0.4rem 0 0; padding: 0; display: grid; }
@@ -661,10 +663,10 @@ body:not(.has-drawer) .rt.is-sel { background: transparent; }
 .lag.is-sel { background: #fff; box-shadow: 0 2px 4px rgba(22, 20, 18, 0.06), 0 16px 30px -14px rgba(22, 20, 18, 0.4); transform: translateY(-2px); }
 .lag__line { color: var(--ink-2); }
 .lag__when { color: var(--ink-3); }
-.lag.is-bad .lag__line { color: var(--bad-ink); }
+.lag.is-bad .lag__line { color: var(--accent-ink); }
 .lk { stroke: #ddd4c7; }
 .lk.is-ok, .lk.is-wait { stroke: #d2c7b8; }
-.lk.is-bad { stroke: rgba(224, 134, 26, 0.6); }
+.lk.is-bad { stroke: rgba(219, 51, 36, 0.5); }
 .lk.is-off { stroke: #ebe5dc; }
 .lk-hot--in { stroke: var(--ink); filter: none; }
 .lk-hot--out { stroke: var(--accent); filter: drop-shadow(0 0 3px rgba(219, 51, 36, 0.45)); }
@@ -686,9 +688,9 @@ body:not(.has-drawer) .rt.is-sel { background: transparent; }
   box-shadow: none;
 }
 .st::before { display: none; }
-.st--ok, .dash__map .st--ok, .wq .st--ok { --st: var(--ink-2); --st-ink: var(--ink-2); --st-wash: var(--mist-2); }
-.st--wait, .dash__map .st--wait, .wq .st--wait, .wq[aria-selected="true"] .st--wait { --st: var(--accent); --st-ink: var(--accent-ink); --st-wash: var(--accent-soft); }
-.st--bad, .dash__map .st--bad, .wq .st--bad, .wq[aria-selected="true"] .st--bad { --st: var(--bad); --st-ink: var(--bad-ink); --st-wash: var(--bad-soft); }
+.st--ok, .dash__map .st--ok, .wq .st--ok { --st: var(--green); --st-ink: var(--green-ink); --st-wash: var(--green-soft); }
+.st--wait, .dash__map .st--wait, .wq .st--wait, .wq[aria-selected="true"] .st--wait { --st: var(--yellow); --st-ink: var(--yellow-ink); --st-wash: var(--yellow-soft); }
+.st--bad, .dash__map .st--bad, .wq .st--bad, .wq[aria-selected="true"] .st--bad { --st: var(--accent); --st-ink: var(--accent-ink); --st-wash: var(--accent-soft); }
 .st--all, .dash__map .st--all, .wq .st--all { --st: var(--green); --st-ink: var(--green-ink); --st-wash: var(--green-soft); }
 .st--off, .dash__map .st--off, .wq .st--off { --st: var(--off); --st-ink: var(--ink-3); --st-wash: var(--mist-2); font-weight: 600; }
 .wq__meta { gap: 0.4rem 0.45rem; }
@@ -750,11 +752,11 @@ body:not(.has-drawer) .loop__hub.is-sel .hub__ring, body:not(.has-drawer) .loop_
 /* the activity feed's kinds as the same soft pills as the status labels: a report neutral, a problem amber, a fix
    green, a change by Totality red */
 .fd__kind { padding: 0.12rem 0.5rem; border-radius: 999px; font-size: 0.68rem; font-weight: 700; color: var(--ink-2); background: var(--mist-2); }
-.fd.is-prob .fd__kind { color: var(--bad-ink); background: var(--bad-soft); }
+.fd.is-prob .fd__kind { color: var(--accent-ink); background: var(--accent-soft); }
 .fd.is-fix .fd__kind { color: var(--green-ink); background: var(--green-soft); }
 .fd.is-change .fd__kind { color: var(--accent-ink); background: var(--accent-soft); }
 .fd button:hover .fd__kind { background: #fff; }
-.fd.is-prob button:hover .fd__kind { background: var(--bad-soft); }
+.fd.is-prob button:hover .fd__kind { background: var(--accent-soft); }
 .fd.is-change button:hover .fd__kind { background: var(--accent-soft); }
 .fd.is-fix button:hover .fd__kind { background: var(--green-soft); }
 

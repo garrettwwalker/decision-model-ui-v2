@@ -266,7 +266,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   off-white ground `#f4efe8` with the top and tab bars in the same cream; white cards on a very soft shadow, cream panels
   inside; DM Serif Display (Google Fonts) for the headline, the view titles (title case, "Waiting for You"; capitals were
   rejected), card titles and big figures, small gray Switzer for the rest; tomato red `#db3324` for buttons ("New
-  question" too), counts and what waits for you, amber for a problem, working and protected neutral; green (`--green`, 2026-11-11, once the user allowed color where it carries meaning) for Fixed in the feed and logs, a question's "All working" (`st--all`), the "no agent is in trouble" note, a negotiation term that improved, and a report that lowered the chance (`imp--down`; one that raised it `imp--up`, red). Each agent's own "Working" stays neutral, since green on every tile would only decorate. Status as soft pills, a pale wash of the color with no ring, dot or blinking (the user
+  question" too) and counts. Status in color (2026-11-12, the user's call; earlier "warm, no green" is retired): a problem red, waiting for you yellow (`--yellow`), working green (`--green`), protected neutral; the same in the question cards' pills, the tab counts (Overview red, Waiting yellow), the status strip ("Agents working" in green with its problems line red, "Waiting for you" in dark yellow), the feed (Problem red, Fixed green), the live map (a problem agent's link red), the drawer's waiting changes, and negotiation terms (better green, worse red); a report's effect on the chance red when it rises and green when it falls (`imp--up`, `imp--down`). Status as soft pills, a pale wash of the color with no ring, dot or blinking (the user
   called dots a vibe-code giveaway, found plain colored labels bland, then disliked a halo ring and a hairline); no glow
   or pulse round Totality or the Live label (plain red text, which the user likes). The view tabs a cream track with a
   sliding white pill, centered (`placeThumb()` skips a snap when the pill is already headed to its tab, else show()'s
@@ -276,7 +276,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   left and the pill alone opens a space before them: the tabs slide right to its measured width `--vq-w`, then it fades in,
   and the reverse on leaving; opening or shutting the drawer glides the tabs between centered and left with a FLIP). The feed's filters a smaller copy of that track (ink pills were out of
   step). Every segmented control's hover only darkens the label, as on the tabs (the resolve-by
-  choices once lit a white box). The feed's kinds (Report, Problem, Fixed, Change) are the same soft pills as status (Change red, Problem amber). Red buttons glow only on hover (as the landing's used to); secondary buttons (Decline, Edit the brief, Cancel)
+  choices once lit a white box). The feed's kinds (Report, Problem, Fixed, Change) are the same soft pills as status (Problem and Change red, Fixed green). Red buttons glow only on hover (as the landing's used to); secondary buttons (Decline, Edit the brief, Cancel)
   a soft cream fill with no outline, deepening and lifting on hover, white on cream cards (the user disliked a thin
   ring); a disabled red button stays gray, a shade darker on hover. Who acts' chosen option a white card lifted off the
   cream with a red dot (a black one that flipped light on hover was bizarre). The chosen question lifts with its chance
