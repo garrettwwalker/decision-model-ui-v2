@@ -988,7 +988,7 @@
       bar.addEventListener("mouseleave", function () { hidePop(); });
     }
     row.appendChild(bar);
-    function pick() { if (st.sel !== t.id) { st.sel = t.id; render(); } var c = byId("task-card"); if (c.getBoundingClientRect().top > innerHeight - 120) glide("task-card", 160); }
+    function pick() { if (st.sel !== t.id) { st.sel = t.id; render(); } glide("task-card"); } // always brings the task card up under the bar, even when part of it already shows
     row.addEventListener("click", pick);
     row.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pick(); } });
     return row;
