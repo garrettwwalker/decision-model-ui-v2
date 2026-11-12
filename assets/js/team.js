@@ -276,7 +276,7 @@
           flip: "If the strait’s odds fall below 15% by Monday, the usual plan is fine." }
       ],
       directives: [
-        { id: "protect", short: "the key-account plan", title: "Protect GCC Key Accounts Through the Gulf Disruption", by: "Karim Haddad, GM, MENA", approved: "Set after this morning’s brief",
+        { id: "protect", short: "the key-account plan", title: "Protect GCC Key Accounts", by: "Karim Haddad, GM, MENA", approved: "Set after this morning’s brief",
           part: "No key account surprised, and none 7 days short on its top sellers.", due: [3, "17:00"],
           tasks: tasks([
             ["l-top", "Rank the top 20 SKUs for each account", "yusuf", 0, 1, 4, "doing"],
