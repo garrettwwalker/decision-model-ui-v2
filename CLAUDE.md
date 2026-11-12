@@ -154,8 +154,9 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   [boss] for approval" top right, the chosen option's figures between hairlines (cost, the directive's chance now and
   with it, money expected), the options as rows of one table tried on a copy of the plan, and "What It Does to the
   Plan" beside "Totality's Read" (why, and what would change the suggestion); Reopen or Withdraw once acted on),
-  3 The Plan (Totality's suggestions live in the timeline, since a separate list read as conclusory: the Gantt's head is
-  just the title "Totality's Suggestions" (its summary line was removed at the user's request, 2026-11-11; a "Preview
+  3 The Plan (Totality's suggestions live in the timeline, since a separate list read as conclusory: the card is titled
+  "Implementation Timeline" with nothing under it (it was "Totality's Suggestions" with a summary line, and a line for
+  when there were none; all changed at the user's request, 2026-11-11; a "Preview
   on the plan" switch, a "Make all" button, "+N%" chips and a worded "Suggestion" tag were removed too); the tasks
   carry the alert mark, a red circle with a white exclamation point (`ALERT`; the triangle stays the grid's shortage mark). Redesigned 2026-11-11, because elbow arrows for `AFTER` overlapped
   the bars, amber diamonds for another team's input were ambiguous, and "+N%" chips didn't say what the change was:

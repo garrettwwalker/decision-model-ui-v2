@@ -883,17 +883,11 @@
     var n = allTasks(st).filter(function (t) { return t.status !== "done"; }).length;
     $("plan-note").textContent = cap(words(n, "task")) + " still open this week. Each bar runs from the day a task can start to the day it’s due, with its chance of landing on time. Point to a bar to see what’s in that task’s way.";
     var box = byId("gantt"); box.textContent = "";
-    // the suggestions, summed up at the head of the week they change
+    // the card's title
     var top = el("div", "g__top");
     var tw = el("div", "g__sum");
-    if (SUG.best.length) {
-      tw.appendChild(el("b", null, "Totality’s Suggestions"));
-      top.appendChild(tw);
-    } else {
-      tw.appendChild(el("b", null, "Totality’s Suggestions"));
-      tw.appendChild(el("p", null, "Nothing left that would raise the plan’s odds: every owner is within capacity, and nothing is waiting to be chased."));
-      top.appendChild(tw);
-    }
+    tw.appendChild(el("b", null, "Implementation Timeline"));
+    top.appendChild(tw);
     box.appendChild(top);
     var scroll = el("div", "g__scroll");
     var head = el("div", "g__row g__head");
