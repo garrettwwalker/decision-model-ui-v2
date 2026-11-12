@@ -15,6 +15,7 @@ body.ag-page {
   --accent: #db3324; --accent-ink: #b3241a; --accent-soft: #fdebe8; --accent-glow: #ff8a7f;   /* waits for you, Totality */
   --good: #57524c; --good-ink: #161412; --good-soft: #efe9e0;                                 /* working and protected: neutral */
   --green: #4a9a6a; --green-ink: #2c6e48; --green-soft: #e1f0e6;                              /* working, fixed, all clear, a fall in the odds, a better term */
+  --change: #3d6d9e; --change-ink: #2b5582; --change-soft: #e2ebf5;                              /* a change Totality made, in the feed */
   --yellow: var(--bad); --yellow-ink: var(--bad-ink); --yellow-soft: var(--bad-soft);         /* waiting for you, in the amber problems had (2026-11-12: problems red, waiting amber, working green) */
   --bad: #e0861a; --bad-ink: #8f5208; --bad-soft: #fcf0dc;                                    /* a problem */
   --off: #a39d94;
@@ -749,15 +750,15 @@ body:not(.has-drawer) .loop__hub.is-sel .hub__ring, body:not(.has-drawer) .loop_
 }
 @media (prefers-reduced-motion: reduce) { .vq, .vq.is-on, body.has-drawer .vq, body.has-drawer .vq.is-on { transition: none; } .btn-q:hover { transform: none; } }
 
-/* the activity feed's kinds as the same soft pills as the status labels: a report neutral, a problem amber, a fix
-   green, a change by Totality red */
+/* the activity feed's kinds as soft pills, each its own color so they read apart: a report neutral, a problem red, a
+   fix green, a change by Totality blue (red was already the problems') */
 .fd__kind { padding: 0.12rem 0.5rem; border-radius: 999px; font-size: 0.68rem; font-weight: 700; color: var(--ink-2); background: var(--mist-2); }
 .fd.is-prob .fd__kind { color: var(--accent-ink); background: var(--accent-soft); }
 .fd.is-fix .fd__kind { color: var(--green-ink); background: var(--green-soft); }
-.fd.is-change .fd__kind { color: var(--accent-ink); background: var(--accent-soft); }
+.fd.is-change .fd__kind { color: var(--change-ink); background: var(--change-soft); }
 .fd button:hover .fd__kind { background: #fff; }
 .fd.is-prob button:hover .fd__kind { background: var(--accent-soft); }
-.fd.is-change button:hover .fd__kind { background: var(--accent-soft); }
+.fd.is-change button:hover .fd__kind { background: var(--change-soft); }
 .fd.is-fix button:hover .fd__kind { background: var(--green-soft); }
 
 /* scrollbars in the panels: thin, rounded and clear of the rounded corners (as house.css), faded in while scrolling by nav.js) */
