@@ -266,8 +266,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   off-white ground `#f4efe8` with the top and tab bars in the same cream; white cards on a very soft shadow, cream panels
   inside; DM Serif Display (Google Fonts) for the headline, the view titles (title case, "Waiting for You"; capitals were
   rejected), card titles and big figures, small gray Switzer for the rest; tomato red `#db3324` for buttons ("New
-  question" too), counts and what waits for you, amber for a problem, working, protected and fixed neutral (the user
-  wants it warm, no green). Status as soft pills, a pale wash of the color with no ring, dot or blinking (the user
+  question" too), counts and what waits for you, amber for a problem, working and protected neutral; green (`--green`, 2026-11-11, once the user allowed color where it carries meaning) for Fixed in the feed and logs, a question's "All working" (`st--all`), the "no agent is in trouble" note, a negotiation term that improved, and a report that lowered the chance (`imp--down`; one that raised it `imp--up`, red). Each agent's own "Working" stays neutral, since green on every tile would only decorate. Status as soft pills, a pale wash of the color with no ring, dot or blinking (the user
   called dots a vibe-code giveaway, found plain colored labels bland, then disliked a halo ring and a hairline); no glow
   or pulse round Totality or the Live label (plain red text, which the user likes). The view tabs a cream track with a
   sliding white pill, centered (`placeThumb()` skips a snap when the pill is already headed to its tab, else show()'s

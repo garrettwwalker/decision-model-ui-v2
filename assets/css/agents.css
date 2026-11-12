@@ -13,7 +13,8 @@ body.ag-page {
   --mist: #f8f4ee; --mist-2: #efe9e0; --mist-3: #e2dbd0;
   --line: rgba(22, 20, 18, 0.08); --line-strong: rgba(22, 20, 18, 0.16);
   --accent: #db3324; --accent-ink: #b3241a; --accent-soft: #fdebe8; --accent-glow: #ff8a7f;   /* waits for you, Totality */
-  --good: #57524c; --good-ink: #161412; --good-soft: #efe9e0;                                 /* working, protected, fixed: neutral, no green */
+  --good: #57524c; --good-ink: #161412; --good-soft: #efe9e0;                                 /* working and protected: neutral */
+  --green: #4a9a6a; --green-ink: #2c6e48; --green-soft: #e1f0e6;                              /* where green carries meaning (2026-11-11): fixed, all working, a fall in the odds, a better term */
   --bad: #e0861a; --bad-ink: #8f5208; --bad-soft: #fcf0dc;                                    /* a problem */
   --off: #a39d94;
   --night: #0b0d12; --night-2: #161a22; --night-3: #1f2430;                                   /* the instrument panel */
@@ -318,7 +319,7 @@ body:not(.has-drawer) .rt.is-sel { background: transparent; }
 .sp__log li { display: grid; grid-template-columns: 2.9rem minmax(0, 1fr); gap: 0.5rem; font-size: 0.8rem; line-height: 1.4; }
 .sp__log li > :first-child { color: var(--ink-3); }
 .sp__log li.is-prob > :last-child { color: var(--bad-ink); font-weight: 700; }
-.sp__log li.is-fix > :last-child { color: var(--good-ink); font-weight: 700; }
+.sp__log li.is-fix > :last-child { color: var(--green-ink); font-weight: 700; }
 .sp__log li.is-none { display: block; color: var(--ink-3); }
 .side__wait {
   display: grid; gap: 0.15rem; text-align: left; padding: 0.8rem 0.95rem; border: 0; border-radius: var(--r-sm); font: inherit;
@@ -358,6 +359,8 @@ body:not(.has-drawer) .rt.is-sel { background: transparent; }
 .asks__m { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.3rem 0.6rem; font-size: 0.74rem; color: var(--ink-3); }
 .asks__who { display: inline-flex; align-items: center; gap: 0.4rem; font-weight: 700; color: var(--ink-2); }
 .imp { display: inline-flex; flex: none; align-self: start; padding: 0.12rem 0.5rem; border-radius: 999px; font-size: 0.7rem; font-weight: 700; white-space: nowrap; background: #fff; color: var(--ink-2); box-shadow: inset 0 0 0 1px var(--line); }
+.imp--up { color: var(--accent-ink); background: var(--accent-soft); box-shadow: none; }
+.imp--down { color: var(--green-ink); background: var(--green-soft); box-shadow: none; }
 
 /* ---------- the feed and what needs attention ---------- */
 .feed { display: grid; gap: 1rem; max-width: 64rem; padding: 1.4rem 1.5rem; }
@@ -380,12 +383,12 @@ body:not(.has-drawer) .rt.is-sel { background: transparent; }
 .fd__kind { font-size: 0.7rem; color: var(--ink-3); }
 .fd__text { font-size: 0.86rem; line-height: 1.45; }
 .fd.is-prob .fd__kind { color: var(--bad-ink); font-weight: 700; }
-.fd.is-fix .fd__kind { color: var(--good-ink); font-weight: 700; }
+.fd.is-fix .fd__kind { color: var(--green-ink); font-weight: 700; }
 .fd.is-fresh { animation: fd-in 2.4s ease both; }
 @keyframes fd-in { 0% { opacity: 0; transform: translateY(-6px); background: var(--accent-soft); } 15% { opacity: 1; transform: none; } 100% { background: transparent; } }
 .fd__none { margin: 0; padding: 0.8rem 0.4rem; font-size: 0.82rem; color: var(--ink-3); }
 .attn__list { display: grid; gap: 0.6rem; }
-.attn__ok { margin: 0; padding: 0.95rem 1rem; border-radius: var(--r-sm); background: var(--good-soft); color: var(--good-ink); font-size: 0.86rem; font-weight: 700; }
+.attn__ok { margin: 0; padding: 0.95rem 1rem; border-radius: var(--r-sm); background: var(--green-soft); color: var(--green-ink); font-size: 0.86rem; font-weight: 700; }
 /* a problem sits in a mist well; rose only marks it, so its fix buttons never sit on rose */
 .prob { display: grid; gap: 0.4rem; padding: 0.95rem 1rem; border-radius: 16px; background: var(--mist); }
 .prob__tag { display: inline-flex; align-items: center; gap: 0.5rem; }
@@ -450,8 +453,8 @@ body:not(.has-drawer) .rt.is-sel { background: transparent; }
 .kpi__l { margin: 0; font-size: 0.76rem; font-weight: 600; color: var(--ink-3); }
 .kpi__v { margin: 0; font-size: clamp(1.55rem, 2.4vw, 2rem); font-weight: 800; letter-spacing: -0.04em; transition: color 0.2s ease; }
 .kpi__c { margin: 0; font-size: 0.74rem; color: var(--ink-3); }
-.kpi.is-better { background: var(--good-soft); }
-.kpi.is-better .kpi__v { color: var(--good-ink); }
+.kpi.is-better { background: var(--green-soft); }
+.kpi.is-better .kpi__v { color: var(--green-ink); }
 .kpi.is-worse { background: var(--bad-soft); }
 .kpi.is-worse .kpi__v { color: var(--bad-ink); }
 .steer__h { margin: 0; font-size: 0.95rem; font-weight: 800; }
@@ -686,6 +689,7 @@ body:not(.has-drawer) .rt.is-sel { background: transparent; }
 .st--ok, .dash__map .st--ok, .wq .st--ok { --st: var(--ink-2); --st-ink: var(--ink-2); --st-wash: var(--mist-2); }
 .st--wait, .dash__map .st--wait, .wq .st--wait, .wq[aria-selected="true"] .st--wait { --st: var(--accent); --st-ink: var(--accent-ink); --st-wash: var(--accent-soft); }
 .st--bad, .dash__map .st--bad, .wq .st--bad, .wq[aria-selected="true"] .st--bad { --st: var(--bad); --st-ink: var(--bad-ink); --st-wash: var(--bad-soft); }
+.st--all, .dash__map .st--all, .wq .st--all { --st: var(--green); --st-ink: var(--green-ink); --st-wash: var(--green-soft); }
 .st--off, .dash__map .st--off, .wq .st--off { --st: var(--off); --st-ink: var(--ink-3); --st-wash: var(--mist-2); font-weight: 600; }
 .wq__meta { gap: 0.4rem 0.45rem; }
 .live { padding: 0; background: none; box-shadow: none; color: var(--accent-ink); font-weight: 700; }
@@ -744,14 +748,15 @@ body:not(.has-drawer) .loop__hub.is-sel .hub__ring, body:not(.has-drawer) .loop_
 @media (prefers-reduced-motion: reduce) { .vq, .vq.is-on, body.has-drawer .vq, body.has-drawer .vq.is-on { transition: none; } .btn-q:hover { transform: none; } }
 
 /* the activity feed's kinds as the same soft pills as the status labels: a report neutral, a problem amber, a fix
-   neutral, a change by Totality red */
+   green, a change by Totality red */
 .fd__kind { padding: 0.12rem 0.5rem; border-radius: 999px; font-size: 0.68rem; font-weight: 700; color: var(--ink-2); background: var(--mist-2); }
 .fd.is-prob .fd__kind { color: var(--bad-ink); background: var(--bad-soft); }
-.fd.is-fix .fd__kind { color: var(--ink); background: var(--mist-2); }
+.fd.is-fix .fd__kind { color: var(--green-ink); background: var(--green-soft); }
 .fd.is-change .fd__kind { color: var(--accent-ink); background: var(--accent-soft); }
 .fd button:hover .fd__kind { background: #fff; }
 .fd.is-prob button:hover .fd__kind { background: var(--bad-soft); }
 .fd.is-change button:hover .fd__kind { background: var(--accent-soft); }
+.fd.is-fix button:hover .fd__kind { background: var(--green-soft); }
 
 /* scrollbars in the panels: thin, rounded and clear of the rounded corners (as house.css), faded in while scrolling by nav.js) */
 @property --sb { syntax: "<color>"; inherits: true; initial-value: rgba(22, 20, 18, 0); }

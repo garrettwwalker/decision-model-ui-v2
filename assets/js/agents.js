@@ -282,7 +282,7 @@
   function latest(id, kinds) { for (var i = Q.feed.length - 1; i >= 0; i--) if (Q.feed[i].agent === id && (!kinds || kinds.indexOf(Q.feed[i].kind) >= 0)) return Q.feed[i]; return null; }
   function pts(dp) { return (dp > 0 ? "+" : "−") + Math.abs(dp) + "%"; }
   function impactText(f) { return f.dp ? pts(f.dp) : f.impact || ""; }
-  function impChip(f) { var t = impactText(f); return t ? el("span", { class: "imp" }, t) : null; }
+  function impChip(f) { var t = impactText(f); return t ? el("span", { class: "imp" + (f.dp > 0 ? " imp--up" : f.dp < 0 ? " imp--down" : "") }, t) : null; } // a rise in the chance of harm red, a fall green
   var pText = function (q) { return q.p == null ? "…" : q.p + "%"; };
 
   /* ---------- who acts ---------- */
@@ -337,7 +337,7 @@
       t.meta.appendChild(el("span", { class: "wq__n" }, ag.length + (ag.length === 1 ? " agent" : " agents")));
       if (bad) t.meta.appendChild(el("span", { class: "st st--bad" }, bad + (bad === 1 ? " problem" : " problems")));
       if (wait) t.meta.appendChild(el("span", { class: "st st--wait" }, wait + " waiting"));
-      if (!bad && !wait) t.meta.appendChild(el("span", { class: "st st--ok" }, q.p == null ? "Starting" : "All working"));
+      if (!bad && !wait) t.meta.appendChild(el("span", { class: "st " + (q.p == null ? "st--ok" : "st--all") }, q.p == null ? "Starting" : "All working"));
     });
   }
   function pick(q) {
