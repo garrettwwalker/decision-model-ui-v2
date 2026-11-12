@@ -6,7 +6,9 @@
   // the old warm-only set read as all browns). An agent takes the color of its place in the pool, so agents listed
   // together never match and each keeps its color on every page (the brief's overnight steps use the same ones)
   var COLORS = ["#db3324", "#2f7a52", "#a16207", "#161412", "#7a1f2b", "#5b7f3a", "#c2410c", "#6a655e"];
+  var PICKED = { "Freight and fuel": "#6a655e", "Booking agent": "#5b7f3a" }; // set by hand, at the user's request
   function color(name) {
+    if (PICKED[name]) return PICKED[name];
     var i = (window.AGENT_ORDER || []).indexOf(name);
     if (i < 0) { i = 0; for (var k = 0; k < name.length; k++) i = (i * 31 + name.charCodeAt(k)) >>> 0; }
     return COLORS[i % COLORS.length];
