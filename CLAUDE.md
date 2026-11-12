@@ -62,7 +62,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   chance with "+3 pts overnight" in a soft red pill outlined in red beside it (the user asked for the outline) and a 90-day chart with the turning points labelled (an estimative scale, a row
   of change pills, and an error bar on the chart were each removed at the user's request); beneath, the loss if we do nothing
   (causes on one bar that sweeps in whole; each color growing on its own was undone) against the loss with the three
-  decisions and net of their cost. 2 Waiting for You (a red count, as on the agents page): the week's deadlines (small circles on a hairline;
+  decisions and net of their cost. 2 Waiting for You (an amber count, as on the agents page; red until 2026-11-12): the week's deadlines (small circles on a hairline;
   pill-shaped marks were rejected), then the three decisions with just two buttons: Assign (red; turns ink, says who it's
   assigned to, and marks its day; the war-risk decision's reads Approve) and Details (drops open what happens, if we wait, who's affected, and "See the team's
   part", a plain link so nav.js slides to team.html?directive=); then "Decisions Made Overnight", your agents' small reversible steps with
@@ -281,7 +281,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   ring); a disabled red button stays gray, a shade darker on hover. Who acts' chosen option a white card lifted off the
   cream with a red dot (a black one that flipped light on hover was bizarre). The chosen question lifts with its chance
   in red, no outline and no sliding highlight, the others' text faded to 55% and their status pills gray (both full under the pointer; a paused agent's tile grays its pill too); the scroller is padded so its shadow isn't clipped. The live map light on a
-  white card with no key under it, its tiles with rounded-square initial avatars (agents-ui.js, colored from the name),
+  white card with no key under it, its tiles with rounded-square initial avatars (agents-ui.js; since 2026-11-12 one shared palette across agents, workflows, and the brief, the old warm-only set having read as all browns: tomato, green, ochre, ink, wine, olive, rust, warm gray, each agent taking the color of its place in `POOL` via `window.AGENT_ORDER`, each workflows person the color of their place on the team, and the brief's overnight steps their agents' colors inline),
   Totality a white disc that reads as a gauge: a pale track with a red arc as long as the chance (`#hub-arc`, set in
   agents-ui.js from `#hub-p`), a larger chance and the question, no "Totality" label and no "sense"/"act" beside the
   column heads (the disc is drawn under the ring so the two thicken alike when selected). Body `ag-page`, no `.t-night`

@@ -36,7 +36,7 @@
 }
 @media (min-width: 1100px) { .sec__title > span { position: absolute; right: calc(100% + 0.9rem); top: 0.42rem; margin: 0; } }
 .sec__note { margin: 0.75rem 0 0; max-width: 42rem; font-size: 1rem; line-height: 1.55; color: var(--ink-2); }
-.count { display: inline-grid; place-items: center; min-width: 1.7rem; height: 1.7rem; padding: 0 0.45rem; border-radius: 999px; font-family: var(--font); font-size: 0.85rem; font-weight: 700; color: #fff; background: var(--accent); }
+.count { display: inline-grid; place-items: center; min-width: 1.7rem; height: 1.7rem; padding: 0 0.45rem; border-radius: 999px; font-family: var(--font); font-size: 0.85rem; font-weight: 700; color: #fff; background: var(--bad); } /* amber, as what waits for you on the agents page */
 .sub { margin: 0; font-family: var(--display); font-weight: 400; font-size: 1.4rem; letter-spacing: -0.005em; }
 .btn-q--sm { min-height: 30px; padding: 0.25rem 0.75rem; font-size: 0.76rem; }
 /* a card picked out from elsewhere on the page washes pale red, then settles */

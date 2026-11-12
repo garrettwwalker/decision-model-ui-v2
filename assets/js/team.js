@@ -480,12 +480,17 @@
   function byDue(a, b) { return a.due[0] - b.due[0] || a.due[1].localeCompare(b.due[1]); }
   function first(id) { return isAgent(id) ? "the " + lc(agentName(id)) : isMe(id) ? "you" : person(id).name.split(" ")[0]; }
   function First(id) { return isAgent(id) ? agentName(id) : isMe(id) ? "You" : person(id).name.split(" ")[0]; }
-  // rounded-square initials in a warm color picked from the name, as on the agents page; agents in cream with ink
-  var COLORS = ["#7a1f2b", "#161412", "#c2410c", "#8a5a2b", "#a33a2a", "#a16207"];
+  // rounded-square initials, in the agents page's colors; each person takes the color of their place on the team, so no
+  // two teammates match (someone from another team, by name); agents in cream with ink
+  var COLORS = ["#db3324", "#2f7a52", "#a16207", "#161412", "#7a1f2b", "#5b7f3a", "#c2410c", "#6a655e"];
   function avatar(id, cls) {
     var name = isAgent(id) ? agentName(id) : person(id) ? person(id).name : String(id);
     var a = el("span", { class: "av" + (isAgent(id) ? " av--agent" : "") + (cls ? " " + cls : ""), "aria-hidden": "true" }, initials(name));
-    if (!isAgent(id)) { var h = 0; for (var i = 0; i < name.length; i++) h = (h * 31 + name.charCodeAt(i)) >>> 0; a.style.setProperty("--av", COLORS[h % COLORS.length]); }
+    if (!isAgent(id)) {
+      var h = P.people.indexOf(person(id));
+      if (h < 0) { h = 0; for (var i = 0; i < name.length; i++) h = (h * 31 + name.charCodeAt(i)) >>> 0; }
+      a.style.setProperty("--av", COLORS[h % COLORS.length]);
+    }
     return a;
   }
   function button(text, cls, fn, attrs) { var b = el("button", Object.assign({ type: "button", class: cls }, attrs || {}), text); b.addEventListener("click", fn); return b; }

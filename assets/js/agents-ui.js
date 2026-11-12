@@ -2,11 +2,14 @@
    (2026-11-04; the activity feed had them too, until the user found its rows too much like chat). agents.js redraws the
    tiles freely, so a watcher marks each as it appears: its initial in data-ini, and a color picked from its name. */
 (function () {
-  var COLORS = ["#7a1f2b", "#161412", "#c2410c", "#8a5a2b", "#a33a2a", "#a16207"];  // warm only: wine, espresso, rust, umber, brick, ochre
+  // the platform's colors, ordered so neighbours differ: tomato, green, ochre, ink, wine, olive, rust, warm gray (2026-11-12;
+  // the old warm-only set read as all browns). An agent takes the color of its place in the pool, so agents listed
+  // together never match and each keeps its color on every page (the brief's overnight steps use the same ones)
+  var COLORS = ["#db3324", "#2f7a52", "#a16207", "#161412", "#7a1f2b", "#5b7f3a", "#c2410c", "#6a655e"];
   function color(name) {
-    var h = 0;
-    for (var i = 0; i < name.length; i++) h = (h * 31 + name.charCodeAt(i)) >>> 0;
-    return COLORS[h % COLORS.length];
+    var i = (window.AGENT_ORDER || []).indexOf(name);
+    if (i < 0) { i = 0; for (var k = 0; k < name.length; k++) i = (i * 31 + name.charCodeAt(k)) >>> 0; }
+    return COLORS[i % COLORS.length];
   }
   function mark(el, name) {
     var ini = name.trim().charAt(0).toUpperCase();

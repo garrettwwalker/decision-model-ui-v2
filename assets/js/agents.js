@@ -83,6 +83,7 @@
     { id: "procure", kind: "act", name: "Procurement desk", what: "Requests quotes from approved suppliers", owner: "VP Procurement", checks: 0, cost: 0, auto: false,
       brief: "Not linked to any question yet.", tags: ["supplier", "procurement", "quote", "sourcing", "resin", "parts"] }
   ];
+  window.AGENT_ORDER = POOL.map(function (a) { return a.name; }); // agents-ui.js colors each agent's initial by its place here
   var AGENTS = { hub: { id: "hub", name: "Totality", kind: "hub" } };
   POOL.forEach(function (a) { AGENTS[a.id] = a; });
 
