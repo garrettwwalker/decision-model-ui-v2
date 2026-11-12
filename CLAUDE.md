@@ -197,7 +197,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   with the pill a grid item in the first cell, moved by index (measuring gave it the wrong shape, and app.css's `.seg span`
   rule squared it off, hence `.seg .seg__pill`), and choosing Stuck slides it there while
   the reason box slides open (and shut on Cancel). Unticking a step fades its strike out. Choosing Done or To do on the status track draws the changed steps as they
-  were, then flips them one after another (`flips`), so the ticks and strikes still animate. Hover never grays a chosen
+  were, then flips them all at once (`flips`; one after another was unwanted), so the ticks and strikes still animate. Hover never grays a chosen
   option row, and "Totality suggests" is white on the chosen row's pale red. The bottom line's four figures are separate white tiles beneath
   its card (the user's call), each lifting under the pointer. Checkboxes here draw a white check (`--cb-mark`). Choices animate as the decision cards do (2026-11-11, the user's call): a new task or owner eases the task card to its
   new height and fades it in (`swapIn`), as a new decision does the panel; the chosen decision or threat card rises into

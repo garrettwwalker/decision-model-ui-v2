@@ -1009,7 +1009,7 @@
         if (k === "blocked") { if (flagging !== t.id) { flagging = t.id; render(); } return; }
         if (t.status === "blocked") { t.blocker = ""; delete st.escalated[t.id]; }
         if (DETAIL[t.id] && (k === "done" || k === "todo")) {
-          // the steps that change are drawn as they were, then flip one after another, ticks and strikes animating
+          // the steps that change are drawn as they were, then flip together, ticks and strikes animating
           var old = st.steps[t.id] || {};
           flips = { id: pid + ":" + t.id, steps: DETAIL[t.id][1].map(function (x, i) { return i; }).filter(function (i) { return !!old[i] !== (k === "done"); }) };
           st.steps[t.id] = {}; if (k === "done") DETAIL[t.id][1].forEach(function (x, i) { st.steps[t.id][i] = true; });
@@ -1075,7 +1075,7 @@
             cb.checked = on; li.style.setProperty("--d", "0s");
             if (on) { drawn[i] = performance.now(); li.classList.add("is-done", "is-new"); }
             else { unstruck[t.id + ":" + i] = performance.now(); li.classList.remove("is-done"); li.classList.add("is-undo"); }
-          }, 120 + 90 * fi);
+          }, 60);
         }
       });
       sw.appendChild(ol);
