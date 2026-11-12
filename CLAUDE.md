@@ -294,7 +294,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
 - `index.html` + `assets/css/landing.css` + `assets/js/landing.js` is the landing, Penumbra (it was a preview at
   `penumbra.html` from 2026-10-15 until the switchover on 2026-10-16; `penumbra.html` now only redirects home). Same
   sections as the old ByNine landing, with the Daybreak engine renamed the **Totality engine** and dawn lines
-  recast for the eclipse ("out of the shadow. let's talk."), but moon-dark ground with one warm accent, the light at an eclipse's edge: pink, rose, red, orange, amber, pale gold (`--a-*`,
+  recast for the eclipse ("Out of the shadow. Let's talk."; since 2026-11-12 every landing heading starts with a capital, at the user's request, in sentence case: "Risk lies in shadow.", "For whatever you need.", the cards "Daily brief" and so on), but moon-dark ground with one warm accent, the light at an eclipse's edge: pink, rose, red, orange, amber, pale gold (`--a-*`,
   `--aurora`, and the conic `--mark`). The user rejected the logo JPEG's full rainbow on the page (the logo alone keeps it); keep the page
   off blues, greens and violets (one exception the user asked for: the "Done" status pill on the team workflows card is green), and keep lines, bars and borders one color, not gradients. Protected money
   (`--safe`) is pale gold here, not green. Hero: one screen-sized eclipse. A white sun fills most of the viewport; scroll slides the
