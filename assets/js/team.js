@@ -982,7 +982,7 @@
       });
     });
   }
-  var flagging = null, shownTask = null, segWas = null, struck = {}, unstruck = {}, flagShown = null;
+  var flips = null, flagging = null, shownTask = null, segWas = null, struck = {}, unstruck = {}, flagShown = null;
   function renderTaskCard() {
     var box = byId("task-card"), h0 = box.hidden ? 0 : box.offsetHeight; box.textContent = "";
     var t = st.tasks[st.sel];
@@ -1008,7 +1008,12 @@
         if (k === t.status) return;
         if (k === "blocked") { if (flagging !== t.id) { flagging = t.id; render(); } return; }
         if (t.status === "blocked") { t.blocker = ""; delete st.escalated[t.id]; }
-        if (DETAIL[t.id] && (k === "done" || k === "todo")) { st.steps[t.id] = {}; if (k === "done") DETAIL[t.id][1].forEach(function (x, i) { st.steps[t.id][i] = true; }); }
+        if (DETAIL[t.id] && (k === "done" || k === "todo")) {
+          // the steps that change are drawn as they were, then flip one after another, ticks and strikes animating
+          var old = st.steps[t.id] || {};
+          flips = { id: pid + ":" + t.id, steps: DETAIL[t.id][1].map(function (x, i) { return i; }).filter(function (i) { return !!old[i] !== (k === "done"); }) };
+          st.steps[t.id] = {}; if (k === "done") DETAIL[t.id][1].forEach(function (x, i) { st.steps[t.id][i] = true; });
+        }
         t.status = k; flagging = null; changed();
       }, { "aria-pressed": String(t.status === k) }));
     });
@@ -1038,6 +1043,7 @@
       sw.appendChild(el("p", "tc__h", "Steps, " + nd + " of " + det[1].length + " done"));
       var ol = el("ol");
       var drawn = struck[t.id] || (struck[t.id] = {}), nth = 0, ndone = 0;
+      var flip = flips && flips.id === pid + ":" + t.id && !swap ? flips.steps : []; flips = null;
       det[1].forEach(function (x, i) {
         // a step done since the card last showed it has its strike drawn through, one after another on a newly opened card
         // a strike ticked a moment ago carries on drawing through the redraw (a negative delay picks it up where it was)
@@ -1060,6 +1066,17 @@
         });
         var tx = el("span"); tx.appendChild(el("span", "tc__st", x));
         lab.appendChild(cb); lab.appendChild(tx); li.appendChild(lab); ol.appendChild(li);
+        var fi = flip.indexOf(i);
+        if (fi >= 0 && !REDUCE) {
+          var on = !!done[i];
+          cb.checked = !on; li.classList.remove("is-new", "is-undo"); li.classList.toggle("is-done", !on);
+          if (on) delete drawn[i];
+          setTimeout(function () {
+            cb.checked = on; li.style.setProperty("--d", "0s");
+            if (on) { drawn[i] = performance.now(); li.classList.add("is-done", "is-new"); }
+            else { unstruck[t.id + ":" + i] = performance.now(); li.classList.remove("is-done"); li.classList.add("is-undo"); }
+          }, 120 + 90 * fi);
+        }
       });
       sw.appendChild(ol);
       left.appendChild(sw);
