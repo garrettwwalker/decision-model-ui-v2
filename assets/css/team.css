@@ -275,6 +275,7 @@ button:not(.is-on):hover > * > .radio { background: #d3cbbf; }
 .who__f { font-size: 0.72rem; color: var(--ink-3); white-space: nowrap; font-variant-numeric: tabular-nums; }
 .who.is-on .who__f { color: rgba(255, 255, 255, 0.7); }
 .who.is-tight .who__f { color: var(--accent-ink); }
+.who.is-on.is-tight .who__f { color: #ff9e94; } /* on the chosen black chip, a pale red that still reads */
 .who.is-no { opacity: 0.45; cursor: not-allowed; }
 
 .tc__for { margin: 0 0 1rem; max-width: 40rem; font-size: 0.9rem; line-height: 1.5; color: var(--ink-2); }
