@@ -881,7 +881,7 @@
     if (SUG.best.length) { AHEAD = clone(st); SUG.best.forEach(function (c) { c.fn(AHEAD); }); }
     if (!AHEAD) st.preview = false;
     var n = allTasks(st).filter(function (t) { return t.status !== "done"; }).length;
-    $("plan-note").textContent = cap(words(n, "task")) + " still open this week. Each bar runs from the day a task can start to the day it’s due, with its chance of landing on time. Under each task is what stands in its way and, in red, the change Totality suggests. Select a task to see why.";
+    $("plan-note").textContent = cap(words(n, "task")) + " still open this week. Each bar runs from the day a task can start to the day it’s due, with its chance of landing on time. A red figure beside a task is how far Totality’s suggestion would raise that chance; point to it, or to a bar, to see what’s in the task’s way.";
     var box = byId("gantt"); box.textContent = "";
     // the suggestions, summed up at the head of the week they change
     var top = el("div", "g__top");
@@ -889,7 +889,7 @@
     if (SUG.best.length) {
       var gain = expected(AHEAD) - expected(st);
       tw.appendChild(el("b", null, "Totality’s Suggestions"));
-      tw.appendChild(el("p", null, cap(words(SUG.best.length, "task")) + (SUG.best.length === 1 ? " has a change" : " have a change") + " that would raise " + (SUG.best.length === 1 ? "its" : "their") + " odds" + (gain > 0.05 ? ", taking what’s expected to land from " + money(expected(st)) + " to " + money(expected(AHEAD)) : "") + ". Each change is in red under its task. " + (st.preview ? "The plan below shows the week with all of them made." : "Preview them to see the week with all of them made.")));
+      tw.appendChild(el("p", null, cap(words(SUG.best.length, "task")) + (SUG.best.length === 1 ? " has a change" : " have a change") + " that would raise " + (SUG.best.length === 1 ? "its" : "their") + " odds" + (gain > 0.05 ? ", taking what’s expected to land from " + money(expected(st)) + " to " + money(expected(AHEAD)) : "") + ". Each is the red figure beside its task. " + (st.preview ? "The plan below shows the week with all of them made." : "Preview them to see the week with all of them made.")));
       top.appendChild(tw);
       var ctl = el("div", "g__ctl");
       var sw = el("label", "switch g__pv");
@@ -953,28 +953,52 @@
       return (x === stuck ? "Stuck: " + lc(w) : w) + ".";
     });
   }
+  // a task's pop-out: what's in its way and, when there is one, Totality's suggestion with one button to make it
+  function taskPop(t, sug, pv, at, wait) {
+    showPop("t:" + t.id, at, wait, "Task", function (box) {
+      var src = pv && AHEAD.tasks[t.id] ? AHEAD : st, tt = src.tasks[t.id], r = taskRisk(st, t), way = inWay(tt, src);
+      box.appendChild(el("p", "gpop__h", t.text));
+      box.appendChild(el("p", "gpop__k gpop__k--ink", way.length ? "In its way" : "Nothing in its way"));
+      if (way.length) { var ul = el("ul", "gpop__way"); way.forEach(function (w) { ul.appendChild(el("li", /^Stuck:/.test(w) ? "is-stuck" : "", w)); }); box.appendChild(ul); }
+      if (!sug) return;
+      var tp = taskRisk(sug.v.tmp, sug.v.tmp.tasks[t.id]).p, d = t.dir && dirOf(st, t.dir);
+      box.appendChild(el("p", "gpop__k gpop__k--sug", pv ? "Previewing Totality’s suggestion" : "Totality suggests"));
+      box.appendChild(el("p", "gpop__t", cap(sug.text) + "."));
+      var fx = el("p", "gpop__fx");
+      fx.appendChild(el("span", "pill", "This task " + pct(r.p) + " → " + pct(tp)));
+      if (d && sug.v.to - sug.v.from > 0.005) fx.appendChild(el("span", "pill", cap(d.short) + " " + pct(sug.v.from) + " → " + pct(sug.v.to)));
+      if (sug.v.dExp > 0.05) fx.appendChild(el("span", "pill pill--red", "+" + money(sug.v.dExp) + " expected"));
+      box.appendChild(fx);
+      box.appendChild(button("Make this change", "btn btn--primary btn--sm", function () { sug.fn(st); hidePop(true); DB.toast("Plan updated."); changed(); }));
+    });
+  }
   function taskRow(t, pv) {
     var r = taskRisk(st, t), alt = pv && AHEAD.tasks[t.id], r1 = alt ? taskRisk(AHEAD, alt) : r, moved = alt && r1.p - r.p > 0.005;
     var sug = SUG.byTask[t.id] && SUG.byTask[t.id][0], who = alt || t;
     var row = el("div", { class: "g__row g__task is-" + who.status + (st.sel === t.id ? " is-sel" : "") + (r1.p < 0.6 ? " is-risk" : "") + (moved ? " is-moved" : ""), id: "task-" + t.id, "data-t": t.id, role: "button", tabindex: "0", "aria-pressed": String(st.sel === t.id), "aria-label": t.text + ", " + STATUS[t.status] + ", " + pct(r.p) + " on time" + (sug ? ", Totality suggests: " + sug.text : "") });
     var lab = el("span", "g__lab");
     lab.appendChild(avatar(who.who, "av--sm"));
-    var txt = el("span", "g__words");
-    txt.appendChild(el("span", "g__text", t.text));
-    // what's in its way, then the change Totality suggests and how far it lifts the task's chance
-    if (t.status !== "done") inWay(who, alt ? AHEAD : st).forEach(function (w) { txt.appendChild(el("span", "g__way" + (/^Stuck:/.test(w) ? " is-stuck" : ""), w)); });
+    lab.appendChild(el("span", { class: "g__text", title: t.text }, t.text));
+    var chip = null;
     if (sug) {
-      var gain = taskRisk(sug.v.tmp, sug.v.tmp.tasks[t.id]).p - r.p, sl = el("span", "g__sug");
-      sl.appendChild(el("b", null, "+" + Math.max(1, Math.round(100 * gain)) + "%"));
-      sl.appendChild(document.createTextNode((pv ? "Previewing: " : "Suggested: ") + lc(sug.text) + "."));
-      txt.appendChild(sl);
+      chip = el("button", { type: "button", class: "g__sug", "aria-haspopup": "dialog", "aria-expanded": "false", "aria-label": "Totality’s suggestion for " + t.text },
+        "+" + Math.max(1, Math.round(100 * (taskRisk(sug.v.tmp, sug.v.tmp.tasks[t.id]).p - r.p))) + "%");
+      chip.addEventListener("mouseenter", function () { taskPop(t, sug, pv, chip, 0); });
+      chip.addEventListener("mouseleave", function () { hidePop(); });
+      chip.addEventListener("focus", function () { taskPop(t, sug, pv, chip, 0); });
+      chip.addEventListener("click", function (e) { e.stopPropagation(); if (popFor === "t:" + t.id && pop.classList.contains("is-on")) hidePop(true); else taskPop(t, sug, pv, chip, 0); });
+      chip.addEventListener("keydown", function (e) { e.stopPropagation(); });
+      lab.appendChild(chip);
     }
-    lab.appendChild(txt);
     row.appendChild(lab);
     var bar = el("span", "g__bar");
     bar.style.gridColumn = (t.start + 2) + " / " + (t.day + 3);
     bar.appendChild(el("b", null, t.status === "done" ? "Done" : who.status === "blocked" ? "Stuck" : moved ? pct(r.p) + " → " + pct(r1.p) : pct(r1.p)));
     bar.appendChild(el("span", null, isAgent(who.who) ? (who.revH ? who.revH + " h check" : "Agent") : t.hours + " h"));
+    if (t.status !== "done") {
+      bar.addEventListener("mouseenter", function () { taskPop(t, sug, pv, bar, 260); });
+      bar.addEventListener("mouseleave", function () { hidePop(); });
+    }
     row.appendChild(bar);
     function pick() { if (st.sel !== t.id) { st.sel = t.id; flagging = null; render(); } var c = byId("task-card"); if (c.getBoundingClientRect().top > innerHeight - 120) glide("task-card", 160); }
     row.addEventListener("click", pick);
@@ -1325,43 +1349,61 @@
     hidePop(true);
   }
   // the explanation an alert opens into, held in one floating card so the grid's scroller can't clip it
-  var pop = null, popFor = null, popT = 0;
+  var pop = null, popFor = null, popT = 0, popAt = null;
   function gapPop(gi, at) {
+    showPop(gi, at, 0, "Shortage risk", function (box) {
+      var g = P.gaps[gi];
+      box.appendChild(el("p", "gpop__k", "One person deep"));
+      box.appendChild(el("p", "gpop__t", g.text));
+      var c = el("p", "gpop__fix"); c.appendChild(el("b", null, "Cover: ")); c.appendChild(document.createTextNode(g.fix + ", " + first(g.who) + ", " + dayLow(g.day) + ", " + g.hours + " h" + (g.unblocks && st.tasks[g.unblocks] ? ". It unblocks “" + st.tasks[g.unblocks].text + "”." : ".")));
+      box.appendChild(c);
+      box.appendChild(button("Plan the cover", "btn btn--primary btn--sm", function () { planGap(st, gi); DB.toast("Added to the plan for " + first(g.who) + "."); hidePop(true); changed(); }));
+    });
+  }
+  // one floating card for every pop-out, so no scroller clips it; `wait` holds it back while the pointer only passes over
+  function showPop(key, at, wait, label, fill) {
     clearTimeout(popT);
     if (!pop) {
-      pop = el("div", { class: "gpop", role: "dialog", "aria-label": "Shortage risk" });
+      pop = el("div", { class: "gpop", role: "dialog" });
       pop.addEventListener("mouseenter", function () { clearTimeout(popT); });
       pop.addEventListener("mouseleave", function () { hidePop(); });
       document.body.appendChild(pop);
       window.addEventListener("scroll", function () { hidePop(true); }, { passive: true });
       document.addEventListener("keydown", function (e) { if (e.key === "Escape") hidePop(true); });
+      document.addEventListener("click", function (e) { if (pop.classList.contains("is-on") && !pop.contains(e.target) && !(popAt && popAt.contains(e.target))) hidePop(true); });
     }
-    if (popFor === gi && pop.classList.contains("is-on")) return;
-    var g = P.gaps[gi];
+    if (popFor === key && pop.classList.contains("is-on")) return;
+    if (wait && !pop.classList.contains("is-on")) { popT = setTimeout(function () { showPop(key, at, 0, label, fill); }, wait); return; }
     pop.textContent = "";
-    pop.appendChild(el("p", "gpop__k", "One person deep"));
-    pop.appendChild(el("p", "gpop__t", g.text));
-    var c = el("p", "gpop__fix"); c.appendChild(el("b", null, "Cover: ")); c.appendChild(document.createTextNode(g.fix + ", " + first(g.who) + ", " + dayLow(g.day) + ", " + g.hours + " h" + (g.unblocks && st.tasks[g.unblocks] ? ". It unblocks “" + st.tasks[g.unblocks].text + "”." : ".")));
-    pop.appendChild(c);
-    pop.appendChild(button("Plan the cover", "btn btn--primary btn--sm", function () { planGap(st, gi); DB.toast("Added to the plan for " + first(g.who) + "."); hidePop(true); changed(); }));
-    popFor = gi;
-    [].forEach.call(document.querySelectorAll(".h__bang[aria-expanded=true]"), function (b) { b.setAttribute("aria-expanded", "false"); });
-    at.setAttribute("aria-expanded", "true");
+    pop.setAttribute("aria-label", label);
+    fill(pop);
+    popFor = key;
+    if (popAt) popAt.setAttribute("aria-expanded", "false");
+    popAt = at;
+    if (at.hasAttribute("aria-expanded")) at.setAttribute("aria-expanded", "true");
     var r = at.getBoundingClientRect(), w = Math.min(320, window.innerWidth - 32);
     pop.style.width = w + "px";
     var left = Math.max(16, Math.min(window.innerWidth - w - 16, r.left + r.width / 2 - w / 2));
     pop.style.left = left + "px";
     pop.classList.remove("is-on", "is-up");
-    var h = pop.offsetHeight, up = r.bottom + 10 + h > window.innerHeight && r.top - 10 - h > 0;
-    pop.style.top = (up ? r.top - 10 - h : r.bottom + 10) + "px";
-    pop.style.transformOrigin = (r.left + r.width / 2 - left) + "px " + (up ? "100%" : "0");
+    var h = pop.offsetHeight, below = r.bottom + 10 + h <= window.innerHeight - 8, above = r.top - 10 - h >= 72;
+    if (below || above || window.innerWidth - r.right < w + 28) {
+      var up = !below && above;
+      pop.style.top = Math.max(72, up ? r.top - 10 - h : r.bottom + 10) + "px";
+      pop.style.transformOrigin = (r.left + r.width / 2 - left) + "px " + (up ? "100%" : "0");
+    } else {
+      // no room above or below: beside the trigger, held on screen
+      var top = Math.max(72, Math.min(window.innerHeight - h - 12, r.top + r.height / 2 - h / 2));
+      pop.style.left = r.right + 12 + "px"; pop.style.top = top + "px";
+      pop.style.transformOrigin = "0 " + (r.top + r.height / 2 - top) + "px";
+    }
     void pop.offsetWidth;
     pop.classList.add("is-on");
   }
   function hidePop(now) {
     if (!pop) return;
     clearTimeout(popT);
-    var go = function () { pop.classList.remove("is-on"); popFor = null; [].forEach.call(document.querySelectorAll(".h__bang[aria-expanded=true]"), function (b) { b.setAttribute("aria-expanded", "false"); }); };
+    var go = function () { pop.classList.remove("is-on"); popFor = null; if (popAt) popAt.setAttribute("aria-expanded", "false"); popAt = null; };
     if (now) go(); else popT = setTimeout(go, 180);
   }
 

@@ -158,9 +158,14 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   sums them up with a "Preview on the plan" switch, which redraws the bars, owners, and directive pills as the week
   would be with every suggestion made, and "Make all". Redesigned 2026-11-11, because elbow arrows for `AFTER` overlapped
   the bars, amber diamonds for another team's input were ambiguous, and "+N%" chips didn't say what the change was:
-  each task row now has, under its full name (wrapping, no ellipsis), every obstacle in its way in words, worst first
-  (`inWay()`, from `taskRisk()`'s factors; "Stuck: ..." in amber), then in red the suggestion's gain pill and
-  "Suggested: [the change]" ("Previewing:" with the switch on); no arrows or diamonds. `suggestions()` tries every move on a copy of the plan and keeps those that raise the odds,
+  then the same day condensed at the user's request (the rows read too long and wordy): each row is one line again,
+  its name with an ellipsis, and a red "+N%" chip after it for a suggestion; pointing to (or tapping) the chip, or
+  resting on a bar, opens a pop-out (`taskPop()`, in the shared floating `.gpop` via `showPop()`, which the Who Has
+  Room alerts use too; above or below the trigger, else beside it, held on screen): the task, every obstacle in its
+  way worst first (`inWay()`, from `taskRisk()`'s factors; "Stuck: ..." in amber), and Totality's suggestion with its
+  effect pills and one "Make this change" button. The selected row is the decision rows' pale red, a shade deeper on
+  hover, its rounded wash running 0.7rem past the avatar (`.g__scroll` is padded so the scroller doesn't clip it); the
+  preview switch no longer washes rows (the bars show "81% → 96%"). No arrows or diamonds. `suggestions()` tries every move on a copy of the plan and keeps those that raise the odds,
   best first per task: hand work to an agent in `AGENTABLE` with the owner checking it, hand it to a certified teammate
   with room (`SKILL`), raise a blocker, plan a gap's cover that unblocks a task, chase or escalate a late input. The
   Gantt of the week: bars from start to due day with the chance on each, ink on course, red under 60%, amber when stuck,
