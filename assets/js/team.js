@@ -946,7 +946,7 @@
       return (x === stuck ? "Stuck: " + lc(w) : w) + ".";
     });
   }
-  // a task's pop-out: what's in its way and, when there is one, Totality's suggestion with one button to make it
+  // a task's pop-out: what's in its way and, when there is one, Totality's suggestion with a button down to the task's card
   function taskPop(t, sug, at, wait) {
     showPop("t:" + t.id, at, wait, "Task", function (box) {
       var r = taskRisk(st, t), way = inWay(t, st);
@@ -962,7 +962,8 @@
       if (d && sug.v.to - sug.v.from > 0.005) fx.appendChild(el("span", "pill", cap(d.short) + " " + pct(sug.v.from) + " → " + pct(sug.v.to)));
       if (sug.v.dExp > 0.05) fx.appendChild(el("span", "pill pill--red", "+" + money(sug.v.dExp) + " expected"));
       box.appendChild(fx);
-      box.appendChild(button("Make this change", "btn btn--primary btn--sm", function () { sug.fn(st); hidePop(true); DB.toast("Plan updated."); changed(); }));
+      // opens the task's card below, where the change is weighed against the other ways and made
+      box.appendChild(button("See below", "btn btn--primary btn--sm", function () { hidePop(true); if (st.sel !== t.id) { st.sel = t.id; render(); } glide("task-card"); }));
     });
   }
   function taskRow(t) {

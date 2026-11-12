@@ -165,7 +165,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   resting on a bar, opens a pop-out (`taskPop()`, in the shared floating `.gpop` via `showPop()`, which the Who Has
   Room alerts use too; above or below the trigger, else beside it, held on screen): the task, every obstacle in its
   way worst first (`inWay()`, from `taskRisk()`'s factors; "Stuck: ..." in amber), and Totality's suggestion with its
-  effect pills and one "Make this change" button. The selected row is the decision rows' pale red, a shade deeper on
+  effect pills and a "See below" button that selects the task and scrolls to its card, where the change is made. The selected row is the decision rows' pale red, a shade deeper on
   hover, its rounded wash running 0.7rem past the avatar (`.g__scroll` is padded so the scroller doesn't clip it). No
   arrows or diamonds. `suggestions()` tries every move on a copy of the plan and keeps those that raise the odds,
   best first per task: hand work to an agent in `AGENTABLE` with the owner checking it, hand it to a certified teammate
