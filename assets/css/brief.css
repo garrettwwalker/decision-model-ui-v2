@@ -66,11 +66,11 @@
 .kj { display: grid; gap: 0.9rem; margin: 0; padding: 0; list-style: none; }
 .kj li { display: grid; gap: 0.35rem; justify-items: start; }
 .kj p { margin: 0; max-width: 40rem; font-size: 0.94rem; line-height: 1.5; color: var(--ink-2); }
-/* confidence as soft pills, color coded as on the report and memo: high a deeper gray, moderate amber, low pale */
+/* confidence as soft pills, color coded as on the report and memo: high green, moderate pale amber, low red */
 .conf { padding: 0.16rem 0.6rem; border-radius: 999px; font-size: 0.7rem; font-weight: 700; }
-.conf--high { color: var(--ink); background: var(--mist-3); }
+.conf--high { color: var(--green-ink); background: var(--green-soft); }
 .conf--mod { color: var(--bad-ink); background: var(--bad-soft); }
-.conf--low { color: var(--ink-3); background: var(--mist-2); }
+.conf--low { color: var(--accent-ink); background: var(--accent-soft); }
 
 .bl__odds { display: flex; flex-direction: column; justify-content: center; gap: 0.6rem; margin: 0.75rem; padding: clamp(1.1rem, 2vw, 1.6rem); border-radius: var(--r-sm); background: var(--mist); }
 .bl__odds p { margin: 0; }
@@ -324,7 +324,7 @@
 /* ---------- 4. why the odds rose ---------- */
 .moved { padding: clamp(1.2rem, 2.4vw, 1.9rem); background: #fff; border-radius: var(--r); box-shadow: var(--shadow); }
 .moved .card__title { margin-bottom: 1rem; }
-/* the waterfall: red bars raised the chance, gray lowered it, today in ink; each driver with its evidence beneath */
+/* the waterfall: red bars raised the chance, green lowered it, today in ink; each driver with its evidence beneath */
 .fall { display: grid; margin: 0; padding: 0; list-style: none; --scale: 0.35; }
 .fall li { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr) 3.6rem; align-items: center; gap: 0 1rem; min-height: 40px; padding: 0.15rem 0; font-size: 0.9rem; color: var(--ink); }
 .fall li > span small { display: block; margin-top: 0.05rem; font-size: 0.78rem; color: var(--ink-3); }
@@ -344,8 +344,8 @@
   border-radius: 4px; background: var(--accent); transform-origin: left center;
 }
 .fall .fall__base i::after { background: var(--mist-3); }
-.fall .fall__neg i::after { background: var(--ink-3); transform-origin: right center; }
-.fall .fall__neg b { color: var(--ink-2); }
+.fall .fall__neg i::after { background: var(--green); transform-origin: right center; }
+.fall .fall__neg b { color: var(--green-ink); }
 .fall__axis { min-height: 34px !important; align-items: end !important; }
 .fall__axis span { padding-bottom: 0.3rem; font-size: 0.76rem; font-weight: 600; color: var(--ink-3); }
 .fall__axis i { background-image: none; }

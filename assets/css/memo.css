@@ -42,11 +42,11 @@
 .kj { display: grid; gap: 0.9rem; margin: 0; padding: 0; list-style: none; }
 .kj li { display: grid; gap: 0.35rem; justify-items: start; }
 .kj p { margin: 0; max-width: 40rem; font-size: 0.94rem; line-height: 1.5; color: var(--ink-2); }
-/* confidence as soft pills, color coded as on the brief and report: high a deeper gray, moderate amber, low pale */
+/* confidence as soft pills, color coded as on the brief and report: high green, moderate pale amber, low red */
 .conf { padding: 0.16rem 0.6rem; border-radius: 999px; font-size: 0.7rem; font-weight: 700; }
-.conf--high { color: var(--ink); background: var(--mist-3); }
+.conf--high { color: var(--green-ink); background: var(--green-soft); }
 .conf--mod { color: var(--bad-ink); background: var(--bad-soft); }
-.conf--low { color: var(--ink-3); background: var(--mist-2); }
+.conf--low { color: var(--accent-ink); background: var(--accent-soft); }
 
 /* the right column: the chance in a cream panel at its natural height, what's changed beneath it */
 .bl__side { display: flex; flex-direction: column; gap: 0.5rem; margin: 0.75rem; }
@@ -101,8 +101,8 @@
   border-radius: 4px; background: var(--accent); transform-origin: left center;
 }
 .fall .fall__base i::after { background: var(--mist-3); }
-.fall .fall__neg i::after { background: var(--ink-3); transform-origin: right center; }
-.fall .fall__neg b { color: var(--ink-2); }
+.fall .fall__neg i::after { background: var(--green); transform-origin: right center; }
+.fall .fall__neg b { color: var(--green-ink); }
 .fall__axis { min-height: 34px !important; align-items: end !important; }
 .fall__axis span { padding-bottom: 0.3rem; font-size: 0.76rem; font-weight: 600; color: var(--ink-3); }
 .fall__axis i { background-image: none; }

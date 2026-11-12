@@ -17,6 +17,7 @@ body.house {
   --line: rgba(22, 20, 18, 0.08); --line-strong: rgba(22, 20, 18, 0.16);
   --accent: #db3324; --accent-ink: #b3241a; --accent-soft: #fdebe8; --accent-hover: #c42a1c;
   --bad: #e0861a; --bad-ink: #8f5208; --bad-soft: #fcf0dc;
+  --green: #4a9a6a; --green-ink: #2c6e48; --green-soft: #e1f0e6; /* green where it carries meaning; see .pill--green */
   --off: #a39d94;
   --shadow: 0 1px 2px rgba(22, 20, 18, 0.04), 0 12px 32px -18px rgba(22, 20, 18, 0.22);
   --shadow-sm: 0 1px 2px rgba(22, 20, 18, 0.08), 0 3px 10px -4px rgba(22, 20, 18, 0.12);
@@ -73,7 +74,7 @@ body.house {
 .house .pill--red { color: var(--accent-ink); background: var(--accent-soft); }
 .house .pill--amber { color: var(--bad-ink); background: var(--bad-soft); }
 /* green where it carries meaning: good news against bad, a steady state against a shaky one, finished or on track (2026-11-11) */
-.house .pill--green { color: #2c6e48; background: #e1f0e6; }
+.house .pill--green { color: var(--green-ink); background: var(--green-soft); }
 
 /* the bar's color, faded in while a panel scrolls and out after (nav.js animates it; registered so it can animate) */
 @property --sb { syntax: "<color>"; inherits: true; initial-value: rgba(22, 20, 18, 0); }

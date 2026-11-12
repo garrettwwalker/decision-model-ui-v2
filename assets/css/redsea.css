@@ -790,7 +790,7 @@ button.route__in:focus-visible { outline: 2px solid var(--accent); outline-offse
 .house.rs-report .bl__h { font-size: 1.45rem; }
 .house.rs-report .bl__list li::before { font-family: var(--display); font-weight: 400; font-size: 1.25rem; }
 .house.rs-report .conf { padding: 0.16rem 0.55rem; border-radius: 999px; font-size: 0.68rem; font-weight: 700; color: var(--ink-2); background: var(--mist-2); justify-self: end; align-self: start; }
-.house.rs-report .conf--high { color: var(--ink); background: var(--mist-3); }
+.house.rs-report .conf--high { color: var(--green-ink); background: var(--green-soft); }
 .house.rs-report .conf--mod { color: var(--bad-ink); background: var(--bad-soft); }
 .house.rs-report .conf--rec { color: var(--accent-ink); background: var(--accent-soft); }
 .house.rs-report .sec__h { position: relative; display: block; font-size: clamp(1.7rem, 2.8vw, 2.3rem); }
