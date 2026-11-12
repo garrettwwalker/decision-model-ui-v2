@@ -194,7 +194,7 @@ button:not(.is-on):hover > * > .radio { background: #d3cbbf; }
 .g__sum p { margin: 0; font-size: 0.88rem; line-height: 1.45; color: var(--ink-2); }
 /* padded so a row's rounded wash can run past the avatar without the scroller clipping it */
 .g__scroll { overflow-x: auto; margin: 0 -0.7rem; padding: 0 0.7rem; }
-.g__head, .g__body { min-width: 900px; --lab: 22rem; }
+.g__head, .g__body { min-width: 920px; --lab: 23rem; }
 .g__row { display: grid; grid-template-columns: var(--lab) repeat(7, minmax(0, 1fr)); align-items: center; min-height: 44px; }
 .g__head { position: relative; top: 0; z-index: 2; display: grid; grid-template-columns: var(--lab) repeat(7, minmax(0, 1fr)); min-height: 34px; border-bottom: 1px solid var(--line-strong); font-size: 0.76rem; font-weight: 600; color: var(--ink-3); background: #fff; }
 .g__day { padding-left: 0.5rem; }
@@ -208,7 +208,9 @@ button:not(.is-on):hover > * > .radio { background: #d3cbbf; }
 .g__now { position: absolute; z-index: 1; top: 0; bottom: 0; left: calc(var(--lab) + (100% - var(--lab)) * var(--x) / 7); width: 2px; margin-left: -1px; background: var(--ink); opacity: 0.35; pointer-events: none; }
 .g__group { position: relative; padding-bottom: 0.4rem; border-bottom: 1px solid var(--line); }
 .g__ghead { position: relative; display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem 0.75rem; min-height: 46px; padding-top: 0.5rem; }
-.g__ghead .g__lab { display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem; }
+/* kept to the task column, the title (one line where it fits) and its pill beneath, so neither runs into the week (and the now line) */
+.g__ghead .g__lab { display: flex; flex-direction: column; align-items: flex-start; gap: 0.3rem; max-width: var(--lab); padding-right: 0.6rem; }
+.g__ghead .g__lab b { line-height: 1.25; text-wrap: balance; } /* an overlong title breaks evenly over two lines */
 .g__ghead b { font-family: var(--display); font-weight: 400; font-size: 1.1rem; }
 .g__due { position: absolute; top: 0.85rem; left: calc(var(--lab) + (100% - var(--lab)) * var(--x) / 7); transform: translateX(calc(-100% - 6px)); font-size: 0.72rem; font-weight: 700; color: var(--accent-ink); white-space: nowrap; }
 .g__dueline { position: absolute; top: 0.6rem; bottom: 0.4rem; left: calc(var(--lab) + (100% - var(--lab)) * var(--x) / 7); width: 2px; margin-left: -1px; border-radius: 2px; background: var(--accent); opacity: 0.8; pointer-events: none; }
