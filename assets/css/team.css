@@ -194,21 +194,21 @@ button:not(.is-on):hover > * > .radio { background: #d3cbbf; }
 .g__sum p { margin: 0; font-size: 0.88rem; line-height: 1.45; color: var(--ink-2); }
 .g__ctl { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem 1.2rem; }
 .g__pv { gap: 0.7rem; }
-/* how far a task's suggestion would raise its chance, at the end of its name */
-.g__sug { flex: none; margin-left: auto; padding: 0.1rem 0.45rem; border-radius: 999px; font-size: 0.68rem; font-weight: 700; color: var(--accent-ink); background: var(--accent-soft); font-variant-numeric: tabular-nums; }
 .g__task.is-moved { background: var(--accent-soft); }
 .g__task.is-moved:hover { background: #fbe0dc; }
 .g__scroll { overflow-x: auto; }
-.g__head, .g__body { min-width: 860px; --lab: 20rem; }
-.g__row { display: grid; grid-template-columns: var(--lab) repeat(7, minmax(0, 1fr)); align-items: center; min-height: 40px; }
-.g__head { position: sticky; top: 0; z-index: 2; display: grid; grid-template-columns: var(--lab) repeat(7, minmax(0, 1fr)); min-height: 34px; border-bottom: 1px solid var(--line-strong); font-size: 0.76rem; font-weight: 600; color: var(--ink-3); background: #fff; }
+.g__head, .g__body { min-width: 980px; --lab: 25rem; }
+.g__row { display: grid; grid-template-columns: var(--lab) repeat(7, minmax(0, 1fr)); align-items: center; min-height: 44px; }
+.g__head { position: relative; top: 0; z-index: 2; display: grid; grid-template-columns: var(--lab) repeat(7, minmax(0, 1fr)); min-height: 34px; border-bottom: 1px solid var(--line-strong); font-size: 0.76rem; font-weight: 600; color: var(--ink-3); background: #fff; }
 .g__day { padding-left: 0.5rem; }
-.g__day.is-today { color: var(--accent-ink); }
+.g__day.is-today { color: var(--ink); }
+/* now, in ink so it reads apart from the red deadlines */
+.g__nowlab { position: absolute; z-index: 3; bottom: -0.5rem; line-height: 1.4; left: calc(var(--lab) + (100% - var(--lab)) * var(--x) / 7); transform: translateX(-50%); padding: 0.1rem 0.4rem; border-radius: 999px; font-size: 0.66rem; font-weight: 700; color: #fff; background: var(--ink); }
 .g__day.is-off { color: var(--off); }
 .g__body { position: relative; }
 /* weekends shaded, and a red hairline for now */
 .g__wkend { position: absolute; top: 0; bottom: 0; left: calc(var(--lab) + (100% - var(--lab)) * var(--c) / 7); width: calc((100% - var(--lab)) / 7); background: rgba(22, 20, 18, 0.03); pointer-events: none; }
-.g__now { position: absolute; z-index: 1; top: 0; bottom: 0; left: calc(var(--lab) + (100% - var(--lab)) * var(--x) / 7); width: 2px; margin-left: -1px; background: var(--accent); opacity: 0.55; pointer-events: none; }
+.g__now { position: absolute; z-index: 1; top: 0; bottom: 0; left: calc(var(--lab) + (100% - var(--lab)) * var(--x) / 7); width: 2px; margin-left: -1px; background: var(--ink); opacity: 0.35; pointer-events: none; }
 .g__group { position: relative; padding-bottom: 0.4rem; border-bottom: 1px solid var(--line); }
 .g__ghead { position: relative; display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem 0.75rem; min-height: 46px; padding-top: 0.5rem; }
 .g__ghead .g__lab { display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem; }
@@ -219,8 +219,18 @@ button:not(.is-on):hover > * > .radio { background: #d3cbbf; }
 .g__task:hover { background: var(--mist); }
 .g__task.is-sel { background: var(--mist-2); }
 .g__task:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
-.g__task .g__lab { display: flex; align-items: center; gap: 0.6rem; min-width: 0; padding-right: 0.9rem; }
-.g__text { overflow: hidden; font-size: 0.84rem; line-height: 1.3; white-space: nowrap; text-overflow: ellipsis; }
+.g__task { padding-top: 0.55rem; padding-bottom: 0.55rem; }
+.g__task + .g__task { margin-top: 2px; }
+.g__task .g__lab { display: flex; align-items: flex-start; gap: 0.6rem; min-width: 0; padding-right: 1.2rem; }
+.g__task .av { margin-top: 0.05rem; }
+.g__words { display: grid; gap: 0.2rem; min-width: 0; }
+.g__text { font-size: 0.86rem; line-height: 1.3; }
+/* what's in a task's way, and the change Totality suggests with how far it lifts the chance */
+.g__way { font-size: 0.76rem; line-height: 1.35; color: var(--ink-3); }
+.g__way.is-stuck { color: var(--bad-ink); }
+.g__sug { display: flex; align-items: baseline; gap: 0.4rem; margin-top: 0.1rem; font-size: 0.76rem; line-height: 1.35; font-weight: 600; color: var(--accent-ink); }
+.g__sug b { flex: none; padding: 0 0.4rem; border-radius: 999px; font-size: 0.7rem; background: var(--accent-soft); font-variant-numeric: tabular-nums; }
+.is-moved .g__sug b, .is-sel .g__sug b { background: #fff; }
 .is-sel .g__text { font-weight: 700; }
 .is-done .g__text { color: var(--ink-3); }
 /* a bar from a task's start to its due day: ink while it's on course, red below a 60% chance, amber when stuck, pale when done */
@@ -230,20 +240,23 @@ button:not(.is-on):hover > * > .radio { background: #d3cbbf; }
 }
 .g__bar b { font-weight: 700; font-variant-numeric: tabular-nums; }
 .g__bar span { overflow: hidden; color: rgba(255, 255, 255, 0.75); text-overflow: ellipsis; }
-.is-doing .g__bar { background: var(--ink); }
 .is-risk .g__bar { background: var(--accent); }
 .is-blocked .g__bar { color: var(--bad-ink); background: #f6dcb4; }
 .is-blocked .g__bar span { color: var(--bad-ink); }
 .is-done .g__bar { color: var(--ink-3); background: var(--mist-2); }
 .is-done .g__bar span { color: var(--ink-3); }
-/* an input from another team still to come: a small amber diamond at the bar's start */
-.g__ext { position: absolute; left: -5px; top: 50%; width: 10px; height: 10px; margin-top: -5px; border-radius: 2px; background: var(--bad); box-shadow: 0 0 0 2px #fff; transform: rotate(45deg); }
-.g__links { position: absolute; z-index: 1; top: 0; left: 0; overflow: visible; pointer-events: none; }
-.g__link, .g__arrow { fill: none; stroke: var(--ink-3); stroke-width: 1.4; stroke-linejoin: round; stroke-linecap: round; opacity: 0.75; }
-.g__link.is-stuck, .g__arrow.is-stuck { stroke: var(--bad); opacity: 1; }
+/* what the colors and lines mean */
+.g__key { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 0.4rem 1.2rem; padding-top: 0.9rem; font-size: 0.74rem; color: var(--ink-3); }
+.g__k { display: inline-flex; align-items: center; gap: 0.4rem; }
+.g__sw { width: 18px; height: 10px; border-radius: 3px; background: var(--ink-2); }
+.g__sw.is-risk { background: var(--accent); }
+.g__sw.is-blocked { background: #f6dcb4; }
+.g__sw.is-done { background: var(--mist-2); }
+.g__ln { width: 2px; height: 14px; border-radius: 2px; background: var(--ink); opacity: 0.35; }
+.g__ln.is-due { background: var(--accent); opacity: 0.8; }
 .g__stop { margin-left: auto; }
 /* on a phone the task names narrow so the week fits a short scroll inside the card */
-@media (max-width: 640px) { .g__head, .g__body { --lab: 10.5rem; min-width: 620px; } .g__due { display: none; } .g__text { font-size: 0.78rem; } .g__ghead b { font-size: 1rem; } }
+@media (max-width: 640px) { .g__head, .g__body { --lab: 14rem; min-width: 720px; } .g__due { display: none; } .g__text { font-size: 0.8rem; } .g__ghead b { font-size: 1rem; } .g__key { justify-content: flex-start; } }
 
 .task-card { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 1.5rem 2rem; margin-top: 1rem; padding: clamp(1.2rem, 2.4vw, 1.75rem); background: #fff; border-radius: var(--r); box-shadow: var(--shadow); scroll-margin-top: 7rem; }
 .tc__about { min-width: 0; }
@@ -537,8 +550,6 @@ div.step__row { grid-template-columns: auto minmax(0, 1fr) auto; }
 .rv .team-page section:not(.is-in) .rides__bar i { transform: scaleX(0); }
 .rv .team-page .g__bar { transition: transform 0.7s cubic-bezier(0.3, 0.7, 0.2, 1); }
 .rv .team-page section:not(.is-in) .g__bar { transform: scaleX(0); }
-.rv .team-page .g__links { transition: opacity 0.4s ease 0.7s; }
-.rv .team-page section:not(.is-in) .g__links { opacity: 0; }
 .rv .team-page .h__c { transition: opacity 0.6s ease; }
 .rv .team-page section:not(.is-in) .h__c { opacity: 0; }
 .rv .team-page .spark__line { transition: stroke-dashoffset 1.1s cubic-bezier(0.3, 0.6, 0.2, 1) 0.15s; }

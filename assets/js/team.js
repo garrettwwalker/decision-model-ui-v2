@@ -574,8 +574,8 @@
     if (!b) return;
     pill.style.width = b.offsetWidth + "px"; pill.style.transform = "translateX(" + (b.offsetLeft - 4) + "px)";
   }
-  window.addEventListener("resize", function () { placePill(); drawLinks(); });
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { placePill(); drawLinks(); });
+  window.addEventListener("resize", placePill);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(placePill);
   function switchTo(id) {
     persona(id); flagging = null; render();
     var body = byId("tbody"), head = document.querySelector(".th__words");
@@ -881,7 +881,7 @@
     if (SUG.best.length) { AHEAD = clone(st); SUG.best.forEach(function (c) { c.fn(AHEAD); }); }
     if (!AHEAD) st.preview = false;
     var n = allTasks(st).filter(function (t) { return t.status !== "done"; }).length;
-    $("plan-note").textContent = cap(words(n, "task")) + " still open this week. Each bar runs from the day a task can start to the day it’s due, with its chance of landing on time. A red figure beside a task is how far Totality’s suggestion would raise that chance; select the task to see why.";
+    $("plan-note").textContent = cap(words(n, "task")) + " still open this week. Each bar runs from the day a task can start to the day it’s due, with its chance of landing on time. Under each task is what stands in its way and, in red, the change Totality suggests. Select a task to see why.";
     var box = byId("gantt"); box.textContent = "";
     // the suggestions, summed up at the head of the week they change
     var top = el("div", "g__top");
@@ -889,7 +889,7 @@
     if (SUG.best.length) {
       var gain = expected(AHEAD) - expected(st);
       tw.appendChild(el("b", null, "Totality’s Suggestions"));
-      tw.appendChild(el("p", null, cap(words(SUG.best.length, "task")) + " could be on firmer ground" + (gain > 0.05 ? ", taking what’s expected to land from " + money(expected(st)) + " to " + money(expected(AHEAD)) : "") + ". " + (st.preview ? "The bars show the week with every suggestion made." : "Preview them to see the week with every suggestion made.")));
+      tw.appendChild(el("p", null, cap(words(SUG.best.length, "task")) + (SUG.best.length === 1 ? " has a change" : " have a change") + " that would raise " + (SUG.best.length === 1 ? "its" : "their") + " odds" + (gain > 0.05 ? ", taking what’s expected to land from " + money(expected(st)) + " to " + money(expected(AHEAD)) : "") + ". Each change is in red under its task. " + (st.preview ? "The plan below shows the week with all of them made." : "Preview them to see the week with all of them made.")));
       top.appendChild(tw);
       var ctl = el("div", "g__ctl");
       var sw = el("label", "switch g__pv");
@@ -912,6 +912,7 @@
     var head = el("div", "g__row g__head");
     head.appendChild(el("span", "g__lab", "Task and owner"));
     DAYS.forEach(function (d, i) { head.appendChild(el("span", "g__day" + (i === 0 ? " is-today" : "") + (WORK[i] ? "" : " is-off"), DOW[i] + " " + d.split(" ")[2])); });
+    var nl = el("span", "g__nowlab", "Now"); nl.style.setProperty("--x", NOW / 24); head.appendChild(nl);
     scroll.appendChild(head);
     var grid = el("div", "g__body");
     DAYS.forEach(function (d, i) { if (!WORK[i]) { var w = el("i", "g__wkend"); w.style.setProperty("--c", i); grid.appendChild(w); } });
@@ -934,53 +935,51 @@
       if (g.due) { var line = el("i", "g__dueline"); line.style.setProperty("--x", g.due[0] + parseInt(g.due[1], 10) / 24); sec.appendChild(line); }
       grid.appendChild(sec);
     });
-    grid.appendChild(svg("svg", { class: "g__links", "aria-hidden": "true" }));
     scroll.appendChild(grid);
     box.appendChild(scroll);
+    // what the bars' colors and lines mean
+    var key = el("div", { class: "g__key", "aria-hidden": "true" });
+    [["sw", "On course"], ["sw is-risk", "Under 60% on time"], ["sw is-blocked", "Stuck"], ["sw is-done", "Done"], ["ln", "Now"], ["ln is-due", "Deadline"]].forEach(function (k) {
+      var it = el("span", "g__k"); it.appendChild(el("i", "g__" + k[0])); it.appendChild(document.createTextNode(k[1])); key.appendChild(it);
+    });
+    box.appendChild(key);
     renderTaskCard();
-    requestAnimationFrame(drawLinks);
+  }
+  // what's in a task's way, in words, worst first
+  function inWay(t, s) {
+    var f = taskRisk(s, t).f, stuck = t.status === "blocked" ? f[0] : null;
+    return f.slice().sort(function (a, b) { return a[1] - b[1]; }).map(function (x) {
+      var w = x[0].replace(/ \([0-9]+% on time\)$/, "");
+      return (x === stuck ? "Stuck: " + lc(w) : w) + ".";
+    });
   }
   function taskRow(t, pv) {
     var r = taskRisk(st, t), alt = pv && AHEAD.tasks[t.id], r1 = alt ? taskRisk(AHEAD, alt) : r, moved = alt && r1.p - r.p > 0.005;
-    var sug = SUG.byTask[t.id] && SUG.byTask[t.id][0];
-    var row = el("div", { class: "g__row g__task is-" + t.status + (st.sel === t.id ? " is-sel" : "") + (r1.p < 0.6 ? " is-risk" : "") + (moved ? " is-moved" : ""), id: "task-" + t.id, "data-t": t.id, role: "button", tabindex: "0", "aria-pressed": String(st.sel === t.id), "aria-label": t.text + ", " + STATUS[t.status] + ", " + pct(r.p) + " on time" + (sug ? ", Totality has a suggestion" : "") });
+    var sug = SUG.byTask[t.id] && SUG.byTask[t.id][0], who = alt || t;
+    var row = el("div", { class: "g__row g__task is-" + who.status + (st.sel === t.id ? " is-sel" : "") + (r1.p < 0.6 ? " is-risk" : "") + (moved ? " is-moved" : ""), id: "task-" + t.id, "data-t": t.id, role: "button", tabindex: "0", "aria-pressed": String(st.sel === t.id), "aria-label": t.text + ", " + STATUS[t.status] + ", " + pct(r.p) + " on time" + (sug ? ", Totality suggests: " + sug.text : "") });
     var lab = el("span", "g__lab");
-    lab.appendChild(avatar(alt ? alt.who : t.who, "av--sm"));
-    lab.appendChild(el("span", "g__text", t.text));
-    if (sug && !pv) lab.appendChild(el("span", { class: "g__sug", title: "Totality’s suggestion: " + sug.text }, "+" + Math.max(1, Math.round(100 * (taskRisk(sug.v.tmp, sug.v.tmp.tasks[t.id]).p - r.p))) + "%"));
+    lab.appendChild(avatar(who.who, "av--sm"));
+    var txt = el("span", "g__words");
+    txt.appendChild(el("span", "g__text", t.text));
+    // what's in its way, then the change Totality suggests and how far it lifts the task's chance
+    if (t.status !== "done") inWay(who, alt ? AHEAD : st).forEach(function (w) { txt.appendChild(el("span", "g__way" + (/^Stuck:/.test(w) ? " is-stuck" : ""), w)); });
+    if (sug) {
+      var gain = taskRisk(sug.v.tmp, sug.v.tmp.tasks[t.id]).p - r.p, sl = el("span", "g__sug");
+      sl.appendChild(el("b", null, "+" + Math.max(1, Math.round(100 * gain)) + "%"));
+      sl.appendChild(document.createTextNode((pv ? "Previewing: " : "Suggested: ") + lc(sug.text) + "."));
+      txt.appendChild(sl);
+    }
+    lab.appendChild(txt);
     row.appendChild(lab);
     var bar = el("span", "g__bar");
     bar.style.gridColumn = (t.start + 2) + " / " + (t.day + 3);
-    var who = alt || t;
     bar.appendChild(el("b", null, t.status === "done" ? "Done" : who.status === "blocked" ? "Stuck" : moved ? pct(r.p) + " → " + pct(r1.p) : pct(r1.p)));
     bar.appendChild(el("span", null, isAgent(who.who) ? (who.revH ? who.revH + " h check" : "Agent") : t.hours + " h"));
-    if (P.xin.some(function (x) { return x.gates === t.id && extP(st, x) < 1; })) bar.appendChild(el("i", { class: "g__ext", title: "Waits on another team" }));
     row.appendChild(bar);
     function pick() { if (st.sel !== t.id) { st.sel = t.id; flagging = null; render(); } var c = byId("task-card"); if (c.getBoundingClientRect().top > innerHeight - 120) glide("task-card", 160); }
     row.addEventListener("click", pick);
     row.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pick(); } });
     return row;
-  }
-  // elbow connectors from the end of a task to the start of each task waiting on it
-  function drawLinks() {
-    var links = document.querySelector(".g__links"); if (!links) return;
-    var body = links.parentNode, R = body.getBoundingClientRect();
-    links.setAttribute("width", R.width); links.setAttribute("height", R.height); links.setAttribute("viewBox", "0 0 " + R.width + " " + R.height);
-    links.textContent = "";
-    Object.keys(AFTER).forEach(function (to) {
-      var bt = body.querySelector('[data-t="' + to + '"] .g__bar');
-      AFTER[to].forEach(function (from) {
-        var bf = body.querySelector('[data-t="' + from + '"] .g__bar');
-        if (!bt || !bf) return;
-        var a = bf.getBoundingClientRect(), b = bt.getBoundingClientRect();
-        var x1 = a.right - R.left, y1 = a.top + a.height / 2 - R.top, x2 = b.left - R.left, y2 = b.top + b.height / 2 - R.top;
-        var d = x2 - x1 >= 16 ? "M" + x1 + " " + y1 + " H" + (x2 - 8) + " V" + y2 + " H" + (x2 - 1)
-          : "M" + x1 + " " + y1 + " H" + (x1 + 8) + " V" + (y2 + (y2 > y1 ? -14 : 14)) + " H" + (x2 - 8) + " V" + y2 + " H" + (x2 - 1);
-        var stuck = st.tasks[from] && st.tasks[from].status === "blocked";
-        links.appendChild(svg("path", { d: d, class: "g__link" + (stuck ? " is-stuck" : "") }));
-        links.appendChild(svg("path", { d: "M" + (x2 - 6) + " " + (y2 - 3.5) + " L" + (x2 - 1) + " " + y2 + " L" + (x2 - 6) + " " + (y2 + 3.5), class: "g__arrow" + (stuck ? " is-stuck" : "") }));
-      });
-    });
   }
   var flips = null, flagging = null, shownTask = null, segWas = null, struck = {}, unstruck = {}, flagShown = null;
   function renderTaskCard() {

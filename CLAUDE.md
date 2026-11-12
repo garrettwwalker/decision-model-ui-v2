@@ -156,13 +156,16 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   Plan" beside "Totality's Read" (why, and what would change the suggestion); Reopen or Withdraw once acted on),
   3 The Plan (Totality's suggestions live in the timeline, since a separate list read as conclusory: the Gantt's head
   sums them up with a "Preview on the plan" switch, which redraws the bars, owners, and directive pills as the week
-  would be with every suggestion made, and "Make all"; a red "+N%" at the end of a task's name is how far its suggestion
-  would raise its chance. `suggestions()` tries every move on a copy of the plan and keeps those that raise the odds,
+  would be with every suggestion made, and "Make all". Redesigned 2026-11-11, because elbow arrows for `AFTER` overlapped
+  the bars, amber diamonds for another team's input were ambiguous, and "+N%" chips didn't say what the change was:
+  each task row now has, under its full name (wrapping, no ellipsis), every obstacle in its way in words, worst first
+  (`inWay()`, from `taskRisk()`'s factors; "Stuck: ..." in amber), then in red the suggestion's gain pill and
+  "Suggested: [the change]" ("Previewing:" with the switch on); no arrows or diamonds. `suggestions()` tries every move on a copy of the plan and keeps those that raise the odds,
   best first per task: hand work to an agent in `AGENTABLE` with the owner checking it, hand it to a certified teammate
   with room (`SKILL`), raise a blocker, plan a gap's cover that unblocks a task, chase or escalate a late input. The
-  Gantt of the week: bars from start to due day with the chance on each, red under 60%, amber when stuck, arrows
-  for `AFTER`, an amber diamond where another team's input is still to come, weekends shaded, a red line for now and for
-  each directive's deadline; selecting a bar opens its card: what the task is for and its steps (`DETAIL`; the user
+  Gantt of the week: bars from start to due day with the chance on each, ink on course, red under 60%, amber when stuck,
+  pale when done, weekends shaded, an ink line with a "Now" tag for now and a red line for each directive's deadline, and
+  a key at the foot; selecting a bar opens its card: what the task is for and its steps (`DETAIL`; the user
   couldn't tell what "run a moulding trial" meant; ticking a step starts the task, ticking all finishes it), status,
   who does it with free hours and the agent, the chance with each factor's cost, what waits on it, and under the odds
   every way Totality weighed to raise them, the suggestion first, each with its reasons in words (what it removes,
