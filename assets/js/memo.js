@@ -701,7 +701,7 @@
       fears: ["Brent above $95 before the holidays", "Being seen as soft on Iran in an election year"],
       who: [["Marco Rubio, Secretary of State and acting National Security Advisor", "Chairs the principals meeting and frames the waiver choice, wearing both hats"],
             ["Scott Bessent, Treasury Secretary", "Pushes for designations at the principals meeting"],
-            ["The senior director for the Gulf", "Writes the options memo"]],
+            ["Nathan Ferris, senior director for the Gulf", "Writes the options memo"]],
       record: [["May 2018", "The United States left the nuclear deal and reimposed sanctions"],
                ["February 2025", "A presidential memorandum restored “maximum pressure”"],
                ["June 2025", "US strikes on Iranian nuclear sites"],
