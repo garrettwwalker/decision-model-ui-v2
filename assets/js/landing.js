@@ -394,12 +394,15 @@
     }
     var band = function (v, a, b) { return smooth((v - a) / (b - a)); };
 
-    // The fade in and out at the band's top and bottom is painted into each layer rather than masked in CSS: a pinch-zoom
+    // The fade in and out at the band's top and bottom is drawn into each layer rather than masked in CSS: a pinch-zoom
     // rescaled a CSS mask out of step with the layers and flashed a line of cloud along its edges. Stops are fractions of
-    // the box; the canvases run from -10% to 110% of it.
+    // the box (the old mask's); each layer runs from -10% to 110% of it and slides by its parallax depth (--nb times
+    // DEPTH px), so its fade is redrawn against its current offset to stay put on the box, as the mask did.
     var FADE = box.classList.contains("nebula--close")
-      ? [[0, 0], [0.02, 0], [0.07, 0.05], [0.15, 0.2], [0.23, 0.48], [0.31, 0.76], [0.38, 0.93], [0.44, 1], [0.54, 1], [0.76, 0.3], [0.92, 0], [1, 0]]
-      : [[0, 0], [0.02, 0], [0.07, 0.06], [0.13, 0.22], [0.2, 0.5], [0.27, 0.78], [0.33, 0.94], [0.38, 1], [0.7, 1], [0.83, 0.6], [0.96, 0], [1, 0]];
+      ? [[0, 0], [0.07, 0.05], [0.15, 0.2], [0.23, 0.48], [0.31, 0.76], [0.38, 0.93], [0.44, 1], [0.54, 1], [0.76, 0.3], [0.92, 0], [1, 0]]
+      : [[0, 0], [0.06, 0.06], [0.13, 0.22], [0.2, 0.5], [0.27, 0.78], [0.33, 0.94], [0.38, 1], [0.7, 1], [0.84, 0.6], [1, 0]];
+    var nb = 0; // the band's scroll depth, as --nb
+    gasA._k = 40; gasB._k = 60; dust._k = 80; specks._k = 120; // px of slide per unit of --nb, as in landing.css
     function fadeAt(f) { // f: 0 at the box's top, 1 at its bottom
       if (f <= 0 || f >= 1) return 0;
       for (var i = 1; i < FADE.length; i++) if (f <= FADE[i][0]) {
@@ -410,19 +413,39 @@
     function paint(cv, w, h, pixel) {
       cv.width = w; cv.height = h;
       var c = cv.getContext("2d"), img = c.createImageData(w, h), d = img.data;
-      for (var y = 0; y < h; y++) {
-        var fade = fadeAt(-0.1 + 1.2 * (y + 0.5) / h);
-        for (var x = 0; x < w; x++) {
-          var o = (y * w + x) * 4;
-          if (!fade) { d[o + 3] = 0; continue; }
-          var px = pixel(x / w * 3.4, y / w * 3.4);
-          d[o] = px[0]; d[o + 1] = px[1]; d[o + 2] = px[2]; d[o + 3] = px[3] * fade;
-        }
+      for (var y = 0; y < h; y++) for (var x = 0; x < w; x++) {
+        var px = pixel(x / w * 3.4, y / w * 3.4), o = (y * w + x) * 4;
+        d[o] = px[0]; d[o + 1] = px[1]; d[o + 2] = px[2]; d[o + 3] = px[3];
       }
-      c.putImageData(img, 0, 0);
-      cv._base = new Uint8ClampedArray(d); // the painting; the visible canvas is a slowly warped copy of it
+      cv._base = new Uint8ClampedArray(d); // the painting; the visible canvas is a slowly warped, faded copy of it
       cv._out = c.createImageData(w, h);
+      drawStill(cv);
       cv.classList.add("is-ready");
+    }
+    function rowFade(cv) { // each canvas row's fade, for where the layer sits now
+      var h = cv.height, Hb = box.clientHeight || 1, top = -0.1 * Hb - nb * cv._k, step = 1.2 * Hb / h, f = new Float32Array(h);
+      for (var y = 0; y < h; y++) f[y] = fadeAt((top + (y + 0.5) * step) / Hb);
+      return f;
+    }
+    function drawStill(cv) { // the painting as it is, faded (before the flow starts, and under reduced motion)
+      var b = cv._base; if (!b) return;
+      var w = cv.width, h = cv.height, o = cv._out.data, fr = rowFade(cv);
+      for (var y = 0; y < h; y++) for (var x = 0, i = y * w * 4; x < w; x++, i += 4) {
+        o[i] = b[i]; o[i + 1] = b[i + 1]; o[i + 2] = b[i + 2]; o[i + 3] = b[i + 3] * fr[y];
+      }
+      cv.getContext("2d").putImageData(cv._out, 0, 0);
+    }
+    function fadeSpecks() { // the specks are drawn once to specks._src and copied in through the fade
+      var src = specks._src; if (!src) return;
+      var g = specks.getContext("2d"), H = specks.height, y0 = (0.1 + nb * specks._k / (box.clientHeight || 1)) / 1.2 * H;
+      g.setTransform(1, 0, 0, 1, 0, 0);
+      g.clearRect(0, 0, specks.width, H);
+      g.drawImage(src, 0, 0);
+      var fg = g.createLinearGradient(0, y0, 0, y0 + H / 1.2); // the box's top to bottom in this canvas
+      FADE.forEach(function (st) { fg.addColorStop(st[0], "rgba(0,0,0," + st[1] + ")"); });
+      g.globalCompositeOperation = "destination-in";
+      g.fillStyle = fg; g.fillRect(0, 0, specks.width, H);
+      g.globalCompositeOperation = "source-over";
     }
 
     var WARM = [[255, 90, 160], [255, 70, 90], [255, 96, 64], [255, 150, 90]];
@@ -461,7 +484,9 @@
       // specks: fine dust and a few bright stars caught in the cloud
       var sb = specks.getBoundingClientRect(), dpr = Math.min(2, window.devicePixelRatio || 1);
       specks.width = Math.round(sb.width * dpr); specks.height = Math.round(sb.height * dpr);
-      var g = specks.getContext("2d"), rnd = DB_rng(91 + seed), n = Math.min(900, Math.round(sb.width * sb.height / 1800));
+      var src = specks._src = document.createElement("canvas");
+      src.width = specks.width; src.height = specks.height;
+      var g = src.getContext("2d"), rnd = DB_rng(91 + seed), n = Math.min(900, Math.round(sb.width * sb.height / 1800));
       g.scale(dpr, dpr);
       var TINT = ["255,255,255", "255,214,236", "214,200,255", "190,255,236"];
       for (var i = 0; i < n; i++) {
@@ -475,11 +500,7 @@
         gr.addColorStop(0, "rgba(255,255,255,0.95)"); gr.addColorStop(0.12, "rgba(255,232,210,0.6)"); gr.addColorStop(1, "rgba(255,170,130,0)");
         g.fillStyle = gr; g.beginPath(); g.arc(bx, by, br, 0, 6.283); g.fill();
       }
-      g.setTransform(1, 0, 0, 1, 0, 0); g.globalCompositeOperation = "destination-in"; // the same fade as the gas
-      var fg = g.createLinearGradient(0, 0, 0, specks.height);
-      FADE.forEach(function (st) { fg.addColorStop((st[0] + 0.1) / 1.2, "rgba(0,0,0," + st[1] + ")"); });
-      g.fillStyle = fg; g.fillRect(0, 0, specks.width, specks.height);
-      g.globalCompositeOperation = "source-over";
+      fadeSpecks();
       specks.classList.add("is-ready");
     }
 
@@ -499,8 +520,17 @@
     window.addEventListener("scroll", function () {
       var r = box.getBoundingClientRect(), vh = window.innerHeight;
       if (r.bottom < 0 || r.top > vh) return;
-      box.style.setProperty("--nb", ((r.top + r.height / 2 - vh / 2) / vh).toFixed(3));
+      var v = (r.top + r.height / 2 - vh / 2) / vh;
+      box.style.setProperty("--nb", v.toFixed(3));
+      nb = +v.toFixed(3);
+      if (refading) return;
+      refading = true;
+      requestAnimationFrame(function () { // the flow loop refades the gas each frame; otherwise do it here
+        refading = false; fadeSpecks();
+        if (reduceMotion || !flowing) [gasA, gasB, dust].forEach(drawStill);
+      });
     }, { passive: true });
+    var refading = false, flowing = false;
 
     // Slow flow: each layer is redrawn from its painting through a smooth displacement field that undulates over
     // time (a few overlapping long waves, zero on average), each layer with its own wavelengths, speeds and phases,
@@ -512,7 +542,7 @@
     var FLOW = [{ cv: gasA, a: 6.5, f: [0.042, 0.031, 0.037, 0.028], w: [0.27, 0.2, 0.24, 0.18], p: [0.3, 2.1, 4.0, 5.2] },
                 { cv: gasB, a: 7.5, f: [0.036, 0.044, 0.029, 0.039], w: [0.21, 0.3, 0.19, 0.25], p: [1.7, 3.3, 0.6, 2.8] },
                 { cv: dust, a: 6.0, f: [0.033, 0.026, 0.041, 0.03], w: [0.18, 0.24, 0.15, 0.21], p: [2.5, 0.9, 3.6, 4.7] }];
-    var shown = false, lastF = 0, flowing = false;
+    var shown = false, lastF = 0;
     if (window.IntersectionObserver) new IntersectionObserver(function (es) {
       shown = es[0].isIntersecting;
       if (shown && !flowing) { flowing = true; requestAnimationFrame(flow); } // one loop, however often this fires
@@ -525,7 +555,7 @@
           var cv = L.cv, base = cv._base;
           if (!base) return;
           var w = cv.width, h = cv.height, o = L.cv._out.data, sc = w / 300; // waves are set for a 300px-wide painting
-          var A = L.a * sc, f = L.f, wv = L.w, p = L.p, k, y, x;
+          var A = L.a * sc, f = L.f, wv = L.w, p = L.p, k, y, x, fr = rowFade(cv);
           // the field separates into row and column terms, so the trig runs per row and per column, not per pixel
           var sy1 = new Float32Array(h), sy2 = new Float32Array(h), sx1 = new Float32Array(w), sx2 = new Float32Array(w);
           for (y = 0; y < h; y++) { sy1[y] = Math.sin(y * f[0] / sc + ts * wv[0] + p[0]); sy2[y] = Math.sin(y * f[3] / sc + ts * wv[3] + p[3]); }
@@ -542,6 +572,7 @@
                 var top = base[a00 + k] + (base[a10 + k] - base[a00 + k]) * ux;
                 o[di + k] = top + (base[a01 + k] + (base[a11 + k] - base[a01 + k]) * ux - top) * uy;
               }
+              o[di + 3] *= fr[y];
             }
           }
           cv.getContext("2d").putImageData(L.cv._out, 0, 0);

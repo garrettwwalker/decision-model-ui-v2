@@ -472,7 +472,7 @@ main, .footer { position: relative; z-index: 2; }
    slowly, each on its own clock, and scroll pulls them apart at different depths (--nb) */
 .nebula {
   position: absolute; inset: 0; pointer-events: none; --nb: 0;
-  overflow: hidden; contain: paint; /* the fade at top and bottom is painted into the layers (landing.js), not a CSS mask */
+  /* no CSS mask: landing.js draws the fade at top and bottom into the layers (a pinch-zoom flashed a mask's edges) */
 }
 .nebula canvas {
   position: absolute; left: -10%; top: -10%; width: 120%; height: 120%;
