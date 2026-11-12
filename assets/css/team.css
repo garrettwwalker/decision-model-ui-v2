@@ -149,7 +149,7 @@ button.dopt { border-radius: 10px; }
 .dopt--head { min-height: 0; padding-top: 0; padding-bottom: 0.4rem; border-top: 0; font-size: 0.74rem; font-weight: 600; color: var(--ink-3); cursor: default; }
 .dopt--head span:not(:first-child) { text-align: right; }
 .dopt--head span:first-child { padding-left: calc(18px + 0.75rem); }
-button.dopt:hover { background: var(--mist); }
+button.dopt:not(.is-on):hover { background: var(--mist); }
 .dopt.is-on { background: var(--accent-soft); cursor: default; }
 .dopt > * { transition: opacity 0.2s ease; }
 button.dopt:not(.is-on) > * { opacity: 0.6; }
@@ -160,7 +160,8 @@ button.dopt:not(.is-on):not(:hover) .red { color: var(--ink); }
 /* a radio mark: an empty disc, or red with a white centre on the chosen row */
 .radio { position: absolute; left: 0; top: 0.08rem; width: 18px; height: 18px; border-radius: 50%; background: var(--mist-3); transition: background-color 0.2s ease; }
 .radio::after { content: ""; position: absolute; inset: 6px; border-radius: 50%; background: #fff; transform: scale(0); transition: transform 0.2s ease; }
-button:hover > * > .radio { background: #d3cbbf; }
+button:not(.is-on):hover > * > .radio { background: #d3cbbf; }
+.dopt.is-on .pill--red, .way.is-on .pill--red { background: #fff; }
 .is-on > * > .radio { background: var(--accent); }
 .is-on > * > .radio::after { transform: none; }
 .dopt__name b { font-size: 0.95rem; }
@@ -249,13 +250,15 @@ button:hover > * > .radio { background: #d3cbbf; }
 .tc__title { margin: 0 0 0.4rem; font-family: var(--display); font-weight: 400; font-size: 1.55rem; line-height: 1.15; letter-spacing: -0.01em; }
 .tc__when { margin: 0 0 1rem; font-size: 0.86rem; color: var(--ink-2); }
 /* status as a cream track of four; the current one a white pill */
-.seg { position: relative; display: inline-flex; flex-wrap: wrap; gap: 2px; padding: 4px; border-radius: 999px; background: var(--track); }
-.seg__pill { position: absolute; top: 0; left: 0; border-radius: 999px; background: #fff; box-shadow: var(--shadow-sm); pointer-events: none; }
-.seg__pill.is-moving { transition: transform 0.35s cubic-bezier(0.3, 0.7, 0.2, 1), width 0.35s cubic-bezier(0.3, 0.7, 0.2, 1); }
-.seg__b { position: relative; min-height: 34px; padding: 0 0.9rem; border: 0; border-radius: 999px; font: inherit; font-size: 0.8rem; font-weight: 700; color: var(--ink-3); background: none; cursor: pointer; transition: color 0.15s ease, background-color 0.15s ease; }
+.seg { position: relative; display: inline-grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-rows: minmax(34px, 1fr); gap: 2px; padding: 4px; border-radius: 999px; background: var(--track); }
+.seg__pill { grid-area: 1 / 1; border-radius: 999px; background: #fff; box-shadow: var(--shadow-sm); pointer-events: none; transform: translateX(calc(var(--i, 0) * (100% + 2px))); }
+.seg__pill.is-moving { transition: transform 0.35s cubic-bezier(0.3, 0.7, 0.2, 1); }
+.seg__b { position: relative; grid-row: 1; align-self: stretch; min-height: 34px; padding: 0 0.9rem; white-space: nowrap; border: 0; border-radius: 999px; font: inherit; font-size: 0.8rem; font-weight: 700; color: var(--ink-3); background: none; cursor: pointer; transition: color 0.15s ease, background-color 0.15s ease; }
+.seg__b--todo { grid-column: 1; } .seg__b--doing { grid-column: 2; } .seg__b--done { grid-column: 3; } .seg__b--blocked { grid-column: 4; }
 .seg__b:hover { color: var(--ink); }
 .seg__b.is-on { color: var(--ink); cursor: default; }
 .tc__flag { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.75rem; }
+@media (max-width: 420px) { .seg { display: grid; } .seg__b { padding: 0 0.3rem; font-size: 0.74rem; } }
 .tc__who { margin-top: 1.2rem; }
 .tc__people { display: flex; flex-wrap: wrap; gap: 0.4rem; }
 .who {
@@ -278,7 +281,10 @@ button:hover > * > .radio { background: #d3cbbf; }
 .tc__steps li { border-top: 1px solid var(--line); }
 .tc__steps label { display: flex; align-items: flex-start; gap: 0.65rem; min-height: 40px; padding: 0.55rem 0; font-size: 0.86rem; line-height: 1.4; cursor: pointer; }
 .tc__steps input { flex: none; margin: 0.05rem 0 0; }
-.tc__st { background: linear-gradient(var(--ink-2), var(--ink-2)) no-repeat 0 56% / 0 1.5px; transition: color 0.3s ease; }
+@property --sc { syntax: "<color>"; inherits: false; initial-value: #57524c; }
+.tc__st { --sc: var(--ink-2); background: linear-gradient(var(--sc), var(--sc)) no-repeat 0 56% / 0 1.5px; transition: color 0.3s ease; }
+.tc__steps li.is-undo .tc__st { animation: tc-unstrike 0.36s ease-out var(--d, 0s) both; }
+@keyframes tc-unstrike { from { background-size: 100% 1.5px; color: var(--ink-3); } to { background-size: 100% 1.5px; --sc: rgba(87, 82, 76, 0); } }
 .tc__steps li.is-done .tc__st { color: var(--ink-3); background-size: 100% 1.5px; transition: color 0.3s ease, background-size 0.6s cubic-bezier(0.5, 0, 0.2, 1) calc(0.25s + var(--i, 0) * 0.09s); }
 .tc__steps li.is-new .tc__st { animation: tc-strike 0.5s cubic-bezier(0.5, 0, 0.2, 1) var(--d, 0s) both; }
 @keyframes tc-strike { from { background-size: 0 1.5px; color: var(--ink); } }
@@ -289,7 +295,7 @@ button:hover > * > .radio { background: #d3cbbf; }
 .way { display: grid; gap: 0.45rem; width: 100%; padding: 0.85rem 0.6rem 0.9rem; border: 0; border-top: 1px solid var(--line); border-radius: 0; font: inherit; text-align: left; color: var(--ink); background: none; }
 .way:first-child { border-top: 0; }
 button.way { cursor: pointer; transition: background-color 0.15s ease; }
-button.way:hover { background: var(--mist); }
+button.way:not(.is-on):hover { background: var(--mist); }
 button.way { border-radius: 10px; }
 button.way.is-on { background: var(--accent-soft); cursor: default; }
 button.way.is-on, button.way.is-on + .way { border-top-color: transparent; }
@@ -320,10 +326,10 @@ button.way .way__why, button.way .way__fx { margin-left: calc(18px + 0.7rem); }
 @media (max-width: 860px) { .task-card { grid-template-columns: minmax(0, 1fr); } .tc__odds { padding: 1.2rem 0 0; border-left: 0; border-top: 1px solid var(--line); } }
 
 /* ---------- 4. across teams: what the team waits on, and who waits on it ---------- */
-.xteams { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1rem; align-items: start; }
-.xcol { padding: clamp(1.1rem, 2.2vw, 1.5rem); background: #fff; border-radius: var(--r); box-shadow: var(--shadow); }
+.xteams { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1rem; align-items: stretch; }
+.xcol { display: flex; flex-direction: column; padding: clamp(1.1rem, 2.2vw, 1.5rem); background: #fff; border-radius: var(--r); box-shadow: var(--shadow); }
 .xcol .sub { margin-bottom: 0.4rem; }
-.xlist { margin: 0; padding: 0; list-style: none; }
+.xlist { margin: 0 0 0.6rem; padding: 0; list-style: none; }
 .xi { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 0.4rem 0.85rem; align-items: start; padding: 0.85rem 0; border-top: 1px solid var(--line); }
 .xi__w p { margin: 0; }
 .xi__team { font-size: 0.76rem; font-weight: 600; color: var(--ink-3); }
@@ -338,7 +344,7 @@ button.way .way__why, button.way .way__fx { margin-left: calc(18px + 0.7rem); }
 .xi.is-on { background: var(--mist-2); cursor: default; }
 .xi:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
 /* the chosen handoff's actions, worded for it, once beneath the list */
-.xact { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; margin-top: 0.6rem; padding-top: 0.9rem; border-top: 1px solid var(--line); }
+.xact { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; margin-top: auto; padding-top: 0.9rem; border-top: 1px solid var(--line); }
 .xact .btn-q, .xact .btn { white-space: normal; text-align: left; }
 .xi__note { margin: 0; font-size: 0.84rem; color: var(--ink-2); }
 @media (max-width: 980px) { .xteams { grid-template-columns: minmax(0, 1fr); } }
@@ -367,17 +373,24 @@ button.way .way__why, button.way .way__fx { margin-left: calc(18px + 0.7rem); }
 .h__agents ul { display: grid; gap: 0.45rem; margin: 0; padding: 0; list-style: none; }
 .h__agents li { display: flex; align-items: center; gap: 0.6rem; font-size: 0.84rem; color: var(--ink-2); }
 
-.gaps { margin-top: 1.1rem; padding: clamp(1.2rem, 2.4vw, 1.75rem); background: #fff; border-radius: var(--r); box-shadow: var(--shadow); }
-.gaps .sub { margin-bottom: 0.6rem; }
-.gaps__list { margin: 0; padding: 0; list-style: none; }
-.gap { display: grid; grid-template-columns: 8.5rem minmax(0, 1fr); align-items: center; gap: 0.5rem 1rem; padding: 0.7rem 0; border-top: 1px solid var(--line); }
-.gap .pill { justify-self: start; }
-.gap__sw { gap: 1.5rem; }
-.gap__words { font-weight: 400; }
-.gap__risk { display: block; font-size: 0.9rem; line-height: 1.45; }
-.gap .switch__text small { margin-top: 0.2rem; font-size: 0.8rem; line-height: 1.4; color: var(--ink-3); }
-.gap.is-planned .gap__risk { color: var(--ink-3); }
-@media (max-width: 640px) { .gap { grid-template-columns: minmax(0, 1fr); } }
+/* shifts that rest on one person: a red outline round them, an alert at its corner that opens into why and the cover */
+.h__row { position: relative; }
+.h__row > * { grid-row: 1; }
+.h__alert { position: relative; align-self: center; height: 38px; margin: 0 -3px; border-radius: 9px; box-shadow: inset 0 0 0 2px var(--accent); pointer-events: none; }
+.h__bang { position: absolute; top: -9px; right: -9px; display: grid; place-items: center; width: 22px; height: 22px; padding: 0; border: 0; border-radius: 50%; background: #fff; box-shadow: var(--shadow-sm); cursor: pointer; pointer-events: auto; transition: transform 0.2s cubic-bezier(0.3, 0.7, 0.2, 1); }
+.h__bang::before { content: ""; position: absolute; inset: -11px; } /* a 44px target round the small mark */
+.h__bang svg { width: 14px; height: 14px; fill: var(--accent); }
+.h__bang svg rect, .h__bang svg circle { fill: #fff; }
+.h__bang:hover, .h__bang[aria-expanded="true"] { transform: scale(1.18); }
+.h__bang:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.h__scroll { padding-top: 10px; margin-top: -10px; }
+.gpop { position: fixed; z-index: 60; display: grid; gap: 0.45rem; padding: 1rem 1.1rem 1.1rem; background: #fff; border-radius: var(--r-sm); box-shadow: var(--shadow-up), 0 18px 40px -18px rgba(22, 20, 18, 0.35); opacity: 0; transform: scale(0.6); visibility: hidden; transition: opacity 0.16s ease, transform 0.22s cubic-bezier(0.3, 0.7, 0.2, 1.25), visibility 0s 0.22s; }
+.gpop.is-on { opacity: 1; transform: none; visibility: visible; transition: opacity 0.16s ease, transform 0.26s cubic-bezier(0.3, 0.7, 0.2, 1.25); }
+.gpop p { margin: 0; }
+.gpop__k { font-size: 0.76rem; font-weight: 700; color: var(--accent-ink); }
+.gpop__t { font-size: 0.88rem; line-height: 1.45; color: var(--ink); }
+.gpop__fix { font-size: 0.8rem; line-height: 1.45; color: var(--ink-2); }
+.gpop .btn { justify-self: start; margin-top: 0.2rem; }
 
 /* ---------- 6. if it happens: a white card per threat or opportunity, the chosen one lifted; its playbook rehearsed ---------- */
 .watch { display: grid; grid-template-columns: repeat(var(--n, 4), minmax(0, 1fr)); gap: 0.8rem; margin-bottom: 1.1rem; }
@@ -394,6 +407,8 @@ button.way .way__why, button.way .way__fx { margin-left: calc(18px + 0.7rem); }
 /* a faded card carries no color: its pills and its line go gray until the pointer brings it up */
 .wi .pill, .wi .spark__line, .wi .spark__dot, .wi__p { transition: color 0.25s ease, background-color 0.25s ease, stroke 0.25s ease, fill 0.25s ease; }
 .wi:not(.is-on):not(:hover):not(:focus-visible) .pill { color: var(--ink-3); background: var(--mist-2); }
+.team-page .pill--ink { color: #fff; background: var(--ink); }
+.wi:not(.is-on):not(:hover):not(:focus-visible) .pill--ink { color: #fff; background: var(--ink-3); }
 .wi:not(.is-on):not(:hover):not(:focus-visible) .spark__line { stroke: var(--ink-3); }
 .wi:not(.is-on):not(:hover):not(:focus-visible) .spark__dot { fill: var(--ink-3); }
 .wi:not(.is-on):not(:hover):not(:focus-visible) .wi__p { color: var(--ink); }
@@ -432,7 +447,9 @@ button.way .way__why, button.way .way__fx { margin-left: calc(18px + 0.7rem); }
 .gauge__track { position: relative; height: 12px; }
 .gauge__safe, .gauge__zone { position: absolute; top: 0; bottom: 0; border-radius: 6px; }
 .gauge__safe { background: var(--mist-2); }
-.gauge__zone { background: rgba(219, 51, 36, 0.2); }
+.gauge__zone { background: rgba(219, 51, 36, 0.2); transition: transform 0.8s cubic-bezier(0.3, 0.7, 0.2, 1) 0.15s; }
+.gauge__zone.is-low { transform-origin: left center; }
+.gauge__zone.is-high { transform-origin: right center; }
 .gauge__line { position: absolute; top: -3px; bottom: -3px; left: calc(var(--x) * 1%); width: 3px; margin-left: -1.5px; border-radius: 2px; background: var(--accent); box-shadow: 0 0 0 2px #fff; }
 .gauge__caret { position: absolute; top: -9px; left: calc(var(--x) * 1%); width: 0; height: 0; margin-left: -6px; border: 6px solid transparent; border-top: 7px solid var(--ink); border-bottom: 0; transition: left 0.5s cubic-bezier(0.3, 0.7, 0.2, 1); }
 .gauge.is-near .gauge__caret { border-top-color: var(--bad); }
@@ -444,7 +461,7 @@ button.way .way__why, button.way .way__fx { margin-left: calc(18px + 0.7rem); }
 .play__h span { font-size: 0.78rem; font-weight: 600; color: var(--ink-3); }
 .steps { margin: 0; padding: 0; list-style: none; }
 .step { padding: 0; border-top: 1px solid var(--line); }
-.step__row { display: grid; grid-template-columns: auto auto minmax(0, 1fr); align-items: center; gap: 0.7rem; min-height: 44px; padding: 0.55rem 0; }
+.step__row { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 0.7rem; min-height: 44px; padding: 0.55rem 0; }
 label.step__row { cursor: pointer; }
 div.step__row { grid-template-columns: auto minmax(0, 1fr) auto; }
 .step__row input { margin: 0; }
@@ -518,11 +535,14 @@ div.step__row { grid-template-columns: auto minmax(0, 1fr) auto; }
 .rv .team-page section:not(.is-in) .spark__dot { opacity: 0; }
 .rv .team-page .gauge__caret, .rv .team-page .gauge__now { transition-duration: 0.9s; }
 .rv .team-page section:not(.is-in) .gauge__caret { left: 0; }
+.rv .team-page .gauge__line { transition: transform 0.5s cubic-bezier(0.3, 0.7, 0.2, 1) 0.6s, opacity 0.4s ease 0.6s; }
+.rv .team-page section:not(.is-in) .gauge__zone { transform: scaleX(0); }
+.rv .team-page section:not(.is-in) .gauge__line { transform: scaleY(0); opacity: 0; }
 .rv .team-page section:not(.is-in) .gauge__now { left: 0; transform: none; }
 
 @media (prefers-reduced-motion: reduce) {
   .is-flash { animation: none; }
-  .mgrs button, .mgrs.is-ready .mgrs__pill, .wi, .wi > *, .decard, .decard > *, .dopt, .dopt > *, .gauge__row span, .gauge__caret, .who, .seg__b, .g__task, .h__c, .ask-q, .rides__bar i, .odds, .stat, .xi, .way, .seg__pill.is-moving, .tc__st, .tc__steps li.is-done .tc__st, .radio, .radio::after { transition: none; }
-  .tc__steps li.is-new .tc__st { animation: none; }
+  .mgrs button, .mgrs.is-ready .mgrs__pill, .wi, .wi > *, .decard, .decard > *, .dopt, .dopt > *, .gauge__row span, .gauge__caret, .who, .seg__b, .g__task, .h__c, .ask-q, .rides__bar i, .odds, .stat, .xi, .way, .seg__pill.is-moving, .tc__st, .tc__steps li.is-done .tc__st, .radio, .radio::after, .gauge__zone, .gauge__line, .h__bang, .gpop, .gpop.is-on { transition: none; }
+  .tc__steps li.is-new .tc__st, .tc__steps li.is-undo .tc__st { animation: none; }
   .wi:hover, .wi.is-on, .decard:hover, .decard.is-on, .ask-q:hover, .stat:hover { transform: none; }
 }

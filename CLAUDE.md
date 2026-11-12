@@ -169,7 +169,9 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   whose hours move, what else it lifts, what's still in the way) and its effect on the task, the directive, and money), 4 Across Teams (Waiting on Others and Waiting on You, each
   handoff's chance of arriving; Chase, Escalate, Mark received; Farah's arrival times feed Layla's plan live, and each
   side can open the other's plan), 5 Who Has Room (hours a day per person, deeper as the day fills, red past a fifth of
-  the week's cap; agents on the plan; One Person Deep gaps), 6 If It Happens (threat and opportunity cards; the early signal on a
+  the week's cap; agents on the plan; shifts that rest on one person (`P.gaps[].at`: person, first and last day) outlined
+  in red with an alert mark at the corner that pops out on hover or tap into why, the cover, and "Plan the cover", in one
+  floating `.gpop` so the grid's scroller can't clip it; it replaced a One Person Deep card, 2026-11-11), 6 If It Happens (threat and opportunity cards; the early signal on a
   gauge from zero to `signal.max`: the stretch past the trigger pale red with a red edge and "Trigger: below 40%"
   beneath, now an ink caret above with its reading, amber close to the trigger and red past it (two black ticks were
   unclear); the playbook rehearsed on a copy of the week: full response time, who runs short, what slips; Arm, which hands out the steps for
@@ -185,9 +187,15 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   Switches redraw the page only after they've slid (`later()`), since a redraw mid-slide replaced the switch unmoved.
   No short button repeated down every row ("Chase", "Make it", "Get ready"; the user dislikes them, 2026-11-11): rows
   are selectable or carry a switch or checkbox, and one button per list, worded for what it does, acts on the choice
-  (Across Teams: select a handoff, its actions sit once beneath the list, named for the party in `xin[].ask`; the task
-  card's ways are radio rows with one button named for the chosen way; One Person Deep covers are switches; playbook
-  steps are ticked, then "Prepare N steps this week"). The bottom line's four figures are separate white tiles beneath
+  (Across Teams: select a handoff, its actions sit once beneath the list in short words, "Send a reminder", "Escalate",
+  "Mark received", "See the task" (worded-out labels were far too long; the user only minds the same text down every row,
+  and the two cards keep one height with the actions at their foot); the task card's ways are radio rows with one button
+  named for the chosen way; playbook steps each carry a switch, then "Prepare N steps this week"; a checklist read sloppy).
+  If It Happens: Threat is an ink pill, so it stands apart from a gray Watching; the gauge's red zone sweeps out from its
+  end of the scale and the trigger line rises, on first view and on each new card. The status track is four equal columns
+  with the pill placed by index (measuring the buttons gave it the wrong shape), and choosing Stuck slides it there while
+  the reason box slides open (and shut on Cancel). Unticking a step fades its strike out. Hover never grays a chosen
+  option row, and "Totality suggests" is white on the chosen row's pale red. The bottom line's four figures are separate white tiles beneath
   its card (the user's call), each lifting under the pointer. Checkboxes here draw a white check (`--cb-mark`). Choices animate as the decision cards do (2026-11-11, the user's call): a new task or owner eases the task card to its
   new height and fades it in (`swapIn`), as a new decision does the panel; the chosen decision or threat card rises into
   its lift and the old one settles (`liftAnim`, since redrawn cards skipped their CSS transition); the status track's

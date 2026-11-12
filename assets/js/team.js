@@ -45,9 +45,9 @@
       ]),
       agents: [["booking", "Booking agent"], ["customs", "Customs drafting agent"], ["haulage", "Haulage agent"]],
       gaps: [
-        { text: "Only Joel can file customs entries at Khor Fakkan, and the diversion doubles his filings this week.", fix: "Have Rashid shadow Joel on Khor Fakkan filings", who: "rashid", start: 1, day: 2, hours: 4 },
-        { text: "Aisha is the only certified reach-stacker operator on nights until Tariq is back on Sunday.", fix: "Borrow a certified operator from the day pool for nights", who: "nadia", start: 0, day: 0, hours: 1 },
-        { text: "Sanjay is the only one with the Khor Fakkan hauliers’ numbers.", fix: "Share the haulier contact sheet with Rashid", who: "sanjay", start: 0, day: 0, hours: 1 }
+        { text: "Only Joel can file customs entries at Khor Fakkan, and the diversion doubles his filings this week.", fix: "Have Rashid shadow Joel on Khor Fakkan filings", who: "rashid", start: 1, day: 2, hours: 4, at: ["joel", 1, 3] },
+        { text: "Aisha is the only certified reach-stacker operator on nights until Tariq is back on Sunday.", fix: "Borrow a certified operator from the day pool for nights", who: "nadia", start: 0, day: 0, hours: 1, at: ["aisha", 0, 3] },
+        { text: "Sanjay is the only one with the Khor Fakkan hauliers’ numbers.", fix: "Share the haulier contact sheet with Rashid", who: "sanjay", start: 0, day: 0, hours: 1, at: ["sanjay", 1, 2] }
       ],
       decisions: [
         { id: "kf-slots", stake: 0.97, dir: "divert", q: "Book the Khor Fakkan berth slots before Thursday’s cutoff?", due: [2, "14:00"],
@@ -155,8 +155,8 @@
       ]),
       agents: [["planning", "Planning agent"], ["data", "Plant data agent"], ["resin", "Resin supply agent"]],
       gaps: [
-        { text: "Only Hakan can sign off a new resin grade, and he’s at a supplier audit until Thursday.", fix: "Ask Hakan to approve the trial plan remotely", who: "hakan", start: 0, day: 1, hours: 1, unblocks: "e-trial" },
-        { text: "Line 3 has no backup supervisor on nights if Ozan is out.", fix: "Train Zeynep’s deputy on the dryer line", who: "zeynep", start: 2, day: 3, hours: 6 }
+        { text: "Only Hakan can sign off a new resin grade, and he’s at a supplier audit until Thursday.", fix: "Ask Hakan to approve the trial plan remotely", who: "hakan", start: 0, day: 1, hours: 1, unblocks: "e-trial", at: ["hakan", 0, 1] },
+        { text: "Line 3 has no backup supervisor on nights if Ozan is out.", fix: "Train Zeynep’s deputy on the dryer line", who: "zeynep", start: 2, day: 3, hours: 6, at: ["ozan", 0, 3] }
       ],
       decisions: [
         { id: "offspec", stake: 0.85, dir: "bridge", q: "Accept 40 t of Singapore resin with a slightly high melt index?", due: [1, "10:00"],
@@ -250,8 +250,8 @@
       ]),
       agents: [["order", "Order desk agent"], ["drafting", "Drafting agent"], ["contract", "Contract agent"]],
       gaps: [
-        { text: "Only Ravi can change delivery promises in the order system, and the diversion means changing hundreds.", fix: "Give Yusuf order-system access for this month", who: "ravi", start: 0, day: 0, hours: 1 },
-        { text: "Al Noor and Gulf Home both have penalty clauses after 7 days short, and nobody owns tracking the clock.", fix: "Make Yusuf the owner of the penalty clock", who: "yusuf", start: 0, day: 0, hours: 1 }
+        { text: "Only Ravi can change delivery promises in the order system, and the diversion means changing hundreds.", fix: "Give Yusuf order-system access for this month", who: "ravi", start: 0, day: 0, hours: 1, at: ["ravi", 0, 2] },
+        { text: "Al Noor and Gulf Home both have penalty clauses after 7 days short, and nobody owns tracking the clock.", fix: "Make Yusuf the owner of the penalty clock", who: "yusuf", start: 0, day: 0, hours: 1, at: ["omar", 3, 6] }
       ],
       decisions: [
         { id: "warn", stake: 0.75, dir: "protect", q: "Tell Al Noor Hypermarkets about possible delays now?", due: [2, "12:00"],
@@ -982,7 +982,7 @@
       });
     });
   }
-  var flagging = null, shownTask = null, segWas = null, struck = {};
+  var flagging = null, shownTask = null, segWas = null, struck = {}, unstruck = {}, flagShown = null;
   function renderTaskCard() {
     var box = byId("task-card"), h0 = box.hidden ? 0 : box.offsetHeight; box.textContent = "";
     var t = st.tasks[st.sel];
@@ -1000,12 +1000,13 @@
     left.appendChild(el("p", "tc__when", (t.start === t.day ? DAYS[t.day] : DAYS[t.start] + " to " + DAYS[t.day]) + ". " + (isAgent(t.who) ? agentName(t.who) + ", with " + first(t.rev) + " checking its work (" + t.revH + " h)." : t.hours + " h for " + first(t.who) + ".")));
     var det = DETAIL[t.id], why = det ? det[0] : t.why;
     if (why) { var wp = el("p", "tc__for"); wp.appendChild(el("b", null, "What it’s for. ")); wp.appendChild(document.createTextNode(why)); left.appendChild(wp); }
-    var seg = el("div", { class: "seg", role: "group", "aria-label": "Status" }), segPill = el("span", { class: "seg__pill", "aria-hidden": "true" });
+    var openF = null, seg = el("div", { class: "seg", role: "group", "aria-label": "Status" }), segPill = el("span", { class: "seg__pill", "aria-hidden": "true" });
     seg.appendChild(segPill);
     ["todo", "doing", "done", "blocked"].forEach(function (k) {
-      seg.appendChild(button(STATUS[k], "seg__b seg__b--" + k + (t.status === k ? " is-on" : ""), function () {
+      var lit = flagging === t.id ? k === "blocked" : t.status === k;
+      seg.appendChild(button(STATUS[k], "seg__b seg__b--" + k + (lit ? " is-on" : ""), function () {
         if (k === t.status) return;
-        if (k === "blocked") { flagging = t.id; render(); return; }
+        if (k === "blocked") { if (flagging !== t.id) { flagging = t.id; render(); } return; }
         if (t.status === "blocked") { t.blocker = ""; delete st.escalated[t.id]; }
         if (DETAIL[t.id] && (k === "done" || k === "todo")) { st.steps[t.id] = {}; if (k === "done") DETAIL[t.id][1].forEach(function (x, i) { st.steps[t.id][i] = true; }); }
         t.status = k; flagging = null; changed();
@@ -1016,11 +1017,20 @@
       var f = el("form", "tc__flag");
       var inp = el("input", { class: "tc__input", type: "text", placeholder: "What’s in the way?", "aria-label": "What’s in the way of: " + t.text, maxlength: 140 });
       f.appendChild(inp); f.appendChild(el("button", { type: "submit", class: "btn btn--primary btn--sm" }, "Mark stuck"));
-      f.appendChild(button("Cancel", "btn-q btn-q--sm", function () { flagging = null; render(); }));
+      f.appendChild(button("Cancel", "btn-q btn-q--sm", function () {
+        if (REDUCE || !f.animate) { flagging = null; render(); return; }
+        segPill.classList.add("is-moving"); segPill.style.setProperty("--i", ORDER.indexOf(t.status));
+        [].forEach.call(seg.querySelectorAll(".seg__b"), function (b) { b.classList.toggle("is-on", b.classList.contains("seg__b--" + t.status)); });
+        f.style.overflow = "hidden";
+        f.animate([{ height: f.offsetHeight + "px", marginTop: "0.75rem", opacity: 1 }, { height: "0px", marginTop: "0px", opacity: 0 }], { duration: 260, easing: "cubic-bezier(0.3, 0.7, 0.2, 1)", fill: "forwards" })
+          .onfinish = function () { flagging = null; segWas = { id: pid + ":" + t.id, k: t.status }; render(); };
+      }));
       f.addEventListener("submit", function (e) { e.preventDefault(); if (!inp.value.trim()) return; t.status = "blocked"; t.blocker = inp.value.trim().replace(/\.?$/, "."); flagging = null; changed(); });
       left.appendChild(f);
+      if (flagShown !== t.id) openF = f;
       setTimeout(function () { inp.focus({ preventScroll: true }); }, 0);
     }
+    flagShown = flagging === t.id ? t.id : null;
     // the steps that make the task up: ticking one starts it, ticking them all finishes it
     if (det) {
       var done = st.steps[t.id] || (st.steps[t.id] = {}), nd = det[1].filter(function (x, i) { return done[i]; }).length;
@@ -1033,13 +1043,15 @@
         // a strike ticked a moment ago carries on drawing through the redraw (a negative delay picks it up where it was)
         var since = typeof drawn[i] === "number" ? performance.now() - drawn[i] : 1e9;
         var draw = done[i] && prev !== null && (!drawn[i] || since < 520);
-        var li = el("li", (done[i] ? "is-done" : "") + (draw ? " is-new" : "")), lab = el("label");
+        var gone = !done[i] && unstruck[t.id + ":" + i] ? performance.now() - unstruck[t.id + ":" + i] : 1e9;
+        var li = el("li", (done[i] ? "is-done" : "") + (draw ? " is-new" : "") + (gone < 420 ? " is-undo" : "")), lab = el("label");
+        if (gone < 420) li.style.setProperty("--d", -gone / 1000 + "s");
         if (draw) li.style.setProperty("--d", (drawn[i] ? -since / 1000 : (opened ? 0.25 : 0) + 0.09 * nth++) + "s");
         if (done[i]) { li.style.setProperty("--i", ndone++); if (!drawn[i]) drawn[i] = true; }
         var cb = el("input", { type: "checkbox" }); cb.checked = !!done[i];
         cb.addEventListener("change", function () {
           if (cb.checked) { done[i] = true; drawn[i] = performance.now(); li.style.setProperty("--d", "0s"); li.classList.add("is-done", "is-new"); }
-          else { delete done[i]; delete drawn[i]; li.classList.remove("is-done", "is-new"); }
+          else { delete done[i]; delete drawn[i]; unstruck[t.id + ":" + i] = performance.now(); li.style.setProperty("--d", "0s"); li.classList.remove("is-done", "is-new"); li.classList.add("is-undo"); }
           var k = det[1].filter(function (y, j) { return done[j]; }).length;
           if (k === det[1].length) { if (t.status === "blocked") { t.blocker = ""; delete st.escalated[t.id]; } t.status = "done"; }
           else if (k && (t.status === "todo" || t.status === "done")) t.status = "doing";
@@ -1141,17 +1153,22 @@
     }
     placeSeg(seg, segPill, t);
     if (swap) swapIn(box, h0, [left, right]);
+    else if (openF && !REDUCE && openF.animate) {
+      openF.style.overflow = "hidden";
+      openF.animate([{ height: "0px", marginTop: "0px", opacity: 0 }, { height: openF.offsetHeight + "px", marginTop: "0.75rem", opacity: 1 }], { duration: 300, easing: "cubic-bezier(0.3, 0.7, 0.2, 1)" }).onfinish = function () { openF.style.overflow = ""; };
+    }
   }
   var wayWas = null;
   // the status pill slides from the old status to the new one, as the managers' pill does
+  // the four statuses share equal columns, so the pill is placed by index and never measured (measuring before the font
+  // loaded left it the wrong shape); choosing Stuck moves it there while the reason is asked for
+  var ORDER = ["todo", "doing", "done", "blocked"];
   function placeSeg(seg, pill, t) {
-    var id = pid + ":" + t.id, on = seg.querySelector(".is-on");
-    var was = segWas && segWas.id === id && segWas.k !== t.status ? seg.querySelector(".seg__b--" + segWas.k) : null;
-    segWas = { id: id, k: t.status };
-    if (!on) return;
-    function at(b) { pill.style.width = b.offsetWidth + "px"; pill.style.height = b.offsetHeight + "px"; pill.style.transform = "translate(" + b.offsetLeft + "px, " + b.offsetTop + "px)"; }
-    if (was && !REDUCE) { at(was); void pill.offsetWidth; pill.classList.add("is-moving"); }
-    at(on);
+    var id = pid + ":" + t.id, k = flagging === t.id ? "blocked" : t.status;
+    var was = segWas && segWas.id === id && segWas.k !== k ? segWas.k : null;
+    segWas = { id: id, k: k };
+    pill.style.setProperty("--i", ORDER.indexOf(was || k));
+    if (was && !REDUCE) { void pill.offsetWidth; pill.classList.add("is-moving"); pill.style.setProperty("--i", ORDER.indexOf(k)); }
   }
 
   /* ================= 4. Across teams: each list's rows are selectable, and the chosen handoff's actions, worded for it,
@@ -1195,14 +1212,14 @@
     var x = P.xin.filter(function (y) { return y.id === st.xin; })[0], e = st.ext[x.id], t = st.tasks[x.gates], acts = byId("x-in-act");
     var xk = pid + ":" + x.id, xh0 = acts.offsetHeight, xswap = shownX.i !== null && shownX.i !== xk; shownX.i = xk;
     acts.textContent = "";
-    if (x.src) acts.appendChild(button("Open " + PERSONAS[x.persona].first + "’s plan, where it’s made", "btn-q", function () { openPlan(x.persona); }));
+    if (x.src) acts.appendChild(button("Open " + PERSONAS[x.persona].first + "’s plan", "btn-q", function () { openPlan(x.persona); }));
     else if (!e.got && !x.agent) {
-      if (!e.nudged) acts.appendChild(button(x.late ? "Escalate with " + x.ask + ", copying " + P.boss.first : "Remind " + x.ask + " to " + lc(x.what), "btn btn--primary btn--sm", function () {
+      if (!e.nudged) acts.appendChild(button(x.late ? "Escalate" : "Send a reminder", "btn btn--primary btn--sm", function () {
         e.nudged = true; if (x.late) e.raised = true; DB.toast((x.late ? "Escalated with " : "Reminded ") + x.ask + "."); changed();
       }));
-      acts.appendChild(button("Mark as received from " + x.ask, "btn-q", function () { e.got = true; if (t && t.status === "blocked") { t.status = "todo"; t.blocker = ""; } changed(); }));
+      acts.appendChild(button("Mark received", "btn-q", function () { e.got = true; if (t && t.status === "blocked") { t.status = "todo"; t.blocker = ""; } changed(); }));
     } else if (x.agent) acts.appendChild(el("p", "xi__note", agentName("ag:" + x.agent) + " is handling it: " + lc(x.status) + "."));
-    if (t) acts.appendChild(button("See “" + t.text + "”", "btn-q", function () { openTask(t); }));
+    if (t) acts.appendChild(button("See the task", "btn-q", function () { openTask(t); }));
     if (xswap) { pickAnim(inb.querySelector(".xi.is-on")); swapIn(acts, xh0, [].slice.call(acts.children)); }
 
     if (st.xout == null || !P.xout[st.xout]) st.xout = 0;
@@ -1218,8 +1235,8 @@
     var o = P.xout[st.xout], ot = st.tasks[o.from], oacts = byId("x-out-act");
     var ok = pid + ":" + st.xout, oh0 = oacts.offsetHeight, oswap = shownX.o !== null && shownX.o !== ok; shownX.o = ok;
     oacts.textContent = "";
-    if (ot && ot.status !== "done") oacts.appendChild(button("See “" + ot.text + "”", "btn-q", function () { openTask(ot); }));
-    if (o.persona) oacts.appendChild(button("Open " + PERSONAS[o.persona].first + "’s plan, where it’s needed", "btn-q", function () { openPlan(o.persona); }));
+    if (ot && ot.status !== "done") oacts.appendChild(button("See the task", "btn-q", function () { openTask(ot); }));
+    if (o.persona) oacts.appendChild(button("Open " + PERSONAS[o.persona].first + "’s plan", "btn-q", function () { openPlan(o.persona); }));
     if (!oacts.childNodes.length) oacts.appendChild(el("p", "xi__note", "Sent to " + o.who + "."));
     if (oswap) { pickAnim(out.querySelector(".xi.is-on")); swapIn(oacts, oh0, [].slice.call(oacts.children)); }
   }
@@ -1241,7 +1258,8 @@
     var here = P.people.filter(function (p) { return p.base > 0; }), free = here.reduce(function (s, p) { return s + Math.max(0, p.cap - hoursOf(st, p.id)); }, 0);
     var agentTasks = allTasks(st).filter(function (t) { return isAgent(t.who) && t.status !== "done"; });
     var saved = agentTasks.reduce(function (a, t) { return a + t.hours - (t.revH || 0); }, 0);
-    $("team-note").textContent = cap(words(here.length, "person", "people")) + " working this week, with " + free + " hours free between them" + (saved ? ". Agents are taking " + saved + " hours of work off the team." : ".");
+    $("team-note").textContent = cap(words(here.length, "person", "people")) + " working this week, with " + free + " hours free between them" + (saved ? ". Agents are taking " + saved + " hours of work off the team." : ".") +
+      (function (n) { return n ? " " + cap(words(n, "stretch", "stretches")) + " of shifts " + (n > 1 ? "rest" : "rests") + " on one person, outlined in red." : ""; })(P.gaps.filter(function (g, i) { return g.at && !st.planned[i]; }).length);
     var box = byId("heat"); box.textContent = "";
     var scroll = el("div", "h__scroll");
     var head = el("div", "h__row h__head"); head.appendChild(el("span", "h__lab", "Hours a day"));
@@ -1250,7 +1268,7 @@
     scroll.appendChild(head);
     P.people.forEach(function (p) {
       var h = daily(st, p), tot = hoursOf(st, p.id), dc = p.cap / 5, row = el("div", "h__row");
-      var lab = el("span", "h__lab"); lab.appendChild(avatar(p.id, "av--sm"));
+      var lab = el("span", "h__lab"); lab.appendChild(avatar(p.id, "av--sm")); lab.style.gridColumn = "1";
       var nm = el("span", "h__name"); nm.appendChild(el("b", null, isMe(p.id) ? p.name + " (you)" : p.name)); nm.appendChild(el("small", null, p.role)); lab.appendChild(nm);
       row.appendChild(lab);
       h.forEach(function (v, i) {
@@ -1258,9 +1276,25 @@
         var c = el("span", { class: "h__c" + (off ? " is-away" : r > 1.05 ? " is-over" : "") + (WORK[i] ? "" : " is-off"), title: p.name + ", " + DAYS[i] + ": " + (off ? p.off.label + (v >= 0.5 ? ", " + Math.round(v) + " h" : "") : Math.round(v) + " of " + (WORK[i] ? Math.round(dc) : 0) + " h") });
         if (!off && r <= 1.05) c.style.setProperty("--l", Math.min(1, r).toFixed(2));
         c.textContent = off ? p.off.label : v >= 0.5 ? Math.round(v) : "";
+        c.style.gridColumn = String(i + 2);
         row.appendChild(c);
       });
-      row.appendChild(el("span", "h__wk" + (tot > p.cap ? " red" : ""), p.base === 0 && tot === 0 ? "Away" : tot + " of " + p.cap + " h"));
+      var wk = el("span", "h__wk" + (tot > p.cap ? " red" : ""), p.base === 0 && tot === 0 ? "Away" : tot + " of " + p.cap + " h"); wk.style.gridColumn = "9";
+      row.appendChild(wk);
+      // shifts that rest on one person: a red outline round them, and an alert that opens into why and the cover
+      P.gaps.forEach(function (g, gi) {
+        if (!g.at || g.at[0] !== p.id || st.planned[gi]) return;
+        var a = el("span", "h__alert"); a.style.gridColumn = (g.at[1] + 2) + " / " + (g.at[2] + 3);
+        var bang = el("button", { type: "button", class: "h__bang", "aria-label": "Shortage risk: " + g.text, "aria-expanded": "false" });
+        bang.innerHTML = '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2.2 19 17.8H1z"/><rect x="9.1" y="7.4" width="1.8" height="5.6" rx=".9"/><circle cx="10" cy="15.1" r="1.05"/></svg>';
+        bang.addEventListener("mouseenter", function () { gapPop(gi, bang); });
+        bang.addEventListener("focus", function () { gapPop(gi, bang); });
+        bang.addEventListener("click", function () { if (popFor === gi) hidePop(true); else gapPop(gi, bang); });
+        bang.addEventListener("mouseleave", function () { hidePop(); });
+        bang.addEventListener("blur", function () { hidePop(); });
+        a.appendChild(bang);
+        row.appendChild(a);
+      });
       scroll.appendChild(row);
     });
     box.appendChild(scroll);
@@ -1272,24 +1306,47 @@
       ar.appendChild(ul);
       box.appendChild(ar);
     }
-    var gb = byId("gaps"); gb.textContent = "";
-    // each gap's cover as a switch: on puts the cover in the plan, off takes it out
-    P.gaps.forEach(function (g, i) {
-      var li = el("li", "gap" + (st.planned[i] ? " is-planned" : ""));
-      li.appendChild(el("span", st.planned[i] ? "pill" : "pill pill--amber", st.planned[i] ? "Covered" : "One person deep"));
-      var lab = el("label", "switch gap__sw");
-      var t = el("span", "switch__text gap__words"); t.appendChild(el("span", "gap__risk", g.text));
-      t.appendChild(el("small", null, "Cover: " + g.fix + " (" + first(g.who) + ", " + dayLow(g.day) + ", " + g.hours + " h)" + (g.unblocks && st.tasks[g.unblocks] ? ", which unblocks “" + st.tasks[g.unblocks].text + "”." : ".")));
-      lab.appendChild(t);
-      var cb = el("input", { type: "checkbox", "aria-label": "Plan the cover: " + g.fix }); cb.checked = !!st.planned[i];
-      cb.addEventListener("change", function () {
-        if (cb.checked) { planGap(st, i); DB.toast("Added to the plan for " + first(g.who) + "."); } else { removeTask(st, st.planned[i]); delete st.planned[i]; }
-        later();
-      });
-      lab.appendChild(cb); lab.appendChild(el("span", { class: "switch__ui", "aria-hidden": "true" }));
-      li.appendChild(lab);
-      gb.appendChild(li);
-    });
+    hidePop(true);
+  }
+  // the explanation an alert opens into, held in one floating card so the grid's scroller can't clip it
+  var pop = null, popFor = null, popT = 0;
+  function gapPop(gi, at) {
+    clearTimeout(popT);
+    if (!pop) {
+      pop = el("div", { class: "gpop", role: "dialog", "aria-label": "Shortage risk" });
+      pop.addEventListener("mouseenter", function () { clearTimeout(popT); });
+      pop.addEventListener("mouseleave", function () { hidePop(); });
+      document.body.appendChild(pop);
+      window.addEventListener("scroll", function () { hidePop(true); }, { passive: true });
+      document.addEventListener("keydown", function (e) { if (e.key === "Escape") hidePop(true); });
+    }
+    if (popFor === gi && pop.classList.contains("is-on")) return;
+    var g = P.gaps[gi];
+    pop.textContent = "";
+    pop.appendChild(el("p", "gpop__k", "One person deep"));
+    pop.appendChild(el("p", "gpop__t", g.text));
+    var c = el("p", "gpop__fix"); c.appendChild(el("b", null, "Cover: ")); c.appendChild(document.createTextNode(g.fix + ", " + first(g.who) + ", " + dayLow(g.day) + ", " + g.hours + " h" + (g.unblocks && st.tasks[g.unblocks] ? ". It unblocks “" + st.tasks[g.unblocks].text + "”." : ".")));
+    pop.appendChild(c);
+    pop.appendChild(button("Plan the cover", "btn btn--primary btn--sm", function () { planGap(st, gi); DB.toast("Added to the plan for " + first(g.who) + "."); hidePop(true); changed(); }));
+    popFor = gi;
+    [].forEach.call(document.querySelectorAll(".h__bang[aria-expanded=true]"), function (b) { b.setAttribute("aria-expanded", "false"); });
+    at.setAttribute("aria-expanded", "true");
+    var r = at.getBoundingClientRect(), w = Math.min(320, window.innerWidth - 32);
+    pop.style.width = w + "px";
+    var left = Math.max(16, Math.min(window.innerWidth - w - 16, r.left + r.width / 2 - w / 2));
+    pop.style.left = left + "px";
+    pop.classList.remove("is-on", "is-up");
+    var h = pop.offsetHeight, up = r.bottom + 10 + h > window.innerHeight && r.top - 10 - h > 0;
+    pop.style.top = (up ? r.top - 10 - h : r.bottom + 10) + "px";
+    pop.style.transformOrigin = (r.left + r.width / 2 - left) + "px " + (up ? "100%" : "0");
+    void pop.offsetWidth;
+    pop.classList.add("is-on");
+  }
+  function hidePop(now) {
+    if (!pop) return;
+    clearTimeout(popT);
+    var go = function () { pop.classList.remove("is-on"); popFor = null; [].forEach.call(document.querySelectorAll(".h__bang[aria-expanded=true]"), function (b) { b.setAttribute("aria-expanded", "false"); }); };
+    if (now) go(); else popT = setTimeout(go, 180);
   }
 
   /* ================= 6. If it happens: playbooks rehearsed against this week's plan ================= */
@@ -1331,7 +1388,7 @@
       var s = signalState(w), r = readiness(w), on = st.watch === w.id;
       var b = el("button", { type: "button", role: "tab", "aria-selected": String(on), class: "wi" + (on ? " is-on" : ""), "data-k": w.id });
       var top = el("span", "wi__top");
-      top.appendChild(el("span", "pill" + (w.kind === "opportunity" ? " pill--red" : ""), w.kind === "threat" ? "Threat" : "Opportunity"));
+      top.appendChild(el("span", "pill wi__kind" + (w.kind === "opportunity" ? " pill--red" : " pill--ink"), w.kind === "threat" ? "Threat" : "Opportunity"));
       top.appendChild(el("span", "pill " + (st.active[w.id] ? "pill--red" : s.cls), st.active[w.id] ? "Running" : st.armed[w.id] ? "Armed" : s.label));
       b.appendChild(top);
       b.appendChild(el("b", "wi__title", w.title));
@@ -1370,6 +1427,7 @@
       m.appendChild(nowRow);
       var trk = el("div", "gauge__track");
       var safe = el("i", "gauge__safe"), zone = el("i", "gauge__zone");
+      zone.classList.add(g.dir === "below" ? "is-low" : "is-high");
       if (g.dir === "below") { zone.style.left = "0"; zone.style.width = X(g.at) + "%"; safe.style.left = X(g.at) + "%"; safe.style.right = "0"; }
       else { safe.style.left = "0"; safe.style.width = X(g.at) + "%"; zone.style.left = X(g.at) + "%"; zone.style.right = "0"; }
       trk.appendChild(safe); trk.appendChild(zone);
@@ -1414,15 +1472,15 @@
     var prep = st.prepared[w.id] || (st.prepared[w.id] = {}), pick = st.prep[w.id] || (st.prep[w.id] = {});
     w.steps.forEach(function (step, i) {
       var li = el("li", "step" + (prep[i] ? " is-ready" : "")), open = !prep[i] && !st.active[w.id];
-      var lab = el(open ? "label" : "div", "step__row");
-      if (open) {
-        var cb = el("input", { type: "checkbox", "aria-label": "Get ready to " + lc(step[0]) }); cb.checked = pick[i] !== false;
-        cb.addEventListener("change", function () { pick[i] = cb.checked; later(); });
-        lab.appendChild(cb);
-      }
+      var lab = el(open ? "label" : "div", "step__row" + (open ? " switch" : ""));
       lab.appendChild(avatar(step[1], "av--sm"));
       var t = el("div", "step__txt"); t.appendChild(el("b", null, step[0])); t.appendChild(el("span", null, (isMe(step[1]) ? "You" : person(step[1]).name) + ", about " + step[2] + " h" + (prep[i] ? ", " + Math.max(1, Math.round(step[2] * 0.3)) + " h once ready" : ", " + Math.max(1, Math.round(step[2] * 0.3)) + " h if prepared"))); lab.appendChild(t);
       if (!open) lab.appendChild(el("span", "pill", prep[i] && !st.active[w.id] ? "Ready" : "Handed out"));
+      else {
+        var cb = el("input", { type: "checkbox", "aria-label": "Prepare: " + step[0] }); cb.checked = pick[i] !== false;
+        cb.addEventListener("change", function () { pick[i] = cb.checked; later(); });
+        lab.appendChild(cb); lab.appendChild(el("span", { class: "switch__ui", "aria-hidden": "true" }));
+      }
       li.appendChild(lab);
       ol.appendChild(li);
     });
@@ -1449,6 +1507,11 @@
     right.appendChild(acts);
     box.appendChild(right);
     if (swap && !REDUCE && box.animate) {
+      // the gauge draws again for the new card: the zone past the trigger sweeps out, the trigger line rises, the caret slides to the reading
+      var E = "cubic-bezier(0.3, 0.7, 0.2, 1)", gz = box.querySelector(".gauge__zone"), gl = box.querySelector(".gauge__line"), gc = box.querySelector(".gauge__caret");
+      if (gz) gz.animate([{ transform: "scaleX(0)" }, { transform: "none" }], { duration: 700, delay: 150, easing: E, fill: "backwards" });
+      if (gl) gl.animate([{ transform: "scaleY(0)", opacity: 0 }, { transform: "none", opacity: 1 }], { duration: 450, delay: 550, easing: E, fill: "backwards" });
+      if (gc) gc.animate([{ left: "0%" }, { left: getComputedStyle(gc).left }], { duration: 800, delay: 100, easing: E, fill: "backwards" });
       var h1 = box.offsetHeight;
       box.style.overflow = "hidden";
       box.animate([{ height: h0 + "px" }, { height: h1 + "px" }], { duration: 340, easing: "cubic-bezier(0.3, 0.7, 0.2, 1)" }).onfinish = function () { box.style.overflow = ""; };
