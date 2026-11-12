@@ -877,7 +877,7 @@
   var SUG = { byTask: {}, best: [] }, AHEAD = null;
   // alert marks: a red triangle for the grid's shortages, a red circle for the plan's suggestions, each with an exclamation point
   var BANG = '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2.2 19 17.8H1z"/><rect x="9.1" y="7.4" width="1.8" height="5.6" rx=".9"/><circle cx="10" cy="15.1" r="1.05"/></svg>';
-  var ALERT = '<svg viewBox="0 0 20 20" aria-hidden="true"><circle class="mk" cx="10" cy="10" r="8.6"/><rect x="9.2" y="5.6" width="1.6" height="5" rx=".8"/><circle cx="10" cy="13.85" r=".95"/></svg>';
+  var ALERT = '<svg viewBox="0 0 20 20" aria-hidden="true"><circle class="mk" cx="10" cy="10" r="8.6"/><rect x="9.1" y="5.4" width="1.8" height="5.3" rx=".9"/><circle cx="10" cy="13.9" r="1.05"/></svg>';
   function renderPlan() {
     SUG = suggestions();
     AHEAD = null;
