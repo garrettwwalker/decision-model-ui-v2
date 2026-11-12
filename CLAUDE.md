@@ -161,7 +161,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   "+N%" chips, which confused). Redesigned 2026-11-11, because elbow arrows for `AFTER` overlapped
   the bars, amber diamonds for another team's input were ambiguous, and "+N%" chips didn't say what the change was:
   then the same day condensed at the user's request (the rows read too long and wordy): each row is one line again,
-  its name with an ellipsis, and the circled alert mark after it; pointing to (or tapping) the mark, or
+  its name with an ellipsis, and the circled alert mark after it; pointing to the mark (hover only; a click or tap on or near it goes down to the task card, as the row does), or
   resting on a bar, opens a pop-out (`taskPop()`, in the shared floating `.gpop` via `showPop()`, which the Who Has
   Room alerts use too; above or below the trigger, else beside it, held on screen): the task, every obstacle in its
   way worst first (`inWay()`, from `taskRisk()`'s factors; "Stuck: ..." in amber), and Totality's suggestion with its

@@ -972,15 +972,15 @@
     var lab = el("span", "g__lab");
     lab.appendChild(avatar(t.who, "av--sm"));
     lab.appendChild(el("span", { class: "g__text", title: t.text }, t.text));
-    // a task with a suggested change is marked; the mark opens the change
+    // a task with a suggested change is marked
     if (sug) {
       var chip = el("button", { type: "button", class: "g__sug", "aria-haspopup": "dialog", "aria-expanded": "false", "aria-label": "Totality’s suggestion for " + t.text });
       chip.innerHTML = ALERT;
       chip.addEventListener("mouseenter", function () { taskPop(t, sug, chip, 0); });
       chip.addEventListener("mouseleave", function () { hidePop(); });
-      chip.addEventListener("focus", function () { taskPop(t, sug, chip, 0); });
-      chip.addEventListener("click", function (e) { e.stopPropagation(); if (popFor === "t:" + t.id && pop.classList.contains("is-on")) hidePop(true); else taskPop(t, sug, chip, 0); });
-      chip.addEventListener("keydown", function (e) { e.stopPropagation(); });
+      // the pop-out shows on hover only; a click on or near the mark goes down to the task's card, as the row does
+      chip.addEventListener("click", function () { hidePop(true); });
+      chip.addEventListener("keydown", function (e) { e.stopPropagation(); }); // Enter clicks the mark, and that click reaches the row
       lab.appendChild(chip);
     }
     row.appendChild(lab);
