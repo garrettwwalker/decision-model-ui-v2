@@ -304,7 +304,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   cost, the map's total at risk, the option panel's figures; workflows' bottom-line figures when the manager or plan changes; counting
   from the old value, e.g. $3.3M to $3.2M, barely moved, so the user asked for zero everywhere, 2026-11-11). Kept to those, at the user's request not to overdo it. Its rules: cream ground, white cards on a soft shadow, serif
   titles in title case with no period, one tomato red (money at risk is red; protected neutral ink), amber for a
-  problem, no green, gold or blue, no outline rings (a lit or chosen card lifts), no status dots or glows; a faded card carries no color (its pills and colored figures go gray with its text, coming back under the pointer: agents, brief, at a glance, report). agents.css
+  problem, no gold or blue, green only in the soft `.pill--green` for something good set against a threat (the brief's Opportunity, the memo's "Pulling the odds down", workflows' Opportunity; the user's call, 2026-11-11), no outline rings (a lit or chosen card lifts), no status dots or glows; a faded card carries no color (its pills and colored figures go gray with its text, coming back under the pointer: agents, brief, at a glance, report). agents.css
   keeps its own copy (body `ag-page`) and is the reference; the daily brief, at a glance, the report, the tree, the sample memo, workflows and ask use house.css; the other existing
   pages keep their own styles unless asked.
 - `index.html` + `assets/css/landing.css` + `assets/js/landing.js` is the landing, Penumbra (it was a preview at

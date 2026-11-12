@@ -5,7 +5,7 @@
    - type: DM Serif Display for headlines, section and card titles and big figures (title case, no period); small gray
      Switzer for everything else
    - color: one tomato red for actions, counts, money at risk and what waits for you; amber for a problem; working,
-     protected and done are neutral ink (warm only: no green, gold or blue)
+     protected and done are neutral ink (warm only: no gold or blue; green only in .pill--green, below)
    - status and kinds as soft pills: a pale wash of the color, no ring, dot or blinking
    - red buttons glow only on hover; secondary buttons a cream fill that deepens and lifts, no outline
    - a lit or chosen card lifts on a deeper shadow; never an outline ring
@@ -72,6 +72,8 @@ body.house {
 .house .pill { display: inline-flex; align-items: center; padding: 0.16rem 0.55rem; border-radius: 999px; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.005em; color: var(--ink-2); background: var(--mist-2); white-space: nowrap; }
 .house .pill--red { color: var(--accent-ink); background: var(--accent-soft); }
 .house .pill--amber { color: var(--bad-ink); background: var(--bad-soft); }
+/* green only where something is good for us set against a threat (an opportunity, a player pulling the odds of harm down), at the user's request, 2026-11-11 */
+.house .pill--green { color: #2c6e48; background: #e1f0e6; }
 
 /* the bar's color, faded in while a panel scrolls and out after (nav.js animates it; registered so it can animate) */
 @property --sb { syntax: "<color>"; inherits: true; initial-value: rgba(22, 20, 18, 0); }

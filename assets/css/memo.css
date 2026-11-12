@@ -432,7 +432,6 @@
 .actor__t { margin: 0; font-family: var(--display); font-weight: 400; font-size: 1.3rem; line-height: 1.15; }
 .actor__watch { margin-top: auto !important; padding-top: 0.7rem; border-top: 1px solid var(--line); font-size: 0.8rem !important; }
 .actor__watch b { display: block; color: var(--ink); }
-.house .pill--quiet { color: var(--ink-3); background: var(--mist); }
 @media (max-width: 1180px) { .actors { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (max-width: 760px) { .actors { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 480px) { .actors { grid-template-columns: minmax(0, 1fr); } }
