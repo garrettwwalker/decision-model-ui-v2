@@ -653,6 +653,155 @@
     io.observe(map);
   })();
 
+  /* ---------- key stakeholders: a short card each; the chosen one fills the panel beneath with its incentives, its
+     people, its record, ours with it, and what to watch for. Officials are named by role, since who holds each post
+     is beside the point; past actions before 2026 are the real record ---------- */
+  var ACTORS = [
+    { id: "ofac", lean: "up", name: "Office of Foreign Assets Control",
+      line: "Can widen today’s sanctions without waiting for Congress.",
+      stance: "Treasury’s sanctions office writes the designations and the guidance that tell banks and shippers what’s off limits. It needs no new law to name a Gulf polymer maker or a broker, so it’s the fastest route from talk to a rule that touches our resin.",
+      us: "A designation of either Gulf supplier that takes Iranian-linked feedstock would cut 38% of Gebze’s resin overnight.",
+      next: ["Any day", "Designations land without notice"],
+      wants: ["Visible results from the “maximum pressure” campaign before the November 1 waiver deadline", "Cases it can win: clear Iranian ownership or feedstock, documented trades"],
+      fears: ["Moves that spike oil prices before the holidays", "Designations that collapse in court for thin evidence"],
+      who: [["Under Secretary for Terrorism and Financial Intelligence", "Sets the campaign’s priorities and gave two of the three speeches on it"],
+            ["OFAC Director", "Signs off each designation package"],
+            ["Iran targeting team", "Builds the cases; has moved from tankers toward petrochemical brokers since August"]],
+      record: [["June 2019", "Designated Persian Gulf Petrochemical Industries, Iran’s largest petrochemical group"],
+               ["January 2020", "Gained authority to sanction anyone in Iran’s petrochemical sector (Executive Order 13902)"],
+               ["2025", "Named tankers and Chinese independent refineries buying Iranian oil, round after round"],
+               ["August to October 2026", "Iran-linked designations up threefold; a third speech names petrochemical buyers"]],
+      ours: "In 2022 we disclosed that a Dubai distributor had resold spare parts into Iran; OFAC closed it with a cautionary letter and no penalty. We hold no licenses, and our outside sanctions counsel speaks with OFAC’s compliance staff a few times a year.",
+      engage: "Have counsel ask OFAC how it treats feedstock from an Iranian-linked joint venture before any designation, not after.",
+      watch: [["A Gulf polymer maker named in a designation", "Chance rises to about 60%", 1], ["New guidance aimed at petrochemical brokers", "Raises the chance", 1], ["Iran-linked designations past 40 in a week", "Chance rises to about 50%", 1]] },
+    { id: "senate", lean: "up", name: "Senate Banking Committee",
+      line: "Holds the August 3 sanctions bill, now at 34 co-sponsors.",
+      stance: "The committee with jurisdiction over sanctions holds the bill introduced August 3. It would reach the shipping, insurers, and banks that serve Iranian trade, and would write a wind-down window into law. The chair decides when it’s marked up.",
+      us: "Its insurer and bank provisions reach our two feeder ships and Gebze’s Turkish lender; how long its wind-down window runs decides whether re-sourcing resin in time is possible.",
+      next: ["October 21", "The committee’s next business meeting; no markup set yet"],
+      wants: ["A bipartisan win on Iran before the midterms", "Leverage over the administration’s waivers"],
+      fears: ["Owning higher fuel prices", "A bill so broad it catches allies’ banks and draws a veto threat"],
+      who: [["The chair", "Sets the markup date, and so the clock"],
+            ["The ranking member, Senator Warren", "Her office is drafting text on the bank provisions"],
+            ["The bill’s lead sponsors", "Gathered eight more co-sponsors this week, 34 in all"]],
+      record: [["July 2017", "The Senate passed sanctions on Iran, Russia, and North Korea 98 to 2"],
+               ["April 2024", "The Stop Harboring Iranian Petroleum Act became law, reaching ports and refineries that take Iranian oil"],
+               ["August 3, 2026", "The current bill introduced"],
+               ["October 2026", "Eight co-sponsors added in a week"]],
+      ours: "Our trade association commented on the 2024 act. In September our Washington office met committee staff about the insurer provisions; they asked for examples of allied firms that would be caught.",
+      engage: "Send the staff those examples before October 21, through the trade association, and ask for a 30-day wind-down at least.",
+      watch: [["The bill clears committee", "Chance rises to about 52%", 1], ["Draft text from Senator Warren’s office", "Shows how far the bank provisions reach", 0]] },
+    { id: "nsc", lean: "flat", name: "National Security Council",
+      line: "Wants leverage for talks, but no oil spike before the holidays.",
+      stance: "The White House staff that weighs Treasury’s plans against diplomacy and oil prices. It leans toward hitting buyers rather than supply, which keeps barrels flowing while squeezing Tehran’s revenue.",
+      us: "Hitting buyers rather than supply is the slight-expansion path, the one where our Gulf suppliers and Dubai traders are most exposed.",
+      next: ["Before November 1", "A principals meeting on whether to renew the waivers"],
+      wants: ["Leverage for a second round of talks", "Allies on side"],
+      fears: ["Brent above $95 before the holidays", "Being seen as soft on Iran in an election year"],
+      who: [["National Security Advisor", "Chairs the principals meeting and frames the waiver choice"],
+            ["Senior director for the Gulf", "Writes the options memo"],
+            ["Treasury and State deputies", "Treasury pushes for designations; State for keeping talks alive"]],
+      record: [["May 2018", "The United States left the nuclear deal and reimposed sanctions"],
+               ["February 2025", "A presidential memorandum restored “maximum pressure”"],
+               ["June 2025", "US strikes on Iranian nuclear sites"],
+               ["September 2026", "Backed Treasury’s speeches while keeping the waivers in place"]],
+      ours: "No direct contact. Our views reach it through Treasury’s and Commerce’s industry calls, which our Washington office joins.",
+      engage: "Raise the resin exposure on the next Commerce industry call, framed as a supply risk to American appliance prices.",
+      watch: [["A statement on who buys Iranian petrochemicals", "Points to the slight-expansion path", 1], ["The November 1 waivers renewed unchanged", "Chance falls to about 30%", -1]] },
+    { id: "tehran", lean: "flat", name: "Tehran",
+      line: "Wants relief without giving ground on enrichment.",
+      stance: "Iran’s leadership is split between those who want sanctions relief through talks and those who profit from confrontation. Boardings in the Gulf of Oman have pushed the odds up; agreeing to a second round in Muscat would pull them down.",
+      us: "Every boarding raises war-risk premiums on our Jebel Ali calls and nudges Washington toward a wider package.",
+      next: ["No date", "A second round of talks in Muscat"],
+      wants: ["Relief on oil and petrochemical sales", "To keep enrichment as a bargaining chip"],
+      fears: ["Losing its last buyers in Asia", "Looking weak at home"],
+      who: [["The Supreme Leader’s office", "Has the final word on talks"],
+            ["The Revolutionary Guards", "Run the boardings at sea, and own stakes in petrochemicals and shipping"],
+            ["The elected government", "Favors talks and relief, but can’t deliver the Guards"],
+            ["Hardliners in parliament", "Pass laws that limit cooperation with inspectors"]],
+      record: [["July 2019", "Seized the British tanker Stena Impero in the Strait of Hormuz"],
+               ["April 2021", "Began enriching uranium to 60%"],
+               ["July 2025", "Suspended cooperation with the UN’s nuclear inspectors"],
+               ["September 29, 2026", "Talks in Muscat collapsed; three boardings in the Gulf of Oman followed in ten days"]],
+      ours: "No dealings since we closed our Iranian distributor in 2018. Our exposure is indirect: two Gulf resin suppliers take feedstock from an Iranian-linked joint venture, and three Dubai traders resell into the region.",
+      engage: "None directly. We watch it through our agents and the diplomatic wire.",
+      watch: [["Muscat sets a date for a second round", "Chance falls to about 25%", -1], ["New boardings in the Gulf of Oman", "Raises the chance", 1]] },
+    { id: "europe", lean: "down", name: "European Partners",
+      line: "Want the talks kept alive and oil flowing.",
+      stance: "France, Germany, and the United Kingdom want room for a second round of talks and stable oil. Their pressure is the main thing holding Washington back from a sweeping package.",
+      us: "Our EU sales subsidiaries fall under the EU’s blocking statute, so a wide US rule could pull them in opposite directions from the parent.",
+      next: ["October 19", "EU foreign ministers meet"],
+      wants: ["The talks kept alive", "Their banks and insurers kept out of US penalties"],
+      fears: ["An oil spike going into winter", "US rules that reach European firms"],
+      who: [["The E3 foreign ministers", "France, Germany, and the United Kingdom, who speak for Europe on Iran"],
+            ["The EU’s foreign policy chief", "Coordinates the 27 members’ position"],
+            ["The British Foreign Office", "The likeliest to side with Washington"]],
+      record: [["August 2018", "Updated the EU blocking statute to shield its firms from US Iran sanctions"],
+               ["January 2019", "France, Germany, and Britain set up a channel for humanitarian trade with Iran"],
+               ["September 2025", "Triggered the return of UN sanctions on Iran"],
+               ["October 2026", "France and Germany asked Washington to wait for a second round"]],
+      ours: "Our EU subsidiaries’ counsel advised on the blocking statute in 2018, when we closed our Iranian distributor, and found no conflict then.",
+      engage: "Ask the subsidiaries’ counsel to update that 2018 advice for a bill that reaches insurers and banks.",
+      watch: [["A statement from the British Foreign Office", "Shows whether the E3 holds together", 0], ["An E3 request to renew the waivers", "Lowers the chance", -1]] }
+  ];
+  var LEAN = { up: ["Pushing the odds up", " pill--red"], flat: ["Neutral", ""], down: ["Pulling the odds down", " pill--green"] };
+  var alist = $("#actors-list"), apanel = $("#actor-panel"), actorEls = {}, actorOn = ACTORS[0].id;
+  function pill(text, cls) { return el("span", "pill" + (cls || ""), text); }
+  ACTORS.forEach(function (a) {
+    var c = el("li", "actor");
+    c.tabIndex = 0; c.setAttribute("role", "button"); c.setAttribute("aria-controls", "actor-panel");
+    var lean = el("p", "actor__lean"); lean.appendChild(pill(LEAN[a.lean][0], LEAN[a.lean][1])); c.appendChild(lean);
+    c.appendChild(el("h3", "actor__t", a.name));
+    c.appendChild(el("p", "actor__line", a.line));
+    function go() { if (actorOn !== a.id) { actorOn = a.id; paintActors(); showActor(true); } }
+    c.addEventListener("click", go);
+    c.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } });
+    actorEls[a.id] = c; alist.appendChild(c);
+  });
+  function paintActors() {
+    alist.classList.add("has-pick");
+    ACTORS.forEach(function (a) { var on = a.id === actorOn; actorEls[a.id].classList.toggle("is-on", on); actorEls[a.id].setAttribute("aria-pressed", String(on)); });
+  }
+  function block(title) { var b = el("div", "ap__block"); b.appendChild(el("h4", "ap__h", title)); return b; }
+  function showActor(user) {
+    var a = ACTORS.filter(function (x) { return x.id === actorOn; })[0];
+    apanel.innerHTML = "";
+    if (user && !REDUCE) { apanel.classList.remove("is-swap"); void apanel.offsetWidth; apanel.classList.add("is-swap"); }
+    var top = el("div", "ap__top");
+    var head = el("div", "ap__head");
+    var k = el("p", "ap__k"); k.appendChild(pill(LEAN[a.lean][0], LEAN[a.lean][1])); head.appendChild(k);
+    head.appendChild(el("h3", "ap__t", a.name));
+    head.appendChild(el("p", "ap__stance", a.stance));
+    var us = el("p", "ap__us"); us.appendChild(el("b", null, "What it means for us. ")); us.appendChild(document.createTextNode(a.us)); head.appendChild(us);
+    top.appendChild(head);
+    var nx = el("div", "ap__next"); nx.appendChild(el("span", null, "Next to watch")); nx.appendChild(el("b", null, a.next[0])); nx.appendChild(el("small", null, a.next[1]));
+    top.appendChild(nx);
+    apanel.appendChild(top);
+
+    var cols = el("div", "ap__cols"), left = el("div"), right = el("div");
+    var inc = block("Incentives"), iv = el("dl", "ap__inc");
+    [["Wants", a.wants], ["Fears", a.fears]].forEach(function (r) {
+      var d = el("div"); d.appendChild(el("dt", null, r[0]));
+      var dd = el("dd"), ul = el("ul"); r[1].forEach(function (t) { ul.appendChild(el("li", null, t)); }); dd.appendChild(ul); d.appendChild(dd); iv.appendChild(d);
+    });
+    inc.appendChild(iv); left.appendChild(inc);
+    var who = block("Who Matters"), wl = el("ul", "ap__who");
+    a.who.forEach(function (w) { var li = el("li"); li.appendChild(el("b", null, w[0])); li.appendChild(el("span", null, w[1])); wl.appendChild(li); });
+    who.appendChild(wl); left.appendChild(who);
+    var hist = block("Our History With Them"); hist.appendChild(el("p", "ap__p", a.ours)); left.appendChild(hist);
+
+    var wt = block("Watch For"), wtl = el("ul", "ap__watch");
+    a.watch.forEach(function (w) { var li = el("li"); li.appendChild(el("span", null, w[0])); li.appendChild(pill(w[1], w[2] > 0 ? " pill--red" : w[2] < 0 ? " pill--green" : "")); wtl.appendChild(li); });
+    wt.appendChild(wtl); right.appendChild(wt);
+    var rec = block("Track Record"), rl = el("ol", "ap__rec");
+    a.record.forEach(function (r) { var li = el("li"); li.appendChild(el("b", null, r[0])); li.appendChild(el("span", null, r[1])); rl.appendChild(li); });
+    rec.appendChild(rl); right.appendChild(rec);
+    var eng = block("How We Engage"); eng.appendChild(el("p", "ap__p", a.engage)); right.appendChild(eng);
+    cols.appendChild(left); cols.appendChild(right);
+    apanel.appendChild(cols);
+  }
+  paintActors(); showActor(false);
+
   /* ---------- our options: a short card each; the selected card fills the panel below with its figures, for and against,
      and implementation timeline ---------- */
   var panel = $("#plan"), olist = $("#options-list"), cardEls = {}, shown = "resin";
