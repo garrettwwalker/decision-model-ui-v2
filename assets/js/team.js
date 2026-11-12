@@ -874,14 +874,12 @@
     if (after.length) out.push("Still in its way: " + after.map(function (x) { return lc(x[0]); }).join("; ") + ".");
     return out;
   }
-  var SUG = { byTask: {}, best: [] }, AHEAD = null;
+  var SUG = { byTask: {}, best: [] };
   // alert marks: a red triangle for the grid's shortages, a red circle for the plan's suggestions, each with an exclamation point
   var BANG = '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2.2 19 17.8H1z"/><rect x="9.1" y="7.4" width="1.8" height="5.6" rx=".9"/><circle cx="10" cy="15.1" r="1.05"/></svg>';
   var ALERT = '<svg viewBox="0 0 20 20" aria-hidden="true"><circle class="mk" cx="10" cy="10" r="8.6"/><rect x="9.1" y="5.4" width="1.8" height="5.3" rx=".9"/><circle cx="10" cy="13.9" r="1.05"/></svg>';
   function renderPlan() {
     SUG = suggestions();
-    AHEAD = null;
-    if (SUG.best.length) { AHEAD = clone(st); SUG.best.forEach(function (c) { c.fn(AHEAD); }); }
     var n = allTasks(st).filter(function (t) { return t.status !== "done"; }).length;
     $("plan-note").textContent = cap(words(n, "task")) + " still open this week. Each bar runs from the day a task can start to the day it’s due, with its chance of landing on time. Point to a bar to see what’s in that task’s way.";
     var box = byId("gantt"); box.textContent = "";
@@ -889,13 +887,7 @@
     var top = el("div", "g__top");
     var tw = el("div", "g__sum");
     if (SUG.best.length) {
-      var gain = expected(AHEAD) - expected(st), k = SUG.best.length;
       tw.appendChild(el("b", null, "Totality’s Suggestions"));
-      var sp = el("p");
-      sp.appendChild(document.createTextNode(cap(words(k, "task")) + " below " + (k === 1 ? "has" : "have") + " a change Totality suggests, marked "));
-      var km = el("span", { class: "g__sug g__sug--key", role: "img", "aria-label": "an alert mark" }); km.innerHTML = ALERT; sp.appendChild(km);
-      sp.appendChild(document.createTextNode(". Made together, they’d raise the plan’s odds" + (gain > 0.05 ? " and take what’s expected to land from " + money(expected(st)) + " to " + money(expected(AHEAD)) : "") + ". Point to a mark to see the change."));
-      tw.appendChild(sp);
       top.appendChild(tw);
     } else {
       tw.appendChild(el("b", null, "Totality’s Suggestions"));

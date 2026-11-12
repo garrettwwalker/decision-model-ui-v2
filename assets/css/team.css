@@ -230,9 +230,6 @@ button:not(.is-on):hover > * > .radio { background: #d3cbbf; }
 .g__sug:hover, .g__sug[aria-expanded="true"] { transform: scale(1.18); }
 .g__sug:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
 .is-sel .g__sug svg .mk { stroke: var(--accent-soft); }
-.g__sug--key { display: inline-grid; width: 18px; height: 18px; margin: 0 0.05rem 0 0.1rem; vertical-align: -3px; cursor: default; }
-.g__sug--key::before { display: none; }
-.g__sug--key svg { width: 16px; height: 16px; }
 .is-sel .g__text { font-weight: 700; }
 .is-done .g__text { color: var(--ink-3); }
 /* a bar from a task's start to its due day: ink while it's on course, red below a 60% chance, amber when stuck, pale when done */
