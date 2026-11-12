@@ -189,11 +189,9 @@ button:not(.is-on):hover > * > .radio { background: #d3cbbf; }
 .gantt { padding: 0.9rem clamp(0.9rem, 2vw, 1.4rem) 1.1rem; background: #fff; border-radius: var(--r); box-shadow: var(--shadow); }
 /* Totality's suggestions, summed up at the head of the week they change, with a switch that previews them on the bars */
 .g__top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 0.75rem 2rem; padding: 0.3rem 0 1rem; margin-bottom: 0.4rem; border-bottom: 1px solid var(--line); }
-.g__sum { display: grid; gap: 0.2rem; max-width: 46rem; }
+.g__sum { display: grid; gap: 0.2rem; max-width: 52rem; }
 .g__sum b { font-family: var(--display); font-weight: 400; font-size: 1.25rem; }
 .g__sum p { margin: 0; font-size: 0.88rem; line-height: 1.45; color: var(--ink-2); }
-.g__ctl { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem 1.2rem; }
-.g__pv { gap: 0.7rem; }
 /* padded so a row's rounded wash can run past the avatar without the scroller clipping it */
 .g__scroll { overflow-x: auto; margin: 0 -0.7rem; padding: 0 0.7rem; }
 .g__head, .g__body { min-width: 900px; --lab: 22rem; }
@@ -222,12 +220,13 @@ button:not(.is-on):hover > * > .radio { background: #d3cbbf; }
 .g__task + .g__task { margin-top: 2px; }
 .g__task .g__lab { display: flex; align-items: center; gap: 0.6rem; min-width: 0; padding-right: 0.9rem; }
 .g__text { overflow: hidden; font-size: 0.84rem; line-height: 1.3; white-space: nowrap; text-overflow: ellipsis; }
-/* how far Totality's suggestion would raise the task's chance; it opens the suggestion */
+/* a task with a change Totality suggests; the mark opens the change */
 .g__sug { flex: none; margin-left: auto; padding: 0.15rem 0.5rem; border: 0; border-radius: 999px; font: inherit; font-size: 0.7rem; font-weight: 700; color: var(--accent-ink); background: var(--accent-soft); font-variant-numeric: tabular-nums; cursor: pointer; transition: background-color 0.15s ease, color 0.15s ease; }
 .g__sug:hover, .g__sug[aria-expanded="true"] { color: #fff; background: var(--accent); }
 .g__sug:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .is-sel .g__sug { background: #fff; }
 .is-sel .g__sug:hover, .is-sel .g__sug[aria-expanded="true"] { background: var(--accent); }
+.g__sug--key { display: inline-block; margin: 0 0.1rem; cursor: default; }
 .is-sel .g__text { font-weight: 700; }
 .is-done .g__text { color: var(--ink-3); }
 /* a bar from a task's start to its due day: ink while it's on course, red below a 60% chance, amber when stuck, pale when done */
@@ -261,11 +260,11 @@ button:not(.is-on):hover > * > .radio { background: #d3cbbf; }
 .tc__title { margin: 0 0 0.4rem; font-family: var(--display); font-weight: 400; font-size: 1.55rem; line-height: 1.15; letter-spacing: -0.01em; }
 .tc__when { margin: 0 0 1rem; font-size: 0.86rem; color: var(--ink-2); }
 /* status as a cream track of four; the current one a white pill */
-.seg { position: relative; display: inline-grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-rows: minmax(34px, 1fr); gap: 2px; padding: 4px; border: 0; border-radius: 999px; background: var(--track); } /* app.css's .seg span rule squared the pill off */
+.seg { position: relative; display: inline-grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: minmax(34px, 1fr); gap: 2px; padding: 4px; border: 0; border-radius: 999px; background: var(--track); } /* app.css's .seg span rule squared the pill off */
 .seg .seg__pill { grid-area: 1 / 1; min-height: 0; padding: 0; border-radius: 999px; transition: none; background: #fff; box-shadow: var(--shadow-sm); pointer-events: none; transform: translateX(calc(var(--i, 0) * (100% + 2px))); }
 .seg .seg__pill.is-moving { transition: transform 0.35s cubic-bezier(0.3, 0.7, 0.2, 1); }
 .seg__b { position: relative; grid-row: 1; align-self: stretch; min-height: 34px; padding: 0 0.9rem; white-space: nowrap; border: 0; border-radius: 999px; font: inherit; font-size: 0.8rem; font-weight: 700; color: var(--ink-3); background: none; cursor: pointer; transition: color 0.15s ease, background-color 0.15s ease; }
-.seg__b--todo { grid-column: 1; } .seg__b--doing { grid-column: 2; } .seg__b--done { grid-column: 3; } .seg__b--blocked { grid-column: 4; }
+.seg__b--todo { grid-column: 1; } .seg__b--done { grid-column: 2; } .seg__b--blocked { grid-column: 3; }
 .seg__b:hover { color: var(--ink); }
 .seg__b.is-on { color: var(--ink); cursor: default; }
 .tc__flag { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.75rem; }

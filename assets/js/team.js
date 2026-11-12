@@ -382,7 +382,7 @@
   function clone(o) { return JSON.parse(JSON.stringify(o)); }
   function init(id) {
     if (S[id]) return S[id];
-    var p = PERSONAS[id], s = { tasks: {}, dirs: [], own: [], decided: {}, choice: {}, pending: {}, hits: {}, ext: {}, prepared: {}, active: {}, armed: {}, planned: {}, escalated: {}, steps: {}, wsel: {}, prep: {}, sel: null, dsel: null, preview: false, watch: p.watch[0].id, sent: false, note: "", seq: 0 };
+    var p = PERSONAS[id], s = { tasks: {}, dirs: [], own: [], decided: {}, choice: {}, pending: {}, hits: {}, ext: {}, prepared: {}, active: {}, armed: {}, planned: {}, escalated: {}, steps: {}, wsel: {}, prep: {}, sel: null, dsel: null, watch: p.watch[0].id, sent: false, note: "", seq: 0 };
     p.directives.forEach(function (d) {
       var c = clone(d); c.taskIds = c.tasks.map(function (t) { t.dir = d.id; s.tasks[t.id] = t; return t.id; }); delete c.tasks; s.dirs.push(c);
     });
@@ -879,29 +879,21 @@
     SUG = suggestions();
     AHEAD = null;
     if (SUG.best.length) { AHEAD = clone(st); SUG.best.forEach(function (c) { c.fn(AHEAD); }); }
-    if (!AHEAD) st.preview = false;
     var n = allTasks(st).filter(function (t) { return t.status !== "done"; }).length;
-    $("plan-note").textContent = cap(words(n, "task")) + " still open this week. Each bar runs from the day a task can start to the day it’s due, with its chance of landing on time. A red figure beside a task is how far Totality’s suggestion would raise that chance; point to it, or to a bar, to see what’s in the task’s way.";
+    $("plan-note").textContent = cap(words(n, "task")) + " still open this week. Each bar runs from the day a task can start to the day it’s due, with its chance of landing on time. Point to a bar to see what’s in that task’s way.";
     var box = byId("gantt"); box.textContent = "";
     // the suggestions, summed up at the head of the week they change
     var top = el("div", "g__top");
     var tw = el("div", "g__sum");
     if (SUG.best.length) {
-      var gain = expected(AHEAD) - expected(st);
+      var gain = expected(AHEAD) - expected(st), k = SUG.best.length;
       tw.appendChild(el("b", null, "Totality’s Suggestions"));
-      tw.appendChild(el("p", null, cap(words(SUG.best.length, "task")) + (SUG.best.length === 1 ? " has a change" : " have a change") + " that would raise " + (SUG.best.length === 1 ? "its" : "their") + " odds" + (gain > 0.05 ? ", taking what’s expected to land from " + money(expected(st)) + " to " + money(expected(AHEAD)) : "") + ". Each is the red figure beside its task. " + (st.preview ? "The plan below shows the week with all of them made." : "Preview them to see the week with all of them made.")));
+      var sp = el("p");
+      sp.appendChild(document.createTextNode(cap(words(k, "task")) + " below " + (k === 1 ? "has" : "have") + " a change Totality suggests, marked "));
+      sp.appendChild(el("span", "g__sug g__sug--key", "Suggestion"));
+      sp.appendChild(document.createTextNode(". Made together, they’d raise the plan’s odds" + (gain > 0.05 ? " and take what’s expected to land from " + money(expected(st)) + " to " + money(expected(AHEAD)) : "") + ". Point to a mark to see the change."));
+      tw.appendChild(sp);
       top.appendChild(tw);
-      var ctl = el("div", "g__ctl");
-      var sw = el("label", "switch g__pv");
-      sw.appendChild(el("span", "switch__text", "Preview on the plan"));
-      var cb = el("input", { type: "checkbox" }); cb.checked = st.preview;
-      cb.addEventListener("change", function () { st.preview = cb.checked; later(); });
-      sw.appendChild(cb); sw.appendChild(el("span", { class: "switch__ui", "aria-hidden": "true" }));
-      ctl.appendChild(sw);
-      ctl.appendChild(button("Make all " + WORDS[SUG.best.length], "btn btn--primary btn--sm", function () {
-        var k = SUG.best.length; SUG.best.forEach(function (c) { c.fn(st); }); st.preview = false; DB.toast("Plan updated: " + words(k, "suggestion") + " made."); changed();
-      }));
-      top.appendChild(ctl);
     } else {
       tw.appendChild(el("b", null, "Totality’s Suggestions"));
       tw.appendChild(el("p", null, "Nothing left that would raise the plan’s odds: every owner is within capacity, and nothing is waiting to be chased."));
@@ -917,21 +909,19 @@
     var grid = el("div", "g__body");
     DAYS.forEach(function (d, i) { if (!WORK[i]) { var w = el("i", "g__wkend"); w.style.setProperty("--c", i); grid.appendChild(w); } });
     var now = el("i", "g__now"); now.style.setProperty("--x", NOW / 24); grid.appendChild(now);
-    var pv = st.preview && AHEAD;
     groups().forEach(function (g) {
       var sec = el("div", { class: "g__group", id: "dir-" + g.id });
       var gh = el("div", "g__row g__ghead");
       var gt = el("span", "g__lab");
       gt.appendChild(el("b", null, g.title));
       if (g.p != null) {
-        var p1 = pv ? dirRisk(AHEAD, dirOf(AHEAD, g.id)) : g.p, b = band(p1);
-        gt.appendChild(el("span", "pill " + b.cls, (pv && p1 - g.p > 0.005 ? pct(g.p) + " → " : "") + pct(p1) + " on time"));
+        gt.appendChild(el("span", "pill " + band(g.p).cls, pct(g.p) + " on time"));
       }
       gh.appendChild(gt);
       if (g.due) { var dl = el("span", "g__due"); dl.style.setProperty("--x", g.due[0] + parseInt(g.due[1], 10) / 24); dl.textContent = "Due " + DOW[g.due[0]] + " " + g.due[1]; gh.appendChild(dl); }
       if (g.id.indexOf("play-") === 0) { var wid = g.id.slice(5); gh.appendChild(button("Stand down", "btn-q btn-q--sm g__stop", function () { st.active[wid].ids.forEach(function (id) { removeTask(st, id); }); delete st.active[wid]; changed(); })); }
       sec.appendChild(gh);
-      g.ids.map(function (id) { return st.tasks[id]; }).filter(Boolean).forEach(function (t) { sec.appendChild(taskRow(t, pv)); });
+      g.ids.map(function (id) { return st.tasks[id]; }).filter(Boolean).forEach(function (t) { sec.appendChild(taskRow(t)); });
       if (g.due) { var line = el("i", "g__dueline"); line.style.setProperty("--x", g.due[0] + parseInt(g.due[1], 10) / 24); sec.appendChild(line); }
       grid.appendChild(sec);
     });
@@ -954,15 +944,15 @@
     });
   }
   // a task's pop-out: what's in its way and, when there is one, Totality's suggestion with one button to make it
-  function taskPop(t, sug, pv, at, wait) {
+  function taskPop(t, sug, at, wait) {
     showPop("t:" + t.id, at, wait, "Task", function (box) {
-      var src = pv && AHEAD.tasks[t.id] ? AHEAD : st, tt = src.tasks[t.id], r = taskRisk(st, t), way = inWay(tt, src);
+      var r = taskRisk(st, t), way = inWay(t, st);
       box.appendChild(el("p", "gpop__h", t.text));
       box.appendChild(el("p", "gpop__k gpop__k--ink", way.length ? "In its way" : "Nothing in its way"));
       if (way.length) { var ul = el("ul", "gpop__way"); way.forEach(function (w) { ul.appendChild(el("li", /^Stuck:/.test(w) ? "is-stuck" : "", w)); }); box.appendChild(ul); }
       if (!sug) return;
       var tp = taskRisk(sug.v.tmp, sug.v.tmp.tasks[t.id]).p, d = t.dir && dirOf(st, t.dir);
-      box.appendChild(el("p", "gpop__k gpop__k--sug", pv ? "Previewing Totality’s suggestion" : "Totality suggests"));
+      box.appendChild(el("p", "gpop__k gpop__k--sug", "Totality suggests"));
       box.appendChild(el("p", "gpop__t", cap(sug.text) + "."));
       var fx = el("p", "gpop__fx");
       fx.appendChild(el("span", "pill", "This task " + pct(r.p) + " → " + pct(tp)));
@@ -972,31 +962,29 @@
       box.appendChild(button("Make this change", "btn btn--primary btn--sm", function () { sug.fn(st); hidePop(true); DB.toast("Plan updated."); changed(); }));
     });
   }
-  function taskRow(t, pv) {
-    var r = taskRisk(st, t), alt = pv && AHEAD.tasks[t.id], r1 = alt ? taskRisk(AHEAD, alt) : r, moved = alt && r1.p - r.p > 0.005;
-    var sug = SUG.byTask[t.id] && SUG.byTask[t.id][0], who = alt || t;
-    var row = el("div", { class: "g__row g__task is-" + who.status + (st.sel === t.id ? " is-sel" : "") + (r1.p < 0.6 ? " is-risk" : "") + (moved ? " is-moved" : ""), id: "task-" + t.id, "data-t": t.id, role: "button", tabindex: "0", "aria-pressed": String(st.sel === t.id), "aria-label": t.text + ", " + STATUS[t.status] + ", " + pct(r.p) + " on time" + (sug ? ", Totality suggests: " + sug.text : "") });
+  function taskRow(t) {
+    var r = taskRisk(st, t), sug = SUG.byTask[t.id] && SUG.byTask[t.id][0];
+    var row = el("div", { class: "g__row g__task is-" + t.status + (st.sel === t.id ? " is-sel" : "") + (r.p < 0.6 ? " is-risk" : ""), id: "task-" + t.id, "data-t": t.id, role: "button", tabindex: "0", "aria-pressed": String(st.sel === t.id), "aria-label": t.text + ", " + STATUS[t.status] + ", " + pct(r.p) + " on time" + (sug ? ", Totality suggests: " + sug.text : "") });
     var lab = el("span", "g__lab");
-    lab.appendChild(avatar(who.who, "av--sm"));
+    lab.appendChild(avatar(t.who, "av--sm"));
     lab.appendChild(el("span", { class: "g__text", title: t.text }, t.text));
-    var chip = null;
+    // a task with a suggested change is marked; the mark opens the change
     if (sug) {
-      chip = el("button", { type: "button", class: "g__sug", "aria-haspopup": "dialog", "aria-expanded": "false", "aria-label": "Totality’s suggestion for " + t.text },
-        "+" + Math.max(1, Math.round(100 * (taskRisk(sug.v.tmp, sug.v.tmp.tasks[t.id]).p - r.p))) + "%");
-      chip.addEventListener("mouseenter", function () { taskPop(t, sug, pv, chip, 0); });
+      var chip = el("button", { type: "button", class: "g__sug", "aria-haspopup": "dialog", "aria-expanded": "false", "aria-label": "Totality’s suggestion for " + t.text }, "Suggestion");
+      chip.addEventListener("mouseenter", function () { taskPop(t, sug, chip, 0); });
       chip.addEventListener("mouseleave", function () { hidePop(); });
-      chip.addEventListener("focus", function () { taskPop(t, sug, pv, chip, 0); });
-      chip.addEventListener("click", function (e) { e.stopPropagation(); if (popFor === "t:" + t.id && pop.classList.contains("is-on")) hidePop(true); else taskPop(t, sug, pv, chip, 0); });
+      chip.addEventListener("focus", function () { taskPop(t, sug, chip, 0); });
+      chip.addEventListener("click", function (e) { e.stopPropagation(); if (popFor === "t:" + t.id && pop.classList.contains("is-on")) hidePop(true); else taskPop(t, sug, chip, 0); });
       chip.addEventListener("keydown", function (e) { e.stopPropagation(); });
       lab.appendChild(chip);
     }
     row.appendChild(lab);
     var bar = el("span", "g__bar");
     bar.style.gridColumn = (t.start + 2) + " / " + (t.day + 3);
-    bar.appendChild(el("b", null, t.status === "done" ? "Done" : who.status === "blocked" ? "Stuck" : moved ? pct(r.p) + " → " + pct(r1.p) : pct(r1.p)));
-    bar.appendChild(el("span", null, isAgent(who.who) ? (who.revH ? who.revH + " h check" : "Agent") : t.hours + " h"));
+    bar.appendChild(el("b", null, t.status === "done" ? "Done" : t.status === "blocked" ? "Stuck" : pct(r.p)));
+    bar.appendChild(el("span", null, isAgent(t.who) ? (t.revH ? t.revH + " h check" : "Agent") : t.hours + " h"));
     if (t.status !== "done") {
-      bar.addEventListener("mouseenter", function () { taskPop(t, sug, pv, bar, 260); });
+      bar.addEventListener("mouseenter", function () { taskPop(t, sug, bar, 260); });
       bar.addEventListener("mouseleave", function () { hidePop(); });
     }
     row.appendChild(bar);
@@ -1025,10 +1013,10 @@
     if (why) { var wp = el("p", "tc__for"); wp.appendChild(el("b", null, "What it’s for. ")); wp.appendChild(document.createTextNode(why)); left.appendChild(wp); }
     var openF = null, seg = el("div", { class: "seg", role: "group", "aria-label": "Status" }), segPill = el("span", { class: "seg__pill", "aria-hidden": "true" });
     seg.appendChild(segPill);
-    ["todo", "doing", "done", "blocked"].forEach(function (k) {
-      var lit = flagging === t.id ? k === "blocked" : t.status === k;
+    ["todo", "done", "blocked"].forEach(function (k) {
+      var lit = flagging === t.id ? k === "blocked" : onSeg(t.status) === k;
       seg.appendChild(button(STATUS[k], "seg__b seg__b--" + k + (lit ? " is-on" : ""), function () {
-        if (k === t.status) return;
+        if (k === onSeg(t.status)) return;
         if (k === "blocked") { if (flagging !== t.id) { flagging = t.id; render(); } return; }
         if (t.status === "blocked") { t.blocker = ""; delete st.escalated[t.id]; }
         if (DETAIL[t.id] && (k === "done" || k === "todo")) {
@@ -1047,11 +1035,11 @@
       f.appendChild(inp); f.appendChild(el("button", { type: "submit", class: "btn btn--primary btn--sm" }, "Mark stuck"));
       f.appendChild(button("Cancel", "btn-q btn-q--sm", function () {
         if (REDUCE || !f.animate) { flagging = null; render(); return; }
-        segPill.classList.add("is-moving"); segPill.style.setProperty("--i", ORDER.indexOf(t.status));
-        [].forEach.call(seg.querySelectorAll(".seg__b"), function (b) { b.classList.toggle("is-on", b.classList.contains("seg__b--" + t.status)); });
+        segPill.classList.add("is-moving"); segPill.style.setProperty("--i", ORDER.indexOf(onSeg(t.status)));
+        [].forEach.call(seg.querySelectorAll(".seg__b"), function (b) { b.classList.toggle("is-on", b.classList.contains("seg__b--" + onSeg(t.status))); });
         f.style.overflow = "hidden";
         f.animate([{ height: f.offsetHeight + "px", marginTop: "0.75rem", opacity: 1 }, { height: "0px", marginTop: "0px", opacity: 0 }], { duration: 260, easing: "cubic-bezier(0.3, 0.7, 0.2, 1)", fill: "forwards" })
-          .onfinish = function () { flagging = null; segWas = { id: pid + ":" + t.id, k: t.status }; render(); };
+          .onfinish = function () { flagging = null; segWas = { id: pid + ":" + t.id, k: onSeg(t.status) }; render(); };
       }));
       f.addEventListener("submit", function (e) { e.preventDefault(); if (!inp.value.trim()) return; t.status = "blocked"; t.blocker = inp.value.trim().replace(/\.?$/, "."); flagging = null; changed(); });
       left.appendChild(f);
@@ -1185,7 +1173,7 @@
       });
       wb.appendChild(wl);
       var pickd = ways[ws];
-      var go = button(pickd.text, "btn btn--primary btn--sm way__go", function () { pickd.fn(st); delete st.wsel[t.id]; DB.toast("Plan updated."); changed(); });
+      var go = button("Make this change", "btn btn--primary btn--sm way__go", function () { pickd.fn(st); delete st.wsel[t.id]; DB.toast("Plan updated."); changed(); });
       wb.appendChild(go);
       right.appendChild(wb);
       if (!swap && wayWas && wayWas.id === key && wayWas.i !== ws) { pickAnim(wl.children[ws], wl.children[wayWas.i]); fadeIn([go]); }
@@ -1202,9 +1190,11 @@
   // the status pill slides from the old status to the new one, as the managers' pill does
   // the four statuses share equal columns, so the pill is placed by index and never measured (measuring before the font
   // loaded left it the wrong shape); choosing Stuck moves it there while the reason is asked for
-  var ORDER = ["todo", "doing", "done", "blocked"];
+  // the track has no In progress: a task under way sits on To do, and its ticked steps show how far it's got
+  var ORDER = ["todo", "done", "blocked"];
+  function onSeg(k) { return k === "doing" ? "todo" : k; }
   function placeSeg(seg, pill, t) {
-    var id = pid + ":" + t.id, k = flagging === t.id ? "blocked" : t.status;
+    var id = pid + ":" + t.id, k = flagging === t.id ? "blocked" : onSeg(t.status);
     var was = segWas && segWas.id === id && segWas.k !== k ? segWas.k : null;
     segWas = { id: id, k: k };
     pill.style.setProperty("--i", ORDER.indexOf(was || k));
