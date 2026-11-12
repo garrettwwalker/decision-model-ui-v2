@@ -4,18 +4,19 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Workbench · Penumbra</title>
-  <meta name="description" content="Penumbra workbench: follow one decision from the forecast, through the contingencies and their impact on your organization, to the plan, who delivers it, and what it changes.">
+  <meta name="description" content="Penumbra workbench: test the model behind the daily brief. Change a forecast, an assumption, or the plan, and see what it does to the loss and the decisions before anything reaches production.">
   <link rel="preload" href="assets/fonts/switzer-800.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/switzer-400.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap">
   <link rel="stylesheet" href="assets/css/base.css">
   <link rel="stylesheet" href="assets/css/app.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="assets/css/house.css">
   <link rel="stylesheet" href="assets/css/bench.css">
   <script src="assets/js/nav.js"></script>
 </head>
-<body class="app t-night grain">
+<body class="app house bench-page">
   <a class="skip" href="#main">Skip to content</a>
 
   <header class="bar">
@@ -38,298 +39,74 @@
     <p class="bar__meta"><b>Halvorsen Group</b><span>model run 06:00 GST</span></p>
   </header>
 
-  <main id="main" class="page page--bench">
-    <section class="bench-head">
-      <div>
-        <p class="eyebrow bench-head__kicker">World model <b>halvorsen/v14.2</b>, forked from production at 05:58 GST. <span data-out="changes">No changes</span></p>
-        <h1 class="bench-head__title">workbench</h1>
-      </div>
-      <div class="bench-head__actions">
-        <div class="modes" role="tablist" aria-label="Workbench mode">
-          <button class="modes__btn" role="tab" type="button" data-mode-btn="scenario" aria-selected="true">This scenario</button>
-          <button class="modes__btn" role="tab" type="button" data-mode-btn="model" aria-selected="false">Your model and data <span class="modes__n" data-out="model-n" hidden></span></button>
-        </div>
-      </div>
-    </section>
+  <main id="main" class="page">
+    <header class="wh">
+      <p class="h-kicker">World model halvorsen/v14.2, forked from production at 05:58 GST</p>
+      <h1 class="wh__title">Test the Model Behind This Morning’s Brief</h1>
+      <p class="wh__lede">Change a forecast, an assumption, or the plan, and see what it does to the loss and the decisions. Nothing reaches the brief or your teams until you commit it.</p>
+    </header>
 
-    <div class="modeswrap">
-    <!-- ================= Scenario: one decision, six stages ================= -->
-    <div class="mode" data-mode="scenario">
-      <nav class="thread" aria-label="Scenario stages" role="tablist">
-        <button class="thread__stage" role="tab" type="button" data-step="forecast" aria-selected="true"><span class="thread__n">1</span><span class="thread__name">Forecast</span><b class="thread__val" data-out="t-forecast"></b><span class="thread__sub" data-out="t-forecast-sub"></span></button>
-        <button class="thread__stage" role="tab" type="button" data-step="events" aria-selected="false"><span class="thread__n">2</span><span class="thread__name">Contingencies</span><b class="thread__val" data-out="t-events"></b><span class="thread__sub" data-out="t-events-sub"></span></button>
-        <button class="thread__stage" role="tab" type="button" data-step="impact" aria-selected="false"><span class="thread__n">3</span><span class="thread__name">Impact</span><b class="thread__val" data-out="t-impact"></b><span class="thread__sub" data-out="t-impact-sub"></span></button>
-        <button class="thread__stage" role="tab" type="button" data-step="decide" aria-selected="false"><span class="thread__n">4</span><span class="thread__name">Decide</span><b class="thread__val" data-out="t-decide"></b><span class="thread__sub" data-out="t-decide-sub"></span></button>
-        <button class="thread__stage" role="tab" type="button" data-step="deliver" aria-selected="false"><span class="thread__n">5</span><span class="thread__name">Deliver</span><b class="thread__val" data-out="t-deliver"></b><span class="thread__sub" data-out="t-deliver-sub"></span></button>
-        <button class="thread__stage" role="tab" type="button" data-step="outcomes" aria-selected="false"><span class="thread__n">6</span><span class="thread__name">Consequences</span><b class="thread__val" data-out="t-outcomes"></b><span class="thread__sub" data-out="t-outcomes-sub"></span></button>
-      </nav>
-      <div class="focusbar" id="focusbar" hidden>
-        <span>Following <b data-out="focus-name"></b> through every stage.</span>
-        <button class="chip-btn" type="button" id="focus-clear">Stop following</button>
-      </div>
+    <!-- the four questions on the brief; the chosen one drives every section below -->
+    <nav class="qs" id="qs" aria-label="Your questions"></nav>
 
-      <div class="stages">
-      <!-- 1. Forecast -->
-      <section class="step" data-panel="forecast" role="tabpanel" aria-labelledby="fc-title">
-        <div class="step__head">
-          <h2 class="step__title" id="fc-title">how likely</h2>
-          <p class="step__note">The Totality engine splits each question into parts, sends each part to the engine built for it, declines the parts no one can forecast, and fuses the rest into one probability with error bars. Override any of them, and every later stage recomputes.</p>
+    <div id="wb">
+      <!-- 1. Bottom line: what the question costs, with and without the plan, and what you've changed -->
+      <section class="sec" id="bottom-line" aria-labelledby="bl-title">
+        <div class="sec__head">
+          <h2 class="sec__title" id="bl-title"><span aria-hidden="true">1</span>Bottom Line</h2>
         </div>
-        <div class="fc" id="forecast"></div>
+        <div class="bl h-card" id="bl"></div>
+        <div class="stats" id="stats"></div>
       </section>
 
-      <!-- 2. Events -->
-      <section class="step" data-panel="events" role="tabpanel" aria-labelledby="ev-title" hidden>
-        <div class="step__head">
-          <h2 class="step__title" id="ev-title">contingencies to plan for</h2>
-          <p class="step__note">Choose which contingencies this scenario covers and how severe each one gets. Their likelihood comes from the forecast.</p>
+      <!-- 2. The forecast: the question split for three engines, the part declined, the fused chance, and your override -->
+      <section class="sec" id="forecast" aria-labelledby="fc-title">
+        <div class="sec__head">
+          <h2 class="sec__title" id="fc-title"><span aria-hidden="true">2</span><span data-out="fc-title"></span></h2>
+          <p class="sec__note">The Totality engine splits the question into parts it can forecast, sends each to the engine with skill at this horizon, and fuses the answers into one chance with a band around it. A part no engine can forecast is declined, not guessed.</p>
         </div>
-        <div class="presets" role="group" aria-label="Scenario presets">
-          <span class="presets__label">Start from</span>
-          <button class="chip-btn is-on" type="button" data-preset="morning">This morning</button>
-          <button class="chip-btn" type="button" data-preset="escalation">Gulf escalation</button>
-          <button class="chip-btn" type="button" data-preset="worst">Everything goes wrong</button>
-          <button class="chip-btn" type="button" data-preset="calm">A quiet quarter</button>
-        </div>
-        <div class="events" id="events"></div>
+        <div class="fc h-card" id="fc"></div>
       </section>
 
-      <!-- 3. Impact -->
-      <section class="step" data-panel="impact" role="tabpanel" aria-labelledby="im-title" hidden>
-        <div class="step__head">
-          <h2 class="step__title" id="im-title">the impact on your organization</h2>
-          <p class="step__note">How the contingencies you’ve included spread through your network, and the sites, people, customers, and commitments they reach beyond the money. Averages weight each combination of contingencies by its probability.</p>
+      <!-- 3. What it hits: each asset's cover against the disruption, and the costs that come with it -->
+      <section class="sec" id="impact" aria-labelledby="im-title">
+        <div class="sec__head">
+          <h2 class="sec__title" id="im-title"><span aria-hidden="true">3</span>What It Hits</h2>
+          <p class="sec__note" data-out="im-note"></p>
         </div>
-        <div class="dims" id="dims" role="tablist" aria-label="Kinds of impact"></div>
-        <div class="panel dimdetail" id="dimdetail" aria-live="polite"></div>
-        <div class="impact">
-          <figure class="panel imap">
-            <div class="imap__scroll">
-              <svg class="imap__svg" id="imap" viewBox="0 0 1000 500" role="img" aria-label="Map from Türkiye to Korea showing Halvorsen’s plants, ports, chokepoints, and shipping lanes, with an enlarged inset of the Gulf. Places hit by the contingencies you’ve included are ringed; select one to see its impact."></svg>
-            </div>
-            <figcaption class="imap__key"><span><i class="k k--loss"></i>Expected loss</span><span><i class="k k--ring"></i>Hit directly</span><span><i class="k k--lane"></i>Shipping lane</span><span><i class="k k--alt"></i>Alternate route</span><span><i class="k k--trace"></i>Path of the selection</span></figcaption>
-          </figure>
-          <aside class="panel inspector" id="iasset" aria-live="polite"></aside>
+        <div class="im h-card" id="im"></div>
+      </section>
+
+      <!-- 4. The plan: the moves, what each protects, and every combination by cost and loss -->
+      <section class="sec" id="plan" aria-labelledby="pl-title">
+        <div class="sec__head">
+          <h2 class="sec__title" id="pl-title"><span aria-hidden="true">4</span>The Plan</h2>
+          <p class="sec__note" data-out="pl-note"></p>
         </div>
-        <div class="panel table-panel">
-          <div class="hit__head">
-            <h3 class="panel__title">Assets affected <span class="hit__count" data-out="hit-count"></span></h3>
-            <div class="hit__teams" id="hit-teams" role="group" aria-label="Filter by team"></div>
-          </div>
-          <div class="table-wrap"><table class="table register" id="hit">
-            <thead><tr><th scope="col">Asset</th><th scope="col">How it’s affected</th><th scope="col">Owner</th><th scope="col" class="r">Impact</th></tr></thead>
-            <tbody></tbody>
-          </table></div>
+        <div class="plan">
+          <div class="moves h-card" id="moves"></div>
+          <figure class="front h-card" id="front"></figure>
         </div>
       </section>
 
-      <!-- 4. Decide -->
-      <section class="step" data-panel="decide" role="tabpanel" aria-labelledby="de-title" hidden>
-        <div class="step__head">
-          <h2 class="step__title" id="de-title">your response</h2>
-          <p class="step__note" data-out="carry-decide"></p>
+      <!-- 5. Your model and data: where the inputs come from, what changed, and the same changes in code -->
+      <section class="sec" id="data" aria-labelledby="da-title">
+        <div class="sec__head">
+          <h2 class="sec__title" id="da-title"><span aria-hidden="true">5</span>Your Model and Data</h2>
+          <p class="sec__note">What every scenario runs on: the sources feeding it, the changes made to it, and the same edits in the Penumbra SDK, for anyone who would rather script them.</p>
         </div>
-        <div class="op-actions">
-          <button class="btn btn--primary btn--sm" type="button" data-recommend="staffed">Recommend a plan we can deliver</button>
-          <button class="btn btn--ghost btn--sm" type="button" data-recommend="best">Best plan, ignoring capacity</button>
-          <button class="btn btn--ghost btn--sm" type="button" data-recommend="none">Clear the plan</button>
-          <span class="op-actions__gap"></span>
-          <div class="pick" id="op-sort"></div>
-        </div>
-        <div class="panel table-panel">
-          <div class="table-wrap">
-            <table class="table options" id="options">
-              <thead><tr><th scope="col"><span class="sr-only">In plan</span></th><th scope="col">Action</th><th scope="col">Protects</th><th scope="col" class="r">Value</th><th scope="col" class="r">Cost</th><th scope="col" class="r">Net</th><th scope="col">Timing</th><th scope="col">Led by</th></tr></thead>
-              <tbody></tbody>
-            </table>
-          </div>
-          <p class="table-note">Value is how much expected loss the action removes, given the rest of the plan, if it lands in time and in full. Net is value minus cost. Who does each action, and how, is decided in Deliver.</p>
-        </div>
-        <div class="panel frontier">
-          <div class="frontier__head">
-            <h3 class="frontier__title">The best plan at every budget <span class="frontier__hint">Click a dot to adopt that plan</span></h3>
-            <p class="frontier__note" data-out="frontier-note"></p>
-          </div>
-          <svg class="frontier__svg" id="frontier" viewBox="0 0 640 300" role="img" aria-label="Plans by cost and expected loss, with the best plan at each budget and your plan highlighted."></svg>
-        </div>
+        <div class="md h-card" id="md"></div>
       </section>
 
-      <!-- 5. Deliver -->
-      <section class="step" data-panel="deliver" role="tabpanel" aria-labelledby="dl-title" hidden>
-        <div class="step__head">
-          <h2 class="step__title" id="dl-title">who does the work</h2>
-          <p class="step__note">Open a team to see its people, then choose how each action is done, who works on it, and when it starts. An overstretched crew finishes late, and a late or scaled-back action protects less.</p>
+      <!-- 6. Ask -->
+      <section class="sec" id="ask" aria-labelledby="ask-title">
+        <div class="sec__head">
+          <h2 class="sec__title" id="ask-title"><span aria-hidden="true">6</span>You Might Also Ask</h2>
+          <p class="sec__note">Each query opens the Totality engine.</p>
         </div>
-        <div class="board" id="board" role="tablist" aria-label="Teams"></div>
-        <div class="panel teamws" id="teamws" role="tabpanel" aria-live="polite"></div>
-        <div class="panel gantt">
-          <h3 class="panel__title">Timeline, from today</h3>
-          <svg class="gantt__svg" id="gantt" viewBox="0 0 720 260" role="img" aria-label="Timeline of each action in the plan from its start to when it’s in place, against its deadline"></svg>
-        </div>
+        <ul class="asks" id="asks"></ul>
       </section>
-
-      <!-- 6. Consequences -->
-      <section class="step" data-panel="outcomes" role="tabpanel" aria-labelledby="co-title" hidden>
-        <div class="step__head">
-          <h2 class="step__title" id="co-title">what your plan changes</h2>
-          <p class="step__note">Your plan, as your teams would actually deliver it, compared with doing nothing across every kind of impact from stage 3.</p>
-        </div>
-        <div class="panel compare">
-          <div class="table-wrap"><table class="table compare__table">
-            <thead><tr><th scope="col"></th><th scope="col" class="r">Do nothing</th><th scope="col" class="r">Your plan</th></tr></thead>
-            <tbody id="compare"></tbody>
-          </table></div>
-        </div>
-        <div class="co-grid">
-          <div class="panel chartp">
-            <h3 class="panel__title">Spread of outcomes</h3>
-            <svg class="hist" id="hist" viewBox="0 0 520 220" role="img" aria-label="Histogram of simulated losses with and without your plan"></svg>
-            <p class="hist__note" data-out="hist-note"></p>
-          </div>
-          <div class="panel chartp">
-            <h3 class="panel__title">What moves expected loss most</h3>
-            <svg class="tornado" id="tornado" viewBox="0 0 520 240" role="img" aria-label="Sensitivity of expected loss to each included contingency’s probability and severity"></svg>
-            <p class="hist__note">Expected loss with your plan, if each input were a little lower (left) or higher (right).</p>
-          </div>
-        </div>
-        <div class="panel">
-          <h3 class="panel__title">Every way this could play out</h3>
-          <div class="table-wrap"><table class="table table--tight" id="combos">
-            <thead><tr><th scope="col">What happens</th><th scope="col" class="r">Chance</th><th scope="col" class="r">Nothing</th><th scope="col" class="r">Plan</th></tr></thead>
-            <tbody></tbody>
-          </table></div>
-        </div>
-      </section>
-      </div>
     </div>
-
-    <!-- ================= Your model and data: what every scenario runs on ================= -->
-    <div class="mode" data-mode="model" hidden>
-      <div class="modelbar">
-        <p>This is the model every scenario runs on: your assets, how they depend on each other, your teams, and your data. Edits here flow into every stage of the scenario. <b data-out="model-edits"></b></p>
-      </div>
-      <div class="viewbar">
-        <div class="seg seg--light" role="tablist" aria-label="Model view">
-          <label><input type="radio" name="wview" value="network" checked><span>Network</span></label>
-          <label><input type="radio" name="wview" value="assets"><span>Assets</span></label>
-          <label><input type="radio" name="wview" value="org"><span>Teams</span></label>
-          <label><input type="radio" name="wview" value="data"><span>Data</span></label>
-          <label><input type="radio" name="wview" value="log"><span>Change log</span></label>
-        </div>
-        <p class="viewbar__count" data-out="asset-count"></p>
-      </div>
-      <div class="mviews">
-      <div class="world" data-mview="world">
-        <div class="world__view">
-          <div data-view="network">
-            <div class="panel graph">
-              <svg class="graph__svg" id="graph" viewBox="0 0 760 420" role="img" aria-label="Network graph of Halvorsen’s suppliers, ports, plants, distribution centres, and chokepoints. Select a node to inspect it and trace its dependencies."></svg>
-              <p class="graph__legend"><i class="gl gl--hot"></i>Expected loss <i class="gl gl--ring"></i>Hit by an included contingency <i class="gl gl--alt"></i>Alternate route <i class="gl gl--trace"></i>Dependency of the selection</p>
-            </div>
-          </div>
-          <div data-view="assets" hidden>
-            <div class="register__bar">
-              <label class="register__search"><span class="sr-only">Search assets</span><input class="num-input" type="search" id="asset-q" placeholder="Search assets, places, owners"></label>
-              <div class="register__types" id="asset-types" role="group" aria-label="Filter by type"></div>
-            </div>
-            <div class="panel table-panel">
-              <div class="table-wrap">
-                <table class="table register" id="register">
-                  <thead><tr><th scope="col">Asset</th><th scope="col">Type</th><th scope="col">Owner</th><th scope="col">Key figure</th><th scope="col" class="r">Exposure</th></tr></thead>
-                  <tbody></tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-          <div data-view="org" hidden>
-            <div class="org" id="org"></div>
-          </div>
-        </div>
-        <aside class="panel inspector" aria-labelledby="ins-title">
-          <p class="eyebrow inspector__type" data-out="type"></p>
-          <h3 class="inspector__title" id="ins-title" data-out="name"></h3>
-          <p class="inspector__desc" data-out="desc"></p>
-          <div class="inspector__body" id="inspector"></div>
-        </aside>
-      </div>
-      <div class="panel logview" data-mview="log" hidden>
-        <h3 class="panel__title">Change log</h3>
-        <p class="logview__note">Every change in this session, newest first: to the scenario, the plan and how it’s delivered, and to your model and data.</p>
-        <ol class="log" id="log" aria-label="Change log"></ol>
-      </div>
-      <div class="dataview" data-mview="data" hidden>
-        <div class="data-col">
-          <div class="panel">
-            <h3 class="panel__title">Load a dataset</h3>
-            <div class="drop">
-              <label class="btn btn--primary btn--sm drop__pick">Choose a CSV<input type="file" accept=".csv,text/csv" id="csv-file"></label>
-              <button class="btn btn--ghost btn--sm" type="button" id="csv-sample">Use a sample inventory file</button>
-            </div>
-            <p class="field__hint" data-out="csv-status">Nothing loaded yet. Files are read in your browser; nothing is uploaded.</p>
-            <div id="csv-preview"></div>
-            <div class="mapping" id="csv-mapping" hidden>
-              <p class="mapping__title">Map columns to the model</p>
-              <label class="field"><span class="field__top">Site</span><select class="num-input" data-map="site"></select></label>
-              <label class="field"><span class="field__top">Days of cover</span><select class="num-input" data-map="cover"></select></label>
-              <label class="field"><span class="field__top">Daily cost of a stop ($M)</span><select class="num-input" data-map="rate"></select></label>
-              <button class="btn btn--primary btn--sm" type="button" id="csv-apply">Apply to the world model</button>
-            </div>
-          </div>
-          <div class="panel">
-            <h3 class="panel__title">Connected sources</h3>
-            <ul class="sources" id="sources">
-              <li><i class="ok"></i><span>SAP S/4HANA<small>POs and BOMs, 4 min ago</small></span></li>
-              <li><i class="ok"></i><span>Kinaxis RapidResponse<small>Supply plan, 12 min ago</small></span></li>
-              <li><i class="ok"></i><span>AIS stream<small>Vessel positions, live</small></span></li>
-              <li><i class="ok"></i><span>War-risk broker feed<small>Gulf quotes, 3 h ago</small></span></li>
-              <li><i class="ok"></i><span>Workday<small>Teams and availability, 1 h ago</small></span></li>
-              <li><i class="warn"></i><span>Gebze MES<small>Schema drift: 2 fields unmapped</small></span></li>
-            </ul>
-          </div>
-        </div>
-        <div class="data-col">
-          <div class="panel">
-            <h3 class="panel__title">Build a custom signal</h3>
-            <form class="signal-form" id="signal-form">
-              <label class="field"><span class="field__top">Name</span><input class="num-input" name="name" required placeholder="Jebel Ali dwell time"></label>
-              <label class="field"><span class="field__top">Watches</span><input class="num-input" name="rule" required placeholder="Average container dwell above 60 hours"></label>
-              <label class="field"><span class="field__top">Moves</span><select class="num-input" name="event"></select></label>
-              <div class="field" id="sig-pts"><span class="field__top">When it fires, it moves the forecast</span></div>
-              <button class="btn btn--primary btn--sm" type="submit">Add signal</button>
-            </form>
-            <ul class="signals" id="signals"></ul>
-          </div>
-          <div class="panel instrument code">
-            <div class="code__head">
-              <h3 class="panel__title">The same changes in the SDK</h3>
-              <button class="btn btn--ghost btn--sm" type="button" id="copy">Copy</button>
-            </div>
-            <pre><code id="code"></code></pre>
-          </div>
-        </div>
-      </div>
-      </div>
-    </div>
-    </div>
-    <!-- Ask Totality: available on every step -->
-    <button class="asklaunch" type="button" id="ask-open" aria-expanded="false" aria-controls="askdrawer">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 2.5c.7 5 3 7.3 8 8-5 .7-7.3 3-8 8-.7-5-3-7.3-8-8 5-.7 7.3-3 8-8z" fill="currentColor"/><path d="M19 14c.35 2.3 1.2 3.15 3.5 3.5-2.3.35-3.15 1.2-3.5 3.5-.35-2.3-1.2-3.15-3.5-3.5 2.3-.35 3.15-1.2 3.5-3.5z" fill="currentColor"/></svg>
-      Ask Totality
-    </button>
-    <aside class="askdrawer" id="askdrawer" aria-labelledby="askdrawer-title" hidden>
-      <div class="askdrawer__head">
-        <h2 class="askdrawer__title" id="askdrawer-title"><svg class="askdrawer__spark" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 2.5c.7 5 3 7.3 8 8-5 .7-7.3 3-8 8-.7-5-3-7.3-8-8 5-.7 7.3-3 8-8z" fill="currentColor"/><path d="M19 14c.35 2.3 1.2 3.15 3.5 3.5-2.3.35-3.15 1.2-3.5 3.5-.35-2.3-1.2-3.15-3.5-3.5 2.3-.35 3.15-1.2 3.5-3.5z" fill="currentColor"/></svg>Ask about this scenario</h2>
-        <button class="askdrawer__close" type="button" id="ask-close" aria-label="Close">×</button>
-      </div>
-      <ol class="askdrawer__log" id="ask-log" role="log" aria-live="polite"></ol>
-      <div class="askdrawer__suggest" id="ask-suggest" aria-label="Suggested questions"></div>
-      <form class="askdrawer__form" id="ask-form" autocomplete="off">
-        <label class="sr-only" for="ask-input">Ask a question</label>
-        <input class="num-input" id="ask-input" type="text" maxlength="200" placeholder="Which team is the bottleneck?">
-        <button class="btn btn--primary btn--sm" type="submit">Ask</button>
-      </form>
-      <p class="askdrawer__fine">Mockup: answers are worked out from this scenario by script, not a live model.</p>
-    </aside>
   </main>
 
   <footer class="app-foot">
@@ -338,10 +115,8 @@
   </footer>
 
   <script src="assets/js/app.js"></script>
-  <script src="assets/js/space.js"></script>
-  <script>Space.stars();</script>
+  <script src="assets/js/reveal.js"></script>
   <script src="assets/js/model.js"></script>
-  <script src="assets/js/bench-map.js"></script>
   <script src="assets/js/bench.js"></script>
 </body>
 </html>

@@ -1,2178 +1,477 @@
-/* Workbench: one decision, followed through six stages.
-   Forecast -> events -> impact on the organization -> decide -> deliver -> consequences.
-   "Your model and data" is kept apart: the assets, teams and data every scenario runs on.
-   Losses come from model.js (the Hormuz / Red Sea network model) plus the extra events below.
-   All money is in $ millions; every figure is illustrative mockup data. */
+/* Workbench, rebuilt in the house style (2026-11-12): test the model behind the daily brief. One of the brief's four
+   questions at a time drives the page: the bottom line with and without the plan, and what you've changed from
+   production; how Totality got its chance (three engines, the declined part, the band) with an override; what the event
+   hits, each asset's cover against the disruption; the plan, its moves and every combination by cost and loss; and the
+   model's sources, change log, and the same edits in the SDK. Hormuz runs on model.js, so its figures match the brief,
+   workflows, and agents ($140.7M if it happens, $38.0M expected, $13.0M with the three decisions for $3.1M); the other
+   questions carry small models of their own. Money is in $M; every figure is illustrative. */
 (function () {
-  var M = DBModel;
-  var NS = "http://www.w3.org/2000/svg";
+  var M = window.DBModel, money = DB.money;
+  var REDUCE = matchMedia("(prefers-reduced-motion: reduce)").matches;
   var $ = function (k) { return document.querySelector('[data-out="' + k + '"]'); };
+  var byId = function (id) { return document.getElementById(id); };
+  var NS = "http://www.w3.org/2000/svg";
   function el(tag, attrs, text) {
     var e = document.createElement(tag);
-    for (var k in attrs || {}) e.setAttribute(k, attrs[k]);
+    if (typeof attrs === "string") e.className = attrs;
+    else for (var k in attrs || {}) e.setAttribute(k, attrs[k]);
     if (text != null) e.textContent = text;
     return e;
   }
-  function sv(tag, attrs, text) {
-    var e = document.createElementNS(NS, tag);
-    for (var k in attrs || {}) e.setAttribute(k, attrs[k]);
-    if (text != null) e.textContent = text;
-    return e;
-  }
-  var money = DB.money;
-  function signed(m) { return (m >= 0 ? "+" : "−") + money(Math.abs(m)); }
-  function pct(p) { var v = p * 100; return (v > 0 && v < 1 ? "<1" : Math.round(v)) + "%"; }
-  function plural(n, one, many) { return n + " " + (n === 1 ? one : (many || one + "s")); }
+  function sv(tag, attrs, text) { var e = document.createElementNS(NS, tag); for (var k in attrs) e.setAttribute(k, attrs[k]); if (text != null) e.textContent = text; return e; }
+  function pct(p) { return Math.round(100 * p) + "%"; }
+  function r1(m) { return Math.round(m * 10) / 10; } // money as shown, so a difference of two figures matches the figures (the brief's $38.0M less $13.0M is $25.0M)
+  function cap(t) { return t.charAt(0).toUpperCase() + t.slice(1); }
+  var WORDS = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"];
+  function span(d) { return d % 7 === 0 && d / 7 <= 10 ? (d === 7 ? "one week" : WORDS[d / 7] + " weeks") : d + " days"; }
+  function list(a) { return a.length < 3 ? a.join(" and ") : a.slice(0, -1).join(", ") + ", and " + a[a.length - 1]; }
 
-  /* ================= Forecast questions and events ================= */
-  // subs: the forecastable parts, each sent to one engine; declined: the part with no skill at this horizon
-  var EVENTS_BASE = [
-    { id: "hormuz", short: "Hormuz", name: "Strait of Hormuz closes", detail: "Closed to commercial traffic", p: 0.27, band: 5, mag: 21, unit: "days", min: 3, max: 90, on: true,
-      fused: { Judgment: 0.33, Telemetry: 0.26, Procedure: 0.22 }, hist: [0.06, 0.09, 0.18],
-      subs: [["Judgment", "Will the naval standoff escalate to a blockade?"], ["Telemetry", "Will daily transits fall below 40% of normal?"], ["Procedure", "Will underwriters list the whole strait as a war zone?"]],
-      declined: "A sudden strike or coup in Tehran", hits: ["c-hormuz", "p-jebelali", "p-jubail", "p-mesaieed", "p-dammam"] },
-    { id: "redsea", short: "Red Sea", name: "Red Sea shuts to traffic", detail: "Suez lost; Asia–Europe goes round the Cape", p: 0.34, band: 6, mag: 30, unit: "days", min: 7, max: 120, on: true,
-      fused: { Judgment: 0.38, Telemetry: 0.31, Procedure: 0.30 }, hist: [0.22, 0.25, 0.31],
-      subs: [["Judgment", "Will attacks on merchant ships in the southern Red Sea resume?"], ["Telemetry", "Will Bab el-Mandeb transits fall below half of normal?"], ["Procedure", "Will the three largest carriers suspend Suez routings?"]],
-      declined: "Whether a ceasefire is signed this month", hits: ["c-bab", "c-suez", "l-resin-eu", "p-ambarli"] },
-    { id: "strike", short: "Gebze strike", name: "Strike at the Gebze plant", detail: "Metalworkers’ contract expires November 1", p: 0.18, band: 7, mag: 10, unit: "days", min: 2, max: 45, on: false,
-      fused: { Judgment: 0.24, Telemetry: 0.12, Procedure: 0.19 }, hist: [0.05, 0.08, 0.14],
-      subs: [["Judgment", "Will members reject the final offer?"], ["Telemetry", "Will overtime refusals at Gebze pass 20%?"], ["Procedure", "Will the federation file a legal strike notice?"]],
-      declined: null, hits: ["f-gebze", "k-union", "s-bursa"] },
-    { id: "feeders", short: "Feeder sanctions", name: "Sanctions hit two ME4 feeders", detail: "They share a technical manager with listed tankers", p: 0.19, band: 6, mag: 45, unit: "days", min: 7, max: 120, on: false,
-      fused: { Judgment: 0.21, Telemetry: 0.15, Procedure: 0.22 }, hist: [0.11, 0.12, 0.16],
-      subs: [["Judgment", "Will regulators list the shared technical manager?"], ["Telemetry", "Will the feeders call at terminals tied to listed tankers?"], ["Procedure", "Would a listing cover the manager’s whole fleet?"]],
-      declined: null, hits: ["l-me4", "p-dammam"] },
-    { id: "bunker", short: "Bunker spike", name: "Bunker fuel spikes", detail: "Fujairah VLSFO prices, this quarter", p: 0.30, band: 5, mag: 35, unit: "% higher", min: 10, max: 80, on: false,
-      fused: { Judgment: 0.27, Telemetry: 0.34, Procedure: 0.29 }, hist: [0.19, 0.24, 0.27],
-      subs: [["Judgment", "Will producers cut output again this quarter?"], ["Telemetry", "Will Fujairah VLSFO stay above $790/t for 10 days?"], ["Procedure", "Will Fujairah stocks fall below their five-year low?"]],
-      declined: null, hits: ["k-bunker", "k-freight"], cost: true }
+  /* ================= The questions, as on the brief and the agents page ================= */
+  var QS = [
+    { id: "hormuz", short: "Hormuz closes", topic: "Hormuz", title: "the Strait of Hormuz", phrase: "the strait closes", p: 0.27, band: 0.05, delta: "+3% overnight", up: true, next: "War-risk quote expires Wed Oct 7",
+      question: "Will the Strait of Hormuz close to commercial traffic for 7 days or more in the next 30 days?",
+      engines: [["Judgment", "Will the naval standoff escalate to a blockade?", 0.33], ["Telemetry", "Will daily transits fall below 40% of normal?", 0.26], ["Procedure", "Will underwriters list the whole strait as a war zone?", 0.22]],
+      declined: "Whether a sudden strike or coup in Tehran changes course. No engine has skill on it at 30 days, so it widens the band rather than moving the forecast.",
+      dur: [14, 21, 35], dmin: 7, dmax: 90, model: "hormuz",
+      sites: { gebze: ["Gebze plant", "Resin from Jubail and Mesaieed"], pune: ["Pune plant", "Resin through the strait"], dubai: ["Dubai DC", "Inbound through Jebel Ali"], dammam: ["Dammam DC", "Fed from Jebel Ali by the ME4 feeders"] },
+      actions: [
+        { id: "divert", name: "Divert Four Jebel Ali Sailings", owner: "Logistics, Tomas Varga", what: "Send the four Gulf sailings to Khor Fakkan, outside the strait, and truck boxes to the Dubai DC", team: "divert" },
+        { id: "bridge", name: "Bridge-Buy Resin from Singapore", owner: "Procurement, Aylin Demir", what: "One spot cargo of PP and ABS, landing in Gebze in 14 days, Pune in 9", team: "bridge" },
+        { id: "cover", name: "Bind War-Risk Cover on Gulf Calls", owner: "Treasury, Hanne Sørli", what: "Take today’s quote before it expires, and hedge bunker fuel for the quarter", team: "cover" },
+        { id: "sohar", name: "Pre-Position Finished Goods at Sohar", owner: "Commercial MENA, Layla Mansour", what: "30,000 units held in Oman, outside the strait, and trucked to the Dubai and Dammam DCs if it shuts" }
+      ],
+      asks: [["What if", "What if the strait stays closed for six weeks instead of three?"], ["Capacity", "How long can Gebze run on Singapore resin alone?"], ["Best move", "What’s the best plan if we can only spend $2M?"], ["Signposts", "What would push the chance of a closure above 40%?"]] },
+    { id: "redsea", short: "Red Sea shuts", topic: "Red Sea", title: "the Red Sea", phrase: "the Red Sea shuts", p: 0.31, band: 0.06, delta: "−1% overnight", up: false, next: "Cape space hold expires Fri Oct 9",
+      question: "Will the Red Sea close to most commercial traffic for 14 days or more in the next 30 days?",
+      engines: [["Judgment", "Will attacks on merchant ships in the southern Red Sea resume?", 0.36], ["Telemetry", "Will Bab el-Mandeb transits fall below half of normal?", 0.29], ["Procedure", "Will the three largest carriers suspend Suez routings?", 0.27]],
+      declined: "Whether a ceasefire is signed this month. Talks are too fluid for any engine at 30 days, so it widens the band.",
+      dur: [14, 30, 60], dmin: 7, dmax: 120,
+      assets: [{ id: "comp", name: "Compressor supply to Gebze", note: "Parts from Busan and Ningbo come through Suez", cover: 18, rate: 1.1, ramp: 2 },
+               { id: "euw", name: "Washers from Pune to the EU", note: "Eight days longer round the Cape", cover: 12, rate: 0.5, ramp: 0 }],
+      flats: [{ id: "cape", name: "Cape detour freight and fuel", note: "Asia–Europe sailings go round Africa", amount: 6.8 },
+              { id: "wc", name: "Stock at sea", note: "Two more weeks of cargo in transit, as working capital", amount: 2.4 }],
+      actions: [
+        { id: "cape", name: "Pre-Book Cape Routing for EU Lanes", owner: "Logistics, Mira Olsen", what: "Lock space at today’s rates before carriers reprice", cost: 0.45, apply: function (m) { m.flat.cape.amount *= 0.55; } },
+        { id: "air", name: "Air-Freight Compressors to Gebze", owner: "Procurement, Selin Aksoy", what: "Bridge the gap until Cape cargo lands", cost: 0.62, apply: function (m) { m.asset.comp.cover += 16; } },
+        { id: "buffer", name: "Build a 10-Day Compressor Buffer", owner: "Supply planning, Arjun Rao", what: "Order ahead from Busan this week", cost: 0.38, apply: function (m) { m.asset.comp.cover += 10; } }
+      ],
+      asks: [["What if", "What if Suez stays shut through Christmas?"], ["Capacity", "How long can Gebze run without compressors from Asia?"], ["Best move", "Is air freight worth it if the Red Sea reopens in two weeks?"]] },
+    { id: "strike", short: "Gebze strike", topic: "Gebze strike", title: "a Gebze strike", phrase: "workers at Gebze strike", p: 0.16, band: 0.07, delta: "No change", up: false, next: "Union strike vote Tue Oct 20",
+      question: "Will workers at the Gebze plant strike before November 1?",
+      engines: [["Judgment", "Will members reject the final offer?", 0.21], ["Telemetry", "Will overtime refusals at Gebze pass 20%?", 0.11], ["Procedure", "Will the federation file a legal strike notice?", 0.18]],
+      declined: null,
+      dur: [5, 10, 21], dmin: 2, dmax: 45,
+      assets: [{ id: "lines", name: "Gebze’s three lines", note: "Finished-goods stock covers three days", cover: 3, rate: 2.6, ramp: 1 }],
+      flats: [{ id: "launch", name: "The EU washer launch slips a season", note: "If Gebze is out for more than five days", amount: 4.0, when: ["lines", 5] }],
+      actions: [
+        { id: "ahead", name: "Build Ten Days Ahead", owner: "Plant ops, Murat Kaya", what: "Weekend shifts on all three lines until the vote", cost: 0.6, apply: function (m) { m.asset.lines.cover += 10; } },
+        { id: "pune", name: "Shift EU Washer Orders to Pune", owner: "Plant ops, Rohan Mehta", what: "Retool one Pune line for the EU models", cost: 0.5, apply: function (m) { m.asset.lines.rate *= 0.6; m.flat.launch.amount *= 0.25; } }
+      ],
+      asks: [["What if", "What if a strike runs three weeks?"], ["Best move", "Is building ahead cheaper than moving orders to Pune?"]] },
+    { id: "feeders", short: "Feeder sanctions", topic: "feeder sanctions", title: "feeder sanctions", phrase: "sanctions take the two ME4 feeders out", p: 0.15, band: 0.06, delta: "+2% overnight", up: true, next: "Flag registry review Thu Oct 8",
+      question: "Will US sanctions list the technical manager of the two ME4 feeders in the next 30 days?",
+      engines: [["Judgment", "Will regulators list the shared technical manager?", 0.18], ["Telemetry", "Will the feeders call at terminals tied to listed tankers?", 0.12], ["Procedure", "Would a listing cover the manager’s whole fleet?", 0.17]],
+      declined: null,
+      dur: [21, 45, 90], dmin: 7, dmax: 120,
+      assets: [{ id: "dammam", name: "Dammam DC deliveries", note: "The ME4 feeders carry 60% of its inbound", cover: 6, rate: 0.3, ramp: 0 }],
+      flats: [{ id: "held", name: "Boxes held for screening", note: "Cargo already on the two feeders", amount: 2.1 },
+              { id: "pen", name: "Saudi late-delivery penalties", note: "After seven days short", amount: 1.8, when: ["dammam", 7] }],
+      actions: [
+        { id: "charter", name: "Charter Two Replacement Feeders", owner: "Logistics, Mira Olsen", what: "From an operator with no listed ships", cost: 0.7, apply: function (m) { m.asset.dammam.rate *= 0.25; m.flat.pen.amount = 0; } },
+        { id: "rebook", name: "Move This Week’s Boxes to a Rival Shuttle", owner: "Port operations, Farah Saleh", what: "Before the registry review on Thursday", cost: 0.25, apply: function (m) { m.flat.held.amount *= 0.3; } }
+      ],
+      asks: [["Signposts", "What would tell us the feeders are about to be listed?"], ["Best move", "Should we charter now or wait for the registry review?"]] }
   ];
-  var PRESETS = {
-    morning: null,
-    escalation: { hormuz: [true, 0.55, 45], redsea: [true, 0.40, 30], strike: [false], feeders: [true, 0.35, 60], bunker: [true, 0.60, 50] },
-    worst: { hormuz: [true, 0.70, 60], redsea: [true, 0.70, 60], strike: [true, 0.60, 25], feeders: [true, 0.65, 90], bunker: [true, 0.75, 70] },
-    calm: { hormuz: [true, 0.08, 10], redsea: [true, 0.15, 14], strike: [false], feeders: [false], bunker: [false] }
-  };
+  var BYQ = {}; QS.forEach(function (q) { BYQ[q.id] = q; });
 
-  /* ================= Organization: teams and the people in them ================= */
-  var TEAMS = {
-    proc: { name: "Procurement", lead: "Aylin Demir", role: "VP Procurement", parent: "coo", heads: 34, load: 0.72, defer: "Q1 supplier reviews slip two weeks" },
-    log: { name: "Logistics", lead: "Tomas Varga", role: "VP Logistics", parent: "coo", heads: 52, load: 0.81, defer: "The carrier tender for 2027 waits a fortnight" },
-    plan: { name: "Supply planning", lead: "Priya Nair", role: "Director, S&OP", parent: "coo", heads: 21, load: 0.88, defer: "November S&OP runs on last month’s forecast" },
-    gebze: { name: "Plant ops, Gebze", lead: "Murat Kaya", role: "Plant director", parent: "coo", heads: 1840, load: 0.93, defer: "Line 2’s planned maintenance moves to December" },
-    pune: { name: "Plant ops, Pune", lead: "Rohan Mehta", role: "Plant director", parent: "coo", heads: 1210, load: 0.77, defer: "The AC line retooling slips a week" },
-    tre: { name: "Treasury", lead: "Hanne Sørli", role: "Group Treasurer", parent: "cfo", heads: 12, load: 0.55, defer: "The Q4 FX hedge review is pushed back" },
-    com: { name: "Commercial, MENA", lead: "Karim Haddad", role: "GM, MENA", parent: "cco", heads: 96, load: 0.64, defer: "Two Ramadan promotions are planned late" }
-  };
-  var EXECS = [
-    { id: "coo", title: "Chief Operating Officer", lead: "Ingrid Halvorsen" },
-    { id: "cfo", title: "Chief Financial Officer", lead: "Lars Aune" },
-    { id: "cco", title: "Chief Commercial Officer", lead: "Sofia Brandt" }
-  ];
-  // free: hours each person can give this week, from Workday
-  var PEOPLE = [
-    ["aylin", "proc", "Aylin Demir", "VP Procurement", 5], ["emre", "proc", "Emre Yıldız", "Resin buyer", 22], ["deniz", "proc", "Deniz Kurt", "Contracts analyst", 10], ["selin", "proc", "Selin Aksoy", "Category manager, electronics", 8],
-    ["tomas", "log", "Tomas Varga", "VP Logistics", 5], ["mira", "log", "Mira Olsen", "Ocean freight manager", 20], ["jonas", "log", "Jonas Weber", "Gulf routing lead", 18], ["farah", "log", "Farah Saleh", "Port operations, UAE", 17],
-    ["priya", "plan", "Priya Nair", "Director, S&OP", 5], ["arjun", "plan", "Arjun Rao", "Inventory planner", 15], ["lena", "plan", "Lena Fischer", "Demand planner, EU", 12], ["omar", "plan", "Omar Nasser", "Supply planner, MENA", 8],
-    ["murat", "gebze", "Murat Kaya", "Plant director", 10], ["elif", "gebze", "Elif Şahin", "Production manager", 40], ["can", "gebze", "Can Öztürk", "Maintenance lead", 25], ["burak", "gebze", "Burak Aydın", "Labour relations", 15],
-    ["rohan", "pune", "Rohan Mehta", "Plant director", 10], ["kavya", "pune", "Kavya Iyer", "Production planner", 35], ["vikram", "pune", "Vikram Singh", "Line supervisor", 25],
-    ["hanne", "tre", "Hanne Sørli", "Group Treasurer", 6], ["nils", "tre", "Nils Berg", "Risk and insurance", 9], ["ane", "tre", "Ane Moe", "FX and commodities", 5],
-    ["karim", "com", "Karim Haddad", "GM, MENA", 5], ["layla", "com", "Layla Mansour", "Key accounts, GCC", 18], ["yusuf", "com", "Yusuf Demir", "Channel planner", 12]
-  ].map(function (p) { return { id: p[0], team: p[1], name: p[2], role: p[3], free: p[4] }; });
-  var CAPACITY = {
-    normal: { name: "Normal hours", f: 1, cost: 0 },
-    overtime: { name: "Overtime", f: 1.35, cost: 0.04 },
-    defer: { name: "Defer routine work", f: 1.2, cost: 0 }
-  };
-
-  /* ================= Decision space ================= */
-  // ways: how the action can be done; the first is the default. Deltas on cost ($M), lead (days) and hours; eff is the share of protection it gives.
-  var ACTIONS = [
-    { id: "bridge", name: "Bridge-buy resin from Singapore", helps: ["hormuz"], cost: 0.84, lead: 2, need: 8, hours: 30, crew: ["emre", "deniz"], protects: ["f-gebze", "s-jubail"],
-      ways: [["One spot cargo", 0, 0, 0, 1], ["Three-month term deal", 0.35, 2, -10, 1, "Locks the premium in; less buying later"], ["Split across two traders", 0.08, 0, 8, 1, "Halves the counterparty risk"]] },
-    { id: "divert", name: "Divert Gulf sailings to Khor Fakkan", helps: ["hormuz"], cost: 0.90, lead: 1, need: 9, hours: 40, crew: ["jonas", "farah", "tomas"], protects: ["d-dubai", "p-jebelali", "v-corvane", "v-lumen"],
-      ways: [["Divert every Gulf sailing", 0, 0, 0, 1], ["Divert only the two ships at sea", -0.45, 0, -20, 0.55, "Later sailings still head for Jebel Ali"]] },
-    { id: "cover", name: "Bind war-risk cover and hedge bunker fuel", helps: ["hormuz", "bunker"], cost: 1.36, lead: 1, need: 2, hours: 12, crew: ["nils", "ane"], protects: ["k-warrisk", "k-bunker"],
-      ways: [["Cover and hedge", 0, 0, 0, 1], ["Bind cover only", -0.5, 0, -5, 0.75, "Leaves bunker costs open"]] },
-    { id: "stock", name: "Add 7 days of safety stock", helps: ["hormuz", "feeders"], cost: 0.77, lead: 10, need: 6, hours: 60, crew: ["arjun", "omar", "lena"], protects: ["f-gebze", "f-pune", "d-dubai", "d-dammam"],
-      ways: [["At every plant and DC", 0, 0, 0, 1], ["At the MENA DCs only", -0.4, -6, -30, 0.55, "Lands in time, but the plants stay thin"]] },
-    { id: "sohar", name: "Pre-position finished goods at Sohar", helps: ["hormuz"], cost: 1.10, lead: 6, need: 9, hours: 50, crew: ["layla", "yusuf"], protects: ["d-dubai", "d-dammam", "m-mena"],
-      ways: [["30,000 units", 0, 0, 0, 1], ["15,000 units, fastest sellers", -0.5, -3, -20, 0.6, "Covers the top 40 SKUs only"]] },
-    { id: "cape", name: "Pre-book Cape routing for EU lanes", helps: ["redsea"], cost: 0.45, lead: 3, need: 10, hours: 20, crew: ["mira"], protects: ["m-eu", "d-rotterdam", "l-resin-eu"],
-      ways: [["Book the slots now", 0, 0, 0, 1], ["Take an option, book if Suez shuts", -0.2, 2, 0, 0.85, "Cheaper, but slots may be gone"]] },
-    { id: "buildahead", name: "Build ahead at Gebze", helps: ["strike"], cost: 0.60, lead: 5, need: 23, hours: 120, crew: ["elif", "can", "burak"], protects: ["f-gebze", "m-eu"],
-      ways: [["10 days ahead, weekend shifts", 0, 0, 0, 1], ["5 days ahead, weekday overtime", -0.3, -2, -60, 0.5, "Half the cover, no weekend shifts"]] },
-    { id: "shiftpune", name: "Shift EU washer orders to Pune", helps: ["strike"], cost: 0.50, lead: 7, need: 23, hours: 80, crew: ["kavya", "vikram"], protects: ["m-eu", "f-pune"],
-      ways: [["Every EU washer order", 0, 0, 0, 1], ["The top three SKUs only", -0.25, -3, -40, 0.6, "Smaller retooling; slower SKUs wait"]] },
-    { id: "charter", name: "Replace the ME4 feeders", helps: ["feeders"], cost: 0.70, lead: 4, need: 6, hours: 25, crew: ["mira"], protects: ["l-me4", "d-dammam"],
-      ways: [["Charter two replacement feeders", 0, 0, 0, 1], ["Book slots on a rival shuttle", -0.35, -2, -10, 0.7, "Fewer boxes a week"]] }
-  ];
-  var SHORT = { bridge: "resin bridge-buy", divert: "Gulf diversion", cover: "war-risk cover", stock: "safety stock", sohar: "Sohar stock", cape: "Cape routing", buildahead: "build-ahead", shiftpune: "Pune shift", charter: "feeder swap" };
-  ACTIONS.forEach(function (a) { a.short = SHORT[a.id]; a.ways = a.ways.map(function (w) { return { name: w[0], cost: w[1], lead: w[2], hours: w[3], eff: w[4], note: w[5] || "" }; }); });
-
-  // commitments the organization could breach: when each one triggers, who answers for it, and which actions prevent it
-  var TRIGGERS = [
-    { id: "mena", name: "MENA late-delivery penalties", note: "Two retail partners, after 7 days short", team: "com", fix: ["sohar", "stock", "charter", "divert"],
-      test: function (H, I) { return I.mena > 7; } },
-    { id: "launch", name: "EU washer launch slips a season", note: "If Gebze stops for more than 5 days", team: "gebze", fix: ["bridge", "buildahead", "shiftpune"],
-      test: function (H, I) { return I.L.stop.gebze > 5; } },
-    { id: "budget", name: "Q4 logistics budget breached", note: "Freight and insurance overruns above $10M", team: "log", fix: ["cover", "divert"],
-      test: function (H, I) { return I.L.freight > 10; } },
-    { id: "warrisk", name: "Gulf cargo sails uninsured", note: "The war-risk quote expires Wednesday", team: "tre", fix: ["cover"],
-      test: function (H, I, A) { return H.hormuz != null && !A.cover; } },
-    { id: "sanction", name: "ME4 cargo held for sanctions screening", note: "Boxes on listed feeders can’t be released", team: "log", fix: ["charter"],
-      test: function (H, I, A) { return H.feeders != null && !A.charter; } }
-  ];
-  var CREW_IN = 62, CREW_OUT = 43; // seafarers on chartered ships inside the strait, and on the two headed for it
-
-  /* ================= World model: graph nodes ================= */
-  var NODES = {
-    busan: { x: 718, y: 92, name: "Busan", kind: "Port", lab: "left" },
-    ningbo: { x: 705, y: 152, name: "Ningbo", kind: "Port", lab: "left" },
-    kaoh: { x: 690, y: 214, name: "Kaohsiung", kind: "Port", lab: "left" },
-    sing: { x: 612, y: 372, name: "Singapore", kind: "Port", alt: true },
-    pune: { x: 500, y: 326, name: "Pune plant", kind: "Plant", touched: ["hormuz", "strike"] },
-    khor: { x: 446, y: 258, name: "Khor Fakkan", kind: "Port", alt: true },
-    hormuz: { x: 414, y: 200, name: "Hormuz", kind: "Chokepoint", touched: ["hormuz", "bunker"] },
-    dubai: { x: 380, y: 262, name: "Dubai DC", kind: "Distribution centre", lab: "below", touched: ["hormuz"] },
-    mesaieed: { x: 336, y: 236, name: "Mesaieed", kind: "Port", lab: "left", touched: ["hormuz"] },
-    dammam: { x: 312, y: 200, name: "Dammam DC", kind: "Distribution centre", lab: "left", touched: ["hormuz", "feeders"] },
-    jubail: { x: 300, y: 162, name: "Jubail", kind: "Port", lab: "left", touched: ["hormuz"] },
-    bab: { x: 214, y: 316, name: "Bab el-Mandeb", kind: "Chokepoint", lab: "left", touched: ["redsea"] },
-    suez: { x: 150, y: 168, name: "Suez", kind: "Chokepoint", lab: "left", touched: ["redsea"] },
-    gebze: { x: 76, y: 76, name: "Gebze plant", kind: "Plant", touched: ["strike", "redsea", "hormuz"] }
-  };
-  var EDGES = [
-    ["jubail", "hormuz", "hot"], ["mesaieed", "hormuz", "hot"], ["dammam", "hormuz", "hot"], ["dubai", "hormuz", "hot"],
-    ["hormuz", "pune", "hot"], ["hormuz", "bab", "hot"], ["bab", "suez", "norm"], ["suez", "gebze", "norm"],
-    ["busan", "ningbo", "norm"], ["ningbo", "kaoh", "norm"], ["kaoh", "sing", "norm"], ["sing", "hormuz", "hot"],
-    ["sing", "khor", "alt"], ["khor", "dubai", "alt"], ["sing", "pune", "alt"], ["sing", "bab", "alt"]
-  ];
-
-  /* ================= World model: asset register ================= */
-  // node: graph node; loss: key into the loss model; props: editable parameters; deps: asset ids it relies on
-  var ASSETS = [
-    // Suppliers
-    { id: "s-jubail", type: "Supplier", name: "PP resin supply", where: "Jubail, Saudi Arabia", owner: "proc", node: "jubail", events: ["hormuz"], key: "4,200 t / month", deps: ["p-jubail", "c-hormuz"], attrs: [["Contract", "Annual, 3 renewals left"], ["Share of Gebze resin", "100%"], ["Alternate", "Singapore spot"]] },
-    { id: "s-mesaieed", type: "Supplier", name: "HDPE resin supply", where: "Mesaieed, Qatar", owner: "proc", node: "mesaieed", events: ["hormuz"], key: "2,800 t / month", deps: ["p-mesaieed", "c-hormuz"], attrs: [["Share of Pune resin", "100%"], ["Alternate", "Singapore spot"]] },
-    { id: "s-sing", type: "Supplier", name: "Spot resin (alternate)", where: "Singapore", owner: "proc", node: "sing", events: [], key: "7,000 t available", deps: ["p-sing"], attrs: [["Premium over contract", "+$118 / t"], ["Lead to Gebze", "14 d via Suez, 30 d via Cape"]] },
-    { id: "s-ningbo", type: "Supplier", name: "TV contract manufacturer", where: "Ningbo, China", owner: "proc", node: "ningbo", events: ["hormuz"], key: "1,920 units / week", deps: ["p-ningbo", "l-ae7"], attrs: [["SKUs", "HV-OLED55, HV-OLED65"]] },
-    { id: "s-kaoh", type: "Supplier", name: "Washer sub-assemblies", where: "Kaohsiung, Taiwan", owner: "proc", node: "kaoh", events: ["hormuz"], key: "3,400 units / week", deps: ["p-kaoh", "l-ae7"], attrs: [["SKUs", "HV-WM8 drums and motors"]] },
-    { id: "s-busan", type: "Supplier", name: "Fridge compressors", where: "Busan, South Korea", owner: "proc", node: "busan", events: ["hormuz"], key: "2,150 units / week", deps: ["p-busan", "l-ae7"], attrs: [["SKUs", "HV-FR90"]] },
-    { id: "s-bursa", type: "Supplier", name: "Seat and door assemblies", where: "Bursa, Türkiye", owner: "proc", node: "gebze", events: ["strike"], key: "Sole source", deps: [], attrs: [["Substitute tooling time", "14 weeks"], ["Union", "Same metalworkers’ federation as Gebze"]] },
-    // Ports
-    { id: "p-jubail", type: "Port", name: "Jubail Commercial Port", where: "Saudi Arabia, inside the strait", owner: "log", node: "jubail", events: ["hormuz"], key: "Resin loading", deps: ["c-hormuz"], attrs: [["Dwell time", "62 h"]] },
-    { id: "p-mesaieed", type: "Port", name: "Mesaieed", where: "Qatar, inside the strait", owner: "log", node: "mesaieed", events: ["hormuz"], key: "Resin loading", deps: ["c-hormuz"], attrs: [["Dwell time", "48 h"]] },
-    { id: "p-jebelali", type: "Port", name: "Jebel Ali", where: "UAE, inside the strait", owner: "log", node: "dubai", events: ["hormuz"], key: "1,140 TEU / week", deps: ["c-hormuz", "l-ae7"], attrs: [["Dwell time", "71 h"], ["Halvorsen boxes in yard", "212"]] },
-    { id: "p-dammam", type: "Port", name: "King Abdulaziz Port", where: "Dammam, inside the strait", owner: "log", node: "dammam", events: ["hormuz", "feeders"], key: "480 TEU / week", deps: ["c-hormuz", "l-me4"], attrs: [["Served by", "ME4 feeder shuttle"]] },
-    { id: "p-khor", type: "Port", name: "Khor Fakkan", where: "UAE east coast, outside the strait", owner: "log", node: "khor", events: [], key: "600 TEU / week open", deps: [], attrs: [["Road to Dubai DC", "140 km"], ["Booking cutoff", "Thursday 14:00"]] },
-    { id: "p-sohar", type: "Port", name: "Sohar", where: "Oman, outside the strait", owner: "log", node: null, events: [], key: "900 TEU / week open", deps: [], attrs: [["Road to Dubai DC", "260 km"]] },
-    { id: "p-sing", type: "Port", name: "Singapore", where: "Transshipment hub", owner: "log", node: "sing", events: [], key: "1,140 TEU / week", deps: ["c-malacca"], attrs: [] },
-    { id: "p-ningbo", type: "Port", name: "Ningbo-Zhoushan", where: "China", owner: "log", node: "ningbo", events: [], key: "420 TEU / week", deps: [], attrs: [] },
-    { id: "p-kaoh", type: "Port", name: "Kaohsiung", where: "Taiwan", owner: "log", node: "kaoh", events: [], key: "260 TEU / week", deps: [], attrs: [] },
-    { id: "p-busan", type: "Port", name: "Busan", where: "South Korea", owner: "log", node: "busan", events: [], key: "190 TEU / week", deps: [], attrs: [] },
-    { id: "p-ambarli", type: "Port", name: "Ambarlı", where: "Istanbul, Türkiye", owner: "log", node: "gebze", events: ["redsea"], key: "Resin discharge for Gebze", deps: ["c-suez"], attrs: [] },
-    // Chokepoints
-    { id: "c-hormuz", type: "Chokepoint", name: "Strait of Hormuz", where: "Iran / Oman", owner: null, node: "hormuz", events: ["hormuz", "bunker"], key: "21 nm wide", deps: [], attrs: [["Halvorsen transits / week", "14"]] },
-    { id: "c-bab", type: "Chokepoint", name: "Bab el-Mandeb", where: "Yemen / Djibouti", owner: null, node: "bab", events: ["redsea"], key: "Red Sea entrance", deps: [], attrs: [["Halvorsen transits / week", "11"]] },
-    { id: "c-suez", type: "Chokepoint", name: "Suez Canal", where: "Egypt", owner: null, node: "suez", events: ["redsea"], key: "Asia–Europe", deps: ["c-bab"], attrs: [["Cape detour", "+11 days"]] },
-    { id: "c-malacca", type: "Chokepoint", name: "Strait of Malacca", where: "Malaysia / Indonesia", owner: null, node: null, events: [], key: "Far East to Gulf", deps: [], attrs: [] },
-    // Lanes
-    { id: "l-ae7", type: "Lane", name: "AE7, Far East to Gulf", where: "Ningbo → Jebel Ali", owner: "log", node: "sing", events: ["hormuz"], key: "Weekly, 4 vessels", deps: ["c-malacca", "c-hormuz"], attrs: [["Carrier", "Long-term contract, 2 years"]] },
-    { id: "l-me4", type: "Lane", name: "ME4 Gulf shuttle", where: "Jebel Ali → Dammam", owner: "log", node: "dammam", events: ["hormuz", "feeders"], key: "2 chartered feeders", deps: ["c-hormuz"], attrs: [["Technical manager", "Shared with 3 listed tankers"]] },
-    { id: "l-resin-eu", type: "Lane", name: "Resin to Gebze", where: "Jubail → Ambarlı via Suez", owner: "log", node: "suez", events: ["hormuz", "redsea"], key: "Fortnightly", deps: ["c-hormuz", "c-bab", "c-suez"], attrs: [] },
-    { id: "l-resin-in", type: "Lane", name: "Resin to Pune", where: "Mesaieed → Nhava Sheva", owner: "log", node: "pune", events: ["hormuz"], key: "Weekly", deps: ["c-hormuz"], attrs: [] },
-    { id: "l-eu", type: "Lane", name: "Finished goods to Europe", where: "Ambarlı → Rotterdam", owner: "log", node: null, events: [], key: "Twice weekly", deps: [], attrs: [] },
-    // Vessels
-    { id: "v-asterion", type: "Vessel", name: "Asterion Dawn", where: "Loading at Jubail", owner: "log", node: "jubail", events: ["hormuz"], key: "4,200 t PP resin", deps: ["c-hormuz"], attrs: [["PO", "7731-044"], ["ETA Ambarlı", "Oct 29"]] },
-    { id: "v-kestrel", type: "Vessel", name: "Kestrel Bay", where: "At anchor, Mesaieed", owner: "log", node: "mesaieed", events: ["hormuz"], key: "2,800 t HDPE", deps: ["c-hormuz"], attrs: [["PO", "7731-051"]] },
-    { id: "v-sable", type: "Vessel", name: "Sable Orchid", where: "Inbound, central Gulf", owner: "log", node: "hormuz", events: ["hormuz"], key: "2,150 fridges", deps: ["c-hormuz"], attrs: [["PO", "4471-240"]] },
-    { id: "v-corvane", type: "Vessel", name: "Corvane Tessaly", where: "Gulf of Oman, can divert", owner: "log", node: "khor", events: ["hormuz"], key: "1,920 TVs", deps: ["c-hormuz"], attrs: [["PO", "4471-208"], ["Voyage", "041W"]] },
-    { id: "v-lumen", type: "Vessel", name: "Lumen Strait", where: "Arabian Sea, can divert", owner: "log", node: "sing", events: ["hormuz"], key: "3,400 washers", deps: ["c-hormuz"], attrs: [["PO", "4471-233"]] },
-    // Plants
-    { id: "f-gebze", type: "Plant", name: "Gebze plant", where: "Türkiye", owner: "gebze", node: "gebze", loss: "gebze", events: ["strike", "redsea", "hormuz"], key: "3 lines, 1,840 staff", deps: ["s-jubail", "l-resin-eu", "s-bursa"], props: ["plants.0.cover", "plants.0.rate"],
-      attrs: [["Lines", "Washers, dishwashers, dryers"], ["Output", "6,200 units / day"], ["Labour contract", "Expires November 1"]] },
-    { id: "f-pune", type: "Plant", name: "Pune plant", where: "India", owner: "pune", node: "pune", loss: "pune", events: ["hormuz"], key: "2 lines, 1,210 staff", deps: ["s-mesaieed", "l-resin-in", "s-busan"], props: ["plants.1.cover", "plants.1.rate"],
-      attrs: [["Lines", "Fridges, split AC"], ["Output", "4,100 units / day"], ["Spare capacity", "18%"]] },
-    // Distribution centres
-    { id: "d-dubai", type: "Distribution centre", name: "Dubai DC", where: "Jebel Ali free zone", owner: "com", node: "dubai", loss: "dubai", events: ["hormuz"], key: "Serves GCC retail", deps: ["p-jebelali", "s-ningbo", "s-kaoh"], props: ["dcs.0.cover", "dcs.0.rate"], attrs: [["SKUs held", "1,860"]] },
-    { id: "d-dammam", type: "Distribution centre", name: "Dammam DC", where: "Saudi Arabia", owner: "com", node: "dammam", loss: "dammam", events: ["hormuz", "feeders"], key: "Serves KSA retail", deps: ["p-dammam", "l-me4"], props: ["dcs.1.cover", "dcs.1.rate"], attrs: [["SKUs held", "1,240"]] },
-    { id: "d-rotterdam", type: "Distribution centre", name: "Rotterdam DC", where: "Netherlands", owner: "plan", node: null, events: ["redsea"], key: "Serves EU retail", deps: ["f-gebze", "l-eu"], attrs: [["SKUs held", "2,410"]] },
-    { id: "d-mumbai", type: "Distribution centre", name: "Mumbai DC", where: "India", owner: "plan", node: null, events: ["hormuz"], key: "Serves India retail", deps: ["f-pune"], attrs: [["SKUs held", "980"]] },
-    // Markets
-    { id: "m-eu", type: "Market", name: "EU retail", where: "38% of revenue", owner: "com", node: null, events: ["redsea", "strike"], key: "$2.1B / year", deps: ["d-rotterdam"], attrs: [["Key accounts", "6 national chains"]] },
-    { id: "m-india", type: "Market", name: "India retail", where: "21% of revenue", owner: "com", node: null, events: ["hormuz"], key: "$1.2B / year", deps: ["d-mumbai"], attrs: [] },
-    { id: "m-mena", type: "Market", name: "MENA retail", where: "17% of revenue", owner: "com", node: null, events: ["hormuz", "feeders"], key: "$0.9B / year", deps: ["d-dubai", "d-dammam"], attrs: [["Penalty clauses", "2 partners, after 7 days short"]] },
-    // Contracts
-    { id: "k-warrisk", type: "Contract", name: "Gulf war-risk cover", where: "Lloyd’s syndicate", owner: "tre", node: "hormuz", events: ["hormuz"], key: "$620M insured", deps: [], attrs: [["Premium", "0.45% of hull value"], ["Quote expires", "Wednesday"]] },
-    { id: "k-bunker", type: "Contract", name: "Bunker hedge", where: "Fujairah VLSFO swaps", owner: "tre", node: null, events: ["bunker"], key: "40% of Q4 hedged", deps: [], attrs: [["Strike", "$690 / t"]] },
-    { id: "k-union", type: "Contract", name: "Metalworkers’ agreement", where: "Gebze", owner: "gebze", node: "gebze", events: ["strike"], key: "Expires November 1", deps: [], attrs: [["Last offer", "+11% over 2 years"], ["Union ask", "+19%"]] },
-    { id: "k-freight", type: "Contract", name: "AE7 freight contract", where: "Carrier, 2-year term", owner: "log", node: "sing", events: ["hormuz", "bunker"], key: "$38M / year", deps: [], attrs: [["Bunker adjustment", "Pass-through, quarterly"]] }
-  ];
-  var PROPS = {
-    "plants.0.cover": ["Resin cover", "days", 0, 60, 1, "gebze.cover_days"],
-    "plants.0.rate": ["Cost of a line stop", "$M/day", 0, 10, 0.1, "gebze.stop_cost_musd"],
-    "plants.1.cover": ["Resin cover", "days", 0, 60, 1, "pune.cover_days"],
-    "plants.1.rate": ["Cost of a line stop", "$M/day", 0, 10, 0.1, "pune.stop_cost_musd"],
-    "dcs.0.cover": ["Stock cover", "days", 0, 60, 1, "dubai_dc.cover_days"],
-    "dcs.0.rate": ["Lost margin when out", "$M/day", 0, 10, 0.1, "dubai_dc.lost_margin_musd"],
-    "dcs.1.cover": ["Stock cover", "days", 0, 60, 1, "dammam_dc.cover_days"],
-    "dcs.1.rate": ["Lost margin when out", "$M/day", 0, 10, 0.1, "dammam_dc.lost_margin_musd"],
-    "divertCapture": ["Share of Dubai inbound it can absorb", "0–1", 0, 1, 0.05, "khor_fakkan.capture_share"],
-    "trappedPerDay": ["Cost of cargo trapped inside", "$M/day", 0, 5, 0.1, "gulf.trapped_cost_musd"]
-  };
-  ASSETS.forEach(function (a) { if (a.id === "p-khor") a.props = ["divertCapture"]; if (a.id === "c-hormuz") a.props = ["trappedPerDay"]; });
-  var EVNAME = {}, EVSHORT = {};
-  EVENTS_BASE.forEach(function (e) { EVNAME[e.id] = e.name; EVSHORT[e.id] = e.short; });
-
-  /* ================= State ================= */
-  // scenario: events, plan and how it's delivered (way, crew, start, capacity). model: params, people's hours, custom assets, signals.
-  var events, params, plan, signals, datasets, custom, crew, way, start, capacity, freeEdit, preset;
-  var mode = "scenario", focus = null;
-  var sel = { kind: "asset", id: "c-hormuz" }, view = "network", typeFilter = "", query = "", sortBy = "net";
-  var isel = "c-hormuz", dim = "money", hitTeam = "", openTeam = null, opened = {};
-  function resetState() {
-    events = EVENTS_BASE.map(function (e) { var c = M.clone(e); c.base = { p: e.p, mag: e.mag, on: e.on }; return c; });
-    params = M.clone(M.BASE);
-    plan = {}; signals = []; datasets = []; custom = []; crew = {}; way = {}; start = {}; capacity = {}; freeEdit = {}; preset = "morning";
-  }
-  resetState();
-  function allAssets() { return ASSETS.concat(custom); }
-  function assetById(id) { return allAssets().filter(function (a) { return a.id === id; })[0]; }
-  function eventById(id) { return events.filter(function (e) { return e.id === id; })[0]; }
-  function actionById(id) { return ACTIONS.filter(function (a) { return a.id === id; })[0]; }
-  function personById(id) { return PEOPLE.filter(function (p) { return p.id === id; })[0]; }
-  function peopleOf(t) { return PEOPLE.filter(function (p) { return p.team === t; }); }
-  function pOf(e) {
-    var p = e.p;
-    signals.forEach(function (s) { if (s.on && s.event === e.id) p += s.pts / 100; });
-    return Math.max(0.01, Math.min(0.99, p));
-  }
-  function capOf(t) { return CAPACITY[capacity[t] || "normal"]; }
-  function freeOf(p) { return Math.round((freeEdit[p.id] != null ? freeEdit[p.id] : p.free) * capOf(p.team).f); }
-  function teamFree(t) { return peopleOf(t).reduce(function (s, p) { return s + freeOf(p); }, 0); }
-  function crewOf(a) { return crew[a.id] || a.crew; }
-  function ownerOf(a) { return personById(crewOf(a)[0]).team; }
-  function cfg(a) {
-    var w = a.ways[way[a.id] || 0];
-    return { cost: Math.max(0.05, a.cost + w.cost), lead: Math.max(1, a.lead + w.lead), hours: Math.max(4, a.hours + w.hours), eff: w.eff, way: w };
-  }
-  function planList(A) { return ACTIONS.filter(function (a) { return A[a.id]; }); }
-  function capacityCost() { return Object.keys(capacity).reduce(function (s, t) { return s + CAPACITY[capacity[t]].cost; }, 0); }
-  function costOf(A) { return planList(A).reduce(function (c, a) { return c + cfg(a).cost; }, 0) + capacityCost(); }
-  function maskOf(A) { return ACTIONS.reduce(function (m, a, i) { return m | (A[a.id] ? 1 << i : 0); }, 0); }
-  function without(A, id) { var B = M.clone(A); delete B[id]; return B; }
-  var cache = {};
-
-  /* ================= Loss engine ================= */
-  function lossOf(H, A, P) {
-    var inp = {
-      status: H.hormuz != null ? "closed" : "open", dur: H.hormuz || 0, redsea: H.redsea != null,
-      prem: 0.45, bunker: 690, divert: !!A.divert, bridge: !!A.bridge, cover: !!A.cover, buffer: A.stock ? 7 : 0
-    };
-    var r = M.run(inp, P);
-    var n = { gebze: r.nodes.gebze.loss, pune: r.nodes.pune.loss, dubai: r.nodes.dubai.loss, dammam: r.nodes.dammam.loss };
-    var stop = { gebze: r.nodes.gebze.stop, pune: r.nodes.pune.stop, dubai: r.nodes.dubai.stop, dammam: r.nodes.dammam.stop };
-    if (A.sohar) { n.dubai *= 0.65; n.dammam *= 0.65; stop.dubai *= 0.65; stop.dammam *= 0.65; }
-    var freight = r.parts.war + r.parts.trapped, eu = 0;
-    if (H.redsea != null) eu = 0.35 * H.redsea * (A.cape ? 0.3 : 1);
-    if (H.strike != null) {
-      var lost = Math.max(0, H.strike - (A.buildahead ? 10 : 0)) * (A.shiftpune ? 0.7 : 1);
-      n.gebze += P.plants[0].rate * lost; stop.gebze += lost;
-    }
-    if (H.feeders != null) {
-      var dc = P.dcs[1], out = Math.max(0, H.feeders - (dc.cover + (A.stock ? 7 : 0))) * 0.6 * (A.charter ? 0.2 : 1);
-      n.dammam += dc.rate * out; stop.dammam += out;
-    }
-    if (H.bunker != null) freight += (P.bunkerKt * 690 * H.bunker / 100) / 1000 * (A.cover ? 0.2 : 1);
-    return { total: n.gebze + n.pune + n.dubai + n.dammam + freight + eu, nodes: n, stop: stop, freight: freight, eu: eu };
-  }
-  function active() { return events.filter(function (e) { return e.on; }); }
-  // exact expectation over every combination of the active events; tweak lets one event's p/mag be overridden
-  function expected(A, P, skip, tweak) {
-    var act = active().filter(function (e) { return e.id !== skip; }), E = 0, nodes = { gebze: 0, pune: 0, dubai: 0, dammam: 0 };
-    for (var m = 0; m < (1 << act.length); m++) {
-      var H = {}, w = 1;
-      act.forEach(function (e, i) {
-        var p = pOf(e), mag = e.mag;
-        if (tweak && tweak.id === e.id) { if (tweak.p != null) p = Math.max(0, Math.min(1, p + tweak.p)); if (tweak.mag != null) mag = e.mag * tweak.mag; }
-        if (m & (1 << i)) { H[e.id] = mag; w *= p; } else w *= 1 - p;
+  /* ================= The models ================= */
+  // the loss if the event happens, for a question's state and a set of moves: every asset and cost, and what the moves cost
+  function evaluate(q, s, plan) {
+    var dur = s.dur, on = {}; (plan || []).forEach(function (id) { on[id] = true; });
+    if (q.model === "hormuz") {
+      var P = M.clone(M.BASE);
+      P.plants.concat(P.dcs).forEach(function (n) { if (s.cover[n.id] != null) n.cover = s.cover[n.id]; });
+      var inp = M.clone(M.DEFAULTS); inp.dur = dur; inp.divert = !!on.divert; inp.bridge = !!on.bridge; inp.cover = !!on.cover;
+      var r = M.run(inp, P), rows = [], total = r.loss, cost = r.cost;
+      P.plants.concat(P.dcs).forEach(function (n) {
+        var x = r.nodes[n.id], isPlant = P.plants.indexOf(n) >= 0, l = x.loss;
+        // stock at Sohar covers 30% of what the two DCs would lose, the same losses the diversion goes after
+        if (on.sohar && !isPlant) { total -= 0.3 * l; l *= 0.7; }
+        rows.push({ id: n.id, name: q.sites[n.id][0], note: q.sites[n.id][1], cover: n.cover, out: isPlant ? x.stop : Math.max(0, r.D - x.cover), loss: l, asset: true });
       });
-      if (!w) continue;
-      var l = lossOf(H, A, P);
-      E += w * l.total;
-      for (var k in nodes) nodes[k] += w * l.nodes[k];
+      if (on.sohar) cost += 1.35;
+      rows.push({ id: "war", name: "War-risk premiums and bunker fuel", note: "On $620M insured on Gulf calls this quarter", loss: r.parts.war });
+      rows.push({ id: "trapped", name: "Cargo stuck inside the Gulf", note: "Demurrage and working capital", loss: r.parts.trapped });
+      return { rows: rows, loss: total, cost: cost };
     }
-    return { E: E, nodes: nodes };
-  }
-  function combos(A, P) {
-    var act = active(), out = [];
-    for (var m = 0; m < (1 << act.length); m++) {
-      var H = {}, w = 1, names = [];
-      act.forEach(function (e, i) { if (m & (1 << i)) { H[e.id] = e.mag; w *= pOf(e); names.push(e.short); } else w *= 1 - pOf(e); });
-      out.push({ names: names, w: w, l0: lossOf(H, {}, P).total, l1: lossOf(H, A, P).total });
-    }
-    return out.sort(function (a, b) { return b.w - a.w; });
-  }
-  function worst(A, P) { var H = {}; active().forEach(function (e) { H[e.id] = e.mag; }); return lossOf(H, A, P); }
-  // f: share of protection each action actually delivers; in each simulated future it either lands or it doesn't
-  function simulate(A, P, N, seed, f) {
-    var rand = DB.rng(seed), act = active(), out = new Float64Array(N), ids = Object.keys(A);
-    for (var i = 0; i < N; i++) {
-      var H = {}, B = {};
-      act.forEach(function (e) {
-        if (rand() < pOf(e)) {
-          var z = Math.sqrt(-2 * Math.log(Math.max(1e-9, rand()))) * Math.cos(2 * Math.PI * rand());
-          H[e.id] = Math.max(e.min, e.mag * Math.exp(0.45 * z));
-        }
-      });
-      ids.forEach(function (id) { if (!f || rand() < (f[id] == null ? 1 : f[id])) B[id] = true; });
-      out[i] = lossOf(H, B, P).total;
-    }
-    out.sort();
-    return out;
-  }
-  var q = function (s, p) { return s[Math.min(s.length - 1, Math.floor(p * s.length))]; };
-
-  /* ================= Impact: beyond the money ================= */
-  function impactsOf(H, A, P) {
-    var L = lossOf(H, A, P), s = L.stop;
-    var I = {
-      L: L, money: L.total,
-      lineDays: s.gebze * 3 + s.pune * 2, units: s.gebze * 6200 + s.pune * 4100,
-      eu: Math.max(s.gebze, H.redsea != null ? (A.cape ? 3 : 11) : 0), india: s.pune, mena: Math.max(s.dubai, s.dammam),
-      crew: H.hormuz != null ? CREW_IN + (A.divert ? 0 : CREW_OUT) : 0,
-      stood: (s.gebze > 0.5 ? 1840 : 0) + (s.pune > 0.5 ? 1210 : 0)
-    };
-    I.trig = TRIGGERS.map(function (t) { return t.test(H, I, A); });
-    return I;
-  }
-  // every impact as one flat set of numbers: averages and chances over every combination of events (exact), plus w_*: if everything included happens
-  function stats(A) {
-    var k = "S" + maskOf(A);
-    if (cache[k]) return cache[k];
-    var act = active(), S = { money: 0, lineDays: 0, units: 0, eu: 0, india: 0, mena: 0, crew: 0, crewP: 0, stoodP: 0, stood: 0, m_gebze: 0, m_pune: 0, m_dubai: 0, m_dammam: 0, m_freight: 0, m_eu: 0,
-      d_gebze: 0, d_pune: 0, d_dubai: 0, d_dammam: 0 };
-    TRIGGERS.forEach(function (t) { S["t_" + t.id] = 0; });
-    for (var m = 0; m < (1 << act.length); m++) {
-      var H = {}, w = 1;
-      act.forEach(function (e, i) { if (m & (1 << i)) { H[e.id] = e.mag; w *= pOf(e); } else w *= 1 - pOf(e); });
-      if (!w) continue;
-      var I = impactsOf(H, A, params);
-      ["money", "lineDays", "units", "eu", "india", "mena", "crew"].forEach(function (x) { S[x] += w * I[x]; });
-      ["gebze", "pune", "dubai", "dammam"].forEach(function (x) { S["m_" + x] += w * I.L.nodes[x]; S["d_" + x] += w * I.L.stop[x]; });
-      S.stood += w * I.stood;
-      S.m_freight += w * I.L.freight; S.m_eu += w * I.L.eu;
-      if (I.crew) S.crewP += w;
-      if (I.stood) S.stoodP += w;
-      TRIGGERS.forEach(function (t, j) { if (I.trig[j]) S["t_" + t.id] += w; });
-    }
-    var all = {}; act.forEach(function (e) { all[e.id] = e.mag; });
-    var W = impactsOf(all, A, params);
-    ["money", "lineDays", "units", "eu", "india", "mena", "crew", "stood"].forEach(function (x) { S["w_" + x] = W[x]; });
-    ["gebze", "pune", "dubai", "dammam"].forEach(function (x) { S["w_m_" + x] = W.L.nodes[x]; S["w_stop_" + x] = W.L.stop[x]; });
-    S.w_freight = W.L.freight; S.w_eu_money = W.L.eu;
-    return (cache[k] = S);
-  }
-
-  /* ================= Delivery: people, crews and timing ================= */
-  // each crew splits an action's hours in proportion to what each person has free; a person asked for more than they have
-  // stretches every action they're on, a stretched action lands late, and a late action protects less
-  function readiness(A) {
-    var k = "R" + maskOf(A);
-    if (cache[k]) return cache[k];
-    var D = {}, acts = {}, list = planList(A);
-    PEOPLE.forEach(function (p) { D[p.id] = 0; });
-    list.forEach(function (a) {
-      var c = cfg(a), cr = crewOf(a).map(personById), F = cr.reduce(function (s, p) { return s + freeOf(p); }, 0);
-      cr.forEach(function (p) { D[p.id] += F ? c.hours * freeOf(p) / F : c.hours / cr.length; });
+    var m = { asset: {}, flat: {} };
+    q.assets.forEach(function (a) { var c = Object.assign({}, a); if (s.cover[a.id] != null) c.cover = s.cover[a.id]; m.asset[a.id] = c; });
+    q.flats.forEach(function (f) { m.flat[f.id] = Object.assign({}, f); });
+    var cost = 0;
+    q.actions.forEach(function (a) { if (on[a.id]) { a.apply(m); cost += a.cost; } });
+    var out = [], loss = 0, outDays = {};
+    q.assets.forEach(function (a) {
+      var x = m.asset[a.id], d = Math.max(0, dur - x.cover), l = d > 0 ? (d + x.ramp) * x.rate : 0;
+      outDays[a.id] = d;
+      out.push({ id: a.id, name: a.name, note: a.note, cover: x.cover, out: d > 0 ? d + x.ramp : 0, loss: l, asset: true }); loss += l;
     });
-    var overPeople = PEOPLE.filter(function (p) { return D[p.id] > freeOf(p) + 0.01; }).map(function (p) { return p.id; });
-    var late = [];
-    list.forEach(function (a) {
-      var c = cfg(a), st = 1;
-      crewOf(a).forEach(function (id) { var p = personById(id), f = freeOf(p); st = Math.max(st, f ? D[id] / f : 9); });
-      var at = (start[a.id] || 0) + Math.ceil(c.lead * st - 1e-9), lateBy = Math.max(0, at - a.need);
-      var timely = lateBy ? Math.max(0, 1 - lateBy / a.need) : 1;
-      acts[a.id] = { lands: at, late: lateBy, stretch: st, f: c.eff * timely, timely: timely };
-      if (lateBy) late.push(a);
+    q.flats.forEach(function (f) {
+      var x = m.flat[f.id], l = f.when && outDays[f.when[0]] <= f.when[1] ? 0 : x.amount;
+      out.push({ id: f.id, name: f.name, note: f.note, loss: l }); loss += l;
     });
-    var overTeams = Object.keys(TEAMS).filter(function (t) { return overPeople.some(function (id) { return personById(id).team === t; }); });
-    return (cache[k] = { D: D, acts: acts, overPeople: overPeople, overTeams: overTeams, late: late });
+    return { rows: out, loss: loss, cost: cost };
   }
-  function fOf(A) { var r = readiness(A), f = {}; planList(A).forEach(function (a) { f[a.id] = r.acts[a.id].f; }); return f; }
-  // the plan as it will actually be delivered: each action's shortfall puts back that share of what it would have saved
-  function delivered(A) {
-    var S = stats(A), out = {}, r = readiness(A);
-    for (var k in S) out[k] = S[k];
-    planList(A).forEach(function (a) {
-      var f = r.acts[a.id].f; if (f >= 0.999) return;
-      var S2 = stats(without(A, a.id));
-      for (var k2 in out) out[k2] += (1 - f) * (S2[k2] - S[k2]);
-    });
-    return out;
+  function actionCost(q, id) {
+    if (q.model !== "hormuz") return q.actions.filter(function (a) { return a.id === id; })[0].cost;
+    return { divert: 0.9, bridge: 0.84, cover: 1.36, sohar: 1.35 }[id];
   }
-  function E0() { return stats({}).money; }
-  function Edel(A) { return delivered(A).money; }
-
-  /* ================= How the events reach each asset ================= */
-  // direct: the asset is exposed to an included event; via: it depends on something that's hit
-  function reach(only) {
-    var on = active().map(function (e) { return e.id; }).filter(function (id) { return !only || id === only; }), out = {}, frontier = [];
-    allAssets().forEach(function (a) {
-      var ev = (a.events || []).filter(function (x) { return on.indexOf(x) > -1; });
-      // a price event raises costs where it lands but doesn't cut supply, so it doesn't travel down dependencies
-      if (ev.length) { out[a.id] = { direct: true, ev: ev, depth: 0 }; if (ev.some(function (x) { return !eventById(x).cost; })) frontier.push(a.id); }
-    });
-    while (frontier.length) {
-      var next = [];
-      frontier.forEach(function (id) {
-        allAssets().forEach(function (b) {
-          if (!out[b.id] && (b.deps || []).indexOf(id) > -1) { out[b.id] = { direct: false, via: id, depth: out[id].depth + 1 }; next.push(b.id); }
-        });
-      });
-      frontier = next;
+  function chance(q, s) { return s.p == null ? q.p : s.p; }
+  // every combination of the moves, by cost and expected loss; the best by net value is Totality's suggestion
+  function plans(q, s) {
+    var ids = q.actions.map(function (a) { return a.id; }), out = [], p = chance(q, s);
+    for (var mask = 0; mask < (1 << ids.length); mask++) {
+      var set = ids.filter(function (id, i) { return mask & (1 << i); }), e = evaluate(q, s, set);
+      out.push({ set: set, cost: e.cost, exp: p * e.loss });
     }
     return out;
   }
-  var LOSS_ASSET = { gebze: "f-gebze", pune: "f-pune", dubai: "d-dubai", dammam: "d-dammam" };
+  function suggest(q, s) {
+    var base = plans(q, s);
+    return base.reduce(function (best, x) { return x.exp + x.cost < best.exp + best.cost - 1e-9 ? x : best; }, base[0]).set;
+  }
 
-  /* ================= Navigation: two modes, six stages, one followed event ================= */
-  var STAGES = ["forecast", "events", "impact", "decide", "deliver", "outcomes"];
-  var NEXT = { forecast: "Next: choose contingencies", events: "Next: see the impact", impact: "Next: choose a response",
-    decide: "Next: assign the work", deliver: "Next: compare outcomes", outcomes: null };
-  var stage = "forecast";
-  var tabs = document.querySelectorAll(".thread__stage");
-  // slide one panel out and the next in; dir 1 moves forward (the new panel comes from the right)
-  var REDUCE = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
-  function settle(box) { if (box._slid) { var d = box._slid; box._slid = null; d(); } }
-  function slideTo(from, to, dir) {
-    var box = to.parentNode;
-    settle(box);
-    if (from === to || !from || from.hidden) { to.hidden = false; return; }
-    if (REDUCE || !dir) { from.hidden = true; to.hidden = false; return; }
-    var top = from.offsetTop;
-    box.classList.add("is-sliding");
-    from.style.top = top + "px";
-    from.classList.add("slide-out", dir > 0 ? "slide--l" : "slide--r");
-    to.hidden = false;
-    to.classList.add("slide-in", dir > 0 ? "slide--r" : "slide--l");
-    var done = function () {
-      from.hidden = true; from.style.top = "";
-      from.classList.remove("slide-out", "slide--l", "slide--r"); to.classList.remove("slide-in", "slide--l", "slide--r");
-      box.classList.remove("is-sliding");
-    };
-    box._slid = done;
-    setTimeout(function () { if (box._slid === done) settle(box); }, 440);
-  }
-  function setMode(m) {
-    var from = document.querySelector('[data-mode="' + mode + '"]'), to = document.querySelector('[data-mode="' + m + '"]');
-    mode = m;
-    slideTo(from, to, m === "model" ? 1 : -1);
-    document.querySelectorAll("[data-mode-btn]").forEach(function (b) { b.setAttribute("aria-selected", String(b.getAttribute("data-mode-btn") === m)); });
-  }
-  function showStep(id) {
-    var dir = STAGES.indexOf(id) - STAGES.indexOf(stage), from = document.querySelector('[data-panel="' + stage + '"]');
-    setMode("scenario"); stage = id;
-    tabs.forEach(function (t) {
-      var on = t.getAttribute("data-step") === id; t.setAttribute("aria-selected", String(on));
-      if (on) { var th = t.parentNode; if (t.offsetLeft < th.scrollLeft || t.offsetLeft + t.offsetWidth > th.scrollLeft + th.clientWidth) th.scrollLeft = t.offsetLeft - 16; }
-    });
-    var to = document.querySelector('[data-panel="' + id + '"]');
-    document.querySelectorAll("[data-panel]").forEach(function (p) { if (p !== from && p !== to) p.hidden = true; });
-    slideTo(from, to, dir);
-    render(true);
-    if (typeof renderSuggest === "function" && !document.getElementById("askdrawer").hidden) renderSuggest();
-  }
-  function showModel(v) {
-    if (v) { view = v; var r = document.querySelector('input[name="wview"][value="' + v + '"]'); if (r) r.checked = true; }
-    setMode("model"); render(true);
-    if (typeof renderSuggest === "function" && !document.getElementById("askdrawer").hidden) renderSuggest();
-  }
-  tabs.forEach(function (t) { t.addEventListener("click", function () { showStep(t.getAttribute("data-step")); }); });
-  document.querySelectorAll("[data-mode-btn]").forEach(function (b) {
-    b.addEventListener("click", function () { if (b.getAttribute("data-mode-btn") === "model") showModel(); else showStep(stage); });
-  });
-  function goTo(where) {
-    if (where.indexOf("model") === 0) showModel(where.split(":")[1]); else showStep(where);
-    var anchor = document.querySelector(mode === "model" ? ".modelbar" : ".thread");
-    window.scrollTo({ top: anchor.getBoundingClientRect().top + window.scrollY - 90, behavior: "smooth" });
-  }
-  // each stage's explanation sits behind an info icon beside its title: hover or focus to read, tap on touch screens
-  document.querySelectorAll(".step__head").forEach(function (h, i) {
-    var title = h.querySelector(".step__title"), note = h.querySelector(".step__note");
-    if (!title || !note) return;
-    var id = "stepnote-" + i, wrap = el("span", { class: "info" });
-    var btn = el("button", { type: "button", class: "info__btn", "aria-label": "About this stage", "aria-describedby": id, "aria-expanded": "false" });
-    btn.innerHTML = '<svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.25" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10 9v5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="10" cy="6.2" r="1.1" fill="currentColor"/></svg>';
-    note.id = id; note.setAttribute("role", "tooltip"); note.classList.add("info__pop");
-    wrap.appendChild(btn); wrap.appendChild(note);
-    h.appendChild(wrap); // sits at the right end of the title row
-    btn.addEventListener("click", function (e) { e.stopPropagation(); var on = !wrap.classList.contains("is-open"); closeInfos(); wrap.classList.toggle("is-open", on); btn.setAttribute("aria-expanded", String(on)); });
-  });
-  function closeInfos() { document.querySelectorAll(".info.is-open").forEach(function (w) { w.classList.remove("is-open"); w.querySelector(".info__btn").setAttribute("aria-expanded", "false"); }); }
-  document.addEventListener("click", closeInfos);
-  document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeInfos(); });
-
-  // every stage ends by handing over to the next one
-  document.querySelectorAll("[data-panel]").forEach(function (p) {
-    var id = p.getAttribute("data-panel"), i = STAGES.indexOf(id), foot = el("div", { class: "step__foot" });
-    var r = el("button", { class: "btn btn--ghost btn--sm step__reset", type: "button" }); r.addEventListener("click", resetAll); foot.appendChild(r);
-    if (i > 0) { var b = el("button", { class: "btn btn--ghost btn--sm", type: "button" }, "Back"); b.addEventListener("click", function () { goTo(STAGES[i - 1]); }); foot.appendChild(b); }
-    if (NEXT[id]) { var n = el("button", { class: "btn btn--primary btn--sm", type: "button" }, NEXT[id]); n.addEventListener("click", function () { goTo(STAGES[i + 1]); }); foot.appendChild(n); }
-    else { var c = el("button", { class: "btn btn--primary btn--sm", type: "button" }, "Commit as scenario"); c.addEventListener("click", function () { commitScenario(); }); foot.appendChild(c); }
-    p.appendChild(foot);
-  });
-  function follow(id) {
-    focus = focus === id ? null : id;
-    changed(focus ? "Following “" + eventById(id).name + "”" : "Stopped following a contingency");
-  }
-  document.getElementById("focus-clear").addEventListener("click", function () { focus = null; changed("Stopped following a contingency"); });
-  function followBtn(e) {
-    var b = el("button", { class: "chip-btn chip-btn--follow", type: "button", "aria-pressed": "false" }, "Follow this contingency");
-    b.addEventListener("click", function () { follow(e.id); });
-    return b;
-  }
-  function linkBtn(text, fn) { var b = el("button", { type: "button", class: "ins-link" }, text); b.addEventListener("click", fn); return b; }
-
-  /* ================= 1. Forecast ================= */
-  var fcBox = document.getElementById("forecast");
-  function spark(e) {
-    // 90 days of forecast history, ending at the Totality engine's forecast this morning
-    var rand = DB.rng(e.id.length * 97 + 13), pts = [], h = e.hist, n = 30;
-    for (var i = 0; i < n; i++) {
-      var t = i / (n - 1), seg = Math.min(2, Math.floor(t * 3)), k = t * 3 - seg;
-      var from = [h[0], h[1], h[2]][seg], to = [h[1], h[2], e.base.p][seg];
-      pts.push(Math.max(0.01, from + (to - from) * k + (rand() - 0.5) * 0.02));
-    }
-    pts[n - 1] = e.base.p;
-    var W = 120, H = 30, max = Math.max.apply(null, pts.concat([pOf(e)])) * 1.1;
-    var s = sv("svg", { class: "spark", viewBox: "0 0 " + W + " " + H, "aria-hidden": "true" });
-    s.appendChild(sv("path", { class: "spark__line", d: pts.map(function (p, i) { return (i ? "L" : "M") + (i / (n - 1) * (W - 8)).toFixed(1) + " " + (H - 2 - p / max * (H - 6)).toFixed(1); }).join(" ") }));
-    var cy = H - 2 - pOf(e) / max * (H - 6);
-    if (Math.abs(pOf(e) - e.base.p) > 0.005) s.appendChild(sv("path", { class: "spark__you", d: "M" + (W - 8) + " " + (H - 2 - e.base.p / max * (H - 6)).toFixed(1) + " L" + (W - 3) + " " + cy.toFixed(1) }));
-    s.appendChild(sv("circle", { class: "spark__dot", cx: W - 3, cy: cy.toFixed(1), r: 2.6 }));
+  /* ================= State: one per question, against production ================= */
+  function fresh(q) {
+    var cover = {};
+    var s = { p: null, di: 1, dur: q.dur[1], cover: cover, plan: [] };
+    s.plan = q.model === "hormuz" ? ["divert", "bridge", "cover"] : suggest(q, s);
     return s;
   }
-  function unitText(e, v) { return v + (e.unit.charAt(0) === "%" ? "" : " ") + e.unit; }
-  // in place of a slider: a few values that mean something (each with a plain label), and a nudge for anything between.
-  // o: { label, choices: [[value, word]], step, min, max, fmt, get, set }; returns the element, with .sync()
-  function picker(o) {
-    var box = el("div", { class: "pick" });
-    var seg = el("div", { class: "pick__seg", role: "group", "aria-label": o.label }); box.appendChild(seg);
-    var btns = o.choices.map(function (c) {
-      var b = el("button", { type: "button", "aria-pressed": "false" });
-      b.appendChild(el("b", null, o.fmt(c[0]))); b.appendChild(el("small", null, c[1]));
-      b.addEventListener("click", function () { o.set(c[0]); });
-      seg.appendChild(b); return [c[0], b];
-    });
-    var nudge = el("div", { class: "nudge", role: "group", "aria-label": o.label + ", in steps" }); box.appendChild(nudge);
-    var less = el("button", { type: "button", "aria-label": "Less" }, "\u2212"), val = el("output", { "aria-live": "polite" }), more = el("button", { type: "button", "aria-label": "More" }, "+");
-    nudge.appendChild(less); nudge.appendChild(val); nudge.appendChild(more);
-    var clamp = function (v) { return Math.max(o.min, Math.min(o.max, v)); };
-    var stepOf = function (v, d) { return typeof o.step === "function" ? o.step(v, d) : o.step; };
-    var nudgeBy = function (d) { var v = o.get(), n = clamp(v + d * stepOf(v, d)); if (n !== v) o.set(n); return n !== v; };
-    // hold to keep going: a pause, then repeats that speed up; a key press or a tap steps once
-    var timer = null;
-    var stop = function () { clearTimeout(timer); timer = null; };
-    [[less, -1], [more, 1]].forEach(function (x) {
-      var b = x[0], d = x[1];
-      b.addEventListener("pointerdown", function (e) {
-        if (e.button !== 0 || b.disabled) return;
-        e.preventDefault(); stop();
-        if (!nudgeBy(d)) return;
-        var n = 0, go = function () { if (!nudgeBy(d)) return stop(); n++; timer = setTimeout(go, n < 6 ? 110 : n < 20 ? 60 : 30); };
-        timer = setTimeout(go, 380);
-      });
-      ["pointerup", "pointerleave", "pointercancel", "blur"].forEach(function (t) { b.addEventListener(t, stop); });
-      b.addEventListener("click", function (e) { if (e.detail === 0) nudgeBy(d); });  // keyboard
-      b.addEventListener("contextmenu", function (e) { if (timer) e.preventDefault(); });
-    });
-    box.sync = function () {
-      var v = o.get();
-      btns.forEach(function (x) { x[1].setAttribute("aria-pressed", String(x[0] === v)); });
-      val.textContent = o.fmt(v); less.disabled = v <= o.min; more.disabled = v >= o.max;
-    };
-    box.sync();
-    return box;
+  function copy(o) { return JSON.parse(JSON.stringify(o)); }
+  var ST = {}, PROD = {}, version = 2, log = [];
+  QS.forEach(function (q) { ST[q.id] = fresh(q); PROD[q.id] = copy(ST[q.id]); });
+  var qid = (location.search.match(/[?&]q=(\w+)/) || [])[1];
+  if (!BYQ[qid]) qid = "hormuz";
+  function Q() { return BYQ[qid]; }
+  function S() { return ST[qid]; }
+  function coverOf(q, s, id) {
+    if (s.cover[id] != null) return s.cover[id];
+    if (q.model === "hormuz") return M.BASE.plants.concat(M.BASE.dcs).filter(function (n) { return n.id === id; })[0].cover;
+    return q.assets.filter(function (a) { return a.id === id; })[0].cover;
   }
-  function buildForecast() {
-    fcBox.textContent = "";
-    events.forEach(function (e) {
-      var row = el("article", { class: "fcrow" });
-      var qd = el("div", { class: "fcrow__q" });
-      qd.appendChild(el("h3", null, e.name));
-      var det = el("p", null); qd.appendChild(det);
-      var btns = el("div", { class: "fcrow__btns" });
-      var how = el("button", { class: "chip-btn", type: "button", "aria-expanded": "false" });
-      btns.appendChild(how);
-      var fb = followBtn(e); btns.appendChild(fb);
-      qd.appendChild(btns);
-      row.appendChild(qd);
-      // the scale: three engines, the fused estimate with its error bars, and your override
-      var sc = el("div", { class: "fcrow__scale" });
-      var track = el("div", { class: "fscale", role: "img" });
-      var ticks = el("div", { class: "fscale__ticks" }); track.appendChild(ticks);
-      var band = el("i", { class: "fscale__band" }); track.appendChild(band);
-      var engs = Object.keys(e.fused).sort(function (a, b) { return e.fused[a] - e.fused[b]; }).map(function (k) {
-        var m = el("i", { class: "fscale__eng", title: k + " engine: " + Math.round(e.fused[k] * 100) + "%" }, k.charAt(0)); track.appendChild(m); return [k, m];
-      });
-      var fd = el("i", { class: "fscale__fused" }); track.appendChild(fd);
-      var you = el("i", { class: "fscale__you" }); track.appendChild(you);
-      sc.appendChild(track);
-      var leg = el("p", { class: "fcrow__eng" }); sc.appendChild(leg);
-      row.appendChild(sc);
-      var pd = el("div", { class: "fcrow__p" });
-      var big = el("b", { class: "fcrow__big" }); pd.appendChild(big);
-      var sp = el("div", { class: "fcrow__spark" }); pd.appendChild(sp);
-      var pf = el("div", { class: "field fcrow__ovr" });
-      var pt = el("span", { class: "field__top" }, "Your view"); var pv = el("span", { class: "field__val" }); pt.appendChild(pv); pf.appendChild(pt);
-      var mid = Math.round(e.base.p * 100);
-      // the ends of Totality's error band, its forecast, and a point at a time for anything else
-      var pr = picker({ label: "Your probability for " + e.name, step: 1, min: 1, max: 95,
-        choices: [[Math.max(1, mid - e.band), "low end"], [mid, "Totality"], [Math.min(95, mid + e.band), "high end"]],
-        fmt: function (v) { return v + "%"; }, get: function () { return Math.round(e.p * 100); },
-        set: function (v) { e.p = v / 100; markPreset(null); changed(); } });
-      pf.appendChild(pr);
-      pd.appendChild(pf);
-      var reset = el("button", { class: "event__reset", type: "button" }, "Back to Totality’s forecast");
-      reset.addEventListener("click", function () { e.p = e.base.p; changed("Reset " + e.short + " to Totality’s forecast"); });
-      pd.appendChild(reset);
-      row.appendChild(pd);
-      // how the Totality engine got there
-      var hw = el("ol", { class: "fcrow__how" }); hw.hidden = true;
-      row.appendChild(hw);
-      how.addEventListener("click", function () { opened[e.id] = hw.hidden; sync(); });
-      function sync() {
-        var p = pOf(e), moved = Math.round(e.p * 100) !== Math.round(e.base.p * 100);
-        row.classList.toggle("is-off", !e.on); row.classList.toggle("is-focus", focus === e.id);
-        det.textContent = e.detail + ". 30-day horizon." + (e.on ? "" : " Not included in this scenario.");
-        big.textContent = Math.round(p * 100) + "%";
-        pv.textContent = moved ? "Your override" : "Totality’s forecast"; pr.sync();
-        reset.hidden = !moved;
-        // one scale for every row, just wide enough for the largest number on it
-        var top = Math.max.apply(null, events.map(function (x) { return Math.max(pOf(x), x.base.p + x.band / 100, x.fused.Judgment, x.fused.Telemetry, x.fused.Procedure); }));
-        var dom = Math.min(100, Math.max(50, Math.ceil((top * 100 + 5) / 10) * 10)), X = function (v) { return Math.max(0, Math.min(100, v * 100 / dom * 100)) + "%"; };
-        ticks.textContent = "";
-        for (var t = 0; t <= dom; t += dom > 60 ? 20 : 10) { var tk = el("i", { class: "fscale__tick", "data-t": t + "%" }); tk.style.left = X(t / 100); ticks.appendChild(tk); }
-        band.style.left = X(Math.max(0, e.base.p - e.band / 100)); band.style.width = (2 * e.band / dom * 100) + "%";
-        var prev = -1, lvl = 0;
-        engs.forEach(function (x) { var v = e.fused[x[0]]; lvl = prev >= 0 && (v - prev) * 100 / dom < 0.035 ? lvl + 1 : 0; prev = v; x[1].style.left = X(v); x[1].style.bottom = (1.45 + lvl * 1.25) + "rem"; });
-        fd.style.left = X(e.base.p);
-        // overridden: the solid dot moves to your value and Totality's stays behind as a faint outline
-        var over = moved || Math.abs(p - e.p) > 1e-9;
-        you.hidden = !over; you.style.left = X(p); fd.classList.toggle("is-ghost", over);
-        track.setAttribute("aria-label", "Engines: " + Object.keys(e.fused).map(function (k) { return k + " " + Math.round(e.fused[k] * 100) + "%"; }).join(", ") + ". Fused " + Math.round(e.base.p * 100) + "% plus or minus " + e.band + "%." + (moved ? " Your view: " + Math.round(p * 100) + "%." : ""));
-        leg.textContent = "Fused " + Math.round(e.base.p * 100) + "%, ±" + e.band + "%" + (moved ? ". You’ve set " + Math.round(e.p * 100) + "%" : "") + (Math.abs(p - e.p) > 1e-9 ? ", " + Math.round(p * 100) + "% with your signals" : "") + ".";
-        sp.textContent = ""; sp.appendChild(spark(e)); sp.title = "Last 90 days: " + Math.round(e.hist[0] * 100) + "% to " + Math.round(e.base.p * 100) + "%";
-        var open = opened[e.id] != null ? opened[e.id] : focus === e.id;
-        hw.hidden = !open; how.setAttribute("aria-expanded", String(open));
-        how.textContent = open ? "Hide the working" : "How Totality got " + Math.round(e.base.p * 100) + "%";
-        fb.setAttribute("aria-pressed", String(focus === e.id)); fb.textContent = focus === e.id ? "Following" : "Follow this contingency";
-        if (open) {
-          hw.textContent = "";
-          e.subs.forEach(function (s) {
-            var li = el("li"); li.appendChild(el("span", { class: "fcrow__engname" }, s[0] + " engine")); li.appendChild(el("span", null, s[1])); li.appendChild(el("b", null, Math.round(e.fused[s[0]] * 100) + "%")); hw.appendChild(li);
-          });
-          if (e.declined) { var dl = el("li", { class: "is-declined" }); dl.appendChild(el("span", { class: "fcrow__engname" }, "Declined")); dl.appendChild(el("span", null, e.declined)); dl.appendChild(el("b", null, "no skill")); hw.appendChild(dl); }
-          signals.filter(function (s) { return s.event === e.id; }).forEach(function (s) {
-            var li = el("li", { class: "is-signal" }); li.appendChild(el("span", { class: "fcrow__engname" }, "Your signal")); li.appendChild(el("span", null, s.name + (s.on ? ", firing" : ", quiet"))); li.appendChild(el("b", null, s.on ? (s.pts > 0 ? "+" : "") + s.pts + "%" : "0%")); hw.appendChild(li);
-          });
-          var fl = el("li", { class: "is-fused" }); fl.appendChild(el("span", { class: "fcrow__engname" }, "Fused and calibrated")); fl.appendChild(el("span", null, "±" + e.band + "%, 30-day horizon")); fl.appendChild(el("b", null, Math.round(e.base.p * 100) + "%")); hw.appendChild(fl);
-          if (!signals.some(function (s) { return s.event === e.id; })) {
-            var add = el("li", { class: "is-add" }); add.appendChild(linkBtn("Add one of your own indicators as a signal", function () { goTo("model:data"); })); hw.appendChild(add);
-          }
-        }
-      }
-      e._fsync = sync;
-      fcBox.appendChild(row);
+  function assetName(q, id) { return q.model === "hormuz" ? q.sites[id][0] : q.assets.filter(function (a) { return a.id === id; })[0].name; }
+  function actName(q, id) { return q.actions.filter(function (a) { return a.id === id; })[0].name; }
+  // what differs from production, in words
+  function changes(q) {
+    var s = ST[q.id], b = PROD[q.id], out = [];
+    if (chance(q, s) !== chance(q, b)) out.push("Chance " + pct(chance(q, b)) + " → " + pct(chance(q, s)));
+    if (s.dur !== b.dur) out.push("Lasts " + span(b.dur) + " → " + span(s.dur));
+    var ids = {}; Object.keys(s.cover).concat(Object.keys(b.cover)).forEach(function (k) { ids[k] = 1; });
+    Object.keys(ids).forEach(function (id) {
+      var a = coverOf(q, b, id), z = coverOf(q, s, id);
+      if (a !== z) out.push(assetName(q, id) + " cover " + a + " → " + z + " days");
     });
-    DB.fillRanges(fcBox);
-  }
-
-  /* ================= 2. Events ================= */
-  var evBox = document.getElementById("events");
-  function buildEvents() {
-    evBox.textContent = "";
-    events.forEach(function (e) {
-      var card = el("article", { class: "event" });
-      var top = el("label", { class: "switch event__switch" });
-      var txt = el("span", { class: "switch__text" }, e.name);
-      txt.appendChild(el("small", null, e.detail));
-      top.appendChild(txt);
-      var cb = el("input", { type: "checkbox", "aria-label": "Include in this scenario: " + e.name }); cb.checked = e.on;
-      top.appendChild(cb); top.appendChild(el("span", { class: "switch__ui", "aria-hidden": "true" }));
-      card.appendChild(top);
-      var body = el("div", { class: "event__body" });
-      var pl = el("p", { class: "event__p" }); body.appendChild(pl);
-      var mf = el("div", { class: "field" }), days = e.unit === "days";
-      var mt = el("span", { class: "field__top" }, days ? "How long" : "How much");
-      var mv = el("span", { class: "field__val" }); mt.appendChild(mv); mf.appendChild(mt);
-      // half as long, as forecast, twice as long; nudged a day at a time under two weeks, else a week (or 5 points)
-      var b0 = e.base.mag;
-      var mr = picker({ label: (days ? "How long: " : "How much: ") + e.name, min: e.min, max: e.max,
-        step: function (v, d) { return !days ? 5 : (d < 0 ? v <= 14 : v < 14) ? 1 : 7; },
-        choices: [[Math.max(e.min, Math.round(b0 / 2)), days ? "shorter" : "milder"], [b0, "expected"], [Math.min(e.max, b0 * 2), days ? "longer" : "worse"]],
-        fmt: function (v) { return unitText(e, v); }, get: function () { return e.mag; },
-        set: function (v) { e.mag = v; markPreset(null); changed(); } });
-      mf.appendChild(mr);
-      body.appendChild(mf);
-      var hits = el("div", { class: "event__hits" });
-      hits.appendChild(el("span", { class: "event__hitlab" }, "Hits first"));
-      e.hits.forEach(function (id) {
-        var a = assetById(id); if (!a) return;
-        var b = el("button", { class: "chip-btn chip-btn--sm", type: "button" }, a.name);
-        b.addEventListener("click", function () { isel = id; goTo("impact"); });
-        hits.appendChild(b);
-      });
-      body.appendChild(hits);
-      var reachP = el("p", { class: "event__reach" }); body.appendChild(reachP);
-      var fb = followBtn(e); body.appendChild(fb);
-      card.appendChild(body);
-      function sync() {
-        mv.textContent = e.mag === e.base.mag ? "as forecast" : "your setting"; mr.sync();
-        pl.textContent = "";
-        pl.appendChild(el("b", null, Math.round(pOf(e) * 100) + "%"));
-        pl.appendChild(document.createTextNode(" likely, from the forecast. "));
-        pl.appendChild(linkBtn("Change", function () { opened[e.id] = true; goTo("forecast"); }));
-        var wasOn = e.on; e.on = true;
-        var R = reach(e.id), n = Object.keys(R).length, direct = Object.keys(R).filter(function (k) { return R[k].direct; }).length;
-        e.on = wasOn;
-        reachP.textContent = "Affects " + n + " of your " + allAssets().length + " assets" + (n === direct ? ", all directly." : ": " + direct + " directly and " + (n - direct) + " through their dependencies.") +
-          (e.on ? " Adds " + money(E0() - expected({}, params, e.id).E) + " to expected loss." : "");
-        card.classList.toggle("is-on", e.on); card.classList.toggle("is-focus", focus === e.id);
-        fb.setAttribute("aria-pressed", String(focus === e.id)); fb.textContent = focus === e.id ? "Following" : "Follow this contingency";
-      }
-      cb.addEventListener("change", function () { e.on = cb.checked; if (!e.on && focus === e.id) focus = null; markPreset(null); changed((e.on ? "Included: " : "Excluded: ") + e.name); });
-      e._esync = sync;
-      evBox.appendChild(card);
-    });
-    DB.fillRanges(evBox);
-  }
-  function markPreset(id) {
-    preset = id;
-    document.querySelectorAll("[data-preset]").forEach(function (b) { b.classList.toggle("is-on", b.getAttribute("data-preset") === id); });
-  }
-  document.querySelectorAll("[data-preset]").forEach(function (b) {
-    b.addEventListener("click", function () {
-      var id = b.getAttribute("data-preset"), P = PRESETS[id];
-      events.forEach(function (e) {
-        if (!P) { e.on = e.base.on; e.p = e.base.p; e.mag = e.base.mag; return; }
-        var v = P[e.id]; e.on = v[0]; if (v.length > 1) { e.p = v[1]; e.mag = v[2]; }
-      });
-      if (focus && !eventById(focus).on) focus = null;
-      rebuild(); markPreset(id);
-      changed("Loaded preset: " + b.textContent);
-    });
-  });
-  function rebuild() { buildForecast(); buildEvents(); }
-
-  /* ================= Shared: the network graph ================= */
-  // tr: the nodes and edges to highlight; hit: nodes an included event touches; onPick(nodeId)
-  function drawGraph(svg, nodeLoss, tr, pickedNode, hit, onPick) {
-    svg.textContent = "";
-    var tracing = Object.keys(tr.ids).length > 0;
-    var max = Math.max(1, Math.max.apply(null, Object.keys(nodeLoss).map(function (k) { return nodeLoss[k]; })));
-    EDGES.forEach(function (e, i) {
-      var a = NODES[e[0]], b = NODES[e[1]];
-      var mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2 - Math.abs(a.x - b.x) * 0.12;
-      var at = { class: "gedge" + (tr.edges[i] ? " is-trace" : tracing ? " is-dim" : ""), d: "M" + a.x + " " + a.y + " Q" + mx + " " + my + " " + b.x + " " + b.y, "stroke-width": 1.6 };
-      // colors come from the page palette (CSS variables), so they go in style: SVG attributes can't read var()
-      if (e[2] === "alt") { at.style = "stroke: color-mix(in srgb, var(--good) 60%, transparent)"; at["stroke-dasharray"] = "5 5"; }
-      else at.style = "stroke: " + (e[2] === "hot" ? "color-mix(in srgb, var(--alert) 55%, transparent)" : "rgba(220,230,255,0.3)");
-      svg.appendChild(sv("path", at));
-    });
-    Object.keys(NODES).forEach(function (id) {
-      var n = NODES[id], loss = nodeLoss[id] || 0;
-      var r = 5 + (loss > 0.01 ? 15 * Math.sqrt(loss / max) : 0);
-      var g = sv("g", { class: "gnode" + (pickedNode === id ? " is-selected" : "") + (tracing && !tr.ids[id] ? " is-dim" : ""), tabindex: 0, role: "button",
-        "aria-label": n.name + (loss > 0.01 ? ", " + money(loss) + " expected loss" : "") + ". Inspect." });
-      if (hit[id]) g.appendChild(sv("circle", { class: "gnode__ring", cx: n.x, cy: n.y, r: r + 7 }));
-      g.appendChild(sv("circle", { class: "gnode__halo", cx: n.x, cy: n.y, r: r + 4 }));
-      g.appendChild(sv("circle", { class: "gnode__dot", cx: n.x, cy: n.y, r: r.toFixed(1),
-        style: "fill: var(" + (loss > 0.01 ? "--alert" : n.kind === "Chokepoint" ? "--alert-2" : n.alt ? "--good" : "--moon-3") + ")" }));
-      var anchor = n.lab ? "end" : "start";
-      var tx = n.lab === "left" ? n.x - r - 9 : n.lab === "below" ? n.x - 10 : n.x + r + 9;
-      var ty = n.lab === "below" ? n.y + r + 15 : n.y + 4;
-      g.appendChild(sv("text", { x: tx, y: ty, "text-anchor": anchor }, n.name));
-      if (loss > 0.01) g.appendChild(sv("text", { class: "gnode__val", x: tx, y: ty + 13, "text-anchor": anchor }, money(loss)));
-      g.addEventListener("click", function () { onPick(id); });
-      g.addEventListener("keydown", function (k) { if (k.key === "Enter" || k.key === " ") { k.preventDefault(); onPick(id); } });
-      svg.appendChild(g);
-    });
-  }
-  function mainAssetAt(id) {
-    return allAssets().filter(function (a) { return a.node === id && (a.type === "Plant" || a.type === "Distribution centre" || a.type === "Chokepoint"); })[0] ||
-           allAssets().filter(function (a) { return a.node === id && a.type === "Port"; })[0] || allAssets().filter(function (a) { return a.node === id; })[0];
-  }
-  function nodeLossOf(S) { return { gebze: S.m_gebze, pune: S.m_pune, dubai: S.m_dubai, dammam: S.m_dammam }; }
-  function edgesFor(ids) { var ed = {}; EDGES.forEach(function (e, i) { if (ids[e[0]] && ids[e[1]]) ed[i] = 1; }); return ed; }
-  function hitNodes(only) {
-    var on = active().map(function (e) { return e.id; }).filter(function (id) { return !only || id === only; }), out = {};
-    Object.keys(NODES).forEach(function (id) { if ((NODES[id].touched || []).some(function (t) { return on.indexOf(t) > -1; })) out[id] = 1; });
+    s.plan.filter(function (id) { return b.plan.indexOf(id) < 0; }).forEach(function (id) { out.push("Plan adds “" + actName(q, id) + "”"); });
+    b.plan.filter(function (id) { return s.plan.indexOf(id) < 0; }).forEach(function (id) { out.push("Plan drops “" + actName(q, id) + "”"); });
     return out;
   }
-  function teamName(t) { return t ? TEAMS[t].name : "Watched by Penumbra"; }
 
-  /* ================= 3. Impact: the map ================= */
-  // where each graph node sits, in lon/lat; the Gulf ones are too close together at this scale, so they get an inset
-  var GEO = { busan: [129.04, 35.10], ningbo: [121.85, 29.93], kaoh: [120.28, 22.61], sing: [103.82, 1.26], pune: [73.86, 18.52],
-    khor: [56.35, 25.34], hormuz: [56.45, 26.57], dubai: [55.03, 25.01], mesaieed: [51.55, 24.99], dammam: [50.10, 26.43], jubail: [49.66, 27.01],
-    bab: [43.4, 12.6], suez: [32.55, 30.0], gebze: [29.43, 40.80] };
-  var GULF = { khor: 1, hormuz: 1, dubai: 1, mesaieed: 1, dammam: 1, jubail: 1 };
-  // projections shared with tools/bench-map.py
-  var IX = 10, IY = 344, IW = 265, IH = 152;
-  function MP(ll) { return [(ll[0] - 24) * 9.06, (46 - ll[1]) * 10]; }
-  function IP(ll) { return [IX + (ll[0] - 47.8) * 27, IY + (28.6 - ll[1]) * 29.8]; }
-  // sea lanes, as waypoints that keep each route at sea; khor-dubai is the road from the east coast
-  var LANES = {
-    "jubail-hormuz": [[49.66, 27.01], [50.6, 27.3], [52, 26.9], [53.5, 26.3], [55, 26.2], [56.0, 26.4], [56.45, 26.57]],
-    "mesaieed-hormuz": [[51.55, 24.99], [52.2, 25.3], [53.5, 25.9], [55, 26.15], [56.0, 26.4], [56.45, 26.57]],
-    "dammam-hormuz": [[50.10, 26.43], [50.7, 26.95], [52, 26.85], [53.5, 26.3], [55, 26.2], [56.0, 26.4], [56.45, 26.57]],
-    "dubai-hormuz": [[55.03, 25.01], [55.4, 25.55], [56.0, 26.3], [56.45, 26.57]],
-    "hormuz-pune": [[56.45, 26.57], [57.2, 25.6], [59, 24], [66, 21], [72.7, 19.0], [73.86, 18.52]],
-    "hormuz-bab": [[56.45, 26.57], [57.2, 25.6], [58.6, 24.5], [60.3, 22.4], [57.6, 17.2], [52, 14], [46, 12.2], [43.4, 12.6]],
-    "bab-suez": [[43.4, 12.6], [42.3, 14.8], [39.5, 19], [37.2, 22.5], [34.8, 26.4], [33.3, 28.4], [32.55, 30.0]],
-    "suez-gebze": [[32.55, 30.0], [32.35, 31.2], [30, 33.4], [27.5, 35.6], [25.9, 37.9], [26.2, 40.05], [26.8, 40.4], [28.8, 40.85], [29.43, 40.80]],
-    "busan-ningbo": [[129.04, 35.1], [127, 33], [124, 31], [122.3, 30.0], [121.85, 29.93]],
-    "ningbo-kaoh": [[121.85, 29.93], [122.4, 29], [121, 26.5], [119.8, 24.8], [119.9, 23], [120.28, 22.61]],
-    "kaoh-sing": [[120.28, 22.61], [118, 19.5], [112, 12], [107.5, 6], [104.5, 2.3], [103.82, 1.26]],
-    "sing-hormuz": [[103.82, 1.26], [101, 2.9], [98.5, 4.7], [95.5, 6.3], [90, 6], [81, 5.0], [73, 10], [64, 18.5], [60.5, 22.6], [58.6, 24.5], [57.2, 25.6], [56.45, 26.57]],
-    "sing-khor": [[103.82, 1.26], [101, 2.9], [98.5, 4.7], [95.5, 6.3], [90, 6], [81, 5.0], [73, 10], [64, 18.5], [60.5, 22.6], [58.4, 24.4], [57, 25.1], [56.35, 25.34]],
-    "khor-dubai": [[56.35, 25.34], [55.8, 25.2], [55.03, 25.01]],
-    "sing-pune": [[103.82, 1.26], [101, 2.9], [98.5, 4.7], [95.5, 6.3], [90, 6], [81, 5.0], [76, 8.8], [73.5, 14], [72.7, 18.9], [73.86, 18.52]],
-    "sing-bab": [[103.82, 1.26], [101, 2.9], [98.5, 4.7], [95.5, 6.3], [90, 6], [81, 5.0], [70, 8], [58, 11], [51.6, 12.4], [46, 12.2], [43.4, 12.6]]
-  };
-  // where each label sits: [dx, dy, anchor], in main-map or inset units
-  var LAB = { gebze: [10, 4, "start"], suez: [-9, 4, "end"], bab: [9, -6, "start"], pune: [12, 4, "start"], sing: [-10, 14, "end"], kaoh: [10, 4, "start"],
-    ningbo: [10, 4, "start"], busan: [10, 4, "start"],
-    jubail: [-8, -6, "end"], dammam: [10, 4, "start"], mesaieed: [-9, 12, "end"], dubai: [-4, 22, "middle"], hormuz: [0, -14, "middle"], khor: [10, 4, "start"] };
-  var REGIONS = [["TÜRKIYE", 37, 38.0], ["EGYPT", 29.2, 25.8], ["SAUDI ARABIA", 43.6, 22.4], ["IRAN", 55.5, 32.4], ["INDIA", 78.5, 21.5], ["CHINA", 106, 32.5], ["OMAN", 55.8, 19.6]];
-  var SEAS = [["Arabian Sea", 63.5, 14], ["Bay of Bengal", 88.5, 15], ["South China Sea", 113.5, 15.5], ["Red Sea", 36.6, 21], ["Indian Ocean", 78, 1.5]];
-  function smooth(pts) {
-    var d = "M" + pts[0][0].toFixed(1) + " " + pts[0][1].toFixed(1);
-    for (var i = 0; i < pts.length - 1; i++) {
-      var p0 = pts[i - 1] || pts[i], p1 = pts[i], p2 = pts[i + 1], p3 = pts[i + 2] || p2;
-      d += " C" + (p1[0] + (p2[0] - p0[0]) / 6).toFixed(1) + " " + (p1[1] + (p2[1] - p0[1]) / 6).toFixed(1) + " " +
-        (p2[0] - (p3[0] - p1[0]) / 6).toFixed(1) + " " + (p2[1] - (p3[1] - p1[1]) / 6).toFixed(1) + " " + p2[0].toFixed(1) + " " + p2[1].toFixed(1);
-    }
-    return d;
+  /* ================= Drawing ================= */
+  var shownQ = null;
+  function render() {
+    var swap = shownQ !== null && shownQ !== qid; shownQ = qid;
+    drawQs(); drawBottom(); drawForecast(); drawImpact(); drawPlan(); drawData(); drawAsks();
+    if (swap && !REDUCE) { var wb = byId("wb"); wb.classList.remove("is-swap"); void wb.offsetWidth; wb.classList.add("is-swap"); }
   }
-  var imap = document.getElementById("imap"), imapLayer = null;
-  function mapBase() {
-    var B = window.BENCH_MAP || { main: "", inset: "" };
-    imap.appendChild(sv("rect", { x: 0, y: 0, width: 1000, height: 500, class: "imap__sea" }));
-    imap.appendChild(sv("path", { d: B.main, class: "imap__land" }));
-    REGIONS.forEach(function (r) { var p = MP([r[1], r[2]]); imap.appendChild(sv("text", { x: p[0], y: p[1], class: "imap__region", "text-anchor": "middle" }, r[0])); });
-    SEAS.forEach(function (r) { var p = MP([r[1], r[2]]); imap.appendChild(sv("text", { x: p[0], y: p[1], class: "imap__seaname", "text-anchor": "middle" }, r[0])); });
-    // the Gulf, boxed on the main map and enlarged in the corner
-    var a = MP([47.8, 28.6]), b = MP([57.6, 23.5]);
-    imap.appendChild(sv("rect", { x: a[0], y: a[1], width: b[0] - a[0], height: b[1] - a[1], class: "imap__box" }));
-    imap.appendChild(sv("path", { d: "M" + a[0] + " " + b[1] + " L" + IX + " " + IY + " M" + b[0] + " " + b[1] + " L" + (IX + IW) + " " + IY, class: "imap__leader" }));
-    var defs = sv("defs"), cp = sv("clipPath", { id: "imap-clip" }), mk = sv("mask", { id: "imap-out", maskUnits: "userSpaceOnUse", x: 0, y: 0, width: 1000, height: 500 });
-    cp.appendChild(sv("rect", { x: IX, y: IY, width: IW, height: IH, rx: 10 })); defs.appendChild(cp);
-    mk.appendChild(sv("rect", { x: 0, y: 0, width: 1000, height: 500, fill: "#fff" })); mk.appendChild(sv("rect", { x: IX - 4, y: IY - 4, width: IW + 8, height: IH + 8, rx: 12, fill: "#000" })); defs.appendChild(mk);
-    imap.appendChild(defs);
-    var g = sv("g", { "clip-path": "url(#imap-clip)" });
-    g.appendChild(sv("rect", { x: IX, y: IY, width: IW, height: IH, class: "imap__sea" }));
-    g.appendChild(sv("path", { d: B.inset, class: "imap__land" }));
-    imap.appendChild(g);
-    imap.appendChild(sv("rect", { x: IX, y: IY, width: IW, height: IH, rx: 10, class: "imap__frame" }));
-    imap.appendChild(sv("text", { x: IX + 10, y: IY + 17, class: "imap__inset-title" }, "The Gulf, enlarged"));
-    imapLayer = sv("g"); imap.appendChild(imapLayer);
-  }
-  function drawMap(nodeLoss, lit, path, pickedNode, hit, onPick) {
-    if (!imapLayer) mapBase();
-    imapLayer.textContent = "";
-    var tracing = Object.keys(path).length > 0, any = Object.keys(lit).length > 0;
-    var max = Math.max(1, Math.max.apply(null, Object.keys(nodeLoss).map(function (k) { return nodeLoss[k]; })));
-    var main = sv("g", { mask: "url(#imap-out)" }), inset = sv("g", { "clip-path": "url(#imap-clip)" }), pins = sv("g");
-    EDGES.forEach(function (e) {
-      var pts = LANES[e[0] + "-" + e[1]]; if (!pts) return;
-      var cls = "lane lane--" + e[2] + (path[e[0]] && path[e[1]] ? " is-trace" : tracing ? " is-dim" : "");
-      main.appendChild(sv("path", { d: smooth(pts.map(MP)), class: cls }));
-      inset.appendChild(sv("path", { d: smooth(pts.map(IP)), class: cls }));
-    });
-    imapLayer.appendChild(main); imapLayer.appendChild(inset);
-    Object.keys(NODES).forEach(function (id) {
-      var n = NODES[id], loss = nodeLoss[id] || 0, gulf = !!GULF[id];
-      var p = gulf ? IP(GEO[id]) : MP(GEO[id]);
-      if (gulf) { var m = MP(GEO[id]); main.appendChild(sv("circle", { cx: m[0].toFixed(1), cy: m[1].toFixed(1), r: 1.8, class: "imap__pin" + (lit[id] ? " is-lit" : "") })); }
-      var r = 4.5 + (loss > 0.01 ? 13 * Math.sqrt(loss / max) : 0);
-      var g = sv("g", { class: "mnode" + (pickedNode === id ? " is-selected" : "") + (any && !lit[id] ? " is-dim" : ""), tabindex: 0, role: "button",
-        "aria-label": n.name + (loss > 0.01 ? ", " + money(loss) + " expected loss" : "") + (hit[id] ? ", hit directly" : "") + ". Inspect." });
-      if (hit[id]) g.appendChild(sv("circle", { class: "mnode__ring", cx: p[0], cy: p[1], r: r + 5 }));
-      g.appendChild(sv("circle", { class: "mnode__halo", cx: p[0], cy: p[1], r: r + 3.5 }));
-      g.appendChild(sv("circle", { class: "mnode__dot mnode__dot--" + (loss > 0.01 ? "loss" : n.kind === "Chokepoint" ? "choke" : n.alt ? "alt" : "plain"), cx: p[0], cy: p[1], r: r.toFixed(1) }));
-      var L = LAB[id] || [10, 4, "start"], push = L[2] === "middle" ? 0 : (L[2] === "end" ? -r + 4 : r - 4);
-      var tx = p[0] + L[0] + push, ty = p[1] + L[1] + (L[1] > 12 ? r - 4 : L[1] < 0 ? -r + 4 : 0);
-      g.appendChild(sv("text", { x: tx.toFixed(1), y: ty.toFixed(1), "text-anchor": L[2], class: "mnode__name" }, n.name));
-      if (loss > 0.01) g.appendChild(sv("text", { x: tx.toFixed(1), y: (ty + 12).toFixed(1), "text-anchor": L[2], class: "mnode__val" }, money(loss)));
-      g.addEventListener("click", function () { onPick(id); });
-      g.addEventListener("keydown", function (k) { if (k.key === "Enter" || k.key === " ") { k.preventDefault(); onPick(id); } });
-      pins.appendChild(g);
-    });
-    imapLayer.appendChild(pins);
+  function swapTo(id) {
+    if (id === qid) return;
+    qid = id;
+    try { history.replaceState(null, "", "?q=" + id); } catch (e) {}
+    render();
   }
 
-  /* ================= 3. Impact ================= */
-  var DIMS = [
-    { id: "money", name: "Finances" }, { id: "ops", name: "Operations" }, { id: "customers", name: "Customers" },
-    { id: "people", name: "People" }, { id: "commit", name: "Commitments" }
-  ];
-  function days(d) { return Math.round(d) + (Math.round(d) === 1 ? " day" : " days"); }
-  function atRisk(S) { return TRIGGERS.filter(function (t) { return S["t_" + t.id] > 0.05; }); }
-  function dimHead(id, S) {
-    if (id === "money") return [money(S.money), "expected loss", "If they all happen: " + money(S.w_money)];
-    if (id === "ops") return [Math.round(S.lineDays) + " line-days", "lost on average", "If they all happen: " + Math.round(S.w_lineDays) + " line-days and " + Math.round(S.w_units).toLocaleString() + " units not built"];
-    if (id === "customers") {
-      var mk = [["MENA", S.w_mena], ["EU", S.w_eu], ["India", S.w_india]].sort(function (a, b) { return b[1] - a[1]; });
-      return mk[0][1] < 0.5 ? ["No shortfall", "in any market", "Even if they all happen"] : [days(mk[0][1]) + " short", "in " + mk[0][0] + " if they all happen", mk.slice(1).map(function (m) { return m[0] + " " + Math.round(m[1]); }).join(", ") + " days"];
-    }
-    if (id === "people") return S.w_crew ? [S.w_crew + " seafarers", "in harm’s way if Hormuz closes", pct(S.crewP) + " chance. Plant staff stood down: " + pct(S.stoodP) + " chance"] :
-      [S.w_stood ? S.w_stood.toLocaleString() + " staff" : "No one", S.w_stood ? "stood down if they all happen" : "in harm’s way", "Plant stand-down: " + pct(S.stoodP) + " chance"];
-    var ar = atRisk(S).sort(function (a, b) { return S["t_" + b.id] - S["t_" + a.id]; });
-    return [plural(ar.length, "commitment"), "at risk", ar.length ? "Most likely: " + ar[0].name + ", " + pct(S["t_" + ar[0].id]) : "None above 5%"];
-  }
-  function addToPlanBtn(a, bare) {
-    var inPlan = !!plan[a.id];
-    var b = el("button", { class: "chip-btn chip-btn--sm" + (inPlan ? " is-on" : ""), type: "button", "aria-pressed": String(inPlan), "aria-label": (inPlan ? "In the plan: " : "Add to plan: ") + a.name },
-      bare ? a.name : (inPlan ? "In the plan: " : "Add to plan: ") + a.name);
-    b.addEventListener("click", function () { if (plan[a.id]) delete plan[a.id]; else plan[a.id] = true; changed((plan[a.id] ? "Added: " : "Removed: ") + a.name); });
-    return b;
-  }
-  // the selected kind of impact, explained on the left and broken down as bars on the right:
-  // solid is the probability-weighted average, the dashed outline is the size if every included contingency happens
-  function renderDimDetail(S) {
-    var box = document.getElementById("dimdetail"); box.textContent = "";
-    var intro = el("div", { class: "dd__intro" }), list = el("ol", { class: "dd__rows" }), rows = [], head, body, note = "", bars = "range";
-    var hasPlan = planList(plan).length > 0;
-    function n0(v) { return Math.round(v).toLocaleString(); }
-    if (dim === "money") {
-      head = "Where the " + money(S.money) + " comes from";
-      body = "Each bar is one place the loss lands. If every contingency you’ve included happened at once, the total would be " + money(S.w_money) + ".";
-      rows = [["Gebze plant", "Line stops on 3 lines", "gebze"], ["Pune plant", "Line stops on 2 lines", "pune"], ["Dubai DC", "Lost margin while out of stock", "dubai"], ["Dammam DC", "Lost margin while out of stock", "dammam"]]
-        .map(function (x) { return { label: x[0], sub: x[1], avg: S["m_" + x[2]], all: S["w_m_" + x[2]], f: money }; })
-        .concat([{ label: "Freight and insurance", sub: "War-risk premium, bunker, trapped cargo", avg: S.m_freight, all: S.w_freight, f: money },
-                 { label: "Late EU deliveries", sub: "Washers and dishwashers going round the Cape", avg: S.m_eu, all: S.w_eu_money, f: money }]);
-    } else if (dim === "ops") {
-      head = n0(S.lineDays) + " production line-days lost, on average";
-      body = "How long each site stops. If everything happened at once, the plants would lose " + n0(S.w_lineDays) + " line-days, about " + n0(S.w_units) + " units not built.";
-      rows = [["Gebze plant stopped", "3 lines, 6,200 units a day", "gebze"], ["Pune plant stopped", "2 lines, 4,100 units a day", "pune"], ["Dubai DC out of stock", "Serves GCC retail", "dubai"], ["Dammam DC out of stock", "Serves KSA retail", "dammam"]]
-        .map(function (x) { return { label: x[0], sub: x[1], avg: S["d_" + x[2]], all: S["w_stop_" + x[2]], f: days }; });
-    } else if (dim === "customers") {
-      head = "How long each market goes short";
-      body = "Days of short supply by market. Two MENA partners can claim late-delivery penalties after 7 days short; the chance of that is " + pct(S.t_mena) + ".";
-      rows = [["EU retail", "38% of revenue", "eu"], ["India retail", "21% of revenue", "india"], ["MENA retail", "17% of revenue, penalties after 7 days", "mena"]]
-        .map(function (x) { return { label: x[0], sub: x[1], avg: S[x[2]], all: S["w_" + x[2]], f: days }; });
-    } else if (dim === "people") {
-      head = "Who’s in harm’s way";
-      body = "People exposed if the contingencies happen. The solid part is the expected number, given the chance of each contingency.";
-      var inside = S.w_crew ? Math.min(S.w_crew, CREW_IN) : 0, headed = S.w_crew > CREW_IN ? CREW_OUT : 0;
-      rows = [{ label: "Seafarers inside the strait", sub: "Crew on 3 chartered ships", avg: S.crewP * inside, all: inside, f: n0 },
-              { label: "Seafarers headed for it", sub: plan.divert ? "Diverted to Khor Fakkan by your plan" : "Crew on the 2 ships that could still divert", avg: S.crewP * headed, all: headed, f: n0 },
-              { label: "Plant staff stood down", sub: "Gebze and Pune, while lines are stopped", avg: S.stood, all: S.w_stood, f: n0 }];
-      var r = readiness(plan);
-      note = "Your own teams: " + (!hasPlan ? "no response work assigned yet." : r.late.length + r.overPeople.length ? plural(r.overPeople.length, "person", "people") + " overstretched by the plan; see Deliver." : "the plan fits in everyone’s week.");
-    } else {
-      bars = "chance";
-      var ar = atRisk(S);
-      head = plural(ar.length, "commitment") + " at risk";
-      body = "The chance each commitment is breached, and who answers for it. Add an action to your plan to protect one.";
-      rows = TRIGGERS.map(function (tg) {
-        var fixes = tg.fix.map(actionById).filter(function (a) { return !plan[a.id]; });
-        return { label: tg.name, sub: tg.note + ". " + TEAMS[tg.team].name + " answers for it.", avg: S["t_" + tg.id], all: null, f: pct, fixes: S["t_" + tg.id] > 0.005 ? fixes : [] };
-      }).sort(function (a, b) { return b.avg - a.avg; });
-    }
-    intro.appendChild(el("h3", { class: "dd__head" }, head));
-    intro.appendChild(el("p", { class: "dd__body" }, body));
-    var key = el("p", { class: "dd__key" });
-    if (bars === "range") { key.appendChild(el("span", null, "")).appendChild(el("i", { class: "dd__sw dd__sw--avg" })); key.lastChild.appendChild(document.createTextNode("On average")); key.appendChild(el("span", null, "")).appendChild(el("i", { class: "dd__sw dd__sw--all" })); key.lastChild.appendChild(document.createTextNode("If they all happen")); }
-    else { key.appendChild(el("span", null, "")).appendChild(el("i", { class: "dd__sw dd__sw--chance" })); key.lastChild.appendChild(document.createTextNode("Chance of a breach")); }
-    intro.appendChild(key);
-    if (note) intro.appendChild(el("p", { class: "dd__note" }, note));
-    if (hasPlan) intro.appendChild(el("p", { class: "dd__note" }, "These figures assume you do nothing, so they show what’s at stake. Consequences compares them with your plan."));
-    var max = bars === "chance" ? 1 : Math.max(1e-9, Math.max.apply(null, rows.map(function (x) { return x.all; })));
-    rows.forEach(function (x) {
-      var li = el("li", { class: "ddrow" + (bars === "chance" && x.avg > 0.05 ? " is-hot" : "") });
-      var lab = el("div", { class: "ddrow__lab" }); lab.appendChild(el("b", null, x.label)); lab.appendChild(el("small", null, x.sub));
-      li.appendChild(lab);
-      var track = el("div", { class: "ddrow__bar", role: "img", "aria-label": x.label + ": " + x.f(x.avg) + (x.all != null ? " on average, " + x.f(x.all) + " if they all happen" : "") });
-      if (x.all != null) { var o = el("i", { class: "ddrow__all" }); o.style.width = (100 * x.all / max) + "%"; track.appendChild(o); }
-      var a = el("i", { class: "ddrow__avg" + (bars === "chance" ? " ddrow__avg--chance" : "") }), w = Math.max(x.avg > 0.0005 ? 0.6 : 0, 100 * x.avg / max);
-      // inside the dashed outline, the average sits inset by a few pixels on every side
-      a.style.width = bars === "chance" ? w + "%" : (x.avg > 0.0005 ? "max(3px, calc(" + w.toFixed(2) + "% - 8px))" : "0"); track.appendChild(a);
-      li.appendChild(track);
-      var val = el("div", { class: "ddrow__val" }); val.appendChild(el("b", null, x.f(x.avg)));
-      if (x.all != null) val.appendChild(el("small", null, x.f(x.all) + " if all happen"));
-      li.appendChild(val);
-      if (x.fixes && x.fixes.length) {
-        var fx = el("div", { class: "ddrow__fix" }); fx.appendChild(el("span", { class: "ddrow__fixlab" }, "Protect it by adding:"));
-        x.fixes.forEach(function (a) { fx.appendChild(addToPlanBtn(a, true)); }); li.appendChild(fx);
-      }
-      list.appendChild(li);
+  function drawQs() {
+    var box = byId("qs"); box.textContent = "";
+    QS.forEach(function (q) {
+      var s = ST[q.id], on = q.id === qid, edited = changes(q).length > 0;
+      var b = el("button", { type: "button", class: "q" + (on ? " is-on" : ""), "aria-pressed": String(on) });
+      var k = el("span", "q__k", q.short); if (edited) k.appendChild(el("span", "pill pill--amber", "Edited")); b.appendChild(k);
+      b.appendChild(el("span", "q__p", pct(chance(q, s))));
+      b.appendChild(el("span", "q__d" + (q.up ? " q__d--up" : ""), s.p == null ? q.delta : "Your override"));
+      b.appendChild(el("span", "q__n", q.next));
+      b.addEventListener("click", function () { swapTo(q.id); });
+      box.appendChild(b);
     });
-    box.appendChild(intro); box.appendChild(list);
-  }
-  function renderImpact() {
-    var S = stats({}), R = reach(focus);
-    var dbox = document.getElementById("dims"); dbox.textContent = "";
-    DIMS.forEach(function (d) {
-      var h = dimHead(d.id, S);
-      var b = el("button", { class: "dim" + (dim === d.id ? " is-on" : ""), type: "button", role: "tab", "aria-selected": String(dim === d.id) });
-      b.appendChild(el("span", { class: "dim__name" }, d.name));
-      b.appendChild(el("b", { class: "dim__val" }, h[0]));
-      b.appendChild(el("span", { class: "dim__lab" }, h[1]));
-      b.appendChild(el("span", { class: "dim__sub" }, h[2]));
-      b.addEventListener("click", function () { dim = d.id; renderImpact(); });
-      dbox.appendChild(b);
-    });
-    renderDimDetail(S);
-    // graph: what's hit, and the path to the selected asset
-    if (!assetById(isel)) isel = "c-hormuz";
-    // light up everything in the path; trace the selected asset's own route back to the event
-    var a = assetById(isel), lit = {}, path = {};
-    Object.keys(R).forEach(function (id) { var x = assetById(id); if (x.node) lit[x.node] = 1; });
-    (function up(id, d) { var x = assetById(id); if (!x || d > 6) return; if (x.node) path[x.node] = 1; ((R[id] && !R[id].direct) ? [R[id].via] : (x.deps || []).filter(function (k) { return R[k]; })).forEach(function (k) { up(k, d + 1); }); })(R[isel] ? isel : null, 0);
-    drawMap(nodeLossOf(S), lit, path, a && a.node, hitNodes(focus), function (id) {
-      var m = mainAssetAt(id); if (m) { isel = m.id; renderImpact(); }
-    });
-    renderImpactAsset(R, S);
-    // everything in the path
-    var hb = document.querySelector("#hit tbody"); hb.textContent = "";
-    var rows = allAssets().filter(function (x) { return R[x.id]; }).sort(function (x, y) { return R[x.id].depth - R[y.id].depth || (S["m_" + (y.loss || "")] || 0) - (S["m_" + (x.loss || "")] || 0); });
-    var byTeam = {};
-    rows.forEach(function (x) { var t = x.owner || "none"; byTeam[t] = (byTeam[t] || 0) + 1; });
-    var tb = document.getElementById("hit-teams"); tb.textContent = "";
-    Object.keys(byTeam).sort(function (x, y) { return byTeam[y] - byTeam[x]; }).forEach(function (t) {
-      var b = el("button", { class: "chip-btn chip-btn--sm" + (hitTeam === t ? " is-on" : ""), type: "button", "aria-pressed": String(hitTeam === t) }, (t === "none" ? "Watched by Penumbra" : TEAMS[t].name) + " " + byTeam[t]);
-      b.addEventListener("click", function () { hitTeam = hitTeam === t ? "" : t; renderImpact(); });
-      tb.appendChild(b);
-    });
-    $("hit-count").textContent = rows.length + " of " + allAssets().length + " assets" + (focus ? ", from " + eventById(focus).short : "");
-    rows.filter(function (x) { return !hitTeam || (x.owner || "none") === hitTeam; }).forEach(function (x) {
-      var r = R[x.id], tr = el("tr", { class: (isel === x.id ? "is-sel" : "") + (r.direct ? " is-hot" : ""), tabindex: 0 });
-      var c0 = el("td"); c0.appendChild(el("b", null, x.name)); c0.appendChild(el("span", { class: "table__sub" }, x.type + ", " + x.where)); tr.appendChild(c0);
-      tr.appendChild(el("td", null, r.direct ? "Hit directly by " + r.ev.map(function (e) { return EVSHORT[e]; }).join(" and ") : "Via " + assetById(r.via).name));
-      tr.appendChild(el("td", null, teamName(x.owner)));
-      tr.appendChild(el("td", { class: "r" + (x.loss ? " money money--loss" : "") }, x.loss ? money(S["m_" + x.loss]) : x.key));
-      var pick = function () { isel = x.id; renderImpact(); document.getElementById("iasset").scrollIntoView({ block: "nearest", behavior: "smooth" }); };
-      tr.addEventListener("click", pick);
-      tr.addEventListener("keydown", function (k) { if (k.key === "Enter") pick(); });
-      hb.appendChild(tr);
-    });
-    if (!rows.length) { var e0 = el("tr"); e0.appendChild(el("td", { colspan: 4, class: "register__empty" }, "Nothing is affected. Include a contingency in stage 2.")); hb.appendChild(e0); }
-  }
-  function renderImpactAsset(R, S) {
-    var box = document.getElementById("iasset"), a = assetById(isel); box.textContent = "";
-    if (!a) return;
-    box.appendChild(el("p", { class: "eyebrow inspector__type" }, a.type + (a.custom ? ", from your data" : "")));
-    box.appendChild(el("h3", { class: "inspector__title" }, a.name));
-    box.appendChild(el("p", { class: "inspector__desc" }, a.where + ". " + a.key + "."));
-    var r = R[a.id], hit = el("p", { class: "inspector__touch" });
-    if (!r) hit.textContent = "Not affected by the contingencies you’ve included.";
-    else if (r.direct) hit.textContent = "Hit directly by " + r.ev.map(function (e) { return "“" + eventById(e).name + "”"; }).join(" and ") + ".";
-    else {
-      var chain = [], c = a.id;
-      while (R[c] && !R[c].direct && chain.length < 6) { c = R[c].via; chain.push(assetById(c).name); }
-      hit.textContent = "Affected via " + chain[0] + (chain.length > 1 ? ", which relies on " + chain.slice(1).join(", which relies on ") : "") + ".";
-    }
-    box.appendChild(hit);
-    var dl = el("dl", { class: "facts" });
-    function fact(k, v) { var d = el("div"); d.appendChild(el("dt", null, k)); d.appendChild(el("dd", null, v)); dl.appendChild(d); }
-    if (a.loss) { fact("Expected loss here", money(S["m_" + a.loss])); fact("Stopped, if they all happen", days(S["w_stop_" + a.loss])); }
-    (a.attrs || []).slice(0, 3).forEach(function (f) { fact(f[0], f[1]); });
-    box.appendChild(dl);
-    if (a.owner) {
-      box.appendChild(el("p", { class: "ins-h" }, "Who handles it"));
-      var T = TEAMS[a.owner], who = el("p", { class: "ins-who" });
-      who.appendChild(el("b", null, T.name)); who.appendChild(document.createTextNode(", led by " + T.lead + ". " + plural(peopleOf(a.owner).length, "person", "people") + " with " + teamFree(a.owner) + " free hours this week. "));
-      who.appendChild(linkBtn("Open the team", function () { openTeam = a.owner; goTo("deliver"); }));
-      box.appendChild(who);
-    }
-    var prot = ACTIONS.filter(function (x) { return x.protects.indexOf(a.id) > -1; });
-    if (prot.length) {
-      box.appendChild(el("p", { class: "ins-h" }, "What would protect it"));
-      var ch = el("div", { class: "ins-chips ins-chips--stack" });
-      prot.forEach(function (x) { ch.appendChild(addToPlanBtn(x)); });
-      box.appendChild(ch);
-    }
-    var ed = el("button", { class: "btn btn--ghost btn--sm", type: "button" }, "Edit in your model");
-    ed.addEventListener("click", function () { sel = { kind: "asset", id: a.id }; goTo("model:network"); });
-    box.appendChild(ed);
   }
 
-  /* ================= 4. Decide ================= */
-  var opBody = document.querySelector("#options tbody");
-  // a pill that opens a small menu, like the owner picker on the workflows page
-  function pickMenu(box, label, options, get, set) {
-    var btn = el("button", { type: "button", class: "pick__btn", "aria-haspopup": "listbox", "aria-expanded": "false" }), menu = null;
-    box.appendChild(btn);
-    function paint() {
-      var cur = options.filter(function (o) { return o[0] === get(); })[0];
-      btn.innerHTML = ""; btn.appendChild(el("span", { class: "pick__lab" }, label)); btn.appendChild(el("b", null, cur[1])); btn.appendChild(el("span", { class: "pick__caret", "aria-hidden": "true" }));
-      btn.setAttribute("aria-label", label + ": " + cur[1]);
-    }
-    function close() { if (menu) { menu.remove(); menu = null; } btn.setAttribute("aria-expanded", "false"); document.removeEventListener("click", outside); }
-    function outside(e) { if (!box.contains(e.target)) close(); }
-    function open() {
-      menu = el("ul", { class: "pick__menu", role: "listbox", "aria-label": label });
-      options.forEach(function (o) {
-        var on = o[0] === get(), li = el("li", { role: "option", tabindex: "-1", "aria-selected": String(on), class: "pick__opt" + (on ? " is-on" : "") }, o[1]);
-        function choose() { close(); btn.focus(); if (!on) { set(o[0]); paint(); } }
-        li.addEventListener("click", function (e) { e.stopPropagation(); choose(); });
-        li.addEventListener("keydown", function (e) {
-          if (e.key === "Enter" || e.key === " ") { e.preventDefault(); choose(); }
-          else if (e.key === "ArrowDown" && li.nextSibling) { e.preventDefault(); li.nextSibling.focus(); }
-          else if (e.key === "ArrowUp" && li.previousSibling) { e.preventDefault(); li.previousSibling.focus(); }
-          else if (e.key === "Escape") { close(); btn.focus(); }
-        });
-        menu.appendChild(li);
-      });
-      box.appendChild(menu); btn.setAttribute("aria-expanded", "true");
-      (menu.querySelector(".is-on") || menu.firstChild).focus();
-      setTimeout(function () { document.addEventListener("click", outside); }, 0);
-    }
-    btn.addEventListener("click", function () { if (menu) close(); else open(); });
-    btn.addEventListener("keydown", function (e) { if (e.key === "ArrowDown" && !menu) { e.preventDefault(); open(); } });
-    paint();
-  }
-  pickMenu(document.getElementById("op-sort"), "Sort by", [["net", "Net value"], ["value", "Value"], ["cost", "Cost"], ["lead", "Lead time"]],
-    function () { return sortBy; }, function (v) { sortBy = v; renderDecide(); });
-  function renderDecide() {
-    var S = stats({}), ar = atRisk(S);
-    $("carry-decide").textContent = "At stake from stage 3: " + money(S.money) + " of expected loss, " + plural(ar.length, "commitment") + " at risk" +
-      (S.w_crew ? ", and " + S.w_crew + " seafarers if Hormuz closes" : "") + (focus ? ". Actions that don’t address " + eventById(focus).short + " are faded." : ". Tick actions to build a plan, or let the Totality engine recommend one.");
-    opBody.textContent = "";
-    var act = active().map(function (e) { return e.id; }), r = readiness(plan);
-    var rows = ACTIONS.map(function (a) {
-      var w = M.clone(plan), wo = without(plan, a.id); w[a.id] = true;
-      var value = stats(wo).money - stats(w).money;
-      return { a: a, c: cfg(a), value: value, net: value - cfg(a).cost, relevant: a.helps.some(function (h) { return act.indexOf(h) > -1 && (!focus || h === focus); }) };
+  var lastStats = null;
+  function drawBottom() {
+    var q = Q(), s = S(), p = chance(q, s), none = evaluate(q, s, []), withp = evaluate(q, s, s.plan);
+    var e0 = r1(p * none.loss), e1 = r1(p * withp.loss), prot = r1(e0 - e1), ch = changes(q);
+    var box = byId("bl"); box.textContent = "";
+    var left = el("div", "bl__lead");
+    var lead = "If " + q.phrase + " for " + span(s.dur) + ", Halvorsen loses " + money(none.loss) + " doing nothing; at a " + pct(p) + " chance, that’s " + money(e0) + " expected. ";
+    lead += s.plan.length ? (s.plan.length === 1 ? "The one move in the plan cuts" : "The " + WORDS[s.plan.length] + " moves in the plan cut") + " it to " + money(e1) + " for " + money(withp.cost) + ", protecting " + money(prot) + "." : "There are no moves in the plan.";
+    left.appendChild(el("p", "bl__text", lead));
+    if (q.id === "hormuz" && !ch.length) left.appendChild(el("p", "bl__sub", "These match this morning’s brief, which runs on the same model."));
+    box.appendChild(left);
+    var right = el("div", "bl__changes");
+    right.appendChild(el("h3", "bl__h", ch.length ? "Changes From Production" : "Matches Production"));
+    if (ch.length) { var ul = el("ul"); ch.forEach(function (c) { ul.appendChild(el("li", null, c)); }); right.appendChild(ul); }
+    else right.appendChild(el("p", "bl__none", "Nothing changed yet. Edit a forecast, an assumption, or the plan below and it shows here."));
+    var acts = el("div", "bl__acts");
+    var reset = el("button", { type: "button", class: "btn-q btn-q--sm" }, "Reset"); reset.disabled = !ch.length;
+    reset.addEventListener("click", function () { ST[q.id] = copy(PROD[q.id]); render(); });
+    var commit = el("button", { type: "button", class: "btn btn--primary btn--sm" }, "Commit"); commit.disabled = !ch.length;
+    commit.addEventListener("click", function () {
+      var n = ch.length; version++;
+      log.unshift(["Just now", "You", "Committed " + WORDS[Math.min(n, 10)] + (n === 1 ? " change" : " changes") + " to the " + q.topic + " question as halvorsen/v14." + version, true]);
+      PROD[q.id] = copy(ST[q.id]);
+      document.querySelector(".wh .h-kicker").textContent = "World model halvorsen/v14." + version + ", committed just now";
+      DB.toast("Committed as halvorsen/v14." + version + ". The brief and workflows pick it up at the next run.");
+      render();
     });
-    rows.sort(function (x, y) {
-      if (sortBy === "cost") return x.c.cost - y.c.cost;
-      if (sortBy === "lead") return x.c.lead - y.c.lead;
-      return y[sortBy] - x[sortBy];
-    });
-    rows.forEach(function (row) {
-      var a = row.a, c = row.c, ra = r.acts[a.id];
-      var tr = el("tr", { class: (plan[a.id] ? "is-in" : "") + (row.relevant ? "" : " is-idle") });
-      var td = el("td");
-      var cb = el("input", { type: "checkbox", class: "tgl", "aria-label": "Include: " + a.name }); cb.checked = !!plan[a.id];
-      cb.addEventListener("change", function () { if (cb.checked) plan[a.id] = true; else delete plan[a.id]; changed((cb.checked ? "Added: " : "Removed: ") + a.name); });
-      td.appendChild(cb); tr.appendChild(td);
-      var nm = el("td", { class: "options__name" }, a.name);
-      if (c.way !== a.ways[0]) nm.appendChild(el("span", { class: "table__sub" }, c.way.name));
-      tr.appendChild(nm);
-      var pr = a.protects.map(assetById).filter(Boolean);
-      tr.appendChild(el("td", { class: "options__helps" }, pr.slice(0, 2).map(function (x) { return x.name; }).join(", ") + (pr.length > 2 ? " and " + (pr.length - 2) + " more" : "")));
-      tr.appendChild(el("td", { class: "r money" }, row.value > 0.005 ? money(row.value) : "—"));
-      tr.appendChild(el("td", { class: "r money" }, money(c.cost, 2)));
-      tr.appendChild(el("td", { class: "r money " + (row.net > 0 ? "money--safe" : "money--loss") }, row.value > 0.005 ? signed(row.net) : "—"));
-      var lt = el("td");
-      if (ra) lt.appendChild(el("span", { class: "pill " + (ra.late ? "pill--loss" : "pill--safe") }, ra.late ? "Lands day " + ra.lands + ", " + ra.late + "d late" : "Lands day " + ra.lands + " of " + a.need));
-      else lt.appendChild(el("span", { class: "pill pill--quiet" }, c.lead + "d, needed in " + a.need + "d"));
-      tr.appendChild(lt);
-      var lead = personById(crewOf(a)[0]), ow = el("td", { class: "options__team" });
-      ow.appendChild(linkBtn(lead.name, function () { openTeam = lead.team; goTo("deliver"); }));
-      ow.appendChild(el("span", { class: "table__sub" }, TEAMS[lead.team].name));
-      tr.appendChild(ow);
-      opBody.appendChild(tr);
-    });
-    drawFrontier();
-  }
-  var frontier = document.getElementById("frontier");
-  // every combination of actions, valued as your teams would actually deliver it (who, how and when as set in stage 5)
-  function allPlans() {
-    if (cache.plans) return cache.plans;
-    var out = [];
-    for (var m = 0; m < (1 << ACTIONS.length); m++) {
-      var A = {};
-      ACTIONS.forEach(function (a, i) { if (m & (1 << i)) A[a.id] = true; });
-      out.push({ A: A, cost: costOf(A), full: stats(A).money, E: Edel(A), ok: !readiness(A).late.length, n: planList(A).length });
-    }
-    return (cache.plans = out);
-  }
-  function netOf(p, E) { return E0() - E - p.cost; }
-  // the original chart: the best plan your teams can staff in time at each budget, valued if every action lands in full
-  function drawFrontier() {
-    var plans = allPlans(), e0 = E0();
-    var x0 = 64, x1 = 612, y0 = 18, y1 = 236;
-    var maxC = Math.max.apply(null, plans.map(function (p) { return p.cost; }));
-    var maxE = Math.max(e0, 1);
-    var sx = function (c) { return x0 + (x1 - x0) * c / maxC; }, sy = function (e) { return y1 - (y1 - y0) * e / maxE; };
-    frontier.textContent = "";
-    [0, 0.5, 1].forEach(function (f) {
-      frontier.appendChild(sv("line", { x1: x0, x2: x1, y1: sy(maxE * f), y2: sy(maxE * f), class: "grid" }));
-      frontier.appendChild(sv("text", { x: x0 - 10, y: sy(maxE * f) + 4, class: "axis", "text-anchor": "end" }, money(maxE * f, 0)));
-    });
-    [0, maxC / 2, maxC].forEach(function (c) { frontier.appendChild(sv("text", { x: sx(c), y: y1 + 20, class: "axis", "text-anchor": "middle" }, money(c, 1))); });
-    frontier.appendChild(sv("text", { x: (x0 + x1) / 2, y: y1 + 42, class: "axis", "text-anchor": "middle" }, "Plan cost"));
-    frontier.appendChild(sv("text", { x: 14, y: (y0 + y1) / 2, class: "axis", "text-anchor": "middle", transform: "rotate(-90 14 " + (y0 + y1) / 2 + ")" }, "Expected loss"));
-    var pool = plans.filter(function (p) { return p.ok; }), sorted = pool.slice().sort(function (a, b) { return a.cost - b.cost; }), best = Infinity, front = [];
-    sorted.forEach(function (p) { if (p.full < best - 1e-9) { best = p.full; front.push(p); } });
-    function dot(p, cls, r) {
-      var c = sv("circle", { cx: sx(p.cost).toFixed(1), cy: sy(p.full).toFixed(1), r: r, class: cls });
-      c.appendChild(sv("title", null, (p.n ? planList(p.A).map(function (a) { return a.name; }).join("; ") : "Do nothing") +
-        "\nCost " + money(p.cost, 2) + ", expected loss " + money(p.full) + ", net " + signed(netOf(p, p.full)) + (p.ok ? "" : "\nCan’t be staffed in time")));
-      c.addEventListener("click", function () { plan = M.clone(p.A); changed("Adopted a plan from the chart (" + plural(p.n, "action") + ")"); });
-      frontier.appendChild(c);
-    }
-    plans.forEach(function (p) { dot(p, p.ok ? "fp fp--faint" : "fp fp--no", 2.4); });
-    frontier.appendChild(sv("path", { class: "fline", d: front.map(function (p, i) { return (i ? "L" : "M") + sx(p.cost).toFixed(1) + " " + sy(p.full).toFixed(1); }).join(" ") }));
-    var bestNet = pool.reduce(function (b, p) { return netOf(p, p.full) > netOf(b, b.full) ? p : b; }, pool[0]);
-    front.forEach(function (p) { dot(p, "fp fp--front" + (p === bestNet ? " fp--best" : ""), p === bestNet ? 6.5 : 4.5); });
-    var bx = sx(bestNet.cost), by = sy(bestNet.full);
-    frontier.appendChild(sv("text", { x: bx, y: by + 22, class: "axis axis--best", "text-anchor": "middle" }, "Best net value"));
-    var mc = costOf(plan), me = stats(plan).money, mx = sx(mc), my = sy(me);
-    frontier.appendChild(sv("circle", { cx: mx, cy: my, r: 9, class: "fp--mine" }));
-    // put the label where it can't collide: above unless near the top, left unless near the right edge
-    var lx = mx > x1 - 90 ? mx - 14 : mx + 14, ly = my < y0 + 30 ? my + 24 : my - 14;
-    if (Math.abs(lx - bx) < 70 && Math.abs(ly - (by + 22)) < 14) ly = my - 20;
-    frontier.appendChild(sv("text", { x: lx, y: ly, class: "axis axis--mine", "text-anchor": mx > x1 - 90 ? "end" : "start" }, "Your plan"));
-    $("frontier-note").textContent = "Each dot on the line is the cheapest plan your teams can deliver in time for that level of protection. The best one saves " +
-      money(Math.max(0, netOf(bestNet, bestNet.full))) + " net, for " + money(bestNet.cost, 2) + ". Faint dots are the other combinations; hollow ones can’t be staffed in time.";
-  }
-  function bestPlan(capacityAware, maxE) {
-    var plans = allPlans(), key = capacityAware ? "E" : "full";
-    var pool = plans.filter(function (p) { return (maxE == null || p[key] <= maxE) && (!capacityAware || p.ok); });
-    if (!pool.length) return null;
-    return maxE != null ? pool.reduce(function (b, p) { return p.cost < b.cost ? p : b; }, pool[0])
-                        : pool.reduce(function (b, p) { return netOf(p, p[key]) > netOf(b, b[key]) ? p : b; }, pool[0]);
-  }
-  function recommend(kind) {
-    if (kind === "none") { plan = {}; changed("Cleared the plan"); return; }
-    plan = M.clone(bestPlan(kind === "staffed").A);
-    changed(kind === "staffed" ? "Recommended the best plan your teams can deliver" : "Recommended the best plan, ignoring capacity");
-  }
-  document.querySelectorAll("[data-recommend]").forEach(function (b) { b.addEventListener("click", function () { recommend(b.getAttribute("data-recommend")); }); });
+    acts.appendChild(reset); acts.appendChild(commit); right.appendChild(acts);
+    box.appendChild(right);
 
-  /* ================= 5. Deliver ================= */
-  function initials(n) { return n.split(" ").map(function (w) { return w.charAt(0); }).join("").slice(0, 2); }
-  function avatar(p, D) {
-    var over = D[p.id] > freeOf(p) + 0.01, busy = D[p.id] > 0.01;
-    return el("span", { class: "av" + (over ? " is-over" : busy ? " is-busy" : ""), title: p.name + ", " + p.role + ": " + Math.round(D[p.id]) + " of " + freeOf(p) + " free hours" }, initials(p.name));
-  }
-  function teamActions(t, r) { return planList(plan).filter(function (a) { return ownerOf(a) === t; }); }
-  function helpingOn(t) { return planList(plan).filter(function (a) { return ownerOf(a) !== t && crewOf(a).some(function (id) { return personById(id).team === t; }); }); }
-  function renderDeliver() {
-    var r = readiness(plan), list = planList(plan);
-    if (!openTeam) openTeam = (list[0] && ownerOf(list[0])) || "log";
-    var box = document.getElementById("board"); box.textContent = "";
-    Object.keys(TEAMS).forEach(function (t) {
-      var T = TEAMS[t], mine = teamActions(t, r), help = helpingOn(t), ppl = peopleOf(t);
-      var D = ppl.reduce(function (s, p) { return s + r.D[p.id]; }, 0), F = teamFree(t);
-      var over = ppl.filter(function (p) { return r.D[p.id] > freeOf(p) + 0.01; }), late = mine.filter(function (a) { return r.acts[a.id].late; });
-      var card = el("button", { class: "tcard" + (openTeam === t ? " is-open" : "") + (over.length ? " is-over" : "") + (mine.length || help.length ? "" : " is-idle"), type: "button", role: "tab", "aria-selected": String(openTeam === t) });
-      card.appendChild(el("b", { class: "tcard__name" }, T.name));
-      card.appendChild(el("span", { class: "tcard__lead" }, T.lead));
-      var bar = el("span", { class: "tcard__bar" }); var fill = el("i"); fill.style.width = Math.min(100, F ? D / F * 100 : 0) + "%"; bar.appendChild(fill); card.appendChild(bar);
-      card.appendChild(el("span", { class: "tcard__hrs" }, Math.round(D) + " of " + F + " free hours" + (capacity[t] && capacity[t] !== "normal" ? ", " + CAPACITY[capacity[t]].name.toLowerCase() : "")));
-      var avs = el("span", { class: "tcard__avs" }); ppl.forEach(function (p) { avs.appendChild(avatar(p, r.D)); }); card.appendChild(avs);
-      card.appendChild(el("span", { class: "tcard__status" + (over.length || late.length ? " is-warn" : "") },
-        !mine.length && !help.length ? "No plan actions" : [mine.length ? "Leads " + plural(mine.length, "action") : "", help.length ? "helps with " + help.length : "", over.length ? plural(over.length, "person", "people") + " stretched" : "", late.length ? late.length + " late" : ""].filter(Boolean).join(", ")));
-      card.addEventListener("click", function () { openTeam = t; renderDeliver(); });
-      box.appendChild(card);
+    var stats = [["Chance", pct(p), s.p == null ? "Totality’s forecast" : "Your override, against Totality’s " + pct(q.p)],
+                 ["If it happens", money(none.loss), "Over " + span(s.dur) + ", doing nothing", "red"],
+                 ["Expected loss with the plan", money(e1), "From " + money(e0) + " doing nothing", e1 > 0.05 ? "red" : ""],
+                 ["Protected by the plan", money(prot), "For " + money(withp.cost) + ", net " + (prot - withp.cost < 0 ? "−" : "") + money(Math.abs(prot - withp.cost))]];
+    var sb = byId("stats"), was = lastStats; sb.textContent = "";
+    stats.forEach(function (x, i) {
+      var t = el("div", "stat");
+      t.appendChild(el("span", "stat__k", x[0]));
+      var v = el("b", "stat__v" + (x[3] ? " " + x[3] : ""), x[1]); t.appendChild(v);
+      t.appendChild(el("span", "stat__s", x[2]));
+      sb.appendChild(t);
+      if (was && was[i] !== x[1] && window.CountFrom) CountFrom(v, was[i]);
     });
-    renderTeam(openTeam, r);
-    drawGantt(r);
+    lastStats = stats.map(function (x) { return x[1]; });
   }
-  function renderTeam(t, r) {
-    var T = TEAMS[t], ws = document.getElementById("teamws"); ws.textContent = "";
-    var head = el("div", { class: "tws__head" });
-    var hl = el("div"); hl.appendChild(el("h3", { class: "tws__title" }, T.name));
-    var exec = EXECS.filter(function (x) { return x.id === T.parent; })[0];
-    hl.appendChild(el("p", { class: "tws__sub" }, "Led by " + T.lead + ", " + T.role + ". Reports to " + exec.lead + ", " + exec.title + ". " + T.heads.toLocaleString() + " people, " + Math.round(T.load * 100) + "% of their time already committed."));
+
+  // a picker: three values that mean something, each with a word, and a −/+ nudge for anything between
+  function picker(opts, value, fmt, step, min, max, set) {
+    var w = el("div", "pk");
+    var track = el("div", { class: "pk__track", role: "group" });
+    opts.forEach(function (o) {
+      var b = el("button", { type: "button", class: "pk__b" + (Math.abs(o[0] - value) < 1e-9 ? " is-on" : ""), "aria-pressed": String(Math.abs(o[0] - value) < 1e-9) });
+      b.appendChild(el("b", null, fmt(o[0]))); b.appendChild(el("span", null, o[1]));
+      b.addEventListener("click", function () { set(o[0]); });
+      track.appendChild(b);
+    });
+    w.appendChild(track);
+    w.appendChild(nudge(value, fmt, step, min, max, set));
+    return w;
+  }
+  function nudge(value, fmt, step, min, max, set, label) {
+    var n = el("div", "nd");
+    var dn = el("button", { type: "button", class: "nd__b", "aria-label": "Less" + (label ? " " + label : "") }, "−"); dn.disabled = value - step < min - 1e-9;
+    var up = el("button", { type: "button", class: "nd__b", "aria-label": "More" + (label ? " " + label : "") }, "+"); up.disabled = value + step > max + 1e-9;
+    dn.addEventListener("click", function () { set(Math.round((value - step) * 1000) / 1000); });
+    up.addEventListener("click", function () { set(Math.round((value + step) * 1000) / 1000); });
+    n.appendChild(dn); n.appendChild(el("span", "nd__v", fmt(value))); n.appendChild(up);
+    return n;
+  }
+
+  function drawForecast() {
+    var q = Q(), s = S(), p = chance(q, s);
+    $("fc-title").textContent = "How Totality Got " + pct(q.p);
+    var box = byId("fc"); box.textContent = "";
+    box.appendChild(el("p", "fc__q", "“" + q.question + "”"));
+    var eng = el("div", "fc__eng");
+    q.engines.forEach(function (e) {
+      var c = el("div", "fc__e");
+      c.appendChild(el("span", "fc__name", e[0] + " engine"));
+      c.appendChild(el("p", "fc__sub", e[1]));
+      c.appendChild(el("b", "fc__p", pct(e[2])));
+      eng.appendChild(c);
+    });
+    box.appendChild(eng);
+    // the fused chance on a scale, with its band
+    var fused = el("div", "fc__fused");
+    var fl = el("div", "fc__fl");
+    fl.appendChild(el("span", "fc__name", "Fused, not averaged"));
+    var fp = el("p", "fc__big"); fp.appendChild(el("b", null, pct(q.p))); fp.appendChild(el("span", null, "±" + Math.round(100 * q.band) + "%")); fl.appendChild(fp);
+    fused.appendChild(fl);
+    var scale = el("div", "fc__scale", null), top = Math.max(0.5, Math.ceil((q.p + q.band + 0.05) * 10) / 10);
+    scale.style.setProperty("--lo", (q.p - q.band) / top); scale.style.setProperty("--hi", (q.p + q.band) / top);
+    scale.style.setProperty("--v", q.p / top); scale.style.setProperty("--you", p / top);
+    scale.appendChild(el("i", "fc__band")); scale.appendChild(el("i", "fc__mark"));
+    if (s.p != null) scale.appendChild(el("i", "fc__you"));
+    var ticks = el("div", "fc__ticks"); for (var t = 0; t <= top + 1e-9; t += 0.1) { var tk = el("span", null, Math.round(t * 100) + "%"); tk.style.setProperty("--t", t / top); ticks.appendChild(tk); }
+    scale.appendChild(ticks);
+    fused.appendChild(scale);
+    box.appendChild(fused);
+    if (q.declined) { var dc = el("p", "fc__declined"); dc.appendChild(el("span", "pill", "Declined")); dc.appendChild(document.createTextNode(" " + q.declined)); box.appendChild(dc); }
+    // your forecast
+    var ov = el("div", "fc__ov");
+    var ol = el("div"); ol.appendChild(el("h3", "fc__h", "Your Forecast"));
+    ol.appendChild(el("p", "fc__note", s.p == null ? "Running on Totality’s " + pct(q.p) + ". An override changes every figure on this page, and reaches the brief only when you commit it." : "Overriding Totality’s " + pct(q.p) + " with " + pct(p) + ". Every figure on this page follows it."));
+    ov.appendChild(ol);
+    ov.appendChild(picker([[Math.round((q.p - q.band) * 100) / 100, "Low end"], [q.p, "Totality"], [Math.round((q.p + q.band) * 100) / 100, "High end"]], p, pct, 0.01, 0.01, 0.95,
+      function (v) { s.p = Math.abs(v - q.p) < 1e-9 ? null : v; render(); }));
+    box.appendChild(ov);
+  }
+
+  function drawImpact() {
+    var q = Q(), s = S(), none = evaluate(q, s, []), withp = evaluate(q, s, s.plan);
+    $("im-note").textContent = "How long each part of the business can run if " + q.phrase + ", and what it costs once its cover runs out. Change the length of the disruption or any site’s cover, and the plan and figures follow.";
+    var box = byId("im"); box.textContent = "";
+    var head = el("div", "im__head");
+    var hl = el("div"); hl.appendChild(el("h3", "im__h", "If It Happens, It Lasts")); hl.appendChild(el("p", "im__sub", "Totality’s expected length, and the ends of its range"));
     head.appendChild(hl);
-    ws.appendChild(head);
-    // the people
-    var ppl = el("ul", { class: "people" });
-    peopleOf(t).forEach(function (p) {
-      var li = el("li", { class: "person" + (r.D[p.id] > freeOf(p) + 0.01 ? " is-over" : "") });
-      li.appendChild(avatar(p, r.D));
-      var tx = el("div", { class: "person__txt" }); tx.appendChild(el("b", null, p.name)); tx.appendChild(el("span", null, p.role)); li.appendChild(tx);
-      var on = planList(plan).filter(function (a) { return crewOf(a).indexOf(p.id) > -1; });
-      var ld = el("div", { class: "person__load" });
-      var bar = el("span", { class: "person__bar" }); var f = el("i"); f.style.width = Math.min(100, freeOf(p) ? r.D[p.id] / freeOf(p) * 100 : 100) + "%"; bar.appendChild(f); ld.appendChild(bar);
-      ld.appendChild(el("span", { class: "person__hrs" }, Math.round(r.D[p.id]) + " of " + freeOf(p) + " h" + (on.length ? ": " + on.map(function (a) { return a.short; }).join(", ") : "")));
-      li.appendChild(ld);
-      ppl.appendChild(li);
+    head.appendChild(picker([[q.dur[0], "Shorter"], [q.dur[1], "Expected"], [q.dur[2], "Longer"]], s.dur, function (d) { return cap(span(d)); }, 1, q.dmin, q.dmax, function (v) { s.dur = v; render(); }));
+    box.appendChild(head);
+    var assets = none.rows.filter(function (r) { return r.asset; });
+    var scale = Math.max(s.dur + 4, Math.max.apply(null, assets.map(function (r) { return r.cover + r.out + 2; })));
+    var tbl = el("div", "im__rows");
+    var th = el("div", "im__row im__row--head");
+    ["Where", "Days of cover", "Covered, then out", "Doing nothing", "With the plan"].forEach(function (k) { th.appendChild(el("span", null, k)); });
+    tbl.appendChild(th);
+    none.rows.forEach(function (r, i) {
+      var w = withp.rows[i], row = el("div", "im__row" + (r.asset ? "" : " im__row--flat"));
+      var nm = el("div", "im__name"); nm.appendChild(el("b", null, r.name)); nm.appendChild(el("span", null, r.note)); row.appendChild(nm);
+      if (r.asset) {
+        row.appendChild(nudge(r.cover, function (d) { return d + (d === 1 ? " day" : " days"); }, 1, 0, 60, function (v) { s.cover[r.id] = v; render(); }, "cover at " + r.name));
+        var bar = el("div", { class: "im__bar", "aria-label": r.cover + " days covered, then " + r.out + " days out" });
+        var cv = el("i", "im__cov"); cv.style.width = (100 * Math.min(r.cover, scale) / scale) + "%"; bar.appendChild(cv);
+        if (r.out > 0) { var ot = el("i", "im__out"); ot.style.left = (100 * r.cover / scale) + "%"; ot.style.width = (100 * r.out / scale) + "%"; bar.appendChild(ot); }
+        var mk = el("i", "im__end"); mk.style.left = (100 * s.dur / scale) + "%"; bar.appendChild(mk);
+        row.appendChild(bar);
+      } else { row.appendChild(el("span", "im__dash")); row.appendChild(el("span", "im__dash")); }
+      row.appendChild(el("b", "im__m" + (r.loss > 0.05 ? " red" : ""), money(r.loss)));
+      row.appendChild(el("b", "im__m im__m--plan" + (w.loss > 0.05 ? "" : " is-zero"), money(w.loss)));
+      tbl.appendChild(row);
     });
-    ws.appendChild(ppl);
-    // the actions this team leads: how, who, when
-    var mine = teamActions(t, r);
-    ws.appendChild(el("p", { class: "tws__label" }, mine.length ? "Actions " + T.name + " leads" : "Actions"));
-    if (!mine.length) {
-      var em = el("p", { class: "tws__empty" }, planList(plan).length ? T.name + " doesn’t lead any action in this plan. " : "There’s no plan yet. ");
-      em.appendChild(linkBtn(planList(plan).length ? "Back to the plan" : "Build one in Decide", function () { goTo("decide"); }));
-      ws.appendChild(em);
-    }
-    mine.forEach(function (a) { ws.appendChild(actionCard(a, r)); });
-    var help = helpingOn(t);
-    if (help.length) ws.appendChild(el("p", { class: "tws__note" }, T.name + " also lends people to: " + help.map(function (a) { return a.name + " (" + TEAMS[ownerOf(a)].name + ")"; }).join("; ") + "."));
-  }
-  function teamFreeAt(t, f) { return peopleOf(t).reduce(function (s, p) { return s + Math.round((freeEdit[p.id] != null ? freeEdit[p.id] : p.free) * f); }, 0); }
-  function actionCard(a, r) {
-    var c = cfg(a), ra = r.acts[a.id], card = el("article", { class: "acard" + (ra.late ? " is-late" : "") });
-    var top = el("div", { class: "acard__top" });
-    top.appendChild(el("h4", null, a.name));
-    top.appendChild(el("span", { class: "pill " + (ra.late ? "pill--loss" : "pill--safe") }, ra.late ? "Lands day " + ra.lands + ", " + ra.late + " days late" : "Lands day " + ra.lands + ", needed by day " + a.need));
-    card.appendChild(top);
-    card.appendChild(el("p", { class: "acard__eff" }, (ra.f < 0.999 ? "Delivers " + Math.round(ra.f * 100) + "% of its protection, because " + [c.eff < 1 ? "this approach covers " + Math.round(c.eff * 100) + "%" : "", ra.late ? "it lands late" : ""].filter(Boolean).join(" and ") : "Delivers its full protection") +
-      ". " + c.hours + " hours of work, " + money(c.cost, 2) + "."));
-    // how
-    var how = el("div", { class: "acard__row" }); how.appendChild(el("span", { class: "acard__lab" }, "How"));
-    var hw = el("div", { class: "choice choice--wrap", role: "radiogroup", "aria-label": "How to do: " + a.name });
-    a.ways.forEach(function (w, i) {
-      var on = (way[a.id] || 0) === i, b = el("button", { class: "choice__opt" + (on ? " is-on" : ""), type: "button", role: "radio", "aria-checked": String(on) });
-      b.appendChild(el("b", null, w.name));
-      var d = [];
-      if (i) { if (w.cost) d.push((w.cost > 0 ? "+" : "−") + money(Math.abs(w.cost), 2)); if (w.lead) d.push(Math.abs(w.lead) + (w.lead < 0 ? " days faster" : " days slower")); if (w.hours) d.push((w.hours > 0 ? "+" : "−") + Math.abs(w.hours) + " h"); if (w.eff < 1) d.push("covers " + Math.round(w.eff * 100) + "%"); }
-      b.appendChild(el("small", null, i ? d.join(", ") + (w.note ? ". " + w.note : "") : "The default"));
-      b.addEventListener("click", function () { if (i) way[a.id] = i; else delete way[a.id]; changed(a.name + ": " + w.name.toLowerCase()); });
-      hw.appendChild(b);
-    });
-    how.appendChild(hw); card.appendChild(how);
-    // who
-    var who = el("div", { class: "acard__row" }); who.appendChild(el("span", { class: "acard__lab" }, "Who"));
-    var wb = el("div", { class: "crew" }), cr = crewOf(a), lead = ownerOf(a);
-    function setCrew(next, msg) { if (!next.length) return; if (JSON.stringify(next) === JSON.stringify(a.crew)) delete crew[a.id]; else crew[a.id] = next; changed(msg); }
-    peopleOf(lead).concat(cr.map(personById).filter(function (p) { return p.team !== lead; })).forEach(function (p) {
-      var on = cr.indexOf(p.id) > -1, b = el("button", { class: "crew__p" + (on ? " is-on" : "") + (r.D[p.id] > freeOf(p) + 0.01 ? " is-over" : ""), type: "button", "aria-pressed": String(on),
-        title: on && cr.length === 1 ? "Someone has to do it" : (on ? "Take " : "Put ") + p.name + (on ? " off " : " on ") + "this action" });
-      b.appendChild(avatar(p, r.D));
-      var tt = el("span"); tt.appendChild(el("b", null, p.name.split(" ")[0] + (p.team !== lead ? ", " + TEAMS[p.team].name : ""))); tt.appendChild(el("small", null, on ? Math.round(shareOf(a, p)) + " h on this, " + Math.round(r.D[p.id]) + " of " + freeOf(p) + " h in total" : freeOf(p) - Math.round(r.D[p.id]) + " h free")); b.appendChild(tt);
-      b.addEventListener("click", function () {
-        if (on && cr.length === 1) { DB.toast("Someone has to do it. Add another person first."); return; }
-        setCrew(on ? cr.filter(function (x) { return x !== p.id; }) : cr.concat([p.id]), (on ? "Took " : "Put ") + p.name + (on ? " off " : " on ") + a.name);
-      });
-      wb.appendChild(b);
-    });
-    var bor = el("select", { class: "num-input crew__borrow", "aria-label": "Borrow someone for " + a.name });
-    bor.appendChild(el("option", { value: "" }, "Borrow someone"));
-    Object.keys(TEAMS).filter(function (t) { return t !== lead; }).forEach(function (t) {
-      var og = el("optgroup", { label: TEAMS[t].name });
-      peopleOf(t).filter(function (p) { return cr.indexOf(p.id) < 0; }).forEach(function (p) { og.appendChild(el("option", { value: p.id }, p.name + ", " + (freeOf(p) - Math.round(r.D[p.id])) + " h free")); });
-      bor.appendChild(og);
-    });
-    bor.addEventListener("change", function () { var p = personById(bor.value); if (p) setCrew(cr.concat([p.id]), "Borrowed " + p.name + " from " + TEAMS[p.team].name + " for " + a.name); });
-    wb.appendChild(bor);
-    who.appendChild(wb); card.appendChild(who);
-    // when
-    var when = el("div", { class: "acard__row" }); when.appendChild(el("span", { class: "acard__lab" }, "Starts"));
-    var ss = el("div", { class: "choice choice--days", role: "radiogroup", "aria-label": "Start of " + a.name });
-    [0, 1, 2, 3, 5, 7].forEach(function (d) {
-      var on = (start[a.id] || 0) === d, b = el("button", { class: "choice__opt" + (on ? " is-on" : ""), type: "button", role: "radio", "aria-checked": String(on) }, d === 0 ? "Today" : "Day " + d);
-      b.addEventListener("click", function () { if (d) start[a.id] = d; else delete start[a.id]; changed("Scheduled " + a.name + " to start " + (d ? "day " + d : "today")); });
-      ss.appendChild(b);
-    });
-    when.appendChild(ss); card.appendChild(when);
-    if (ra.stretch > 1.001) card.appendChild(el("p", { class: "acard__why" }, "The crew is asked for " + Math.round((ra.stretch - 1) * 100) + "% more time than it has, so the work takes " + Math.ceil(c.lead * ra.stretch - 1e-9) + " days instead of " + c.lead + ". Add someone, or change how it’s done."));
-    return card;
-  }
-  function shareOf(a, p) {
-    var cr = crewOf(a).map(personById), F = cr.reduce(function (s, x) { return s + freeOf(x); }, 0);
-    return F ? cfg(a).hours * freeOf(p) / F : cfg(a).hours / cr.length;
-  }
-  var gantt = document.getElementById("gantt");
-  function drawGantt(r) {
-    // drawn at the panel's own width, so the labels stay at reading size
-    var Wd = Math.max(620, Math.round(gantt.getBoundingClientRect().width) || 720);
-    var acts = planList(plan), H = 30, x0 = 250, x1 = Wd - 14, rowH = 30, y0 = 30;
-    gantt.setAttribute("viewBox", "0 0 " + Wd + " " + Math.max(120, y0 + acts.length * rowH + 24));
-    gantt.textContent = "";
-    var sx = function (d) { return x0 + (x1 - x0) * Math.min(d, H) / H; };
-    [0, 7, 14, 21, 28].forEach(function (d) {
-      gantt.appendChild(sv("line", { x1: sx(d), x2: sx(d), y1: y0 - 6, y2: y0 + Math.max(1, acts.length) * rowH, class: "grid" }));
-      gantt.appendChild(sv("text", { x: sx(d), y: y0 - 12, class: "axis", "text-anchor": "middle" }, d === 0 ? "Today" : "Day " + d));
-    });
-    if (!acts.length) { gantt.appendChild(sv("text", { x: Wd / 2, y: 70, class: "axis", "text-anchor": "middle" }, "Add actions in Decide to see the timeline.")); return; }
-    acts.forEach(function (a, i) {
-      var ra = r.acts[a.id], y = y0 + i * rowH + 4, s0 = start[a.id] || 0, lead = personById(crewOf(a)[0]);
-      gantt.appendChild(sv("text", { x: x0 - 12, y: y + 9, class: "gantt__name", "text-anchor": "end" }, a.name));
-      gantt.appendChild(sv("text", { x: x0 - 12, y: y + 21, class: "gantt__who", "text-anchor": "end" }, lead.name + (crewOf(a).length > 1 ? " and " + (crewOf(a).length - 1) + " more" : "")));
-      var g = sv("rect", { x: sx(s0), y: y, width: Math.max(4, sx(ra.lands) - sx(s0)), height: 18, rx: 4, class: ra.late ? "gbar gbar--late" : "gbar" });
-      g.style.cursor = "pointer";
-      g.addEventListener("click", function () { openTeam = lead.team; renderDeliver(); document.getElementById("teamws").scrollIntoView({ behavior: "smooth", block: "start" }); });
-      gantt.appendChild(g);
-      gantt.appendChild(sv("line", { x1: sx(a.need), x2: sx(a.need), y1: y - 3, y2: y + 21, class: "gdead" }));
-    });
-    gantt.appendChild(sv("text", { x: x1, y: y0 + acts.length * rowH + 18, class: "axis", "text-anchor": "end" }, "Bars run from start to completion; ticks mark deadlines. Click a bar to open its team."));
+    var tot = el("div", "im__row im__row--tot");
+    tot.appendChild(el("b", null, "If it happens")); tot.appendChild(el("span")); tot.appendChild(el("span", "im__legend", "The line marks the end of the disruption"));
+    tot.appendChild(el("b", "im__m red", money(none.loss))); tot.appendChild(el("b", "im__m im__m--plan", money(withp.loss)));
+    tbl.appendChild(tot);
+    box.appendChild(tbl);
   }
 
-  /* ================= 6. Consequences ================= */
-  function renderOutcomes() {
-    var N = 4000, f = fOf(plan), s0 = simulate({}, params, N, 7), s1 = simulate(plan, params, N, 7, f);
-    var S0 = stats({}), S1 = delivered(plan), cost = costOf(plan), net = S0.money - S1.money - cost, none0 = 0;
-    for (var i = 0; i < N; i++) if (s0[i] < 0.01) none0++;
-    var has = planList(plan).length;
-    var groups = [
-      ["Money", [["Expected loss", money(S0.money), money(S1.money), S1.money < S0.money - 0.05 ? "safe" : ""], ["Bad case (1 in 20)", money(q(s0, 0.95)), money(q(s1, 0.95))], ["Plan cost", "—", money(cost, 2), ""],
-        ["Net value of the plan", "—", (net >= 0 ? "" : "−") + money(Math.abs(net)), net >= 0 ? "safe" : "loss"]]],
-      ["Operations", [["Line-days lost, on average", Math.round(S0.lineDays), Math.round(S1.lineDays)], ["Units not built, if they all happen", Math.round(S0.w_units).toLocaleString(), Math.round(S1.w_units).toLocaleString()]]],
-      ["Customers, if every contingency happens", [["Days short, EU retail", days(S0.w_eu), days(S1.w_eu)], ["Days short, India retail", days(S0.w_india), days(S1.w_india)], ["Days short, MENA retail", days(S0.w_mena), days(S1.w_mena)]]],
-      ["People", [["Seafarers in harm’s way if Hormuz closes", String(Math.round(S0.w_crew)), String(Math.round(S1.w_crew))], ["Chance plant staff are stood down", pct(S0.stoodP), pct(S1.stoodP)]]],
-      ["Commitments: chance of a breach", TRIGGERS.map(function (t) { return [t.name, pct(S0["t_" + t.id]), pct(S1["t_" + t.id]), S1["t_" + t.id] < S0["t_" + t.id] - 0.005 ? "safe" : ""]; })]
-    ];
-    var tb = document.getElementById("compare"); tb.textContent = "";
-    groups.forEach(function (g) {
-      var gh = el("tr", { class: "compare__group" }); gh.appendChild(el("th", { scope: "rowgroup", colspan: 3 }, g[0])); tb.appendChild(gh);
-      g[1].forEach(function (r) {
-        var tr = el("tr"); tr.appendChild(el("th", { scope: "row" }, r[0]));
-        tr.appendChild(el("td", { class: "r money" }, r[1]));
-        var better = r.length > 3 ? r[3] : (r[2] !== r[1] && has ? "safe" : "");
-        tr.appendChild(el("td", { class: "r money" + (better ? " money--" + better : "") }, has ? r[2] : "—"));
-        tb.appendChild(tr);
+  function drawPlan() {
+    var q = Q(), s = S(), p = chance(q, s), base = evaluate(q, s, []).loss, sug = suggest(q, s);
+    $("pl-note").textContent = "The moves that would protect against " + (q.id === "hormuz" ? "a closure" : q.title) + ", each valued at the " + pct(p) + " chance and in combination, since moves overlap rather than add. " + (sug.length ? "Totality suggests " + list(sug.map(function (id) { return "“" + actName(q, id) + "”"; })) + "." : "Totality suggests none of them at this chance.");
+    var box = byId("moves"); box.textContent = "";
+    var hd = el("div", "mv mv--head"); ["Move", "Cost", "Protects", "Net"].forEach(function (k) { hd.appendChild(el("span", null, k)); }); box.appendChild(hd);
+    q.actions.forEach(function (a) {
+      var on = s.plan.indexOf(a.id) >= 0, alone = r1(r1(p * base) - r1(p * evaluate(q, s, [a.id]).loss)), c = actionCost(q, a.id), net = alone - c;
+      var row = el("label", "mv" + (on ? " is-on" : ""));
+      var nm = el("span", "mv__name");
+      var t = el("b", null, a.name); nm.appendChild(t);
+      if (sug.indexOf(a.id) >= 0) nm.appendChild(el("span", "pill pill--red", "Totality suggests"));
+      else if (net > 0) nm.appendChild(el("span", "pill", "Pays alone, overlaps the rest"));
+      nm.appendChild(el("small", null, a.owner + ". " + a.what + "."));
+      row.appendChild(nm);
+      row.appendChild(el("span", "mv__v", money(c)));
+      row.appendChild(el("span", "mv__v", money(alone)));
+      row.appendChild(el("span", "mv__v" + (net < 0 ? " red" : ""), (net < 0 ? "−" : "") + money(Math.abs(net))));
+      var cb = el("input", { type: "checkbox", "aria-label": "Include " + a.name }); cb.checked = on;
+      cb.addEventListener("change", function () {
+        if (cb.checked) s.plan.push(a.id); else s.plan = s.plan.filter(function (x) { return x !== a.id; });
+        s.plan = q.actions.map(function (x) { return x.id; }).filter(function (id) { return s.plan.indexOf(id) >= 0; });
+        setTimeout(render, 220);
       });
+      var sw = el("span", "mv__sw"); sw.appendChild(cb); sw.appendChild(el("span", { class: "switch__ui", "aria-hidden": "true" })); row.appendChild(sw);
+      box.appendChild(row);
     });
-    drawHist(s0, s1);
-    var r = readiness(plan), short = planList(plan).filter(function (a) { return r.acts[a.id].f < 0.999; });
-    $("hist-note").textContent = "Dashed bars: doing nothing. Filled bars: your plan as delivered" + (short.length ? " (the " + short.map(function (a) { return a.short; }).join(" and ") + " may not fully land)" : "") +
-      ". In " + Math.round(100 * none0 / N) + "% of futures nothing goes wrong, so those aren’t drawn.";
-    drawTornado(S1.money);
-    var cb = document.querySelector("#combos tbody"); cb.textContent = "";
-    var cs = combos(plan, params).filter(function (c) { return !focus || c.names.indexOf(EVSHORT[focus]) > -1; });
-    cs.slice(0, 10).forEach(function (c) {
-      var tr = el("tr");
-      tr.appendChild(el("td", { class: "combos__what" }, c.names.length ? c.names.join(" + ") : "Nothing happens"));
-      tr.appendChild(el("td", { class: "r" }, (c.w * 100 < 1 ? (c.w * 100).toFixed(1) : Math.round(c.w * 100)) + "%"));
-      tr.appendChild(el("td", { class: "r money" }, money(c.l0)));
-      tr.appendChild(el("td", { class: "r money " + (c.l1 < c.l0 - 0.05 ? "money--safe" : "") }, money(c.l1)));
-      cb.appendChild(tr);
+    var withp = evaluate(q, s, s.plan), prot = r1(r1(p * base) - r1(p * withp.loss));
+    var foot = el("div", "mv__foot");
+    foot.appendChild(el("p", null, s.plan.length ? "Together the plan costs " + money(withp.cost) + " and protects " + money(prot) + ", less than the sum of its moves, since they cover some of the same losses." : "No moves in the plan."));
+    if (q.id === "hormuz") { var lk = el("a", { class: "btn-q btn-q--sm", href: "team.html" }, "See the teams’ part"); foot.appendChild(lk); }
+    box.appendChild(foot);
+    drawFront(q, s);
+  }
+  // every plan by cost and expected loss; the cheapest way to each level of loss joined by a line; select a dot to load it
+  function drawFront(q, s) {
+    var fig = byId("front"); fig.textContent = "";
+    fig.appendChild(el("h3", "front__h", "Every Plan, by Cost and Loss"));
+    fig.appendChild(el("p", "front__sub", "Each dot is one combination of the moves. The line joins the cheapest way to each level of loss. Select a dot to load it."));
+    var all = plans(q, s), W = 520, H = 280, L = 66, R = 16, T = 14, B = 40;
+    var maxC = Math.max(1, Math.max.apply(null, all.map(function (x) { return x.cost; }))) * 1.08, maxE = Math.max.apply(null, all.map(function (x) { return x.exp; })) * 1.1 || 1;
+    var X = function (c) { return L + (W - L - R) * c / maxC; }, Y = function (e) { return T + (H - T - B) * (1 - e / maxE); };
+    var g = sv("svg", { viewBox: "0 0 " + W + " " + H, class: "front__svg", role: "img", "aria-label": "Every plan by cost and expected loss" });
+    var stepE = maxE > 20 ? 10 : maxE > 8 ? 4 : maxE > 4 ? 2 : 1;
+    for (var e = 0; e <= maxE; e += stepE) { g.appendChild(sv("line", { x1: L, x2: W - R, y1: Y(e), y2: Y(e), class: "front__grid" })); g.appendChild(sv("text", { x: L - 8, y: Y(e) + 4, class: "front__ax", "text-anchor": "end" }, money(e))); }
+    var stepC = maxC > 3 ? 1 : 0.5;
+    for (var c = 0; c <= maxC; c += stepC) g.appendChild(sv("text", { x: X(c), y: H - B + 18, class: "front__ax", "text-anchor": "middle" }, money(c)));
+    g.appendChild(sv("text", { x: (L + W - R) / 2, y: H - 4, class: "front__lab", "text-anchor": "middle" }, "What the plan costs"));
+    g.appendChild(sv("text", { x: 10, y: (T + H - B) / 2, class: "front__lab", "text-anchor": "middle", transform: "rotate(-90 10 " + (T + H - B) / 2 + ")" }, "Expected loss"));
+    var sorted = all.slice().sort(function (a, b) { return a.cost - b.cost || a.exp - b.exp; }), line = [], best = Infinity;
+    sorted.forEach(function (x) { if (x.exp < best - 1e-9) { best = x.exp; line.push(x); } });
+    g.appendChild(sv("polyline", { points: line.map(function (x) { return X(x.cost).toFixed(1) + "," + Y(x.exp).toFixed(1); }).join(" "), class: "front__line" }));
+    var key = s.plan.slice().sort().join("+");
+    all.forEach(function (x) {
+      var on = x.set.slice().sort().join("+") === key;
+      var d = sv("circle", { cx: X(x.cost), cy: Y(x.exp), r: on ? 7 : 5, class: "front__dot" + (on ? " is-on" : ""), tabindex: "0", role: "button" });
+      d.appendChild(sv("title", {}, (x.set.length ? x.set.map(function (id) { return actName(q, id); }).join(", ") : "No moves") + ": " + money(x.cost) + ", " + money(x.exp) + " expected loss"));
+      function load() { s.plan = x.set.slice(); render(); }
+      d.addEventListener("click", load);
+      d.addEventListener("keydown", function (ev) { if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); load(); } });
+      g.appendChild(d);
+      if (on) g.appendChild(sv("text", { x: X(x.cost) + 11, y: Y(x.exp) - 9, class: "front__you" }, "Your plan"));
     });
-    if (cs.length > 10) { var more = el("tr"); more.appendChild(el("td", { colspan: 4, class: "register__empty" }, cs.length - 10 + " less likely combinations not shown.")); cb.appendChild(more); }
-    if (focus) { var fr = el("tr"); fr.appendChild(el("td", { colspan: 4, class: "register__empty" }, "Showing only the futures that include “" + eventById(focus).name + "”, because you’re following it. The plan column assumes every action lands in full.")); cb.appendChild(fr); }
+    fig.appendChild(g);
   }
 
-  var hist = document.getElementById("hist");
-  function drawHist(s0, s1) {
-    var bins = 28, x0 = 44, x1 = 510, y0 = 14, y1 = 190, bw = (x1 - x0) / bins;
-    var hi = Math.max(1, q(s0, 0.99));
-    function count(arr) { var c = new Array(bins).fill(0); for (var i = 0; i < arr.length; i++) { if (arr[i] < 0.01) continue; var k = Math.floor(arr[i] / hi * bins); if (k < bins) c[k]++; } return c; }
-    var c0 = count(s0), c1 = count(s1), top = Math.max(1, Math.max.apply(null, c0.concat(c1)));
-    hist.textContent = "";
-    hist.appendChild(sv("line", { x1: x0, x2: x1, y1: y1, y2: y1, class: "grid" }));
-    c0.forEach(function (c, i) { var h = (y1 - y0) * c / top; hist.appendChild(sv("rect", { x: x0 + i * bw + 1, y: y1 - h, width: bw - 2, height: h, fill: "none", stroke: "rgba(236,238,242,0.38)", "stroke-dasharray": "2 2" })); });
-    c1.forEach(function (c, i) { var h = (y1 - y0) * c / top; hist.appendChild(sv("rect", { x: x0 + i * bw + 1, y: y1 - h, width: bw - 2, height: h, rx: 2, style: "fill: var(--accent)", "fill-opacity": 0.85 })); });
-    for (var t = 0; t <= 4; t++) hist.appendChild(sv("text", { x: x0 + (x1 - x0) * t / 4, y: y1 + 18, class: "axis", "text-anchor": "middle" }, money(hi * t / 4, 0)));
-  }
-  var tornado = document.getElementById("tornado");
-  function drawTornado(E) {
-    var act = active(), rows = [];
-    act.forEach(function (e) {
-      rows.push({ label: e.short + ", chance ±10%", lo: expected(plan, params, null, { id: e.id, p: -0.1 }).E, hi: expected(plan, params, null, { id: e.id, p: 0.1 }).E });
-      rows.push({ label: e.short + ", severity ±25%", lo: expected(plan, params, null, { id: e.id, mag: 0.75 }).E, hi: expected(plan, params, null, { id: e.id, mag: 1.25 }).E });
-    });
-    rows.sort(function (a, b) { return (b.hi - b.lo) - (a.hi - a.lo); });
-    rows = rows.slice(0, 8);
-    var rowH = 24, x0 = 190, x1 = 500, y0 = 24, Hh = y0 + rows.length * rowH + 26;
-    tornado.setAttribute("viewBox", "0 0 520 " + Math.max(120, Hh));
-    tornado.textContent = "";
-    if (!rows.length) { tornado.appendChild(sv("text", { x: 260, y: 60, class: "axis", "text-anchor": "middle" }, "Include a contingency to see what drives the loss.")); return; }
-    var mn = Math.min.apply(null, rows.map(function (r) { return r.lo; }).concat([E])), mx = Math.max.apply(null, rows.map(function (r) { return r.hi; }).concat([E]));
-    var pad = (mx - mn) * 0.08 || 1, lo = Math.max(0, mn - pad), hi = mx + pad;
-    var sx = function (v) { return x0 + (x1 - x0) * (v - lo) / (hi - lo); };
-    rows.forEach(function (r, i) {
-      var y = y0 + i * rowH;
-      tornado.appendChild(sv("text", { x: x0 - 10, y: y + 13, class: "tornado__lab", "text-anchor": "end" }, r.label));
-      tornado.appendChild(sv("rect", { x: sx(Math.min(r.lo, E)), y: y + 2, width: Math.max(1, sx(E) - sx(Math.min(r.lo, E))), height: 15, rx: 3, class: "tbar tbar--lo" }));
-      tornado.appendChild(sv("rect", { x: sx(E), y: y + 2, width: Math.max(1, sx(Math.max(r.hi, E)) - sx(E)), height: 15, rx: 3, class: "tbar tbar--hi" }));
-    });
-    tornado.appendChild(sv("line", { x1: sx(E), x2: sx(E), y1: y0 - 6, y2: y0 + rows.length * rowH, class: "tmid" }));
-    tornado.appendChild(sv("text", { x: sx(E), y: y0 - 10, class: "axis axis--mine", "text-anchor": "middle" }, money(E)));
-    tornado.appendChild(sv("text", { x: x0, y: y0 + rows.length * rowH + 18, class: "axis" }, money(lo)));
-    tornado.appendChild(sv("text", { x: x1, y: y0 + rows.length * rowH + 18, class: "axis", "text-anchor": "end" }, money(hi)));
-  }
-
-  /* ================= Your model: network, assets, teams ================= */
-  function get(o, path) { return path.split(".").reduce(function (x, k) { return x[k]; }, o); }
-  function set(o, path, v) { var ks = path.split("."), last = ks.pop(); ks.reduce(function (x, k) { return x[k]; }, o)[last] = v; }
-  function fmt(v, step) { var dp = step < 1 ? (String(step).split(".")[1] || "").length : 0; return (+v).toFixed(dp); }
-  function exposureOf(a, S) {
-    if (a.loss) return { money: S["m_" + a.loss], text: money(S["m_" + a.loss]) };
-    var on = active().map(function (e) { return e.id; });
-    var hit = (a.events || []).filter(function (e) { return on.indexOf(e) > -1; });
-    return { money: null, text: hit.length ? hit.map(function (h) { return EVSHORT[h]; }).join(", ") : "—", n: hit.length };
-  }
-  // selected graph nodes: the asset's own node plus its dependencies' nodes (and what depends on it)
-  function traceNodes() {
-    var ids = {};
-    if (sel.kind === "asset") {
-      var a = assetById(sel.id); if (!a) return { ids: ids, edges: {} };
-      var seen = {};
-      (function up(x, d) { if (!x || seen[x.id] || d > 3) return; seen[x.id] = 1; if (x.node) ids[x.node] = 1; (x.deps || []).forEach(function (id) { up(assetById(id), d + 1); }); })(a, 0);
-      allAssets().forEach(function (b) { if ((b.deps || []).indexOf(a.id) > -1 && b.node) ids[b.node] = 1; });
-    } else if (sel.kind === "team") {
-      allAssets().forEach(function (b) { if (b.owner === sel.id && b.node) ids[b.node] = 1; });
-    }
-    return { ids: ids, edges: edgesFor(ids) };
-  }
-  var regBody = document.querySelector("#register tbody"), typesBox = document.getElementById("asset-types");
-  var TYPE_ORDER = ["Supplier", "Port", "Chokepoint", "Lane", "Vessel", "Plant", "Distribution centre", "Market", "Contract", "Site"];
-  function renderRegister(S) {
-    var list = allAssets();
-    typesBox.textContent = "";
-    var all = el("button", { class: "chip-btn" + (typeFilter ? "" : " is-on"), type: "button" }, "All " + list.length);
-    all.addEventListener("click", function () { typeFilter = ""; renderModel(); });
-    typesBox.appendChild(all);
-    TYPE_ORDER.forEach(function (t) {
-      var c = list.filter(function (a) { return a.type === t; }).length; if (!c) return;
-      var b = el("button", { class: "chip-btn" + (typeFilter === t ? " is-on" : ""), type: "button" }, (t === "Distribution centre" ? "DCs" : t + "s") + " " + c);
-      b.addEventListener("click", function () { typeFilter = typeFilter === t ? "" : t; renderModel(); });
-      typesBox.appendChild(b);
-    });
-    var ql = query.toLowerCase();
-    var rows = list.filter(function (a) {
-      if (typeFilter && a.type !== typeFilter) return false;
-      if (!ql) return true;
-      return (a.name + " " + a.where + " " + a.type + " " + teamName(a.owner) + " " + a.key).toLowerCase().indexOf(ql) > -1;
-    });
-    regBody.textContent = "";
-    if (!rows.length) { var tr0 = el("tr"); tr0.appendChild(el("td", { colspan: 5, class: "register__empty" }, "No assets match. Clear the search or pick another type.")); regBody.appendChild(tr0); }
-    rows.forEach(function (a) {
-      var ex = exposureOf(a, S);
-      var tr = el("tr", { class: (sel.kind === "asset" && sel.id === a.id ? "is-sel" : "") + (ex.money > 0.01 || ex.n ? " is-hot" : ""), tabindex: 0 });
-      var c0 = el("td");
-      c0.appendChild(el("b", null, a.name));
-      if (a.custom) c0.appendChild(el("span", { class: "pill pill--warn register__yours" }, "Your data"));
-      c0.appendChild(el("span", { class: "table__sub" }, a.where));
-      tr.appendChild(c0);
-      tr.appendChild(el("td", null, a.type));
-      tr.appendChild(el("td", null, teamName(a.owner)));
-      tr.appendChild(el("td", null, a.key));
-      tr.appendChild(el("td", { class: "r" + (ex.money != null ? " money money--loss" : "") }, ex.text));
-      var pick = function () { sel = { kind: "asset", id: a.id }; renderModel(); };
-      tr.addEventListener("click", pick);
-      tr.addEventListener("keydown", function (k) { if (k.key === "Enter") pick(); });
-      regBody.appendChild(tr);
-    });
-  }
-  var orgBox = document.getElementById("org");
-  function renderOrg() {
-    orgBox.textContent = "";
-    EXECS.forEach(function (x) {
-      var col = el("div", { class: "org__col" });
-      var head = el("div", { class: "org__exec" });
-      head.appendChild(el("span", { class: "org__role" }, x.title));
-      head.appendChild(el("b", null, x.lead));
-      col.appendChild(head);
-      var kids = el("ul", { class: "org__kids" });
-      Object.keys(TEAMS).filter(function (t) { return TEAMS[t].parent === x.id; }).forEach(function (t) {
-        var T = TEAMS[t], owned = allAssets().filter(function (a) { return a.owner === t; }).length;
-        var li = el("li");
-        var card = el("button", { type: "button", class: "org__team" + (sel.kind === "team" && sel.id === t ? " is-sel" : "") });
-        card.appendChild(el("b", { class: "org__name" }, T.name));
-        card.appendChild(el("span", { class: "org__lead" }, T.lead + ", " + T.role));
-        var avs = el("span", { class: "tcard__avs" }), none = {};
-        peopleOf(t).forEach(function (p) { none[p.id] = 0; avs.appendChild(avatar(p, none)); });
-        card.appendChild(avs);
-        card.appendChild(el("span", { class: "org__meta" }, T.heads.toLocaleString() + " people, " + teamFreeAt(t, 1) + " free hours this week, owns " + plural(owned, "asset")));
-        card.addEventListener("click", function () { sel = { kind: "team", id: t }; renderModel(); });
-        li.appendChild(card); kids.appendChild(li);
-      });
-      col.appendChild(kids);
-      orgBox.appendChild(col);
-    });
-    drawOrgLines();
-  }
-  // one line drops from each executive and curves into every team that reports to them; measured with
-  // offsets (not bounding boxes) so it's right even while the view is sliding in
-  function drawOrgLines() {
-    orgBox.querySelectorAll(".org__col").forEach(function (col) {
-      var old = col.querySelector(".org__lines"); if (old) old.remove();
-      var exec = col.querySelector(".org__exec"), cards = col.querySelectorAll(".org__team");
-      if (!exec || !cards.length || !col.offsetWidth) return;
-      var x = exec.offsetLeft + 22, y0 = exec.offsetTop + exec.offsetHeight, r = 12;
-      var svgEl = sv("svg", { class: "org__lines", width: col.offsetWidth, height: col.offsetHeight, "aria-hidden": "true" });
-      // one trunk down to the last branch, then each team's own curve off it, so no stretch is drawn twice
-      var ys = [].map.call(cards, function (c) { return c.offsetTop + Math.min(30, c.offsetHeight / 2); });
-      var d = "M" + x + " " + y0 + " V" + (ys[ys.length - 1] - r);
-      [].forEach.call(cards, function (c, i) {
-        var y = ys[i];
-        d += " M" + x + " " + (y - r) + " Q" + x + " " + y + " " + (x + r) + " " + y + " H" + c.offsetLeft;
-      });
-      svgEl.appendChild(sv("path", { d: d }));
-      col.insertBefore(svgEl, col.firstChild);
-    });
-  }
-  window.addEventListener("resize", function () { if (mode === "model" && view === "org") drawOrgLines(); });
-  var ins = document.getElementById("inspector");
-  // a list of linked assets, capped at six with a "show all" toggle
-  function assetList(list) {
-    var ul = el("ul", { class: "ins-list" });
-    list.forEach(function (d, i) {
-      var li = el("li"); if (i >= 6) li.hidden = true;
-      li.appendChild(linkBtn(d.name, function () { sel = { kind: "asset", id: d.id }; renderModel(); }));
+  var SOURCES = [
+    ["AIS transits through Hormuz", "From the strait traffic agent", "Live", "4 min ago"],
+    ["Underwriters’ war-risk notices", "From the war-risk notices agent", "Live", "12 min ago"],
+    ["Port agents’ inboxes", "Berth lists from Jebel Ali and Khor Fakkan", "Problem", "Khor Fakkan’s agent stopped answering"],
+    ["Diplomatic wire", "Muscat talks and naval statements", "Lagging", "Two of five sources behind a paywall"],
+    ["SAP stock levels", "Days of cover at every plant and DC", "Live", "Nightly, last at 05:40"],
+    ["Workday", "Free hours for everyone on the plan", "Live", "Hourly"],
+    ["Fujairah bunker prices", "From the freight and fuel agent", "Live", "1 h ago"]
+  ];
+  var LOG = [
+    ["06:00", "Totality", "Morning run: Hormuz at 27%, up 3% overnight"],
+    ["05:40", "SAP", "Gebze’s resin cover set to 11 days from last night’s stock count"],
+    ["05:12", "War-risk notices", "War-risk rate on Gulf calls raised to 0.45% of insured value"],
+    ["Mon 18:30", "Priya Nair", "Dammam DC cover cut from 8 to 6 days after the ME4 delays"],
+    ["Mon 11:05", "Hanne Sørli", "Insured value on Gulf calls set to $620M for the quarter"],
+    ["Fri Oct 2", "Totality", "Feeder sanctions question added, at 13%"]
+  ];
+  function drawData() {
+    var q = Q(), s = S(), box = byId("md"); box.textContent = "";
+    var c1 = el("div", "md__col"); c1.appendChild(el("h3", "md__h", "Sources"));
+    var ul = el("ul", "md__src");
+    SOURCES.forEach(function (r) {
+      var li = el("li"), w = el("div"); w.appendChild(el("b", null, r[0])); w.appendChild(el("span", null, r[1] + ". " + r[3] + "."));
+      li.appendChild(w); li.appendChild(el("span", "pill" + (r[2] === "Live" ? " pill--green" : r[2] === "Lagging" ? " pill--amber" : " pill--red"), r[2]));
       ul.appendChild(li);
     });
-    if (list.length > 6) {
-      var more = el("li"), b = linkBtn("Show all " + list.length, function () { ul.querySelectorAll("li[hidden]").forEach(function (x) { x.hidden = false; }); more.remove(); });
-      b.classList.add("ins-more"); more.appendChild(b); ul.appendChild(more);
-    }
-    return ul;
-  }
-  function renderInspector(S) {
-    ins.textContent = "";
-    if (sel.kind === "team") {
-      var t = sel.id, T = TEAMS[t];
-      $("type").textContent = "Team"; $("name").textContent = T.name;
-      $("desc").textContent = T.lead + ", " + T.role + ". " + T.heads.toLocaleString() + " people. " + Math.round(T.load * 100) + "% of their time already committed this week.";
-      ins.appendChild(el("p", { class: "ins-h" }, "Free hours this week, from Workday"));
-      peopleOf(t).forEach(function (p) {
-        var id = "free-" + p.id, base = p.free, cur = freeEdit[p.id] != null ? freeEdit[p.id] : base;
-        var w = el("div", { class: "prop" });
-        var lab = el("label", { class: "prop__top", for: id });
-        lab.appendChild(el("span", null, p.name + ", " + p.role));
-        var bl = el("span", { class: "prop__base" + (cur !== base ? " is-changed" : "") }, "Workday " + base + " h"); lab.appendChild(bl); w.appendChild(lab);
-        var inp = el("input", { class: "num-input" + (cur !== base ? " is-changed" : ""), id: id, type: "number", min: 0, max: 40, step: 1, value: cur });
-        inp.addEventListener("change", function () {
-          var v = parseInt(inp.value, 10); if (isNaN(v)) return; v = Math.max(0, Math.min(40, v));
-          if (v === base) delete freeEdit[p.id]; else freeEdit[p.id] = v;
-          changed("Set " + p.name + "’s free hours to " + v);
-        });
-        w.appendChild(inp); ins.appendChild(w);
-      });
-      ins.appendChild(el("p", { class: "ins-h" }, "Owns"));
-      ins.appendChild(assetList(allAssets().filter(function (a) { return a.owner === t; })));
-      var op = el("button", { class: "btn btn--ghost btn--sm", type: "button" }, "See its work in Deliver");
-      op.addEventListener("click", function () { openTeam = t; goTo("deliver"); });
-      ins.appendChild(op);
-      return;
-    }
-    if (sel.kind === "node") {
-      var n = NODES[sel.id];
-      $("type").textContent = n.kind; $("name").textContent = n.name; $("desc").textContent = "";
-      return;
-    }
-    var a = assetById(sel.id); if (!a) return;
-    $("type").textContent = a.type + (a.custom ? ", from your data" : "");
-    $("name").textContent = a.name;
-    $("desc").textContent = a.where + ". " + a.key + ".";
-    var dl2 = el("dl", { class: "facts" });
-    var ownerRow = el("div"); ownerRow.appendChild(el("dt", null, "Owner"));
-    var dd = el("dd"); if (a.owner) dd.appendChild(linkBtn(teamName(a.owner), function () { sel = { kind: "team", id: a.owner }; view = "org"; document.querySelector('input[name="wview"][value="org"]').checked = true; renderModel(); })); else dd.textContent = teamName(null);
-    ownerRow.appendChild(dd); dl2.appendChild(ownerRow);
-    (a.attrs || []).forEach(function (f) { var d = el("div"); d.appendChild(el("dt", null, f[0])); d.appendChild(el("dd", null, f[1])); dl2.appendChild(d); });
-    ins.appendChild(dl2);
-    var on = active().map(function (e) { return e.id; });
-    if ((a.events || []).length) {
-      ins.appendChild(el("p", { class: "ins-h" }, "Exposed to"));
-      var ex = el("div", { class: "ins-chips" });
-      a.events.forEach(function (e) { ex.appendChild(el("span", { class: "pill " + (on.indexOf(e) > -1 ? "pill--loss" : "pill--quiet") }, EVSHORT[e] + (on.indexOf(e) > -1 ? "" : " (not included)"))); });
-      ins.appendChild(ex);
-    }
-    var deps = (a.deps || []).map(assetById).filter(Boolean);
-    if (deps.length) { ins.appendChild(el("p", { class: "ins-h" }, "Depends on")); ins.appendChild(assetList(deps)); }
-    var users = allAssets().filter(function (b) { return (b.deps || []).indexOf(a.id) > -1; });
-    if (users.length) { ins.appendChild(el("p", { class: "ins-h" }, "Relied on by")); ins.appendChild(assetList(users)); }
-    (a.props || []).forEach(function (path) {
-      var p = PROPS[path], b = get(M.BASE, path), id = "p-" + path.replace(/\./g, "-");
-      var w = el("div", { class: "prop" });
-      var lab = el("label", { class: "prop__top", for: id });
-      lab.appendChild(el("span", null, p[0]));
-      var bl = el("span", { class: "prop__base" }, "baseline " + fmt(b, p[4]) + " " + p[1]);
-      lab.appendChild(bl); w.appendChild(lab);
-      var inp = el("input", { class: "num-input", id: id, type: "number", min: p[2], max: p[3], step: p[4], value: fmt(get(params, path), p[4]) });
-      function sync() { var c = Math.abs(get(params, path) - b) > 1e-9; inp.classList.toggle("is-changed", c); bl.classList.toggle("is-changed", c); }
-      inp.addEventListener("change", function () {
-        var v = parseFloat(inp.value); if (isNaN(v)) return;
-        set(params, path, Math.max(p[2], Math.min(p[3], v))); sync();
-        changed("Edited " + p[5] + " to " + fmt(get(params, path), p[4]));
-      });
-      sync(); w.appendChild(inp); ins.appendChild(w);
-    });
-    var see = el("button", { class: "btn btn--ghost btn--sm", type: "button" }, "See its impact in this scenario");
-    see.addEventListener("click", function () { isel = a.id; goTo("impact"); });
-    ins.appendChild(see);
-  }
-  // the model views slide in their tab order; Data and Change log swap out the whole network-and-inspector block
-  var VIEWS = ["network", "assets", "org", "data", "log"], shownView = "network";
-  function boxOf(v) { return document.querySelector('[data-mview="' + (v === "data" || v === "log" ? v : "world") + '"]'); }
-  function showView(v) {
-    if (v === shownView) return;
-    var dir = VIEWS.indexOf(v) - VIEWS.indexOf(shownView), from = boxOf(shownView), to = boxOf(v);
-    if (from === to) slideTo(document.querySelector('[data-view="' + shownView + '"]'), document.querySelector('[data-view="' + v + '"]'), dir);
-    else {
-      if (to.getAttribute("data-mview") === "world") document.querySelectorAll("[data-view]").forEach(function (x) { x.hidden = x.getAttribute("data-view") !== v; });
-      slideTo(from, to, dir);
-    }
-    shownView = v;
-  }
-  function renderModel() {
-    var S = stats({});
-    var isData = view === "data";
-    showView(view);
-    $("asset-count").textContent = allAssets().length + " assets, " + Object.keys(TEAMS).length + " teams, " + PEOPLE.length + " people on call.";
-    var me = modelEdits();
-    $("model-edits").textContent = me ? plural(me, "edit") + " so far." : "";
-    if (isData) { renderSignals(); renderCode(); return; }
-    if (view === "log") return;
-    if (sel.kind === "team" && view !== "org") sel = { kind: "asset", id: "c-hormuz" };
-    if (view === "network") drawGraph(document.getElementById("graph"), nodeLossOf(S), traceNodes(), sel.kind === "asset" ? (assetById(sel.id) || {}).node : sel.kind === "node" ? sel.id : null, hitNodes(null), function (id) {
-      var m = mainAssetAt(id); sel = m ? { kind: "asset", id: m.id } : { kind: "node", id: id }; renderModel();
-    });
-    if (view === "assets") renderRegister(S);
-    if (view === "org") { if (sel.kind !== "team") sel = { kind: "team", id: "log" }; renderOrg(); }
-    renderInspector(S);
-  }
-  document.querySelectorAll('input[name="wview"]').forEach(function (r) {
-    r.addEventListener("change", function () { view = r.value; if (view !== "org" && sel.kind === "team") sel = { kind: "asset", id: "c-hormuz" }; renderModel(); });
-  });
-  document.getElementById("asset-q").addEventListener("input", function (e) { query = e.target.value; renderModel(); });
-
-  /* ================= Your model: data and signals ================= */
-  var csvRows = null, csvHead = null, csvName = "";
-  function parseCSV(text) {
-    var rows = [], row = [], cell = "", qd = false;
-    for (var i = 0; i < text.length; i++) {
-      var ch = text[i];
-      if (qd) { if (ch === '"' && text[i + 1] === '"') { cell += '"'; i++; } else if (ch === '"') qd = false; else cell += ch; }
-      else if (ch === '"') qd = true;
-      else if (ch === ",") { row.push(cell); cell = ""; }
-      else if (ch === "\n" || ch === "\r") { if (ch === "\r" && text[i + 1] === "\n") i++; row.push(cell); cell = ""; if (row.some(function (c) { return c.trim(); })) rows.push(row); row = []; }
-      else cell += ch;
-    }
-    row.push(cell); if (row.some(function (c) { return c.trim(); })) rows.push(row);
-    return rows;
-  }
-  function loadCSV(text, name) {
-    var rows = parseCSV(text);
-    if (rows.length < 2) { $("csv-status").textContent = "That file has no data rows. It needs a header row and at least one row of data."; return; }
-    csvHead = rows[0].map(function (h) { return h.trim(); }); csvRows = rows.slice(1); csvName = name;
-    $("csv-status").textContent = name + ": " + csvRows.length + " rows, " + csvHead.length + " columns. Read in your browser; nothing was uploaded.";
-    var prev = document.getElementById("csv-preview"); prev.textContent = "";
-    var wrap = el("div", { class: "table-wrap" }), t = el("table", { class: "table table--tight" });
-    var hr = el("tr"); csvHead.forEach(function (h) { hr.appendChild(el("th", { scope: "col" }, h)); });
-    var th = el("thead"); th.appendChild(hr); t.appendChild(th);
-    var tb = el("tbody");
-    csvRows.slice(0, 6).forEach(function (r) { var tr = el("tr"); csvHead.forEach(function (_, i) { tr.appendChild(el("td", null, r[i] || "")); }); tb.appendChild(tr); });
-    t.appendChild(tb); wrap.appendChild(t); prev.appendChild(wrap);
-    var guess = { site: /site|location|node|plant/i, cover: /cover/i, rate: /cost|rate|margin/i };
-    document.querySelectorAll("[data-map]").forEach(function (s) {
-      var key = s.getAttribute("data-map"), picked = false; s.textContent = "";
-      s.appendChild(el("option", { value: "" }, "Not mapped"));
-      csvHead.forEach(function (h, i) { var o = el("option", { value: i }, h); if (!picked && guess[key].test(h)) { o.selected = true; picked = true; } s.appendChild(o); });
-    });
-    document.getElementById("csv-mapping").hidden = false;
-  }
-  var SITE_KEYS = { gebze: "plants.0", pune: "plants.1", dubai: "dcs.0", jebel: "dcs.0", dammam: "dcs.1" };
-  document.getElementById("csv-file").addEventListener("change", function (e) {
-    var f = e.target.files[0]; if (!f) return;
-    var rd = new FileReader();
-    rd.onload = function () { loadCSV(String(rd.result), f.name); };
-    rd.readAsText(f);
-  });
-  document.getElementById("csv-sample").addEventListener("click", function () {
-    loadCSV("site,inventory_days_of_cover,line_stop_cost_musd_per_day,as_of\nGebze plant,14,2.9,2026-10-09\nPune plant,6,2.3,2026-10-09\nDubai DC (Jebel Ali),11,2.1,2026-10-09\nDammam DC,4,0.9,2026-10-09\nSalalah cross-dock,9,0.6,2026-10-09\nIzmir spare-parts store,21,0.3,2026-10-09\n", "inventory_snapshot.csv");
-  });
-  document.getElementById("csv-apply").addEventListener("click", function () {
-    var m = {}; document.querySelectorAll("[data-map]").forEach(function (s) { m[s.getAttribute("data-map")] = s.value === "" ? null : +s.value; });
-    if (m.site == null) { $("csv-status").textContent = "Map the site column first, so each row can be matched to a site in the model."; return; }
-    var before = expected(plan, params).E, applied = 0, added = [];
-    csvRows.forEach(function (r, ri) {
-      var siteName = (r[m.site] || "").trim(), site = siteName.toLowerCase(), key = null;
-      if (!siteName) return;
-      Object.keys(SITE_KEYS).forEach(function (k) { if (site.indexOf(k) > -1) key = SITE_KEYS[k]; });
-      if (key) {
-        if (m.cover != null && !isNaN(parseFloat(r[m.cover]))) { set(params, key + ".cover", parseFloat(r[m.cover])); applied++; }
-        if (m.rate != null && !isNaN(parseFloat(r[m.rate]))) { set(params, key + ".rate", parseFloat(r[m.rate])); applied++; }
-        return;
-      }
-      // a site the model doesn't know yet: register it as a new asset
-      var id = "x-" + site.replace(/[^a-z0-9]+/g, "-");
-      if (assetById(id)) return;
-      var attrs = csvHead.map(function (h, i) { return [h, r[i] || ""]; }).filter(function (p, i) { return i !== m.site && p[1]; });
-      custom.push({ id: id, type: "Site", name: siteName, where: "From " + csvName, owner: null, node: null, events: [], deps: [], custom: true,
-        key: m.cover != null && r[m.cover] ? r[m.cover] + " days of cover" : "Imported", attrs: attrs });
-      added.push(siteName);
-    });
-    datasets.push({ name: csvName, values: applied });
-    var after = expected(plan, params).E, d = after - before;
-    $("csv-status").textContent = "Applied " + applied + " values from " + csvName + "; expected loss " + (d >= 0 ? "rises " : "falls ") + money(Math.abs(d)) + "." +
-      (added.length ? " Added " + added.length + " new asset" + (added.length > 1 ? "s" : "") + " to the asset register: " + added.join(", ") + ". Give each an owner and its dependencies there." : "");
-    changed("Applied " + csvName + " (" + applied + " values" + (added.length ? ", " + added.length + " new assets" : "") + ")");
-  });
-  var sf = document.getElementById("signal-form"), evSel = sf.elements.event;
-  EVENTS_BASE.forEach(function (e) { evSel.appendChild(el("option", { value: e.id }, e.name)); });
-  var sigPts = 5, ptsPick = picker({ label: "How far it moves the forecast", step: 1, min: -15, max: 15,
-    choices: [[-5, "lowers it"], [5, "raises it"], [10, "raises it a lot"]],
-    fmt: function (v) { return (v > 0 ? "+" : v < 0 ? "\u2212" : "") + Math.abs(v) + "%"; }, get: function () { return sigPts; },
-    set: function (v) { sigPts = v; ptsPick.sync(); } });
-  document.getElementById("sig-pts").appendChild(ptsPick);
-  sf.addEventListener("submit", function (e) {
-    e.preventDefault();
-    var s = { name: sf.elements.name.value.trim(), rule: sf.elements.rule.value.trim(), event: evSel.value, pts: sigPts, on: true };
-    if (!s.name || !s.rule) return;
-    var h = 0; for (var i = 0; i < s.name.length; i++) h = (h * 31 + s.name.charCodeAt(i)) >>> 0;
-    s.brier = [0.124, 0.124 - (2 + h % 7) / 1000];
-    signals.push(s); sf.reset(); sigPts = 5; ptsPick.sync();
-    changed("Added signal: " + s.name);
-  });
-  function renderSignals() {
-    var ul = document.getElementById("signals"); ul.textContent = "";
-    if (!signals.length) { ul.appendChild(el("li", { class: "signals__empty" }, "No custom signals yet. A signal is one of your own indicators that nudges a forecast when it fires.")); return; }
-    signals.forEach(function (s, i) {
-      var li = el("li", { class: "signal" });
-      var top = el("label", { class: "switch" });
-      var txt = el("span", { class: "switch__text" }, s.name);
-      txt.appendChild(el("small", null, s.rule + ". When it fires, “" + EVNAME[s.event] + "” moves " + (s.pts > 0 ? "+" : "") + s.pts + "%. Back-tested on 14 months of your data: Brier score " + s.brier[0].toFixed(3) + " to " + s.brier[1].toFixed(3) + "."));
-      top.appendChild(txt);
-      var cb = el("input", { type: "checkbox", "aria-label": "Firing now: " + s.name }); cb.checked = s.on;
-      cb.addEventListener("change", function () { s.on = cb.checked; changed("Signal " + s.name + (s.on ? " firing" : " quiet")); });
-      top.appendChild(cb); top.appendChild(el("span", { class: "switch__ui", "aria-hidden": "true" }));
-      li.appendChild(top);
-      var x = el("button", { class: "signal__x", type: "button", "aria-label": "Remove " + s.name }, "Remove");
-      x.addEventListener("click", function () { signals.splice(i, 1); changed("Removed signal " + s.name); });
-      li.appendChild(x);
-      ul.appendChild(li);
-    });
-  }
-  function renderCode() {
-    var L = ['<span class="k">from</span> penumbra <span class="k">import</span> World', "", 'w = World.load(<span class="s">"halvorsen/v14.2"</span>)'];
-    Object.keys(PROPS).forEach(function (path) {
-      var a = get(M.BASE, path), b = get(params, path);
-      if (Math.abs(a - b) > 1e-9) L.push('w.set(<span class="s">"' + PROPS[path][5] + '"</span>, <span class="n">' + fmt(b, PROPS[path][4]) + '</span>)  <span class="c"># was ' + fmt(a, PROPS[path][4]) + "</span>");
-    });
-    custom.forEach(function (a) { L.push('w.assets.add(<span class="s">"' + a.name.replace(/[<>"]/g, "") + '"</span>, type=<span class="s">"site"</span>)  <span class="c"># from ' + a.where.replace(/^From /, "").replace(/[<>]/g, "") + "</span>"); });
-    signals.forEach(function (s) { L.push('w.signals.add(<span class="s">"' + s.name.replace(/[<>"]/g, "") + '"</span>, moves=<span class="s">"' + s.event + '"</span>, pts=<span class="n">' + s.pts + "</span>)"); });
-    L.push("", "s = w.scenario(");
-    active().forEach(function (e) { L.push('    <span class="s">"' + e.id + '"</span>: dict(p=<span class="n">' + pOf(e).toFixed(2) + "</span>, " + (e.unit === "days" ? "days" : "pct") + '=<span class="n">' + e.mag + "</span>),"); });
-    L.push(")");
-    L.push("plan = [" + planList(plan).map(function (a) { return '<span class="s">"' + a.id + '"</span>'; }).join(", ") + "]");
-    Object.keys(way).forEach(function (id) { L.push('s.how(<span class="s">"' + id + '"</span>, <span class="s">"' + actionById(id).ways[way[id]].name + '"</span>)'); });
-    Object.keys(crew).forEach(function (id) { L.push('s.crew(<span class="s">"' + id + '"</span>, [' + crew[id].map(function (p) { return '<span class="s">"' + p + '"</span>'; }).join(", ") + "])"); });
-    Object.keys(start).forEach(function (id) { L.push('s.start(<span class="s">"' + id + '"</span>, day=<span class="n">' + start[id] + "</span>)"); });
-    Object.keys(capacity).forEach(function (t) { L.push('s.capacity(<span class="s">"' + t + '"</span>, <span class="s">"' + capacity[t] + '"</span>)'); });
-    Object.keys(freeEdit).forEach(function (id) { L.push('w.people[<span class="s">"' + id + '"</span>].free_hours = <span class="n">' + freeEdit[id] + "</span>"); });
-    L.push('r = s.run(plan, n=<span class="n">4_000</span>)');
-    L.push('r.expected_loss      <span class="c"># ' + money(Edel(plan)) + " as delivered (" + money(E0()) + " doing nothing)</span>");
-    L.push('r.route_to_owners()  <span class="c"># send each person their action, with a deadline</span>');
-    document.getElementById("code").innerHTML = L.join("\n");
-  }
-  document.getElementById("copy").addEventListener("click", function () {
-    var t = document.getElementById("code").textContent;
-    if (navigator.clipboard) navigator.clipboard.writeText(t).then(function () { DB.toast("Copied."); }, function () { DB.toast("Couldn’t reach the clipboard."); });
-  });
-
-  /* ================= The thread: every stage's result, always in view ================= */
-  var logEl = document.getElementById("log");
-  function log(msg) {
-    var d = new Date(), li = el("li");
-    li.appendChild(el("time", null, [d.getHours(), d.getMinutes(), d.getSeconds()].map(function (n) { return String(n).padStart(2, "0"); }).join(":")));
-    li.appendChild(el("span", null, msg));
-    logEl.insertBefore(li, logEl.firstChild);
-    while (logEl.children.length > 30) logEl.removeChild(logEl.lastChild);
-  }
-  function modelEdits() {
-    var n = 0;
-    Object.keys(PROPS).forEach(function (p) { if (Math.abs(get(M.BASE, p) - get(params, p)) > 1e-9) n++; });
-    return n + signals.length + custom.length + Object.keys(freeEdit).length;
-  }
-  function countChanges() {
-    var n = 0;
-    events.forEach(function (e) { if (e.on !== e.base.on || Math.abs(e.p - e.base.p) > 1e-9 || e.mag !== e.base.mag) n++; });
-    return n + modelEdits() + planList(plan).length + Object.keys(crew).length + Object.keys(way).length + Object.keys(start).length + Object.keys(capacity).length;
-  }
-  var lastNet = null;
-  function renderThread() {
-    var act = active(), S0 = stats({}), r = readiness(plan), list = planList(plan), D = delivered(plan), cost = costOf(plan), net = S0.money - D.money - cost;
-    var moved = events.filter(function (e) { return Math.abs(e.p - e.base.p) > 1e-9; }).length;
-    $("t-forecast").textContent = act.length ? act.slice(0, 2).map(function (e) { return e.short + " " + Math.round(pOf(e) * 100) + "%"; }).join(", ") + (act.length > 2 ? " and " + (act.length - 2) + " more" : "") : "Nothing included";
-    $("t-forecast-sub").textContent = moved ? plural(moved, "override") : "Totality’s fused forecast";
-    var none = act.reduce(function (s, e) { return s * (1 - pOf(e)); }, 1);
-    $("t-events").textContent = plural(act.length, "contingency", "contingencies");
-    $("t-events-sub").textContent = act.length ? pct(1 - none) + " chance at least one happens" : "Include one to begin";
-    $("t-impact").textContent = money(S0.money) + " expected loss";
-    var ar = atRisk(S0);
-    $("t-impact-sub").textContent = Object.keys(reach(null)).length + " assets, " + plural(ar.length, "commitment") + " at risk";
-    $("t-decide").textContent = list.length ? plural(list.length, "action") : "No plan yet";
-    $("t-decide-sub").textContent = list.length ? money(cost, 2) + " to put in place" : "Totality can recommend one";
-    var ppl = {}; list.forEach(function (a) { crewOf(a).forEach(function (id) { ppl[id] = 1; }); });
-    $("t-deliver").textContent = !list.length ? "Nothing to deliver" : r.late.length ? r.late.length + " of " + list.length + " land late" : "All land in time";
-    $("t-deliver-sub").textContent = list.length ? plural(Object.keys(ppl).length, "person", "people") + " assigned" + (r.overPeople.length ? ", " + r.overPeople.length + " overstretched" : "") : "No work assigned";
-    var tv = $("t-outcomes");
-    tv.textContent = list.length ? (net >= 0 ? "Saves " : "Loses ") + money(Math.abs(net)) + " net" : "No plan yet";
-    $("t-outcomes-sub").textContent = list.length ? (ar.length ? atRisk(D).length + " of " + ar.length + " commitments still at risk" : "after cost, as delivered") : "Build one to compare outcomes";
-    tv.classList.toggle("is-safe", list.length > 0 && net >= 0); tv.classList.toggle("is-loss", list.length > 0 && net < 0);
-    if (lastNet != null && Math.abs(lastNet - net) > 0.05) { tv.classList.remove("is-bump"); void tv.offsetWidth; tv.classList.add("is-bump"); }
-    lastNet = net;
-    document.querySelectorAll(".thread__stage").forEach(function (t) {
-      var id = t.getAttribute("data-step");
-      t.classList.toggle("is-warn", (id === "deliver" && (r.late.length > 0 || r.overPeople.length > 0)));
-    });
-    var fb = document.getElementById("focusbar");
-    fb.hidden = !focus;
-    if (focus) $("focus-name").textContent = "“" + eventById(focus).name + "”";
-    var c = countChanges(), ch = $("changes");
-    ch.textContent = c ? c + " unsaved change" + (c > 1 ? "s" : "") : "No changes";
-    ch.classList.toggle("is-dirty", c > 0);
-    var me = modelEdits(), mn = $("model-n");
-    mn.hidden = !me; mn.textContent = me;
-  }
-  var heavy;
-  function render(now) {
-    cache = {};
-    renderThread();
-    events.forEach(function (e) { if (e._fsync) e._fsync(); if (e._esync) e._esync(); });
-    clearTimeout(heavy);
-    var go = function () {
-      if (mode === "model") { renderModel(); return; }
-      if (stage === "impact") renderImpact();
-      if (stage === "decide") renderDecide();
-      if (stage === "deliver") renderDeliver();
-      if (stage === "outcomes") renderOutcomes();
-    };
-    if (now) go(); else heavy = setTimeout(go, 60);
-  }
-  var logTimer;
-  function changed(msg) {
-    if (justReset) { justReset = false; paintReset(); } // any change after a reset clears its tick
-    render(false);
-    if (msg) log(msg);
-    else { clearTimeout(logTimer); logTimer = setTimeout(function () { log("Re-ran the scenario: " + money(Edel(plan)) + " expected"); }, 700); }
-  }
-  // "Reset to baseline" sits in every stage's footer; after a reset it reads "Reset" with a tick until the next change
-  var justReset = false;
-  function paintReset() {
-    document.querySelectorAll(".step__reset").forEach(function (b) {
-      b.classList.toggle("is-done", justReset);
-      b.setAttribute("aria-label", justReset ? "Reset to baseline. Done; nothing changed since." : "Reset to baseline");
-      b.innerHTML = justReset ? '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 4.8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Reset' : "Reset to baseline";
-    });
-  }
-  function resetAll() {
-    resetState(); focus = null; rebuild(); markPreset("morning");
-    changed("Reset to production");
-    justReset = true; paintReset();
-    DB.toast("Back to this morning’s baseline.");
-  }
-  paintReset();
-  function commitScenario() {
-    var c = countChanges();
-    if (!c) { DB.toast("Nothing to commit yet. Change a contingency, the model, or the plan first."); return; }
-    log("Committed scenario halvorsen/v14.2+" + c);
-    DB.toast(planList(plan).length ? "Committed as a scenario. Each person on the plan has their action, with a deadline." : "Committed as a scenario.");
+    c1.appendChild(ul); box.appendChild(c1);
+    var c2 = el("div", "md__col"); c2.appendChild(el("h3", "md__h", "Change Log"));
+    var ol = el("ol", "md__log");
+    var pending = changes(q);
+    if (pending.length) { var li0 = el("li", "is-new"); li0.appendChild(el("span", "md__t", "Not committed")); var w0 = el("div"); w0.appendChild(el("b", null, "You")); w0.appendChild(el("span", null, pending.join("; ") + ".")); li0.appendChild(w0); ol.appendChild(li0); }
+    log.concat(LOG).forEach(function (r) { var li = el("li", r[3] ? "is-you" : ""); li.appendChild(el("span", "md__t", r[0])); var w = el("div"); w.appendChild(el("b", null, r[1])); w.appendChild(el("span", null, r[2] + ".")); li.appendChild(w); ol.appendChild(li); });
+    c2.appendChild(ol); box.appendChild(c2);
+    var c3 = el("div", "md__col"); c3.appendChild(el("h3", "md__h", "The Same, in the SDK"));
+    var lines = ["from penumbra import World", "", 'w = World("halvorsen/v14.' + version + '")', 'q = w.question("' + q.id + '")'];
+    if (s.p != null) lines.push("q.forecast.override(" + s.p.toFixed(2) + ")");
+    if (s.dur !== PROD[q.id].dur || s.dur !== q.dur[1]) lines.push("q.duration_days = " + s.dur);
+    Object.keys(s.cover).forEach(function (id) { if (s.cover[id] !== coverOf(q, { cover: {} }, id)) lines.push('w.asset("' + id + '").cover_days = ' + s.cover[id]); });
+    var ids = s.plan.map(function (id) { return '"' + id + '"'; });
+    if (ids.length > 2) { lines.push("plan = q.plan(["); ids.forEach(function (x) { lines.push("    " + x + ","); }); lines.push("])"); }
+    else lines.push("plan = q.plan([" + ids.join(", ") + "])");
+    lines.push("plan.expected_loss   # " + money(chance(q, s) * evaluate(q, s, s.plan).loss));
+    var pre = el("pre", "md__code"); pre.textContent = lines.join("\n"); c3.appendChild(pre);
+    c3.appendChild(el("p", "md__note", "It follows every edit on this page. Run it against a fork, never production, until you commit."));
+    box.appendChild(c3);
   }
 
-  /* ================= Ask Totality: questions about the live scenario ================= */
-  var askOpen = document.getElementById("ask-open"), drawer = document.getElementById("askdrawer");
-  document.body.appendChild(drawer); // out of .page's stacking context, so it can sit over the sticky bar
-  var askLog = document.getElementById("ask-log"), askForm = document.getElementById("ask-form"), askInput = document.getElementById("ask-input");
-  var askSuggest = document.getElementById("ask-suggest");
-  function currentStep() { return mode === "model" ? "model" : stage; }
-  var SUGGEST = {
-    forecast: ["Why is Hormuz 27%?", "What if the Gebze strike is 40% likely?", "What’s driving the loss?"],
-    events: ["What if Hormuz stays closed for 60 days?", "What depends on Jebel Ali?", "What’s driving the loss?"],
-    impact: ["How exposed is the Gebze plant?", "Who owns the most exposed assets?", "What’s the worst that could happen?"],
-    decide: ["What should we do?", "What’s the cheapest plan that halves the loss?", "Is my plan worth it?"],
-    deliver: ["Which team is the bottleneck?", "Why is safety stock late?", "Can we staff the best plan?"],
-    outcomes: ["Is my plan worth it?", "What’s the worst that could happen?", "What’s driving the loss?"],
-    model: ["What data would improve the model?", "How would a custom signal help?", "What depends on Jebel Ali?"]
-  };
-  var drawerTimer;
-  function setDrawer(open) {
-    clearTimeout(drawerTimer);
-    askOpen.setAttribute("aria-expanded", String(open));
-    if (open) { drawer.classList.remove("is-closing"); drawer.hidden = false; document.body.classList.add("ask-is-open"); }
-    else if (!drawer.hidden) {
-      drawer.classList.add("is-closing");
-      var finish = function () { drawer.hidden = true; drawer.classList.remove("is-closing"); document.body.classList.remove("ask-is-open"); };
-      if (REDUCE) finish(); else drawerTimer = setTimeout(finish, 240);
-    }
-    if (open) { renderSuggest(); if (!askLog.children.length) say({ text: ["Ask me about this scenario: what’s driving the loss, what to do, who has to do it, or what a change would cost. I answer from the numbers on screen and can make the change for you."] }); askInput.focus(); }
-    else askOpen.focus();
-  }
-  askOpen.addEventListener("click", function () { setDrawer(drawer.hidden); });
-  document.getElementById("ask-close").addEventListener("click", function () { setDrawer(false); });
-  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !drawer.hidden) setDrawer(false); });
-  function renderSuggest() {
-    askSuggest.textContent = "";
-    (SUGGEST[currentStep()] || SUGGEST.events).forEach(function (q) {
-      var b = el("button", { type: "button", class: "chip-btn" }, q);
-      b.addEventListener("click", function () { ask(q); });
-      askSuggest.appendChild(b);
+  function drawAsks() {
+    var box = byId("asks"); box.textContent = "";
+    Q().asks.forEach(function (a) {
+      var li = el("li"), l = el("a", { class: "ask-q", href: "ask.html?q=" + encodeURIComponent(a[1]) });
+      l.appendChild(el("span", "ask-q__kind", a[0])); l.appendChild(el("span", "ask-q__text", a[1]));
+      li.appendChild(l); box.appendChild(li);
     });
   }
-  function say(a, who) {
-    var li = el("li", { class: "amsg " + (who === "user" ? "amsg--user" : "amsg--bot") });
-    (a.text || []).forEach(function (t) { li.appendChild(el("p", null, t)); });
-    if (a.facts && a.facts.length) {
-      var dl = el("dl", { class: "amsg__facts" });
-      a.facts.forEach(function (f) { var d = el("div", f[2] ? { class: "is-" + f[2] } : null); d.appendChild(el("dt", null, f[0])); d.appendChild(el("dd", null, f[1])); dl.appendChild(d); });
-      li.appendChild(dl);
-    }
-    if (a.actions && a.actions.length) {
-      var box = el("div", { class: "amsg__acts" });
-      a.actions.forEach(function (x, i) {
-        var b = el("button", { type: "button", class: "btn btn--sm " + (i ? "btn--ghost" : "btn--primary") }, x.label);
-        b.addEventListener("click", function () { x.run(); if (x.done) { b.disabled = true; b.textContent = x.done; } });
-        box.appendChild(b);
-      });
-      li.appendChild(box);
-    }
-    askLog.appendChild(li);
-    askLog.scrollTop = askLog.scrollHeight;
-  }
-  function ask(text) {
-    text = text.trim(); if (!text) return;
-    say({ text: [text] }, "user"); askInput.value = "";
-    var typing = el("li", { class: "amsg amsg--bot amsg--typing" }, "…");
-    askLog.appendChild(typing); askLog.scrollTop = askLog.scrollHeight;
-    setTimeout(function () { typing.remove(); say(answer(text)); renderSuggest(); }, 450);
-  }
-  askForm.addEventListener("submit", function (e) { e.preventDefault(); ask(askInput.value); });
 
-  var EV_WORDS = { hormuz: /hormuz|strait|gulf closure/, redsea: /red sea|suez|bab/, strike: /strike|union|labou?r/, feeders: /feeder|sanction|me4/, bunker: /bunker|fuel|oil/ };
-  function findEvent(q) { for (var k in EV_WORDS) if (EV_WORDS[k].test(q)) return events.filter(function (e) { return e.id === k; })[0]; return null; }
-  function findAsset(q) {
-    var best = null, score = 0;
-    allAssets().forEach(function (a) {
-      var words = (a.name + " " + a.where).toLowerCase().split(/[^a-z0-9]+/).filter(function (w) { return w.length > 3; });
-      var s = words.filter(function (w) { return q.indexOf(w) > -1; }).length;
-      if (q.indexOf(a.name.toLowerCase()) > -1) s += 5;
-      if (s > score) { score = s; best = a; }
-    });
-    return best;
-  }
-  function findAction(q) {
-    var best = null, score = 0;
-    ACTIONS.forEach(function (a) {
-      var s = a.name.toLowerCase().split(/[^a-z0-9]+/).filter(function (w) { return w.length > 3 && q.indexOf(w) > -1; }).length;
-      if (s > score) { score = s; best = a; }
-    });
-    return best;
-  }
-  function showAsset(a) { return { label: "Show " + a.name, run: function () { isel = a.id; goTo("impact"); } }; }
-  function adopt(p, why) { return { label: "Adopt this plan", done: "Adopted", run: function () { plan = M.clone(p.A); changed(why); } }; }
-  function planFacts(p) { return planList(p.A).map(function (a) { return [a.name, money(a.cost, 2)]; }); }
-
-  function answer(raw) {
-    var q = raw.toLowerCase(), E0 = expected({}, params).E, E1 = Edel(plan);
-    var ev = findEvent(q);
-    // what-if: change an event's duration/size or probability
-    var num = q.match(/(\d+)\s*(%|percent|days?|weeks?)/);
-    if (ev && num && /what if|if |suppose|happens if|lasts|stays|closes for|likely/.test(q)) {
-      var v = +num[1], unit = num[2], next = { p: ev.p, mag: ev.mag };
-      if (/%|percent/.test(unit)) next.p = Math.max(0.01, Math.min(0.95, v / 100)); else next.mag = Math.max(ev.min, Math.min(ev.max, v * (/week/.test(unit) ? 7 : 1)));
-      var tw = { id: ev.id, p: next.p - pOf(ev), mag: next.mag / ev.mag };
-      var wasOn = ev.on; ev.on = true;
-      var e0 = expected({}, params, null, tw).E, e1 = expected(plan, params, null, tw).E;
-      ev.on = wasOn;
-      return {
-        text: ["Setting “" + ev.name + "” to " + [next.mag !== ev.mag ? next.mag + (ev.unit.charAt(0) === "%" ? "%" : " " + ev.unit) : "", next.p !== ev.p ? Math.round(next.p * 100) + "% likely" : ""].filter(Boolean).join(", ") +
-          " changes the expected loss of doing nothing from " + money(E0) + " to " + money(e0) + "." + (planList(plan).length ? " With your plan it’s " + money(e1) + "." : " You don’t have a plan yet.")],
-        facts: [["Doing nothing", money(e0), "loss"]].concat(planList(plan).length ? [["With your plan", money(e1)]] : []).concat([["Change vs now", signed(e1 - E1), e1 > E1 ? "loss" : "safe"]]),
-        actions: [{ label: "Apply to the scenario", done: "Applied", run: function () { ev.on = true; ev.p = next.p; ev.mag = next.mag; rebuild(); markPreset(null); changed("Applied what-if: " + ev.short); } }]
-      };
-    }
-    if (ev && /why|how did|how does|where does|get (to|that)|come from/.test(q) && !/late|slow|delay/.test(q)) {
-      return { text: ["The Totality engine split “" + ev.name + "” into parts and sent each to the engine built for it" + (ev.declined ? ", and declined one part no one can forecast" : "") + ". Fused and calibrated, that’s " + Math.round(ev.base.p * 100) + "%, ±" + ev.band + " points over 30 days." +
-          (Math.abs(pOf(ev) - ev.base.p) > 0.005 ? " With your overrides and signals it’s " + Math.round(pOf(ev) * 100) + "%." : "")],
-        facts: ev.subs.map(function (s) { return [s[0] + ": " + s[1], Math.round(ev.fused[s[0]] * 100) + "%"]; }).concat(ev.declined ? [["Declined: " + ev.declined, "no skill"]] : []),
-        actions: [{ label: "Show the working", run: function () { opened[ev.id] = true; goTo("forecast"); } }] };
-    }
-    if (/driv|biggest|main (risk|cause)|what matters|where.*loss come/.test(q)) {
-      var rows = active().map(function (e) { return { e: e, add: E0 - expected({}, params, e.id).E }; }).sort(function (a, b) { return b.add - a.add; });
-      if (!rows.length) return { text: ["No contingencies are included, so nothing is driving a loss yet. Include one in stage 2."] };
-      var base = expected({}, params).nodes, sites = Object.keys(base).sort(function (a, b) { return base[b] - base[a]; });
-      var top = assetById({ gebze: "f-gebze", pune: "f-pune", dubai: "d-dubai", dammam: "d-dammam" }[sites[0]]);
-      return {
-        text: [rows[0].e.name + " drives most of it, adding " + money(rows[0].add) + " of the " + money(E0) + " expected loss. The site that takes the biggest hit is " + top.name + "."],
-        facts: rows.map(function (r) { return [r.e.short + ", " + Math.round(pOf(r.e) * 100) + "%", signed(r.add), "loss"]; }),
-        actions: [showAsset(top), { label: "See what moves it most", run: function () { goTo("outcomes"); } }]
-      };
-    }
-    if (/cheapest|half|halv|cut .*loss in/.test(q)) {
-      var target = E0 / 2, p = bestPlan(true, target);
-      if (!p) return { text: ["No plan your teams can deliver halves the loss. Add people to the stretched crews in Deliver and ask again."] };
-      return { text: ["The cheapest plan that halves expected loss (to " + money(p.E) + " or less) as your teams would deliver it costs " + money(p.cost, 2) + "."], facts: planFacts(p), actions: [adopt(p, "Adopted the cheapest plan that halves the loss")] };
-    }
-    if (/what should|recommend|best plan|what do we do|best move/.test(q) && !/staff|capacity/.test(q)) {
-      var b = bestPlan(true), bAll = bestPlan(false);
-      var t = ["The best plan your teams can deliver, with today’s crews, saves " + money(E0 - b.E - b.cost) + " net, for " + money(b.cost, 2) + "."];
-      if (bAll && bAll.full < b.E - 0.1 && planList(bAll.A).length > planList(b.A).length) t.push("Ignoring capacity, a bigger plan would save " + money(E0 - bAll.full - bAll.cost) + " on paper, but your teams can’t land all of it in time.");
-      return { text: t, facts: planFacts(b), actions: [adopt(b, "Adopted the recommended plan")] };
-    }
-    if (/worth|net value|is my plan|my plan good/.test(q)) {
-      var pl = planList(plan);
-      if (!pl.length) return { text: ["You don’t have a plan yet. Ask me what you should do, or tick actions in Decide."], actions: [{ label: "Go to Decide", run: function () { goTo("decide"); } }] };
-      var cost = costOf(plan), net = E0 - E1 - cost, b2 = bestPlan(true);
-      return {
-        text: [net > 0 ? "Yes. It cuts expected loss from " + money(E0) + " to " + money(E1) + " for " + money(cost, 2) + ", worth " + money(net) + " net." : "Not on these numbers. It costs " + money(cost, 2) + " but only removes " + money(E0 - E1) + " of expected loss.",
-          "If nothing happens, you’ve spent " + money(cost, 2) + "." + (b2 && (E0 - b2.E - b2.cost) > net + 0.1 ? " A different plan would save " + money(E0 - b2.E - b2.cost - net) + " more." : "")],
-        actions: b2 && (E0 - b2.E - b2.cost) > net + 0.1 ? [adopt(b2, "Adopted a better plan")] : []
-      };
-    }
-    if (/worst|bad case|tail|disaster/.test(q)) {
-      var w0 = worst({}, params), w1 = worst(plan, params);
-      return { text: ["If every contingency you’ve included happens at once, the loss is " + money(w0.total) + (planList(plan).length ? " doing nothing and " + money(w1.total) + " with your plan." : ". You don’t have a plan yet to soften it.")],
-        facts: [["Plants and DCs, doing nothing", money(w0.total - w0.freight - w0.eu), "loss"], ["Freight and insurance", money(w0.freight), "loss"], ["Late EU deliveries", money(w0.eu), "loss"]],
-        actions: [{ label: "See the spread", run: function () { goTo("outcomes"); } }] };
-    }
-    if (/bottleneck|capacity|overloaded|stretched|staff/.test(q)) {
-      var target2 = /best plan|recommend/.test(q) ? bestPlan(false).A : plan;
-      var r = readiness(target2);
-      if (!planList(target2).length) return { text: ["There’s no plan yet, so no one is stretched. Ask me what you should do first."] };
-      if (!r.overPeople.length && !r.late.length) return { text: ["Everyone on " + (target2 === plan ? "your" : "that") + " plan has the hours this week, and every action lands before its deadline."] };
-      var acts = [], t3 = [];
-      r.overPeople.slice(0, 4).forEach(function (id) { var p = personById(id); t3.push(p.name + " (" + TEAMS[p.team].name + ") is asked for " + Math.round(r.D[id]) + " hours but has " + freeOf(p) + "."); });
-      r.late.forEach(function (a) { t3.push(a.name + " lands on day " + r.acts[a.id].lands + ", " + r.acts[a.id].late + " days after it’s needed."); });
-      var first = r.overTeams[0] || (r.late[0] && ownerOf(r.late[0]));
-      acts.push({ label: first ? "Open " + TEAMS[first].name : "Open Deliver", run: function () { if (first) openTeam = first; goTo("deliver"); } });
-      return { text: t3, actions: acts };
-    }
-    if (/late|why.*(slow|delay)/.test(q)) {
-      var rr = readiness(plan), a = findAction(q) || planList(plan).filter(function (x) { return rr.acts[x.id].late; })[0] || ACTIONS.filter(function (x) { return cfg(x).lead > x.need; })[0];
-      var A2 = M.clone(plan); A2[a.id] = true;
-      var ra = readiness(A2).acts[a.id], c = cfg(a), t4 = [];
-      t4.push(a.name + " (“" + c.way.name + "”) takes " + c.lead + " days to put in place" + (start[a.id] ? ", starting day " + start[a.id] : "") + ", and it’s needed within " + a.need + ".");
-      if (ra.stretch > 1.001) t4.push("Its crew is asked for " + Math.round((ra.stretch - 1) * 100) + "% more time than it has, which stretches it to " + Math.ceil(c.lead * ra.stretch - 1e-9) + " days.");
-      t4.push(ra.late ? "It lands " + ra.late + " days late, so it delivers " + Math.round(ra.f * 100) + "% of its protection." : "It lands in time.");
-      var alt = a.ways.filter(function (w) { return a.lead + w.lead <= a.need; })[0];
-      if (ra.late && alt && alt !== c.way) t4.push("Doing it as “" + alt.name + "” would land in time, at " + Math.round(alt.eff * 100) + "% of the protection.");
-      return { text: t4, actions: [{ label: "Open " + TEAMS[ownerOf(a)].name, run: function () { openTeam = ownerOf(a); goTo("deliver"); } }] };
-    }
-    if (/depend|relies|rely|upstream|downstream|feeds/.test(q)) {
-      var as = findAsset(q);
-      if (!as) return { text: ["Which asset? Try a port, plant, or supplier, like Jebel Ali or the Gebze plant."] };
-      var users = allAssets().filter(function (b) { return (b.deps || []).indexOf(as.id) > -1; }), deps = (as.deps || []).map(assetById).filter(Boolean);
-      return { text: [users.length + (users.length === 1 ? " asset relies" : " assets rely") + " on " + as.name + ", and " + as.name + " relies on " + deps.length + "."],
-        facts: users.slice(0, 6).map(function (u) { return [u.name, u.type]; }).concat(deps.length ? [["It relies on", deps.map(function (d) { return d.name; }).join(", ")]] : []),
-        actions: [showAsset(as)] };
-    }
-    if (/who owns|owners?|which team owns/.test(q)) {
-      var on = active().map(function (e) { return e.id; }), byTeam = {};
-      allAssets().forEach(function (a2) { if (a2.owner && (a2.events || []).some(function (x) { return on.indexOf(x) > -1; })) byTeam[a2.owner] = (byTeam[a2.owner] || 0) + 1; });
-      var ts = Object.keys(byTeam).sort(function (a3, b3) { return byTeam[b3] - byTeam[a3]; });
-      if (!ts.length) return { text: ["No owned assets are exposed to the contingencies you’ve included."] };
-      return { text: [TEAMS[ts[0]].name + ", led by " + TEAMS[ts[0]].lead + ", owns the most exposed assets (" + byTeam[ts[0]] + ")."],
-        facts: ts.map(function (t) { return [TEAMS[t].name, byTeam[t] + " exposed"]; }),
-        actions: [{ label: "Open " + TEAMS[ts[0]].name, run: function () { openTeam = ts[0]; goTo("deliver"); } }] };
-    }
-    if (/data|improve the model|missing|blind spot/.test(q)) {
-      return { text: ["Three gaps would sharpen this scenario most:"],
-        facts: [["Gebze MES", "2 fields unmapped, so line rates are estimates"], ["Supplier tier 2", "Who supplies the Bursa seat maker isn’t modelled"], ["Dammam DC stock", "Cover is a weekly snapshot, not live"]],
-        actions: [{ label: "Load a dataset", run: function () { goTo("model:data"); } }] };
-    }
-    if (/signal/.test(q)) {
-      return { text: ["A custom signal is one of your own indicators, such as container dwell time at Jebel Ali, that nudges a forecast when it fires. The Totality engine back-tests it on your history before it counts, so a noisy signal can’t skew the numbers."],
-        actions: [{ label: "Build a signal", run: function () { goTo("model:data"); } }] };
-    }
-    var as2 = findAsset(q);
-    if (as2 && /expos|risk|how bad|loss|at stake/.test(q) || as2 && q.split(" ").length <= 4) {
-      var nodes = nodeLossOf(delivered(plan)), base2 = nodeLossOf(stats({})), onIds = active().map(function (e) { return e.id; });
-      var hit = (as2.events || []).filter(function (x) { return onIds.indexOf(x) > -1; });
-      return { text: [as2.name + " (" + as2.where + ") is exposed to " + (hit.length ? hit.map(function (h) { return EVSHORT[h]; }).join(" and ") : "none of the contingencies you’ve included") + "." +
-        (as2.loss ? " Expected loss there is " + money(base2[as2.loss]) + (planList(plan).length ? " doing nothing, " + money(nodes[as2.loss]) + " with your plan." : ".") : "")],
-        facts: (as2.attrs || []).slice(0, 3), actions: [showAsset(as2)] };
-    }
-    return { text: ["I can answer how a forecast was made, what’s driving the loss, what you should do, whether your plan is worth it, which team is the bottleneck, what depends on an asset, or what a change would cost (try \"what if Hormuz closes for 60 days\")."] };
-  }
-
-  rebuild();
-  log("Loaded halvorsen/v14.2: " + ASSETS.length + " assets, " + Object.keys(TEAMS).length + " teams, " + PEOPLE.length + " people");
-  log("AIS: 22 Halvorsen vessels tracked, 3 inside the strait");
-  render(true);
+  render();
+  if (window.Reveal) Reveal(".im, .front, .fc");
 })();
