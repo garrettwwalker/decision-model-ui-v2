@@ -13,7 +13,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
 ## Architecture
 
 - Pages: `index.html` (landing), `briefing.html` (daily brief), `memo.html` ("sample memo"), `team.html` ("workflows" in the nav; team workflows for middle
-  managers), `workbench.html` (world-model editor for data/IT), `agents.html` (Penumbra steering a team's agents) and `ask.html` (chat). `wargame.html` is only a
+  managers), `agents.html` (Penumbra steering a team's agents) and `ask.html` (chat). `wargame.html` is only a
   redirect to `team.html`; the wargame it used to hold was replaced.
 - Product pages (`t-night`, defined in `app.css`) share the landing's structure, but each page has its own small
   palette taken from its sky (the user found a tour-wide five-hue scheme incoherent and not very informative,
@@ -212,28 +212,10 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   Option and way rows use a real radio mark (an empty disc, or red with a white centre) and the chosen row a pale red
   wash (`--accent-soft`); a faint dot alone left the selection unclear. The bottom line's track is plain (`--mist-3`; a
   pale red one read as pink), and the first section sits close under the head.
-- `workbench.html` + `assets/css/bench.css` + `assets/js/bench.js`: rebuilt from the ground up in the house style on
-  2026-11-12 (body `app house bench-page`; the old dark six-stage tool, its separate model mode, team board, and "Ask
-  Totality" drawer are in git history; workflows now owns staffing and ask owns questions). Headline "Test the Model
-  Behind This Morning’s Brief": the place to change a forecast, an assumption, or the plan and see the loss and decisions
-  move before anything reaches production. The brief's four questions as cards (`QS`: Hormuz 27%, Red Sea 31%, Gebze
-  strike 16%, feeder sanctions 15%, with the brief's overnight changes and next deadlines; keep in sync), the chosen one
-  driving every section (`?q=` keeps it): 1 Bottom Line (a lead sentence, "Changes From Production" with Reset and Commit,
-  which bumps halvorsen/v14.N and logs it; four figure tiles that count when they change), 2 How Totality Got N% (the
-  question, three engines with their sub-questions and figures, the fused chance on a scale with its band, the declined
-  part, and "Your Forecast", a picker of the band's ends and Totality's figure with a −/+ nudge), 3 What It Hits (the
-  disruption's length on a picker; each asset's days of cover with a nudge, a bar of cover then outage against a line at
-  the disruption's end, and its loss doing nothing and with the plan; costs that come with it below), 4 The Plan (the
-  moves as switch rows with cost, protection alone, and net; "Totality suggests" on the best set by net value, "Pays
-  alone, overlaps the rest" on one that's worth it only without the others; beside it "Every Plan, by Cost and Loss", every
-  combination as a dot, the cheapest way to each loss joined by a line, a dot loads its plan), 5 Your Model and Data
-  (sources with Live green, Lagging amber, Problem red, matching the agents page's problems; the change log with your
-  uncommitted edits on top; and the same edits as SDK code in JetBrains Mono, following every change), 6 You Might Also
-  Ask. Hormuz runs on `model.js` (moves divert, bridge, cover, and Sohar, which takes 30% off the DCs' losses for $1.35M,
-  so it pays alone but not on top of the diversion), so its figures match the brief: $140.7M if it happens, $38.0M
-  expected, $13.0M with the three decisions for $3.1M, protecting $25.0M, and each move's $7.6M, $11.7M, and $5.7M
-  (money is shown rounded and differences taken from the rounded figures, as on the brief). The other questions carry
-  small models in `QS` (assets with cover and a daily loss, costs, and moves that change them).
+- The workbench (`workbench.html`, `bench.css`, `bench.js`) was removed on 2026-11-12 at the user's request, after its
+  house-style rebuild that day didn't land; it's in git history. Its nav tab, the landing's "modeling workbench" card and
+  footer link (the product section now has three cards), the brief's "See them all in the workbench" button, and ask's
+  "Explore in the workbench" buttons went with it. `bench-map.js` stays: the memo's map uses it.
 - `agents.html` + `assets/css/agents.css` + `assets/js/agents.js`, `agents-views.js` and `agents-ui.js` ("agents" in the
   nav, between workbench and ask; 2026-11-03, settled 2026-11-04) imagines Penumbra with a team's agents: the Totality
   engine as the brain, agents as the edge, in a positive feedback loop overseen by the decision-maker. Headline "Agentic

@@ -1,6 +1,6 @@
 /* Ask page: a scripted chat over the scenario model (mockup, no live assistant).
    Questions are matched to a few intents; every number is computed from model.js.
-   The scenario being assumed is kept in sessionStorage, so it survives a trip to the workbench and back. */
+   The scenario being assumed is kept in sessionStorage, so it survives leaving the page and coming back. */
 (function () {
   var M = DBModel;
   var STORE = "daybreak.scenario";
@@ -184,7 +184,6 @@
     toBottom();
     setTimeout(function () { li.remove(); then(); toBottom(); }, 600 + Math.random() * 500);
   }
-  var OPEN_WAR = { label: "Explore in the workbench", href: "workbench.html" };
 
   /* ---------- Intents ---------- */
   function lossFacts(r) {
@@ -245,8 +244,7 @@
     return {
       text: text,
       facts: lossFacts(b).concat([["Hit hardest", NODES[worst[0]].name + ", " + DB.money(worst[1].loss), "loss"]]),
-      route: "Worked out by running this world through your network model. The workbench shows the full spread of outcomes.",
-      actions: [OPEN_WAR],
+      route: "Worked out by running this world through your network model.",
       followups: ["How long can our plants keep running?", "What’s the best way to cut our losses?"]
     };
   }
@@ -268,7 +266,7 @@
     opts.sort(function (a, b) { return b.net - a.net; });
     if (!opts.length || opts[0].net <= 0.05) {
       return { text: ["Nothing left on the menu saves more than it costs in this world. Your current response already covers the big exposures."],
-        route: "Worked out by testing each remaining move in your network model.", actions: [OPEN_WAR] };
+        route: "Worked out by testing each remaining move in your network model." };
     }
     var top = opts[0];
     return {
@@ -276,8 +274,7 @@
       facts: opts.map(function (o) { return [sentence(o.label), "saves " + DB.money(o.saves) + " for " + DB.money(o.cost, 2), o.net > 0 ? "safe" : null]; }),
       route: "Worked out by testing each move you haven’t made yet, ranked by money saved after cost.",
       actions: [
-        { label: "Add it to my response", done: "Added", run: function () { adopt(top.inp, "With the move you added."); } },
-        OPEN_WAR
+        { label: "Add it to my response", done: "Added", run: function () { adopt(top.inp, "With the move you added."); } }
       ],
       followups: ["What’s the next best move?", "How long can our plants keep running?"]
     };
@@ -333,7 +330,7 @@
     var r = M.run(ctx), p = M.STATUS[ctx.status].p;
     var text = ["With the strait " + world(ctx) + ", you’d lose " + DB.money(r.loss) + ", " + response(ctx) + "."];
     if (p) text.push("Weighted by the " + Math.round(p * 100) + "% chance of that world, the expected loss is " + DB.money(r.loss * p) + ".");
-    return { text: text, facts: lossFacts(r), route: "Worked out from your network model.", actions: [OPEN_WAR],
+    return { text: text, facts: lossFacts(r), route: "Worked out from your network model.",
       followups: ["What’s the best way to cut our losses?"] };
   }
 
@@ -467,7 +464,7 @@
     var dl = el("dl", "track__rows");
     rows.forEach(function (r) { var d = el("div"); d.appendChild(el("dt", null, r[0])); d.appendChild(el("dd", null, r[1])); dl.appendChild(d); });
     card.appendChild(dl);
-    if (o.files.length) card.appendChild(el("p", "track__note", plural(o.files.length) + " read alongside the model. They nudge this answer only; the brief and the workbench don’t change."));
+    if (o.files.length) card.appendChild(el("p", "track__note", plural(o.files.length) + " read alongside the model. They nudge this answer only; the brief doesn’t change."));
     return card;
   }
   function plural(n) { return n === 1 ? "1 document" : n + " documents"; }
@@ -509,7 +506,6 @@
       });
     });
   });
-  document.querySelector("[data-open-war]").addEventListener("click", save);
   document.getElementById("ctx-reset").addEventListener("click", function () {
     adopt(M.clone(M.DEFAULTS), "This morning’s scenario.");
     DB.toast("Back to this morning’s scenario.");
