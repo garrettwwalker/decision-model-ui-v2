@@ -577,7 +577,7 @@
   window.addEventListener("resize", placePill);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(placePill);
   function switchTo(id) {
-    persona(id); flagging = null; render();
+    persona(id); render();
     var body = byId("tbody"), head = document.querySelector(".th__words");
     if (!REDUCE && body.animate) [head, body].forEach(function (x) {
       x.animate([{ opacity: 0, transform: "translateY(10px)" }, { opacity: 1, transform: "none" }], { duration: 380, easing: "cubic-bezier(0.3, 0.7, 0.2, 1)" });
@@ -988,12 +988,12 @@
       bar.addEventListener("mouseleave", function () { hidePop(); });
     }
     row.appendChild(bar);
-    function pick() { if (st.sel !== t.id) { st.sel = t.id; flagging = null; render(); } var c = byId("task-card"); if (c.getBoundingClientRect().top > innerHeight - 120) glide("task-card", 160); }
+    function pick() { if (st.sel !== t.id) { st.sel = t.id; render(); } var c = byId("task-card"); if (c.getBoundingClientRect().top > innerHeight - 120) glide("task-card", 160); }
     row.addEventListener("click", pick);
     row.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pick(); } });
     return row;
   }
-  var flips = null, flagging = null, shownTask = null, segWas = null, struck = {}, unstruck = {}, flagShown = null;
+  var shownTask = null, struck = {}, unstruck = {}, stepT = 0;
   function renderTaskCard() {
     var box = byId("task-card"), h0 = box.hidden ? 0 : box.offsetHeight; box.textContent = "";
     var t = st.tasks[st.sel];
@@ -1011,42 +1011,6 @@
     left.appendChild(el("p", "tc__when", (t.start === t.day ? DAYS[t.day] : DAYS[t.start] + " to " + DAYS[t.day]) + ". " + (isAgent(t.who) ? agentName(t.who) + ", with " + first(t.rev) + " checking its work (" + t.revH + " h)." : t.hours + " h for " + first(t.who) + ".")));
     var det = DETAIL[t.id], why = det ? det[0] : t.why;
     if (why) { var wp = el("p", "tc__for"); wp.appendChild(el("b", null, "What it’s for. ")); wp.appendChild(document.createTextNode(why)); left.appendChild(wp); }
-    var openF = null, seg = el("div", { class: "seg", role: "group", "aria-label": "Status" }), segPill = el("span", { class: "seg__pill", "aria-hidden": "true" });
-    seg.appendChild(segPill);
-    ["todo", "done", "blocked"].forEach(function (k) {
-      var lit = flagging === t.id ? k === "blocked" : onSeg(t.status) === k;
-      seg.appendChild(button(STATUS[k], "seg__b seg__b--" + k + (lit ? " is-on" : ""), function () {
-        if (k === onSeg(t.status)) return;
-        if (k === "blocked") { if (flagging !== t.id) { flagging = t.id; render(); } return; }
-        if (t.status === "blocked") { t.blocker = ""; delete st.escalated[t.id]; }
-        if (DETAIL[t.id] && (k === "done" || k === "todo")) {
-          // the steps that change are drawn as they were, then flip together, ticks and strikes animating
-          var old = st.steps[t.id] || {};
-          flips = { id: pid + ":" + t.id, steps: DETAIL[t.id][1].map(function (x, i) { return i; }).filter(function (i) { return !!old[i] !== (k === "done"); }) };
-          st.steps[t.id] = {}; if (k === "done") DETAIL[t.id][1].forEach(function (x, i) { st.steps[t.id][i] = true; });
-        }
-        t.status = k; flagging = null; changed();
-      }, { "aria-pressed": String(t.status === k) }));
-    });
-    left.appendChild(seg);
-    if (flagging === t.id) {
-      var f = el("form", "tc__flag");
-      var inp = el("input", { class: "tc__input", type: "text", placeholder: "What’s in the way?", "aria-label": "What’s in the way of: " + t.text, maxlength: 140 });
-      f.appendChild(inp); f.appendChild(el("button", { type: "submit", class: "btn btn--primary btn--sm" }, "Mark stuck"));
-      f.appendChild(button("Cancel", "btn-q btn-q--sm", function () {
-        if (REDUCE || !f.animate) { flagging = null; render(); return; }
-        segPill.classList.add("is-moving"); segPill.style.setProperty("--i", ORDER.indexOf(onSeg(t.status)));
-        [].forEach.call(seg.querySelectorAll(".seg__b"), function (b) { b.classList.toggle("is-on", b.classList.contains("seg__b--" + onSeg(t.status))); });
-        f.style.overflow = "hidden";
-        f.animate([{ height: f.offsetHeight + "px", marginTop: "0.75rem", opacity: 1 }, { height: "0px", marginTop: "0px", opacity: 0 }], { duration: 260, easing: "cubic-bezier(0.3, 0.7, 0.2, 1)", fill: "forwards" })
-          .onfinish = function () { flagging = null; segWas = { id: pid + ":" + t.id, k: onSeg(t.status) }; render(); };
-      }));
-      f.addEventListener("submit", function (e) { e.preventDefault(); if (!inp.value.trim()) return; t.status = "blocked"; t.blocker = inp.value.trim().replace(/\.?$/, "."); flagging = null; changed(); });
-      left.appendChild(f);
-      if (flagShown !== t.id) openF = f;
-      setTimeout(function () { inp.focus({ preventScroll: true }); }, 0);
-    }
-    flagShown = flagging === t.id ? t.id : null;
     // the steps that make the task up: ticking one starts it, ticking them all finishes it
     if (det) {
       var done = st.steps[t.id] || (st.steps[t.id] = {}), nd = det[1].filter(function (x, i) { return done[i]; }).length;
@@ -1054,7 +1018,6 @@
       sw.appendChild(el("p", "tc__h", "Steps, " + nd + " of " + det[1].length + " done"));
       var ol = el("ol");
       var drawn = struck[t.id] || (struck[t.id] = {}), nth = 0, ndone = 0;
-      var flip = flips && flips.id === pid + ":" + t.id && !swap ? flips.steps : []; flips = null;
       det[1].forEach(function (x, i) {
         // a step done since the card last showed it has its strike drawn through, one after another on a newly opened card
         // a strike ticked a moment ago carries on drawing through the redraw (a negative delay picks it up where it was)
@@ -1069,26 +1032,20 @@
         cb.addEventListener("change", function () {
           if (cb.checked) { done[i] = true; drawn[i] = performance.now(); li.style.setProperty("--d", "0s"); li.classList.add("is-done", "is-new"); }
           else { delete done[i]; delete drawn[i]; unstruck[t.id + ":" + i] = performance.now(); li.style.setProperty("--d", "0s"); li.classList.remove("is-done", "is-new"); li.classList.add("is-undo"); }
+          li._done = done[i] ? 1 : 0;
           var k = det[1].filter(function (y, j) { return done[j]; }).length;
           if (k === det[1].length) { if (t.status === "blocked") { t.blocker = ""; delete st.escalated[t.id]; } t.status = "done"; }
           else if (k && (t.status === "todo" || t.status === "done")) t.status = "doing";
           else if (!k && t.status === "doing") t.status = "todo";
-          later();
+          // the strike draws, then the step slides to the foot of the list (or back to its place), then the card redraws
+          clearTimeout(stepT);
+          stepT = setTimeout(function () { settle(ol); stepT = setTimeout(changed, REDUCE ? 0 : 480); }, REDUCE ? 0 : 340);
         });
         var tx = el("span"); tx.appendChild(el("span", "tc__st", x));
         lab.appendChild(cb); lab.appendChild(tx); li.appendChild(lab); ol.appendChild(li);
-        var fi = flip.indexOf(i);
-        if (fi >= 0 && !REDUCE) {
-          var on = !!done[i];
-          cb.checked = !on; li.classList.remove("is-new", "is-undo"); li.classList.toggle("is-done", !on);
-          if (on) delete drawn[i];
-          setTimeout(function () {
-            cb.checked = on; li.style.setProperty("--d", "0s");
-            if (on) { drawn[i] = performance.now(); li.classList.add("is-done", "is-new"); }
-            else { unstruck[t.id + ":" + i] = performance.now(); li.classList.remove("is-done"); li.classList.add("is-undo"); }
-          }, 60);
-        }
+        li._i = i; li._done = done[i] ? 1 : 0;
       });
+      settle(ol, true);
       sw.appendChild(ol);
       left.appendChild(sw);
     }
@@ -1179,26 +1136,19 @@
       if (!swap && wayWas && wayWas.id === key && wayWas.i !== ws) { pickAnim(wl.children[ws], wl.children[wayWas.i]); fadeIn([go]); }
       wayWas = { id: key, i: ws };
     }
-    placeSeg(seg, segPill, t);
     if (swap) swapIn(box, h0, [left, right]);
-    else if (openF && !REDUCE && openF.animate) {
-      openF.style.overflow = "hidden";
-      openF.animate([{ height: "0px", marginTop: "0px", opacity: 0 }, { height: openF.offsetHeight + "px", marginTop: "0.75rem", opacity: 1 }], { duration: 300, easing: "cubic-bezier(0.3, 0.7, 0.2, 1)" }).onfinish = function () { openF.style.overflow = ""; };
-    }
   }
   var wayWas = null;
-  // the status pill slides from the old status to the new one, as the managers' pill does
-  // the four statuses share equal columns, so the pill is placed by index and never measured (measuring before the font
-  // loaded left it the wrong shape); choosing Stuck moves it there while the reason is asked for
-  // the track has no In progress: a task under way sits on To do, and its ticked steps show how far it's got
-  var ORDER = ["todo", "done", "blocked"];
-  function onSeg(k) { return k === "doing" ? "todo" : k; }
-  function placeSeg(seg, pill, t) {
-    var id = pid + ":" + t.id, k = flagging === t.id ? "blocked" : onSeg(t.status);
-    var was = segWas && segWas.id === id && segWas.k !== k ? segWas.k : null;
-    segWas = { id: id, k: k };
-    pill.style.setProperty("--i", ORDER.indexOf(was || k));
-    if (was && !REDUCE) { void pill.offsetWidth; pill.classList.add("is-moving"); pill.style.setProperty("--i", ORDER.indexOf(k)); }
+  // steps not yet done keep their order at the top, done ones follow in theirs; a step that changes slides to its place
+  function settle(ol, still) {
+    var items = [].slice.call(ol.children), was = still ? null : items.map(function (x) { return x.getBoundingClientRect().top; });
+    // reordered with flex order rather than moved in the DOM, which would restart a strike mid-draw
+    items.forEach(function (x) { x.style.order = x._done * 100 + x._i; });
+    if (!was || REDUCE) return;
+    items.forEach(function (x, j) {
+      var dy = was[j] - x.getBoundingClientRect().top;
+      if (Math.abs(dy) > 1) x.animate([{ transform: "translateY(" + dy + "px)" }, { transform: "none" }], { duration: 440, easing: "cubic-bezier(0.3, 0.7, 0.2, 1)" });
+    });
   }
 
   /* ================= 4. Across teams: each list's rows are selectable, and the chosen handoff's actions, worded for it,

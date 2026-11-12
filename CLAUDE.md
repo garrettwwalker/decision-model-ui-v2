@@ -200,18 +200,13 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   "Mark received", "See the task" (worded-out labels were far too long; the user only minds the same text down every row,
   and the two cards keep one height with the actions at their foot; the chosen handoff the decision rows' pale red, the
   others faded to 60% with gray pills); the task card's ways are radio rows with one short
-  "Make this change" button (named for the whole way it was far too large); playbook steps each carry a switch, then "Prepare N steps this week"; a checklist read sloppy).
+  "Make this change" button sized to its label (named for the whole way, then stretched across the column, it was far too large); playbook steps each carry a switch, then "Prepare N steps this week"; a checklist read sloppy).
   If It Happens: Threat is an ink pill, so it stands apart from a gray Watching; the gauge's red zone sweeps out over the full-length
-  beige track from its end of the scale and the trigger line rises, on first view and on each new card. The status track is three equal columns (To do, Done, Stuck; In progress was removed at the user's request, 2026-11-11: a task under way sits on To do and its ticked steps show how far it's got, `onSeg()`),
-  with the pill a grid item in the first cell, moved by index (measuring gave it the wrong shape, and app.css's `.seg span`
-  rule squared it off, hence `.seg .seg__pill`), and choosing Stuck slides it there while
-  the reason box slides open (and shut on Cancel). Unticking a step fades its strike out. Choosing Done or To do on the status track draws the changed steps as they
-  were, then flips them all at once (`flips`; one after another was unwanted), so the ticks and strikes still animate. Hover never grays a chosen
+  beige track from its end of the scale and the trigger line rises, on first view and on each new card. The status track was removed (2026-11-11, at the user's request; status now follows the steps alone). Done steps sit at the foot of the list in their own order: ticking one draws its strike, then it slides down (`settle()`, a FLIP on flex `order`, since moving the node restarted the strike), and unticking slides it back to its place. Unticking a step fades its strike out. Hover never grays a chosen
   option row, and "Totality suggests" is white on the chosen row's pale red. The bottom line's four figures are separate white tiles beneath
   its card (the user's call), each lifting under the pointer. Checkboxes here draw a white check (`--cb-mark`). Choices animate as the decision cards do (2026-11-11, the user's call): a new task or owner eases the task card to its
   new height and fades it in (`swapIn`), as a new decision does the panel; the chosen decision or threat card rises into
-  its lift and the old one settles (`liftAnim`, since redrawn cards skipped their CSS transition); the status track's
-  white pill slides (`placeSeg`); a done step's strike is drawn in ink through each line (`.tc__st`, a background line
+  its lift and the old one settles (`liftAnim`, since redrawn cards skipped their CSS transition); a done step's strike is drawn in ink through each line (`.tc__st`, a background line
   that grows), staggered when a card opens and on first view, and carried through the redraw that follows a tick.
   Option and way rows use a real radio mark (an empty disc, or red with a white centre) and the chosen row a pale red
   wash (`--accent-soft`); a faint dot alone left the selection unclear. The bottom line's track is plain (`--mist-3`; a
