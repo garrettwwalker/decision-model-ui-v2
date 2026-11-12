@@ -200,7 +200,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   "Mark received", "See the task" (worded-out labels were far too long; the user only minds the same text down every row,
   and the two cards keep one height with the actions at their foot; the chosen handoff the decision rows' pale red, the
   others faded to 60% with gray pills); the task card's ways are radio rows with one short
-  "Make this change" button sized to its label (named for the whole way, then stretched across the column, it was far too large); playbook steps each carry a switch, then "Prepare N steps this week"; a checklist read sloppy).
+  "Make this change" button sized to its label, in the card's bottom right corner (named for the whole way, then stretched across the column, it was far too large); playbook steps each carry a switch, then "Prepare N steps this week"; a checklist read sloppy).
   If It Happens: Threat is an ink pill, so it stands apart from a gray Watching; the gauge's red zone sweeps out over the full-length
   beige track from its end of the scale and the trigger line rises, on first view and on each new card. The status track was removed (2026-11-11, at the user's request; status now follows the steps alone). Done steps sit at the foot of the list in their own order: ticking one draws its strike, then it slides down (`settle()`, a FLIP on flex `order`, since moving the node restarted the strike), and unticking slides it back to its place. Unticking a step fades its strike out. Hover never grays a chosen
   option row, and "Totality suggests" is white on the chosen row's pale red. The bottom line's four figures are separate white tiles beneath

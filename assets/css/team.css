@@ -290,7 +290,7 @@ button:not(.is-on):hover > * > .radio { background: #d3cbbf; }
 @keyframes tc-strike { from { background-size: 0 1.5px; color: var(--ink); } }
 .rv .team-page #plan:not(.is-in) .tc__steps li.is-done .tc__st { background-size: 0 1.5px; }
 .tc__ways { margin-top: 0.6rem; padding-top: 1rem; border-top: 1px solid var(--line); }
-.tc__ways { display: flex; flex-direction: column; }
+.tc__ways { display: flex; flex: 1 0 auto; flex-direction: column; }
 .ways { display: grid; }
 .way { display: grid; gap: 0.45rem; width: 100%; padding: 0.85rem 0.6rem 0.9rem; border: 0; border-top: 1px solid var(--line); border-radius: 0; font: inherit; text-align: left; color: var(--ink); background: none; }
 .way:first-child { border-top: 0; }
@@ -313,7 +313,9 @@ button.way .way__why, button.way .way__fx { margin-left: calc(18px + 0.7rem); }
 .way__why { display: grid; gap: 0.2rem; margin: 0; padding: 0 0 0 1.05rem; font-size: 0.82rem; line-height: 1.45; color: var(--ink-2); }
 .way__why li::marker { color: var(--ink-3); }
 .way__fx { display: flex; flex-wrap: wrap; gap: 0.3rem; margin: 0; }
-.way__go { align-self: flex-start; margin-top: 0.6rem; }
+/* in the card's bottom right corner, however tall the left column runs */
+.way__go { align-self: flex-end; margin-top: auto; }
+.tc__ways > .ways { margin-bottom: 1rem; }
 .tc__odds { display: flex; flex-direction: column; gap: 0.45rem; padding-left: 2rem; border-left: 1px solid var(--line); }
 .tc__odds p { margin: 0; }
 .tc__p { font-family: var(--display); font-size: clamp(2.6rem, 4.6vw, 3.4rem); line-height: 1; letter-spacing: -0.02em; font-variant-numeric: lining-nums tabular-nums; }
