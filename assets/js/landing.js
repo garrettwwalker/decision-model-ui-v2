@@ -44,6 +44,7 @@
     var far = function (t, b) { return Math.max(Math.abs(t - cy), Math.abs(b - cy)); };          // farthest from the centre
     var near = function (t, b) { return t <= cy && b >= cy ? 0 : Math.min(Math.abs(t - cy), Math.abs(b - cy)); };
     var out = null, hs = 1, tall = window.matchMedia("(max-aspect-ratio: 1/1)").matches, top = cy - R;
+    copy.style.setProperty("--as", "1");
     // Tall windows: one centered stack, "Risk lies" just above the rim and "in shadow." as close under it as the chord allows
     for (var j = 0; tall && j < 14 && !out; j++, hs *= 0.94) {
       copy.style.setProperty("--hs", hs.toFixed(3));
@@ -55,17 +56,23 @@
       if (va / 2 + pad > half(far(sa, ea)) || ea > H * 0.88) continue;
       out = { l1x: cx - v1 / 2, l1y: s1, l2x: cx - v2 / 2, l2y: s2, ax: cx - va / 2, ay: sa };
     }
-    // Wide screens: the rim runs down the screen, so the headline runs across it, "Risk lies" ending just short of the rim
-    // and "in shadow." starting just inside it, a touch lower; the second headline under it, inside the rim too. The block sits a little
-    // above the middle.
+    // Wide screens: the rim runs down the screen, so the headline runs across it in the upper part, "Risk lies" ending just
+    // short of the rim and "in shadow." starting just inside it, a touch lower; the second headline is one line low in the
+    // moon, from the same left edge as "in shadow." (or just inside the rim, which curves away lower down), with the dark
+    // of the moon between them.
+    copy.classList.toggle("is-wide", !tall);
     for (var m = 0; !tall && m < 14 && !out; m++, hs *= 0.94) {
-      copy.style.setProperty("--hs", hs.toFixed(3));
+      copy.style.setProperty("--hs", hs.toFixed(3)); copy.style.setProperty("--as", "1");
       var u1 = lines[0].offsetWidth, e1 = lines[0].offsetHeight, u2 = lines[1].offsetWidth, e2 = lines[1].offsetHeight;
       var ua = after.offsetWidth, eA = after.offsetHeight, edge = e2 * 0.2, W = st.width;
-      var r1 = Math.max(navClear, (H - (e2 * 2.3 + eA)) * 0.42), r2 = r1 + e1 * 0.3, rA = r2 + e2 * 2; // "in shadow." stepped down a little
+      var r1 = Math.max(navClear, H * 0.2), r2 = r1 + e1 * 0.3, rA = H * 0.8 - eA; // "in shadow." stepped down a little
       var q1 = cx - half(near(r1, r1 + Math.max(e1, e2))) - edge - u1;
-      var q2 = cx - half(far(r2, r2 + e2)) + edge, qA = cx - half(far(rA, rA + eA)) + edge;
-      if (q1 < g || q2 + u2 > W - g || qA + ua > W - g || rA + eA > H * 0.88) continue;
+      var q2 = cx - half(far(r2, r2 + e2)) + edge, qA = Math.max(q2, cx - half(far(rA, rA + eA)) + edge);
+      if (q1 < g || q2 + u2 > W - g || rA < r2 + e2 * 1.6) continue;
+      if (qA + ua > W - g) { // the second headline alone narrows to fit, so it never shrinks the first
+        var as = (W - g - qA) / ua;
+        copy.style.setProperty("--as", as.toFixed(3)); rA = H * 0.8 - eA * as;
+      }
       out = { l1x: q1, l1y: r1, l2x: q2, l2y: r2, ax: qA, ay: rA };
     }
     copy.style.setProperty("--aa", tall ? "center" : "left");
