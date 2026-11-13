@@ -54,7 +54,21 @@
       if (va / 2 + pad > half(far(sa, ea)) || ea > H * 0.88) continue;
       out = { l1x: cx - v1 / 2, l1y: s1, l2x: cx - v2 / 2, l2y: s2, ax: cx - va / 2, ay: sa };
     }
-    if (tall && !out) hs = 1;
+    // Wide screens: the rim runs down the screen, so "Risk lies" ends just short of it and "in shadow." starts just inside
+    // it on the next line, the words hugging the edge from either side; the second headline under it, inside the rim too.
+    // The block sits a little above the middle.
+    for (var m = 0; !tall && m < 14 && !out; m++, hs *= 0.94) {
+      copy.style.setProperty("--hs", hs.toFixed(3));
+      var u1 = lines[0].offsetWidth, e1 = lines[0].offsetHeight, u2 = lines[1].offsetWidth, e2 = lines[1].offsetHeight;
+      var ua = after.offsetWidth, eA = after.offsetHeight, edge = e2 * 0.2, W = st.width;
+      var r1 = Math.max(navClear, (H - (e1 + e2 * 2 + eA)) * 0.42), r2 = r1 + e1 * 1.0, rA = r2 + e2 * 2;
+      var q1 = cx - half(near(r1, r1 + e1)) - edge - u1;
+      var q2 = cx - half(far(r2, r2 + e2)) + edge, qA = cx - half(far(rA, rA + eA)) + edge;
+      if (q1 < g || q2 + u2 > W - g || qA + ua > W - g || rA + eA > H * 0.88) continue;
+      out = { l1x: q1, l1y: r1, l2x: q2, l2y: r2, ax: qA, ay: rA };
+    }
+    copy.style.setProperty("--aa", tall ? "center" : "left");
+    if (!out) hs = 1;
     for (var k = 0; k < 14 && !out; k++, hs *= 0.94) {
       copy.style.setProperty("--hs", hs.toFixed(3));
       var w1 = lines[0].offsetWidth, h1 = lines[0].offsetHeight, w2 = lines[1].offsetWidth, h2 = lines[1].offsetHeight;
