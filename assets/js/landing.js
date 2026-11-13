@@ -51,7 +51,7 @@
       for (var y2 = cy - 0.55 * R; y2 <= cy - 0.05 * R && !out; y2 += 0.03 * R) {
         var t2 = y2, b2 = y2 + h2;
         if (w2 / 2 + pad > half(far(t2, b2))) continue;
-        var ta = b2 + h2 * 0.6, ba = ta + ha;                                                   // the second headline, under it
+        var ta = b2 + h2 * 1.3, ba = ta + ha;                                                   // the second headline, under it
         if (wa / 2 + pad > half(far(ta, ba)) || ba > H * 0.88) break;
         var t1 = t2 - h1 * 1.02, b1 = t1 + h1, x1 = g;                                           // beside the disc, at the gutter
         if (t1 < navClear || x1 + w1 > cx - half(near(t1, b1)) - gap) {
