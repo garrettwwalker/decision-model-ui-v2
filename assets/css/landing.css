@@ -455,9 +455,13 @@ main, .footer { position: relative; z-index: 2; }
 .pv-ecl__ray { fill: none; stroke: rgba(255, 210, 120, 0.3); stroke-width: 0.9; }
 .pv-ecl__str { fill: none; stroke: rgba(255, 195, 110, 0.26); stroke-width: 0.8; }
 .pv-ecl__corona { transform-box: fill-box; transform-origin: center; animation: ecl-breathe 5s ease-in-out infinite; }
+/* the rays pulse in a slow wave that travels round the moon: each brightens a beat after the one before (--i, its place
+   round the circle; 22 rays and streamers over a 7.2s cycle, so the wave closes on itself) */
+.pv-ecl__ray, .pv-ecl__str { animation: ecl-ray 7.2s ease-in-out infinite; animation-delay: calc(var(--i) * -0.327s); }
+@keyframes ecl-ray { 0%, 100% { opacity: 0.45; } 50% { opacity: 1; } }
 @keyframes ecl-breathe { 0%, 100% { opacity: 0.88; transform: scale(1); } 50% { opacity: 1; transform: scale(1.04); } }
 .pv-ecl__moon { fill: #07080b; stroke: #ffe3a0; stroke-width: 1.2; filter: drop-shadow(0 0 3px rgba(255, 225, 150, 0.9)); }
-@media (prefers-reduced-motion: reduce) { .pv-ecl__corona { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .pv-ecl__corona, .pv-ecl__ray, .pv-ecl__str { animation: none; } }
 .pv-av { width: 1.5rem; height: 1.5rem; border-radius: 50%; display: grid; place-items: center; font-size: 0.6rem; font-weight: 800; background: rgba(236, 238, 242, 0.1); color: var(--moon); }
 .pv-heat { display: grid; grid-template-columns: repeat(8, 1fr); gap: 3px; }
 .pv-heat span { aspect-ratio: 1.6; border-radius: 3px; }
