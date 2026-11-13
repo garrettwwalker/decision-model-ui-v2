@@ -49,11 +49,12 @@
     for (var j = 0; tall && j < 14 && !out; j++, hs *= 0.94) {
       copy.style.setProperty("--hs", hs.toFixed(3));
       var v1 = lines[0].offsetWidth, g1 = lines[0].offsetHeight, v2 = lines[1].offsetWidth, g2 = lines[1].offsetHeight;
-      var va = after.offsetWidth, ga = after.offsetHeight, s1 = top - gap - g1;
+      // gaps set by the type, not the disc, so a larger, flatter sun doesn't push the two halves apart
+      var va = after.offsetWidth, ga = after.offsetHeight, tg = g1 * 0.12, side = g2 * 0.3, s1 = top - tg - g1;
       if (s1 < navClear) continue;
-      for (var s2 = top + 0.02 * R; s2 < cy && v2 / 2 + pad > half(far(s2, s2 + g2)); s2 += 0.01 * R);
-      var sa = s2 + g2 * 2, ea = sa + ga;
-      if (va / 2 + pad > half(far(sa, ea)) || ea > H * 0.88) continue;
+      for (var s2 = top + tg; s2 < cy && v2 / 2 + side > half(far(s2, s2 + g2)); s2 += 2);
+      var sa = Math.max(s2 + g2 * 2, H * 0.8 - ga), ea = sa + ga;                              // low in the moon, apart from the headline
+      if (va / 2 + side > half(far(sa, ea)) || ea > H * 0.88) continue;
       out = { l1x: cx - v1 / 2, l1y: s1, l2x: cx - v2 / 2, l2y: s2, ax: cx - va / 2, ay: sa };
     }
     // Wide screens: the rim runs down the screen, so the headline runs across it in the upper part, "Risk lies" ending just
