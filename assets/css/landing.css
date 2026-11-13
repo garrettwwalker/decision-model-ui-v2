@@ -143,7 +143,7 @@ main, .footer { position: relative; z-index: 2; }
 .eclipse {
   /* wide screens: a sun far larger than the screen, its left rim 42% of the way across and its centre off to the right,
      so it fills the right-hand side and its edge runs down the screen in a gentle curve (tall windows: the lower half) */
-  --D: 230vh; --mx: 50%; --my: -10%; /* the moon comes in from the right, over the part of the sun off screen first, so it
+  --D: 230vh; --mx: 50%; --my: 35%; /* the moon comes in from the lower right, over the part of the sun off screen first, so it
      crosses the visible part across the whole approach and never covers the open sky on the left */
   position: absolute; left: calc(42vw + var(--D) / 2); top: 50%;
   width: var(--D); height: var(--D);

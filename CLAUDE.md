@@ -306,8 +306,8 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   against the disc and the type shrinks (`--hs`) only if it must. On wide screens the sun is far larger than the screen
   (230vh, its left rim 42% of the way across, its centre off to the right; the user's call), so it fills the right-hand
   side and its rim runs down the screen: the headline is one line, "Risk lies" ending just left of the rim and "in
-  shadow." starting just inside it, and "Look around the bend." sits beneath, inside too; the moon comes in from the right
-  (`--mx`, `--my`), over the part of the sun off screen first, so its crossing fills the approach and it never covers the
+  shadow." starting just inside it, and "Look around the bend." sits beneath, inside too; the moon comes in from the lower right
+  (`--mx`, `--my`; the user wanted a diagonal, not a straight horizontal path), over the part of the sun off screen first, so its crossing fills the approach and it never covers the
   open sky on the left. The nav's links, button, and menu icon go dark (the button inverts) wherever they sit over the
   white sun (`onSun()` hit-tests the sun and moon under each). on tall windows (portrait, phones, half a laptop screen; the user's design, 2026-11-13) everything is one centered stack at larger type: "Risk lies" top center just above a large sun (`min(210vw, 180vh)`, large so its rim curves gently, at the user's request; its top 40% of the way down, so its upper part fills the lower half of the screen), "in shadow." just under the rim, and "Look around the bend." beneath (sized by the width, the sun filled a half-screen window and the headline fell back to straddling the edge; a smaller sun a third of the way down made the type too small). Before the burst the headline is a white copy in `mix-blend-mode: difference` (black on the sun, white on
   space), crossfading to the real `h1`; `.hero__copy` has no z-index so the blend reaches the sun. The mark keeps the shape of `references/Penumbra Logo Color.jpeg` (ring with
