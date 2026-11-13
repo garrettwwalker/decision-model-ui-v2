@@ -323,7 +323,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   shows figures, not sliders; the agents card describes the screen, not the loop ("A live view of every agent working on your questions..."), so it
   doesn't repeat "here's the plan", which alone explains the loop, and "what should you do?" is only about choosing; it shows an eclipse that doubles as a system map: the moon in its corona, straight rays from its rim, long ones
   fading out before the edges of the card's dark inner box (kept: the user likes it) and fainter streamers between, all long enough to fade out at the same distance (the user asked for even lengths), the glow pulsing
-  slightly and, since 2026-11-13 at the user's request, the rays pulsing in two scattered halves on opposite beats (a wave round the moon and fully random timing were undone); no text, nodes or moving dots (the user
+  slightly and, since 2026-11-13 at the user's request, the rays pulsing on alternating beats, the long rays brightening as the streamers between them dim (a wave round the moon, random timing, and a scattered split were undone); no text, nodes or moving dots (the user
   found a labelled diagram busy), deliberately unlike the workflows card's task rows, and no card has a button: the user removed them). Split screen (601-1100px): the hero lines scale with the width, and the
   stacked thesis text and Sputnik are larger. Below the hero: fixed starfield canvas (no coloured background glows: the user removed them as
   tints), a faint white pointer glow, aurora-edged card spotlights (`.spot`, `--mx/--my`), headings revealed
