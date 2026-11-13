@@ -99,7 +99,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   with 34 co-sponsors: keep the drivers, trend, scenarios, and signposts consistent with that), the National Security
   Council, Tehran, and European partners (the user wanted named offices and agencies, not "the Senate" or "the White House"). 3 Four Ways Sanctions Policy Could Evolve (scenario cards titled descriptively, e.g. "Treasury Extends Sanctions to Buyers", the tracks keep the short names): `PATHS`
   (slight expansion 26%, sweeping package 15%, status quo 38%, talks restart 21%; no sanctions pills on the panel), a stacked chart ("How Probabilities Have
-  Changed") of their weekly shares, the two sanctions scenarios at the foot, tooltip swatches matching the bands and the chosen scenario's first signs (pills Observed and Pending), a timeline of how it would unfold (dots joined by a line), cost to
+  Changed") of their weekly shares, the two sanctions scenarios at the foot, tooltip swatches matching the bands and listed top to bottom in the bands' order (talks restart first, slight expansion last) and the chosen scenario's first signs (pills Observed and Pending), a timeline of how it would unfold (dots joined by a line), cost to
   us, and best response; the choice carries onto the map. 4 Why We Think So: the waterfall, three trendlines (Iran-linked
   OFAC designations, senators cosponsoring the bill, Brent), and Key Assumptions ("The model's outputs depend heavily on
   these assumptions. We've added them to this week's watchlist."; statuses Holding, amber Under strain, Uncertain).

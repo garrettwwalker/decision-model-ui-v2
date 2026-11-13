@@ -240,7 +240,7 @@
       hair.setAttribute("x1", x(i)); hair.setAttribute("x2", x(i));
       tip.innerHTML = "";
       tip.appendChild(el("span", null, i === 12 ? "This week" : "Week of " + DATES[i]));
-      PATHS.forEach(function (p) {
+      PATHS.slice().reverse().forEach(function (p) { // top to bottom, as the bands stack
         var row = el("p", "mix__row" + (p.id === path ? " is-on" : ""));
         row.appendChild(el("i", "mix__sw mix__sw--" + p.id + (p.id === path ? " is-on" : ""))); row.appendChild(document.createTextNode(p.short + " "));
         row.appendChild(el("b", null, MIX[i][p.id] + "%"));
