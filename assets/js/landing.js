@@ -11,6 +11,7 @@
   var hero = document.querySelector(".hero");
   var stage = document.querySelector(".hero__stage");
 
+  var tallHero = window.matchMedia("(max-aspect-ratio: 1/1)");
   function heroFrame() {
     var r = hero.getBoundingClientRect();
     var span = hero.offsetHeight - stage.offsetHeight; // the stage runs a strip past the screen's foot
@@ -25,8 +26,9 @@
     nav.classList.toggle("is-blend", b === 0); // the nav inverts over the sun only while the sky is black and white
     navOnSun(b === 0);
     stage.style.setProperty("--flash", Math.sin(Math.PI * clamp((p - 0.52) / 0.16, 0, 1)).toFixed(4));
-    // the headline fades, then the second one comes out from behind the moon (easing out, as if pushed clear of it)
-    stage.style.setProperty("--gone", smooth(clamp((p - 0.6) / 0.08, 0, 1)).toFixed(3));
+    // the second headline comes out from behind the moon (easing out, as if pushed clear of it); on tall windows it takes
+    // the headline's place, so the headline fades first
+    stage.style.setProperty("--gone", tallHero.matches ? smooth(clamp((p - 0.6) / 0.08, 0, 1)).toFixed(3) : "0");
     stage.style.setProperty("--after", (1 - Math.pow(1 - clamp((p - 0.66) / 0.2, 0, 1), 2)).toFixed(3));
   }
 
@@ -62,7 +64,7 @@
     var half = function (dy) { dy = Math.abs(dy); return dy >= R ? 0 : Rx * Math.sqrt(1 - dy * dy / (R * R)); };
     var far = function (t, b) { return Math.max(Math.abs(t - cy), Math.abs(b - cy)); };          // farthest from the centre
     var near = function (t, b) { return t <= cy && b >= cy ? 0 : Math.min(Math.abs(t - cy), Math.abs(b - cy)); };
-    var out = null, hs = 1, tall = window.matchMedia("(max-aspect-ratio: 1/1)").matches, top = cy - R;
+    var out = null, hs = 1, tall = tallHero.matches, top = cy - R;
     copy.style.setProperty("--as", "1");
     // Tall windows: one centered stack, "Risk lies" just above the rim and "in shadow." as close under it as the chord allows
     for (var j = 0; tall && j < 14 && !out; j++, hs *= 0.94) {
@@ -106,9 +108,9 @@
       }
     }
     if (!out) { copy.style.removeProperty("--hs"); return; } // nothing fits: keep the stacked fallback
-    // "Look around the bend." waits behind the moon and comes out from behind it after the burst, in the open sky the
-    // headline leaves: on wide screens sliding left out past the rim, each line ending just short of the curve; on tall
-    // ones rising up over it, centred. It's masked to the outside of the moon's disc (the moon is 0.8% larger than the sun)
+    // "Look around the bend." waits behind the moon and comes out from behind it after the burst: on wide screens
+    // sliding left out past the rim low on the screen, under the headline, each line ending just short of the curve; on
+    // tall ones rising up over the rim, centred, in the place of the headline, which fades first. It's masked to the outside of the moon's disc (the moon is 0.8% larger than the sun)
     // and narrows on its own (--as) to fit that open sky.
     var a1 = after[0].offsetWidth, a2 = after[1].offsetWidth, ah = after[0].offsetHeight, as, ay1, ay2, ax1, ax2, dx = 0, dy = 0;
     if (tall) {
@@ -118,9 +120,12 @@
       dy = top - ay1 + ah * as * 0.4;
     } else {
       var ae = ah * 0.2, ar = function (y, h) { return cx - half(near(y, y + h)) - ae; }; // the rim beside a line
-      ay1 = Math.max(navClear, H * 0.2);
-      as = Math.min(1, (ar(ay1, ah) - g) / a1, (ar(ay1 + ah, ah) - g) / a2);
-      ay2 = ay1 + ah * as;
+      as = 1;
+      for (var n = 0; n < 2; n++) { // its foot 82% of the way down; the rim's room there depends on the size, so settle it twice
+        ay1 = H * 0.82 - ah * as * 2; ay2 = ay1 + ah * as;
+        as = Math.min(1, (ar(ay1, ah * as) - g) / a1, (ar(ay2, ah * as) - g) / a2);
+      }
+      ay1 = H * 0.82 - ah * as * 2; ay2 = ay1 + ah * as;
       ax1 = ar(ay1, ah * as) - a1 * as; ax2 = ar(ay2, ah * as) - a2 * as;
       dx = Math.max(a1, a2) * as + ae * 2;
     }

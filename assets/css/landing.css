@@ -257,7 +257,9 @@ main, .footer { position: relative; z-index: 2; }
 .hero__title > span, .hero__after > span { position: absolute; white-space: nowrap; }
 .hero__title > span:first-child { left: var(--l1x); top: var(--l1y); }
 .hero__title > span:last-child { left: var(--l2x); top: var(--l2y); }
-.hero__title { color: var(--moon); opacity: calc(var(--burst) * (1 - var(--gone))); } /* the real headline, once the sky is dark and colored */
+.hero__title { color: var(--moon); opacity: calc(min(1, var(--burst) * 3) * (1 - var(--gone))); } /* the real headline, once the sky is dark and colored */
+h1.hero__title { z-index: 1; } /* over the inverted copy, and at full strength before the copy fades beneath it: a plain crossfade
+     dimmed the headline and brought it back (and under the copy, the difference blend turned it black) */
 .hero__title--ink { /* white set in difference: black over the sun, white over space and the moon */
   color: #fff; mix-blend-mode: difference;
   opacity: calc((1 - var(--burst)) * (1 - var(--gone)));
@@ -293,8 +295,8 @@ main, .footer { position: relative; z-index: 2; }
      fills the lower half of the screen, "in shadow." just under its rim and the second headline beneath (landing.js) */
   /* a wide, shallow sun: twice as wide as it is tall, so its top is a far flatter arc than a circle of the same height
      could give without growing enormous, and "in shadow." sits just under the rim; the moon rises from just below the
-     screen's foot (62vh under the sun's top), on a slight slant from the left, so its crossing fills the approach */
-  .eclipse { --D: min(210vw, 180vh); --mx: -14%; --my: 62vh; width: calc(var(--D) * 2); left: 50%; top: calc(40vh + var(--D) / 2); }
+     screen's foot (38vh under the sun's top, which sits about two-thirds of the way down), on a slight slant from the left, so its crossing fills the approach */
+  .eclipse { --D: min(210vw, 180vh); --mx: -14%; --my: 38vh; width: calc(var(--D) * 2); left: 50%; top: calc(64vh + var(--D) / 2); }
   .hero__copy { --hf: min(17vw, 13vh); }
 }
 @media (max-width: 600px) { /* phones: headline on top, the sun filling the lower two-thirds */
