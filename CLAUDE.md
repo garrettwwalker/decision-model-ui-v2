@@ -306,7 +306,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   against the disc and the type shrinks (`--hs`) only if it must. On wide screens the sun is far larger than the screen
   (230vh, its left rim 42% of the way across, its centre off to the right; the user's call), so it fills the right-hand
   side and its rim runs down the screen: the headline runs across it, "Risk lies" ending just left of the rim and "in
-  shadow." starting just inside it, stepped down about a third of a line (the user's call), and "Look around the bend." is one line low in the moon (its bottom 80% of the way down), from the same left edge as "in shadow.", the dark of the moon between them (the user found it awkward tucked under the headline in two lines); it narrows on its own (`--as`) rather than shrinking the headline; the moon comes in from the lower right
+  shadow." starting just inside it on the same line (a slight stagger was tried and undone), and "Look around the bend." is one line low in the moon (its bottom 80% of the way down), from the same left edge as "in shadow.", the dark of the moon between them (the user found it awkward tucked under the headline in two lines); it narrows on its own (`--as`) rather than shrinking the headline; the moon comes in from the lower right
   (`--mx`, `--my`; the user wanted a diagonal, not a straight horizontal path), over the part of the sun off screen first, so its crossing fills the approach and it never covers the
   open sky on the left. Over the hero, until the burst, the nav is set in `mix-blend-mode: difference` (`.nav.is-blend`), as the
   inverted headline is, so over the white sun its links go dark and its button inverts, and the moon's edge passes through

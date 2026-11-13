@@ -57,7 +57,7 @@
       out = { l1x: cx - v1 / 2, l1y: s1, l2x: cx - v2 / 2, l2y: s2, ax: cx - va / 2, ay: sa };
     }
     // Wide screens: the rim runs down the screen, so the headline runs across it in the upper part, "Risk lies" ending just
-    // short of the rim and "in shadow." starting just inside it, a touch lower; the second headline is one line low in the
+    // short of the rim and "in shadow." starting just inside it, on the same line; the second headline is one line low in the
     // moon, from the same left edge as "in shadow." (or just inside the rim, which curves away lower down), with the dark
     // of the moon between them.
     copy.classList.toggle("is-wide", !tall);
@@ -65,7 +65,7 @@
       copy.style.setProperty("--hs", hs.toFixed(3)); copy.style.setProperty("--as", "1");
       var u1 = lines[0].offsetWidth, e1 = lines[0].offsetHeight, u2 = lines[1].offsetWidth, e2 = lines[1].offsetHeight;
       var ua = after.offsetWidth, eA = after.offsetHeight, edge = e2 * 0.2, W = st.width;
-      var r1 = Math.max(navClear, H * 0.2), r2 = r1 + e1 * 0.3, rA = H * 0.8 - eA; // "in shadow." stepped down a little
+      var r1 = Math.max(navClear, H * 0.2), r2 = r1, rA = H * 0.8 - eA;
       var q1 = cx - half(near(r1, r1 + Math.max(e1, e2))) - edge - u1;
       var q2 = cx - half(far(r2, r2 + e2)) + edge, qA = Math.max(q2, cx - half(far(rA, rA + eA)) + edge);
       if (q1 < g || q2 + u2 > W - g || rA < r2 + e2 * 1.6) continue;
