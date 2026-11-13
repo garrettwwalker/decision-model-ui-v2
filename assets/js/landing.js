@@ -37,10 +37,11 @@
   function layoutHero() {
     var st = stage.getBoundingClientRect(), sr = sun.getBoundingClientRect();
     if (!st.width || !sr.width) return;
-    var R = sr.width / 2, cx = sr.left - st.left + R, cy = sr.top - st.top + R, H = st.height;
+    // the sun is a circle on wide screens and a wide ellipse on tall ones: Rx across, R (= Ry) up and down
+    var Rx = sr.width / 2, R = sr.height / 2, cx = sr.left - st.left + Rx, cy = sr.top - st.top + R, H = st.height;
     var g = parseFloat(getComputedStyle(copy).paddingLeft) || 16, navClear = Math.max(76, H * 0.1);
     var pad = R * 0.07, gap = Math.max(14, R * 0.05);
-    var half = function (dy) { dy = Math.abs(dy); return dy >= R ? 0 : Math.sqrt(R * R - dy * dy); };
+    var half = function (dy) { dy = Math.abs(dy); return dy >= R ? 0 : Rx * Math.sqrt(1 - dy * dy / (R * R)); };
     var far = function (t, b) { return Math.max(Math.abs(t - cy), Math.abs(b - cy)); };          // farthest from the centre
     var near = function (t, b) { return t <= cy && b >= cy ? 0 : Math.min(Math.abs(t - cy), Math.abs(b - cy)); };
     var out = null, hs = 1, tall = window.matchMedia("(max-aspect-ratio: 1/1)").matches, top = cy - R;
