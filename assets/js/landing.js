@@ -47,22 +47,24 @@
     copy.style.setProperty("--as", "1");
     // Tall windows: one centered stack, "Risk lies" just above the rim and "in shadow." as close under it as the chord allows
     for (var j = 0; tall && j < 14 && !out; j++, hs *= 0.94) {
-      copy.style.setProperty("--hs", hs.toFixed(3));
+      copy.style.setProperty("--hs", hs.toFixed(3)); copy.style.setProperty("--as", "1");
       var v1 = lines[0].offsetWidth, g1 = lines[0].offsetHeight, v2 = lines[1].offsetWidth, g2 = lines[1].offsetHeight;
       // spacing set by the type, not the disc: "Risk lies" keeps a third of a line clear above the rim, "in shadow." sits just
       // under it (the flat rim lets it ride high), and the second headline drops well below, so the pair reads as one phrase
       var va = after.offsetWidth, ga = after.offsetHeight, side = g2 * 0.3, s1 = top - g1 * 0.36 - g1;
       if (s1 < navClear) continue;
       for (var s2 = top + g2 * 0.1; s2 < cy && v2 / 2 + side > half(far(s2, s2 + g2)); s2 += 2);
-      var sa = Math.max(s2 + g2 * 2.2, H * 0.8 - ga), ea = sa + ga;
-      if (va / 2 + side > half(far(sa, ea)) || ea > H * 0.88) continue;
+      var sa = Math.max(s2 + g2 * 2.2, H * 0.8 - ga), ea = sa + ga, fit = Math.min(1, (st.width - 2 * g) / va);
+      if (fit < 1) { // the second headline is one line; it alone narrows to fit the window
+        copy.style.setProperty("--as", fit.toFixed(3)); va *= fit; ga *= fit; sa = Math.max(s2 + g2 * 2.2, H * 0.8 - ga); ea = sa + ga;
+      }
+      if (ea > H * 0.88) continue;
       out = { l1x: cx - v1 / 2, l1y: s1, l2x: cx - v2 / 2, l2y: s2, ax: cx - va / 2, ay: sa };
     }
     // Wide screens: the rim runs down the screen, so the headline runs across it in the upper part, "Risk lies" ending just
     // short of the rim and "in shadow." starting just inside it, a touch lower; the second headline is one line low in the
     // moon, from the same left edge as "in shadow." (or just inside the rim, which curves away lower down), with the dark
     // of the moon between them.
-    copy.classList.toggle("is-wide", !tall);
     for (var m = 0; !tall && m < 14 && !out; m++, hs *= 0.94) {
       copy.style.setProperty("--hs", hs.toFixed(3)); copy.style.setProperty("--as", "1");
       var u1 = lines[0].offsetWidth, e1 = lines[0].offsetHeight, u2 = lines[1].offsetWidth, e2 = lines[1].offsetHeight;
