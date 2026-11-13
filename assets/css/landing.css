@@ -149,8 +149,11 @@ main, .footer { position: relative; z-index: 2; }
 .hero__stage {
   position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden;
   --cover: 0; --ring: 0; --burst: 0; --flash: 0; --after: 0; --tx: 0px; --ty: 0px;
-  -webkit-mask-image: linear-gradient(180deg, #000 90%, rgba(0, 0, 0, 0) 100%);
-  mask-image: linear-gradient(180deg, #000 90%, rgba(0, 0, 0, 0) 100%);
+  /* the foot fades into the page only once you've begun to scroll (--fade, 0 to 1 over the first sixth of a screen);
+     at the top the sun runs to the screen's edge */
+  --fade: 0;
+  -webkit-mask-image: linear-gradient(180deg, #000 90%, rgba(0, 0, 0, calc(1 - var(--fade))) 100%);
+  mask-image: linear-gradient(180deg, #000 90%, rgba(0, 0, 0, calc(1 - var(--fade))) 100%);
 }
 .eclipse {
   /* wide screens: a sun far larger than the screen, its left rim 42% of the way across and its centre off to the right,

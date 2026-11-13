@@ -18,6 +18,7 @@
     var cover = smooth(p / 0.52);
     var b = clamp((p - 0.52) / 0.24, 0, 1);
     stage.style.setProperty("--cover", cover.toFixed(4));
+    stage.style.setProperty("--fade", clamp(window.scrollY / (window.innerHeight / 6), 0, 1).toFixed(3));
     // nothing lights until the moon is dead center (cover hits 1 at p = 0.52), or the ring would cross the moon
     stage.style.setProperty("--ring", clamp((p - 0.52) / 0.03, 0, 1).toFixed(3));
     stage.style.setProperty("--burst", (1 - Math.pow(1 - b, 3)).toFixed(4)); // explosive: fast, then settling
