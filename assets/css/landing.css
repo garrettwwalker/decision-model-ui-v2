@@ -257,13 +257,14 @@ main, .footer { position: relative; z-index: 2; }
 .hero__title > span, .hero__after > span { position: absolute; white-space: nowrap; }
 .hero__title > span:first-child { left: var(--l1x); top: var(--l1y); }
 .hero__title > span:last-child { left: var(--l2x); top: var(--l2y); }
-.hero__title { color: var(--moon); opacity: calc(min(1, var(--burst) * 3) * (1 - var(--gone))); } /* the real headline, once the sky is dark and colored */
-h1.hero__title { z-index: 1; } /* over the inverted copy, and at full strength before the copy fades beneath it: a plain crossfade
-     dimmed the headline and brought it back (and under the copy, the difference blend turned it black) */
-.hero__title--ink { /* white set in difference: black over the sun, white over space and the moon */
+.hero__title { opacity: 0; } /* the real headline, for screen readers; the inverted copy is what shows */
+.hero__title--ink { /* white set in difference: black over the sun, white over space and the moon. It fades as the burst
+     begins; at totality everything behind it is dark, so it drops its blend unseen (crossfading to a colored copy dimmed
+     the headline, then brought it back) */
   color: #fff; mix-blend-mode: difference;
-  opacity: calc((1 - var(--burst)) * (1 - var(--gone)));
+  opacity: calc(1 - var(--gone));
 }
+.is-burst .hero__title--ink { mix-blend-mode: normal; }
 .hero__after { /* comes out from behind the moon once the headline has faded: masked to outside the moon's disc (landing.js
      sets the disc and the lines' places), it slides out from under it, left on wide screens, up on tall ones */
   position: absolute; inset: 0; margin: 0;
@@ -300,11 +301,6 @@ h1.hero__title { z-index: 1; } /* over the inverted copy, and at full strength b
   /* the rays square, not stretched across the twice-as-wide sun: the stretched layer was so large that Chrome rastered it
      at a lower resolution and the rays turned pixelated again */
   .eclipse__rays { left: calc((1 - 2.2 * (0.62 + var(--burst) * 0.62) / 2) * 50%); right: calc((1 - 2.2 * (0.62 + var(--burst) * 0.62) / 2) * 50%); }
-  /* the headline fades as the burst begins, the inverted copy alone: at totality everything behind it is dark, so it drops
-     its blend unseen, and the colored headline never comes in (fading one in while the other went dimmed it, then brought it back) */
-  .hero__title { opacity: 0; }
-  .hero__title--ink { opacity: calc(1 - var(--gone)); }
-  .is-burst .hero__title--ink { mix-blend-mode: normal; }
   .hero__copy { --hf: min(17vw, 13vh); }
 }
 @media (max-width: 600px) { /* phones: headline on top, the sun filling the lower two-thirds */

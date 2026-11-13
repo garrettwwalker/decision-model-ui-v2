@@ -26,9 +26,9 @@
     nav.classList.toggle("is-blend", b === 0); // the nav inverts over the sun only while the sky is black and white
     navOnSun(b === 0);
     stage.style.setProperty("--flash", Math.sin(Math.PI * clamp((p - 0.52) / 0.16, 0, 1)).toFixed(4));
-    // the second headline comes out from behind the moon (easing out, as if pushed clear of it); on tall windows it takes
-    // the headline's place, so the headline fades as the burst begins
-    stage.style.setProperty("--gone", tallHero.matches ? smooth(clamp((p - 0.52) / 0.1, 0, 1)).toFixed(3) : "0");
+    // the headline fades as the burst begins, then the second one comes out from behind the moon in its place (easing
+    // out, as if pushed clear of it)
+    stage.style.setProperty("--gone", smooth(clamp((p - 0.52) / 0.1, 0, 1)).toFixed(3));
     stage.style.setProperty("--after", (1 - Math.pow(1 - clamp((p - 0.66) / 0.2, 0, 1), 2)).toFixed(3));
   }
 
@@ -85,7 +85,7 @@
       copy.style.setProperty("--hs", hs.toFixed(3));
       var u1 = lines[0].offsetWidth, e1 = lines[0].offsetHeight, u2 = lines[1].offsetWidth, e2 = lines[1].offsetHeight;
       var edge = e2 * 0.2, W = st.width;
-      var r1 = Math.max(navClear, H * 0.2), r2 = r1 + e1 * 0.6; // "in shadow." stepped down, clearly on purpose
+      var r1 = Math.max(navClear, (H - e1 * 0.6 - e2) / 2), r2 = r1 + e1 * 0.6; // centred on the screen; "in shadow." stepped down, clearly on purpose
       var rim1 = cx - half(near(r1, r1 + Math.max(e1, e2))) - edge, q1 = rim1 - u1;
       var q2 = cx - half(far(r2, r2 + e2)) + edge;
       if (q1 < g || q2 + u2 > W - g) continue;
@@ -108,9 +108,9 @@
       }
     }
     if (!out) { copy.style.removeProperty("--hs"); return; } // nothing fits: keep the stacked fallback
-    // "Look around the bend." waits behind the moon and comes out from behind it after the burst: on wide screens
-    // sliding left out past the rim low on the screen, under the headline, each line ending just short of the curve; on
-    // tall ones rising up over the rim, centred, in the place of the headline, which fades first. It's masked to the outside of the moon's disc (the moon is 0.8% larger than the sun)
+    // "Look around the bend." waits behind the moon and comes out from behind it after the burst, once the headline has
+    // faded: on wide screens sliding left out past the rim in the middle of the screen, each line ending just short of the
+    // curve; on tall ones rising up over the rim, centred. It's masked to the outside of the moon's disc (the moon is 0.8% larger than the sun)
     // and narrows on its own (--as) to fit that open sky.
     var a1 = after[0].offsetWidth, a2 = after[1].offsetWidth, ah = after[0].offsetHeight, as, ay1, ay2, ax1, ax2, dx = 0, dy = 0;
     if (tall) {
@@ -121,11 +121,11 @@
     } else {
       var ae = ah * 0.2, ar = function (y, h) { return cx - half(near(y, y + h)) - ae; }; // the rim beside a line
       as = 1;
-      for (var n = 0; n < 2; n++) { // its foot 82% of the way down; the rim's room there depends on the size, so settle it twice
-        ay1 = H * 0.82 - ah * as * 2; ay2 = ay1 + ah * as;
+      for (var n = 0; n < 2; n++) { // centred on the screen; the rim's room there depends on the size, so settle it twice
+        ay1 = H / 2 - ah * as; ay2 = ay1 + ah * as;
         as = Math.min(1, (ar(ay1, ah * as) - g) / a1, (ar(ay2, ah * as) - g) / a2);
       }
-      ay1 = H * 0.82 - ah * as * 2; ay2 = ay1 + ah * as;
+      ay1 = H / 2 - ah * as; ay2 = ay1 + ah * as;
       ax1 = ar(ay1, ah * as) - a1 * as; ax2 = ar(ay2, ah * as) - a2 * as;
       dx = Math.max(a1, a2) * as + ae * 2;
     }
