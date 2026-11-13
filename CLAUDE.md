@@ -65,7 +65,7 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   decisions and net of their cost. 2 Waiting for You (an amber count, as on the agents page; red until 2026-11-12): the week's deadlines (small circles on a hairline;
   pill-shaped marks were rejected), then the three decisions with just two buttons: Assign (red; turns ink, says who it's
   assigned to, and marks its day; the war-risk decision's reads Approve) and Details (drops open what happens, if we wait, who's affected, and "See the team's
-  part", a plain link so nav.js slides to team.html?directive=); then "Decisions Made Overnight", your agents' small reversible steps with
+  part", a plain link so nav.js slides to team.html?directive=); then "Decisions Made Overnight", your agents' small reversible steps, each worded as still under way ("Holding four Khor Fakkan slots", "Checking resin suppliers": the user's call, so switching one off reads as stopping it), with
   rounded-square initials and rows that shade on hover; each row carries a red switch that keeps or undoes the step (a strike draws itself
   through the whole summary and fades when it's switched back on); selecting the rest of the line drops its details open (what, when, why,
   cost, how to reverse, and "Next time", a small cream track choosing "Act on its own" or "Ask me first" for that agent).
