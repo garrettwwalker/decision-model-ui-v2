@@ -148,11 +148,12 @@ main, .footer { position: relative; z-index: 2; }
 .hero { position: relative; height: calc(280vh + var(--tail)); --tail: 14vh; }
 .hero__stage {
   /* a screen and a strip taller than the screen: the strip (--tail) hangs below the fold and carries the fade into the
-     page, so the eclipse is never cut or faded on screen; the fade only comes into view once the stage scrolls up */
+     page, so the eclipse is never cut or faded on screen; the fade only comes into view once the stage scrolls up. It eases in
+     (smoothstep stops): a straight ramp's start showed as a faint line across the bright rays */
   position: sticky; top: 0; height: calc(100vh + var(--tail)); height: calc(100svh + var(--tail)); overflow: hidden;
   --cover: 0; --ring: 0; --burst: 0; --flash: 0; --after: 0; --tx: 0px; --ty: 0px;
-  -webkit-mask-image: linear-gradient(180deg, #000 calc(100% - var(--tail)), rgba(0, 0, 0, 0) 100%);
-  mask-image: linear-gradient(180deg, #000 calc(100% - var(--tail)), rgba(0, 0, 0, 0) 100%);
+  -webkit-mask-image: linear-gradient(180deg, #000 calc(100% - var(--tail)), rgba(0, 0, 0, 0.972) calc(100% - var(--tail) * 0.9), rgba(0, 0, 0, 0.896) calc(100% - var(--tail) * 0.8), rgba(0, 0, 0, 0.784) calc(100% - var(--tail) * 0.7), rgba(0, 0, 0, 0.648) calc(100% - var(--tail) * 0.6), rgba(0, 0, 0, 0.5) calc(100% - var(--tail) * 0.5), rgba(0, 0, 0, 0.352) calc(100% - var(--tail) * 0.4), rgba(0, 0, 0, 0.216) calc(100% - var(--tail) * 0.3), rgba(0, 0, 0, 0.104) calc(100% - var(--tail) * 0.2), rgba(0, 0, 0, 0.028) calc(100% - var(--tail) * 0.1), rgba(0, 0, 0, 0) 100%);
+  mask-image: linear-gradient(180deg, #000 calc(100% - var(--tail)), rgba(0, 0, 0, 0.972) calc(100% - var(--tail) * 0.9), rgba(0, 0, 0, 0.896) calc(100% - var(--tail) * 0.8), rgba(0, 0, 0, 0.784) calc(100% - var(--tail) * 0.7), rgba(0, 0, 0, 0.648) calc(100% - var(--tail) * 0.6), rgba(0, 0, 0, 0.5) calc(100% - var(--tail) * 0.5), rgba(0, 0, 0, 0.352) calc(100% - var(--tail) * 0.4), rgba(0, 0, 0, 0.216) calc(100% - var(--tail) * 0.3), rgba(0, 0, 0, 0.104) calc(100% - var(--tail) * 0.2), rgba(0, 0, 0, 0.028) calc(100% - var(--tail) * 0.1), rgba(0, 0, 0, 0) 100%);
 }
 .eclipse {
   /* wide screens: a sun far larger than the screen, its left rim 42% of the way across and its centre off to the right,
