@@ -65,7 +65,7 @@
       copy.style.setProperty("--hs", hs.toFixed(3)); copy.style.setProperty("--as", "1");
       var u1 = lines[0].offsetWidth, e1 = lines[0].offsetHeight, u2 = lines[1].offsetWidth, e2 = lines[1].offsetHeight;
       var ua = after.offsetWidth, eA = after.offsetHeight, edge = e2 * 0.2, W = st.width;
-      var r1 = Math.max(navClear, H * 0.2), r2 = r1 + e1 * 0.3, rA = H * 0.8 - eA; // "in shadow." stepped down a little
+      var r1 = Math.max(navClear, H * 0.2), r2 = r1 + e1 * 0.6, rA = H * 0.8 - eA; // "in shadow." stepped down, clearly on purpose
       var q1 = cx - half(near(r1, r1 + Math.max(e1, e2))) - edge - u1;
       var q2 = cx - half(far(r2, r2 + e2)) + edge, qA = Math.max(q2, cx - half(far(rA, rA + eA)) + edge);
       if (q1 < g || q2 + u2 > W - g || rA < r2 + e2 * 1.6) continue;
