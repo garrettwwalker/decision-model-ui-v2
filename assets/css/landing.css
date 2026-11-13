@@ -459,7 +459,7 @@ main, .footer { position: relative; z-index: 2; }
    streamers between them dim, and back */
 .pv-ecl__ray, .pv-ecl__str { animation: ecl-ray 6s ease-in-out infinite; }
 .pv-ecl__str { animation-delay: -3s; }
-@keyframes ecl-ray { 0%, 100% { opacity: 0.25; } 50% { opacity: 1; stroke: rgba(255, 220, 140, 0.55); } }
+@keyframes ecl-ray { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; stroke: rgba(255, 215, 130, 0.45); } }
 @keyframes ecl-breathe { 0%, 100% { opacity: 0.88; transform: scale(1); } 50% { opacity: 1; transform: scale(1.04); } }
 .pv-ecl__moon { fill: #07080b; stroke: #ffe3a0; stroke-width: 1.2; filter: drop-shadow(0 0 3px rgba(255, 225, 150, 0.9)); }
 @media (prefers-reduced-motion: reduce) { .pv-ecl__corona, .pv-ecl__ray, .pv-ecl__str { animation: none; } }
