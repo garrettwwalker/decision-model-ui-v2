@@ -25,7 +25,9 @@
     nav.classList.toggle("is-blend", b === 0); // the nav inverts over the sun only while the sky is black and white
     navOnSun(b === 0);
     stage.style.setProperty("--flash", Math.sin(Math.PI * clamp((p - 0.52) / 0.16, 0, 1)).toFixed(4));
-    stage.style.setProperty("--after", clamp((p - 0.62) / 0.24, 0, 1).toFixed(3));
+    // the headline gives way to the second one in the same place, so only one message is ever on screen
+    stage.style.setProperty("--gone", smooth(clamp((p - 0.6) / 0.08, 0, 1)).toFixed(3));
+    stage.style.setProperty("--after", smooth(clamp((p - 0.68) / 0.16, 0, 1)).toFixed(3));
   }
 
   // is the nav's button over the white sun (and not yet under the moon)? Its hover glow is inverted there
@@ -43,13 +45,13 @@
     navBtn.classList.toggle("is-onsun", on);
   }
 
-  /* The headline set against the sun: "Risk lies" in open space, "in shadow." inside the disc, and "Look around the
-     bend." beneath it in the moon, so the shadow's edge falls between the words rather than through them. Each line is
+  /* The headline set against the sun: "Risk lies" in open space, "in shadow." inside the disc, so the shadow's edge falls
+     between the words rather than through them; after the burst "Look around the bend." takes the same places. Each line is
      measured, the disc's chord is checked at its top and bottom, and the type shrinks (--hs) until everything fits.
      "Risk lies" sits at the gutter, ending just above "in shadow."; where the disc leaves no room beside it (tall
      screens) it sits above the disc instead. */
   var copy = document.querySelector(".hero__copy"), sun = document.querySelector(".eclipse__sun");
-  var lines = document.querySelectorAll(".hero__title:not(.hero__title--ink) > span"), after = document.querySelector(".hero__after");
+  var lines = document.querySelectorAll(".hero__title:not(.hero__title--ink) > span"), after = document.querySelectorAll(".hero__after > span");
   function layoutHero() {
     var st = stage.getBoundingClientRect(), sr = sun.getBoundingClientRect();
     if (!st.width || !sr.width) return;
@@ -62,22 +64,21 @@
     var near = function (t, b) { return t <= cy && b >= cy ? 0 : Math.min(Math.abs(t - cy), Math.abs(b - cy)); };
     var out = null, hs = 1, tall = window.matchMedia("(max-aspect-ratio: 1/1)").matches, top = cy - R;
     copy.style.setProperty("--as", "1");
-    // set the second headline's form (one line, left-aligned, on wide screens; two centred lines on tall ones) before
-    // anything is measured: switching it after left a window turned from wide to tall centring the one-line width
-    copy.classList.toggle("is-wide", !tall);
-    copy.style.setProperty("--aa", tall ? "center" : "left");
     // Tall windows: one centered stack, "Risk lies" just above the rim and "in shadow." as close under it as the chord allows
     for (var j = 0; tall && j < 14 && !out; j++, hs *= 0.94) {
       copy.style.setProperty("--hs", hs.toFixed(3));
       var v1 = lines[0].offsetWidth, g1 = lines[0].offsetHeight, v2 = lines[1].offsetWidth, g2 = lines[1].offsetHeight;
       // spacing set by the type, not the disc: "Risk lies" keeps a third of a line clear above the rim, "in shadow." sits just
       // under it (the flat rim lets it ride high), and the second headline drops well below, so the pair reads as one phrase
-      var va = after.offsetWidth, ga = after.offsetHeight, side = g2 * 0.3, s1 = top - g1 * 0.36 - g1;
+      var side = g2 * 0.3, s1 = top - g1 * 0.36 - g1;
       if (s1 < navClear) continue;
       for (var s2 = top + g2 * 0.1; s2 < cy && v2 / 2 + side > half(far(s2, s2 + g2)); s2 += 2);
-      var sa = Math.max(s2 + g2 * 2.2, H * 0.8 - ga), ea = sa + ga;
-      if (va / 2 + side > half(far(sa, ea)) || ea > H * 0.88) continue;
-      out = { l1x: cx - v1 / 2, l1y: s1, l2x: cx - v2 / 2, l2y: s2, ax: cx - va / 2, ay: sa };
+      // the second headline takes the same places, "Look around" above the rim and "the bend." under it, narrowed only if it must
+      var va1 = after[0].offsetWidth, va2 = after[1].offsetWidth;
+      var as = Math.min(1, (st.width - 2 * g) / va1, 2 * (half(far(s2, s2 + g2)) - side) / va2);
+      copy.style.setProperty("--as", as.toFixed(3));
+      out = { l1x: cx - v1 / 2, l1y: s1, l2x: cx - v2 / 2, l2y: s2,
+              a1x: cx - va1 * as / 2, a1y: top - g1 * 0.36 - g1 * as, a2x: cx - va2 * as / 2, a2y: s2 };
     }
     // Wide screens: the rim runs down the screen, so the headline runs across it in the upper part, "Risk lies" ending just
     // short of the rim and "in shadow." starting just inside it, a touch lower; the second headline is one line low in the
@@ -86,34 +87,34 @@
     for (var m = 0; !tall && m < 14 && !out; m++, hs *= 0.94) {
       copy.style.setProperty("--hs", hs.toFixed(3)); copy.style.setProperty("--as", "1");
       var u1 = lines[0].offsetWidth, e1 = lines[0].offsetHeight, u2 = lines[1].offsetWidth, e2 = lines[1].offsetHeight;
-      var ua = after.offsetWidth, eA = after.offsetHeight, edge = e2 * 0.2, W = st.width;
-      var r1 = Math.max(navClear, H * 0.2), r2 = r1 + e1 * 0.6, rA = H * 0.8 - eA; // "in shadow." stepped down, clearly on purpose
-      var q1 = cx - half(near(r1, r1 + Math.max(e1, e2))) - edge - u1;
-      var q2 = cx - half(far(r2, r2 + e2)) + edge, qA = Math.max(q2, cx - half(far(rA, rA + eA)) + edge);
-      if (q1 < g || q2 + u2 > W - g || rA < r2 + e2 * 1.6) continue;
-      if (qA + ua > W - g) { // the second headline alone narrows to fit, so it never shrinks the first
-        var as = (W - g - qA) / ua;
-        copy.style.setProperty("--as", as.toFixed(3)); rA = H * 0.8 - eA * as;
-      }
-      out = { l1x: q1, l1y: r1, l2x: q2, l2y: r2, ax: qA, ay: rA };
+      var edge = e2 * 0.2, W = st.width;
+      var r1 = Math.max(navClear, H * 0.2), r2 = r1 + e1 * 0.6; // "in shadow." stepped down, clearly on purpose
+      var rim1 = cx - half(near(r1, r1 + Math.max(e1, e2))) - edge, q1 = rim1 - u1;
+      var q2 = cx - half(far(r2, r2 + e2)) + edge;
+      if (q1 < g || q2 + u2 > W - g) continue;
+      // the second headline takes the same split across the rim; it alone narrows to fit, so it never shrinks the first
+      var ua1 = after[0].offsetWidth, ua2 = after[1].offsetWidth;
+      var ws = Math.min(1, (rim1 - g) / ua1, (W - g - q2) / ua2), b2 = r1 + e1 * ws * 0.6;
+      var p2 = cx - half(far(b2, b2 + e2 * ws)) + edge;
+      out = { l1x: q1, l1y: r1, l2x: q2, l2y: r2, a1x: rim1 - ua1 * ws, a1y: r1, a2x: p2, a2y: b2 };
+      copy.style.setProperty("--as", ws.toFixed(3));
     }
     if (!out) hs = 1;
     for (var k = 0; k < 14 && !out; k++, hs *= 0.94) {
       copy.style.setProperty("--hs", hs.toFixed(3));
       var w1 = lines[0].offsetWidth, h1 = lines[0].offsetHeight, w2 = lines[1].offsetWidth, h2 = lines[1].offsetHeight;
-      var wa = after.offsetWidth, ha = after.offsetHeight;
       // "in shadow." as high in the disc as it fits, so it stays close to "Risk lies"
       for (var y2 = cy - 0.55 * R; y2 <= cy - 0.05 * R && !out; y2 += 0.03 * R) {
         var t2 = y2, b2 = y2 + h2;
         if (w2 / 2 + pad > half(far(t2, b2))) continue;
-        var ta = b2 + h2 * 1.3, ba = ta + ha;                                                   // the second headline, under it
-        if (wa / 2 + pad > half(far(ta, ba)) || ba > H * 0.88) break;
         var t1 = t2 - h1 * 1.02, b1 = t1 + h1, x1 = g;                                           // beside the disc, at the gutter
         if (t1 < navClear || x1 + w1 > cx - half(near(t1, b1)) - gap) {
           b1 = cy - R - gap; t1 = b1 - h1;                                                     // or above it
           if (t1 < navClear) continue;
         }
-        out = { l1x: x1, l1y: t1, l2x: cx - w2 / 2, l2y: t2, ax: cx - wa / 2, ay: ta };
+        var wa1 = after[0].offsetWidth, wa2 = after[1].offsetWidth, fs = Math.min(1, (st.width - 2 * g) / wa1, w2 / wa2 * 1.1);
+        copy.style.setProperty("--as", fs.toFixed(3));                                          // the second headline in the same places
+        out = { l1x: x1, l1y: t1, l2x: cx - w2 / 2, l2y: t2, a1x: x1, a1y: t1, a2x: cx - wa2 * fs / 2, a2y: t2 };
       }
     }
     if (!out) { copy.style.removeProperty("--hs"); return; } // nothing fits: keep the stacked fallback
