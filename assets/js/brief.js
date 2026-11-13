@@ -1,5 +1,5 @@
 /* The daily brief: what moved across your questions, the decisions waiting for you (assign one to its owner, or open its
-   details), the decisions your agents made overnight (with Details and Undo), what's exposed, and why the odds rose.
+   details), the decisions your agents made overnight (a switch keeps or undoes each; its details set whether the agent may act alone next time), what's exposed, and why the odds rose.
    Assignments and undos persist in localStorage. The trendlines follow the memo's: one series each, a readout under the
    pointer. */
 (function () {
@@ -8,10 +8,11 @@
   var REDUCE = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   // ---------- state: each decision waiting or assigned ("ok"); each overnight step kept or undone ----------
-  var KEY = "daybreak.brief", S = { d: ["", "", ""], undo: [false, false, false] };
+  var KEY = "daybreak.brief", S = { d: ["", "", ""], undo: [false, false, false], next: ["auto", "auto", "auto"] };
   try {
     var saved = JSON.parse(localStorage.getItem(KEY) || "null");
     if (saved && Array.isArray(saved.d) && Array.isArray(saved.undo)) S = saved;
+    if (!Array.isArray(S.next)) S.next = ["auto", "auto", "auto"];
   } catch (e) {}
   function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
 
@@ -34,9 +35,20 @@
     });
     $$(".did").forEach(function (li, i) {
       li.classList.toggle("is-undone", S.undo[i]);
-      $("[data-undo]", li).textContent = S.undo[i] ? "Redo" : "Undo";
+      $(".did__keep", li).checked = !S.undo[i];
+      $$("[data-next]", li).forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.next === S.next[i])); });
     });
+    placeSmall();
     save();
+  }
+  // the small cream tracks in the steps' details: the white pill slides to the chosen option
+  function placeSmall() {
+    $$(".sw--sm").forEach(function (t) {
+      var b = $('[aria-pressed="true"]', t), pill = $(".sw__pill", t);
+      if (!b || !b.offsetWidth) return;
+      pill.style.width = b.offsetWidth + "px"; pill.style.transform = "translateX(" + (b.offsetLeft - 3) + "px)";
+      if (!t.classList.contains("is-ready")) requestAnimationFrame(function () { t.classList.add("is-ready"); });
+    });
   }
   // a Details button drops its panel open (grid rows 0fr to 1fr) and back
   function details(host, btn) {
@@ -55,18 +67,28 @@
     });
     details(card, $("[data-details]", card));
   });
-  // an overnight step drops its details open when its line is selected; Configure goes to the agents page
+  // an overnight step drops its details open when its line is selected; its switch keeps or undoes it, and its details
+  // set whether the agent may take a step like it on its own next time
   $$(".did").forEach(function (li, i) {
-    var what = $(".did__what", li);
-    function toggle() { var open = li.classList.toggle("is-open"); what.setAttribute("aria-expanded", String(open)); }
-    li.addEventListener("click", function (e) { if (!e.target.closest(".did__act, .did__more")) toggle(); });
+    var what = $(".did__what", li), agent = $(".did__dl dd", li).textContent;
+    function toggle() { var open = li.classList.toggle("is-open"); what.setAttribute("aria-expanded", String(open)); placeSmall(); }
+    li.addEventListener("click", function (e) { if (!e.target.closest(".did__keep, .did__more")) toggle(); });
     what.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); } });
-    $("[data-undo]", li).addEventListener("click", function () {
-      S.undo[i] = !S.undo[i];
+    $(".did__keep", li).addEventListener("change", function () {
+      S.undo[i] = !this.checked;
       DB.toast(S.undo[i] ? "Undone. The agent has reversed it." : "Back on. The agent has redone it.");
       render();
     });
+    $$("[data-next]", li).forEach(function (b) {
+      b.addEventListener("click", function () {
+        if (S.next[i] === b.dataset.next) return;
+        S.next[i] = b.dataset.next;
+        DB.toast(S.next[i] === "ask" ? "The " + agent.toLowerCase() + " will ask you before a step like this." : "The " + agent.toLowerCase() + " may take steps like this on its own again.");
+        render();
+      });
+    });
   });
+  window.addEventListener("resize", placeSmall);
   render();
 
   // ---------- links within the page glide there rather than jump ----------

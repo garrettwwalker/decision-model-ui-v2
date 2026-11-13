@@ -167,7 +167,7 @@
 .decision__more > div { min-height: 0; overflow: hidden; }
 .decision.is-open .decision__more { grid-template-rows: 1fr; margin-top: 0; }
 .decision__more .did__dl { padding: 0.8rem 0.95rem; border-radius: var(--r-sm); background: var(--mist); }
-.decision__more .did__dl div { grid-template-columns: 7rem minmax(0, 1fr); }
+.decision__more .did__dl > div { grid-template-columns: 7rem minmax(0, 1fr); }
 .decision__more .btn-q { margin-top: 0.6rem; }
 /* assigned: the deadline gives way to a quiet note, the button turns ink, the number red */
 .decision.is-assigned .decision__n { background: var(--accent); }
@@ -200,12 +200,12 @@
 .did:hover, .did:hover + .did { border-top-color: transparent; }
 .did:hover .did__dl { background: #fff; }
 .did.is-open .did__dl { transition: background-color 0.2s ease; }
-.did__act, .did__more { cursor: auto; }
+.did__keep, .did__more { cursor: auto; }
+.did__keep { --cb-on: var(--accent); margin: 0; cursor: pointer; } /* the house's red control */
 .did:hover .did__what, .did.is-open .did__what { color: var(--ink); }
 .did__what:focus { outline: none; }
 .did__what:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
 .did__what b { color: var(--ink); }
-.did__act { display: flex; gap: 0.4rem; }
 .did.is-undone .did__what, .did.is-undone .did__who { opacity: 0.45; }
 .did__line {
   --strike: rgba(87, 82, 76, 0); background-image: linear-gradient(var(--strike), var(--strike)); background-repeat: no-repeat;
@@ -217,10 +217,13 @@
 .did.is-open .did__more { grid-template-rows: 1fr; }
 .did__dl { display: grid; gap: 0.35rem; margin: 0; }
 .did.is-open .did__dl { margin-top: 0.7rem; padding: 0.8rem 0.95rem; border-radius: var(--r-sm); background: var(--mist); }
-.did__dl div { display: grid; grid-template-columns: 4.5rem minmax(0, 1fr); gap: 0.75rem; font-size: 0.84rem; line-height: 1.45; }
+.did__dl > div { display: grid; grid-template-columns: 4.5rem minmax(0, 1fr); gap: 0.75rem; font-size: 0.84rem; line-height: 1.45; }
 .did__dl dt { font-weight: 600; color: var(--ink-3); }
 .did__dl dd { margin: 0; color: var(--ink-2); }
-@media (max-width: 560px) { .did { grid-template-columns: auto minmax(0, 1fr); } .did__act { grid-column: 2; margin-top: 0.5rem; } }
+.did__next dd { margin-top: -0.2rem; }
+.sw.sw--sm { width: max-content; grid-auto-columns: max-content; padding: 3px; }
+.sw.sw--sm .sw__pill { top: 3px; bottom: 3px; left: 3px; }
+.sw.sw--sm button { min-height: 28px; padding: 0 0.8rem; font-size: 0.78rem; white-space: nowrap; }
 .done__more { margin-top: 0.6rem; }
 
 /* ---------- 3. exposure: the map rides beside a column of cards ---------- */

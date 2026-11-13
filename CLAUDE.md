@@ -66,9 +66,10 @@ no tests. To preview, open `index.html` in a browser; there's no server.
   pill-shaped marks were rejected), then the three decisions with just two buttons: Assign (red; turns ink, says who it's
   assigned to, and marks its day; the war-risk decision's reads Approve) and Details (drops open what happens, if we wait, who's affected, and "See the team's
   part", a plain link so nav.js slides to team.html?directive=); then "Decisions Made Overnight", your agents' small reversible steps with
-  rounded-square initials, rows that shade on hover, Configure and Undo (a strike draws itself
-  through the whole summary and fades on Redo); selecting the rest of the line drops its details open (what, when, why,
-  cost, how to reverse), and Configure, which replaced a Details button, links to the agents page. States persist in localStorage (`daybreak.brief`). 3 What's Caught in the Crossfire: the
+  rounded-square initials and rows that shade on hover; each row carries a red switch that keeps or undoes the step (a strike draws itself
+  through the whole summary and fades when it's switched back on); selecting the rest of the line drops its details open (what, when, why,
+  cost, how to reverse, and "Next time", a small cream track choosing "Act on its own" or "Ask me first" for that agent).
+  Configure and Undo buttons down every row were replaced on 2026-11-13 (the user dislikes the same button stacked down a list). States, including each step's next-time choice, persist in localStorage (`daybreak.brief`). 3 What's Caught in the Crossfire: the
   map (report colors; the Hormuz danger zone a shaded circle with a solid ring, both pulsing paler to deeper red; hatching, a
   dashed ring, and no ring were tried) rides sticky beside "How Long We Can Run" (days of stock against one pale red window behind
   every row, labelled "Closure, 2–4 weeks out", centered, pulsing paler to deeper red on the danger zone's 2.6s beat; a stripe per row read as detached), the losses table (orders
