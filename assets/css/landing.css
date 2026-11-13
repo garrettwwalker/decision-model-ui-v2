@@ -86,10 +86,9 @@ main, .footer { position: relative; z-index: 2; }
 .nav__links { display: flex; align-items: center; gap: 1.6rem; }
 .nav__links a:not(.btn) { text-decoration: none; font-weight: 600; font-size: 0.9rem; opacity: 0.8; }
 .nav__links a:not(.btn):hover { opacity: 1; text-decoration: underline; text-underline-offset: 4px; }
-/* over the white sun (landing.js tests each one) the links go dark and the button inverts, so they stay readable */
-.nav__links a, .nav__toggle { transition: color 0.25s ease, background-color 0.25s ease, opacity 0.2s ease; }
-.nav:not(.is-open) .nav__links a.is-onsun:not(.btn), .nav__toggle.is-onsun { color: var(--void); opacity: 1; }
-.nav:not(.is-open) .nav__links a.btn.is-onsun { background: var(--void); color: #fff; }
+/* over the hero the nav is set in difference, as the inverted headline is: over the white sun the links go dark and
+   the button inverts, pixel by pixel, so the moon's edge passes through them as it does through "in shadow." */
+.nav.is-blend:not(.is-scrolled):not(.is-open) { mix-blend-mode: difference; } /* only before the burst: over its colors it would tint the type */
 .nav__toggle {
   display: none; width: 44px; height: 44px;
   border: 0; background: transparent; cursor: pointer; align-items: center; justify-content: center;

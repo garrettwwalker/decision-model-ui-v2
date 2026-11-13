@@ -22,22 +22,9 @@
     stage.style.setProperty("--ring", clamp((p - 0.52) / 0.03, 0, 1).toFixed(3));
     stage.style.setProperty("--burst", (1 - Math.pow(1 - b, 3)).toFixed(4)); // explosive: fast, then settling
     stage.classList.toggle("is-burst", b > 0); // the corona and rays only paint once the burst has begun
+    nav.classList.toggle("is-blend", b === 0); // the nav inverts over the sun only while the sky is black and white
     stage.style.setProperty("--flash", Math.sin(Math.PI * clamp((p - 0.52) / 0.16, 0, 1)).toFixed(4));
     stage.style.setProperty("--after", clamp((p - 0.62) / 0.24, 0, 1).toFixed(3));
-    onSun(b > 0);
-  }
-  // the nav's links and button go dark where they sit over the white sun (and the moon hasn't reached them)
-  var navBits = document.querySelectorAll(".nav__links a, .nav__toggle");
-  function onSun(burst) {
-    navBits.forEach(function (el) {
-      var r = el.getBoundingClientRect(), on = false;
-      if (!burst && r.width) {
-        var hits = document.elementsFromPoint(r.left + r.width / 2, r.top + r.height / 2), sunHit = false, moonHit = false;
-        hits.forEach(function (h) { if (h.classList.contains("eclipse__sun")) sunHit = true; if (h.classList.contains("eclipse__moon")) moonHit = true; });
-        on = sunHit && !moonHit;
-      }
-      el.classList.toggle("is-onsun", on);
-    });
   }
 
   /* The headline set against the sun: "Risk lies" in open space, "in shadow." inside the disc, and "Look around the
