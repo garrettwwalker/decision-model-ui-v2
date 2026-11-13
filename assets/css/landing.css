@@ -251,6 +251,7 @@ main, .footer { position: relative; z-index: 2; }
   opacity: var(--after);
   transform: translateY(calc((1 - var(--after)) * 30px));
 }
+.hero__copy.is-wide .hero__after br { display: none; } /* one line on wide screens */
 .hero__cue {
   position: absolute; left: var(--gutter); bottom: calc(10% + 1.2rem); margin: 0; /* above the stage's fade-out */
   display: flex; align-items: center; gap: 0.5rem;
