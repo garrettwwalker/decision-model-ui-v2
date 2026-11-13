@@ -24,6 +24,20 @@
     stage.classList.toggle("is-burst", b > 0); // the corona and rays only paint once the burst has begun
     stage.style.setProperty("--flash", Math.sin(Math.PI * clamp((p - 0.52) / 0.16, 0, 1)).toFixed(4));
     stage.style.setProperty("--after", clamp((p - 0.62) / 0.24, 0, 1).toFixed(3));
+    onSun(b > 0);
+  }
+  // the nav's links and button go dark where they sit over the white sun (and the moon hasn't reached them)
+  var navBits = document.querySelectorAll(".nav__links a, .nav__toggle");
+  function onSun(burst) {
+    navBits.forEach(function (el) {
+      var r = el.getBoundingClientRect(), on = false;
+      if (!burst && r.width) {
+        var hits = document.elementsFromPoint(r.left + r.width / 2, r.top + r.height / 2), sunHit = false, moonHit = false;
+        hits.forEach(function (h) { if (h.classList.contains("eclipse__sun")) sunHit = true; if (h.classList.contains("eclipse__moon")) moonHit = true; });
+        on = sunHit && !moonHit;
+      }
+      el.classList.toggle("is-onsun", on);
+    });
   }
 
   /* The headline set against the sun: "Risk lies" in open space, "in shadow." inside the disc, and "Look around the
@@ -54,15 +68,15 @@
       if (va / 2 + pad > half(far(sa, ea)) || ea > H * 0.88) continue;
       out = { l1x: cx - v1 / 2, l1y: s1, l2x: cx - v2 / 2, l2y: s2, ax: cx - va / 2, ay: sa };
     }
-    // Wide screens: the rim runs down the screen, so "Risk lies" ends just short of it and "in shadow." starts just inside
-    // it on the next line, the words hugging the edge from either side; the second headline under it, inside the rim too.
-    // The block sits a little above the middle.
+    // Wide screens: the rim runs down the screen, so the headline is one line, "Risk lies" ending just short of the rim and
+    // "in shadow." starting just inside it; the second headline under it, inside the rim too. The block sits a little
+    // above the middle.
     for (var m = 0; !tall && m < 14 && !out; m++, hs *= 0.94) {
       copy.style.setProperty("--hs", hs.toFixed(3));
       var u1 = lines[0].offsetWidth, e1 = lines[0].offsetHeight, u2 = lines[1].offsetWidth, e2 = lines[1].offsetHeight;
       var ua = after.offsetWidth, eA = after.offsetHeight, edge = e2 * 0.2, W = st.width;
-      var r1 = Math.max(navClear, (H - (e1 + e2 * 2 + eA)) * 0.42), r2 = r1 + e1 * 1.0, rA = r2 + e2 * 2;
-      var q1 = cx - half(near(r1, r1 + e1)) - edge - u1;
+      var r1 = Math.max(navClear, (H - (e2 * 2 + eA)) * 0.42), r2 = r1, rA = r2 + e2 * 2;
+      var q1 = cx - half(near(r1, r1 + Math.max(e1, e2))) - edge - u1;
       var q2 = cx - half(far(r2, r2 + e2)) + edge, qA = cx - half(far(rA, rA + eA)) + edge;
       if (q1 < g || q2 + u2 > W - g || qA + ua > W - g || rA + eA > H * 0.88) continue;
       out = { l1x: q1, l1y: r1, l2x: q2, l2y: r2, ax: qA, ay: rA };

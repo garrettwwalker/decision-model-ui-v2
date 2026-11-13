@@ -86,6 +86,10 @@ main, .footer { position: relative; z-index: 2; }
 .nav__links { display: flex; align-items: center; gap: 1.6rem; }
 .nav__links a:not(.btn) { text-decoration: none; font-weight: 600; font-size: 0.9rem; opacity: 0.8; }
 .nav__links a:not(.btn):hover { opacity: 1; text-decoration: underline; text-underline-offset: 4px; }
+/* over the white sun (landing.js tests each one) the links go dark and the button inverts, so they stay readable */
+.nav__links a, .nav__toggle { transition: color 0.25s ease, background-color 0.25s ease, opacity 0.2s ease; }
+.nav:not(.is-open) .nav__links a.is-onsun:not(.btn), .nav__toggle.is-onsun { color: var(--void); opacity: 1; }
+.nav:not(.is-open) .nav__links a.btn.is-onsun { background: var(--void); color: #fff; }
 .nav__toggle {
   display: none; width: 44px; height: 44px;
   border: 0; background: transparent; cursor: pointer; align-items: center; justify-content: center;
@@ -139,7 +143,8 @@ main, .footer { position: relative; z-index: 2; }
 .eclipse {
   /* wide screens: a sun far larger than the screen, its left rim 42% of the way across and its centre off to the right,
      so it fills the right-hand side and its edge runs down the screen in a gentle curve (tall windows: the lower half) */
-  --D: 230vh; --mx: -110%; --my: 18%; /* the moon starts just off the rim, so its crossing fills the approach */
+  --D: 230vh; --mx: 50%; --my: -10%; /* the moon comes in from the right, over the part of the sun off screen first, so it
+     crosses the visible part across the whole approach and never covers the open sky on the left */
   position: absolute; left: calc(42vw + var(--D) / 2); top: 50%;
   width: var(--D); height: var(--D);
   translate: -50% -50%;
