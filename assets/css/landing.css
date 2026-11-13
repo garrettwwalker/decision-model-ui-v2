@@ -271,9 +271,9 @@ main, .footer { position: relative; z-index: 2; }
 @media (max-aspect-ratio: 1/1) { /* tall windows (phones, half a laptop screen): one centered stack, "Risk lies" above a large sun whose top
      fills the lower half of the screen, "in shadow." just under its rim and the second headline beneath (landing.js) */
   /* a wide, shallow sun: twice as wide as it is tall, so its top is a far flatter arc than a circle of the same height
-     could give without growing enormous, and "in shadow." sits just under the rim; the moon starts close so its
-     crossing fills the approach */
-  .eclipse { --D: min(210vw, 180vh); --mx: -55%; --my: 18%; width: calc(var(--D) * 2); left: 50%; top: calc(40vh + var(--D) / 2); }
+     could give without growing enormous, and "in shadow." sits just under the rim; the moon rises straight up from
+     just below the screen's foot (62vh under the sun's top), so its crossing fills the approach */
+  .eclipse { --D: min(210vw, 180vh); --mx: 0%; --my: 62vh; width: calc(var(--D) * 2); left: 50%; top: calc(40vh + var(--D) / 2); }
   .hero__copy { --hf: min(17vw, 13vh); --af: min(11vw, 8vh); }
 }
 @media (max-width: 600px) { /* phones: headline on top, the sun filling the lower two-thirds */
