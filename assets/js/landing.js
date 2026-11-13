@@ -62,6 +62,10 @@
     var near = function (t, b) { return t <= cy && b >= cy ? 0 : Math.min(Math.abs(t - cy), Math.abs(b - cy)); };
     var out = null, hs = 1, tall = window.matchMedia("(max-aspect-ratio: 1/1)").matches, top = cy - R;
     copy.style.setProperty("--as", "1");
+    // set the second headline's form (one line, left-aligned, on wide screens; two centred lines on tall ones) before
+    // anything is measured: switching it after left a window turned from wide to tall centring the one-line width
+    copy.classList.toggle("is-wide", !tall);
+    copy.style.setProperty("--aa", tall ? "center" : "left");
     // Tall windows: one centered stack, "Risk lies" just above the rim and "in shadow." as close under it as the chord allows
     for (var j = 0; tall && j < 14 && !out; j++, hs *= 0.94) {
       copy.style.setProperty("--hs", hs.toFixed(3));
@@ -79,7 +83,6 @@
     // short of the rim and "in shadow." starting just inside it, a touch lower; the second headline is one line low in the
     // moon, from the same left edge as "in shadow." (or just inside the rim, which curves away lower down), with the dark
     // of the moon between them.
-    copy.classList.toggle("is-wide", !tall);
     for (var m = 0; !tall && m < 14 && !out; m++, hs *= 0.94) {
       copy.style.setProperty("--hs", hs.toFixed(3)); copy.style.setProperty("--as", "1");
       var u1 = lines[0].offsetWidth, e1 = lines[0].offsetHeight, u2 = lines[1].offsetWidth, e2 = lines[1].offsetHeight;
@@ -94,7 +97,6 @@
       }
       out = { l1x: q1, l1y: r1, l2x: q2, l2y: r2, ax: qA, ay: rA };
     }
-    copy.style.setProperty("--aa", tall ? "center" : "left");
     if (!out) hs = 1;
     for (var k = 0; k < 14 && !out; k++, hs *= 0.94) {
       copy.style.setProperty("--hs", hs.toFixed(3));
