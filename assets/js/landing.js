@@ -55,14 +55,14 @@
       if (va / 2 + pad > half(far(sa, ea)) || ea > H * 0.88) continue;
       out = { l1x: cx - v1 / 2, l1y: s1, l2x: cx - v2 / 2, l2y: s2, ax: cx - va / 2, ay: sa };
     }
-    // Wide screens: the rim runs down the screen, so the headline is one line, "Risk lies" ending just short of the rim and
-    // "in shadow." starting just inside it; the second headline under it, inside the rim too. The block sits a little
+    // Wide screens: the rim runs down the screen, so the headline runs across it, "Risk lies" ending just short of the rim
+    // and "in shadow." starting just inside it, a touch lower; the second headline under it, inside the rim too. The block sits a little
     // above the middle.
     for (var m = 0; !tall && m < 14 && !out; m++, hs *= 0.94) {
       copy.style.setProperty("--hs", hs.toFixed(3));
       var u1 = lines[0].offsetWidth, e1 = lines[0].offsetHeight, u2 = lines[1].offsetWidth, e2 = lines[1].offsetHeight;
       var ua = after.offsetWidth, eA = after.offsetHeight, edge = e2 * 0.2, W = st.width;
-      var r1 = Math.max(navClear, (H - (e2 * 2 + eA)) * 0.42), r2 = r1, rA = r2 + e2 * 2;
+      var r1 = Math.max(navClear, (H - (e2 * 2.3 + eA)) * 0.42), r2 = r1 + e1 * 0.3, rA = r2 + e2 * 2; // "in shadow." stepped down a little
       var q1 = cx - half(near(r1, r1 + Math.max(e1, e2))) - edge - u1;
       var q2 = cx - half(far(r2, r2 + e2)) + edge, qA = cx - half(far(rA, rA + eA)) + edge;
       if (q1 < g || q2 + u2 > W - g || qA + ua > W - g || rA + eA > H * 0.88) continue;
