@@ -85,7 +85,8 @@ main, .footer { position: relative; z-index: 2; }
 .footer .logo { width: 30px; height: 30px; }
 .nav__links { display: flex; align-items: center; gap: 1.6rem; }
 .nav__links a:not(.btn) { text-decoration: none; font-weight: 600; font-size: 0.9rem; opacity: 0.8; }
-.nav__links a:not(.btn):hover { opacity: 1; text-decoration: underline; text-underline-offset: 4px; }
+.nav__links a:not(.btn) { transition: opacity 0.2s ease; }
+.nav__links a:not(.btn):hover { opacity: 1; } /* brightens; no underline (the user's call) */
 /* over the hero the nav is set in difference, as the inverted headline is: over the white sun the links go dark and
    the button inverts, pixel by pixel, so the moon's edge passes through them as it does through "in shadow." */
 .nav.is-blend:not(.is-scrolled):not(.is-open):not(.is-closing) { mix-blend-mode: difference; } /* only before the burst: over its colors it would tint the type */
@@ -132,6 +133,9 @@ main, .footer { position: relative; z-index: 2; }
   background: #fff;
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.4), 0 6px 26px -6px rgba(255, 84, 120, 0.7), 0 2px 16px -4px rgba(255, 224, 122, 0.6);
 }
+/* over the white sun the nav is inverted, so the glow above came out dark; there the button's glow is the inverse of
+   the rose (no gold, no ring), which the blend turns back into a rose glow round the black button */
+.pn .nav.is-blend:not(.is-open) .btn--primary.is-onsun:hover { box-shadow: 0 6px 26px -6px rgba(0, 171, 135, 0.75), 0 2px 14px -4px rgba(0, 171, 135, 0.5); }
 
 /* ---------- Headings: moonlight, solid (the accent stays in the graphics) ---------- */
 .h2, .contact__title { color: var(--moon); }

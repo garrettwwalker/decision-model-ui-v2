@@ -23,8 +23,24 @@
     stage.style.setProperty("--burst", (1 - Math.pow(1 - b, 3)).toFixed(4)); // explosive: fast, then settling
     stage.classList.toggle("is-burst", b > 0); // the corona and rays only paint once the burst has begun
     nav.classList.toggle("is-blend", b === 0); // the nav inverts over the sun only while the sky is black and white
+    navOnSun(b === 0);
     stage.style.setProperty("--flash", Math.sin(Math.PI * clamp((p - 0.52) / 0.16, 0, 1)).toFixed(4));
     stage.style.setProperty("--after", clamp((p - 0.62) / 0.24, 0, 1).toFixed(3));
+  }
+
+  // is the nav's button over the white sun (and not yet under the moon)? Its hover glow is inverted there
+  var navBtn = document.querySelector(".nav__links .btn");
+  function navOnSun(blend) {
+    var r = navBtn.getBoundingClientRect(), on = false;
+    if (blend && r.width) {
+      var sunHit = false, moonHit = false;
+      document.elementsFromPoint(r.left + r.width / 2, r.top + r.height / 2).forEach(function (h) {
+        if (h.classList.contains("eclipse__sun")) sunHit = true;
+        if (h.classList.contains("eclipse__moon")) moonHit = true;
+      });
+      on = sunHit && !moonHit;
+    }
+    navBtn.classList.toggle("is-onsun", on);
   }
 
   /* The headline set against the sun: "Risk lies" in open space, "in shadow." inside the disc, and "Look around the
