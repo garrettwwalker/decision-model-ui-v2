@@ -149,10 +149,11 @@ main, .footer { position: relative; z-index: 2; }
   translate: -50% -50%;
 }
 .eclipse > * { position: absolute; border-radius: 50%; }
+.eclipse--over { pointer-events: none; } /* a second, glow-only copy of the eclipse, painted over the headline */
 .eclipse__sun { inset: 0; background: radial-gradient(circle, #fff 0 62%, #fffaf3 88%, #fff1e6 100%); }
 .eclipse__glow { /* daylight spilling off the sun; mostly gone once the moon is on it */
   inset: -14%;
-  background: radial-gradient(closest-side, rgba(255, 255, 255, 0.5) 76%, rgba(255, 244, 236, 0.16) 84%, rgba(255, 255, 255, 0) 100%);
+  background: radial-gradient(closest-side, rgba(255, 255, 255, 0) 77.6%, rgba(255, 255, 255, 0.5) 78.2%, rgba(255, 244, 236, 0.16) 84%, rgba(255, 255, 255, 0) 100%); /* clear over the sun itself */
   opacity: calc(1 - var(--cover) * 0.8);
 }
 .eclipse__moon {
