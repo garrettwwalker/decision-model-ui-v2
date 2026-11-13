@@ -156,11 +156,11 @@ main, .footer { position: relative; z-index: 2; }
   mask-image: linear-gradient(180deg, #000 calc(100% - var(--tail)), rgba(0, 0, 0, 0.972) calc(100% - var(--tail) * 0.9), rgba(0, 0, 0, 0.896) calc(100% - var(--tail) * 0.8), rgba(0, 0, 0, 0.784) calc(100% - var(--tail) * 0.7), rgba(0, 0, 0, 0.648) calc(100% - var(--tail) * 0.6), rgba(0, 0, 0, 0.5) calc(100% - var(--tail) * 0.5), rgba(0, 0, 0, 0.352) calc(100% - var(--tail) * 0.4), rgba(0, 0, 0, 0.216) calc(100% - var(--tail) * 0.3), rgba(0, 0, 0, 0.104) calc(100% - var(--tail) * 0.2), rgba(0, 0, 0, 0.028) calc(100% - var(--tail) * 0.1), rgba(0, 0, 0, 0) 100%);
 }
 .eclipse {
-  /* wide screens: a sun far larger than the screen, its left rim 42% of the way across and its centre off to the right,
+  /* wide screens: a sun far larger than the screen, its left rim halfway across and its centre off to the right,
      so it fills the right-hand side and its edge runs down the screen in a gentle curve (tall windows: the lower half) */
   --D: 230vh; --mx: 50%; --my: 35%; /* the moon comes in from the lower right, over the part of the sun off screen first, so it
      crosses the visible part across the whole approach and never covers the open sky on the left */
-  position: absolute; left: calc(42vw + var(--D) / 2); top: 50vh; /* the visible screen's middle, not the taller stage's */
+  position: absolute; left: calc(50vw + var(--D) / 2); top: 50vh; /* the visible screen's middle, not the taller stage's */
   width: var(--D); height: var(--D);
   translate: -50% -50%;
 }
