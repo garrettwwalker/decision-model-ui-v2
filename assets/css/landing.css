@@ -269,7 +269,7 @@ main, .footer { position: relative; z-index: 2; }
 }
 @media (max-aspect-ratio: 1/1) { /* tall windows (phones, half a laptop screen): one centered stack, "Risk lies" above a large sun whose top
      fills the lower half of the screen, "in shadow." just under its rim and the second headline beneath (landing.js) */
-  .eclipse { --D: min(210vw, 180vh); --mx: -150%; --my: 32%; left: 50%; top: calc(40vh + var(--D) / 2); } /* large, so its rim curves gently */
+  .eclipse { --D: min(300vw, 260vh); --mx: -55%; --my: 18%; left: 50%; top: calc(40vh + var(--D) / 2); } /* large, so its rim curves gently */
   .hero__copy { --hf: min(17vw, 13vh); --af: min(11vw, 8vh); }
 }
 @media (max-width: 600px) { /* phones: headline on top, the sun filling the lower two-thirds */
