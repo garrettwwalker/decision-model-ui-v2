@@ -89,6 +89,10 @@
       var rim1 = cx - half(near(r1, r1 + Math.max(e1, e2))) - edge, q1 = rim1 - u1;
       var q2 = cx - half(far(r2, r2 + e2)) + edge;
       if (q1 < g || q2 + u2 > W - g) continue;
+      // one size for both headlines: "Look around the bend." has to fit left of the rim mid-screen too, so the pair shrinks
+      // together (the headline set larger than the second one read as too big beside it)
+      var b1 = after[0].offsetWidth, b2 = after[1].offsetWidth, bh = after[0].offsetHeight;
+      if (cx - half(near(H / 2 - bh, H / 2)) - edge - b1 < g || cx - half(near(H / 2, H / 2 + bh)) - edge - b2 < g) continue;
       out = { l1x: q1, l1y: r1, l2x: q2, l2y: r2 };
     }
     if (!out) hs = 1;
