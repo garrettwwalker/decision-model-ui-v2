@@ -28,9 +28,7 @@
 
   /* The headline set against the sun: "Risk lies" in open space, "in shadow." inside the disc, and "Look around the
      bend." beneath it in the moon, so the shadow's edge falls between the words rather than through them. Each line is
-     measured, the disc's chord is checked at its top and bottom, and the type shrinks (--hs) until everything fits.
-     "Risk lies" sits at the gutter, ending just above "in shadow."; where the disc leaves no room beside it (tall
-     screens) it sits above the disc instead. */
+     measured, the disc's chord is checked at its top and bottom, and the type shrinks (--hs) until everything fits. */
   var copy = document.querySelector(".hero__copy"), sun = document.querySelector(".eclipse__sun");
   var lines = document.querySelectorAll(".hero__title:not(.hero__title--ink) > span"), after = document.querySelector(".hero__after");
   function layoutHero() {
@@ -42,11 +40,29 @@
     var half = function (dy) { dy = Math.abs(dy); return dy >= R ? 0 : Math.sqrt(R * R - dy * dy); };
     var far = function (t, b) { return Math.max(Math.abs(t - cy), Math.abs(b - cy)); };          // farthest from the centre
     var near = function (t, b) { return t <= cy && b >= cy ? 0 : Math.min(Math.abs(t - cy), Math.abs(b - cy)); };
-    var out = null, hs = 1;
-    for (var k = 0; k < 14 && !out; k++, hs *= 0.94) {
+    var out = null, hs = 1, k, y, w1, h1, w2, h2, wa, ha;
+    function measure() {
       copy.style.setProperty("--hs", hs.toFixed(3));
-      var w1 = lines[0].offsetWidth, h1 = lines[0].offsetHeight, w2 = lines[1].offsetWidth, h2 = lines[1].offsetHeight;
-      var wa = after.offsetWidth, ha = after.offsetHeight;
+      w1 = lines[0].offsetWidth; h1 = lines[0].offsetHeight; w2 = lines[1].offsetWidth; h2 = lines[1].offsetHeight;
+      wa = after.offsetWidth; ha = after.offsetHeight;
+    }
+    // One line where there's room: "Risk lies" ends just short of the rim and "in shadow." starts just inside it, so the
+    // rim runs through the space between the words (it's near upright around the disc's middle, so the space stays
+    // close to a word space). Highest first, so the line sits up in the disc with the second headline below it.
+    for (k = 0; k < 8 && !out; k++, hs *= 0.94) {
+      measure();
+      for (y = cy - 0.4 * R; y <= cy && !out; y += 0.03 * R) {
+        var t = y, b = y + Math.max(h1, h2), ta = b + h2 * 0.6, ba = ta + ha;
+        if (t < navClear || ba > H * 0.88 || wa / 2 + pad > half(far(ta, ba))) continue;
+        var x2 = cx - half(far(t, b)) + pad * 0.6, x1 = cx - half(near(t, b)) - gap * 0.6 - w1;
+        if (x1 < g || x2 + w2 + pad > cx + half(far(t, b))) continue;
+        out = { l1x: x1, l1y: t, l2x: x2, l2y: t, ax: cx - wa / 2, ay: ta };
+      }
+    }
+    // Otherwise (tall screens) two lines: "in shadow." inside the disc, "Risk lies" beside it or above it
+    if (!out) hs = 1;
+    for (k = 0; k < 14 && !out; k++, hs *= 0.94) {
+      measure();
       // "in shadow." as high in the disc as it fits, so it stays close to "Risk lies"
       for (var y2 = cy - 0.55 * R; y2 <= cy - 0.05 * R && !out; y2 += 0.03 * R) {
         var t2 = y2, b2 = y2 + h2;
