@@ -346,6 +346,7 @@
 .fall .fall__base i::after { background: var(--mist-3); }
 .fall .fall__neg i::after { background: var(--green); transform-origin: right center; }
 .fall .fall__neg b { color: var(--green-ink); }
+.fall li:not([class]) b { color: var(--accent); } /* a driver that raised the odds: its figure red, as its bar */
 .fall__axis { min-height: 34px !important; align-items: end !important; }
 .fall__axis span { padding-bottom: 0.3rem; font-size: 0.76rem; font-weight: 600; color: var(--ink-3); }
 .fall__axis i { background-image: none; }
