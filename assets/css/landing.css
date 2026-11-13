@@ -295,8 +295,16 @@ h1.hero__title { z-index: 1; } /* over the inverted copy, and at full strength b
      fills the lower half of the screen, "in shadow." just under its rim and the second headline beneath (landing.js) */
   /* a wide, shallow sun: twice as wide as it is tall, so its top is a far flatter arc than a circle of the same height
      could give without growing enormous, and "in shadow." sits just under the rim; the moon rises from just below the
-     screen's foot (38vh under the sun's top, which sits about two-thirds of the way down), on a slight slant from the left, so its crossing fills the approach */
-  .eclipse { --D: min(210vw, 180vh); --mx: -14%; --my: 38vh; width: calc(var(--D) * 2); left: 50%; top: calc(64vh + var(--D) / 2); }
+     screen's foot (48vh under the sun's top, which sits just below halfway down), on a slight slant from the left, so its crossing fills the approach */
+  .eclipse { --D: min(210vw, 180vh); --mx: -14%; --my: 48vh; width: calc(var(--D) * 2); left: 50%; top: calc(54vh + var(--D) / 2); }
+  /* the rays square, not stretched across the twice-as-wide sun: the stretched layer was so large that Chrome rastered it
+     at a lower resolution and the rays turned pixelated again */
+  .eclipse__rays { left: calc((1 - 2.2 * (0.62 + var(--burst) * 0.62) / 2) * 50%); right: calc((1 - 2.2 * (0.62 + var(--burst) * 0.62) / 2) * 50%); }
+  /* the headline fades as the burst begins, the inverted copy alone: at totality everything behind it is dark, so it drops
+     its blend unseen, and the colored headline never comes in (fading one in while the other went dimmed it, then brought it back) */
+  .hero__title { opacity: 0; }
+  .hero__title--ink { opacity: calc(1 - var(--gone)); }
+  .is-burst .hero__title--ink { mix-blend-mode: normal; }
   .hero__copy { --hf: min(17vw, 13vh); }
 }
 @media (max-width: 600px) { /* phones: headline on top, the sun filling the lower two-thirds */

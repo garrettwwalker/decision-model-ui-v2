@@ -27,8 +27,8 @@
     navOnSun(b === 0);
     stage.style.setProperty("--flash", Math.sin(Math.PI * clamp((p - 0.52) / 0.16, 0, 1)).toFixed(4));
     // the second headline comes out from behind the moon (easing out, as if pushed clear of it); on tall windows it takes
-    // the headline's place, so the headline fades first
-    stage.style.setProperty("--gone", tallHero.matches ? smooth(clamp((p - 0.6) / 0.08, 0, 1)).toFixed(3) : "0");
+    // the headline's place, so the headline fades as the burst begins
+    stage.style.setProperty("--gone", tallHero.matches ? smooth(clamp((p - 0.52) / 0.1, 0, 1)).toFixed(3) : "0");
     stage.style.setProperty("--after", (1 - Math.pow(1 - clamp((p - 0.66) / 0.2, 0, 1), 2)).toFixed(3));
   }
 
