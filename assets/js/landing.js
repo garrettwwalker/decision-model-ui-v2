@@ -26,6 +26,48 @@
     stage.style.setProperty("--after", clamp((p - 0.62) / 0.24, 0, 1).toFixed(3));
   }
 
+  /* The headline set against the sun: "Risk lies" in open space, "in shadow." inside the disc, and "Look around the
+     bend." beneath it in the moon, so the shadow's edge falls between the words rather than through them. Each line is
+     measured, the disc's chord is checked at its top and bottom, and the type shrinks (--hs) until everything fits.
+     "Risk lies" sits at the gutter, ending just above "in shadow."; where the disc leaves no room beside it (tall
+     screens) it sits above the disc instead. */
+  var copy = document.querySelector(".hero__copy"), sun = document.querySelector(".eclipse__sun");
+  var lines = document.querySelectorAll(".hero__title:not(.hero__title--ink) > span"), after = document.querySelector(".hero__after");
+  function layoutHero() {
+    var st = stage.getBoundingClientRect(), sr = sun.getBoundingClientRect();
+    if (!st.width || !sr.width) return;
+    var R = sr.width / 2, cx = sr.left - st.left + R, cy = sr.top - st.top + R, H = st.height;
+    var g = parseFloat(getComputedStyle(copy).paddingLeft) || 16, navClear = Math.max(76, H * 0.1);
+    var pad = R * 0.07, gap = Math.max(14, R * 0.05);
+    var half = function (dy) { dy = Math.abs(dy); return dy >= R ? 0 : Math.sqrt(R * R - dy * dy); };
+    var far = function (t, b) { return Math.max(Math.abs(t - cy), Math.abs(b - cy)); };          // farthest from the centre
+    var near = function (t, b) { return t <= cy && b >= cy ? 0 : Math.min(Math.abs(t - cy), Math.abs(b - cy)); };
+    var out = null, hs = 1;
+    for (var k = 0; k < 14 && !out; k++, hs *= 0.94) {
+      copy.style.setProperty("--hs", hs.toFixed(3));
+      var w1 = lines[0].offsetWidth, h1 = lines[0].offsetHeight, w2 = lines[1].offsetWidth, h2 = lines[1].offsetHeight;
+      var wa = after.offsetWidth, ha = after.offsetHeight;
+      // "in shadow." as high in the disc as it fits, so it stays close to "Risk lies"
+      for (var y2 = cy - 0.55 * R; y2 <= cy - 0.05 * R && !out; y2 += 0.03 * R) {
+        var t2 = y2, b2 = y2 + h2;
+        if (w2 / 2 + pad > half(far(t2, b2))) continue;
+        var ta = b2 + h2 * 0.6, ba = ta + ha;                                                   // the second headline, under it
+        if (wa / 2 + pad > half(far(ta, ba)) || ba > H * 0.88) break;
+        var t1 = t2 - h1 * 1.02, b1 = t1 + h1, x1 = g;                                           // beside the disc, at the gutter
+        if (t1 < navClear || x1 + w1 > cx - half(near(t1, b1)) - gap) {
+          b1 = cy - R - gap; t1 = b1 - h1;                                                     // or above it
+          if (t1 < navClear) continue;
+        }
+        out = { l1x: x1, l1y: t1, l2x: cx - w2 / 2, l2y: t2, ax: cx - wa / 2, ay: ta };
+      }
+    }
+    if (!out) { copy.style.removeProperty("--hs"); return; } // nothing fits: keep the stacked fallback
+    Object.keys(out).forEach(function (key) { copy.style.setProperty("--" + key, out[key].toFixed(1) + "px"); });
+  }
+  layoutHero();
+  window.addEventListener("resize", layoutHero);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(layoutHero);
+
   /* ---------- Read-as-you-scroll: text darkens word by word, widgets fill in ----------
      The reference's signature move, applied to everything below the hero. */
   var day = document.querySelector(".day");

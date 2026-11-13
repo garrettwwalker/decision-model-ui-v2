@@ -138,7 +138,7 @@ main, .footer { position: relative; z-index: 2; }
 }
 .eclipse {
   --D: 120vmin;
-  position: absolute; left: 60%; top: 64%;
+  position: absolute; left: 66%; top: 64%; /* right of centre, so "Risk lies" has room beside the disc */
   width: var(--D); height: var(--D);
   translate: -50% -50%;
 }
@@ -221,19 +221,26 @@ main, .footer { position: relative; z-index: 2; }
   position: absolute; inset: 0; /* no z-index: the inverted headline has to blend with the sun beneath it */
   padding: calc(env(safe-area-inset-top, 0px) + 22vh) var(--gutter) 0;
   pointer-events: none;
+  --hf: min(var(--fs-display), 19vh); --af: min(clamp(2.4rem, 7vw, 6rem), 11vh); --hs: 1;
+  --l1x: var(--gutter); --l1y: 22vh; --l2x: var(--gutter); --l2y: calc(22vh + var(--hf) * 0.86); --ax: var(--gutter); --ay: 62vh;
 }
-.hero__head { position: relative; }
-.hero__title > span { display: block; }
-.hero__title { font-size: min(var(--fs-display), 19vh); }
+.hero__head { /* landing.js lays the lines out against the sun: "Risk lies" in open space, "in shadow." inside the disc, and
+     "Look around the bend." under it in the moon, so the shadow's edge falls between the words. --hs shrinks the type
+     when the screen is too narrow for that; the fallbacks stack the lines down the left before it runs */
+  position: absolute; inset: 0;
+}
+.hero__title { position: absolute; inset: 0; margin: 0; font-size: calc(var(--hf) * var(--hs)); }
+.hero__title > span { position: absolute; white-space: nowrap; }
+.hero__title > span:first-child { left: var(--l1x); top: var(--l1y); }
+.hero__title > span:last-child { left: var(--l2x); top: var(--l2y); }
 .hero__title { color: var(--moon); opacity: var(--burst); } /* the real headline, once the sky is dark and colored */
 .hero__title--ink { /* white set in difference: black over the sun, white over space and the moon */
-  position: absolute; inset: 0; margin: 0;
   color: #fff; mix-blend-mode: difference;
   opacity: calc(1 - var(--burst));
 }
 .hero__after {
-  position: absolute; left: var(--gutter); right: auto; bottom: 16%;
-  margin: 0; font-size: min(clamp(2.4rem, 7vw, 6rem), 11vh); /* capped by height so short screens keep it clear of the headline */
+  position: absolute; left: var(--ax); top: var(--ay); white-space: nowrap; text-align: center;
+  margin: 0; font-size: calc(var(--af) * var(--hs));
   opacity: var(--after);
   transform: translateY(calc((1 - var(--after)) * 30px));
 }
@@ -251,13 +258,14 @@ main, .footer { position: relative; z-index: 2; }
 }
 /* split screen and tablets: the desktop scale runs small here, so the lines grow to fill the width (still capped by height) */
 @media (min-width: 601px) and (max-width: 1100px) {
-  .hero__title { font-size: min(14.5vw, 19vh); }
-  .hero__after { font-size: min(10vw, 12vh); }
+  .hero__copy { --hf: min(14.5vw, 19vh); --af: min(10vw, 12vh); }
+}
+@media (min-width: 601px) and (max-aspect-ratio: 3/2) and (min-aspect-ratio: 1/1) { /* squarer screens: a smaller sun, further right, or "Risk lies" had no room beside it */
+  .eclipse { --D: 95vmin; left: 72%; top: 58%; }
 }
 @media (max-width: 600px) { /* phones: headline on top, the sun filling the lower two-thirds */
   .hero__copy { padding-top: calc(env(safe-area-inset-top, 0px) + 12vh); }
-  .hero__title { font-size: 16vw; }
-  .hero__after { position: static; margin-top: 0.6em; font-size: 12.5vw; }
+  .hero__copy { --hf: 16vw; --af: 12.5vw; }
   .eclipse { --D: 132vmin; left: 58%; top: 66%; }
 }
 @media (min-width: 901px) and (max-height: 820px) {
