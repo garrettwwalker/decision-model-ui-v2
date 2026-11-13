@@ -455,9 +455,9 @@ main, .footer { position: relative; z-index: 2; }
 .pv-ecl__ray { fill: none; stroke: rgba(255, 210, 120, 0.3); stroke-width: 0.9; }
 .pv-ecl__str { fill: none; stroke: rgba(255, 195, 110, 0.26); stroke-width: 0.8; }
 .pv-ecl__corona { transform-box: fill-box; transform-origin: center; animation: ecl-breathe 5s ease-in-out infinite; }
-/* the rays pulse in a slow wave that travels round the moon: each brightens a beat after the one before (--i, its place
-   round the circle; 22 rays and streamers over a 7.2s cycle, so the wave closes on itself) */
-.pv-ecl__ray, .pv-ecl__str { animation: ecl-ray 7.2s ease-in-out infinite; animation-delay: calc(var(--i) * -0.327s); }
+/* the rays pulse at random: each has its own length of pulse and starting point (--t, --d, seeded in the markup), so
+   which ones are bright at any moment looks unplanned rather than a wave round the moon */
+.pv-ecl__ray, .pv-ecl__str { animation: ecl-ray var(--t, 6s) ease-in-out var(--d, 0s) infinite; }
 @keyframes ecl-ray { 0%, 100% { opacity: 0.25; } 50% { opacity: 1; stroke: rgba(255, 220, 140, 0.55); } }
 @keyframes ecl-breathe { 0%, 100% { opacity: 0.88; transform: scale(1); } 50% { opacity: 1; transform: scale(1.04); } }
 .pv-ecl__moon { fill: #07080b; stroke: #ffe3a0; stroke-width: 1.2; filter: drop-shadow(0 0 3px rgba(255, 225, 150, 0.9)); }
