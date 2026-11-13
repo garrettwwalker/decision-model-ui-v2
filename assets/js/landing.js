@@ -85,7 +85,7 @@
       copy.style.setProperty("--hs", hs.toFixed(3));
       var u1 = lines[0].offsetWidth, e1 = lines[0].offsetHeight, u2 = lines[1].offsetWidth, e2 = lines[1].offsetHeight;
       var edge = e2 * 0.2, W = st.width;
-      var r1 = Math.max(navClear, (H - e1 * 0.6 - e2) / 2), r2 = r1 + e1 * 0.6; // centred on the screen; "in shadow." stepped down, clearly on purpose
+      var r1 = Math.max(navClear, (H - e2) / 2 - e1 * 0.6), r2 = r1 + e1 * 0.6; // "in shadow." centred on the screen, "Risk lies" stepped up from it, clearly on purpose
       var rim1 = cx - half(near(r1, r1 + Math.max(e1, e2))) - edge, q1 = rim1 - u1;
       var q2 = cx - half(far(r2, r2 + e2)) + edge;
       if (q1 < g || q2 + u2 > W - g) continue;
