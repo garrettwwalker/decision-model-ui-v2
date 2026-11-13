@@ -242,6 +242,7 @@
       tip.appendChild(el("span", null, i === 12 ? "This week" : "Week of " + DATES[i]));
       PATHS.slice().reverse().forEach(function (p) { // top to bottom, as the bands stack
         var row = el("p", "mix__row" + (p.id === path ? " is-on" : ""));
+        row.dataset.id = p.id;
         row.appendChild(el("i", "mix__sw mix__sw--" + p.id + (p.id === path ? " is-on" : ""))); row.appendChild(document.createTextNode(p.short + " "));
         row.appendChild(el("b", null, MIX[i][p.id] + "%"));
         tip.appendChild(row);
@@ -259,6 +260,12 @@
       if (!mixAreas[p.id]) return;
       mixAreas[p.id].classList.toggle("is-on", p.id === path);
       mixAreas[p.id + "lab"].classList.toggle("is-on", p.id === path);
+    });
+    // the hover card follows a click at once, not on the pointer's next move
+    mixHost.querySelectorAll(".mix__row").forEach(function (row) {
+      var on = row.dataset.id === path;
+      row.classList.toggle("is-on", on);
+      row.querySelector(".mix__sw").classList.toggle("is-on", on);
     });
     mixHost.classList.add("has-pick");
   }
