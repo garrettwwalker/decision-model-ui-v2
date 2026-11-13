@@ -286,23 +286,21 @@
   onScroll();
 
   /* ---------- Mobile menu ---------- */
-  var toggle = document.querySelector(".nav__toggle");
-  toggle.addEventListener("click", function () {
-    var open = nav.classList.toggle("is-open");
+  var toggle = document.querySelector(".nav__toggle"), closing = 0;
+  // the panel drops open and folds back up (landing.css); while it folds, the nav stays out of its inverted blend
+  function setMenu(open) {
+    nav.classList.toggle("is-open", open);
     toggle.setAttribute("aria-expanded", String(open));
-  });
+    clearTimeout(closing);
+    nav.classList.toggle("is-closing", !open);
+    if (!open) closing = setTimeout(function () { nav.classList.remove("is-closing"); }, 320);
+  }
+  toggle.addEventListener("click", function () { setMenu(!nav.classList.contains("is-open")); });
   document.querySelectorAll(".nav__links a").forEach(function (a) {
-    a.addEventListener("click", function () {
-      nav.classList.remove("is-open");
-      toggle.setAttribute("aria-expanded", "false");
-    });
+    a.addEventListener("click", function () { setMenu(false); });
   });
   document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape" && nav.classList.contains("is-open")) {
-      nav.classList.remove("is-open");
-      toggle.setAttribute("aria-expanded", "false");
-      toggle.focus();
-    }
+    if (e.key === "Escape" && nav.classList.contains("is-open")) { setMenu(false); toggle.focus(); }
   });
 
   /* ---------- Workbench preview heatmap ---------- */
