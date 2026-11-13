@@ -13,13 +13,11 @@
 
   function heroFrame() {
     var r = hero.getBoundingClientRect();
-    var span = hero.offsetHeight - window.innerHeight;
+    var span = hero.offsetHeight - stage.offsetHeight; // the stage runs a strip past the screen's foot
     var p = reduceMotion ? 1 : clamp(-r.top / span, 0, 1);
     var cover = smooth(p / 0.52);
     var b = clamp((p - 0.52) / 0.24, 0, 1);
     stage.style.setProperty("--cover", cover.toFixed(4));
-    // the foot fades only once the stage itself starts moving up the screen, after the eclipse has played out
-    stage.style.setProperty("--fade", clamp((-r.top - span) / (window.innerHeight / 6), 0, 1).toFixed(3));
     // nothing lights until the moon is dead center (cover hits 1 at p = 0.52), or the ring would cross the moon
     stage.style.setProperty("--ring", clamp((p - 0.52) / 0.03, 0, 1).toFixed(3));
     stage.style.setProperty("--burst", (1 - Math.pow(1 - b, 3)).toFixed(4)); // explosive: fast, then settling
@@ -56,7 +54,7 @@
     var st = stage.getBoundingClientRect(), sr = sun.getBoundingClientRect();
     if (!st.width || !sr.width) return;
     // the sun is a circle on wide screens and a wide ellipse on tall ones: Rx across, R (= Ry) up and down
-    var Rx = sr.width / 2, R = sr.height / 2, cx = sr.left - st.left + Rx, cy = sr.top - st.top + R, H = st.height;
+    var Rx = sr.width / 2, R = sr.height / 2, cx = sr.left - st.left + Rx, cy = sr.top - st.top + R, H = window.innerHeight; // lay out on the visible screen, not the taller stage
     var g = parseFloat(getComputedStyle(copy).paddingLeft) || 16, navClear = Math.max(76, H * 0.1);
     var pad = R * 0.07, gap = Math.max(14, R * 0.05);
     var half = function (dy) { dy = Math.abs(dy); return dy >= R ? 0 : Rx * Math.sqrt(1 - dy * dy / (R * R)); };
