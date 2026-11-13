@@ -42,7 +42,19 @@
     var half = function (dy) { dy = Math.abs(dy); return dy >= R ? 0 : Math.sqrt(R * R - dy * dy); };
     var far = function (t, b) { return Math.max(Math.abs(t - cy), Math.abs(b - cy)); };          // farthest from the centre
     var near = function (t, b) { return t <= cy && b >= cy ? 0 : Math.min(Math.abs(t - cy), Math.abs(b - cy)); };
-    var out = null, hs = 1;
+    var out = null, hs = 1, tall = window.matchMedia("(max-aspect-ratio: 1/1)").matches, top = cy - R;
+    // Tall windows: one centered stack, "Risk lies" just above the rim and "in shadow." as close under it as the chord allows
+    for (var j = 0; tall && j < 14 && !out; j++, hs *= 0.94) {
+      copy.style.setProperty("--hs", hs.toFixed(3));
+      var v1 = lines[0].offsetWidth, g1 = lines[0].offsetHeight, v2 = lines[1].offsetWidth, g2 = lines[1].offsetHeight;
+      var va = after.offsetWidth, ga = after.offsetHeight, s1 = top - gap - g1;
+      if (s1 < navClear) continue;
+      for (var s2 = top + 0.02 * R; s2 < cy && v2 / 2 + pad > half(far(s2, s2 + g2)); s2 += 0.01 * R);
+      var sa = s2 + g2 * 2, ea = sa + ga;
+      if (va / 2 + pad > half(far(sa, ea)) || ea > H * 0.88) continue;
+      out = { l1x: cx - v1 / 2, l1y: s1, l2x: cx - v2 / 2, l2y: s2, ax: cx - va / 2, ay: sa };
+    }
+    if (tall && !out) hs = 1;
     for (var k = 0; k < 14 && !out; k++, hs *= 0.94) {
       copy.style.setProperty("--hs", hs.toFixed(3));
       var w1 = lines[0].offsetWidth, h1 = lines[0].offsetHeight, w2 = lines[1].offsetWidth, h2 = lines[1].offsetHeight;

@@ -263,9 +263,10 @@ main, .footer { position: relative; z-index: 2; }
 @media (min-width: 601px) and (max-aspect-ratio: 3/2) and (min-aspect-ratio: 1/1) { /* squarer screens: a smaller sun, further right, or "Risk lies" had no room beside it */
   .eclipse { --D: 95vmin; left: 72%; top: 58%; }
 }
-@media (max-aspect-ratio: 1/1) { /* tall windows (phones, half a laptop screen): the sun sized by the height and starting a third of the way
-     down, so "Risk lies" has room above it; sized by the width, it filled a half-screen window and the headline fell back to straddling its edge */
-  .eclipse { --D: min(120vw, 64vh); left: 58%; top: calc(34vh + var(--D) / 2); }
+@media (max-aspect-ratio: 1/1) { /* tall windows (phones, half a laptop screen): one centered stack, "Risk lies" above a large sun whose top
+     fills the lower half of the screen, "in shadow." just under its rim and the second headline beneath (landing.js) */
+  .eclipse { --D: min(150vw, 130vh); left: 50%; top: calc(40vh + var(--D) / 2); }
+  .hero__copy { --hf: min(17vw, 13vh); --af: min(11vw, 8vh); }
 }
 @media (max-width: 600px) { /* phones: headline on top, the sun filling the lower two-thirds */
   .hero__copy { padding-top: calc(env(safe-area-inset-top, 0px) + 12vh); }
