@@ -255,7 +255,6 @@ main, .footer { position: relative; z-index: 2; }
 }
 .hero__title { position: absolute; inset: 0; margin: 0; font-size: calc(var(--hf) * var(--hs)); }
 .hero__title > span, .hero__after > span { position: absolute; white-space: nowrap; }
-.hero__title > span { transform: translateY(calc(var(--gone) * -24px)); } /* the headline lifts away as the second one comes in */
 .hero__title > span:first-child { left: var(--l1x); top: var(--l1y); }
 .hero__title > span:last-child { left: var(--l2x); top: var(--l2y); }
 .hero__title { color: var(--moon); opacity: calc(var(--burst) * (1 - var(--gone))); } /* the real headline, once the sky is dark and colored */
@@ -263,12 +262,15 @@ main, .footer { position: relative; z-index: 2; }
   color: #fff; mix-blend-mode: difference;
   opacity: calc((1 - var(--burst)) * (1 - var(--gone)));
 }
-.hero__after { /* takes the headline's place after the burst: the same size and the same split across the rim */
+.hero__after { /* comes out from behind the moon once the headline has faded: masked to outside the moon's disc (landing.js
+     sets the disc and the lines' places), it slides out from under it, left on wide screens, up on tall ones */
   position: absolute; inset: 0; margin: 0;
-  font-size: calc(var(--hf) * var(--hs) * var(--as, 1)); /* --as: the second headline alone, narrowed to fit */
-  opacity: var(--after);
+  font-size: calc(var(--hf) * var(--hs) * var(--as, 1)); /* --as: the second headline alone, narrowed to fit the open sky */
+  -webkit-mask-image: radial-gradient(var(--mrx, 0px) var(--mry, 0px) at var(--mcx, 0px) var(--mcy, 0px), transparent calc(100% - 1px), #000 100%);
+  mask-image: radial-gradient(var(--mrx, 0px) var(--mry, 0px) at var(--mcx, 0px) var(--mcy, 0px), transparent calc(100% - 1px), #000 100%);
+  opacity: calc(var(--after) * 40); /* nothing before it starts, so no glyph can slip past the mask */
 }
-.hero__after > span { transform: translateY(calc((1 - var(--after)) * 24px)); }
+.hero__after > span { transform: translate(calc((1 - var(--after)) * var(--adx, 0px)), calc((1 - var(--after)) * var(--ady, 0px))); }
 .hero__after > span:first-child { left: var(--a1x); top: var(--a1y); }
 .hero__after > span:last-child { left: var(--a2x); top: var(--a2y); }
 .hero__cue {

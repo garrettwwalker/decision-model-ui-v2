@@ -25,9 +25,9 @@
     nav.classList.toggle("is-blend", b === 0); // the nav inverts over the sun only while the sky is black and white
     navOnSun(b === 0);
     stage.style.setProperty("--flash", Math.sin(Math.PI * clamp((p - 0.52) / 0.16, 0, 1)).toFixed(4));
-    // the headline gives way to the second one in the same place, so only one message is ever on screen
+    // the headline fades, then the second one comes out from behind the moon (easing out, as if pushed clear of it)
     stage.style.setProperty("--gone", smooth(clamp((p - 0.6) / 0.08, 0, 1)).toFixed(3));
-    stage.style.setProperty("--after", smooth(clamp((p - 0.68) / 0.16, 0, 1)).toFixed(3));
+    stage.style.setProperty("--after", (1 - Math.pow(1 - clamp((p - 0.66) / 0.2, 0, 1), 2)).toFixed(3));
   }
 
   // is the nav's button over the white sun (and not yet under the moon)? Its hover glow is inverted there
@@ -73,31 +73,21 @@
       var side = g2 * 0.3, s1 = top - g1 * 0.36 - g1;
       if (s1 < navClear) continue;
       for (var s2 = top + g2 * 0.1; s2 < cy && v2 / 2 + side > half(far(s2, s2 + g2)); s2 += 2);
-      // the second headline takes the same places, "Look around" above the rim and "the bend." under it, narrowed only if it must
-      var va1 = after[0].offsetWidth, va2 = after[1].offsetWidth;
-      var as = Math.min(1, (st.width - 2 * g) / va1, 2 * (half(far(s2, s2 + g2)) - side) / va2);
-      copy.style.setProperty("--as", as.toFixed(3));
-      out = { l1x: cx - v1 / 2, l1y: s1, l2x: cx - v2 / 2, l2y: s2,
-              a1x: cx - va1 * as / 2, a1y: top - g1 * 0.36 - g1 * as, a2x: cx - va2 * as / 2, a2y: s2 };
+      out = { l1x: cx - v1 / 2, l1y: s1, l2x: cx - v2 / 2, l2y: s2 };
     }
     // Wide screens: the rim runs down the screen, so the headline runs across it in the upper part, "Risk lies" ending just
     // short of the rim and "in shadow." starting just inside it, a touch lower; the second headline is one line low in the
     // moon, from the same left edge as "in shadow." (or just inside the rim, which curves away lower down), with the dark
     // of the moon between them.
     for (var m = 0; !tall && m < 14 && !out; m++, hs *= 0.94) {
-      copy.style.setProperty("--hs", hs.toFixed(3)); copy.style.setProperty("--as", "1");
+      copy.style.setProperty("--hs", hs.toFixed(3));
       var u1 = lines[0].offsetWidth, e1 = lines[0].offsetHeight, u2 = lines[1].offsetWidth, e2 = lines[1].offsetHeight;
       var edge = e2 * 0.2, W = st.width;
       var r1 = Math.max(navClear, H * 0.2), r2 = r1 + e1 * 0.6; // "in shadow." stepped down, clearly on purpose
       var rim1 = cx - half(near(r1, r1 + Math.max(e1, e2))) - edge, q1 = rim1 - u1;
       var q2 = cx - half(far(r2, r2 + e2)) + edge;
       if (q1 < g || q2 + u2 > W - g) continue;
-      // the second headline takes the same split across the rim; it alone narrows to fit, so it never shrinks the first
-      var ua1 = after[0].offsetWidth, ua2 = after[1].offsetWidth;
-      var ws = Math.min(1, (rim1 - g) / ua1, (W - g - q2) / ua2), b2 = r1 + e1 * ws * 0.6;
-      var p2 = cx - half(far(b2, b2 + e2 * ws)) + edge;
-      out = { l1x: q1, l1y: r1, l2x: q2, l2y: r2, a1x: rim1 - ua1 * ws, a1y: r1, a2x: p2, a2y: b2 };
-      copy.style.setProperty("--as", ws.toFixed(3));
+      out = { l1x: q1, l1y: r1, l2x: q2, l2y: r2 };
     }
     if (!out) hs = 1;
     for (var k = 0; k < 14 && !out; k++, hs *= 0.94) {
@@ -112,12 +102,30 @@
           b1 = cy - R - gap; t1 = b1 - h1;                                                     // or above it
           if (t1 < navClear) continue;
         }
-        var wa1 = after[0].offsetWidth, wa2 = after[1].offsetWidth, fs = Math.min(1, (st.width - 2 * g) / wa1, w2 / wa2 * 1.1);
-        copy.style.setProperty("--as", fs.toFixed(3));                                          // the second headline in the same places
-        out = { l1x: x1, l1y: t1, l2x: cx - w2 / 2, l2y: t2, a1x: x1, a1y: t1, a2x: cx - wa2 * fs / 2, a2y: t2 };
+        out = { l1x: x1, l1y: t1, l2x: cx - w2 / 2, l2y: t2 };
       }
     }
     if (!out) { copy.style.removeProperty("--hs"); return; } // nothing fits: keep the stacked fallback
+    // "Look around the bend." waits behind the moon and comes out from behind it after the burst, in the open sky the
+    // headline leaves: on wide screens sliding left out past the rim, each line ending just short of the curve; on tall
+    // ones rising up over it, centred. It's masked to the outside of the moon's disc (the moon is 0.8% larger than the sun)
+    // and narrows on its own (--as) to fit that open sky.
+    var a1 = after[0].offsetWidth, a2 = after[1].offsetWidth, ah = after[0].offsetHeight, as, ay1, ay2, ax1, ax2, dx = 0, dy = 0;
+    if (tall) {
+      as = Math.min(1, (st.width - 2 * g) / Math.max(a1, a2), (top - navClear) / (ah * 2.36));
+      ay2 = top - ah * as * 1.36; ay1 = ay2 - ah * as;
+      ax1 = cx - a1 * as / 2; ax2 = cx - a2 * as / 2;
+      dy = top - ay1 + ah * as * 0.4;
+    } else {
+      var ae = ah * 0.2, ar = function (y, h) { return cx - half(near(y, y + h)) - ae; }; // the rim beside a line
+      ay1 = Math.max(navClear, H * 0.2);
+      as = Math.min(1, (ar(ay1, ah) - g) / a1, (ar(ay1 + ah, ah) - g) / a2);
+      ay2 = ay1 + ah * as;
+      ax1 = ar(ay1, ah * as) - a1 * as; ax2 = ar(ay2, ah * as) - a2 * as;
+      dx = Math.max(a1, a2) * as + ae * 2;
+    }
+    copy.style.setProperty("--as", as.toFixed(3));
+    Object.assign(out, { a1x: ax1, a1y: ay1, a2x: ax2, a2y: ay2, adx: dx, ady: dy, mcx: cx, mcy: cy, mrx: Rx * 1.008, mry: R * 1.008 });
     Object.keys(out).forEach(function (key) { copy.style.setProperty("--" + key, out[key].toFixed(1) + "px"); });
   }
   layoutHero();
