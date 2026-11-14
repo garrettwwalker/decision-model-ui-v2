@@ -29,7 +29,7 @@
     // the headline fades as the burst begins, then the second one comes out from behind the moon in its place (easing
     // out, as if pushed clear of it)
     stage.style.setProperty("--gone", smooth(clamp((p - 0.52) / 0.1, 0, 1)).toFixed(3));
-    stage.style.setProperty("--after", (1 - Math.pow(1 - clamp((p - 0.66) / 0.2, 0, 1), 2)).toFixed(3));
+    stage.style.setProperty("--after", (1 - Math.pow(1 - clamp((p - 0.66) / 0.26, 0, 1), 2)).toFixed(3));
   }
 
   // is the nav's button over the white sun (and not yet under the moon)? Its hover glow is inverted there
