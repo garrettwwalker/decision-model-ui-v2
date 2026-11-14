@@ -41,6 +41,7 @@ body.house {
 .house .bar { background: rgba(244, 239, 232, 0.92); box-shadow: 0 1px 0 var(--line); }
 .house .logo { filter: none; }
 .house .logo::before { background: var(--ink); }
+.house .logo::after { display: none; } /* the white spark is for the dark pages; here the mark is solid ink */
 .house .tabs a { color: var(--ink-2); opacity: 1; }
 .house .tabs a:hover, .house .tabs a[aria-current="page"] { color: var(--ink); }
 .house .tabs a[aria-current="page"]::after { background: var(--accent); box-shadow: none; }

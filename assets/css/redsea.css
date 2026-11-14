@@ -150,6 +150,7 @@
 .rs-light .bar { background: rgba(255, 255, 255, 0.88); box-shadow: 0 1px 0 var(--line); }
 .rs-light .logo { filter: none; }
 .rs-light .logo::before { background: var(--ink); } /* the mark in solid ink on paper, no spectrum or white spark */
+.rs-light .logo::after { display: none; }
 .rs-light :focus-visible { outline-color: var(--r-accent); }
 
 .report { max-width: 78rem; margin: 0 auto; padding: 0 var(--gutter) 4rem; font-size: 1.06rem; line-height: 1.62; position: relative; z-index: 1; }

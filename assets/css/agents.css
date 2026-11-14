@@ -37,6 +37,7 @@ body.ag-page {
 .ag-page .bar { background: rgba(244, 239, 232, 0.92); box-shadow: 0 1px 0 var(--line); } /* the page's own cream, not white */
 .ag-page .logo { filter: none; }
 .ag-page .logo::before { background: var(--ink); }
+.ag-page .logo::after { display: none; } /* the white spark is for the dark pages; here the mark is solid ink */
 .ag-page .tabs a { color: var(--ink-2); opacity: 1; }
 .ag-page .tabs a:hover, .ag-page .tabs a[aria-current="page"] { color: var(--ink); }
 .ag-page .tabs a[aria-current="page"]::after { background: var(--accent); box-shadow: 0 0 8px rgba(234, 88, 12, 0.5); }
