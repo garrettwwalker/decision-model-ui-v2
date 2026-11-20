@@ -6,7 +6,7 @@ hemisphere in two pairs (2.4 m and 2.9 m), each swept back 35 degrees from the f
 The craft is ray traced (orthographic, pure Python, about a minute) into assets/img/sputnik.png: the hull is a mirror,
 so it shows black sky with the sun's glint up top and only a faint, even glow below (a mirrored Earth was
 tried and removed); the flange is a raised band with domed bolt heads; the rods and their mount fittings are polished too.
-The SVG keeps the radio beep as vector rings and places the picture in the same 440 x 340 view box as before.
+The SVG places the picture in the same 440 x 340 view box as before.
 """
 import math, re, struct, sys, zlib, os
 
@@ -224,8 +224,6 @@ if len(sys.argv) > 2:                  # a preview on the page's ground
 cx, cy = ox, oy
 svg = f'''          <svg viewBox="0 0 {VBW} {VBH}" class="spk__svg">
             <g class="spk__float" style="transform-origin: {f(cx)}px {f(cy)}px">
-              <circle class="spk__pulse" cx="{f(cx)}" cy="{f(cy)}" r="{f(R)}"/>
-              <circle class="spk__pulse spk__pulse--2" cx="{f(cx)}" cy="{f(cy)}" r="{f(R)}"/>
               <image class="spk__img" href="assets/img/sputnik.png" x="{bx0}" y="{by0}" width="{bx1 - bx0}" height="{by1 - by0}"/>
             </g>
           </svg>
