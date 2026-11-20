@@ -4,8 +4,8 @@ Sputnik 1: a 58 cm polished sphere of two hemispheres joined by a flange with 36
 hemisphere in two pairs (2.4 m and 2.9 m), each swept back 35 degrees from the flight axis, so a pair spans 70.
 
 The craft is ray traced (orthographic, pure Python, about a minute) into assets/img/sputnik.png: the hull is a mirror,
-so it shows what's around it in orbit, black sky with the sun's glint up top and the sunlit Earth, clouds and a hazy
-horizon below; the flange is a raised band with domed bolt heads; the rods and their mount fittings are polished too.
+so it shows black sky with the sun's glint up top and only a faint, even glow below (a mirrored Earth was
+tried and removed); the flange is a raised band with domed bolt heads; the rods and their mount fittings are polished too.
 The SVG keeps the radio beep as vector rings and places the picture in the same 440 x 340 view box as before.
 """
 import math, re, struct, sys, zlib, os
@@ -57,27 +57,7 @@ for k in range(4):
 # ---------- the surroundings the metal reflects ----------
 V = (0.0, 0.0, 1.0)
 SUN = norm((-0.45, 0.72, 0.53))
-EARTH = norm((0.12, -0.85, -0.2))      # toward the Earth's centre: below us, a little behind
-EARTH_R = math.sin(math.radians(72))   # low orbit: the Earth fills a 144-degree cone
-
-def _h(i, j, k):
-    n = (i * 374761393 + j * 668265263 + k * 1274126177) & 0xFFFFFFFF
-    n = ((n ^ (n >> 13)) * 1274126177) & 0xFFFFFFFF
-    return ((n ^ (n >> 16)) & 0xFFFF) / 65535.0
-
-def vnoise(x, y, z):
-    i, j, k = math.floor(x), math.floor(y), math.floor(z)
-    fx, fy, fz = x - i, y - j, z - k
-    fx, fy, fz = fx * fx * (3 - 2 * fx), fy * fy * (3 - 2 * fy), fz * fz * (3 - 2 * fz)
-    def L(p, q, t): return p + (q - p) * t
-    return L(L(L(_h(i, j, k), _h(i + 1, j, k), fx), L(_h(i, j + 1, k), _h(i + 1, j + 1, k), fx), fy),
-             L(L(_h(i, j, k + 1), _h(i + 1, j, k + 1), fx), L(_h(i, j + 1, k + 1), _h(i + 1, j + 1, k + 1), fx), fy), fz)
-
-def fbm(p, oct=5):
-    s, amp, f = 0.0, 0.5, 1.0
-    for _ in range(oct):
-        s += amp * vnoise(p[0] * f, p[1] * f, p[2] * f); amp *= 0.5; f *= 2.03
-    return s / 0.97
+EARTH = norm((0.12, -0.85, -0.2))      # where the soft glow comes from: below, a little behind
 
 def env(r):
     """Radiance seen along unit direction r (linear, roughly 0..1, the sun far brighter)."""
@@ -85,28 +65,9 @@ def env(r):
     cs = dot(r, SUN)
     ang = math.acos(clamp(cs, -1, 1))
     sun = 40.0 * smooth(0.035, 0.02, ang) + 1.4 * math.exp(-ang / 0.06) + 0.05 * math.exp(-ang / 0.5)
-    # the Earth: a sphere of radius EARTH_R at unit distance along EARTH
-    b = dot(r, EARTH); disc = b * b - (1 - EARTH_R * EARTH_R)
-    if disc > 0 and b > 0:
-        t = b - math.sqrt(disc)
-        hit = mul(r, t); n = mul(add(hit, mul(EARTH, -1)), 1 / EARTH_R)
-        lit = max(0.0, dot(n, SUN))
-        p = mul(n, 5.5)
-        land = smooth(0.56, 0.6, fbm(add(mul(n, 1.7), (7.1, 3.3, 9.2)), 4))
-        warp = fbm(add(p, (1.3, 8.7, 2.1)), 3)
-        cloud = smooth(0.4, 0.62, fbm(add(mul(p, 1.0 + 0.4 * warp), (warp * 2, 0, 0))))
-        alb = [0.035 + land * 0.12, 0.04 + land * 0.095, 0.05 + land * 0.07]   # deep slate seas, warm dry land
-        alb = [c * (1 - cloud) + 0.78 * cloud for c in alb]
-        grazing = 1 - clamp(-dot(n, r))                   # near the limb we look through more air
-        haze = 0.5 * grazing ** 5
-        rad = [0.85 * (c + haze * 0.55) * (lit * 0.95 + 0.03) for c in alb]
-        edge = smooth(0.0, 0.004, disc)                  # soften the horizon a little
-        out = [o * (1 - edge) + q * edge for o, q in zip(out, rad)]
-        sun *= 1 - edge
-    else:
-        # the thin bright line of air just above the horizon
-        gap = -disc if b > 0 else 1
-        out = [o + 0.22 * math.exp(-gap / 0.006) * max(0.2, dot(r, SUN) + 0.6) for o in out]
+    # a faint, even glow from below, so the lower hull keeps its shape without mirroring any scene
+    below = max(0.0, dot(r, EARTH)) ** 2
+    out = [o + 0.05 * below for o in out]
     return [o + sun for o in out]
 
 def reflect(n):

@@ -359,7 +359,7 @@ main, .footer { position: relative; z-index: 2; }
 .spk__svg { display: block; width: 100%; height: auto; overflow: visible; }
 .spk__float { transform-box: view-box; animation: spk-float 10s ease-in-out infinite; }
 @keyframes spk-float { 0%, 100% { transform: translate(0, 0) rotate(0deg); } 50% { transform: translate(-8px, -14px) rotate(-3.5deg); } }
-.spk__img { filter: drop-shadow(0 0 18px rgba(236, 238, 242, 0.08)); } /* ray traced by tools/sputnik.py: the polished hull mirrors black sky, the sun's glint and the Earth below */
+.spk__img { filter: drop-shadow(0 0 18px rgba(236, 238, 242, 0.08)); } /* ray traced by tools/sputnik.py: the polished hull mirrors black sky and the sun's glint, with a faint glow below */
 .spk__pulse { fill: none; stroke: var(--a-amber, #ffb36b); stroke-width: 1.2; opacity: 0; transform-box: fill-box; transform-origin: center; animation: spk-beep 3.6s ease-out infinite; }
 .spk__pulse--2 { animation-delay: 0.45s; }
 @keyframes spk-beep { 0% { opacity: 0.45; transform: scale(1); } 70%, 100% { opacity: 0; transform: scale(1.9); } }
